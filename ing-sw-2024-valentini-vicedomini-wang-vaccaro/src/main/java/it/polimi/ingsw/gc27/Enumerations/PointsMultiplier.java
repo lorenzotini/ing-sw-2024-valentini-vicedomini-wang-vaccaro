@@ -1,6 +1,6 @@
 package it.polimi.ingsw.gc27.Enumerations;
 
-public enum CornerPosition {
+public enum PointsMultiplier {
     UPPERRIGHT,
     UPPERLEFT,
     LOWERRIGHT,

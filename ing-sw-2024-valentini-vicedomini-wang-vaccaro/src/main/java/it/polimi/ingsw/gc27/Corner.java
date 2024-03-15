@@ -1,6 +1,6 @@
 package it.polimi.ingsw.gc27;
 
-import Enumerations.CornerSymbol;
+import it.polimi.ingsw.gc27.Enumerations.CornerSymbol;
 
 //class Corner is used in every card as intended, except from objective cards where every corner is BLACK and symbol = EMPTY.
 public class Corner {

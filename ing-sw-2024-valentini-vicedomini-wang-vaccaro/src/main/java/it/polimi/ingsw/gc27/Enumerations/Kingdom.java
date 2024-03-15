@@ -1,6 +1,6 @@
 package it.polimi.ingsw.gc27.Enumerations;
 
-public enum BackSymbol {
+public enum Kingdom {
     EMPTY,
     PLANTKINGDOM,
     ANIMALKINGDOM,

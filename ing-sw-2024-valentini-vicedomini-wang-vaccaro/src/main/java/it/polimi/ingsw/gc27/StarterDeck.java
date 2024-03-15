@@ -1,10 +1,12 @@
 package it.polimi.ingsw.gc27;
 
+import java.util.ArrayList;
 import java.util.Stack;
 
 public class StarterDeck extends Deck<StarterCard>{
-    @Override
-    public Stack<StarterCard> createDeck(){
-        return new Stack<>();
+
+    public StarterDeck(ArrayList<StarterCard> ins){
+        super(ins);
     }
+
 }

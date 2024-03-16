@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 public abstract class Card {
     private int cardID;
-
     private FrontFace front;
     private BackFace back;
     public Card(FrontFace given_front, BackFace given_back){

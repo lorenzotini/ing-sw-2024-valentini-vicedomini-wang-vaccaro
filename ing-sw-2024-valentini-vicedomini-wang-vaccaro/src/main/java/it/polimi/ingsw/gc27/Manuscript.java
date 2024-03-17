@@ -44,6 +44,8 @@ public class Manuscript {
     }
 
 
+
+
     public void addPointsObjective(ObjectiveCard objective, Board board, Player player) {
         int points = 0;
         int count = 0;
@@ -221,7 +223,11 @@ public class Manuscript {
             }
         }
 
+
+
     }
+
+
 
     public int countCornerSymbol(CornerSymbol x) {
         int count = 0;
@@ -256,6 +262,8 @@ public class Manuscript {
 
         return count;
     }
+
+
 
     public int countBackSymbol(Kingdom x) {
         int count = 0;

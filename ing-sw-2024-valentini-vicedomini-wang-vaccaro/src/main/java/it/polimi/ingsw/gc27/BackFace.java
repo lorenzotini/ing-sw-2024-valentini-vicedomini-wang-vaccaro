@@ -11,6 +11,7 @@ public class BackFace extends  Face{
         super(colour, cornerUR, cornerUL, cornerLR, cornerLL);
         this.permanentResources = permanentResources;
     }
+  
     @Override
     public Face copy(Face face){
         return new BackFace(

@@ -1,5 +1,9 @@
 package it.polimi.ingsw.gc27;
-import java.util.*;
+
+import it.polimi.ingsw.gc27.Enumerations.Kingdom;
+
+import java.util.ArrayList;
+
 public class BackFace extends  Face{
     private ArrayList<Kingdom> permanentResources;
 
@@ -7,8 +11,19 @@ public class BackFace extends  Face{
         super(colour, cornerUR, cornerUL, cornerLR, cornerLL);
         this.permanentResources = permanentResources;
     }
-
-    public ArrayList<Kingdom> getPermanentResources() {
+  
+    @Override
+    public Face copy(Face face){
+        return new BackFace(
+                face.getColour(),
+                face.getCorner(1, 1),
+                face.getCorner(-1, 1),
+                face.getCorner(1, -1),
+                face.getCorner(-1, -1),
+                face.getPermanentResources());
+    }
+    @Override
+    public ArrayList<Kingdom> getPermanentResources(){
         return permanentResources;
     }
 }

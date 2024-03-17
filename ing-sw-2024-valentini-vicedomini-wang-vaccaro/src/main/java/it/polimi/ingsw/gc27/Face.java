@@ -1,5 +1,7 @@
 package it.polimi.ingsw.gc27;
 
+import it.polimi.ingsw.gc27.Enumerations.*;
+
 public abstract class Face {
     private Kingdom colour;
     //UR = upper right, LL = lower left, etc...

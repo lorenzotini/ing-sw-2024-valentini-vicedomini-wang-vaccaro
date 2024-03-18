@@ -82,7 +82,7 @@ public class Manuscript {
         int points = 0;
         int count = 0;
         int min = 0;
-        int[][] checked = new int[81][81];
+        int[][] checked = new int[FIELD_DIM][FIELD_DIM];
 
         if(objective.getPattern().equals(ObjectiveRequirementType.THREEPLANTKINGDOM) ||
                 objective.getPattern().equals(ObjectiveRequirementType.THREEFUNGIKINGDOM) ||
@@ -157,7 +157,7 @@ public class Manuscript {
             for(int i = xMin; i<= xMax; i++) {
                 for(int j = yMax; j >= yMin; j--){
                     if(field[i][j] != null) {
-                        if (field[i][j].getColour().equals(Kingdom.PLANTKINGDOM) && i <=78 && j <=78 && checked[i][j] == 0) {
+                        if (field[i][j].getColour().equals(Kingdom.PLANTKINGDOM) && i <= (FIELD_DIM-3) && j <=(FIELD_DIM-3) && checked[i][j] == 0) {
                             if (field[i + 1][j + 1].getColour().equals(Kingdom.PLANTKINGDOM) && field[i + 2][j + 2].getColour().equals(Kingdom.PLANTKINGDOM)) {
                                 points = points + 2;
                                 checked[i + 1][j + 1] = 1;
@@ -174,7 +174,7 @@ public class Manuscript {
             for(int i = xMin; i<= xMax; i++) {
                 for(int j = yMax; j >= yMin; j--){
                     if(field[i][j] != null) {
-                        if (field[i][j].getColour().equals(Kingdom.INSECTKINGDOM) && i <=78 && j <=78 && checked[i][j] == 0) {
+                        if (field[i][j].getColour().equals(Kingdom.INSECTKINGDOM) && i <= (FIELD_DIM-3) && j <= (FIELD_DIM-3) && checked[i][j] == 0) {
                             if (field[i + 1][j + 1].getColour().equals(Kingdom.INSECTKINGDOM) && field[i + 2][j + 2].getColour().equals(Kingdom.INSECTKINGDOM)) {
                                 points = points + 2;
                                 checked[i + 1][j + 1] = 1;
@@ -208,7 +208,7 @@ public class Manuscript {
             for(int i = xMin; i<= xMax; i++) {
                 for(int j = yMax; j >= yMin; j--){
                     if(field[i][j] != null) {
-                        if (field[i][j].getColour().equals(Kingdom.FUNGIKINGDOM) && i <=79 && j >=3 && checked[i][j] == 0) {
+                        if (field[i][j].getColour().equals(Kingdom.FUNGIKINGDOM) && i <=(FIELD_DIM-2) && j >=3 && checked[i][j] == 0) {
                             if (field[i][j - 2].getColour().equals(Kingdom.FUNGIKINGDOM) && field[i + 1][j -3].getColour().equals(Kingdom.PLANTKINGDOM)) {
                                 points = points + 3;
                                 checked[i][j -2] = 1;
@@ -225,7 +225,7 @@ public class Manuscript {
             for(int i = xMin; i<= xMax; i++) {
                 for(int j = yMax; j >= yMin; j--){
                     if(field[i][j] != null) {
-                        if (field[i][j].getColour().equals(Kingdom.ANIMALKINGDOM) && i <=79 && j >=3 && checked[i][j] == 0) {
+                        if (field[i][j].getColour().equals(Kingdom.ANIMALKINGDOM) && i <=(FIELD_DIM-2) && j >=3 && checked[i][j] == 0) {
                             if (field[i + 1][j - 1].getColour().equals(Kingdom.INSECTKINGDOM) && field[i + 1][j - 3].getColour().equals(Kingdom.INSECTKINGDOM)) {
                                 points = points + 3;
                                 checked[i + 1][j - 1] = 1;
@@ -254,9 +254,8 @@ public class Manuscript {
                 }
             }
         }
-
-
-
+        setPointsPlayer(player, board, points);
+        return;
     }
 
 

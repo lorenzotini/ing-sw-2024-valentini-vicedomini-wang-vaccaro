@@ -57,4 +57,23 @@ public abstract class Face {
     public void setCornerLL(Corner cornerLL) {
         this.cornerLL = cornerLL;
     }
+
+    //per il momento ritorna null se i parametri passati non sono validi
+    public Corner getCorner(int i, int j) {
+        if(i == 1 && j == 1){
+            return cornerUR;
+        }else if(i == -1 && j == 1){
+            return cornerUL;
+        }else if(i == 1 && j == -1){
+        return cornerLR;
+        }else if(i == -1 && j == -1){
+        return cornerLL;
+        }else{
+            System.err.println("Error: indexes must be 1 or -1");
+            return null;
+        }
+    }
+
+    public abstract Face copy(Face face);
+    public abstract ArrayList<Kingdom> getPermanentResources();
 }

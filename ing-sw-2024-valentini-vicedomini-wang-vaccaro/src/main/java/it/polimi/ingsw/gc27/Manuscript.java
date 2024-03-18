@@ -311,29 +311,6 @@ public class Manuscript {
         }
         return count;
     }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     /**
      *
@@ -412,14 +389,25 @@ public class Manuscript {
                 else{
                     points = card.getCardPoints() * countCornerSymbol(((GoldCard)card).getPointsMultiplier());
                 }
-            setPointsPlayer(player, board, points);
+                setPointsPlayer(player, board, points);
+            }
+
+
+
         }
-
-
 
     }
 
+
+
+
+
+
 }
+
+
+
+
 
 
 

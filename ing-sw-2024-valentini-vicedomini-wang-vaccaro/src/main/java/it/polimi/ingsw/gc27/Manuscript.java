@@ -14,9 +14,41 @@ public class Manuscript {
         field = new Face[FIELD_DIM][FIELD_DIM];
         field[FIELD_DIM/2][FIELD_DIM/2] = myStarter;
     }
-    public void placeCard(Face cardFace, int x, int y){
-        this.field[x][y] = cardFace;
-    };
+    public void addCard(Card card, Face face, int x, int y){
+        if(isValidPlacement(x, y)){
+            // set to "hidden" the corners covered by the added card and count them
+            int numCoveredCorners = 0;
+            for(int i = -1; i <= 1; i = i + 2){
+                for(int j = -1; j <= 1; j = j + 2){
+                    if(field[x + i][y + j] != null){
+                        field[x + i][y + j].getCorner(-i, j).setHidden(true);
+                        numCoveredCorners++;
+                    }
+                }
+            }
+            Face copy = face.copy(face);
+            field[x][y] = copy;
+            addPoints(player, card, face, baord, numCoveredCorners);
+        }else{
+            System.err.println("Error: invalid position");
+        }
+    }
+
+    public boolean isValidPlacement(int x, int y){
+        boolean isValid = true;
+        for(int i = -1; i <= 1; i = i + 2){
+            for(int j = -1; j <= 1; j = j + 2){
+                if(field[x + i][y + j] != null && (field[x + i][y + j].getCorner(-i, j).isBlack() || field[x + i][y + j].getCorner(-i, j).isHidden())){
+                    isValid = false;
+                    break;
+                }
+            }
+            if(!isValid){
+                break;
+            }
+        }
+        return isValid;
+    }
 
     public int getxMax() {
         return xMax;

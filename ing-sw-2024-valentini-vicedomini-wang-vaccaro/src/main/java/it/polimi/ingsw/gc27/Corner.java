@@ -11,6 +11,9 @@ public class Corner {
     public boolean isHidden(){
         return this.hidden;
     };
+    public void setHidden(boolean bool){
+        this.hidden = bool;
+    }
     public boolean isBlack(){
         return this.black;
     };

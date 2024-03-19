@@ -388,10 +388,21 @@ public class Manuscript {
         }
     }
 
+    public int getxMax() {
+        return xMax;
+    }
 
+    public int getyMax() {
+        return yMax;
+    }
 
+    public int getxMin() {
+        return xMin;
+    }
 
-
+    public int getyMin() {
+        return yMin;
+    }
 
 }
 

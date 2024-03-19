@@ -1,7 +1,8 @@
-package it.polimi.ingsw.gc27;
+package it.polimi.ingsw.gc27.Deck;
+
+import it.polimi.ingsw.gc27.Card.ResourceCard;
 
 import java.util.ArrayList;
-import java.util.Stack;
 
 public class ResourceDeck extends Deck<ResourceCard> {
 

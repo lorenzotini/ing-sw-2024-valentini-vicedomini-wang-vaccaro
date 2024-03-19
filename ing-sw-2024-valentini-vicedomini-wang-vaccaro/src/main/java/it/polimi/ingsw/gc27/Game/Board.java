@@ -1,4 +1,4 @@
-package it.polimi.ingsw.gc27;
+package it.polimi.ingsw.gc27.Game;
 
 public class Board {
     private int pointsRedPlayer;
@@ -41,8 +41,5 @@ public class Board {
     public void setPointsBluePlayer(int pointsBluePlayer) {
         this.pointsBluePlayer = pointsBluePlayer;
     }
-
-
-
 
 }

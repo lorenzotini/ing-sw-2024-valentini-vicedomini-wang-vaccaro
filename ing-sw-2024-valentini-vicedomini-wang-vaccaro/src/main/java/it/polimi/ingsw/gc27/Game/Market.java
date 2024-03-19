@@ -1,4 +1,7 @@
-package it.polimi.ingsw.gc27;
+package it.polimi.ingsw.gc27.Game;
+
+import it.polimi.ingsw.gc27.Deck.GoldDeck;
+import it.polimi.ingsw.gc27.Deck.ResourceDeck;
 
 public class Market {
     private ResourceDeck resource1;

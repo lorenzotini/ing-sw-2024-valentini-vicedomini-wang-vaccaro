@@ -1,6 +1,4 @@
-package it.polimi.ingsw.gc27;
-
-import java.util.ArrayList;
+package it.polimi.ingsw.gc27.Card;
 
 public abstract class Card {
     private int cardID;

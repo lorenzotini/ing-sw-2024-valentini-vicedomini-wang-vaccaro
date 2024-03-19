@@ -1,5 +1,6 @@
-package it.polimi.ingsw.gc27;
-import java.util.ArrayList;
+package it.polimi.ingsw.gc27.Game;
+import it.polimi.ingsw.gc27.Card.Card;
+
 import java.util.List;
 
 public class Game {

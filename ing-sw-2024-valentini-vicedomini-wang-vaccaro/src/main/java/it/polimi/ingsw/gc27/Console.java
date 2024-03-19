@@ -1,5 +1,7 @@
 package it.polimi.ingsw.gc27;
 
+import it.polimi.ingsw.gc27.Game.Game;
+
 import java.util.List;
 
 

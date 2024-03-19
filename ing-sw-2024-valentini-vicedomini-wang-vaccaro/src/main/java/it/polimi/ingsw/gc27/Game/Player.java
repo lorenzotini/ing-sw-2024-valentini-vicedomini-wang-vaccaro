@@ -1,8 +1,7 @@
-package it.polimi.ingsw.gc27;
+package it.polimi.ingsw.gc27.Game;
 
+import it.polimi.ingsw.gc27.Card.Card;
 import it.polimi.ingsw.gc27.Enumerations.PawnColour;
-
-import java.util.ArrayList;
 
 public class Player {
     private String username;

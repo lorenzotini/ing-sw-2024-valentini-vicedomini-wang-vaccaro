@@ -1,6 +1,9 @@
-package it.polimi.ingsw.gc27;
-import java.util.ArrayList;
+package it.polimi.ingsw.gc27.Game;
+
+import it.polimi.ingsw.gc27.Card.*;
 import it.polimi.ingsw.gc27.Enumerations.*;
+import Player;
+
 public class Manuscript {
     public final int FIELD_DIM = 85;
     // use a matrix to represent the whole manuscript/play field
@@ -28,7 +31,7 @@ public class Manuscript {
             }
             Face copy = face.copy(face);
             field[x][y] = copy;
-            addPoints(player, card, face, baord, numCoveredCorners);
+            addPoints(player, card, face, board, numCoveredCorners);
         }else{
             System.err.println("Error: invalid position");
         }
@@ -390,11 +393,7 @@ public class Manuscript {
                 }
                 setPointsPlayer(player, board, points);
             }
-
-
-
         }
-
     }
 
 

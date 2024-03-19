@@ -1,4 +1,6 @@
-package it.polimi.ingsw.gc27;
+package it.polimi.ingsw.gc27.Deck;
+
+import it.polimi.ingsw.gc27.Card.Card;
 
 import java.util.ArrayList;
 import java.util.Stack;

@@ -1,10 +1,10 @@
-package it.polimi.ingsw.gc27;
+package it.polimi.ingsw.gc27.Card;
 
 import it.polimi.ingsw.gc27.Enumerations.Kingdom;
 
 import java.util.ArrayList;
 
-public class BackFace extends  Face{
+public class BackFace extends Face {
     private ArrayList<Kingdom> permanentResources;
 
     public BackFace(Kingdom colour, Corner cornerUR, Corner cornerUL, Corner cornerLR, Corner cornerLL, ArrayList<Kingdom> permanentResources) {

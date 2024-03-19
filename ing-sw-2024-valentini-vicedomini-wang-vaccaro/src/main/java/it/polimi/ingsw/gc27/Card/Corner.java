@@ -1,4 +1,4 @@
-package it.polimi.ingsw.gc27;
+package it.polimi.ingsw.gc27.Card;
 
 import it.polimi.ingsw.gc27.Enumerations.CornerSymbol;
 

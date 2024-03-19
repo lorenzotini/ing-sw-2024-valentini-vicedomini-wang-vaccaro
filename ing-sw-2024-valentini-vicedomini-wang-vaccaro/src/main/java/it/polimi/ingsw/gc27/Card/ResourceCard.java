@@ -1,8 +1,6 @@
-package it.polimi.ingsw.gc27;
+package it.polimi.ingsw.gc27.Card;
 
-import it.polimi.ingsw.gc27.Enumerations.Kingdom;
-
-public class ResourceCard extends Card{
+public class ResourceCard extends Card {
     private int cardPoints;
     public ResourceCard(FrontFace front, BackFace back) {
         super(front, back);

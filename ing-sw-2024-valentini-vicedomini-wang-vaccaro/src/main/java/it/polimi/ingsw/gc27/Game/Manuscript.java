@@ -2,7 +2,6 @@ package it.polimi.ingsw.gc27.Game;
 
 import it.polimi.ingsw.gc27.Card.*;
 import it.polimi.ingsw.gc27.Enumerations.*;
-import Player;
 
 public class Manuscript {
     public final int FIELD_DIM = 85;
@@ -16,6 +15,10 @@ public class Manuscript {
         //initialize the matrix and place the starter card at its centre
         field = new Face[FIELD_DIM][FIELD_DIM];
         field[FIELD_DIM/2][FIELD_DIM/2] = myStarter;
+        setxMax(FIELD_DIM/2);
+        setxMin(FIELD_DIM/2);
+        setyMax(FIELD_DIM/2);
+        setyMin(FIELD_DIM/2);
     }
     public void addCard(Card card, Face face, int x, int y){
         if(isValidPlacement(x, y)){
@@ -53,18 +56,7 @@ public class Manuscript {
         return isValid;
     }
 
-    public int getxMax() {
-        return xMax;
-    }
-    public int getyMax() {
-        return yMax;
-    }
-    public int getxMin() {
-        return xMin;
-    }
-    public int getyMin() {
-        return yMin;
-    }
+
     public void setxMax(int x) {
         this.xMax = x;
     }

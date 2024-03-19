@@ -9,15 +9,6 @@ public abstract class Card {
         this.back = given_back;
     }
 
-    public int getId() {
-        return cardID;
-    }
 
-    public FrontFace getFrontFace() {
-        return front;
-    }
 
-    public BackFace getBackFace() {
-        return back;
-    }
 }

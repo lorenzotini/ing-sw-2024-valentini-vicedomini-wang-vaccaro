@@ -116,13 +116,13 @@ public class Manuscript {
 
         if(objective.getPattern().equals(ObjectiveRequirementType.BLUELADDER)) {
             for(int i = xMin; i<= xMax; i++) {
-                for(int j = yMax; j >= yMin; j--){
+                for(int j = yMin; j <= yMax; j++){
                     if(field[i][j] != null) {
-                        if (field[i][j].getColour().equals(Kingdom.ANIMALKINGDOM) && i >= 2 && j >= 2 && checked[i][j] == 0) {
-                            if (field[i - 1][j - 1].getColour().equals(Kingdom.ANIMALKINGDOM) && field[i - 2][j - 2].getColour().equals(Kingdom.ANIMALKINGDOM)) {
+                        if (field[i][j].getColour().equals(Kingdom.ANIMALKINGDOM) && i >= 2 && j <= (FIELD_DIM - 3) && checked[i][j] == 0) {
+                            if (field[i - 1][j + 1].getColour().equals(Kingdom.ANIMALKINGDOM) && field[i - 2][j + 2].getColour().equals(Kingdom.ANIMALKINGDOM)) {
                                 points = points + 2;
-                                checked[i - 1][j - 1] = 1;
-                                checked[i - 2][j - 2] = 1;
+                                checked[i - 1][j + 1] = 1;
+                                checked[i - 2][j + 2] = 1;
                             }
                         }
                         checked[i][j] = 1;
@@ -133,13 +133,13 @@ public class Manuscript {
 
         if(objective.getPattern().equals(ObjectiveRequirementType.REDLADDER)) {
             for(int i = xMin; i<= xMax; i++) {
-                for(int j = yMax; j >= yMin; j--){
+                for(int j = yMin; j <= yMax; j++){
                     if(field[i][j] != null) {
-                        if (field[i][j].getColour().equals(Kingdom.FUNGIKINGDOM) && i >= 2 && j >= 2 && checked[i][j] == 0) {
-                            if (field[i - 1][j - 1].getColour().equals(Kingdom.FUNGIKINGDOM) && field[i - 2][j - 2].getColour().equals(Kingdom.FUNGIKINGDOM)) {
+                        if (field[i][j].getColour().equals(Kingdom.FUNGIKINGDOM) && i >= 2 && j <= (FIELD_DIM - 3) && checked[i][j] == 0) {
+                            if (field[i - 1][j + 1].getColour().equals(Kingdom.FUNGIKINGDOM) && field[i - 2][j + 2].getColour().equals(Kingdom.FUNGIKINGDOM)) {
                                 points = points + 2;
-                                checked[i - 1][j - 1] = 1;
-                                checked[i - 2][j - 2] = 1;
+                                checked[i - 1][j + 1] = 1;
+                                checked[i - 2][j + 2] = 1;
                             }
                         }
                         checked[i][j] = 1;
@@ -150,7 +150,7 @@ public class Manuscript {
 
         if(objective.getPattern().equals(ObjectiveRequirementType.GREENLADDER)) {
             for(int i = xMin; i<= xMax; i++) {
-                for(int j = yMax; j >= yMin; j--){
+                for(int j = yMin; j <= yMax; j++){
                     if(field[i][j] != null) {
                         if (field[i][j].getColour().equals(Kingdom.PLANTKINGDOM) && i <= (FIELD_DIM-3) && j <=(FIELD_DIM-3) && checked[i][j] == 0) {
                             if (field[i + 1][j + 1].getColour().equals(Kingdom.PLANTKINGDOM) && field[i + 2][j + 2].getColour().equals(Kingdom.PLANTKINGDOM)) {
@@ -167,7 +167,7 @@ public class Manuscript {
 
         if(objective.getPattern().equals(ObjectiveRequirementType.PURPLELADDER)) {
             for(int i = xMin; i<= xMax; i++) {
-                for(int j = yMax; j >= yMin; j--){
+                for(int j = yMin; j <= yMax; j++){
                     if(field[i][j] != null) {
                         if (field[i][j].getColour().equals(Kingdom.INSECTKINGDOM) && i <= (FIELD_DIM-3) && j <= (FIELD_DIM-3) && checked[i][j] == 0) {
                             if (field[i + 1][j + 1].getColour().equals(Kingdom.INSECTKINGDOM) && field[i + 2][j + 2].getColour().equals(Kingdom.INSECTKINGDOM)) {
@@ -184,13 +184,13 @@ public class Manuscript {
 
         if(objective.getPattern().equals(ObjectiveRequirementType.TWOPLUSONELOWERLEFT)) {
             for(int i = xMin; i<= xMax; i++) {
-                for(int j = yMax; j >= yMin; j--){
+                for(int j = yMin; j <= yMax; j++){
                     if(field[i][j] != null) {
-                        if (field[i][j].getColour().equals(Kingdom.PLANTKINGDOM) && i >=1 && j >=3 && checked[i][j] == 0) {
-                            if (field[i][j - 2].getColour().equals(Kingdom.PLANTKINGDOM) && field[i -1][j -3].getColour().equals(Kingdom.INSECTKINGDOM)) {
+                        if (field[i][j].getColour().equals(Kingdom.PLANTKINGDOM) && i >=1 && j <= (FIELD_DIM - 4) && checked[i][j] == 0) {
+                            if (field[i][j + 2].getColour().equals(Kingdom.PLANTKINGDOM) && field[i -1][j + 3].getColour().equals(Kingdom.INSECTKINGDOM)) {
                                 points = points + 3;
-                                checked[i][j -2] = 1;
-                                checked[i - 1][j -3] = 1;
+                                checked[i][j + 2] = 1;
+                                checked[i - 1][j + 3] = 1;
                             }
                         }
                         checked[i][j] = 1;
@@ -201,13 +201,13 @@ public class Manuscript {
 
         if(objective.getPattern().equals(ObjectiveRequirementType.TWOPLUSONELOWERRIGHT)) {
             for(int i = xMin; i<= xMax; i++) {
-                for(int j = yMax; j >= yMin; j--){
+                for(int j = yMin; j <= yMax; j++){
                     if(field[i][j] != null) {
-                        if (field[i][j].getColour().equals(Kingdom.FUNGIKINGDOM) && i <=(FIELD_DIM-2) && j >=3 && checked[i][j] == 0) {
-                            if (field[i][j - 2].getColour().equals(Kingdom.FUNGIKINGDOM) && field[i + 1][j -3].getColour().equals(Kingdom.PLANTKINGDOM)) {
+                        if (field[i][j].getColour().equals(Kingdom.FUNGIKINGDOM) && i <=(FIELD_DIM-2) && j <= (FIELD_DIM - 4) && checked[i][j] == 0) {
+                            if (field[i][j + 2].getColour().equals(Kingdom.FUNGIKINGDOM) && field[i + 1][j + 3].getColour().equals(Kingdom.PLANTKINGDOM)) {
                                 points = points + 3;
-                                checked[i][j -2] = 1;
-                                checked[i + 1][j - 3] = 1;
+                                checked[i][j + 2] = 1;
+                                checked[i + 1][j + 3] = 1;
                             }
                         }
                         checked[i][j] = 1;
@@ -218,13 +218,13 @@ public class Manuscript {
 
         if(objective.getPattern().equals(ObjectiveRequirementType.TWOPLUSONEUPPERLEFT)) {
             for(int i = xMin; i<= xMax; i++) {
-                for(int j = yMax; j >= yMin; j--){
+                for(int j = yMin; j <= yMax; j++){
                     if(field[i][j] != null) {
-                        if (field[i][j].getColour().equals(Kingdom.ANIMALKINGDOM) && i <=(FIELD_DIM-2) && j >=3 && checked[i][j] == 0) {
-                            if (field[i + 1][j - 1].getColour().equals(Kingdom.INSECTKINGDOM) && field[i + 1][j - 3].getColour().equals(Kingdom.INSECTKINGDOM)) {
+                        if (field[i][j].getColour().equals(Kingdom.ANIMALKINGDOM) && i <=(FIELD_DIM-2) && j <= (FIELD_DIM -4) && checked[i][j] == 0) {
+                            if (field[i + 1][j + 1].getColour().equals(Kingdom.INSECTKINGDOM) && field[i + 1][j + 3].getColour().equals(Kingdom.INSECTKINGDOM)) {
                                 points = points + 3;
-                                checked[i + 1][j - 1] = 1;
-                                checked[i + 1][j - 3] = 1;
+                                checked[i + 1][j + 1] = 1;
+                                checked[i + 1][j + 3] = 1;
                             }
                         }
                         checked[i][j] = 1;
@@ -235,13 +235,13 @@ public class Manuscript {
 
         if(objective.getPattern().equals(ObjectiveRequirementType.TWOPLUSONEUPPERRIGHT)) {
             for(int i = xMin; i<= xMax; i++) {
-                for(int j = yMax; j >= yMin; j--){
+                for(int j = yMin; j <= yMax; j++){
                     if(field[i][j] != null) {
-                        if (field[i][j].getColour().equals(Kingdom.FUNGIKINGDOM) && i >=1 && j >=3 && checked[i][j] == 0) {
-                            if (field[i - 1][j - 1].getColour().equals(Kingdom.ANIMALKINGDOM) && field[i - 1][j - 3].getColour().equals(Kingdom.ANIMALKINGDOM)) {
+                        if (field[i][j].getColour().equals(Kingdom.FUNGIKINGDOM) && i >=1 && j <= (FIELD_DIM - 4) && checked[i][j] == 0) {
+                            if (field[i - 1][j + 1].getColour().equals(Kingdom.ANIMALKINGDOM) && field[i - 1][j + 3].getColour().equals(Kingdom.ANIMALKINGDOM)) {
                                 points = points + 3;
-                                checked[i - 1][j - 1] = 1;
-                                checked[i - 1][j - 3] = 1;
+                                checked[i - 1][j + 1] = 1;
+                                checked[i - 1][j + 3] = 1;
                             }
                         }
                         checked[i][j] = 1;

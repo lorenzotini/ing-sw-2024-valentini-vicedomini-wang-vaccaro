@@ -71,7 +71,9 @@ public class Manuscript {
     }
 
 
-
+    public Face[][] getField() {
+        return field;
+    }
 
     public void addPointsObjective(ObjectiveCard objective, Board board, Player player) {
         int points = 0;
@@ -79,56 +81,9 @@ public class Manuscript {
         int min = 0;
         int[][] checked = new int[FIELD_DIM][FIELD_DIM];
 
-        if(objective.getPattern().equals(ObjectiveRequirementType.THREEPLANTKINGDOM) ||
-                objective.getPattern().equals(ObjectiveRequirementType.THREEFUNGIKINGDOM) ||
-                objective.getPattern().equals(ObjectiveRequirementType.THREEINSECTKINGDOM) ||
-                objective.getPattern().equals(ObjectiveRequirementType.THREEANIMALKINGDOM))
-        {
-            count = countCornerSymbol(objective.getPattern().getCornerSymbol());
-            count = count + countBackSymbol(objective.getPattern().getKingdom());
-            points = 2*(count/3);
-        }
-
-
-        if(objective.getPattern().equals(ObjectiveRequirementType.DOUBLEINKWELL) ||
-                objective.getPattern().equals(ObjectiveRequirementType.DOUBLEMANUSCRIPT) ||
-                objective.getPattern().equals(ObjectiveRequirementType.DOUBLEQUILL))
-        {
-            count = countCornerSymbol(objective.getPattern().getCornerSymbol());
-            points = 2*(count/2);
-        }
-
-        if(objective.getPattern().equals(ObjectiveRequirementType.EACHDIFFERENTTYPE)) {
-            count = countCornerSymbol(CornerSymbol.QUILL);
-            if(count<=min) {
-                min = count;
-            }
-            count = countCornerSymbol(CornerSymbol.MANUSCRIPT);
-            if(count<=min) {
-                min = count;
-            }
-            count = countCornerSymbol(CornerSymbol.INKWELL);
-            if(count<=min) {
-                min = count;
-            }
-            points = 3*min;
-        }
 
         if(objective.getPattern().equals(ObjectiveRequirementType.BLUELADDER)) {
-            for(int i = xMin; i<= xMax; i++) {
-                for(int j = yMin; j <= yMax; j++){
-                    if(field[i][j] != null) {
-                        if (field[i][j].getColour().equals(Kingdom.ANIMALKINGDOM) && i >= 2 && j <= (FIELD_DIM - 3) && checked[i][j] == 0) {
-                            if (field[i - 1][j + 1].getColour().equals(Kingdom.ANIMALKINGDOM) && field[i - 2][j + 2].getColour().equals(Kingdom.ANIMALKINGDOM)) {
-                                points = points + 2;
-                                checked[i - 1][j + 1] = 1;
-                                checked[i - 2][j + 2] = 1;
-                            }
-                        }
-                        checked[i][j] = 1;
-                    }
-                }
-            }
+
         }
 
         if(objective.getPattern().equals(ObjectiveRequirementType.REDLADDER)) {

@@ -24,41 +24,27 @@ public abstract class Face {
         return colour;
     }
 
-    public void setColour(Kingdom colour) {
-        this.colour = colour;
-    }
 
     public Corner getCornerUR() {
         return cornerUR;
     }
 
-    public void setCornerUR(Corner cornerUR) {
-        this.cornerUR = cornerUR;
-    }
 
     public Corner getCornerUL() {
         return cornerUL;
     }
 
-    public void setCornerUL(Corner cornerUL) {
-        this.cornerUL = cornerUL;
-    }
+
 
     public Corner getCornerLR() {
         return cornerLR;
     }
 
-    public void setCornerLR(Corner cornerLR) {
-        this.cornerLR = cornerLR;
-    }
 
     public Corner getCornerLL() {
         return cornerLL;
     }
 
-    public void setCornerLL(Corner cornerLL) {
-        this.cornerLL = cornerLL;
-    }
 
     //per il momento ritorna null se i parametri passati non sono validi
     public Corner getCorner(int i, int j) {

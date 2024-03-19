@@ -11,16 +11,10 @@ public class GoldCard extends ResourceCard {
         super(front, back);
     }
 
-    public List<Kingdom> getRequirements() {
-        return requirements;
-    }
+
     public PointsMultiplier getPointsMultiplier() {
         return pointsMultiplier;
     }
-    public void setRequirements(List<Kingdom> requirements) {
-        this.requirements = requirements;
-    }
-    public void setPointsMultiplier(PointsMultiplier pointsMultiplier) {
-        this.pointsMultiplier = pointsMultiplier;
-    }
+
+
 }

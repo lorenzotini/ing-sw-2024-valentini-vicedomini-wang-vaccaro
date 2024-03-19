@@ -9,15 +9,7 @@ public class ObjectiveCard extends Card {
         super(front, back);
     }
 
-    public void setObjectivePoints(int objectivePoints) {
-        this.objectivePoints = objectivePoints;
-    }
-    public void setPattern(ObjectiveRequirementType pattern) {
-        this.pattern = pattern;
-    }
-    public int getObjectivePoints() {
-        return objectivePoints;
-    }
+
     public ObjectiveRequirementType getPattern() {
         return pattern;
     }

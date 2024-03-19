@@ -2,6 +2,8 @@ package it.polimi.ingsw.gc27;
 
 import it.polimi.ingsw.gc27.Enumerations.Kingdom;
 
+import java.util.*;
+
 public abstract class Face {
     private Kingdom colour;
     //UR = upper right, LL = lower left, etc...
@@ -75,5 +77,6 @@ public abstract class Face {
     }
 
     public abstract Face copy(Face face);
+
     public abstract ArrayList<Kingdom> getPermanentResources();
 }

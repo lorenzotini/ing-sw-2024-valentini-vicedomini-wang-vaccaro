@@ -24,7 +24,7 @@ public class Manuscript {
         setyMin(FIELD_DIM / 2);
     }
 
-    public void addCard(Card card, Face face, int x, int y) {
+    /*public void addCard(Card card, Face face, int x, int y) {
         if (isValidPlacement(x, y)) {
             // set to "hidden" the corners covered by the added card and count them
             int numCoveredCorners = 0;
@@ -42,7 +42,7 @@ public class Manuscript {
         } else {
             System.err.println("Error: invalid position");
         }
-    }
+    }*/
 
     public boolean isValidPlacement(int x, int y) {
         boolean isValid = true;

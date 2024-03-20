@@ -6,7 +6,7 @@ public enum PointsMultiplier {
 
     INKWELL,
 
-    MANUSCRIPT
+    MANUSCRIPT;
 
     public CornerSymbol convertToCornerSymbol(){
         return switch (this) {

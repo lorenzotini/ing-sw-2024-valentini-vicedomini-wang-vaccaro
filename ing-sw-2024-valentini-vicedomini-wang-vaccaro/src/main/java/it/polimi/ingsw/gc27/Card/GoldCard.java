@@ -2,6 +2,7 @@ package it.polimi.ingsw.gc27.Card;
 
 import it.polimi.ingsw.gc27.Enumerations.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class GoldCard extends ResourceCard {
@@ -16,5 +17,8 @@ public class GoldCard extends ResourceCard {
         return pointsMultiplier;
     }
 
+    public ArrayList<Kingdom> getRequirements(){
+        return new ArrayList<Kingdom>(requirements);
+    }
 
 }

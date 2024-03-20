@@ -20,4 +20,7 @@ public class Player {
         return pawnColour;
     }
 
+    public Manuscript getManuscript() {
+        return manuscript;
+    }
 }

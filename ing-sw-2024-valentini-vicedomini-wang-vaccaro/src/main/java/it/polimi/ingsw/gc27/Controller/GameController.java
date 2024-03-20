@@ -61,11 +61,8 @@ public class GameController {
 
     public void addPoints(Player player,ResourceCard card, Face face, Board board, int numCoveredCorners){
         if(face instanceof FrontFace){
-            if (card instanceof ResourceCard){
-                setPointsPlayer(player, board, card.getCardPoints());
-            }
-            int points;
             if (card instanceof GoldCard){
+                int points;
                 if(((GoldCard)card).getPointsMultiplier().equals(PointsMultiplier.CORNER)){
                     points = card.getCardPoints() * numCoveredCorners;
                 }
@@ -76,6 +73,11 @@ public class GameController {
                 }
                 setPointsPlayer(player, board, points);
             }
+            if (card != null){ //check equivalente a verificare sia una ResourceCard
+                setPointsPlayer(player, board, card.getCardPoints());
+            }
+
+
         }
     }
 

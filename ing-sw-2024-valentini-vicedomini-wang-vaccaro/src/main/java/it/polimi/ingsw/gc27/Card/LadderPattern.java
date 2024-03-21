@@ -7,6 +7,7 @@ public class LadderPattern extends ObjectiveCard{
     private Kingdom kingdom;
     private boolean upscaling;
 
+
     public LadderPattern(FrontFace front, BackFace back, int objectivePoints, Kingdom kingdom, boolean upscaling) {
         super(front, back, objectivePoints);
         this.kingdom = kingdom;
@@ -15,6 +16,52 @@ public class LadderPattern extends ObjectiveCard{
 
     @Override
     public int calculateObjectivePoints(Manuscript manuscript) {
+        int field_dim = manuscript.FIELD_DIM;
+        int[][] checked = new int[field_dim][field_dim];
+        int points = 0;
+        int up;
+        int xMax, xMin, yMax, yMin;
 
+        Face[][] field = manuscript.getField();
+
+        xMax = manuscript.getxMax();
+        xMin = manuscript.getxMin();
+        yMax = manuscript.getyMax();
+        yMin = manuscript.getyMin();
+
+        if(upscaling) {
+            up = -1;
+        } else {
+            up = 1;
+        }
+
+        for(int i = xMin; i<= xMax; i++) {
+            for(int j = yMin; j <= yMax; j++){
+                if(field[i][j] != null) {
+                    if(upscaling) {
+                        if (field[i][j].getColour().equals(this.kingdom) && i >= 2 && j <= (field_dim - 3) && checked[i][j] == 0) {
+                            points = getPoints(checked, points, up, field, i, j);
+                        }
+                    } else {
+                        if (field[i][j].getColour().equals(this.kingdom) && i <= (field_dim - 3) && j <= (field_dim - 3) && checked[i][j] == 0) {
+                            points = getPoints(checked, points, up, field, i, j);
+                        }
+                    }
+                    checked[i][j] = 1;
+                }
+            }
+        }
+
+
+        return points;
+    }
+
+    private int getPoints(int[][] checked, int points, int up, Face[][] field, int i, int j) {
+        if (field[i + (1 * up)][j + 1].getColour().equals(this.kingdom) && field[i + (2 * up)][j + 2].getColour().equals(this.kingdom)) {
+            points = points + 2;
+            checked[i + (1 * up)][j + 1] = 1;
+            checked[i + (2 * up)][j + 2] = 1;
+        }
+        return points;
     }
 }

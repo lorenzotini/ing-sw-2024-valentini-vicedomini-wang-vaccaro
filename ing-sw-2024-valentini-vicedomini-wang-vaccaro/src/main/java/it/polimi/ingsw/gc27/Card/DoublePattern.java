@@ -14,6 +14,12 @@ public class DoublePattern extends ObjectiveCard{
 
     @Override
     public int calculateObjectivePoints(Manuscript manuscript) {
+        int count = 0;
+        int points = 0;
 
+        count = manuscript.countCornerSymbol(this.cornerSymbol);
+        points = 2*(count/2);
+
+        return points;
     }
 }

@@ -57,6 +57,7 @@ public class Manuscript {
     }
 
 
+    // getter e setter
     public void setxMax(int x) {
         this.xMax = x;
     }
@@ -70,189 +71,23 @@ public class Manuscript {
         this.yMin = y;
     }
 
-
-
-
-    public void addPointsObjective(ObjectiveCard objective, Board board, Player player) {
-        int points = 0;
-        int count = 0;
-        int min = 0;
-        int[][] checked = new int[FIELD_DIM][FIELD_DIM];
-
-        if(objective.getPattern().equals(ObjectiveRequirementType.THREEPLANTKINGDOM) ||
-                objective.getPattern().equals(ObjectiveRequirementType.THREEFUNGIKINGDOM) ||
-                objective.getPattern().equals(ObjectiveRequirementType.THREEINSECTKINGDOM) ||
-                objective.getPattern().equals(ObjectiveRequirementType.THREEANIMALKINGDOM))
-        {
-            count = countCornerSymbol(objective.getPattern().getCornerSymbol());
-            count = count + countBackSymbol(objective.getPattern().getKingdom());
-            points = 2*(count/3);
-        }
-
-
-        if(objective.getPattern().equals(ObjectiveRequirementType.DOUBLEINKWELL) ||
-                objective.getPattern().equals(ObjectiveRequirementType.DOUBLEMANUSCRIPT) ||
-                objective.getPattern().equals(ObjectiveRequirementType.DOUBLEQUILL))
-        {
-            count = countCornerSymbol(objective.getPattern().getCornerSymbol());
-            points = 2*(count/2);
-        }
-
-        if(objective.getPattern().equals(ObjectiveRequirementType.EACHDIFFERENTTYPE)) {
-            count = countCornerSymbol(CornerSymbol.QUILL);
-            if(count<=min) {
-                min = count;
-            }
-            count = countCornerSymbol(CornerSymbol.MANUSCRIPT);
-            if(count<=min) {
-                min = count;
-            }
-            count = countCornerSymbol(CornerSymbol.INKWELL);
-            if(count<=min) {
-                min = count;
-            }
-            points = 3*min;
-        }
-
-        if(objective.getPattern().equals(ObjectiveRequirementType.BLUELADDER)) {
-            for(int i = xMin; i<= xMax; i++) {
-                for(int j = yMin; j <= yMax; j++){
-                    if(field[i][j] != null) {
-                        if (field[i][j].getColour().equals(Kingdom.ANIMALKINGDOM) && i >= 2 && j <= (FIELD_DIM - 3) && checked[i][j] == 0) {
-                            if (field[i - 1][j + 1].getColour().equals(Kingdom.ANIMALKINGDOM) && field[i - 2][j + 2].getColour().equals(Kingdom.ANIMALKINGDOM)) {
-                                points = points + 2;
-                                checked[i - 1][j + 1] = 1;
-                                checked[i - 2][j + 2] = 1;
-                            }
-                        }
-                        checked[i][j] = 1;
-                    }
-                }
-            }
-        }
-
-        if(objective.getPattern().equals(ObjectiveRequirementType.REDLADDER)) {
-            for(int i = xMin; i<= xMax; i++) {
-                for(int j = yMin; j <= yMax; j++){
-                    if(field[i][j] != null) {
-                        if (field[i][j].getColour().equals(Kingdom.FUNGIKINGDOM) && i >= 2 && j <= (FIELD_DIM - 3) && checked[i][j] == 0) {
-                            if (field[i - 1][j + 1].getColour().equals(Kingdom.FUNGIKINGDOM) && field[i - 2][j + 2].getColour().equals(Kingdom.FUNGIKINGDOM)) {
-                                points = points + 2;
-                                checked[i - 1][j + 1] = 1;
-                                checked[i - 2][j + 2] = 1;
-                            }
-                        }
-                        checked[i][j] = 1;
-                    }
-                }
-            }
-        }
-
-        if(objective.getPattern().equals(ObjectiveRequirementType.GREENLADDER)) {
-            for(int i = xMin; i<= xMax; i++) {
-                for(int j = yMin; j <= yMax; j++){
-                    if(field[i][j] != null) {
-                        if (field[i][j].getColour().equals(Kingdom.PLANTKINGDOM) && i <= (FIELD_DIM-3) && j <=(FIELD_DIM-3) && checked[i][j] == 0) {
-                            if (field[i + 1][j + 1].getColour().equals(Kingdom.PLANTKINGDOM) && field[i + 2][j + 2].getColour().equals(Kingdom.PLANTKINGDOM)) {
-                                points = points + 2;
-                                checked[i + 1][j + 1] = 1;
-                                checked[i + 2][j + 2] = 1;
-                            }
-                        }
-                        checked[i][j] = 1;
-                    }
-                }
-            }
-        }
-
-        if(objective.getPattern().equals(ObjectiveRequirementType.PURPLELADDER)) {
-            for(int i = xMin; i<= xMax; i++) {
-                for(int j = yMin; j <= yMax; j++){
-                    if(field[i][j] != null) {
-                        if (field[i][j].getColour().equals(Kingdom.INSECTKINGDOM) && i <= (FIELD_DIM-3) && j <= (FIELD_DIM-3) && checked[i][j] == 0) {
-                            if (field[i + 1][j + 1].getColour().equals(Kingdom.INSECTKINGDOM) && field[i + 2][j + 2].getColour().equals(Kingdom.INSECTKINGDOM)) {
-                                points = points + 2;
-                                checked[i + 1][j + 1] = 1;
-                                checked[i + 2][j + 2] = 1;
-                            }
-                        }
-                        checked[i][j] = 1;
-                    }
-                }
-            }
-        }
-
-        if(objective.getPattern().equals(ObjectiveRequirementType.TWOPLUSONELOWERLEFT)) {
-            for(int i = xMin; i<= xMax; i++) {
-                for(int j = yMin; j <= yMax; j++){
-                    if(field[i][j] != null) {
-                        if (field[i][j].getColour().equals(Kingdom.PLANTKINGDOM) && i >=1 && j <= (FIELD_DIM - 4) && checked[i][j] == 0) {
-                            if (field[i][j + 2].getColour().equals(Kingdom.PLANTKINGDOM) && field[i -1][j + 3].getColour().equals(Kingdom.INSECTKINGDOM)) {
-                                points = points + 3;
-                                checked[i][j + 2] = 1;
-                                checked[i - 1][j + 3] = 1;
-                            }
-                        }
-                        checked[i][j] = 1;
-                    }
-                }
-            }
-        }
-
-        if(objective.getPattern().equals(ObjectiveRequirementType.TWOPLUSONELOWERRIGHT)) {
-            for(int i = xMin; i<= xMax; i++) {
-                for(int j = yMin; j <= yMax; j++){
-                    if(field[i][j] != null) {
-                        if (field[i][j].getColour().equals(Kingdom.FUNGIKINGDOM) && i <=(FIELD_DIM-2) && j <= (FIELD_DIM - 4) && checked[i][j] == 0) {
-                            if (field[i][j + 2].getColour().equals(Kingdom.FUNGIKINGDOM) && field[i + 1][j + 3].getColour().equals(Kingdom.PLANTKINGDOM)) {
-                                points = points + 3;
-                                checked[i][j + 2] = 1;
-                                checked[i + 1][j + 3] = 1;
-                            }
-                        }
-                        checked[i][j] = 1;
-                    }
-                }
-            }
-        }
-
-        if(objective.getPattern().equals(ObjectiveRequirementType.TWOPLUSONEUPPERLEFT)) {
-            for(int i = xMin; i<= xMax; i++) {
-                for(int j = yMin; j <= yMax; j++){
-                    if(field[i][j] != null) {
-                        if (field[i][j].getColour().equals(Kingdom.ANIMALKINGDOM) && i <=(FIELD_DIM-2) && j <= (FIELD_DIM -4) && checked[i][j] == 0) {
-                            if (field[i + 1][j + 1].getColour().equals(Kingdom.INSECTKINGDOM) && field[i + 1][j + 3].getColour().equals(Kingdom.INSECTKINGDOM)) {
-                                points = points + 3;
-                                checked[i + 1][j + 1] = 1;
-                                checked[i + 1][j + 3] = 1;
-                            }
-                        }
-                        checked[i][j] = 1;
-                    }
-                }
-            }
-        }
-
-        if(objective.getPattern().equals(ObjectiveRequirementType.TWOPLUSONEUPPERRIGHT)) {
-            for(int i = xMin; i<= xMax; i++) {
-                for(int j = yMin; j <= yMax; j++){
-                    if(field[i][j] != null) {
-                        if (field[i][j].getColour().equals(Kingdom.FUNGIKINGDOM) && i >=1 && j <= (FIELD_DIM - 4) && checked[i][j] == 0) {
-                            if (field[i - 1][j + 1].getColour().equals(Kingdom.ANIMALKINGDOM) && field[i - 1][j + 3].getColour().equals(Kingdom.ANIMALKINGDOM)) {
-                                points = points + 3;
-                                checked[i - 1][j + 1] = 1;
-                                checked[i - 1][j + 3] = 1;
-                            }
-                        }
-                        checked[i][j] = 1;
-                    }
-                }
-            }
-        }
-        setPointsPlayer(player, board, points);
-        return;
+    public int getxMax() {
+        return xMax;
+    }
+    public int getyMax() {
+        return yMax;
+    }
+    public int getxMin() {
+        return xMin;
+    }
+    public int getyMin() {
+        return yMin;
     }
 
+    public Face[][] getField() {
+        return field;
+    }
+    // getter e setter
 
 
     public int countCornerSymbol(CornerSymbol x) {
@@ -388,21 +223,7 @@ public class Manuscript {
         }
     }
 
-    public int getxMax() {
-        return xMax;
-    }
 
-    public int getyMax() {
-        return yMax;
-    }
-
-    public int getxMin() {
-        return xMin;
-    }
-
-    public int getyMin() {
-        return yMin;
-    }
 
 }
 

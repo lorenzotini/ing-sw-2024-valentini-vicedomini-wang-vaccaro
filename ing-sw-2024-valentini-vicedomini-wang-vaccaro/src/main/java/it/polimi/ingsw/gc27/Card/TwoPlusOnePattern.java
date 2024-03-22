@@ -4,13 +4,14 @@ import it.polimi.ingsw.gc27.Enumerations.Kingdom;
 import it.polimi.ingsw.gc27.Game.Manuscript;
 
 public class TwoPlusOnePattern extends ObjectiveCard{
+    public final int OBJECTIVE_POINTS = 3;
     private Kingdom firstColour;
     private Kingdom secondColour;
     private int x;
     private int y;
 
-    public TwoPlusOnePattern(FrontFace front, BackFace back, int objectivePoints, Kingdom firstColour, Kingdom secondColour, int x, int y) {
-        super(front, back, objectivePoints);
+    public TwoPlusOnePattern(int id, FrontFace front, BackFace back, Kingdom firstColour, Kingdom secondColour, int x, int y) {
+        super(id, front, back);
         this.firstColour = firstColour;
         this.secondColour = secondColour;
         this.x = x;

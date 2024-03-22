@@ -8,6 +8,12 @@ public class Corner {
     private boolean black;
     private CornerSymbol symbol;
 
+    public Corner(boolean black, CornerSymbol symbol) {
+        this.hidden = false;
+        this.black = black;
+        this.symbol = symbol;
+    }
+
     public boolean isHidden() {
         return hidden;
     }

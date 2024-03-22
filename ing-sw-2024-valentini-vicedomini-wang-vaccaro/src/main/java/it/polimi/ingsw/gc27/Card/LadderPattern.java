@@ -4,12 +4,12 @@ import it.polimi.ingsw.gc27.Enumerations.Kingdom;
 import it.polimi.ingsw.gc27.Game.Manuscript;
 
 public class LadderPattern extends ObjectiveCard{
+    public final int OBJECTIVE_POINTS = 2;
     private Kingdom kingdom;
     private boolean upscaling;
 
-
-    public LadderPattern(FrontFace front, BackFace back, int objectivePoints, Kingdom kingdom, boolean upscaling) {
-        super(front, back, objectivePoints);
+    public LadderPattern(int id, FrontFace front, BackFace back, Kingdom kingdom, boolean upscaling) {
+        super(id, front, back);
         this.kingdom = kingdom;
         this.upscaling = upscaling;
     }

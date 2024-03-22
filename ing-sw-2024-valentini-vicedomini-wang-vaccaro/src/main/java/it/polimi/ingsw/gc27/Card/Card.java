@@ -4,7 +4,8 @@ public abstract class Card {
     private int cardID;
     private FrontFace front;
     private BackFace back;
-    public Card(FrontFace given_front, BackFace given_back){
+    public Card(int cardID, FrontFace given_front, BackFace given_back){
+        this.cardID = cardID;
         this.front = given_front;
         this.back = given_back;
     }

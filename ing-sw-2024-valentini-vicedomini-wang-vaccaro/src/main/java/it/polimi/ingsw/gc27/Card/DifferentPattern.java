@@ -4,9 +4,11 @@ import it.polimi.ingsw.gc27.Enumerations.CornerSymbol;
 import it.polimi.ingsw.gc27.Game.Manuscript;
 
 public class DifferentPattern extends ObjectiveCard{
-    public DifferentPattern(FrontFace front, BackFace back, int objectivePoints) {
-        super(front, back, objectivePoints);
+    public final int OBJECTIVE_POINTS = 3;
+    public DifferentPattern(int id, FrontFace front, BackFace back) {
+        super(id, front, back);
     }
+
 
     @Override
     public int calculateObjectivePoints(Manuscript manuscript) {

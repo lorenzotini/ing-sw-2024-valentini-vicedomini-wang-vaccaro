@@ -5,5 +5,16 @@ public enum Kingdom {
     PLANTKINGDOM,
     ANIMALKINGDOM,
     INSECTKINGDOM,
-    FUNGIKINGDOM
+    FUNGIKINGDOM;
+
+    public CornerSymbol convertToCornerSymbol(){
+        return switch (this) {
+            case FUNGIKINGDOM -> CornerSymbol.FUNGIKINGDOM;
+            case PLANTKINGDOM -> CornerSymbol.PLANTKINGDOM;
+            case ANIMALKINGDOM -> CornerSymbol.ANIMALKINGDOM;
+            case INSECTKINGDOM -> CornerSymbol.INSECTKINGDOM;
+            case EMPTY -> CornerSymbol.EMPTY;
+        };
+        //aggiungere Ecception
+    }
 }

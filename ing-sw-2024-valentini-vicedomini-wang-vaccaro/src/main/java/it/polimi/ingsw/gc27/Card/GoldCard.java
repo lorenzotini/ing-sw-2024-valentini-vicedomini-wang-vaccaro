@@ -18,5 +18,8 @@ public class GoldCard extends ResourceCard {
         return pointsMultiplier;
     }
 
+    public ArrayList<Kingdom> getRequirements(){
+        return new ArrayList<Kingdom>(requirements);
+    }
 
 }

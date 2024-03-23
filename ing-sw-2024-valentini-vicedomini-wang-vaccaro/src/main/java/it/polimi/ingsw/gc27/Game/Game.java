@@ -5,14 +5,29 @@ import java.util.List;
 
 public class Game {
     private int GameID;
-    private Manuscript manuscript;
     private Board board;
 
     private List<Player> players;
     private Card commonObjective1;
     private Card commonObjective2;
 
+    public Board getBoard() {
+        return board;
+    }
 
-    
+    public Card getCommonObjective1() {
+        return commonObjective1;
+    }
 
+    public Card getCommonObjective2() {
+        return commonObjective2;
+    }
+
+    public int getGameID() {
+        return GameID;
+    }
+
+    public List<Player> getPlayers() {
+        return players;
+    }
 }

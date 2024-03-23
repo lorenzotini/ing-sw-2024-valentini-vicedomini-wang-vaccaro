@@ -43,16 +43,14 @@ public class JsonParser{
         pointsMultiplierHashMapHashMap.put("MANUSCRIPT", PointsMultiplier.MANUSCRIPT);
     }
     public static ArrayList<String> XX = new ArrayList<>(Arrays.asList("UR", "UL", "LR", "LL"));
-    public static final String filePath = ".\\src\\main\\resources\\cardsCodex.json";
+    public static final String filePath = "ing-sw-2024-valentini-vicedomini-wang-vaccaro/src/main/resources/codex_cards_collection.json";
     public static JSONParser jsonParser = new JSONParser();
     public static JSONObject cardsJsonObj;
 
     static {
         try {
             cardsJsonObj = (JSONObject) jsonParser.parse(new FileReader(filePath));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (ParseException e) {
+        } catch (IOException | ParseException e) {
             throw new RuntimeException(e);
         }
     }

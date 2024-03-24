@@ -50,8 +50,7 @@ public class GameController {
                 }
             }
             addPoints(player, card, face, game.getBoard(), numCoveredCorners);
-            Face copy = face.copy(face);
-            player.getManuscript().setFace(copy, x, y);
+            player.getManuscript().setFace(face, x, y);
             addPoints(player, card, face, game.getBoard(), numCoveredCorners);
             //la vado a implementare stesso nel controller
         }else{

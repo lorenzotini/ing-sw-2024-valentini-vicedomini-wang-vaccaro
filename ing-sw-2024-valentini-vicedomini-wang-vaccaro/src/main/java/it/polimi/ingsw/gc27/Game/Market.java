@@ -1,15 +1,17 @@
 package it.polimi.ingsw.gc27.Game;
 
-import it.polimi.ingsw.gc27.Deck.GoldDeck;
-import it.polimi.ingsw.gc27.Deck.ResourceDeck;
+import it.polimi.ingsw.gc27.Card.GoldCard;
+import it.polimi.ingsw.gc27.Card.ResourceCard;
+
+import java.util.ArrayList;
 
 public class Market {
-    private ResourceDeck resource1;
-    private ResourceDeck resource2;
-    private GoldDeck gold1;
-    private GoldDeck gold2;
-    private GoldDeck goldDeck;
-    private ResourceDeck resourceDeck;
+    private ArrayList<ResourceCard> resource1;
+    private ArrayList<ResourceCard> resource2;
+    private ArrayList<GoldCard> gold1;
+    private ArrayList<GoldCard> gold2;
+    private ArrayList<GoldCard> goldDeck;
+    private ArrayList<ResourceCard> resourceDeck;
 
 
 }

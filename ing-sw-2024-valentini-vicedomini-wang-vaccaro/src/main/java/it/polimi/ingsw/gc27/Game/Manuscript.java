@@ -2,6 +2,7 @@ package it.polimi.ingsw.gc27.Game;
 
 import it.polimi.ingsw.gc27.Card.*;
 import it.polimi.ingsw.gc27.Enumerations.*;
+import java.util.*;
 
 public class Manuscript {
     public final int FIELD_DIM = 85;
@@ -19,25 +20,6 @@ public class Manuscript {
         setxMin(FIELD_DIM/2);
         setyMax(FIELD_DIM/2);
         setyMin(FIELD_DIM/2);
-    }
-    public void addCard(Card card, Face face, int x, int y){
-        if(isValidPlacement(x, y)){
-            // set to "hidden" the corners covered by the added card and count them
-            int numCoveredCorners = 0;
-            for(int i = -1; i <= 1; i = i + 2){
-                for(int j = -1; j <= 1; j = j + 2){
-                    if(field[x + i][y + j] != null){
-                        field[x + i][y + j].getCorner(-i, j).setHidden(true);
-                        numCoveredCorners++;
-                    }
-                }
-            }
-            Face copy = face.copy(face);
-            field[x][y] = copy;
-            addPoints(player, card, face, board, numCoveredCorners);
-        }else{
-            System.err.println("Error: invalid position");
-        }
     }
 
     public boolean isValidPlacement(int x, int y){
@@ -83,9 +65,15 @@ public class Manuscript {
     public int getyMin() {
         return yMin;
     }
-
     public Face[][] getField() {
         return field;
+    }
+    public Face getFace(int x, int y) {
+        return this.field[x][y];
+    }
+    public void setFace(Face face, int x, int y) {
+        //credo bisogna aggiungere un eccezione
+        field[x][y] = face;
     }
     // getter e setter
 
@@ -125,7 +113,6 @@ public class Manuscript {
     }
 
 
-
     public int countBackSymbol(Kingdom x) {
         int count = 0;
 
@@ -141,86 +128,32 @@ public class Manuscript {
         return count;
     }
 
-    /**
-     *
-     * @param player
 
-     * @param board
-     * @param points
-     */
-    public void setPointsPlayer(Player player, Board board, int points){
+    public boolean satisfiedRequirement(GoldCard card) {
+        ArrayList<Kingdom> toBeVerified = card.getRequirements();
+        int[] numRip;
+        int i;
+        Kingdom tracciato;
+        while (!toBeVerified.isEmpty()) {
+            tracciato = toBeVerified.getFirst();
+            toBeVerified.removeFirst();
+            int count = 1;
 
-        PawnColour pawncolour = player.getPawnColour();
-        switch(pawncolour) {
-            case BLUE:
-                board.setPointsBluePlayer(board.getPointsBluePlayer() + points);
-                break;
-            case RED:
-                board.setPointsRedPlayer(board.getPointsRedPlayer() + points);
-                break;
-            case GREEN:
-                board.setPointsGreenPlayer(board.getPointsGreenPlayer() + points);
-                break;
-            case YELLOW:
-                board.setPointsYellowPlayer(board.getPointsYellowPlayer() + points);
-                break;
+            for (Kingdom kin : toBeVerified) {
+                if (tracciato.equals(kin)) {
+                    count++;
+                }
+            }
+            int counted = countSymbol(tracciato);
+            if (counted < count)
+                return false;
         }
+
+        return true;
     }
 
-    /**
-     *
-     * @param card
-     * @param x
-     * @param y
-     * @param board
-     * @return
-     */
-    public int countCoveredCorners(ResourceCard card, int x, int y, Board board){
-        int count=0;
-        Face ULFace = field[x-1][y+1];
-        if(ULFace.getCornerLR().isHidden()){
-            count++;
-        }
-        Face URFace = field[x+1][y+1];
-        if(URFace.getCornerLL().isHidden()){
-            count++;
-        }
-        Face LLFace = field[x-1][y-1];
-        if(LLFace.getCornerUR().isHidden()){
-            count++;
-        }
-        Face LRFace = field[x+1][y-1];
-        if(LRFace.getCornerUL().isHidden()){
-            count++;
-        }
-        return count;
-
-    }
-
-    /**
-     *
-     * @param player
-     * @param card
-     * @param face
-     * @param board
-     * @param numCoveredCorners
-     */
-    public void addPoints(Player player, ResourceCard card, Face face, Board board, int numCoveredCorners){
-        if(face instanceof FrontFace){
-            if (card instanceof ResourceCard){
-                setPointsPlayer(player, board, card.getCardPoints());
-            }
-            int points;
-            if (card instanceof GoldCard){
-                if(((GoldCard)card).getPointsMultiplier().equals(PointsMultiplier.CORNER)){
-                    points = card.getCardPoints() * numCoveredCorners;
-                }
-                else{
-                    points = card.getCardPoints() * countCornerSymbol(((GoldCard)card).getPointsMultiplier());
-                }
-                setPointsPlayer(player, board, points);
-            }
-        }
+    public int countSymbol(Kingdom x){
+        return countBackSymbol(x)+ countCornerSymbol(x.convertToCornerSymbol());
     }
 
 

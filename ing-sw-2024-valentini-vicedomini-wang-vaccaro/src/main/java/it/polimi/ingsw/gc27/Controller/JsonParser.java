@@ -1,6 +1,7 @@
-package it.polimi.ingsw.gc27.Game;
+package it.polimi.ingsw.gc27.Controller;
 
 import it.polimi.ingsw.gc27.Card.*;
+import it.polimi.ingsw.gc27.Card.ObjectiveCard.*;
 import it.polimi.ingsw.gc27.Enumerations.*;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -42,8 +43,8 @@ public class JsonParser{
         pointsMultiplierHashMapHashMap.put("INKWELL", PointsMultiplier.INKWELL);
         pointsMultiplierHashMapHashMap.put("MANUSCRIPT", PointsMultiplier.MANUSCRIPT);
     }
-    public static ArrayList<String> XX = new ArrayList<>(Arrays.asList("UR", "UL", "LR", "LL"));
-    public static final String filePath = "ing-sw-2024-valentini-vicedomini-wang-vaccaro/src/main/resources/codex_cards_collection.json";
+    public static final ArrayList<String> XX = new ArrayList<>(Arrays.asList("UR", "UL", "LR", "LL"));
+    public static final String filePath = "src/main/resources/codex_cards_collection.json";
     public static JSONParser jsonParser = new JSONParser();
     public static JSONObject cardsJsonObj;
 

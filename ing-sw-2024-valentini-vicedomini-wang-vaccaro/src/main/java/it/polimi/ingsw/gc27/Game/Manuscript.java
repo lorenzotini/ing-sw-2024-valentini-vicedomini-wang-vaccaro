@@ -12,6 +12,13 @@ public class Manuscript {
     private int yMax;
     private int xMin;
     private int yMin;
+    private int animalCounter;
+    private int fungiCounter;
+    private int insectCounter;
+    private int plantCounter;
+    private int inkwellCounter;
+    private int quillCounter;
+    private int manuscriptCounter;
     public Manuscript(Face myStarter){
         //initialize the matrix and place the starter card at its centre
         field = new Face[FIELD_DIM][FIELD_DIM];
@@ -20,22 +27,6 @@ public class Manuscript {
         setxMin(FIELD_DIM/2);
         setyMax(FIELD_DIM/2);
         setyMin(FIELD_DIM/2);
-    }
-
-    public boolean isValidPlacement(int x, int y){
-        boolean isValid = true;
-        for(int i = -1; i <= 1; i = i + 2){
-            for(int j = -1; j <= 1; j = j + 2){
-                if(field[x + i][y + j] != null && (field[x + i][y + j].getCorner(-i, j).isBlack() || field[x + i][y + j].getCorner(-i, j).isHidden())){
-                    isValid = false;
-                    break;
-                }
-            }
-            if(!isValid){
-                break;
-            }
-        }
-        return isValid;
     }
 
 
@@ -52,7 +43,6 @@ public class Manuscript {
     public void setyMin(int y) {
         this.yMin = y;
     }
-
     public int getxMax() {
         return xMax;
     }
@@ -75,10 +65,25 @@ public class Manuscript {
         //credo bisogna aggiungere un eccezione
         field[x][y] = face;
     }
-    // getter e setter
+    // end getter e setter
 
+    public boolean isValidPlacement(int x, int y){
+        boolean isValid = true;
+        for(int i = -1; i <= 1; i = i + 2){
+            for(int j = -1; j <= 1; j = j + 2){
+                if(field[x + i][y + j] != null && (field[x + i][y + j].getCorner(-i, j).isBlack() || field[x + i][y + j].getCorner(-i, j).isHidden())){
+                    return false;
+                }
+            }
+            if(!isValid){
+                break;
+            }
+        }
+        return isValid;
+    }
 
-    public int countCornerSymbol(CornerSymbol x) {
+    // substituted by getCounter()
+    /*public int countCornerSymbol(CornerSymbol x) {
         int count = 0;
 
         for(int i = xMin ; i <= xMax; i++) {
@@ -110,10 +115,10 @@ public class Manuscript {
         }
 
         return count;
-    }
+    }*/
 
-
-    public int countBackSymbol(Kingdom x) {
+    // substituted by getCounter()
+    /*public int countBackSymbol(Kingdom x) {
         int count = 0;
 
         for(int i = xMin ; i <= xMax; i++) {
@@ -126,43 +131,70 @@ public class Manuscript {
             }
         }
         return count;
-    }
+    }*/
 
+    public boolean satisfiedRequirement(ResourceCard card) {
+        if(card instanceof GoldCard) {
+            ArrayList<Kingdom> toBeVerified = ((GoldCard) card).getRequirements();
+            Kingdom tracciato;
+            while (!toBeVerified.isEmpty()) {
+                tracciato = toBeVerified.getFirst();
+                toBeVerified.removeFirst();
+                int count = 1;
 
-    public boolean satisfiedRequirement(GoldCard card) {
-        ArrayList<Kingdom> toBeVerified = card.getRequirements();
-        int[] numRip;
-        int i;
-        Kingdom tracciato;
-        while (!toBeVerified.isEmpty()) {
-            tracciato = toBeVerified.getFirst();
-            toBeVerified.removeFirst();
-            int count = 1;
-
-            for (Kingdom kin : toBeVerified) {
-                if (tracciato.equals(kin)) {
-                    count++;
+                for (Kingdom kin : toBeVerified) {
+                    if (tracciato.equals(kin)) {
+                        count++;
+                    }
                 }
+                int counted = getCounter(tracciato.toCornerSymbol());
+                if (counted < count)
+                    return false;
             }
-            int counted = countSymbol(tracciato);
-            if (counted < count)
-                return false;
+            return true;
+        }else{
+            //if dynamic type is ResourceCard, then it has no requirements.
+            return true;
         }
-
-        return true;
     }
 
-    public int countSymbol(Kingdom x){
-        return countBackSymbol(x)+ countCornerSymbol(x.convertToCornerSymbol());
+    public int getCounter(CornerSymbol cs){
+        return switch (cs){
+            case EMPTY -> 0;
+            case PLANTKINGDOM -> plantCounter;
+            case ANIMALKINGDOM -> animalCounter;
+            case INSECTKINGDOM -> insectCounter;
+            case FUNGIKINGDOM -> fungiCounter;
+            case QUILL -> quillCounter;
+            case INKWELL -> inkwellCounter;
+            case MANUSCRIPT -> manuscriptCounter;
+        };
     }
-
-
+    public void decreaseCounter(CornerSymbol cs){
+        switch (cs){
+            case PLANTKINGDOM -> plantCounter--;
+            case ANIMALKINGDOM -> animalCounter--;
+            case FUNGIKINGDOM -> fungiCounter--;
+            case INSECTKINGDOM -> insectCounter--;
+            case MANUSCRIPT -> manuscriptCounter--;
+            case QUILL -> quillCounter--;
+            case INKWELL -> inkwellCounter--;
+            case EMPTY -> {}   // do nothing
+            case null, default -> throw new NullPointerException();
+        }
+    }
+    public void increaseCounter(CornerSymbol cs){
+        switch (cs){
+            case PLANTKINGDOM -> plantCounter++;
+            case ANIMALKINGDOM -> animalCounter++;
+            case FUNGIKINGDOM -> fungiCounter++;
+            case INSECTKINGDOM -> insectCounter++;
+            case MANUSCRIPT -> manuscriptCounter++;
+            case QUILL -> quillCounter++;
+            case INKWELL -> inkwellCounter++;
+            case EMPTY -> {}   // do nothing
+            case null, default -> throw new NullPointerException();
+        }
+    }
 
 }
-
-
-
-
-
-
-

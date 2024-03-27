@@ -5,11 +5,9 @@ public class Board {
     private int pointsYellowPlayer;
     private int pointsGreenPlayer;
     private int pointsBluePlayer;
-
-
-
     public final int END_GAME_THRESHOLD=20;
     public final int MAX_POINTS=29;
+
     public int getPointsRedPlayer() {
         return pointsRedPlayer;
     }

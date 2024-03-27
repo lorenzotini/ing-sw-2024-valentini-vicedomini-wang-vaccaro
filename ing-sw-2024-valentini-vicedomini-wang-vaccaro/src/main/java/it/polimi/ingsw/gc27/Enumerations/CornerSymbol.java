@@ -8,6 +8,5 @@ public enum CornerSymbol {
     FUNGIKINGDOM,
     QUILL,
     INKWELL,
-    MANUSCRIPT,
-    CORNERBASEDMULT
+    MANUSCRIPT
 }

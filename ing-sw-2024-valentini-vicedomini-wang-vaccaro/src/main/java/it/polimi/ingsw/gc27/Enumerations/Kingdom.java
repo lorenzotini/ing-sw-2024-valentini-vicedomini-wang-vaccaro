@@ -7,7 +7,7 @@ public enum Kingdom {
     INSECTKINGDOM,
     FUNGIKINGDOM;
 
-    public CornerSymbol convertToCornerSymbol(){
+    public CornerSymbol toCornerSymbol(){
         return switch (this) {
             case FUNGIKINGDOM -> CornerSymbol.FUNGIKINGDOM;
             case PLANTKINGDOM -> CornerSymbol.PLANTKINGDOM;

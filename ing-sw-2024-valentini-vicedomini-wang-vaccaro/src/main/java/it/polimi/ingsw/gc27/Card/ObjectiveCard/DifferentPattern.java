@@ -1,9 +1,11 @@
-package it.polimi.ingsw.gc27.Card;
+package it.polimi.ingsw.gc27.Card.ObjectiveCard;
 
+import it.polimi.ingsw.gc27.Card.BackFace;
+import it.polimi.ingsw.gc27.Card.FrontFace;
 import it.polimi.ingsw.gc27.Enumerations.CornerSymbol;
 import it.polimi.ingsw.gc27.Game.Manuscript;
 
-public class DifferentPattern extends ObjectiveCard{
+public class DifferentPattern extends ObjectiveCard {
     public final int OBJECTIVE_POINTS = 3;
     public DifferentPattern(int id, FrontFace front, BackFace back) {
         super(id, front, back);
@@ -12,19 +14,19 @@ public class DifferentPattern extends ObjectiveCard{
 
     @Override
     public int calculateObjectivePoints(Manuscript manuscript) {
-        int count = 0;
-        int points = 0;
+        int count;
+        int points;
         int min = 0;
 
-        count = manuscript.countCornerSymbol(CornerSymbol.QUILL);
+        count = manuscript.getCounter(CornerSymbol.QUILL);
         if(count<=min) {
             min = count;
         }
-        count = manuscript.countCornerSymbol(CornerSymbol.MANUSCRIPT);
+        count = manuscript.getCounter(CornerSymbol.MANUSCRIPT);
         if(count<=min) {
             min = count;
         }
-        count = manuscript.countCornerSymbol(CornerSymbol.INKWELL);
+        count = manuscript.getCounter(CornerSymbol.INKWELL);
         if(count<=min) {
             min = count;
         }

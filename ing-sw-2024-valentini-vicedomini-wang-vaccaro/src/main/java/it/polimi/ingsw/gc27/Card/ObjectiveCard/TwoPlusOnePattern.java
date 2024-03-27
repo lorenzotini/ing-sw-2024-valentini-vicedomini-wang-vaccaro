@@ -1,9 +1,13 @@
-package it.polimi.ingsw.gc27.Card;
+package it.polimi.ingsw.gc27.Card.ObjectiveCard;
 
+import it.polimi.ingsw.gc27.Card.BackFace;
+import it.polimi.ingsw.gc27.Card.Face;
+import it.polimi.ingsw.gc27.Card.FrontFace;
+import it.polimi.ingsw.gc27.Card.ObjectiveCard.ObjectiveCard;
 import it.polimi.ingsw.gc27.Enumerations.Kingdom;
 import it.polimi.ingsw.gc27.Game.Manuscript;
 
-public class TwoPlusOnePattern extends ObjectiveCard{
+public class TwoPlusOnePattern extends ObjectiveCard {
     public final int OBJECTIVE_POINTS = 3;
     private Kingdom firstColour;
     private Kingdom secondColour;

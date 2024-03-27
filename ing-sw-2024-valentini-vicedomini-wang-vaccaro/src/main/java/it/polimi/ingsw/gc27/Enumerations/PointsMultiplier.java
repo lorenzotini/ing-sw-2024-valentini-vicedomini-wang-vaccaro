@@ -3,12 +3,10 @@ package it.polimi.ingsw.gc27.Enumerations;
 public enum PointsMultiplier {
     CORNER,
     QUILL,
-
     INKWELL,
-
     MANUSCRIPT;
 
-    public CornerSymbol convertToCornerSymbol(){
+    public CornerSymbol toCornerSymbol(){
         return switch (this) {
             case QUILL -> CornerSymbol.QUILL;
             case INKWELL-> CornerSymbol.INKWELL;

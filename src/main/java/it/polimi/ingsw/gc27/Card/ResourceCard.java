@@ -13,4 +13,5 @@ public class ResourceCard extends Card {
     public void setCardPoints(int x) {
         this.cardPoints = x;
     }
+
 }

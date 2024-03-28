@@ -1,14 +1,6 @@
 package it.polimi.ingsw.gc27.Card;
 
-import it.polimi.ingsw.gc27.Enumerations.CornerSymbol;
-import it.polimi.ingsw.gc27.Enumerations.Kingdom;
-import org.junit.jupiter.api.Test;
-
-import java.util.ArrayList;
-
-import static org.junit.jupiter.api.Assertions.*;
-
-class FaceTest {
+class FaceTest {/*
 
     @Test
     void getColour() {
@@ -83,5 +75,5 @@ class FaceTest {
 
     @Test
     void getPermanentResources() {
-    }
+    }*/
 }

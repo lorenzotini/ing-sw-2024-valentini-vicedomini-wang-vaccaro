@@ -10,6 +10,12 @@ public abstract class Card {
         this.back = given_back;
     }
 
+    public FrontFace getFront() {
+        return front;
+    }
 
+    public BackFace getBack() {
+        return back;
+    }
 
 }

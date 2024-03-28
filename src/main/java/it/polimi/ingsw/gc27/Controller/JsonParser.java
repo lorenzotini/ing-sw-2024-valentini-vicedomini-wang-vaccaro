@@ -44,7 +44,7 @@ public class JsonParser{
         pointsMultiplierHashMapHashMap.put("MANUSCRIPT", PointsMultiplier.MANUSCRIPT);
     }
     public static final ArrayList<String> XX = new ArrayList<>(Arrays.asList("UR", "UL", "LR", "LL"));
-    public static final String filePath = "src/main/resources/codex_cards_collection.json";
+    public static final String filePath = "src/main/resources/Json/codex_cards_collection.json";
     public static JSONParser jsonParser = new JSONParser();
     public static JSONObject cardsJsonObj;
 

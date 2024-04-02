@@ -47,15 +47,16 @@ public abstract class Face {
 
 
     //per il momento ritorna null se i parametri passati non sono validi
+    //Use indexes as cartesian coordinates ==> (1, 1) for UR, (-1, 1) for UL, (-1, -1) for LL, (1, -1) for LR
     public Corner getCorner(int i, int j) {
         if(i == 1 && j == 1){
             return cornerUR;
         }else if(i == -1 && j == 1){
             return cornerUL;
         }else if(i == 1 && j == -1){
-        return cornerLR;
+            return cornerLR;
         }else if(i == -1 && j == -1){
-        return cornerLL;
+            return cornerLL;
         }else{
             System.err.println("Error: indexes must be 1 or -1");
             return null;

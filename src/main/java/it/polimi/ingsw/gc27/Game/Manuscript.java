@@ -5,7 +5,7 @@ import it.polimi.ingsw.gc27.Enumerations.*;
 import java.util.*;
 
 public class Manuscript {
-    public final int FIELD_DIM = 85;
+    public static final int FIELD_DIM = 85;
     // use a matrix to represent the whole manuscript/play field
     private Face[][] field;
     private int xMax;
@@ -19,7 +19,7 @@ public class Manuscript {
     private int inkwellCounter;
     private int quillCounter;
     private int manuscriptCounter;
-    public Manuscript(Face myStarter){
+    /*public Manuscript(Face myStarter){
         //initialize the matrix and place the starter card at its centre
         field = new Face[FIELD_DIM][FIELD_DIM];
         field[FIELD_DIM/2][FIELD_DIM/2] = myStarter;
@@ -27,7 +27,7 @@ public class Manuscript {
         setxMin(FIELD_DIM/2);
         setyMax(FIELD_DIM/2);
         setyMin(FIELD_DIM/2);
-    }
+    }*/
 
 
     // getter e setter

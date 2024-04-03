@@ -7,14 +7,9 @@ import it.polimi.ingsw.gc27.Enumerations.PointsMultiplier;
 import java.util.ArrayList;
 
 public class Player {
-
-
     private String username;
     private ArrayList<ResourceCard> hand;
     private Manuscript manuscript;
-
-
-
     private PawnColour pawnColour;
     private Card secretObjective;
 
@@ -59,7 +54,19 @@ public class Player {
      * @param x
      * @param y
      */
-    public void addCard(Game game, ResourceCard card, Face face, int x, int y){
+    public void addCard(Game game, Card card, Face face, int x, int y){
+        Manuscript m = this.manuscript;
+        m.getField()[x][y] = face;
+        //momentaneamente il metodo prende una card e gestisce separatamente se è una starter. In futuro provare a riscrivere con un design pattern
+        if(card instanceof StarterCard){
+            for(int i = -1; i <= 1; i = i + 2){
+                for(int j = -1; j <= 1; j = j + 2){
+                    m.increaseCounter(m.getField()[x][y].getCorner(i, -j).getSymbol());
+                }
+            }
+            return;
+        }
+
         // set to "hidden" the corners covered by the added card and count them
         Manuscript m = this.manuscript;
         int numCoveredCorners = 0;
@@ -88,14 +95,14 @@ public class Player {
         if(face instanceof FrontFace){
             if (card instanceof GoldCard){
                 if(((GoldCard)card).getPointsMultiplier().equals(PointsMultiplier.CORNER)){
-                    points = card.getCardPoints() * numCoveredCorners;
+                    points = ((GoldCard)card).getCardPoints() * numCoveredCorners;
                 }
                 else{
-                    points = card.getCardPoints() * this.manuscript.getCounter(((GoldCard) card).getPointsMultiplier().toCornerSymbol());
+                    points = ((GoldCard)card).getCardPoints() * this.manuscript.getCounter(((GoldCard) card).getPointsMultiplier().toCornerSymbol());
                 }
                 game.addPoints(this, points);
             }else {
-                points = card.getCardPoints();
+                points = ((ResourceCard)card).getCardPoints();
                 game.addPoints(this, points);
             }
         }

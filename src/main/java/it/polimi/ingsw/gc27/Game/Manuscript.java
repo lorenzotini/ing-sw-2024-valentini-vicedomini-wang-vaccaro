@@ -6,9 +6,6 @@ import java.util.*;
 
 public class Manuscript {
     public final int FIELD_DIM = 85;
-
-
-
     // use a matrix to represent the whole manuscript/play field
     private Face[][] field;
     private int xMax;

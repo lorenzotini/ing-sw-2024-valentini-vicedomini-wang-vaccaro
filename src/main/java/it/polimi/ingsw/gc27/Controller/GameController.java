@@ -8,7 +8,17 @@ import it.polimi.ingsw.gc27.Game.Game;
 import it.polimi.ingsw.gc27.Game.Player;
 
 public class GameController {
+
+
     private Game game;
+
+    public Game getGame() {
+        return game;
+    }
+
+    public void setGame(Game game) {
+        this.game = game;
+    }
 
     /**
      * This method changes the player's manuscript, adding the selected card on it and possibly adding

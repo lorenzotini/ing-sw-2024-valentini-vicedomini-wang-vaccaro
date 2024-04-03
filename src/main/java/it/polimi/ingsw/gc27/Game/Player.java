@@ -7,9 +7,14 @@ import it.polimi.ingsw.gc27.Enumerations.PointsMultiplier;
 import java.util.ArrayList;
 
 public class Player {
+
+
     private String username;
     private ArrayList<ResourceCard> hand;
     private Manuscript manuscript;
+
+
+
     private PawnColour pawnColour;
     private Card secretObjective;
 
@@ -20,9 +25,24 @@ public class Player {
     public PawnColour getPawnColour() {
         return pawnColour;
     }
+    public void setPawnColour(PawnColour pawnColour) {
+        this.pawnColour = pawnColour;
+    }
 
     public Manuscript getManuscript() {
         return manuscript;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setManuscript(Manuscript manuscript) {
+        this.manuscript = manuscript;
     }
 
     public ArrayList<ResourceCard> getHand() {
@@ -43,6 +63,9 @@ public class Player {
         // set to "hidden" the corners covered by the added card and count them
         Manuscript m = this.manuscript;
         int numCoveredCorners = 0;
+
+        this.manuscript.getField()[x][y] = face;
+
         for(int i = -1; i <= 1; i = i + 2){
             for(int j = -1; j <= 1; j = j + 2){
                 if(m.getField()[x + i][y + j] != null){
@@ -58,7 +81,7 @@ public class Player {
             m.increaseCounter(face.getColour().toCornerSymbol());
         }
 
-        this.manuscript.getField()[x][y] = face;
+
 
         //calculate the points earned with the card, in case of face up goldCard
         int points;

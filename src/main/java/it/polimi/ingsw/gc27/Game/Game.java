@@ -6,7 +6,12 @@ import it.polimi.ingsw.gc27.Enumerations.PawnColour;
 import java.util.List;
 
 public class Game {
+
+
     private int GameID;
+
+
+
     private Board board;
 
     private List<Player> players;
@@ -15,6 +20,9 @@ public class Game {
 
     public Board getBoard() {
         return board;
+    }
+    public void setBoard(Board board) {
+        this.board = board;
     }
 
     public Card getCommonObjective1() {
@@ -31,6 +39,13 @@ public class Game {
 
     public List<Player> getPlayers() {
         return players;
+    }
+    public void setGameID(int gameID) {
+        GameID = gameID;
+    }
+
+    public void setPlayers(List<Player> players) {
+        this.players = players;
     }
 
     /**

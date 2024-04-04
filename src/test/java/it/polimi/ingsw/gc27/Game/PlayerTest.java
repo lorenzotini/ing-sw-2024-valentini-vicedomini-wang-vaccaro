@@ -60,5 +60,5 @@ class PlayerTest {
         assertEquals(resourceCard1.getFront(), manuscript.getField()[41][43]);
         System.out.println("test 4 ok");
 
-    } //in addCard ho spostato riga
-}       //counter risorse non funziona per starter
+    }
+}

@@ -68,7 +68,7 @@ public class Player {
         }
 
         // set to "hidden" the corners covered by the added card and count them
-        Manuscript m = this.manuscript;
+        //Manuscript m = this.manuscript;
         int numCoveredCorners = 0;
 
         this.manuscript.getField()[x][y] = face;

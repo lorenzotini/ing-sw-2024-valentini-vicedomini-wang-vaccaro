@@ -100,15 +100,15 @@ public class Manuscript {
     // end getter e setter
 
     public boolean isValidPlacement(int x, int y){
-        boolean isValid = true;
+        boolean isValid = false;
         for(int i = -1; i <= 1; i = i + 2){
             for(int j = -1; j <= 1; j = j + 2){
                 if(field[x + i][y + j] != null && (field[x + i][y + j].getCorner(-i, j).isBlack() || field[x + i][y + j].getCorner(-i, j).isHidden())){
                     return false;
                 }
-            }
-            if(!isValid){
-                break;
+                if(field[x + i][y + j] != null){
+                    isValid = true;
+                }
             }
         }
         return isValid;

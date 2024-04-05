@@ -55,18 +55,27 @@ public class Player {
      * @param y
      */
     public void addCard(Game game, Card card, Face face, int x, int y){
+
         Manuscript m = this.manuscript;
-        m.getField()[x][y] = face;
+
         //momentaneamente il metodo prende una card e gestisce separatamente se è una starter. In futuro provare a riscrivere con un design pattern
         if(card instanceof StarterCard){
-            for(int i = -1; i <= 1; i = i + 2){
-                for(int j = -1; j <= 1; j = j + 2){
-                    m.increaseCounter(m.getField()[x][y].getCorner(i, -j).getSymbol());
+            if(m.getField()[Manuscript.FIELD_DIM/2][Manuscript.FIELD_DIM/2] == null){
+                for(int i = -1; i <= 1; i = i + 2){
+                    for(int j = -1; j <= 1; j = j + 2){
+                        m.increaseCounter(m.getField()[x][y].getCorner(i, -j).getSymbol());
+                    }
                 }
+                m.getField()[x][y] = face;
+                return;
+            }else {
+                System.err.println("The starter card already exists");
+                return;
             }
-            return;
         }
 
+
+        m.getField()[x][y] = face;
         // set to "hidden" the corners covered by the added card and count them
         int numCoveredCorners = 0;
 

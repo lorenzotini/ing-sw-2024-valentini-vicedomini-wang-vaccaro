@@ -2078,7 +2078,7 @@
     },
     {
       "id":85,
-      "permanentResources":["FUNGIKINGDOM","INSECTKINGDOM","PLANTKINGDOM"],
+      "permanentResources":["ANIMALKINGDOM","INSECTKINGDOM","PLANTKINGDOM"],
       "frontImage":null,
       "backImage":null,
       "frontFace": {

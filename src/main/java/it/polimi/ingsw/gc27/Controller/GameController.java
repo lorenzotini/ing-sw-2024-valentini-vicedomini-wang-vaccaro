@@ -10,6 +10,12 @@ public class GameController {
 
     private Game game;
 
+    public GameController(Game game) {
+        this.game = game;
+    }
+    public GameController() {
+    }
+
     public Game getGame() {
         return game;
     }
@@ -27,7 +33,7 @@ public class GameController {
      * @param x
      * @param y
      */
-    public void addCard(Player player, ResourceCard card, Face face, int x, int y){
+    public void addCard(Player player, ResourceCard card, Face face, int x, int y)  {
         if(player.getManuscript().isValidPlacement(x, y) && ((face instanceof FrontFace && player.getManuscript().satisfiedRequirement((ResourceCard) card)) || (face instanceof BackFace))){
             player.addCard(this.game, card, face, x, y);
             player.getHand().remove(card);

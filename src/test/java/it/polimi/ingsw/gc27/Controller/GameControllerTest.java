@@ -19,6 +19,51 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class GameControllerTest {
 
+    private static GameController gc1;
+
+    private static Game g1;
+
+    private static Player p1;
+    private static Player p2;
+    private static Player p3;
+    private static Player p4;
+    private static ArrayList<Player> players1;
+
+    private static ArrayList<StarterCard> starterDeck;
+    private static ArrayList<ResourceCard> resourceDeck;
+    private static ArrayList<ObjectiveCard> objectiveDeck;
+    private static ArrayList<GoldCard> goldDeck;
+
+    public void initializeGame(){
+
+        // generate decks
+        starterDeck = JsonParser.getStarterDeck(JsonParser.cardsJsonObj);
+        resourceDeck = JsonParser.getResourceDeck(JsonParser.cardsJsonObj);
+        objectiveDeck = JsonParser.getObjectiveDeck(JsonParser.cardsJsonObj);
+        goldDeck = JsonParser.getGoldDeck(JsonParser.cardsJsonObj);
+
+        // create players and add them to the game.
+        p1 = new Player("Giocatore 1", new Manuscript(starterDeck.get(0).getFront()), PawnColour.RED);
+        p2 = new Player("Giocatore 2", new Manuscript(starterDeck.get(1).getFront()), PawnColour.GREEN);
+        p3 = new Player("Giocatore 3", new Manuscript(starterDeck.get(2).getFront()), PawnColour.BLUE);
+        p4 = new Player("Giocatore 4", new Manuscript(starterDeck.get(3).getFront()), PawnColour.YELLOW);
+        players1 = new ArrayList<>();
+        players1.add(p1);
+        players1.add(p2);
+        players1.add(p3);
+        players1.add(p4);
+
+        // create game and its controller
+        g1 = new Game(1, new Board(), players1);
+        gc1 = new GameController(g1);
+
+        /*
+        Collections.shuffle(resourceDeck);
+        Collections.shuffle(goldDeck);
+        Collections.shuffle(objectiveDeck);
+        */
+    }
+
     @Test
     void addCardTest() {
             //import parser
@@ -148,4 +193,7 @@ class GameControllerTest {
         assertTrue(con.getGame().getPlayers().get(1).getManuscript().getField()[43][43].getCorner(1,1).isHidden());
         */
     }
+
+    @Test
+    void
 }

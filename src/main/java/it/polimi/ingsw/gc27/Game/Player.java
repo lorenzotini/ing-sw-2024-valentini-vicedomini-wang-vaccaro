@@ -18,6 +18,12 @@ public class Player {
         hand = new ArrayList<>(3);
     }
 
+    public Player(String username, Manuscript manuscript, PawnColour pawnColour) {
+        this.username = username;
+        this.manuscript = manuscript;
+        this.pawnColour = pawnColour;
+    }
+
     public PawnColour getPawnColour() {
         return pawnColour;
     }
@@ -55,7 +61,7 @@ public class Player {
      * @param x
      * @param y
      */
-    public void addCard(Game game, Card card, Face face, int x, int y) throws Exception {
+    public void addCard(Game game, Card card, Face face, int x, int y) {
 
         Manuscript m = this.manuscript;
 

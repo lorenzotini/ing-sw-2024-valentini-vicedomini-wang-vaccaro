@@ -1,6 +1,7 @@
 package it.polimi.ingsw.gc27.Game;
 
 import it.polimi.ingsw.gc27.Card.*;
+import it.polimi.ingsw.gc27.Enumerations.Kingdom;
 import it.polimi.ingsw.gc27.Enumerations.PawnColour;
 import it.polimi.ingsw.gc27.Enumerations.PointsMultiplier;
 
@@ -54,19 +55,40 @@ public class Player {
      * @param x
      * @param y
      */
-    public void addCard(Game game, Card card, Face face, int x, int y){
+    public void addCard(Game game, Card card, Face face, int x, int y) throws Exception {
 
         Manuscript m = this.manuscript;
+
+        //update manuscript ends in order to show only the used part when displayed
+        if(x > m.getxMax()){
+            m.setxMax(x);
+        } else if(x < m.getxMin()) {
+            m.setxMin(x);
+        }
+        if(y > m.getyMax()){
+            m.setyMax(y);
+        } else if(y < m.getyMin()) {
+            m.setyMin(y);
+        }
 
         //momentaneamente il metodo prende una card e gestisce separatamente se è una starter. In futuro provare a riscrivere con un design pattern
         if(card instanceof StarterCard){
             if(m.getField()[Manuscript.FIELD_DIM/2][Manuscript.FIELD_DIM/2] == null){
+                m.getField()[x][y] = face;
+
+                //increase counter permanent resources if the starter is placed face down
+                if(face instanceof BackFace){
+                    ArrayList<Kingdom> permRes = card.getBack().getPermanentResources();
+                    for(Kingdom resource : permRes){
+                        m.increaseCounter(resource.toCornerSymbol());
+                    }
+                }
+
                 for(int i = -1; i <= 1; i = i + 2){
                     for(int j = -1; j <= 1; j = j + 2){
                         m.increaseCounter(m.getField()[x][y].getCorner(i, -j).getSymbol());
                     }
                 }
-                m.getField()[x][y] = face;
                 return;
             }else {
                 System.err.println("The starter card already exists");
@@ -76,6 +98,7 @@ public class Player {
 
 
         m.getField()[x][y] = face;
+
         // set to "hidden" the corners covered by the added card and count them
         int numCoveredCorners = 0;
 
@@ -100,15 +123,16 @@ public class Player {
         int points;
         if(face instanceof FrontFace){
             if (card instanceof GoldCard){
-                if(((GoldCard)card).getPointsMultiplier().equals(PointsMultiplier.CORNER)){
+                if(((GoldCard)card).getPointsMultiplier().equals(PointsMultiplier.EMPTY)){
+                    points = ((ResourceCard)card).getCardPoints();
+                    game.addPoints(this, points);
+                }
+                else if(((GoldCard)card).getPointsMultiplier().equals(PointsMultiplier.CORNER)){
                     points = ((GoldCard)card).getCardPoints() * numCoveredCorners;
                 }
                 else{
                     points = ((GoldCard)card).getCardPoints() * this.manuscript.getCounter(((GoldCard) card).getPointsMultiplier().toCornerSymbol());
                 }
-                game.addPoints(this, points);
-            }else {
-                points = ((ResourceCard)card).getCardPoints();
                 game.addPoints(this, points);
             }
         }

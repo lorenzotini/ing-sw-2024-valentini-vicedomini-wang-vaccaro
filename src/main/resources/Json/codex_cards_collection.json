@@ -1077,7 +1077,7 @@
       "cardPoints":3,
       "colour":"FUNGIKINGDOM",
       "requirements":["FUNGIKINGDOM", "FUNGIKINGDOM", "FUNGIKINGDOM"],
-      "pointsMultiplier":null,
+      "pointsMultiplier":"EMPTY",
       "frontFace": {
         "cornerUR":{
           "black":true,
@@ -1102,7 +1102,7 @@
       "cardPoints":3,
       "colour":"FUNGIKINGDOM",
       "requirements":["FUNGIKINGDOM", "FUNGIKINGDOM", "FUNGIKINGDOM"],
-      "pointsMultiplier":null,
+      "pointsMultiplier":"EMPTY",
       "frontFace": {
         "cornerUR":{
           "black":false,
@@ -1127,7 +1127,7 @@
       "cardPoints":3,
       "colour":"FUNGIKINGDOM",
       "requirements":["FUNGIKINGDOM", "FUNGIKINGDOM", "FUNGIKINGDOM"],
-      "pointsMultiplier":"null",
+      "pointsMultiplier":"EMPTY",
       "frontFace": {
         "cornerUR":{
           "black":false,
@@ -1152,7 +1152,7 @@
       "cardPoints":5,
       "colour":"FUNGIKINGDOM",
       "requirements":["FUNGIKINGDOM", "FUNGIKINGDOM","FUNGIKINGDOM", "FUNGIKINGDOM","FUNGIKINGDOM"],
-      "pointsMultiplier":"null",
+      "pointsMultiplier":"EMPTY",
       "frontFace": {
         "cornerUR":{
           "black":true,
@@ -1327,7 +1327,7 @@
       "cardPoints":3,
       "colour":"PLANTKINGDOM",
       "requirements":["PLANTKINGDOM", "PLANTKINGDOM", "PLANTKINGDOM"],
-      "pointsMultiplier":null,
+      "pointsMultiplier":"EMPTY",
       "frontFace": {
         "cornerUR":{
           "black":true,
@@ -1352,7 +1352,7 @@
       "cardPoints":3,
       "colour":"PLANTKINGDOM",
       "requirements":["PLANTKINGDOM", "PLANTKINGDOM", "PLANTKINGDOM"],
-      "pointsMultiplier":null,
+      "pointsMultiplier":"EMPTY",
       "frontFace": {
         "cornerUR":{
           "black":false,
@@ -1377,7 +1377,7 @@
       "cardPoints":3,
       "colour":"PLANTKINGDOM",
       "requirements":["PLANTKINGDOM", "PLANTKINGDOM", "PLANTKINGDOM"],
-      "pointsMultiplier":"null",
+      "pointsMultiplier":"EMPTY",
       "frontFace": {
         "cornerUR":{
           "black":false,
@@ -1402,7 +1402,7 @@
       "cardPoints":5,
       "colour":"PLANTKINGDOM",
       "requirements":["PLANTKINGDOM", "PLANTKINGDOM","PLANTKINGDOM", "PLANTKINGDOM","PLANTKINGDOM"],
-      "pointsMultiplier":"null",
+      "pointsMultiplier":"EMPTY",
       "frontFace": {
         "cornerUR":{
           "black":false,
@@ -1577,7 +1577,7 @@
       "cardPoints":3,
       "colour":"ANIMALKINGDOM",
       "requirements":["ANIMALKINGDOM", "ANIMALKINGDOM", "ANIMALKINGDOM"],
-      "pointsMultiplier":null,
+      "pointsMultiplier":"EMPTY",
       "frontFace": {
         "cornerUR":{
           "black":true,
@@ -1602,7 +1602,7 @@
       "cardPoints":3,
       "colour":"ANIMALKINGDOM",
       "requirements":["ANIMALKINGDOM", "ANIMALKINGDOM", "ANIMALKINGDOM"],
-      "pointsMultiplier":null,
+      "pointsMultiplier":"EMPTY",
       "frontFace": {
         "cornerUR":{
           "black":false,
@@ -1627,7 +1627,7 @@
       "cardPoints":3,
       "colour":"ANIMALKINGDOM",
       "requirements":["ANIMALKINGDOM", "ANIMALKINGDOM", "ANIMALKINGDOM"],
-      "pointsMultiplier":"null",
+      "pointsMultiplier":"EMPTY",
       "frontFace": {
         "cornerUR":{
           "black":false,
@@ -1652,7 +1652,7 @@
       "cardPoints":5,
       "colour":"ANIMALKINGDOM",
       "requirements":["ANIMALKINGDOM", "ANIMALKINGDOM","ANIMALKINGDOM", "ANIMALKINGDOM","ANIMALKINGDOM"],
-      "pointsMultiplier":"null",
+      "pointsMultiplier":"EMPTY",
       "frontFace": {
         "cornerUR":{
           "black":false,
@@ -1827,7 +1827,7 @@
       "cardPoints":3,
       "colour":"INSECTKINGDOM",
       "requirements":["INSECTKINGDOM", "INSECTKINGDOM", "INSECTKINGDOM"],
-      "pointsMultiplier":null,
+      "pointsMultiplier":"EMPTY",
       "frontFace": {
         "cornerUR":{
           "black":true,
@@ -1852,7 +1852,7 @@
       "cardPoints":3,
       "colour":"INSECTKINGDOM",
       "requirements":["INSECTKINGDOM", "INSECTKINGDOM", "INSECTKINGDOM"],
-      "pointsMultiplier":null,
+      "pointsMultiplier":"EMPTY",
       "frontFace": {
         "cornerUR":{
           "black":false,
@@ -1877,7 +1877,7 @@
       "cardPoints":3,
       "colour":"INSECTKINGDOM",
       "requirements":["INSECTKINGDOM", "INSECTKINGDOM", "INSECTKINGDOM"],
-      "pointsMultiplier":"null",
+      "pointsMultiplier":"EMPTY",
       "frontFace": {
         "cornerUR":{
           "black":true,
@@ -1902,7 +1902,7 @@
       "cardPoints":5,
       "colour":"INSECTKINGDOM",
       "requirements":["INSECTKINGDOM", "INSECTKINGDOM","INSECTKINGDOM", "INSECTKINGDOM","INSECTKINGDOM"],
-      "pointsMultiplier":"null",
+      "pointsMultiplier":"EMPTY",
       "frontFace": {
         "cornerUR":{
           "black":false,

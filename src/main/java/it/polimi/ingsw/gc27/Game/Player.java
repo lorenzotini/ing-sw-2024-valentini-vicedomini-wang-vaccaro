@@ -55,7 +55,7 @@ public class Player {
      * @param x
      * @param y
      */
-    public void addCard(Game game, Card card, Face face, int x, int y){
+    public void addCard(Game game, Card card, Face face, int x, int y) throws Exception {
 
         Manuscript m = this.manuscript;
 
@@ -123,15 +123,16 @@ public class Player {
         int points;
         if(face instanceof FrontFace){
             if (card instanceof GoldCard){
-                if(((GoldCard)card).getPointsMultiplier().equals(PointsMultiplier.CORNER)){
+                if(((GoldCard)card).getPointsMultiplier().equals(PointsMultiplier.EMPTY)){
+                    points = ((ResourceCard)card).getCardPoints();
+                    game.addPoints(this, points);
+                }
+                else if(((GoldCard)card).getPointsMultiplier().equals(PointsMultiplier.CORNER)){
                     points = ((GoldCard)card).getCardPoints() * numCoveredCorners;
                 }
                 else{
                     points = ((GoldCard)card).getCardPoints() * this.manuscript.getCounter(((GoldCard) card).getPointsMultiplier().toCornerSymbol());
                 }
-                game.addPoints(this, points);
-            }else {
-                points = ((ResourceCard)card).getCardPoints();
                 game.addPoints(this, points);
             }
         }

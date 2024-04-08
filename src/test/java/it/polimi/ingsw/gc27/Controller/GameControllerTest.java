@@ -193,7 +193,4 @@ class GameControllerTest {
         assertTrue(con.getGame().getPlayers().get(1).getManuscript().getField()[43][43].getCorner(1,1).isHidden());
         */
     }
-
-    @Test
-    void
 }

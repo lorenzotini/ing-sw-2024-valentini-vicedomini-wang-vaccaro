@@ -1,7 +1,5 @@
 package it.polimi.ingsw.gc27.View;
 
-
-
 public class ColourControl {
 
     //how to use ---> ex. type : "ColourControl.RED"

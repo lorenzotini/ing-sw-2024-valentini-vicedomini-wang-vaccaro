@@ -20,9 +20,24 @@ public class Player {
     public PawnColour getPawnColour() {
         return pawnColour;
     }
+    public void setPawnColour(PawnColour pawnColour) {
+        this.pawnColour = pawnColour;
+    }
 
     public Manuscript getManuscript() {
         return manuscript;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setManuscript(Manuscript manuscript) {
+        this.manuscript = manuscript;
     }
 
     public ArrayList<ResourceCard> getHand() {
@@ -39,10 +54,31 @@ public class Player {
      * @param x
      * @param y
      */
-    public void addCard(Game game, ResourceCard card, Face face, int x, int y){
-        // set to "hidden" the corners covered by the added card and count them
+    public void addCard(Game game, Card card, Face face, int x, int y){
+
         Manuscript m = this.manuscript;
+
+        //momentaneamente il metodo prende una card e gestisce separatamente se è una starter. In futuro provare a riscrivere con un design pattern
+        if(card instanceof StarterCard){
+            if(m.getField()[m.FIELD_DIM/2][m.FIELD_DIM/2] == null){
+                for(int i = -1; i <= 1; i = i + 2){
+                    for(int j = -1; j <= 1; j = j + 2){
+                        m.increaseCounter(m.getField()[x][y].getCorner(i, -j).getSymbol());
+                    }
+                }
+                m.getField()[x][y] = face;
+                return;
+            }else {
+                System.err.println("The starter card already exists");
+                return;
+            }
+        }
+
+
+        m.getField()[x][y] = face;
+        // set to "hidden" the corners covered by the added card and count them
         int numCoveredCorners = 0;
+
         for(int i = -1; i <= 1; i = i + 2){
             for(int j = -1; j <= 1; j = j + 2){
                 if(m.getField()[x + i][y + j] != null){
@@ -58,21 +94,21 @@ public class Player {
             m.increaseCounter(face.getColour().toCornerSymbol());
         }
 
-        this.manuscript.getField()[x][y] = face;
+
 
         //calculate the points earned with the card, in case of face up goldCard
         int points;
         if(face instanceof FrontFace){
             if (card instanceof GoldCard){
                 if(((GoldCard)card).getPointsMultiplier().equals(PointsMultiplier.CORNER)){
-                    points = card.getCardPoints() * numCoveredCorners;
+                    points = ((GoldCard)card).getCardPoints() * numCoveredCorners;
                 }
                 else{
-                    points = card.getCardPoints() * this.manuscript.getCounter(((GoldCard) card).getPointsMultiplier().toCornerSymbol());
+                    points = ((GoldCard)card).getCardPoints() * this.manuscript.getCounter(((GoldCard) card).getPointsMultiplier().toCornerSymbol());
                 }
                 game.addPoints(this, points);
             }else {
-                points = card.getCardPoints();
+                points = ((ResourceCard)card).getCardPoints();
                 game.addPoints(this, points);
             }
         }

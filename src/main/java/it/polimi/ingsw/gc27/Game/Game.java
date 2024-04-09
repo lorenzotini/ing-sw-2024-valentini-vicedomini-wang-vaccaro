@@ -27,6 +27,16 @@ public class Game {
     private Card commonObjective1;
     private Card commonObjective2;
 
+    public Game(int gameID, Board board, List<Player> players) {
+        GameID = gameID;
+        this.board = board;
+        this.players = players;
+    }
+
+    public Game() {
+
+    }
+
     public Board getBoard() {
         return board;
     }

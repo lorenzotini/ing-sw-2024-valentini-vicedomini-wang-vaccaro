@@ -42,7 +42,7 @@ class GameTest {
         ArrayList<ResourceCard> resourceDeck = JsonParser.getResourceDeck(JsonParser.cardsJsonObj);
         ResourceCard resourceCard1= resourceDeck.get(0);
         StarterCard starterCard= starterDeck.get(0);
-        Manuscript manuscript=new Manuscript(starterCard.getFront());
+        Manuscript manuscript=new Manuscript();
 
         Game game= new Game();
         List<Player> players=new ArrayList<>();

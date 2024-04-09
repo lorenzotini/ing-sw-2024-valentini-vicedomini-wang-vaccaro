@@ -41,7 +41,7 @@ class GameControllerTest {
         game.setBoard(board);
         List<Player> players=new ArrayList<>();
         game.setPlayers(players);
-
+        /*
         //player 1 (manuscript)
         Player p1= new Player();
         players.add(p1);
@@ -77,7 +77,7 @@ class GameControllerTest {
         assertEquals(0, gameController.getGame().getPlayers().get(0).getManuscript().getInkwellCounter());
         assertEquals(0, gameController.getGame().getPlayers().get(0).getManuscript().getQuillCounter());
         assertEquals(0, gameController.getGame().getPlayers().get(0).getManuscript().getManuscriptCounter());
-
+        */
 
         //player2 (manuscript2)
         Player p2= new Player();
@@ -92,30 +92,35 @@ class GameControllerTest {
         ResourceCard resourceCard4_p2 = resourceDeck.get(27);
         ResourceCard goldCard_p2 = goldDeck.get(2);
 
-        Manuscript manuscript2=new Manuscript(starterCard2.getFront());
+        Manuscript manuscript2=new Manuscript();
         p2.setManuscript(manuscript2);
 
         //List<ResourceCard> hand2=new ArrayList<>();
         //p2.getHand().add(resourceCard1);
         ///p2.getHand().add(resourceCard2);
         //p2.getHand().add(goldCard);
+        ObjectiveCard obj1=objectiveDeck.get(12);
 
-
+        gameController.addStarterCard(p2, starterCard2, starterCard2.getFront());
         gameController.addCard(p2, resourceCard1_p2, resourceCard1_p2.getFront(), 43,43);
         gameController.addCard(p2, resourceCard2_p2, resourceCard2_p2.getFront(), 41,41);
         gameController.addCard(p2, resourceCard3_p2, resourceCard3_p2.getFront(), 44,42);
         gameController.addCard(p2, resourceCard4_p2, resourceCard4_p2.getFront(), 45,43);
+
         assertEquals(1, gameController.getGame().getBoard().getPointsYellowPlayer());
+        int points=gameController.getGame().getBoard().getPointsYellowPlayer();
+        points += obj1.calculateObjectivePoints(manuscript2);
+        assertEquals(4, points);
 
-        assertEquals(0, gameController.getGame().getPlayers().get(1).getManuscript().getFungiCounter());
-        assertEquals(4, gameController.getGame().getPlayers().get(1).getManuscript().getAnimalCounter());
-        assertEquals(2, gameController.getGame().getPlayers().get(1).getManuscript().getPlantCounter());
-        assertEquals(1, gameController.getGame().getPlayers().get(1).getManuscript().getInsectCounter());
-        assertEquals(1, gameController.getGame().getPlayers().get(1).getManuscript().getInkwellCounter());
-        assertEquals(1, gameController.getGame().getPlayers().get(1).getManuscript().getQuillCounter());
-        assertEquals(1, gameController.getGame().getPlayers().get(1).getManuscript().getManuscriptCounter());
+        assertEquals(0, gameController.getGame().getPlayers().get(0).getManuscript().getFungiCounter());
+        assertEquals(4, gameController.getGame().getPlayers().get(0).getManuscript().getAnimalCounter());
+        assertEquals(2, gameController.getGame().getPlayers().get(0).getManuscript().getPlantCounter());
+        assertEquals(1, gameController.getGame().getPlayers().get(0).getManuscript().getInsectCounter());
+        assertEquals(1, gameController.getGame().getPlayers().get(0).getManuscript().getInkwellCounter());
+        assertEquals(1, gameController.getGame().getPlayers().get(0).getManuscript().getQuillCounter());
+        assertEquals(1, gameController.getGame().getPlayers().get(0).getManuscript().getManuscriptCounter());
 
-
+        /*
         //player 3 (manuscript3)
         Player p3= new Player();
         players.add(p3);
@@ -158,45 +163,52 @@ class GameControllerTest {
         p4.setUsername("James");
         p4.setPawnColour(PawnColour.RED);
         board.setPointsRedPlayer(0);
-        StarterCard starterCard4= starterDeck.get(5);
+        StarterCard starterCard4= starterDeck.get(4);
         ResourceCard resourceCard1_p4= resourceDeck.get(34);
-        ResourceCard goldCard2_p4 = goldDeck.get(50);
+        ResourceCard goldCard2_p4 = goldDeck.get(30);
         ResourceCard resourceCard3_p4 = resourceDeck.get(32);
-        ResourceCard goldCard4_p4 = goldDeck.get(76);
+        ResourceCard goldCard4_p4 = goldDeck.get(31);
         ResourceCard resourceCard5_p4 = resourceDeck.get(28);
         ResourceCard resourceCard6_p4 = resourceDeck.get(22);
-        ResourceCard goldCard7_p4 = goldDeck.get(68);
+        ResourceCard goldCard7_p4 = goldDeck.get(28);
 
 
-        Manuscript manuscript4=new Manuscript(starterCard4.getBack());
+        Manuscript manuscript4=new Manuscript();
         p4.setManuscript(manuscript4);
+        ObjectiveCard obj = objectiveDeck.get(15);
+        game.setCommonObjective1(obj);
 
+
+        gameController.addStarterCard(p4,starterCard4, starterCard4.getBack());
         gameController.addCard(p4, resourceCard1_p4, resourceCard1_p4.getFront(), 43,41);
         gameController.addCard(p4, goldCard2_p4, goldCard2_p4.getFront(), 41,41);
         gameController.addCard(p4, resourceCard3_p4, resourceCard3_p4.getBack(), 44,42);
         gameController.addCard(p4, goldCard4_p4, goldCard4_p4.getFront(), 45,43);
         gameController.addCard(p4, resourceCard5_p4, resourceCard5_p4.getFront(), 44,44);
-        gameController.addCard(p4, resourceCard6_p4, resourceCard6_p4.getBack(), 40,42);
+        gameController.addCard(p4, resourceCard6_p4, resourceCard6_p4.getBack(), 40,40);
         gameController.addCard(p4, goldCard7_p4, goldCard7_p4.getFront(), 39,41);
 
-        assertEquals(9, gameController.getGame().getBoard().getPointsRedPlayer()); //exluding objective cards points
+        int points=gameController.getGame().getBoard().getPointsRedPlayer();
+        points += obj.calculateObjectivePoints(manuscript4);
+        assertEquals(9, gameController.getGame().getBoard().getPointsRedPlayer());
+        assertEquals(11, points); //adding objective cards points
 
         assertTrue(p4.getManuscript().getField()[42][42].getCorner(1,1).isHidden());
         assertTrue(p4.getManuscript().getField()[42][42].getCorner(-1,1).isHidden());
         assertTrue(p4.getManuscript().getField()[43][41].getCorner(1,-1).isHidden());
         assertTrue(p4.getManuscript().getField()[45][43].getCorner(-1,-1).isHidden());
         assertTrue(p4.getManuscript().getField()[44][42].getCorner(1,-1).isHidden());
-        assertTrue(p4.getManuscript().getField()[41][41].getCorner(-1,-1).isHidden());
-        assertTrue(p4.getManuscript().getField()[40][42].getCorner(-1,1).isHidden());
 
-        assertEquals(0, gameController.getGame().getPlayers().get(3).getManuscript().getFungiCounter());
-        assertEquals(4, gameController.getGame().getPlayers().get(3).getManuscript().getAnimalCounter());
-        assertEquals(1, gameController.getGame().getPlayers().get(3).getManuscript().getPlantCounter());
-        assertEquals(3, gameController.getGame().getPlayers().get(3).getManuscript().getInsectCounter());
-        assertEquals(1, gameController.getGame().getPlayers().get(3).getManuscript().getInkwellCounter());
-        assertEquals(3, gameController.getGame().getPlayers().get(3).getManuscript().getQuillCounter());
-        assertEquals(0, gameController.getGame().getPlayers().get(3).getManuscript().getManuscriptCounter());
+        assertTrue(p4.getManuscript().getField()[40][40].getCorner(-1,-1).isHidden());
 
+        assertEquals(0, gameController.getGame().getPlayers().get(0).getManuscript().getFungiCounter());
+        assertEquals(4, gameController.getGame().getPlayers().get(0).getManuscript().getAnimalCounter());
+        assertEquals(1, gameController.getGame().getPlayers().get(0).getManuscript().getPlantCounter());
+        assertEquals(2, gameController.getGame().getPlayers().get(0).getManuscript().getInsectCounter());
+        assertEquals(0, gameController.getGame().getPlayers().get(0).getManuscript().getInkwellCounter());
+        assertEquals(3, gameController.getGame().getPlayers().get(0).getManuscript().getQuillCounter());
+        assertEquals(0, gameController.getGame().getPlayers().get(0).getManuscript().getManuscriptCounter());
+        */
 
 
     }

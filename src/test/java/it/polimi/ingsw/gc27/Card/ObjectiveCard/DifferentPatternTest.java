@@ -42,7 +42,7 @@ class DifferentPatternTest {
         p1.setUsername("Olivia");
         p1.setPawnColour(PawnColour.BLUE);
         StarterCard starterCard2= starterDeck.get(0);
-        Manuscript manuscript=new Manuscript(starterCard2.getFront());
+        Manuscript manuscript=new Manuscript();
         p1.setManuscript(manuscript);
 
         List<ResourceCard> hand1=new ArrayList<>();

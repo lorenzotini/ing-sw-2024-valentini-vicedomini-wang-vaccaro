@@ -10,6 +10,7 @@ import it.polimi.ingsw.gc27.Game.Board;
 import it.polimi.ingsw.gc27.Game.Game;
 import it.polimi.ingsw.gc27.Game.Manuscript;
 import it.polimi.ingsw.gc27.Game.Player;
+import org.junit.Before;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -34,6 +35,7 @@ class GameControllerTest {
     private static ArrayList<ObjectiveCard> objectiveDeck;
     private static ArrayList<GoldCard> goldDeck;
 
+    @Before
     public void initializeGame(){
 
         // generate decks

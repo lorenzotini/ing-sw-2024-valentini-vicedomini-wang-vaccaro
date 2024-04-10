@@ -6,14 +6,9 @@ import it.polimi.ingsw.gc27.Enumerations.PawnColour;
 import java.util.List;
 
 public class Game {
-
-
     private int GameID;
-
-
-
     private Board board;
-
+    private Market market;
     private List<Player> players;
 
     public void setCommonObjective1(Card commonObjective1) {
@@ -36,7 +31,13 @@ public class Game {
     public Game() {
 
     }
+    public Market getMarket() {
+        return market;
+    }
 
+    public void setMarket(Market market) {
+        this.market = market;
+    }
     public Board getBoard() {
         return board;
     }

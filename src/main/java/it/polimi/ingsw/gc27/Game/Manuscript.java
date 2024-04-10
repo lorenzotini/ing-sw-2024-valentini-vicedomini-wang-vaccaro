@@ -28,8 +28,9 @@ public class Manuscript {
         setyMax(FIELD_DIM/2);
         setyMin(FIELD_DIM/2);
     }
-
-
+    public Manuscript(){
+        field = new Face[FIELD_DIM][FIELD_DIM];
+    }
     // getter e setter
     public void setxMax(int x) {
         this.xMax = x;

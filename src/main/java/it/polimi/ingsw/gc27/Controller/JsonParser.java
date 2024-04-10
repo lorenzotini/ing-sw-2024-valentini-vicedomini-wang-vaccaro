@@ -84,8 +84,11 @@ public class JsonParser{
             //BACK
             ArrayList<Kingdom> permanentResources = new ArrayList<>();
             permanentResources.add(colour);
-            Corner c = new Corner(false, CornerSymbol.EMPTY);
-            BackFace back = new BackFace(colour, c, c, c, c, permanentResources);
+            Corner c1 = new Corner(false, CornerSymbol.EMPTY);
+            Corner c2 = new Corner(false, CornerSymbol.EMPTY);
+            Corner c3 = new Corner(false, CornerSymbol.EMPTY);
+            Corner c4 = new Corner(false, CornerSymbol.EMPTY);
+            BackFace back = new BackFace(colour, c1, c2, c3, c4, permanentResources);
 
             //modificare costruttore
             ResourceCard newCard = new ResourceCard(id, cardPoints, front, back);
@@ -124,8 +127,11 @@ public class JsonParser{
             //BACK
             ArrayList<Kingdom> permanentResources = new ArrayList<>();
             permanentResources.add(colour);
-            Corner c = new Corner(false, CornerSymbol.EMPTY);
-            BackFace back = new BackFace(colour, c, c, c, c, permanentResources);
+            Corner c1 = new Corner(false, CornerSymbol.EMPTY);
+            Corner c2 = new Corner(false, CornerSymbol.EMPTY);
+            Corner c3 = new Corner(false, CornerSymbol.EMPTY);
+            Corner c4 = new Corner(false, CornerSymbol.EMPTY);
+            BackFace back = new BackFace(colour, c1, c2, c3, c4, permanentResources);
 
             //modificare costruttore
             GoldCard newCard = new GoldCard(id, cardPoints, front, back, requirements, pointsMultiplier);

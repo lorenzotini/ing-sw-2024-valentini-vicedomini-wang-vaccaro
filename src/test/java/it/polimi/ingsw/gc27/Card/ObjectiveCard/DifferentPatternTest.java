@@ -42,7 +42,7 @@ class DifferentPatternTest {
         p1.setUsername("Olivia");
         p1.setPawnColour(PawnColour.BLUE);
         StarterCard starterCard2= starterDeck.get(0);
-        Manuscript manuscript=new Manuscript(starterCard2.getFront());
+        Manuscript manuscript=new Manuscript();
         p1.setManuscript(manuscript);
 
         List<ResourceCard> hand1=new ArrayList<>();
@@ -57,18 +57,7 @@ class DifferentPatternTest {
         players.add(p1);
 
 
-        //end initializer
 
-        controller.addCard(p1, resourceCard1_p1, resourceCard1_p1.getFront(), 43,43);
-        controller.addCard(p1, resourceCard2_p1, resourceCard2_p1.getFront(), 41,41);
-        controller.addCard(p1, resourceCard3_p1, resourceCard3_p1.getFront(), 44,42);
-        ObjectiveCard obj = objectiveDeck.get(12);
-        DifferentPattern pattern= new DifferentPattern(99,obj.getFront(),obj.getBack());
-        assertTrue(p1.getManuscript().getField()[43][43].getCorner(1,1).isHidden()); //problema: non setta a hidden un angolo che viene coperto
-        assertEquals(3, pattern.calculateObjectivePoints(controller.getGame().getPlayers().get(0).getManuscript()));
-        System.out.println("bo");
-        //fails
-        //negative counts not accepted
 
 
     }

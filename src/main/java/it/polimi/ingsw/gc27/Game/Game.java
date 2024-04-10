@@ -15,6 +15,15 @@ public class Game {
     private Board board;
 
     private List<Player> players;
+
+    public void setCommonObjective1(Card commonObjective1) {
+        this.commonObjective1 = commonObjective1;
+    }
+
+    public void setCommonObjective2(Card commonObjective2) {
+        this.commonObjective2 = commonObjective2;
+    }
+
     private Card commonObjective1;
     private Card commonObjective2;
 

@@ -26,7 +26,7 @@ class DoublePatternTest {
         FrontFace frontface =objectiveCard.getFront();
         BackFace backface =objectiveCard.getBack();
 
-        Manuscript manuscript=new Manuscript(starterCard.getFront());
+        Manuscript manuscript=new Manuscript();
 
         Face[][] localField = manuscript.getField();
         localField[41][41]= resourceCard1.getFront();

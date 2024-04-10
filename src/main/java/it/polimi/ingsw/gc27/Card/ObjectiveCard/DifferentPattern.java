@@ -16,7 +16,7 @@ public class DifferentPattern extends ObjectiveCard {
     public int calculateObjectivePoints(Manuscript manuscript) {
         int count;
         int points;
-        int min = 0;
+        int min = 99;
 
         count = manuscript.getCounter(CornerSymbol.QUILL);
         if(count<=min) {

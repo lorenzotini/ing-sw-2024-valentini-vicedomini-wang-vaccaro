@@ -22,7 +22,7 @@ class ManuscriptTest {
         ArrayList<ObjectiveCard> objectiveDeck = JsonParser.getObjectiveDeck(JsonParser.cardsJsonObj);
 
         StarterCard starterCard= starterDeck.get(0);
-        Manuscript manuscript=new Manuscript(starterCard.getFront());
+        Manuscript manuscript=new Manuscript();
 
         Game game= new Game();
         List<Player> players=new ArrayList<>();

@@ -1,7 +1,7 @@
 package it.polimi.ingsw.gc27.Net;
 
 
-public class Server {
+public class ServerApp {
     //SocketServer socketServer = new SocketServer(controller);
     //RmiServer rmiServer = new RmiServer(controller);
 }

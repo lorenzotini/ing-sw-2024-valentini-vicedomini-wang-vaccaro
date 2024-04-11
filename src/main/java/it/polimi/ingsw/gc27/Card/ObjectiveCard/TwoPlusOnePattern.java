@@ -3,16 +3,15 @@ package it.polimi.ingsw.gc27.Card.ObjectiveCard;
 import it.polimi.ingsw.gc27.Card.BackFace;
 import it.polimi.ingsw.gc27.Card.Face;
 import it.polimi.ingsw.gc27.Card.FrontFace;
-import it.polimi.ingsw.gc27.Card.ObjectiveCard.ObjectiveCard;
 import it.polimi.ingsw.gc27.Enumerations.Kingdom;
 import it.polimi.ingsw.gc27.Game.Manuscript;
 
 public class TwoPlusOnePattern extends ObjectiveCard {
     public final int OBJECTIVE_POINTS = 3;
-    private Kingdom firstColour;
-    private Kingdom secondColour;
-    private int x;
-    private int y;
+    private final Kingdom firstColour;
+    private final Kingdom secondColour;
+    private final int x;
+    private final int y;
 
     public TwoPlusOnePattern(int id, FrontFace front, BackFace back, Kingdom firstColour, Kingdom secondColour, int x, int y) {
         super(id, front, back);
@@ -24,7 +23,7 @@ public class TwoPlusOnePattern extends ObjectiveCard {
 
     @Override
     public int calculateObjectivePoints(Manuscript manuscript) {
-        int field_dim = manuscript.FIELD_DIM;
+        int field_dim = Manuscript.FIELD_DIM;
         int[][] checked = new int[field_dim][field_dim];
         int points = 0;
         int xMax, xMin, yMax, yMin;

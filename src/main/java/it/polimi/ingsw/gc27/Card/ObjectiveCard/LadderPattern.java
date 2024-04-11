@@ -3,14 +3,13 @@ package it.polimi.ingsw.gc27.Card.ObjectiveCard;
 import it.polimi.ingsw.gc27.Card.BackFace;
 import it.polimi.ingsw.gc27.Card.Face;
 import it.polimi.ingsw.gc27.Card.FrontFace;
-import it.polimi.ingsw.gc27.Card.ObjectiveCard.ObjectiveCard;
 import it.polimi.ingsw.gc27.Enumerations.Kingdom;
 import it.polimi.ingsw.gc27.Game.Manuscript;
 
 public class LadderPattern extends ObjectiveCard {
     public final int OBJECTIVE_POINTS = 2;
-    private Kingdom kingdom;
-    private boolean upscaling;
+    private final Kingdom kingdom;
+    private final boolean upscaling;
 
     public LadderPattern(int id, FrontFace front, BackFace back, Kingdom kingdom, boolean upscaling) {
         super(id, front, back);
@@ -20,7 +19,7 @@ public class LadderPattern extends ObjectiveCard {
 
     @Override
     public int calculateObjectivePoints(Manuscript manuscript) {
-        int field_dim = manuscript.FIELD_DIM;
+        int field_dim = Manuscript.FIELD_DIM;
         int[][] checked = new int[field_dim][field_dim];
         int points = 0;
         int up;

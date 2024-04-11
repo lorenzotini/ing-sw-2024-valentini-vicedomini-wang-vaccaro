@@ -23,7 +23,7 @@ public class Player implements Serializable {
         this.username = username;
         this.manuscript = manuscript;
         this.pawnColour = pawnColour;
-
+        this.hand = new ArrayList<>(3);
     }
 
     public PawnColour getPawnColour() {
@@ -32,23 +32,24 @@ public class Player implements Serializable {
     public void setPawnColour(PawnColour pawnColour) {
         this.pawnColour = pawnColour;
     }
-
     public Manuscript getManuscript() {
         return manuscript;
     }
-
+    public Card getSecretObjective() {
+        return secretObjective;
+    }
+    public void setSecretObjective(Card secretObjective) {
+        this.secretObjective = secretObjective;
+    }
     public String getUsername() {
         return username;
     }
-
     public void setUsername(String username) {
         this.username = username;
     }
-
     public void setManuscript(Manuscript manuscript) {
         this.manuscript = manuscript;
     }
-
     public ArrayList<ResourceCard> getHand() {
         return hand;
     }

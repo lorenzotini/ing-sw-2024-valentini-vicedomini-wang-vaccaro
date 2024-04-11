@@ -1,6 +1,8 @@
 package it.polimi.ingsw.gc27.Enumerations;
 
-public enum Kingdom {
+import java.io.Serializable;
+
+public enum Kingdom implements Serializable {
     EMPTY,
     PLANTKINGDOM,
     ANIMALKINGDOM,

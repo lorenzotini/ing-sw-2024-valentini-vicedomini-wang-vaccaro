@@ -4,7 +4,6 @@ import it.polimi.ingsw.gc27.Card.Face;
 import it.polimi.ingsw.gc27.Card.ResourceCard;
 import it.polimi.ingsw.gc27.Controller.GameController;
 import it.polimi.ingsw.gc27.Controller.Initializer;
-import it.polimi.ingsw.gc27.Game.Market;
 import it.polimi.ingsw.gc27.Game.Player;
 import it.polimi.ingsw.gc27.Net.VirtualServer;
 import it.polimi.ingsw.gc27.Net.VirtualView;
@@ -19,7 +18,7 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class RmiServer implements VirtualServer {
-    static int PORT = 1234;
+    final static int DEFAULT_PORT_NUMBER = 1234;
     final GameController controller;
     final List<VirtualView> clients = new ArrayList<>();
     final BlockingQueue<String> updates = new LinkedBlockingQueue<>();
@@ -43,7 +42,7 @@ public class RmiServer implements VirtualServer {
         // Bind the remote object's stub2 in the registry
         Registry registry = null;
         try {
-            registry = LocateRegistry.createRegistry(PORT);
+            registry = LocateRegistry.createRegistry(DEFAULT_PORT_NUMBER);
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -73,9 +72,9 @@ public class RmiServer implements VirtualServer {
         }
     }
     @Override
-    public void drawCard(Market market, Player player, ArrayList<ResourceCard> deck, ResourceCard card, int faceUpCardIndex) throws RemoteException {
+    public void drawResourceCard(Player player, boolean fromDeck, int faceUpCardIndex) throws RemoteException {
         // TODO: gestire le eccezioni
-        this.controller.drawCard(market, player, deck, card, faceUpCardIndex);
+        this.controller.drawResourceCard(player, fromDeck, faceUpCardIndex);
         // TODO: gestire meglio gli updates
         try{
             updates.put("Drawn card from player: " + player.getUsername());
@@ -83,27 +82,28 @@ public class RmiServer implements VirtualServer {
             throw new RuntimeException(e);
         }
     }
-    /*@Override
-    public void drawCard(Market market, Player player, ArrayList<GoldCard> deck, GoldCard card, int faceUpCardIndex) throws RemoteException {
+    @Override
+    public void drawGoldCard(Player player, boolean fromDeck, int faceUpCardIndex) throws RemoteException {
         // TODO: gestire le eccezioni
-        this.controller.drawCard(market, player, deck, card, faceUpCardIndex);
+        this.controller.drawGoldCard(player, fromDeck, faceUpCardIndex);
         // TODO: gestire meglio gli updates
         try{
             updates.put("Drawn card from player: " + player.getUsername());
         }catch (InterruptedException e){
             throw new RuntimeException(e);
         }
-    }*/
+    }
     @Override
-    public void welcomePlayer(VirtualView client) throws RemoteException {
+    public Player welcomePlayer(VirtualView client) throws RemoteException {
         // TODO: gestire le eccezioni
-        this.controller.welcomePlayer(client);
+        Player p = this.controller.welcomePlayer(client);
         // TODO: gestire meglio gli updates
         try{
             updates.put("Created player");
         }catch (InterruptedException e){
             throw new RuntimeException(e);
         }
+        return p;
     }
     private void broadcastUpdateThread() throws InterruptedException, RemoteException {
         while(true){

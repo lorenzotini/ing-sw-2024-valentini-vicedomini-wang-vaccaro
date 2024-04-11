@@ -41,7 +41,7 @@ public class Initializer {
         ObjectiveCard commObj1 = objectiveDeck.removeLast();
         ObjectiveCard commObj2 = objectiveDeck.removeLast();
 
-        game = new Game(gameId, board, market, new ArrayList<>(), commObj1, commObj2);
+        game = new Game(gameId, board, market, new ArrayList<>(), commObj1, commObj2, starterDeck, objectiveDeck);
 
         return game;
     }

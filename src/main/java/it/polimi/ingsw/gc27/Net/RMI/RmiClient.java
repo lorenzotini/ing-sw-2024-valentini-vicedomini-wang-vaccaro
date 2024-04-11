@@ -1,5 +1,7 @@
 package it.polimi.ingsw.gc27.Net.RMI;
 
+import it.polimi.ingsw.gc27.CommandParser;
+import it.polimi.ingsw.gc27.Game.Player;
 import it.polimi.ingsw.gc27.Net.VirtualServer;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 
@@ -12,23 +14,24 @@ import java.util.Scanner;
 
 public class RmiClient extends UnicastRemoteObject implements VirtualView {
     final VirtualServer server;
+    private Player player;
 
     protected RmiClient(VirtualServer server) throws RemoteException {
         this.server = server;
     }
-    public static void main(String[] args) throws RemoteException, NotBoundException {
+    public static void main(String[] args) throws RemoteException, NotBoundException{
         Scanner scan = new Scanner(System.in);
 
         System.out.println("Welcome to the game CODEX NATURALIS!\n" +
                 "Enter the IP address of the server you want to connect to (enter \"\" for default):");
         String ipAddress = scan.nextLine();
-        if(ipAddress.equals("")){
+        if(ipAddress.isEmpty()){
             ipAddress = "localhost";
         }
         System.out.println("Enter the port number of the server you want to connect to (enter 0 for default):");
         int port = scan.nextInt();
         if(port == 0){
-            port = 1234;
+            port = RmiServer.DEFAULT_PORT_NUMBER;
         }
 
         Registry registry = LocateRegistry.getRegistry(ipAddress, port);
@@ -56,18 +59,34 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
     }
 
     private void runCli() throws RemoteException {
-        server.welcomePlayer(this);
+        player = server.welcomePlayer(this);
         System.out.println("New player added");
         Scanner scan = new Scanner(System.in);
         while (true) {
             System.out.print("> ");
             String command = scan.nextLine();
-            switch (command) {
-                case "addCard 0 up 45 43":
-                    //server.addCard();
+            Object[] commands = CommandParser.parseCommand(command);
+            switch (commands[0].toString().toLowerCase()) {
+                case "addcard":
+                    if(commands[2].equals("front")){
+                        server.addCard(player, player.getHand().get((int)commands[1]), player.getHand().get((int)commands[1]).getFront(), (int)commands[3], (int)commands[4]);
+                    }else{
+                        server.addCard(player, player.getHand().get((int)commands[1]), player.getHand().get((int)commands[1]).getBack(), (int)commands[3], (int)commands[4]);
+                    }
                     break;
-                case "drawCard":
-                    //server.drawCard();
+                case "drawresourcecard":
+                    if(commands[1].equals("deck")){
+                        server.drawResourceCard(player, true, (int)commands[2]);
+                    }else{
+                        server.drawResourceCard(player, false, (int)commands[2]);
+                    }
+                    break;
+                case "drawgoldcard":
+                    if(commands[1].equals("deck")){
+                        server.drawGoldCard(player, true, (int)commands[2]);
+                    }else{
+                        server.drawGoldCard(player, false, (int)commands[2]);
+                    }
                     break;
                 default:
                     System.out.println("Invalid command");

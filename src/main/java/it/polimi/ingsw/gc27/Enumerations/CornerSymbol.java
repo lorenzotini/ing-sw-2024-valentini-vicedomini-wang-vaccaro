@@ -1,6 +1,8 @@
 package it.polimi.ingsw.gc27.Enumerations;
 
-public enum CornerSymbol {
+import java.io.Serializable;
+
+public enum CornerSymbol implements Serializable {
     EMPTY(" "),
     PLANTKINGDOM("P"),
     ANIMALKINGDOM("A"),

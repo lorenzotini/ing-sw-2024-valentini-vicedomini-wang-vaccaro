@@ -15,8 +15,7 @@ public enum CornerSymbol {
         this.initials = initials;
     }
 
-    @Override
-    public String toString() {
+    public String toCliString() {
         return initials;
     }
 }

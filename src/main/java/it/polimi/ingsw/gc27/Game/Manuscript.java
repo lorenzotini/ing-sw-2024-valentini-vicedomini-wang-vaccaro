@@ -1,10 +1,15 @@
 package it.polimi.ingsw.gc27.Game;
 
-import it.polimi.ingsw.gc27.Card.*;
-import it.polimi.ingsw.gc27.Enumerations.*;
-import java.util.*;
+import it.polimi.ingsw.gc27.Card.Face;
+import it.polimi.ingsw.gc27.Card.GoldCard;
+import it.polimi.ingsw.gc27.Card.ResourceCard;
+import it.polimi.ingsw.gc27.Enumerations.CornerSymbol;
+import it.polimi.ingsw.gc27.Enumerations.Kingdom;
 
-public class Manuscript {
+import java.io.Serializable;
+import java.util.ArrayList;
+
+public class Manuscript implements Serializable {
     public static final int FIELD_DIM = 85;
     // use a matrix to represent the whole manuscript/play field
     private Face[][] field;

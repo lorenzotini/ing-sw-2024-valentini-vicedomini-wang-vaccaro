@@ -1,3 +1,4 @@
+
 package it.polimi.ingsw.gc27.Game;
 
 import it.polimi.ingsw.gc27.Card.Card;
@@ -25,6 +26,16 @@ public class Game {
     public Game() {
 
     }
+
+    public Game(int gameID, Board board, Market market, List<Player> players, Card commonObjective1, Card commonObjective2) {
+        GameID = gameID;
+        this.board = board;
+        this.market = market;
+        this.players = players;
+        this.commonObjective1 = commonObjective1;
+        this.commonObjective2 = commonObjective2;
+    }
+
     public void setCommonObjective1(Card commonObjective1) {
         this.commonObjective1 = commonObjective1;
     }

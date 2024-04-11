@@ -5,9 +5,10 @@ import it.polimi.ingsw.gc27.Enumerations.Kingdom;
 import it.polimi.ingsw.gc27.Enumerations.PawnColour;
 import it.polimi.ingsw.gc27.Enumerations.PointsMultiplier;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Player {
+public class Player implements Serializable {
     private String username;
     private ArrayList<ResourceCard> hand;
     private Manuscript manuscript;
@@ -22,6 +23,7 @@ public class Player {
         this.username = username;
         this.manuscript = manuscript;
         this.pawnColour = pawnColour;
+
     }
 
     public PawnColour getPawnColour() {

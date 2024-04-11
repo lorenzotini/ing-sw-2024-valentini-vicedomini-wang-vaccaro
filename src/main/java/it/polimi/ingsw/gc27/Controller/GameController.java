@@ -6,9 +6,10 @@ import it.polimi.ingsw.gc27.Game.Game;
 import it.polimi.ingsw.gc27.Game.Manuscript;
 import it.polimi.ingsw.gc27.Game.Market;
 import it.polimi.ingsw.gc27.Game.Player;
+import it.polimi.ingsw.gc27.Net.VirtualView;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class GameController {
     private Game game;
@@ -81,27 +82,27 @@ public class GameController {
     }
 
     // Create a player from command line, but hand, secret objective and starter are not instantiated
-    public Player welcomePlayer(){
-        Scanner scanner = new Scanner(System.in);
+    public void welcomePlayer(VirtualView client) throws RemoteException {
         String username = "";
         String pawnColor = "";
         Manuscript manuscript = new Manuscript();
 
         // Ask for the username
         do {
-            System.out.println("Choose your username: ");
-            username = scanner.next();
+           client.show("Choose your username: ");
+            username = client.read();
         }while(!game.validUsername(username));
 
         // Ask for the pawn color
         do {
-            System.out.println("Choose your color: ");
+            client.show("Choose your color: ");
             for (PawnColour pawnColour : game.getAvailablePawns()) {
-                System.out.print(pawnColour + " ");
+                client.show(pawnColour + " ");
             }
-            pawnColor = scanner.next();
+            pawnColor = client.read();
         }while(!game.validPawn(pawnColor));
 
-        return new Player(username, manuscript, PawnColour.fromStringToPawnColour(pawnColor));
+        game.getPlayers().add(new Player(username, manuscript, PawnColour.fromStringToPawnColour(pawnColor)));
+        game.getAvailablePawns().remove(PawnColour.fromStringToPawnColour(pawnColor));
     }
 }

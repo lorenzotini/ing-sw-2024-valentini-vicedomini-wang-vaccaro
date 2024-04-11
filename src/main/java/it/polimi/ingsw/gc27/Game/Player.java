@@ -130,8 +130,7 @@ public class Player {
         if(face instanceof FrontFace){
             if (card instanceof GoldCard){
                 if(((GoldCard)card).getPointsMultiplier().equals(PointsMultiplier.EMPTY)){
-                    points = ((ResourceCard)card).getCardPoints();
-                    game.addPoints(this, points);
+                    points = ((GoldCard)card).getCardPoints();
                 }
                 else if(((GoldCard)card).getPointsMultiplier().equals(PointsMultiplier.CORNER)){
                     points = ((GoldCard)card).getCardPoints() * numCoveredCorners;
@@ -139,8 +138,10 @@ public class Player {
                 else{
                     points = ((GoldCard)card).getCardPoints() * this.manuscript.getCounter(((GoldCard) card).getPointsMultiplier().toCornerSymbol());
                 }
-                game.addPoints(this, points);
+            } else {
+                points = ((ResourceCard)card).getCardPoints();
             }
+            game.addPoints(this, points);
         }
     }
 

@@ -34,15 +34,15 @@ public class MyCli {
 
         if(!UR.isHidden() && !UL.isHidden() && !LR.isHidden() && !LL.isHidden()){  // case #1
             first = "╭-----------------╮";
-            second = "|"+UL.getSymbol().toString()+"               "+UR.getSymbol().toString()+"|";
+            second = "|"+UL.getSymbol().toCliString()+"               "+UR.getSymbol().toCliString()+"|";
             third = "|                 |";
-            fourth = "|"+LL.getSymbol().toString()+"               "+LR.getSymbol().toString()+"|";
+            fourth = "|"+LL.getSymbol().toCliString()+"               "+LR.getSymbol().toCliString()+"|";
             fifth = "╰-----------------╯";
         }else if(!UR.isHidden() && !UL.isHidden() && LR.isHidden() && !LL.isHidden()){
             first = "╭-----------------╮";
-            second = "|"+UL.getSymbol().toString()+"               "+UR.getSymbol().toString()+"|";
+            second = "|"+UL.getSymbol().toCliString()+"               "+UR.getSymbol().toCliString()+"|";
             third = "|                 |";
-            fourth = "|"+LL.getSymbol().toString()+"             ";
+            fourth = "|"+LL.getSymbol().toCliString()+"             ";
             fifth = "╰--------------";
         }
 
@@ -100,6 +100,7 @@ public class MyCli {
             }
         }
     }
+
 
     public static void main(String[] args) {
 

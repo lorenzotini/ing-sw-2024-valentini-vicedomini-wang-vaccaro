@@ -18,6 +18,12 @@ public class Player {
         hand = new ArrayList<>(3);
     }
 
+    public Player(String username, Manuscript manuscript, PawnColour pawnColour) {
+        this.username = username;
+        this.manuscript = manuscript;
+        this.pawnColour = pawnColour;
+    }
+
     public PawnColour getPawnColour() {
         return pawnColour;
     }
@@ -55,7 +61,7 @@ public class Player {
      * @param x
      * @param y
      */
-    public void addCard(Game game, Card card, Face face, int x, int y){
+    public void addCard(Game game, Card card, Face face, int x, int y) {
 
         Manuscript m = this.manuscript;
 
@@ -123,17 +129,19 @@ public class Player {
         int points;
         if(face instanceof FrontFace){
             if (card instanceof GoldCard){
-                if(((GoldCard)card).getPointsMultiplier().equals(PointsMultiplier.CORNER)){
+                if(((GoldCard)card).getPointsMultiplier().equals(PointsMultiplier.EMPTY)){
+                    points = ((GoldCard)card).getCardPoints();
+                }
+                else if(((GoldCard)card).getPointsMultiplier().equals(PointsMultiplier.CORNER)){
                     points = ((GoldCard)card).getCardPoints() * numCoveredCorners;
                 }
                 else{
                     points = ((GoldCard)card).getCardPoints() * this.manuscript.getCounter(((GoldCard) card).getPointsMultiplier().toCornerSymbol());
                 }
-                game.addPoints(this, points);
-            }else {
+            } else {
                 points = ((ResourceCard)card).getCardPoints();
-                game.addPoints(this, points);
             }
+            game.addPoints(this, points);
         }
     }
 

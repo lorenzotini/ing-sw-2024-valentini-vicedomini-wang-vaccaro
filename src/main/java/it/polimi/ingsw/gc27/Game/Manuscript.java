@@ -19,17 +19,18 @@ public class Manuscript {
     private int inkwellCounter;
     private int quillCounter;
     private int manuscriptCounter;
-    public Manuscript(Face myStarter){
+    /*public Manuscript(){
         //initialize the matrix and place the starter card at its centre
         field = new Face[FIELD_DIM][FIELD_DIM];
-        field[FIELD_DIM/2][FIELD_DIM/2] = myStarter;
+        //field[FIELD_DIM/2][FIELD_DIM/2] = myStarter;
         setxMax(FIELD_DIM/2);
         setxMin(FIELD_DIM/2);
         setyMax(FIELD_DIM/2);
         setyMin(FIELD_DIM/2);
+    }*/
+    public Manuscript(){
+        field = new Face[FIELD_DIM][FIELD_DIM];
     }
-
-
     // getter e setter
     public void setxMax(int x) {
         this.xMax = x;

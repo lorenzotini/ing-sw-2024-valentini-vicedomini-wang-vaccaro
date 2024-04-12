@@ -1381,7 +1381,7 @@
       "frontFace": {
         "cornerUR":{
           "black":false,
-          "symbol":"INKKWELL"
+          "symbol":"INKWELL"
         },
         "cornerUL":{
           "black":true,

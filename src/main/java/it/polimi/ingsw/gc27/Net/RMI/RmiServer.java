@@ -25,7 +25,7 @@ public class RmiServer implements VirtualServer {
     public RmiServer(GameController controller) {
         this.controller = controller;
     }
-    public static void main( String[] args ) throws RemoteException {
+    public static void main( String[] args ) throws RemoteException, InterruptedException {
         // Initialize gc
         GameController gc = new GameController(Initializer.initialize());
         String name = "VirtualServer";
@@ -52,6 +52,7 @@ public class RmiServer implements VirtualServer {
             e.printStackTrace();
             System.err.println("Server ready");
         }
+        ((RmiServer)obj).broadcastUpdateThread();
     }
     @Override
     public void connect(VirtualView client) throws RemoteException {
@@ -99,7 +100,7 @@ public class RmiServer implements VirtualServer {
         Player p = this.controller.welcomePlayer(client);
         // TODO: gestire meglio gli updates
         try{
-            updates.put("Created player");
+            updates.put("Created player: " + p.getUsername());
         }catch (InterruptedException e){
             throw new RuntimeException(e);
         }

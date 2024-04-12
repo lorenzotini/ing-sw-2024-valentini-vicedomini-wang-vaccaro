@@ -1,6 +1,5 @@
 package it.polimi.ingsw.gc27.Net.RMI;
 
-import it.polimi.ingsw.gc27.CommandParser;
 import it.polimi.ingsw.gc27.Game.Player;
 import it.polimi.ingsw.gc27.Net.VirtualServer;
 import it.polimi.ingsw.gc27.Net.VirtualView;
@@ -40,9 +39,9 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
         new RmiClient(server).run();
     }
     @Override
-    public void showUpdate(String mex) throws RemoteException {
+    public void showUpdate(String message) throws RemoteException {
         // TODO Attenzione! Questo può causare data race con il thread dell'interfaccia o un altro thread
-        System.out.println(mex);
+        System.out.println(message);
     }
     @Override
     public void show(String message) throws RemoteException{
@@ -60,21 +59,30 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
 
     private void runCli() throws RemoteException {
         player = server.welcomePlayer(this);
-        System.out.println("New player added");
         Scanner scan = new Scanner(System.in);
         while (true) {
             System.out.print("> ");
             String command = scan.nextLine();
-            Object[] commands = CommandParser.parseCommand(command);
-            switch (commands[0].toString().toLowerCase()) {
+            //Object[] commands = CommandParser.parseCommand(command);
+            switch (command/*[0].toString()*/.toLowerCase()) {
                 case "addcard":
-                    if(commands[2].equals("front")){
-                        server.addCard(player, player.getHand().get((int)commands[1]), player.getHand().get((int)commands[1]).getFront(), (int)commands[3], (int)commands[4]);
+                    System.out.println("Which card do you want to add? (choose from 0, 1, 2)");
+                    int cardIndex = scan.nextInt();
+                    System.out.println("Front or back?");
+                    String face = scan.next();
+                    System.out.println("x = ");
+                    int x = scan.nextInt();
+                    System.out.println("y = ");
+                    int y = scan.nextInt();
+                    if(face.equalsIgnoreCase("front")) {
+                        server.addCard(player, player.getHand().get(cardIndex), player.getHand().get(cardIndex).getFront(), x, y);
+                    }else if(face.equalsIgnoreCase("back")){
+                        server.addCard(player, player.getHand().get(cardIndex), player.getHand().get(cardIndex).getBack(), x, y);
                     }else{
-                        server.addCard(player, player.getHand().get((int)commands[1]), player.getHand().get((int)commands[1]).getBack(), (int)commands[3], (int)commands[4]);
+                        System.out.println("Invalid face");
                     }
                     break;
-                case "drawresourcecard":
+                /*case "drawresourcecard":
                     if(commands[1].equals("deck")){
                         server.drawResourceCard(player, true, (int)commands[2]);
                     }else{
@@ -87,7 +95,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
                     }else{
                         server.drawGoldCard(player, false, (int)commands[2]);
                     }
-                    break;
+                    break;*/
                 default:
                     System.out.println("Invalid command");
                     break;

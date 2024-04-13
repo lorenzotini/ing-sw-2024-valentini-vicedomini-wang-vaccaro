@@ -9,9 +9,6 @@ import java.util.ArrayList;
 
 public class Player {
     private String username;
-
-
-
     private ArrayList<ResourceCard> hand;
     private Manuscript manuscript;
     private PawnColour pawnColour;

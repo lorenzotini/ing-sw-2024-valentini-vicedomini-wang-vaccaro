@@ -1,21 +1,21 @@
 package it.polimi.ingsw.gc27.Controller;
 
 import it.polimi.ingsw.gc27.Card.*;
+import it.polimi.ingsw.gc27.Enumerations.PawnColour;
 import it.polimi.ingsw.gc27.Game.Game;
 import it.polimi.ingsw.gc27.Game.Manuscript;
+import it.polimi.ingsw.gc27.Game.Market;
 import it.polimi.ingsw.gc27.Game.Player;
 
+import java.util.ArrayList;
+import java.util.Scanner;
+
 public class GameController {
-
-
     private Game game;
-
     public GameController(Game game) {
         this.game = game;
     }
-    public GameController() {
-    }
-
+    public GameController(){}
     public Game getGame() {
         return game;
     }
@@ -46,4 +46,62 @@ public class GameController {
         player.addCard(this.game, card, face, Manuscript.FIELD_DIM/2, Manuscript.FIELD_DIM/2);
     }
 
+    // Overloading drawCard to manage Resource cards and deck
+    public void drawCard(Market market, Player player, ArrayList<ResourceCard> deck, ResourceCard card, int faceUpCardIndex){
+        // TODO: è SBAGLIATO GESTIRE QUI L'ECCEZIONE, DOVREBBE ESSERE IL MODEL A FARLO. NON RISPETTA MVC ==> CAMBIARE
+        if(deck != null && card != null){
+            throw new IllegalArgumentException("Something went wrong: impossible call to drawCard method");
+        }
+
+        player.getHand().add(card);
+
+        //replace card on market
+        if(deck == null){ // player drawn a face up card from the market
+            market.setFaceUpResources(market.getResourceDeck().removeLast(), faceUpCardIndex);
+        }else{  // player drawn card from a deck
+            market.getResourceDeck().removeLast();
+        }
+    }
+
+    // Overloading drawCard to manage Gold cards and deck
+    public void drawCard(Market market, Player player, ArrayList<GoldCard> deck, GoldCard card, int faceUpCardIndex){
+        // TODO: è SBAGLIATO GESTIRE QUI L'ECCEZIONE, DOVREBBE ESSERE IL MODEL A FARLO. NON RISPETTA MVC ==> CAMBIARE
+        if(deck != null && card != null){
+            throw new IllegalArgumentException("Something went wrong: impossible call to drawCard method");
+        }
+
+        player.getHand().add(card);
+
+        //replace card on market
+        if(deck == null){ // player drawn a face up card from the market
+            market.setFaceUpGolds(market.getGoldDeck().removeLast(), faceUpCardIndex);
+        }else{  // player drawn card from a deck
+            market.getGoldDeck().removeLast();
+        }
+    }
+
+    // Create a player from command line, but hand, secret objective and starter are not instantiated
+    public Player welcomePlayer(){
+        Scanner scanner = new Scanner(System.in);
+        String username = "";
+        String pawnColor = "";
+        Manuscript manuscript = new Manuscript();
+
+        // Ask for the username
+        do {
+            System.out.println("Choose your username: ");
+            username = scanner.next();
+        }while(!game.validUsername(username));
+
+        // Ask for the pawn color
+        do {
+            System.out.println("Choose your color: ");
+            for (PawnColour pawnColour : game.getAvailablePawns()) {
+                System.out.print(pawnColour + " ");
+            }
+            pawnColor = scanner.next();
+        }while(!game.validPawn(pawnColor));
+
+        return new Player(username, manuscript, PawnColour.fromStringToPawnColour(pawnColor));
+    }
 }

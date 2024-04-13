@@ -1,30 +1,84 @@
 package it.polimi.ingsw.gc27.View;
 
-import it.polimi.ingsw.gc27.Card.Corner;
-import it.polimi.ingsw.gc27.Card.Face;
-import it.polimi.ingsw.gc27.Card.GoldCard;
-import it.polimi.ingsw.gc27.Card.ResourceCard;
+import it.polimi.ingsw.gc27.Card.*;
 import it.polimi.ingsw.gc27.Controller.JsonParser;
 import it.polimi.ingsw.gc27.Game.Manuscript;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.stream.Collectors;
 
 public class MyCli {
+
     private static ArrayList<ResourceCard> resourceDeck = JsonParser.getResourceDeck(JsonParser.cardsJsonObj);
     private static ArrayList<GoldCard> goldDeck = JsonParser.getGoldDeck(JsonParser.cardsJsonObj);
-    public static CliCard emptyCard(){
-        return new CliCard("                   ",
-                         "                   ",
-                           "                   ",
-                          "                   ",
-                           "                   ");
+    private static ArrayList<StarterCard> starterDeck = JsonParser.getStarterDeck(JsonParser.cardsJsonObj);
+
+    public static Queue<String> emptyCard(int i , int j, Face[][] field){
+        String first;
+        String second;
+        String third;
+        String fourth;
+        String fifth;
+        Queue<String> lines = new LinkedList<>();
+
+        if (field[i+1][j] == null && field[i][j+1] == null && field[i-1][j] == null && field[i][j-1] == null) {
+            first = "           ";
+            second = "           ";
+            third = "           ";
+            fourth = "           ";
+            fifth = "           ";
+            lines.add(first);
+            lines.add(second);
+            lines.add(third);
+            lines.add(fourth);
+            lines.add(fifth);
+        } else if(field[i+1][j] != null && field[i][j+1] != null && field[i-1][j] != null && field[i][j-1] != null){
+            third = "           ";
+            lines.add(third);
+        } else if(field[i+1][j] != null && field[i][j+1] != null && field[i-1][j] != null && field[i][j-1] == null){
+            first = "           ";
+            second = "           ";
+            third = "           ";
+            lines.add(first);
+            lines.add(second);
+            lines.add(third);
+        } else if(field[i+1][j] != null && field[i][j+1] != null && field[i-1][j] == null && field[i][j-1] != null){
+            third = "               ";
+            lines.add(third);
+        } else if(field[i+1][j] != null && field[i][j+1] == null && field[i-1][j] != null && field[i][j-1] != null){
+            first = "           ";
+            second = "           ";
+            third = "           ";
+            lines.add(first);
+            lines.add(second);
+            lines.add(third);
+        } else if(field[i+1][j] == null && field[i][j+1] != null && field[i-1][j] != null && field[i][j-1] != null){
+            third = "               ";
+            lines.add(third);
+        } else {
+            first = "               ";
+            second = "               ";
+            third = "               ";
+            lines.add(first);
+            lines.add(second);
+            lines.add(third);
+        }
+
+        return lines;
+
     }
-    public static CliCard fromFaceToCliCard(Face face){
+
+    public static Queue<String> fromFaceToCliCard(Face face){
 
         Corner UR = face.getCornerUR();
         Corner UL = face.getCornerUL();
         Corner LR = face.getCornerLR();
         Corner LL = face.getCornerLL();
+
+        String colour = face.getColour().toColourControl() + "\u001B[1m";   // colour and bold
+        String reset = "\u001B[0m";
 
         String first = "";
         String second = "";
@@ -32,22 +86,136 @@ public class MyCli {
         String fourth = "";
         String fifth = "";
 
-        if(!UR.isHidden() && !UL.isHidden() && !LR.isHidden() && !LL.isHidden()){  // case #1
-            first = "╭-----------------╮";
-            second = "|"+UL.getSymbol().toCliString()+"               "+UR.getSymbol().toCliString()+"|";
-            third = "|                 |";
-            fourth = "|"+LL.getSymbol().toCliString()+"               "+LR.getSymbol().toCliString()+"|";
-            fifth = "╰-----------------╯";
-        }else if(!UR.isHidden() && !UL.isHidden() && LR.isHidden() && !LL.isHidden()){
-            first = "╭-----------------╮";
-            second = "|"+UL.getSymbol().toCliString()+"               "+UR.getSymbol().toCliString()+"|";
-            third = "|                 |";
-            fourth = "|"+LL.getSymbol().toCliString()+"             ";
-            fifth = "╰--------------";
+        if(!UR.isHidden() && !UL.isHidden() && !LR.isHidden() && !LL.isHidden()) {  // case #1
+            first = colour + "╭-----------------╮" + reset;
+            second = colour + "|" + UL.getSymbol().toCliString() + "               " + UR.getSymbol().toCliString() + colour + "|" + reset;
+            third = colour + "|" + MyCli.constructString(face.getPermanentResources().stream().map(o -> o.toCornerSymbol().toCliString()).collect(Collectors.toCollection(ArrayList::new))) + colour + "|" + reset;
+            fourth = colour + "|" + LL.getSymbol().toCliString() + "               " + LR.getSymbol().toCliString() + colour + colour + "|" + reset;
+            fifth = colour + "╰-----------------╯" + reset;
+        }else if(UR.isHidden() && !UL.isHidden() && !LR.isHidden() && !LL.isHidden()){ // case #2
+            first = colour + "╭--------------" + reset;
+            second = colour + "|" + UL.getSymbol().toCliString() + "             " + reset;
+            third = colour + "|" + MyCli.constructString(face.getPermanentResources().stream().map(o -> o.toCornerSymbol().toCliString()).collect(Collectors.toCollection(ArrayList::new))) + colour + "|" + reset;
+            fourth = colour + "|" + LL.getSymbol().toCliString() + "               " + LR.getSymbol().toCliString() + colour + "|" + reset;
+            fifth = colour + "╰-----------------╯" + reset;
+        }else if(!UR.isHidden() && UL.isHidden() && !LR.isHidden() && !LL.isHidden()){ // case #3
+            first = colour + "--------------╮" + reset;
+            second = colour + "             " + UR.getSymbol().toCliString() + colour + "|" + reset;
+            third = colour + "|" + MyCli.constructString(face.getPermanentResources().stream().map(o -> o.toCornerSymbol().toCliString()).collect(Collectors.toCollection(ArrayList::new))) + colour + "|" + reset;
+            fourth = colour + "|" + LL.getSymbol().toCliString() + "               " + LR.getSymbol().toCliString() + colour + "|" + reset;
+            fifth = colour + "╰-----------------╯" + reset;
+        }else if(!UR.isHidden() && !UL.isHidden() && LR.isHidden() && !LL.isHidden()){ // case #4
+            first = colour + "╭-----------------╮" + reset;
+            second = colour + "|" + UL.getSymbol().toCliString() + "               " + UR.getSymbol().toCliString() + colour + "|" + reset;
+            third = colour + "|" + MyCli.constructString(face.getPermanentResources().stream().map(o -> o.toCornerSymbol().toCliString()).collect(Collectors.toCollection(ArrayList::new))) + colour + "|" + reset;
+            fourth = colour + "|" + LL.getSymbol().toCliString()+ "             " + reset;
+            fifth = colour + "╰--------------" + reset;
+        }else if(!UR.isHidden() && !UL.isHidden() && !LR.isHidden() && LL.isHidden()){ // case #5
+            first = colour + "╭-----------------╮" + reset;
+            second = colour + "|" + UL.getSymbol().toCliString() + "               " + UR.getSymbol().toCliString() + colour + "|" + reset;
+            third = colour + "|" + MyCli.constructString(face.getPermanentResources().stream().map(o -> o.toCornerSymbol().toCliString()).collect(Collectors.toCollection(ArrayList::new))) + colour + "|" + reset;
+            fourth = colour + "             " + LR.getSymbol().toCliString() + colour + "|" + reset;
+            fifth = colour + "--------------╯" + reset;
+        }else if(UR.isHidden() && UL.isHidden() && !LR.isHidden() && !LL.isHidden()){ // case #6
+            first = colour + "-----------" + reset;
+            second = colour + "           " + reset;
+            third = colour + "|" + MyCli.constructString(face.getPermanentResources().stream().map(o -> o.toCornerSymbol().toCliString()).collect(Collectors.toCollection(ArrayList::new))) + colour + "|" + reset;
+            fourth = colour + "|" + LL.getSymbol().toCliString() + "               " + LR.getSymbol().toCliString() + colour + "|" + reset;
+            fifth = colour + "╰-----------------╯" + reset;
+        }else if(!UR.isHidden() && !UL.isHidden() && LR.isHidden() && LL.isHidden()){ // case #7
+            first = colour + "╭-----------------╮" + reset;
+            second = colour + "|" + UL.getSymbol().toCliString() + "               " + UR.getSymbol().toCliString() + colour + "|" + reset;
+            third = colour + "|" + MyCli.constructString(face.getPermanentResources().stream().map(o -> o.toCornerSymbol().toCliString()).collect(Collectors.toCollection(ArrayList::new))) + colour + "|" + reset;
+            fourth = colour + "           " + reset;
+            fifth = colour + "-----------" + reset;
+        }else if(!UR.isHidden() && UL.isHidden() && !LR.isHidden() && LL.isHidden()){ // case #8
+            first = colour + "--------------╮" + reset;
+            second = colour + "             " + UR.getSymbol().toCliString() + colour + "|" + reset;
+            third = colour + "|" + MyCli.constructString(face.getPermanentResources().stream().map(o -> o.toCornerSymbol().toCliString()).collect(Collectors.toCollection(ArrayList::new))) + colour + "|" + reset;
+            fourth = colour + "             " + LR.getSymbol().toCliString() + colour + "|" + reset;
+            fifth = colour + "--------------╯" + reset;
+        }else if(UR.isHidden() && !UL.isHidden() && LR.isHidden() && !LL.isHidden()){ // case #9
+            first = colour + "╭--------------" + reset;
+            second = colour + "|" + UL.getSymbol().toCliString() + "             " + reset;
+            third = colour + "|" + MyCli.constructString(face.getPermanentResources().stream().map(o -> o.toCornerSymbol().toCliString()).collect(Collectors.toCollection(ArrayList::new))) + colour + "|" + reset;
+            fourth = colour + "|" + LL.getSymbol().toCliString()+ "             " + reset;
+            fifth = colour + "╰--------------" + reset;
+        }else if(UR.isHidden() && UL.isHidden() && LR.isHidden() && LL.isHidden()){ // case #10
+            first = colour + "-----------" + reset;
+            second = colour + "           " + reset;
+            third = colour + "|" + MyCli.constructString(face.getPermanentResources().stream().map(o -> o.toCornerSymbol().toCliString()).collect(Collectors.toCollection(ArrayList::new))) + colour + "|" + reset;
+            fourth = colour + "           " + reset;
+            fifth = colour + "-----------" + reset;
+        }else if(!UR.isHidden() && UL.isHidden() && LR.isHidden() && LL.isHidden()){ // case #11
+            first = colour + "--------------╮" + reset;
+            second = colour + "             " + UR.getSymbol().toCliString() + colour + "|" + reset;
+            third = colour + "|" + MyCli.constructString(face.getPermanentResources().stream().map(o -> o.toCornerSymbol().toCliString()).collect(Collectors.toCollection(ArrayList::new))) + colour + "|" + reset;
+            fourth = colour + "           " + reset;
+            fifth = colour + "-----------" + reset;
+        }else if(UR.isHidden() && !UL.isHidden() && LR.isHidden() && LL.isHidden()){ // case #12
+            first = colour + "╭--------------" + reset;
+            second = colour + "|" + UL.getSymbol().toCliString() + "             " + reset;
+            third = colour + "|" + MyCli.constructString(face.getPermanentResources().stream().map(o -> o.toCornerSymbol().toCliString()).collect(Collectors.toCollection(ArrayList::new))) + colour + "|" + reset;
+            fourth = colour + "           " + reset;
+            fifth = colour + "-----------" + reset;
+        }else if(UR.isHidden() && UL.isHidden() && LR.isHidden() && !LL.isHidden()){ // case #13
+            first = colour + "-----------" + reset;
+            second = colour + "           " + reset;
+            third = colour + "|" + MyCli.constructString(face.getPermanentResources().stream().map(o -> o.toCornerSymbol().toCliString()).collect(Collectors.toCollection(ArrayList::new))) + colour + "|" + reset;
+            fourth = colour + "|" + LL.getSymbol().toCliString() + colour + "             " + reset;
+            fifth = colour + "╰--------------" + reset;
+        }else if(UR.isHidden() && UL.isHidden() && !LR.isHidden() && LL.isHidden()) { // case #14
+            first = colour + "-----------" + reset;
+            second = colour + "           " + reset;
+            third = colour + "|" + MyCli.constructString(face.getPermanentResources().stream().map(o -> o.toCornerSymbol().toCliString()).collect(Collectors.toCollection(ArrayList::new))) + colour + "|" + reset;
+            fourth = colour + "             " + LR.getSymbol().toCliString() + colour + "|" + reset;
+            fifth = colour + "--------------╯" + reset;
         }
 
-        return new CliCard(first, second, third, fourth, fifth);
+        Queue<String> lines = new LinkedList<>();
+        lines.add(first);
+        lines.add(second);
+        lines.add(third);
+        lines.add(fourth);
+        lines.add(fifth);
+        return lines;
+
     }
+
+    public static String constructString(ArrayList<String> permanentResources) {
+        String start = "";
+        String end = "";
+
+        String permRes = "";
+        for (int i = 0; i < permanentResources.size(); i++) {
+            permRes = permRes + permanentResources.get(i);
+        }
+
+        switch (permanentResources.size()) {
+            case 0:
+                start = start + "         ";
+                end = "        " + end;
+                break;
+            case 1:
+                start = start + "        ";
+                end = "        " + end;
+                break;
+            case 2:
+                start = start + "       ";
+                end = "        " + end;
+                break;
+            case 3:
+                start = start + "       ";
+                end = "       " + end;
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + permanentResources.size());
+        }
+
+        String line = start + permRes + end;
+        return line;
+    }
+
     public static void printManuscript(Manuscript manuscript){
 
         Face[][] field = manuscript.getField();
@@ -57,43 +225,46 @@ public class MyCli {
         int yMax = manuscript.getyMax();
 
         // translate the manuscript into a matrix of string representing cards
-        CliCard[][] matrix = new CliCard[Manuscript.FIELD_DIM][Manuscript.FIELD_DIM];
-        for(int i = 0; i < Manuscript.FIELD_DIM; i++){
-            for(int j = 0; j < Manuscript.FIELD_DIM; j++){
+        Queue<String>[][] matrix = new Queue[Manuscript.FIELD_DIM][Manuscript.FIELD_DIM];
+        for(int i = xMin; i <= xMax; i++){
+            for(int j = yMin; j <= yMax; j++){
                 if(field[i][j] != null){
                     matrix[i][j] = fromFaceToCliCard(field[i][j]);
                 }else{
-                    matrix[i][j] = emptyCard();
+                    matrix[i][j] = emptyCard(i, j, field);
                 }
             }
         }
 
         // print
-        for(int i = yMin; i <= yMax; i++) {
-            for (int line = 0; line < 5; line++) {
-                for (int j = xMin; j <= xMax; j++) {
+        for(int j = yMin; j < yMax; j++) {
+            for (int line = 1; line <= 5; line++) {
+                for (int i = xMin; i <= xMax; i++) {
                     switch (line) {
-                        case 0:
-                            System.out.print(matrix[i][j].firstLine);
+                        case 1, 2, 3:
+                            if(matrix[i][j].peek() != null){
+                                System.out.print(matrix[i][j].remove());
+                            }else{
+                                System.out.print(matrix[i][j+1].remove());
+                            }
                             break;
-                        case 1:
-                            System.out.print(matrix[i][j].secondLine);
+                        case 4, 5:
+                            if(matrix[i][j].peek() != null){
+                                System.out.print(matrix[i][j].remove());
+                            }else if(matrix[i][j+1].peek() != null){
+                                System.out.print(matrix[i][j+1].remove());
+                            }
+                            if(matrix[i+1][j+1] != null){
+                                if(matrix[i+1][j+1].peek() != null){
+                                    System.out.print(matrix[i+1][j+1].remove());
+                                }else if(matrix[i+1][j+2] != null && matrix[i+1][j+2].peek() != null){
+                                    System.out.print(matrix[i+1][j+2].remove());
+                                }
+                            }
+                            i++;
                             break;
-                        case 2:
-                            System.out.print(matrix[i][j].thirdLine);
-                            break;
-                        case 3:
-                            System.out.print(matrix[i][j].fourthLine);
-                            break;
-                        case 4:
-                            System.out.print(matrix[i][j].fifthLine);
-                            break;
-                    }
-                    if(line == 3){
-                        System.out.print(matrix[i+1][j+1].firstLine);
-                    }
-                    if(line == 4){
-                        System.out.print(matrix[i+1][j+1].secondLine);
+                        default:
+                            throw new IllegalStateException("Unexpected value: " + line);
                     }
                 }
                 System.out.println();
@@ -101,17 +272,40 @@ public class MyCli {
         }
     }
 
-
+    // example test
     public static void main(String[] args) {
 
         Manuscript m = new Manuscript();
-        resourceDeck.get(0).getBack().getCornerLR().setHidden(true);
-        m.getField()[42][42] = resourceDeck.get(0).getBack();
-        m.getField()[43][43] = resourceDeck.get(1).getFront();
-        m.setxMin(42);
-        m.setyMin(42);
-        m.setxMax(43);
-        m.setyMax(43);
+
+        m.getField()[41][41] = resourceDeck.get(10).getFront();
+        m.getField()[41][41].getCornerLR().setHidden(true);
+
+        m.getField()[43][41] = resourceDeck.get(1).getFront();
+        m.getField()[43][41].getCornerLR().setHidden(true);
+        m.getField()[43][41].getCornerLL().setHidden(true);
+
+        m.getField()[42][42] = resourceDeck.get(2).getFront();
+        m.getField()[42][42].getCornerLL().setHidden(true);
+
+        m.getField()[44][42] = resourceDeck.get(24).getFront();
+
+        m.getField()[41][43] = resourceDeck.get(4).getFront();
+        m.getField()[41][43].getCornerLR().setHidden(true);
+
+        m.getField()[43][43] = starterDeck.get(2).getBack();
+        m.getField()[43][43].getCornerLL().setHidden(true);
+        m.getField()[43][43].getCornerUR().setHidden(true);
+        m.getField()[43][43].getCornerUL().setHidden(true);
+        m.getField()[43][43].getCornerLR().setHidden(true);
+
+        m.getField()[42][44] = resourceDeck.get(34).getFront();
+
+        m.getField()[44][44] = resourceDeck.get(5).getFront();
+
+        m.setxMin(41);
+        m.setyMin(41);
+        m.setxMax(44);
+        m.setyMax(44);
 
         MyCli.printManuscript(m);
     }
@@ -121,18 +315,28 @@ public class MyCli {
 /*
 
 
-            0              1
-   ╭-----------------╮
-   |A               P|
-0  |                 |
-   |F             ╭-----------------╮
-   ╰--------------| A             P |
-1                 |                 |
-   ╭-----------------╮            I |
-   |A               P|--------------╯
-2  |                 |
-   |F               I|
-   ╰-----------------╯
+            41              42             43             44
+   ╭-----------------╮           ╭-----------------╮
+   |A               P|           |A               P|
+41 |                 |           |                 |
+   |F             ╭-----------------╮           ╭-----------------╮
+   ╰--------------| A             P |-----------|A               P|
+42                |                 |           |                 |
+   ╭-----------------╮            I |-----------|X               X|
+   |A               P|--------------╯           ╰-----------------╯
+43 |                 |           |                 |
+   |F             ╭-----------------╮           ╭-----------------╮
+   ╰--------------|A               P|-----------|A               P|
+44                |                 |           |                 |
+                  |X               X|           |X               X|
+                  ╰-----------------╯           ╰-----------------╯
+
+
+|                 |
+|        A        |
+|       AB        |
+|       ABC       |
 
 
 */
+//////////////////////////////////////////////////

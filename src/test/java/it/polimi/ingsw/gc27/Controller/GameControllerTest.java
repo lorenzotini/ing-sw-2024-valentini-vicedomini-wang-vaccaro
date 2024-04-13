@@ -24,29 +24,24 @@ import static org.junit.jupiter.api.Assertions.*;
 class GameControllerTest {
 
     private static GameController gc1;
-    private static GameController gc2;
-    private static ArrayList<Game> games;
-    private static Player p1;
-    private static Player p2;
-    private static Player p3;
-    private static Player p4;
-    private static ArrayList<Player> players1;
-    private static ArrayList<Player> players2;
+    private static GameController gc2, gc3;
+    private static Game g1 ,g2, g3;
+    private static Player p1, p5;
+    private static Player p2, p6;
+    private static Player p3, p7;
+    private static Player p4, p8;
+    private static ArrayList<Player> players1,players2,players3;
 
-    private static ArrayList<StarterCard> starterDeck;
-    private static ArrayList<ResourceCard> resourceDeck;
-    private static ArrayList<ObjectiveCard> objectiveDeck;
-    private static ArrayList<GoldCard> goldDeck;
+    private static ArrayList<StarterCard> starterDeck, starterDeck2, starterDeck3;
+    private static ArrayList<ResourceCard> resourceDeck, resourceDeck2, resourceDeck3;
+    private static ArrayList<ObjectiveCard> objectiveDeck, objectiveDeck2,objectiveDeck3;
+    private static ArrayList<GoldCard> goldDeck, goldDeck2,goldDeck3;
 
     public void initializeGame(){
 
         players1 = new ArrayList<>();
-        games.set(1, new Game(1, new Board(), players1));
-        gc1 = new GameController(games.get(1));
-
-        players2 = new ArrayList<>();
-        games.set(2, new Game(2, new Board(), players2));
-        gc2 = new GameController(games.get(2));
+        g1 = new Game(1, new Board(), players1);
+        gc1 = new GameController(g1);
 
         // generate decks
         starterDeck = JsonParser.getStarterDeck(JsonParser.cardsJsonObj);
@@ -78,6 +73,46 @@ class GameControllerTest {
         Collections.shuffle(goldDeck);
         Collections.shuffle(objectiveDeck);
         */
+
+        players2 = new ArrayList<>();
+        g2= new Game(2, new Board(), players2);
+        gc2 = new GameController(g2);
+
+        // generate decks
+        starterDeck2 = JsonParser.getStarterDeck(JsonParser.cardsJsonObj);
+        resourceDeck2 = JsonParser.getResourceDeck(JsonParser.cardsJsonObj);
+        objectiveDeck2 = JsonParser.getObjectiveDeck(JsonParser.cardsJsonObj);
+        goldDeck2 = JsonParser.getGoldDeck(JsonParser.cardsJsonObj);
+
+        // create players and add them to the game.
+        p5 = new Player("Giocatore 5", new Manuscript(), PawnColour.RED);
+        p5.setHand(new ArrayList<ResourceCard>());
+        p6 = new Player("Giocatore 6", new Manuscript(), PawnColour.GREEN);
+        p6.setHand(new ArrayList<ResourceCard>());
+
+
+        players2.add(p5);
+        players2.add(p6);
+        players2.add(p7);
+        players2.add(p8);
+
+
+        players3 = new ArrayList<>();
+        g3= new Game(2, new Board(), players3);
+        gc3 = new GameController(g3);
+
+        // generate decks
+        starterDeck3 = JsonParser.getStarterDeck(JsonParser.cardsJsonObj);
+        resourceDeck3 = JsonParser.getResourceDeck(JsonParser.cardsJsonObj);
+        objectiveDeck3 = JsonParser.getObjectiveDeck(JsonParser.cardsJsonObj);
+        goldDeck3 = JsonParser.getGoldDeck(JsonParser.cardsJsonObj);
+
+        // create players and add them to the game.
+
+        p7 = new Player("Giocatore 7", new Manuscript(), PawnColour.BLUE);
+        p7.setHand(new ArrayList<ResourceCard>());
+        p8 = new Player("Giocatore 8", new Manuscript(), PawnColour.YELLOW);
+        p8.setHand(new ArrayList<ResourceCard>());
     }
 
     @Test
@@ -213,6 +248,7 @@ class GameControllerTest {
         //view.showManuscript(p2.getManuscript());
 
 
+
         //test 3
         gc1.addStarterCard(p3,starterDeck.get(0), starterDeck.get(0).getBack());
 
@@ -266,6 +302,8 @@ class GameControllerTest {
 
         TwoPlusOnePattern animal_insect=new TwoPlusOnePattern(94, objectiveDeck.get(7).getFront(), objectiveDeck.get(7).getBack(), Kingdom.ANIMALKINGDOM, Kingdom.INSECTKINGDOM, -1, 1 );
         assertEquals(17, gc1.getGame().getBoard().getPointsBluePlayer() + animal_insect.calculateObjectivePoints(p3.getManuscript()));
+
+
 
         //test 4
         gc1.addStarterCard(p4,starterDeck.get(4), starterDeck.get(4).getBack());
@@ -335,7 +373,110 @@ class GameControllerTest {
 
 
 
+        //game 2
+        //player 5, all cards are placed from the starter to the upper border of the matrix
 
+        gc2.addStarterCard(p5, starterDeck2.get(0), starterDeck2.get(0).getFront());
+        gc2.addCard(p5,resourceDeck2.get(0), resourceDeck2.get(0).getBack(), 43, 41);
+        gc2.addCard(p5,resourceDeck2.get(1), resourceDeck2.get(1).getBack(), 42, 40);
+        gc2.addCard(p5,resourceDeck2.get(2), resourceDeck2.get(2).getBack(), 43, 39);
+        gc2.addCard(p5,resourceDeck2.get(3), resourceDeck2.get(3).getBack(), 42, 38);
+        gc2.addCard(p5,resourceDeck2.get(4), resourceDeck2.get(4).getBack(), 43, 37);
+        gc2.addCard(p5,resourceDeck2.get(5), resourceDeck2.get(5).getBack(), 42, 36);
+        gc2.addCard(p5,resourceDeck2.get(6), resourceDeck2.get(6).getBack(), 43, 35);
+        gc2.addCard(p5,resourceDeck2.get(7), resourceDeck2.get(7).getBack(), 42, 34);
+        gc2.addCard(p5,resourceDeck2.get(8), resourceDeck2.get(8).getBack(), 43, 33);
+        gc2.addCard(p5,resourceDeck2.get(9), resourceDeck2.get(9).getBack(), 42, 32);
+        gc2.addCard(p5,resourceDeck2.get(10), resourceDeck2.get(10).getBack(), 43, 31);
+        gc2.addCard(p5,resourceDeck2.get(11), resourceDeck2.get(11).getBack(), 42, 30);
+        gc2.addCard(p5,resourceDeck2.get(12), resourceDeck2.get(12).getBack(), 43, 29);
+        gc2.addCard(p5,resourceDeck2.get(13), resourceDeck2.get(13).getBack(), 42, 28);
+        gc2.addCard(p5,resourceDeck2.get(14), resourceDeck2.get(14).getBack(), 43, 27);
+        gc2.addCard(p5,resourceDeck2.get(15), resourceDeck2.get(15).getBack(), 42, 26);
+        gc2.addCard(p5,resourceDeck2.get(16), resourceDeck2.get(16).getBack(), 43, 25);
+        gc2.addCard(p5,resourceDeck2.get(17), resourceDeck2.get(17).getBack(), 42, 24);
+        gc2.addCard(p5,resourceDeck2.get(18), resourceDeck2.get(18).getBack(), 43, 23);
+        gc2.addCard(p5,resourceDeck2.get(19), resourceDeck2.get(19).getBack(), 42, 22);
+        gc2.addCard(p5,resourceDeck2.get(20), resourceDeck2.get(20).getBack(), 43, 21);
+        gc2.addCard(p5,resourceDeck2.get(21), resourceDeck2.get(21).getBack(), 42, 20);
+        gc2.addCard(p5,resourceDeck2.get(22), resourceDeck2.get(22).getBack(), 43, 19);
+        gc2.addCard(p5,resourceDeck2.get(23), resourceDeck2.get(23).getBack(), 42, 18);
+        gc2.addCard(p5,resourceDeck2.get(24), resourceDeck2.get(24).getBack(), 43, 17);
+        gc2.addCard(p5,resourceDeck2.get(25), resourceDeck2.get(25).getBack(), 42, 16);
+        gc2.addCard(p5,resourceDeck2.get(26), resourceDeck2.get(26).getBack(), 43, 15);
+        gc2.addCard(p5,resourceDeck2.get(27), resourceDeck2.get(27).getBack(), 42, 14);
+        gc2.addCard(p5,resourceDeck2.get(28), resourceDeck2.get(28).getBack(), 43, 13);
+        gc2.addCard(p5,resourceDeck2.get(29), resourceDeck2.get(29).getBack(), 42, 12);
+        gc2.addCard(p5,resourceDeck2.get(30), resourceDeck2.get(30).getBack(), 43, 11);
+        gc2.addCard(p5,resourceDeck2.get(31), resourceDeck2.get(31).getBack(), 42, 10);
+        gc2.addCard(p5,resourceDeck2.get(32), resourceDeck2.get(32).getBack(), 43, 9);
+        gc2.addCard(p5,resourceDeck2.get(33), resourceDeck2.get(33).getBack(), 42, 8);
+        gc2.addCard(p5,resourceDeck2.get(34), resourceDeck2.get(34).getBack(), 43, 7);
+        gc2.addCard(p5,resourceDeck2.get(35), resourceDeck2.get(35).getBack(), 42, 6);
+        gc2.addCard(p5,resourceDeck2.get(36), resourceDeck2.get(36).getBack(), 43, 5);
+        gc2.addCard(p5,resourceDeck2.get(37), resourceDeck2.get(37).getBack(), 42, 4);
+        gc2.addCard(p5,resourceDeck2.get(38), resourceDeck2.get(38).getBack(), 43, 3);
+        gc2.addCard(p5,resourceDeck2.get(39), resourceDeck2.get(39).getBack(), 42, 2);
+
+        ViewCli view=new ViewCli();
+        //view.showManuscript(p5.getManuscript());
+
+        //player 6, all cards are placed from the starter card following the north-east diagonal of the matrix up to the border
+        gc2.addStarterCard(p6, starterDeck2.get(1), starterDeck2.get(1).getFront());
+        gc2.addCard(p6, goldDeck2.get(0), goldDeck2.get(0).getBack(), 43, 41);
+        gc2.addCard(p6, goldDeck2.get(1), goldDeck2.get(1).getBack(), 44, 40);
+        gc2.addCard(p6, goldDeck2.get(2), goldDeck2.get(2).getBack(), 45, 39);
+        gc2.addCard(p6, goldDeck2.get(3), goldDeck2.get(3).getBack(), 46, 38);
+        gc2.addCard(p6, goldDeck2.get(4), goldDeck2.get(4).getBack(), 47, 37);
+        gc2.addCard(p6, goldDeck2.get(5), goldDeck2.get(5).getBack(), 48, 36);
+        gc2.addCard(p6, goldDeck2.get(6), goldDeck2.get(6).getBack(), 49, 35);
+        gc2.addCard(p6, goldDeck2.get(7), goldDeck2.get(7).getBack(), 50, 34);
+        gc2.addCard(p6, goldDeck2.get(8), goldDeck2.get(8).getBack(), 51, 33);
+        gc2.addCard(p6, goldDeck2.get(9), goldDeck2.get(9).getBack(), 52, 32);
+        gc2.addCard(p6, goldDeck2.get(10), goldDeck2.get(10).getBack(), 53, 31);
+        gc2.addCard(p6, goldDeck2.get(11), goldDeck2.get(11).getBack(), 54, 30);
+        gc2.addCard(p6, goldDeck2.get(12), goldDeck2.get(12).getBack(), 55, 29);
+        gc2.addCard(p6, goldDeck2.get(13), goldDeck2.get(13).getBack(), 56, 28);
+        gc2.addCard(p6, goldDeck2.get(14), goldDeck2.get(14).getBack(), 57, 27);
+        gc2.addCard(p6, goldDeck2.get(15), goldDeck2.get(15).getBack(), 58, 26);
+        gc2.addCard(p6, goldDeck2.get(16), goldDeck2.get(16).getBack(), 59, 25);
+        gc2.addCard(p6, goldDeck2.get(17), goldDeck2.get(17).getBack(), 60, 24);
+        gc2.addCard(p6, goldDeck2.get(18), goldDeck2.get(18).getBack(), 61, 23);
+        gc2.addCard(p6, goldDeck2.get(19), goldDeck2.get(19).getBack(), 62, 22);
+        gc2.addCard(p6, goldDeck2.get(20), goldDeck2.get(20).getBack(), 63, 21);
+        gc2.addCard(p6, goldDeck2.get(21), goldDeck2.get(21).getBack(), 64, 20);
+        gc2.addCard(p6, goldDeck2.get(22), goldDeck2.get(22).getBack(), 65, 19);
+        gc2.addCard(p6, goldDeck2.get(23), goldDeck2.get(23).getBack(), 66, 18);
+        gc2.addCard(p6, goldDeck2.get(24), goldDeck2.get(24).getBack(), 67, 17);
+        gc2.addCard(p6, goldDeck2.get(25), goldDeck2.get(25).getBack(), 68, 16);
+        gc2.addCard(p6, goldDeck2.get(26), goldDeck2.get(26).getBack(), 69, 15);
+        gc2.addCard(p6, goldDeck2.get(27), goldDeck2.get(27).getBack(), 70, 14);
+        gc2.addCard(p6, goldDeck2.get(28), goldDeck2.get(28).getBack(), 71, 13);
+        gc2.addCard(p6, goldDeck2.get(29), goldDeck2.get(29).getBack(), 72, 12);
+        gc2.addCard(p6, goldDeck2.get(30), goldDeck2.get(30).getBack(), 73, 11);
+        gc2.addCard(p6, goldDeck2.get(31), goldDeck2.get(31).getBack(), 74, 10);
+        gc2.addCard(p6, goldDeck2.get(32), goldDeck2.get(32).getBack(), 75, 9);
+        gc2.addCard(p6, goldDeck2.get(33), goldDeck2.get(33).getBack(), 76, 8);
+        gc2.addCard(p6, goldDeck2.get(34), goldDeck2.get(34).getBack(), 77, 7);
+        gc2.addCard(p6, goldDeck2.get(35), goldDeck2.get(35).getBack(), 78, 6);
+        gc2.addCard(p6, goldDeck2.get(36), goldDeck2.get(36).getBack(), 79, 5);
+        gc2.addCard(p6, goldDeck2.get(37), goldDeck2.get(37).getBack(), 80, 4);
+        gc2.addCard(p6, goldDeck2.get(38), goldDeck2.get(38).getBack(), 81, 3);
+        gc2.addCard(p6, goldDeck2.get(39), goldDeck2.get(39).getBack(), 82, 2);
+
+        LadderPattern blue_ladder6= new LadderPattern(89, objectiveDeck2.get(2).getFront(), objectiveDeck2.get(2).getBack(),ANIMALKINGDOM,true);
+        assertEquals(6, blue_ladder6.calculateObjectivePoints(p6.getManuscript()));
+
+        LadderPattern red_ladder6= new LadderPattern(87, objectiveDeck2.get(0).getFront(), objectiveDeck2.get(0).getBack(),FUNGIKINGDOM,true);
+        assertEquals(6, red_ladder6.calculateObjectivePoints(p6.getManuscript()));
+
+        //view.showManuscript(p6.getManuscript());
+
+
+
+        //game 3
+        //player 7
+        gc3.addStarterCard(p7,starterDeck3.get(2), starterDeck3.get(2).getFront());
 
 
     }

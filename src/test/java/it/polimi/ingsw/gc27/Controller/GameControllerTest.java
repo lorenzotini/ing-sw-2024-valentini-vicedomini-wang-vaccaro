@@ -303,6 +303,7 @@ class GameControllerTest {
         TwoPlusOnePattern animal_insect=new TwoPlusOnePattern(94, objectiveDeck.get(7).getFront(), objectiveDeck.get(7).getBack(), Kingdom.ANIMALKINGDOM, Kingdom.INSECTKINGDOM, -1, 1 );
         assertEquals(17, gc1.getGame().getBoard().getPointsBluePlayer() + animal_insect.calculateObjectivePoints(p3.getManuscript()));
 
+        //view.showManuscript(p3.getManuscript());
 
 
         //test 4
@@ -371,7 +372,7 @@ class GameControllerTest {
         ThreeKingdomPattern threetods=new ThreeKingdomPattern(96, objectiveDeck.get(8).getFront(), objectiveDeck.get(8).getBack(),FUNGIKINGDOM);
         assertEquals(11, gc1.getGame().getBoard().getPointsYellowPlayer() + threetods.calculateObjectivePoints(p4.getManuscript()) );
 
-
+        //view.showManuscript(p4.getManuscript());
 
         //game 2
         //player 5, all cards are placed from the starter to the upper border of the matrix
@@ -477,6 +478,37 @@ class GameControllerTest {
         //game 3
         //player 7
         gc3.addStarterCard(p7,starterDeck3.get(2), starterDeck3.get(2).getFront());
+
+        gc3.addCard(p7, goldDeck3.get(10), goldDeck3.get(10).getBack(), 41,41);
+        assertTrue(p7.getManuscript().getField()[42][42].getCorner(-1,1).isHidden());
+
+        gc3.addCard(p7, resourceDeck3.get(10), resourceDeck3.get(10).getBack(), 40,40);
+        assertTrue(p7.getManuscript().getField()[41][41].getCorner(-1,1).isHidden());
+
+        gc3.addCard(p7, goldDeck3.get(11), goldDeck3.get(11).getBack(), 39,39);
+        assertTrue(p7.getManuscript().getField()[40][40].getCorner(-1,1).isHidden());
+
+        gc3.addCard(p7, resourceDeck3.get(11), resourceDeck3.get(11).getBack(), 38,38);
+        assertTrue(p7.getManuscript().getField()[39][39].getCorner(-1,1).isHidden());
+
+        gc3.addCard(p7, resourceDeck3.get(0), resourceDeck3.get(0).getBack(), 37,37);
+        assertTrue(p7.getManuscript().getField()[38][38].getCorner(-1,1).isHidden());
+
+        gc3.addCard(p7, resourceDeck3.get(12), resourceDeck3.get(12).getBack(), 38,36);
+        assertTrue(p7.getManuscript().getField()[37][37].getCorner(1,1).isHidden());
+
+        gc3.addCard(p7, resourceDeck3.get(1), resourceDeck3.get(1).getBack(), 37,35);
+        assertTrue(p7.getManuscript().getField()[38][36].getCorner(-1,1).isHidden());
+
+        gc3.addCard(p7, resourceDeck3.get(2), resourceDeck3.get(2).getBack(), 36,38);
+        assertTrue(p7.getManuscript().getField()[37][37].getCorner(-1,-1).isHidden());
+
+        gc3.addCard(p7, resourceDeck3.get(3), resourceDeck3.get(3).getBack(), 35,39);
+        assertTrue(p7.getManuscript().getField()[36][38].getCorner(-1,-1).isHidden());
+
+
+
+
 
 
     }

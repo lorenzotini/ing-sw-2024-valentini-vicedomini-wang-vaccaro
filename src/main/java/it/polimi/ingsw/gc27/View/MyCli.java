@@ -216,6 +216,17 @@ public class MyCli {
         return line;
     }
 
+    public static boolean isMatrixEmpty(Queue<String>[][] matrix) {
+        for (Queue<String>[] row : matrix) {
+            for (Queue<String> queue : row) {
+                if (queue != null && !queue.isEmpty()) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
     public static void printManuscript(Manuscript manuscript){
 
         Face[][] field = manuscript.getField();
@@ -237,9 +248,13 @@ public class MyCli {
         }
 
         // print
-        for(int j = yMin; j < yMax; j++) {
+        loop:
+        for(int j = yMin; j <= yMax; j++) {
             for (int line = 1; line <= 5; line++) {
                 for (int i = xMin; i <= xMax; i++) {
+                    if(isMatrixEmpty(matrix)){
+                        break loop;
+                    }
                     switch (line) {
                         case 1, 2, 3:
                             if(matrix[i][j].peek() != null){

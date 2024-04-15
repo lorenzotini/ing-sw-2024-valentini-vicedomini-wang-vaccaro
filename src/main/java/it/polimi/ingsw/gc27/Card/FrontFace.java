@@ -19,6 +19,8 @@ public class FrontFace extends Face {
     }
     @Override
     public ArrayList<Kingdom> getPermanentResources(){
-        return null;
+        ArrayList<Kingdom> l = new ArrayList<>();
+        l.add(Kingdom.EMPTY);
+        return l;
     }
 }

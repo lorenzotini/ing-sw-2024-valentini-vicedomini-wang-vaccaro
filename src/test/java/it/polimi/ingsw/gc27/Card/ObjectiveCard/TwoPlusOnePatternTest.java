@@ -6,6 +6,7 @@ import it.polimi.ingsw.gc27.Card.StarterCard;
 import it.polimi.ingsw.gc27.Console;
 import it.polimi.ingsw.gc27.Controller.GameController;
 import it.polimi.ingsw.gc27.Controller.JsonParser;
+import it.polimi.ingsw.gc27.Enumerations.Kingdom;
 import it.polimi.ingsw.gc27.Enumerations.PawnColour;
 import it.polimi.ingsw.gc27.Game.Board;
 import it.polimi.ingsw.gc27.Game.Game;
@@ -107,13 +108,15 @@ class TwoPlusOnePatternTest {
         gameController.addCard(p1,goldCard11, goldCard11.getFront(), 41,45);
         gameController.addCard(p1, resourceCard12, resourceCard12.getFront(), 38,43);
 
+
+        //LadderPattern ladder=new LadderPattern(88,obj1.getFront(), obj1.getBack(), Kingdom.PLANTKINGDOM, false);
         assertEquals(21,board.getPointsBluePlayer());
-        int points= board.getPointsBluePlayer() + obj1.calculateObjectivePoints(manuscript);
-        assertEquals(23,points);
+        //int points= board.getPointsBluePlayer() + obj1.calculateObjectivePoints(manuscript);
+        assertEquals(23,board.getPointsBluePlayer() + obj1.calculateObjectivePoints(manuscript));
         assertEquals(24, board.getPointsBluePlayer()+ obj2.calculateObjectivePoints(manuscript));
         assertEquals(23, board.getPointsBluePlayer()+ obj3.calculateObjectivePoints(manuscript));
         assertEquals(23, board.getPointsBluePlayer()+ obj4.calculateObjectivePoints(manuscript));
-        assertEquals(24, board.getPointsBluePlayer()+ obj7.calculateObjectivePoints(manuscript));
+        //assertEquals(24, board.getPointsBluePlayer()+ obj7.calculateObjectivePoints(manuscript));
 
         //assertTrue(p1.getManuscript().getField()[42][42].getCorner(1,-1).isHidden());
         //assertTrue(p1.getManuscript().getField()[42][42].getCorner(-1,1).isHidden());

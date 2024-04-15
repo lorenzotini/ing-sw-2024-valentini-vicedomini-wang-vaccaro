@@ -41,39 +41,47 @@ public class TwoPlusOnePattern extends ObjectiveCard {
         yMin = manuscript.getyMin();
 
 
-        for(int i = xMin; i<= xMax; i++) {
-            for(int j = yMin; j <= yMax; j++){
+        for(int j = yMin; j <= yMax; j++) {
+            for(int i = xMin; i<= xMax; i++){
                 if(field[i][j] != null) {
-                    if(this.x == 1 && this.y == 1) {
+                    if(this.x == 1 && this.y == 1) { // one fungi two animal
                         if (field[i][j].getColour().equals(this.firstColour) && i >=1 && j <= (field_dim - 4) && checked[i][j] == 0) {
-                            if (field[i - 1][j + 1].getColour().equals(this.secondColour) && field[i - 1][j + 3].getColour().equals(this.secondColour)) {
-                                points = points + 3;
-                                checked[i - 1][j + 1] = 1;
-                                checked[i - 1][j + 3] = 1;
+                            if(field[i - 1][j + 1] != null && field[i - 1][j + 3] != null) {
+                                if (field[i - 1][j + 1].getColour().equals(this.secondColour) && field[i - 1][j + 3].getColour().equals(this.secondColour)) {
+                                    points = points + 3;
+                                    checked[i - 1][j + 1] = 1;
+                                    checked[i - 1][j + 3] = 1;
+                                }
                             }
                         }
-                    } else if (this.x == 1 && this.y == -1) {
+                    } else if (this.x == 1 && this.y == -1) { //one plant two fungi
                         if (field[i][j].getColour().equals(this.firstColour) && i <= (field_dim-2) && j <= (field_dim - 4) && checked[i][j] == 0) {
-                            if (field[i][j + 2].getColour().equals(this.firstColour) && field[i + 1][j + 3].getColour().equals(this.secondColour)) {
-                                points = points + 3;
-                                checked[i][j + 2] = 1;
-                                checked[i + 1][j + 3] = 1;
+                            if(field[i][j + 2] != null && field[i + 1][j + 3]!= null){
+                                if (field[i][j + 2].getColour().equals(this.firstColour) && field[i + 1][j + 3].getColour().equals(this.secondColour)) {
+                                    points = points + 3;
+                                    checked[i][j + 2] = 1;
+                                    checked[i + 1][j + 3] = 1;
+                                }
                             }
                         }
-                    } else if (this.x == -1 && this.y == 1) {
+                    } else if (this.x == -1 && this.y == 1) { //one animal two insect
                         if (field[i][j].getColour().equals(this.firstColour) && i <= (field_dim-2) && j <= (field_dim -4) && checked[i][j] == 0) {
-                            if (field[i + 1][j + 1].getColour().equals(this.secondColour) && field[i + 1][j + 3].getColour().equals(this.secondColour)) {
-                                points = points + 3;
-                                checked[i + 1][j + 1] = 1;
-                                checked[i + 1][j + 3] = 1;
+                            if(field[i + 1][j + 1]!= null && field[i + 1][j + 3]!= null) {
+                                if (field[i + 1][j + 1].getColour().equals(this.secondColour) && field[i + 1][j + 3].getColour().equals(this.secondColour)) {
+                                    points = points + 3;
+                                    checked[i + 1][j + 1] = 1;
+                                    checked[i + 1][j + 3] = 1;
+                                }
                             }
                         }
-                    } else if (this.x == -1 && this.y == -1) {
+                    } else if (this.x == -1 && this.y == -1) { //one insect two plant
                         if (field[i][j].getColour().equals(this.firstColour) && i >=1 && j <= (field_dim - 4) && checked[i][j] == 0) {
-                            if (field[i][j + 2].getColour().equals(this.firstColour) && field[i -1][j + 3].getColour().equals(this.secondColour)) {
-                                points = points + 3;
-                                checked[i][j + 2] = 1;
-                                checked[i - 1][j + 3] = 1;
+                            if(field[i][j + 2]!= null && field[i -1][j + 3]!= null){
+                                if (field[i][j + 2].getColour().equals(this.firstColour) && field[i -1][j + 3].getColour().equals(this.secondColour)) {
+                                    points = points + 3;
+                                    checked[i][j + 2] = 1;
+                                    checked[i - 1][j + 3] = 1;
+                                }
                             }
                         }
                     }

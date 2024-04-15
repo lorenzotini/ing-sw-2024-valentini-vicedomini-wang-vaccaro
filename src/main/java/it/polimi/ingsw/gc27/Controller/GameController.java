@@ -1,12 +1,14 @@
 package it.polimi.ingsw.gc27.Controller;
 
 import it.polimi.ingsw.gc27.Card.*;
+import it.polimi.ingsw.gc27.Enumerations.PawnColour;
 import it.polimi.ingsw.gc27.Game.Game;
 import it.polimi.ingsw.gc27.Game.Manuscript;
 import it.polimi.ingsw.gc27.Game.Market;
 import it.polimi.ingsw.gc27.Game.Player;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class GameController {
     private Game game;
@@ -78,4 +80,28 @@ public class GameController {
         }
     }
 
+    // Create a player from command line, but hand, secret objective and starter are not instantiated
+    public Player welcomePlayer(){
+        Scanner scanner = new Scanner(System.in);
+        String username = "";
+        String pawnColor = "";
+        Manuscript manuscript = new Manuscript();
+
+        // Ask for the username
+        do {
+            System.out.println("Choose your username: ");
+            username = scanner.next();
+        }while(!game.validUsername(username));
+
+        // Ask for the pawn color
+        do {
+            System.out.println("Choose your color: ");
+            for (PawnColour pawnColour : game.getAvailablePawns()) {
+                System.out.print(pawnColour + " ");
+            }
+            pawnColor = scanner.next();
+        }while(!game.validPawn(pawnColor));
+
+        return new Player(username, manuscript, PawnColour.fromStringToPawnColour(pawnColor));
+    }
 }

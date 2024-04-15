@@ -14,6 +14,10 @@ public class TwoPlusOnePattern extends ObjectiveCard {
     private int x;
     private int y;
 
+
+    // first colour is the first colour looking from top to bottom the patter chosen (the top colour)
+    // second colour is the second colour looking from top to bottom the patter chosen (the bottom colour)
+    // x and y are the indexes in which the minority card is placed ex. x=1 && y=1 the minority card is placed on top right
     public TwoPlusOnePattern(int id, FrontFace front, BackFace back, Kingdom firstColour, Kingdom secondColour, int x, int y) {
         super(id, front, back);
         this.firstColour = firstColour;
@@ -24,7 +28,7 @@ public class TwoPlusOnePattern extends ObjectiveCard {
 
     @Override
     public int calculateObjectivePoints(Manuscript manuscript) {
-        int field_dim = manuscript.FIELD_DIM;
+        int field_dim = Manuscript.FIELD_DIM;
         int[][] checked = new int[field_dim][field_dim];
         int points = 0;
         int xMax, xMin, yMax, yMin;

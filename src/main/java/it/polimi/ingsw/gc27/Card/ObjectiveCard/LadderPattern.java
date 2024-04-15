@@ -20,7 +20,7 @@ public class LadderPattern extends ObjectiveCard {
 
     @Override
     public int calculateObjectivePoints(Manuscript manuscript) {
-        int field_dim = manuscript.FIELD_DIM;
+        int field_dim = Manuscript.FIELD_DIM;
         int[][] checked = new int[field_dim][field_dim];
         int points = 0;
         int up;

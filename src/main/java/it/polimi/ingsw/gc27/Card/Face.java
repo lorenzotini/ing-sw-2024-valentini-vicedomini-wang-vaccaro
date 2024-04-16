@@ -2,9 +2,10 @@ package it.polimi.ingsw.gc27.Card;
 
 import it.polimi.ingsw.gc27.Enumerations.Kingdom;
 
+import java.io.Serializable;
 import java.util.*;
 
-public abstract class Face {
+public abstract class Face implements Serializable {
     private Kingdom colour;
     //UR = upper right, LL = lower left, etc...
     private Corner cornerUR;

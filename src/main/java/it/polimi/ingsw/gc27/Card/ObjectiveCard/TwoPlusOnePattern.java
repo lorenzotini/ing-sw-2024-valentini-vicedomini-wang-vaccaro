@@ -3,16 +3,15 @@ package it.polimi.ingsw.gc27.Card.ObjectiveCard;
 import it.polimi.ingsw.gc27.Card.BackFace;
 import it.polimi.ingsw.gc27.Card.Face;
 import it.polimi.ingsw.gc27.Card.FrontFace;
-import it.polimi.ingsw.gc27.Card.ObjectiveCard.ObjectiveCard;
 import it.polimi.ingsw.gc27.Enumerations.Kingdom;
 import it.polimi.ingsw.gc27.Game.Manuscript;
 
 public class TwoPlusOnePattern extends ObjectiveCard {
     public final int OBJECTIVE_POINTS = 3;
-    private Kingdom firstColour;
-    private Kingdom secondColour;
-    private int x;
-    private int y;
+    private final Kingdom firstColour;
+    private final Kingdom secondColour;
+    private final int x;
+    private final int y;
 
 
     // first colour is the first colour looking from top to bottom the patter chosen (the top colour)

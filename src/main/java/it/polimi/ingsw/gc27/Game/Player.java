@@ -34,7 +34,12 @@ public class Player {
     public Manuscript getManuscript() {
         return manuscript;
     }
-
+    public Card getSecretObjective() {
+        return secretObjective;
+    }
+    public void setSecretObjective(Card secretObjective) {
+        this.secretObjective = secretObjective;
+    }
     public String getUsername() {
         return username;
     }
@@ -148,7 +153,6 @@ public class Player {
             }
             game.addPoints(this, points);
         }
-
     }
 
 }

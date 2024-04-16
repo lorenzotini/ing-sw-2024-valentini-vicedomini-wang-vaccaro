@@ -1,6 +1,8 @@
 package it.polimi.ingsw.gc27.Enumerations;
 
-public enum PawnColour {
+import java.io.Serializable;
+
+public enum PawnColour implements Serializable {
     BLUE,
     YELLOW,
     GREEN,

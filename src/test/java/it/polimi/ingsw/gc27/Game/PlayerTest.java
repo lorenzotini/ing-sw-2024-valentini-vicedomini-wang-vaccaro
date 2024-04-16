@@ -1,7 +1,7 @@
 package it.polimi.ingsw.gc27.Game;
 
-import it.polimi.ingsw.gc27.Card.*;
-import it.polimi.ingsw.gc27.Card.ObjectiveCard.ObjectiveCard;
+import it.polimi.ingsw.gc27.Card.ResourceCard;
+import it.polimi.ingsw.gc27.Card.StarterCard;
 import it.polimi.ingsw.gc27.Controller.JsonParser;
 import it.polimi.ingsw.gc27.Enumerations.PawnColour;
 import org.junit.jupiter.api.Test;

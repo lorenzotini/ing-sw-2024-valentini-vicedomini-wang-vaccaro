@@ -14,3 +14,7 @@ public interface VirtualServer extends Remote{
     void drawGoldCard(Player player, boolean fromDeck, int faceUpCardIndex) throws RemoteException;
     Player welcomePlayer(VirtualView client) throws RemoteException;
 }
+/*public interface VirtualServer extends Remote{
+    void connect(VirtualView client) throws RemoteException;
+    void sendMessage(Message message);
+}

@@ -21,5 +21,6 @@ public abstract class Card implements Serializable {
     public BackFace getBack() {
         return back;
     }
+    public int getCardID(){return cardID;}
 
 }

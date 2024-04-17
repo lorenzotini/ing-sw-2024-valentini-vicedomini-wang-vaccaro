@@ -23,41 +23,80 @@ public class MyCli {
         String fifth;
         Queue<String> lines = new LinkedList<>();
 
+        // no surrounding cards
         if (field[i+1][j] == null && field[i][j+1] == null && field[i-1][j] == null && field[i][j-1] == null) {
-            first = "           ";
-            second = "           ";
-            third = "           ";
-            fourth = "           ";
-            fifth = "           ";
+            first = "               ";
+            second = "               ";
+            third = "               ";
+            fourth = "               ";
+            fifth = "               ";
             lines.add(first);
             lines.add(second);
             lines.add(third);
-            lines.add(fourth);
-            lines.add(fifth);
-        } else if(field[i+1][j] != null && field[i][j+1] != null && field[i-1][j] != null && field[i][j-1] != null){
+            //lines.add(fourth);
+            //lines.add(fifth);
+        } // surrounded by card on every side
+        else if(field[i+1][j] != null && field[i][j+1] != null && field[i-1][j] != null && field[i][j-1] != null){
             third = "           ";
             lines.add(third);
-        } else if(field[i+1][j] != null && field[i][j+1] != null && field[i-1][j] != null && field[i][j-1] == null){
+        } // free on top
+        else if(field[i+1][j] != null && field[i][j+1] != null && field[i-1][j] != null && field[i][j-1] == null){
             first = "           ";
             second = "           ";
             third = "           ";
             lines.add(first);
             lines.add(second);
             lines.add(third);
-        } else if(field[i+1][j] != null && field[i][j+1] != null && field[i-1][j] == null && field[i][j-1] != null){
+        } // free on the left
+        else if(field[i+1][j] != null && field[i][j+1] != null && field[i-1][j] == null && field[i][j-1] != null){
             third = "               ";
             lines.add(third);
-        } else if(field[i+1][j] != null && field[i][j+1] == null && field[i-1][j] != null && field[i][j-1] != null){
+        } // free on the bottom
+        else if(field[i+1][j] != null && field[i][j+1] == null && field[i-1][j] != null && field[i][j-1] != null){
             first = "           ";
             second = "           ";
             third = "           ";
             lines.add(first);
             lines.add(second);
             lines.add(third);
-        } else if(field[i+1][j] == null && field[i][j+1] != null && field[i-1][j] != null && field[i][j-1] != null){
+        } // free on the right
+        else if(field[i+1][j] == null && field[i][j+1] != null && field[i-1][j] != null && field[i][j-1] != null){
             third = "               ";
             lines.add(third);
-        } else {
+        } // card on top
+        else if(field[i+1][j] == null && field[i][j+1] == null && field[i-1][j] == null && field[i][j-1] != null){
+            first = "               ";
+            second = "               ";
+            third = "               ";
+            lines.add(first);
+            lines.add(second);
+            lines.add(third);
+        } // card on the left
+        else if(field[i+1][j] == null && field[i][j+1] == null && field[i-1][j] != null && field[i][j-1] == null){
+            first = "               ";
+            second = "               ";
+            third = "               ";
+            lines.add(first);
+            lines.add(second);
+            lines.add(third);
+        } // card on the bottom
+        else if(field[i+1][j] == null && field[i][j+1] != null && field[i-1][j] == null && field[i][j-1] == null){
+            first = "               ";
+            second = "               ";
+            third = "               ";
+            lines.add(first);
+            lines.add(second);
+            lines.add(third);
+        } // card on the right
+        else if(field[i+1][j] != null && field[i][j+1] == null && field[i-1][j] == null && field[i][j-1] == null){
+            first = "               ";
+            second = "               ";
+            third = "               ";
+            lines.add(first);
+            lines.add(second);
+            lines.add(third);
+        }// two card near perpendicularly
+        else {
             first = "               ";
             second = "               ";
             third = "               ";
@@ -248,14 +287,176 @@ public class MyCli {
         }
 
         // print
+        // first line of all, then group by 3 lines
+        for(int i = xMin; i <= xMax; i++){
+            int j = yMin;
+            System.out.print(matrix[i][j].remove());
+        }
+        //System.out.println();
+
+        boolean flag = false;
+
         loop:
         for(int j = yMin; j <= yMax; j++) {
-            for (int line = 1; line <= 5; line++) {
+            for (int line = 1; line <= 3; line++) {
                 for (int i = xMin; i <= xMax; i++) {
                     if(isMatrixEmpty(matrix)){
                         break loop;
                     }
-                    switch (line) {
+                    if(!flag){
+                        line = 0;
+                        break;
+                    }
+                    if(j != yMin && matrix[i][j-1].peek() != null){
+                        System.out.print(matrix[i][j-1].remove());
+                    }else if(matrix[i][j].peek() != null){
+                        System.out.print(matrix[i][j].remove());
+                    }else if(matrix[i][j+1].peek() != null){
+                        System.out.print(matrix[i][j+1].remove());
+                    }
+                }
+                System.out.println();
+                flag = true;
+            }
+        }
+        // last line of all
+        for(int i = xMin; i <= xMax; i++){
+            int j = yMax;
+            System.out.print(matrix[i][j].remove());
+        }
+    }
+
+    // example test
+    public static void main(String[] args) {
+
+        Manuscript m = new Manuscript();
+
+        // #0
+        m.getField()[40][40] = starterDeck.get(0).getBack();
+        m.getField()[40][40].getCornerLL().setHidden(true);
+        m.getField()[40][40].getCornerLR().setHidden(true);
+        m.getField()[40][40].getCornerUR().setHidden(true);
+        m.getField()[40][40].getCornerUL().setHidden(true);
+
+        // #1
+        m.getField()[39][41] = resourceDeck.get(20).getBack();
+        m.getField()[39][41].getCornerLL().setHidden(true);
+        m.getField()[39][41].getCornerLR().setHidden(true);
+
+        // #2
+        m.getField()[39][39] = resourceDeck.get(21).getBack();
+        m.getField()[39][39].getCornerUR().setHidden(true);
+
+        // #3
+        m.getField()[38][42] = resourceDeck.get(22).getBack();
+        m.getField()[38][42].getCornerLL().setHidden(true);
+
+        // #4
+        m.getField()[37][43] = resourceDeck.get(23).getBack();
+        m.getField()[37][43].getCornerUL().setHidden(true);
+
+        // #5
+        m.getField()[40][38] = resourceDeck.get(0).getBack();
+        m.getField()[40][38].getCornerLR().setHidden(true);
+
+        // #6
+        m.getField()[41][39] = resourceDeck.get(30).getBack();
+        m.getField()[41][39].getCornerLR().setHidden(true);
+
+        // #7
+        m.getField()[36][42] = resourceDeck.get(31).getBack();
+
+        // #8
+        m.getField()[42][40] = resourceDeck.get(10).getBack();
+        m.getField()[42][40].getCornerLL().setHidden(true);
+
+        // #9
+        m.getField()[40][42] = resourceDeck.get(11).getBack();
+        m.getField()[40][42].getCornerUR().setHidden(true);
+
+        // #10
+        m.getField()[41][41] = resourceDeck.get(32).getBack();
+
+        m.setxMin(36);
+        m.setyMin(38);
+        m.setxMax(42);
+        m.setyMax(43);
+
+        MyCli.printManuscript(m);
+    }
+}
+
+//////////////////////////////////////////////////
+
+/*
+"                              "
+
+            36              37              38              39              40              41              42
+                                                                    ╭-----------------╮
+                                                                    |A               P|
+38                                                                  |                 |
+                                                     ╭--------------|F             ╭-----------------╮
+                                                     | A            ╰--------------| A             P |
+39                                                   |                 |           |                 |
+                                      ╭--------------|F                |-----------|               I |
+                                      | A            ╰-----------------╯           ╰-----------------╯
+40
+
+
+41
+
+
+42
+
+
+43
+
+
+
+            37              38             39             40
+                                                  ╭-----------------╮
+                                                  |A               P|
+40                                                |                 |
+                                   ╭-----------------╮              |
+                                   | A             P |--------------╯
+41                                 |                 |
+                    ╭-----------------╮            I |
+                    |A               P|--------------╯
+42                  |                 |
+     ╭-----------------╮              |
+     |A               P|--------------╯
+43   |                 |
+     |X               X|
+     ╰-----------------╯
+
+
+
+
+
+
+
+            41              42             43             44
+   ╭-----------------╮           ╭-----------------╮
+   |A               P|           |A               P|
+41 |                 |           |                 |
+   |F             ╭-----------------╮           ╭-----------------╮
+   ╰--------------| A             P |-----------|A               P|
+42                |                 |           |                 |
+   ╭-----------------╮            I |-----------|X               X|
+   |A               P|--------------╯           ╰-----------------╯
+43 |                 |           |                 |
+   |F             ╭-----------------╮           ╭-----------------╮
+   ╰--------------|A               P|-----------|A               P|
+44                |                 |           |                 |
+                  |X               X|           |X               X|
+                  ╰-----------------╯           ╰-----------------╯
+
+
+
+
+
+
+     switch (line) {
                         case 1, 2, 3:
                             if(matrix[i][j].peek() != null){
                                 System.out.print(matrix[i][j].remove());
@@ -281,76 +482,45 @@ public class MyCli {
                         default:
                             throw new IllegalStateException("Unexpected value: " + line);
                     }
+
+
+
+
+
+        // print
+        for(int i = xMin; i <= xMax; i++){
+            int j = yMin;
+            System.out.print(matrix[i][j].remove());
+        }
+        //System.out.println();
+
+        boolean flag = false;
+
+        loop:
+        for(int j = yMin; j <= yMax; j++) {
+            for (int line = 1; line <= 3; line++) {
+                for (int i = xMin; i <= xMax; i++) {
+                    if(isMatrixEmpty(matrix)){
+                        break loop;
+                    }
+                    if(!flag){
+                        line = 0;
+                        break;
+                    }
+                    if(j != yMin && matrix[i][j-1].peek() != null){
+                        System.out.print(matrix[i][j-1].remove());
+                    }else if(matrix[i][j].peek() != null){
+                        System.out.print(matrix[i][j].remove());
+                    }else if(matrix[i][j+1].peek() != null){
+                        System.out.print(matrix[i][j+1].remove());
+                    }
                 }
                 System.out.println();
+                flag = true;
             }
         }
-    }
-
-    // example test
-    public static void main(String[] args) {
-
-        Manuscript m = new Manuscript();
-
-        m.getField()[41][41] = resourceDeck.get(10).getFront();
-        m.getField()[41][41].getCornerLR().setHidden(true);
-
-        m.getField()[43][41] = resourceDeck.get(1).getFront();
-        m.getField()[43][41].getCornerLR().setHidden(true);
-        m.getField()[43][41].getCornerLL().setHidden(true);
-
-        m.getField()[42][42] = resourceDeck.get(2).getFront();
-        m.getField()[42][42].getCornerLL().setHidden(true);
-
-        m.getField()[44][42] = resourceDeck.get(24).getFront();
-
-        m.getField()[41][43] = resourceDeck.get(4).getFront();
-        m.getField()[41][43].getCornerLR().setHidden(true);
-
-        m.getField()[43][43] = starterDeck.get(2).getBack();
-        m.getField()[43][43].getCornerLL().setHidden(true);
-        m.getField()[43][43].getCornerUR().setHidden(true);
-        m.getField()[43][43].getCornerUL().setHidden(true);
-        m.getField()[43][43].getCornerLR().setHidden(true);
-
-        m.getField()[42][44] = resourceDeck.get(34).getFront();
-
-        m.getField()[44][44] = resourceDeck.get(5).getFront();
-
-        m.setxMin(41);
-        m.setyMin(41);
-        m.setxMax(44);
-        m.setyMax(44);
-
-        MyCli.printManuscript(m);
-    }
-}
-
-//////////////////////////////////////////////////
-/*
 
 
-            41              42             43             44
-   ╭-----------------╮           ╭-----------------╮
-   |A               P|           |A               P|
-41 |                 |           |                 |
-   |F             ╭-----------------╮           ╭-----------------╮
-   ╰--------------| A             P |-----------|A               P|
-42                |                 |           |                 |
-   ╭-----------------╮            I |-----------|X               X|
-   |A               P|--------------╯           ╰-----------------╯
-43 |                 |           |                 |
-   |F             ╭-----------------╮           ╭-----------------╮
-   ╰--------------|A               P|-----------|A               P|
-44                |                 |           |                 |
-                  |X               X|           |X               X|
-                  ╰-----------------╯           ╰-----------------╯
-
-
-|                 |
-|        A        |
-|       AB        |
-|       ABC       |
 
 
 */

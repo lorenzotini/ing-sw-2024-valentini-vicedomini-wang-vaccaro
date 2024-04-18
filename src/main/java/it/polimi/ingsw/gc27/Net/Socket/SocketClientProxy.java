@@ -41,8 +41,5 @@ public class SocketClientProxy implements VirtualView {
         output.flush();
     }
 
-    @Override
-    public void run() {
 
-    }
 }

@@ -4,13 +4,14 @@ import it.polimi.ingsw.gc27.Net.RMI.RmiClient;
 import it.polimi.ingsw.gc27.Net.RMI.RmiServer;
 import it.polimi.ingsw.gc27.Net.Socket.SocketClient;
 
+import java.io.IOException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.Scanner;
 
 public class MainClient {
 
-    public static void main(String[] args) throws RemoteException, NotBoundException {
+    public static void main(String[] args) throws IOException, NotBoundException {
 
         Scanner scan = new Scanner(System.in);
         int connectionChoose;

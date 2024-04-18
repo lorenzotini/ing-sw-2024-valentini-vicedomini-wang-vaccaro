@@ -46,20 +46,15 @@ public class ClientHandler implements VirtualView {
                     break;
                 case "drawresourcecard":
                     new Thread(() -> {
-
+                        controller.drawResourceCard(player, commands[1].equals("deck"), (int)commands[2]);
                     }).start();
-                    if(commands[1].equals("deck")){
-                        controller.drawResourceCard(player, true, (int)commands[2]);
-                    }else{
-                        controller.drawResourceCard(player, false, (int)commands[2]);
-                    }
+
                     break;
                 case "drawgoldcard":
-                    if(commands[1].equals("deck")){
-                        controller.drawGoldCard(player, true, (int)commands[2]);
-                    }else{
-                        controller.drawGoldCard(player, false, (int)commands[2]);
-                    }
+                    new Thread(()->{
+                        controller.drawGoldCard(player, commands[1].equals("deck"), (int)commands[2]);
+                    }).start();
+
                     break;
                 default:
                     System.out.println("Invalid command");

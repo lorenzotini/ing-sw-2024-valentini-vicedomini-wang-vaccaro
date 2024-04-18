@@ -4,6 +4,7 @@ import it.polimi.ingsw.gc27.Game.Player;
 import it.polimi.ingsw.gc27.Net.VirtualServer;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 
+import java.io.IOException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -18,12 +19,12 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
     protected RmiClient(VirtualServer server) throws RemoteException {
         this.server = server;
     }
-    public RmiClient(String ipAddress, int port) throws RemoteException, NotBoundException {
+    public RmiClient(String ipAddress, int port) throws IOException, NotBoundException {
         Registry registry = LocateRegistry.getRegistry(ipAddress, port);
         this.server = (VirtualServer) registry.lookup("VirtualServer");
         this.run();
     }
-    public static void main(String[] args) throws RemoteException, NotBoundException{
+    public static void main(String[] args) throws IOException, NotBoundException{
         Scanner scan = new Scanner(System.in);
 
         System.out.println("Welcome to the game CODEX NATURALIS!\n" +
@@ -63,12 +64,12 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
         this.username = username;
     }
 
-    public void run() throws RemoteException {
+    public void run() throws IOException {
         this.server.connect(this);
         runCli();
     }
 
-    private void runCli() throws RemoteException {
+    private void runCli() throws IOException {
         server.welcomePlayer(this);
         Scanner scan = new Scanner(System.in);
         while (true) {

@@ -8,6 +8,7 @@ import it.polimi.ingsw.gc27.Game.Market;
 import it.polimi.ingsw.gc27.Game.Player;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -82,7 +83,7 @@ public class GameController implements Serializable {
     }
 
     // Create a player from command line, but hand, secret objective and starter are not instantiated
-    public Player welcomePlayer(VirtualView client) throws RemoteException {
+    public Player welcomePlayer(VirtualView client) throws IOException, RemoteException {
         String username = "";
         String pawnColor = "";
         Manuscript manuscript = new Manuscript();
@@ -92,7 +93,7 @@ public class GameController implements Serializable {
            client.show("Choose your username: ");
             username = client.read();
         }while(!game.validUsername(username));
-
+        client.setUsername(username);
         // Ask for the pawn color
         do {
             client.show("Choose your color: ");
@@ -117,7 +118,8 @@ public class GameController implements Serializable {
         // TODO: ORA LA METTE FRONT, POI DOVRA' SCEGLIERE QUALE LATO GIOCARE
         StarterCard starter = game.getStarterDeck().removeLast();
         this.addStarterCard(p, starter, starter.getFront());
-
         return p;
+
+
     }
 }

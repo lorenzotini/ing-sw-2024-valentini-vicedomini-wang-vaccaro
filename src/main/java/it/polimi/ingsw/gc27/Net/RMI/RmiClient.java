@@ -13,10 +13,15 @@ import java.util.Scanner;
 
 public class RmiClient extends UnicastRemoteObject implements VirtualView {
     final VirtualServer server;
-    private Player player;
+    private String username;
 
     protected RmiClient(VirtualServer server) throws RemoteException {
         this.server = server;
+    }
+    public RmiClient(String ipAddress, int port) throws RemoteException, NotBoundException {
+        Registry registry = LocateRegistry.getRegistry(ipAddress, port);
+        this.server = (VirtualServer) registry.lookup("VirtualServer");
+        this.run();
     }
     public static void main(String[] args) throws RemoteException, NotBoundException{
         Scanner scan = new Scanner(System.in);
@@ -52,13 +57,19 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
         Scanner s = new Scanner(System.in);
         return s.nextLine();
     }
-    private void run() throws RemoteException {
+
+    @Override
+    public void setUsername(String username) throws RemoteException {
+        this.username = username;
+    }
+
+    public void run() throws RemoteException {
         this.server.connect(this);
         runCli();
     }
 
     private void runCli() throws RemoteException {
-        player = server.welcomePlayer(this);
+        server.welcomePlayer(this);
         Scanner scan = new Scanner(System.in);
         while (true) {
             System.out.print("> ");
@@ -75,11 +86,11 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
                     System.out.println("y = ");
                     int y = scan.nextInt();
                     if(face.equalsIgnoreCase("front")) {
-                        server.addCard(player, player.getHand().get(cardIndex), player.getHand().get(cardIndex).getFront(), x, y);
+                        server.addCard(username, cardIndex, true, x, y);
                     }else if(face.equalsIgnoreCase("back")){
-                        server.addCard(player, player.getHand().get(cardIndex), player.getHand().get(cardIndex).getBack(), x, y);
+                        server.addCard(username, cardIndex, false, x, y);
                     }else{
-                        System.out.println("Invalid face");
+                        System.out.println("Invalid face: abort");
                     }
                     break;
                 /*case "drawresourcecard":

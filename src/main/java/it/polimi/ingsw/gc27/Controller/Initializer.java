@@ -12,16 +12,16 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class Initializer {
-    private static Game game;
-    private static ArrayList<StarterCard> starterDeck = JsonParser.getStarterDeck(JsonParser.cardsJsonObj);
-    private static ArrayList<ResourceCard> resourceDeck = JsonParser.getResourceDeck(JsonParser.cardsJsonObj);
-    private static ArrayList<GoldCard> goldDeck = JsonParser.getGoldDeck(JsonParser.cardsJsonObj);
-    private static ArrayList<ObjectiveCard> objectiveDeck = JsonParser.getObjectiveDeck(JsonParser.cardsJsonObj);
-    private static int gameId;
-    private static Market market = new Market();
-    private static Board board = new Board();
+    private Game game;
+    private  ArrayList<StarterCard> starterDeck = JsonParser.getStarterDeck(JsonParser.cardsJsonObj);
+    private  ArrayList<ResourceCard> resourceDeck = JsonParser.getResourceDeck(JsonParser.cardsJsonObj);
+    private  ArrayList<GoldCard> goldDeck = JsonParser.getGoldDeck(JsonParser.cardsJsonObj);
+    private  ArrayList<ObjectiveCard> objectiveDeck = JsonParser.getObjectiveDeck(JsonParser.cardsJsonObj);
+    private  int gameId;
+    private  Market market = new Market();
+    private  Board board = new Board();
 
-    public static Game initialize(){
+    public  Game initialize(){
 
         // shuffle decks
         Collections.shuffle(starterDeck);

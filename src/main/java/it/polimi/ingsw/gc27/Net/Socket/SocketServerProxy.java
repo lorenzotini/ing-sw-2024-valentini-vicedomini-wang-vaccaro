@@ -27,23 +27,24 @@ public class SocketServerProxy implements VirtualServer {
     }
 
     @Override
-    public void addCard(Player player, ResourceCard card, Face face, int x, int y) {
+    public void addCard(String playerName, int handCardIndex, boolean isFrontFace, int x, int y) throws RemoteException {
         output.println("addCard");
-        output.println(player.getUsername());
-        output.println(card.getCardID());
-        if(face instanceof FrontFace)
+        output.println(playerName);
+        output.println(handCardIndex);
+        if (isFrontFace) {
             output.println(1);
-        else
+        } else {
             output.println(0);
+        }
         output.println(x);
         output.println(y);
         output.flush();
     }
 
     @Override
-    public void drawResourceCard(Player player, boolean fromDeck, int faceUpCardIndex) throws RemoteException {
+    public void drawResourceCard(String playerName, boolean fromDeck, int faceUpCardIndex) throws RemoteException{
         output.println("drawResourceCard");
-        output.println(player.getUsername());
+        output.println(playerName);
         output.println(fromDeck);
         output.println(faceUpCardIndex);
         output.flush();
@@ -51,25 +52,20 @@ public class SocketServerProxy implements VirtualServer {
 
 
     @Override
-    public void drawGoldCard(Player player, boolean fromDeck, int faceUpCardIndex) throws RemoteException {
+    public void drawGoldCard(String playerName, boolean fromDeck, int faceUpCardIndex) throws RemoteException{
         output.println("drawResourceCard");
-        output.println(player.getUsername());
+        output.println(playerName);
         output.println(fromDeck);
         output.println(faceUpCardIndex);
         output.flush();
     }
 
     @Override
-    public Player welcomePlayer(VirtualView client) throws RemoteException {
+    public void welcomePlayer(VirtualView client) throws RemoteException {
 
         output.println("welcomePlayer");
         output.flush();
-        return null;
+
     }
 
-
-    public void send(String command){
-        output.println(command);
-        output.flush();
-    }
 }

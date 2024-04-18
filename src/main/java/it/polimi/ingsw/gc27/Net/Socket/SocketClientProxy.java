@@ -24,11 +24,25 @@ public class SocketClientProxy implements VirtualView {
 
     @Override
     public void show(String s) throws RemoteException {
-
+        output.println("show");
+        output.println(s);
+        output.flush();
     }
 
     @Override
     public String read() throws RemoteException {
         return null;
+    }
+
+    @Override
+    public void setUsername(String username) throws RemoteException {
+        output.println("setUsername");
+        output.println(username);
+        output.flush();
+    }
+
+    @Override
+    public void run() {
+
     }
 }

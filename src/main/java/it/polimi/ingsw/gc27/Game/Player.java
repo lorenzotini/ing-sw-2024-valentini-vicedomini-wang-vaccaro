@@ -23,7 +23,7 @@ public class Player implements Serializable {
         this.username = username;
         this.manuscript = manuscript;
         this.pawnColour = pawnColour;
-        this.hand = new ArrayList<>(3);
+        this.hand = new ArrayList<>();
     }
 
     public PawnColour getPawnColour() {
@@ -32,6 +32,7 @@ public class Player implements Serializable {
     public void setPawnColour(PawnColour pawnColour) {
         this.pawnColour = pawnColour;
     }
+
     public Manuscript getManuscript() {
         return manuscript;
     }
@@ -44,14 +45,20 @@ public class Player implements Serializable {
     public String getUsername() {
         return username;
     }
+
     public void setUsername(String username) {
         this.username = username;
     }
+
     public void setManuscript(Manuscript manuscript) {
         this.manuscript = manuscript;
     }
+
     public ArrayList<ResourceCard> getHand() {
         return hand;
+    }
+    public void setHand(ArrayList<ResourceCard> hand) {
+        this.hand = hand;
     }
 
     /**
@@ -84,6 +91,10 @@ public class Player implements Serializable {
         if(card instanceof StarterCard){
             if(m.getField()[Manuscript.FIELD_DIM/2][Manuscript.FIELD_DIM/2] == null){
                 m.getField()[x][y] = face;
+                m.setxMin(Manuscript.FIELD_DIM/2);
+                m.setxMax(Manuscript.FIELD_DIM/2);
+                m.setyMin(Manuscript.FIELD_DIM/2);
+                m.setyMax(Manuscript.FIELD_DIM/2);
 
                 //increase counter permanent resources if the starter is placed face down
                 if(face instanceof BackFace){
@@ -134,6 +145,7 @@ public class Player implements Serializable {
             if (card instanceof GoldCard){
                 if(((GoldCard)card).getPointsMultiplier().equals(PointsMultiplier.EMPTY)){
                     points = ((GoldCard)card).getCardPoints();
+                    //game.addPoints(this, points);
                 }
                 else if(((GoldCard)card).getPointsMultiplier().equals(PointsMultiplier.CORNER)){
                     points = ((GoldCard)card).getCardPoints() * numCoveredCorners;
@@ -141,8 +153,9 @@ public class Player implements Serializable {
                 else{
                     points = ((GoldCard)card).getCardPoints() * this.manuscript.getCounter(((GoldCard) card).getPointsMultiplier().toCornerSymbol());
                 }
-            } else {
-                points = ((ResourceCard)card).getCardPoints();
+                //game.addPoints(this, points);
+            }else {
+                points= ((ResourceCard)card).getCardPoints();
             }
             game.addPoints(this, points);
         }

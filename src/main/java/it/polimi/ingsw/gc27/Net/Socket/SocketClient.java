@@ -1,6 +1,7 @@
 package it.polimi.ingsw.gc27.Net.Socket;
 
 import it.polimi.ingsw.gc27.CommandParser;
+import it.polimi.ingsw.gc27.Game.Player;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 
 import java.io.*;
@@ -9,9 +10,10 @@ import java.net.UnknownHostException;
 import java.rmi.RemoteException;
 import java.util.Scanner;
 
-public class SocketClient implements VirtualView {
+public class SocketClient implements VirtualView, Runnable {
     final BufferedReader input;
     final SocketServerProxy server;
+    private String username;
 
     public static void main(String[] args) throws UnknownHostException, IOException  {
         Scanner scan = new Scanner(System.in);
@@ -85,20 +87,61 @@ public class SocketClient implements VirtualView {
         String line;
         // Read message type
         while ((line = input.readLine()) != null) {
-            // Read message and perform action
-
-
+            Object[] commands = CommandParser.parseCommandFromServer(line);
+            switch(commands[0].toString()) {
+                case "show":
+                    show(commands[1].toString());
+                case "setUsername":
+                    setUsername(commands[1].toString());
+            }
         }
     }
     private void runCli() throws RemoteException {
+        server.welcomePlayer(this);
         Scanner scan = new Scanner(System.in);
         while (true) {
             System.out.print("> ");
-
-        }
+            String command = scan.nextLine();
+            //Object[] commands = CommandParser.parseCommand(command);
+            switch (command/*[0].toString()*/.toLowerCase()) {
+                case "addcard":
+                    System.out.println("Which card do you want to add? (choose from 0, 1, 2)");
+                    int cardIndex = scan.nextInt();
+                    System.out.println("Front or back?");
+                    String face = scan.next();
+                    System.out.println("x = ");
+                    int x = scan.nextInt();
+                    System.out.println("y = ");
+                    int y = scan.nextInt();
+                    if(face.equalsIgnoreCase("front")) {
+                        server.addCard(username, cardIndex, true, x, y);
+                    }else if(face.equalsIgnoreCase("back")){
+                        server.addCard(username, cardIndex, false, x, y);
+                    }else{
+                        System.out.println("Invalid face: abort");
+                    }
+                    break;
+                /*case "drawresourcecard":
+                    if(commands[1].equals("deck")){
+                        server.drawResourceCard(player, true, (int)commands[2]);
+                    }else{
+                        server.drawResourceCard(player, false, (int)commands[2]);
+                    }
+                    break;
+                case "drawgoldcard":
+                    if(commands[1].equals("deck")){
+                        server.drawGoldCard(player, true, (int)commands[2]);
+                    }else{
+                        server.drawGoldCard(player, false, (int)commands[2]);
+                    }
+                    break;*/
+                default:
+                    System.out.println("Invalid command");
+                    break;
+            }
     }
 
-
+}
 
 
 
@@ -117,6 +160,11 @@ public class SocketClient implements VirtualView {
     @Override
     public String read() throws RemoteException {
         return null;
+    }
+
+    @Override
+    public void setUsername(String username) throws RemoteException {
+        this.username=username;
     }
 
 }

@@ -1,16 +1,18 @@
-
 package it.polimi.ingsw.gc27.Game;
 
 import it.polimi.ingsw.gc27.Card.Card;
 import it.polimi.ingsw.gc27.Card.ObjectiveCard.ObjectiveCard;
 import it.polimi.ingsw.gc27.Card.StarterCard;
 import it.polimi.ingsw.gc27.Enumerations.PawnColour;
+import it.polimi.ingsw.gc27.Exceptions.UserNotFoundException;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Game implements Serializable {
+
+
     private int GameID;
     private Board board;
     private Market market;
@@ -22,9 +24,13 @@ public class Game implements Serializable {
     private ArrayList<ObjectiveCard> objectiveDeck;
     private ArrayList<PawnColour> availablePawns = new ArrayList<>(List.of(PawnColour.GREEN, PawnColour.YELLOW, PawnColour.BLUE, PawnColour.RED));
 
-    public Game() {
 
+    public Game(int gameID, Board board, List<Player> players) {
+        GameID = gameID;
+        this.board = board;
+        this.players = players;
     }
+
 
     public Game(int gameID, Board board, Market market, List<Player> players, Card commonObjective1, Card commonObjective2, ArrayList<StarterCard> starterDeck, ArrayList<ObjectiveCard> objectiveDeck) {
         GameID = gameID;
@@ -37,6 +43,14 @@ public class Game implements Serializable {
         this.objectiveDeck = objectiveDeck;
     }
 
+    public Player getPlayer(String playerName){
+        for(Player p : players){
+            if(p.getUsername().equals(playerName)){
+                return p;
+            }
+        }
+        throw new UserNotFoundException(playerName + "is not in this game: " + this.getGameID());
+    }
     public ArrayList<StarterCard> getStarterDeck() {
         return starterDeck;
     }
@@ -73,21 +87,26 @@ public class Game implements Serializable {
     public void setBoard(Board board) {
         this.board = board;
     }
+
     public Card getCommonObjective1() {
         return commonObjective1;
     }
+
     public Card getCommonObjective2() {
         return commonObjective2;
     }
+
     public int getGameID() {
         return GameID;
     }
+
     public List<Player> getPlayers() {
         return players;
     }
     public void setGameID(int gameID) {
         GameID = gameID;
     }
+
     public void setPlayers(List<Player> players) {
         this.players = players;
     }

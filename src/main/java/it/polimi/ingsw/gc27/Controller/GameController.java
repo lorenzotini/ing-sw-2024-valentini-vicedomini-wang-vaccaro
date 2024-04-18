@@ -6,6 +6,7 @@ import it.polimi.ingsw.gc27.Game.Game;
 import it.polimi.ingsw.gc27.Game.Manuscript;
 import it.polimi.ingsw.gc27.Game.Market;
 import it.polimi.ingsw.gc27.Game.Player;
+import it.polimi.ingsw.gc27.Net.VirtualView;
 
 import java.io.Serializable;
 import java.rmi.RemoteException;

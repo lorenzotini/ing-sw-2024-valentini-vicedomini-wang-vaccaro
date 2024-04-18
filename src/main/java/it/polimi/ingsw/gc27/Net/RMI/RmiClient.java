@@ -75,11 +75,11 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
                     System.out.println("y = ");
                     int y = scan.nextInt();
                     if(face.equalsIgnoreCase("front")) {
-                        server.addCard(player, player.getHand().get(cardIndex), player.getHand().get(cardIndex).getFront(), x, y);
+                        server.addCard(player.getUsername(), cardIndex, true, x, y);
                     }else if(face.equalsIgnoreCase("back")){
-                        server.addCard(player, player.getHand().get(cardIndex), player.getHand().get(cardIndex).getBack(), x, y);
+                        server.addCard(player.getUsername(), cardIndex, false, x, y);
                     }else{
-                        System.out.println("Invalid face");
+                        System.out.println("Invalid face: abort");
                     }
                     break;
                 /*case "drawresourcecard":

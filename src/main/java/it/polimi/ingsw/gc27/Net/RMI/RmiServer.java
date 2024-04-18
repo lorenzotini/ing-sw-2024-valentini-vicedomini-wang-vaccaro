@@ -27,7 +27,8 @@ public class RmiServer implements VirtualServer {
     }
     public static void main( String[] args ) throws RemoteException, InterruptedException {
         // Initialize gc
-        GameController gc = new GameController(Initializer.initialize());
+        Initializer init = new Initializer();
+        GameController gc = new GameController(init.initialize());
         String name = "VirtualServer";
         System.out.println("Hello from Server!");
 
@@ -62,34 +63,40 @@ public class RmiServer implements VirtualServer {
         System.err.println("new client connected");
     }
     @Override
-    public void addCard(Player player, ResourceCard card, Face face, int x, int y) throws RemoteException {
+    public void addCard(String playerName, int handCardIndex, boolean isFrontFace, int x, int y) throws RemoteException {
+        Player player = this.controller.getGame().getPlayer(playerName);
+        ResourceCard card = player.getHand().get(handCardIndex);
+        Face face = isFrontFace ? card.getFront() : card.getBack();
+
         // TODO: gestire le eccezioni
         this.controller.addCard(player, card, face, x, y);
         // TODO: gestire meglio gli updates
         try{
-            updates.put("Added card from player: " + player.getUsername());
+            updates.put("UPDATE - Added card from player: " + player.getUsername());
         }catch (InterruptedException e){
             throw new RuntimeException(e);
         }
     }
     @Override
-    public void drawResourceCard(Player player, boolean fromDeck, int faceUpCardIndex) throws RemoteException {
+    public void drawResourceCard(String playerName, boolean fromDeck, int faceUpCardIndex) throws RemoteException {
+        Player player = this.controller.getGame().getPlayer(playerName);
         // TODO: gestire le eccezioni
         this.controller.drawResourceCard(player, fromDeck, faceUpCardIndex);
         // TODO: gestire meglio gli updates
         try{
-            updates.put("Drawn card from player: " + player.getUsername());
+            updates.put("UPDATE - Drawn card from player: " + player.getUsername());
         }catch (InterruptedException e){
             throw new RuntimeException(e);
         }
     }
     @Override
-    public void drawGoldCard(Player player, boolean fromDeck, int faceUpCardIndex) throws RemoteException {
+    public void drawGoldCard(String playerName, boolean fromDeck, int faceUpCardIndex) throws RemoteException {
+        Player player = this.controller.getGame().getPlayer(playerName);
         // TODO: gestire le eccezioni
         this.controller.drawGoldCard(player, fromDeck, faceUpCardIndex);
         // TODO: gestire meglio gli updates
         try{
-            updates.put("Drawn card from player: " + player.getUsername());
+            updates.put("UPDATE - Drawn card from player: " + player.getUsername());
         }catch (InterruptedException e){
             throw new RuntimeException(e);
         }
@@ -100,7 +107,7 @@ public class RmiServer implements VirtualServer {
         Player p = this.controller.welcomePlayer(client);
         // TODO: gestire meglio gli updates
         try{
-            updates.put("Created player: " + p.getUsername());
+            updates.put("UPDATE - Created player: " + p.getUsername());
         }catch (InterruptedException e){
             throw new RuntimeException(e);
         }

@@ -6,9 +6,10 @@ import it.polimi.ingsw.gc27.Card.ResourceCard;
 import it.polimi.ingsw.gc27.Enumerations.CornerSymbol;
 import it.polimi.ingsw.gc27.Enumerations.Kingdom;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Manuscript {
+public class Manuscript implements Serializable {
     public static final int FIELD_DIM = 85;
     // use a matrix to represent the whole manuscript/play field
     private Face[][] field;

@@ -4,11 +4,13 @@ import it.polimi.ingsw.gc27.Card.Card;
 import it.polimi.ingsw.gc27.Card.ObjectiveCard.ObjectiveCard;
 import it.polimi.ingsw.gc27.Card.StarterCard;
 import it.polimi.ingsw.gc27.Enumerations.PawnColour;
+import it.polimi.ingsw.gc27.Exceptions.UserNotFoundException;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Game {
+public class Game implements Serializable {
 
 
     private int GameID;
@@ -22,6 +24,9 @@ public class Game {
     private ArrayList<ObjectiveCard> objectiveDeck;
     private ArrayList<PawnColour> availablePawns = new ArrayList<>(List.of(PawnColour.GREEN, PawnColour.YELLOW, PawnColour.BLUE, PawnColour.RED));
 
+
+    public Game() {
+    }
     public Game(int gameID, Board board, List<Player> players) {
         GameID = gameID;
         this.board = board;
@@ -40,6 +45,14 @@ public class Game {
         this.objectiveDeck = objectiveDeck;
     }
 
+    public Player getPlayer(String playerName){
+        for(Player p : players){
+            if(p.getUsername().equals(playerName)){
+                return p;
+            }
+        }
+        throw new UserNotFoundException(playerName + "is not in this game: " + this.getGameID());
+    }
     public ArrayList<StarterCard> getStarterDeck() {
         return starterDeck;
     }

@@ -9,8 +9,6 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class MyCliTest {
     private ArrayList<ResourceCard> resourceDeck;
     private ArrayList<StarterCard> starterDeck;
@@ -159,4 +157,278 @@ class MyCliTest {
 
         MyCli.printManuscript(m);
     }
+    @Test
+    void printManuscript5() {
+        Manuscript m = new Manuscript();
+
+        // #0
+        m.getField()[40][40] = starterDeck.get(0).getBack();
+        m.getField()[40][40].getCornerLR().setHidden(true);
+
+        // #1
+        m.getField()[41][41] = resourceDeck.get(20).getBack();
+        m.getField()[41][41].getCornerLR().setHidden(true);
+
+        // #2
+        m.getField()[42][42] = resourceDeck.get(21).getBack();
+        m.getField()[42][42].getCornerLR().setHidden(true);
+
+        // #3
+        m.getField()[43][43] = resourceDeck.get(22).getBack();
+        m.getField()[43][43].getCornerLR().setHidden(true);
+
+        // #4
+        m.getField()[44][44] = resourceDeck.get(23).getBack();
+
+
+        m.setxMin(40);
+        m.setyMin(40);
+        m.setxMax(44);
+        m.setyMax(44);
+
+        MyCli.printManuscript(m);
+    }
+    @Test
+    void printManuscript6() {
+        Manuscript m = new Manuscript();
+
+        // #0
+        m.getField()[40][40] = starterDeck.get(0).getBack();
+        m.getField()[40][40].getCornerLR().setHidden(true);
+
+        // #1
+        m.getField()[41][41] = resourceDeck.get(20).getBack();
+        m.getField()[41][41].getCornerLR().setHidden(true);
+
+        // #2
+        m.getField()[42][42] = resourceDeck.get(21).getBack();
+        m.getField()[42][42].getCornerLR().setHidden(true);
+
+        // #3
+        m.getField()[43][43] = resourceDeck.get(22).getBack();
+        m.getField()[43][43].getCornerLR().setHidden(true);
+        m.getField()[43][43].getCornerUR().setHidden(true);
+
+        m.getField()[44][42] = resourceDeck.get(23).getBack();
+        m.getField()[44][42].getCornerUR().setHidden(true);
+
+        m.getField()[45][41] = resourceDeck.get(24).getBack();
+
+        // #4
+        m.getField()[44][44] = resourceDeck.get(25).getBack();
+
+
+        m.setxMin(40);
+        m.setyMin(40);
+        m.setxMax(45);
+        m.setyMax(44);
+
+        MyCli.printManuscript(m);
+    }
+    @Test
+    void printManuscript7() {
+        Manuscript m = new Manuscript();
+
+        // #2
+        m.getField()[42][42] = resourceDeck.get(21).getBack();
+        m.getField()[42][42].getCornerLR().setHidden(true);
+
+        // #3
+        m.getField()[43][43] = resourceDeck.get(22).getBack();
+        m.getField()[43][43].getCornerLR().setHidden(true);
+        m.getField()[43][43].getCornerUR().setHidden(true);
+        //m.getField()[43][43].getCornerUL().setHidden(true);
+        m.getField()[43][43].getCornerLL().setHidden(true);
+
+        m.getField()[44][44] = resourceDeck.get(23).getBack();
+
+        m.getField()[44][42] = resourceDeck.get(24).getBack();
+        m.getField()[44][42].getCornerUR().setHidden(true);
+
+        m.getField()[42][44] = resourceDeck.get(25).getBack();
+
+        m.getField()[45][41] = resourceDeck.get(26).getBack();
+        //m.getField()[45][41].getCornerLL().setHidden(true);
+
+        m.setxMin(42);
+        m.setyMin(41);
+        m.setxMax(45);
+        m.setyMax(44);
+
+        MyCli.printManuscript(m);
+    }
+    @Test
+    void printManuscript8() {
+        Manuscript m = new Manuscript();
+
+        m.getField()[41][41] = resourceDeck.get(21).getBack();
+        m.getField()[41][41].getCornerLR().setHidden(true);
+
+        // #2
+        m.getField()[42][42] = resourceDeck.get(21).getBack();
+        m.getField()[42][42].getCornerLR().setHidden(true);
+
+        // #3
+        m.getField()[43][43] = resourceDeck.get(22).getBack();
+        m.getField()[43][43].getCornerLR().setHidden(true);
+        m.getField()[43][43].getCornerUR().setHidden(true);
+        //m.getField()[43][43].getCornerUL().setHidden(true);
+        m.getField()[43][43].getCornerLL().setHidden(true);
+
+        m.getField()[44][44] = resourceDeck.get(23).getBack();
+
+        m.getField()[44][42] = resourceDeck.get(24).getBack();
+        m.getField()[44][42].getCornerUR().setHidden(true);
+
+        m.getField()[42][44] = resourceDeck.get(25).getBack();
+
+        m.getField()[45][41] = resourceDeck.get(26).getBack();
+        //m.getField()[45][41].getCornerLL().setHidden(true);
+
+        m.setxMin(41);
+        m.setyMin(41);
+        m.setxMax(45);
+        m.setyMax(44);
+
+        MyCli.printManuscript(m);
+
+    }
 }
+
+
+
+/*
+TEST1
+                                             ╭-----------------╮
+                                             |                 |
+                                             |        F        |
+                              ╭-----------------╮              |
+                              |                 |--------------╯
+                              |        F        |
+               ╭-----------------╮              |
+               |                 |--------------╯
+               |        F        |
+╭-----------------╮              |
+|                 |--------------╯
+|        F        |
+|                 |
+╰-----------------╯
+
+TEST2
+╭-----------------╮           ╭-----------------╮
+|                 |           |                 |
+|        F        |           |        F        |
+|              ╭-----------------╮           ╭-----------------╮
+╰--------------|                 |-----------|                 |
+               |        F        |           |        F        |
+╭-----------------╮              |-----------|                 |
+|                 |--------------╯           ╰-----------------╯
+|        F        |           |        F        |
+|              ╭-----------------╮           ╭-----------------╮
+╰--------------|                 |-----------|                 |
+               |        F        |           |        F        |
+               |                 |           |                 |
+               ╰-----------------╯           ╰-----------------╯
+
+TEST3
+╭-----------------╮           ╭-----------------╮
+|                 |           |                 |
+|        F        |           |        F        |
+|              ╭-----------------╮           ╭-----------------╮
+╰--------------|                 |-----------|                 |
+               |        F        |           |        F        |
+               |                 |           |                 |
+               ╰-----------------╯           ╰-----------------╯
+
+TEST4
+                                                            ╭-----------------╮
+                                                            |                 |
+                                                            |        F        |
+                                             ╭--------------|              ╭-----------------╮
+                                             |              ╰--------------|                 |
+                                             |        A        |           |        I        |
+                                             |                 |-----------|              ╭-----------------╮
+                                             ╰-----------------╯           ╰--------------|                 |
+                                                            |        I        |           |        P        |
+                                             ╭-----------------╮           ╭-----------------╮              |
+                                             |                 |-----------|                 |--------------╯
+                                             |        A        |           |        I        |
+╭-----------------╮           ╭-----------------╮           ╭--------------|                 |
+|                 |           |                 |-----------|              ╰-----------------╯
+|        I        |           |        A        |           |        P        |
+|                 |--------------╮              |           |                 |
+╰-----------------╯              |--------------╯           ╰-----------------╯
+               |        A        |
+               |                 |
+               ╰-----------------╯
+
+TEST5
+╭-----------------╮
+|                P|
+|        I        |
+|I             ╭-----------------╮
+╰--------------|                 |
+               |        A        |
+               |              ╭-----------------╮
+               ╰--------------|                 |
+                              |        A        |
+                              |              ╭-----------------╮
+                              ╰--------------|                 |
+                                             |        A        |
+                                             |              ╭-----------------╮
+                                             ╰--------------|                 |
+                                                            |        A        |
+                                                            |                 |
+                                                            ╰-----------------╯
+
+TEST6
+╭-----------------╮
+|                P|
+|        I        |
+|I             ╭-----------------╮                                             ╭-----------------╮
+╰--------------|                 |                                             |                 |
+               |        A        |                                             |        A        |
+               |              ╭-----------------╮               ╭--------------|                 |
+               ╰--------------|                 |               |              ╰-----------------╯
+                              |        A        |               |        A        |
+                              |                ╭----------------|                 |
+                              ╰----------------|                ╰-----------------╯
+                                               |        A        |
+                                               |                ╭-----------------╮
+                                               ╰----------------|                 |
+                                                                |        A        |
+                                                                |                 |
+                                                                ╰-----------------╯
+
+TEST7
+                                             ╭-----------------╮
+                                             |                 |
+                                             |        A        |
+╭-----------------╮           ╭--------------|                 |
+|                 |           |              ╰-----------------╯
+|        A        |           |        A        |
+|              ╭--------------|                 |
+╰--------------|              ╰-----------------╯
+               |        A        |
+╭-----------------╮           ╭-----------------╮
+|                 |-----------|                 |
+|        A        |           |        A        |
+|                 |           |                 |
+╰-----------------╯           ╰-----------------╯
+
+TEST8
+╭-----------------╮                                         ╭-----------------╮
+|                 |                                         |                 |
+|        A        |                                         |        A        |
+|              ╭-----------------╮           ╭--------------|                 |
+╰--------------|                 |           |              ╰-----------------╯
+               |        A        |           |        A        |
+               |              ╭--------------|                 |
+               ╰--------------|              ╰-----------------╯
+                              |        A        |
+               ╭-----------------╮           ╭-----------------╮
+               |                 |-----------|                 |
+               |        A        |           |        A        |
+               |                 |           |                 |
+               ╰-----------------╯           ╰-----------------╯
+*/

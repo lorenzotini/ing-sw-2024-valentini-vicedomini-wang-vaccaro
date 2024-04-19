@@ -9,7 +9,7 @@ import java.net.UnknownHostException;
 import java.rmi.RemoteException;
 import java.util.Scanner;
 
-public class SocketClient implements Runnable, VirtualView {
+public class SocketClient implements VirtualView {
     final BufferedReader input;
     final SocketServerProxy server;
 
@@ -48,6 +48,25 @@ public class SocketClient implements Runnable, VirtualView {
         this.input = input;
         this.server = new SocketServerProxy(output);
     }
+    public SocketClient(String ipAddress, int port){
+        InputStreamReader socketRx = null;
+        OutputStreamWriter socketTx = null;
+        try (Socket serverSocket = new Socket(ipAddress, port)) {
+            socketRx = new InputStreamReader(serverSocket.getInputStream());
+            socketTx = new OutputStreamWriter(serverSocket.getOutputStream());
+
+
+        } catch (UnknownHostException e) {
+            System.err.println("Don't know about host " + ipAddress);
+            System.exit(1);
+        } catch (IOException e) {
+            System.err.println("Couldn't get I/O for the connection to " + port);
+            System.exit(1);
+        }
+        this.input = new BufferedReader(socketRx);
+        this.server = new SocketServerProxy(new BufferedWriter(socketTx));
+    }
+
     public void run() {
         new Thread(() -> {
             try {

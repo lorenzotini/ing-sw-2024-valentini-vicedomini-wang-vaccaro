@@ -74,7 +74,10 @@ public class SocketServer implements VirtualServer{
     }
 
 
+    @Override
+    public void connect(VirtualView client) throws RemoteException {
 
+    }
 
     @Override
     public void addCard(Player player, ResourceCard card, Face face, int x, int y) throws RemoteException {

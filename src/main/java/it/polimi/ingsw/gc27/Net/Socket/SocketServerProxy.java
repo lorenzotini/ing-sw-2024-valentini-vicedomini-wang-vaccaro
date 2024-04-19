@@ -64,6 +64,7 @@ public class SocketServerProxy implements VirtualServer {
 
         output.println("welcomePlayer");
         output.flush();
+        return null;
     }
 
 

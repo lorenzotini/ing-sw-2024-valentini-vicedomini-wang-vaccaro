@@ -15,17 +15,21 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class RmiServer implements VirtualServer {
+
     final static int DEFAULT_PORT_NUMBER = 1234;
-    final GameController controller;
-    final List<VirtualView> clients = new ArrayList<>();
+    private ArrayList<GameController> controllersList;
+    private List<RmiClient> clients = new ArrayList<>();    //clients of different games
     final BlockingQueue<String> updates = new LinkedBlockingQueue<>();
+
     public RmiServer(GameController controller) {
         this.controller = controller;
     }
+
     public static void main( String[] args ) throws RemoteException, InterruptedException {
         // Initialize gc
         Initializer init = new Initializer();
@@ -103,7 +107,7 @@ public class RmiServer implements VirtualServer {
         }
     }
     @Override
-    public void welcomePlayer(VirtualView client) throws IOException {
+    public void welcomePlayer(VirtualView client) throws IOException{
         // TODO: gestire le eccezioni
         Player p = this.controller.welcomePlayer(client);
         // TODO: gestire meglio gli updates

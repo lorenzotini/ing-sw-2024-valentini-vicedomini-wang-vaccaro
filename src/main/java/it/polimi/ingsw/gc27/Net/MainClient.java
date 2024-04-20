@@ -1,12 +1,10 @@
 package it.polimi.ingsw.gc27.Net;
 
 import it.polimi.ingsw.gc27.Net.RMI.RmiClient;
-import it.polimi.ingsw.gc27.Net.RMI.RmiServer;
 import it.polimi.ingsw.gc27.Net.Socket.SocketClient;
 
 import java.io.IOException;
 import java.rmi.NotBoundException;
-import java.rmi.RemoteException;
 import java.util.Scanner;
 
 public class MainClient {
@@ -32,9 +30,11 @@ public class MainClient {
             }
         }while(true);
 
+        String ipAddress = scan.nextLine();
 
         System.out.println("Enter the IP address of the server you want to connect to (enter \"\" for default):");
-        String ipAddress = scan.nextLine();
+
+        ipAddress = scan.nextLine();
         if(ipAddress.isEmpty()){
             ipAddress = "localhost";
         }

@@ -1,6 +1,5 @@
 package it.polimi.ingsw.gc27.Net.RMI;
 
-import it.polimi.ingsw.gc27.Game.Player;
 import it.polimi.ingsw.gc27.Net.VirtualServer;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 
@@ -15,35 +14,12 @@ import java.util.Scanner;
 public class RmiClient extends UnicastRemoteObject implements VirtualView {
     final VirtualServer server;
     private String username;
-
-    protected RmiClient(VirtualServer server) throws RemoteException {
-        this.server = server;
-    }
     public RmiClient(String ipAddress, int port) throws IOException, NotBoundException {
         Registry registry = LocateRegistry.getRegistry(ipAddress, port);
         this.server = (VirtualServer) registry.lookup("VirtualServer");
         this.run();
     }
-    public static void main(String[] args) throws IOException, NotBoundException{
-        Scanner scan = new Scanner(System.in);
 
-        System.out.println("Welcome to the game CODEX NATURALIS!\n" +
-                "Enter the IP address of the server you want to connect to (enter \"\" for default):");
-        String ipAddress = scan.nextLine();
-        if(ipAddress.isEmpty()){
-            ipAddress = "localhost";
-        }
-        System.out.println("Enter the port number of the server you want to connect to (enter 0 for default):");
-        int port = scan.nextInt();
-        if(port == 0){
-            port = RmiServer.DEFAULT_PORT_NUMBER;
-        }
-
-        Registry registry = LocateRegistry.getRegistry(ipAddress, port);
-        VirtualServer server = (VirtualServer) registry.lookup("VirtualServer");
-
-        new RmiClient(server).run();
-    }
     @Override
     public void showUpdate(String message) throws RemoteException {
         // TODO Attenzione! Questo può causare data race con il thread dell'interfaccia o un altro thread
@@ -69,7 +45,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
         runCli();
     }
 
-    private void runCli() throws IOException {
+    private void runCli() throws IOException, RemoteException {
         server.welcomePlayer(this);
         Scanner scan = new Scanner(System.in);
         while (true) {

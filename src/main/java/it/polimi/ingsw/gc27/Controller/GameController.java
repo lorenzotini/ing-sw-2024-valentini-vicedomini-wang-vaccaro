@@ -15,6 +15,7 @@ import java.util.ArrayList;
 
 public class GameController implements Serializable {
     private Game game;
+    private int id;
     public GameController(Game game) {
         this.game = game;
     }

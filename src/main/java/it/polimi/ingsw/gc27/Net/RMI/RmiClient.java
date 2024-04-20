@@ -1,6 +1,5 @@
 package it.polimi.ingsw.gc27.Net.RMI;
 
-import it.polimi.ingsw.gc27.Game.Player;
 import it.polimi.ingsw.gc27.Net.VirtualServer;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 
@@ -13,30 +12,11 @@ import java.util.Scanner;
 
 public class RmiClient extends UnicastRemoteObject implements VirtualView {
     final VirtualServer server;
-    private Player player;
-
-    protected RmiClient(VirtualServer server) throws RemoteException {
-        this.server = server;
-    }
-    public static void main(String[] args) throws RemoteException, NotBoundException{
-        Scanner scan = new Scanner(System.in);
-
-        System.out.println("Welcome to the game CODEX NATURALIS!\n" +
-                "Enter the IP address of the server you want to connect to (enter \"\" for default):");
-        String ipAddress = scan.nextLine();
-        if(ipAddress.isEmpty()){
-            ipAddress = "localhost";
-        }
-        System.out.println("Enter the port number of the server you want to connect to (enter 0 for default):");
-        int port = scan.nextInt();
-        if(port == 0){
-            port = RmiServer.DEFAULT_PORT_NUMBER;
-        }
-
+    private String username;
+    public RmiClient(String ipAddress, int port) throws IOException, NotBoundException {
         Registry registry = LocateRegistry.getRegistry(ipAddress, port);
-        VirtualServer server = (VirtualServer) registry.lookup("VirtualServer");
-
-        new RmiClient(server).run();
+        this.server = (VirtualServer) registry.lookup("VirtualServer");
+        this.run();
     }
     @Override
     public void showUpdate(String message) throws RemoteException {
@@ -52,13 +32,19 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
         Scanner s = new Scanner(System.in);
         return s.nextLine();
     }
-    private void run() throws RemoteException {
+
+    @Override
+    public void setUsername(String username) throws RemoteException {
+        this.username = username;
+    }
+
+    public void run() throws IOException {
         this.server.connect(this);
         runCli();
     }
 
-    private void runCli() throws RemoteException {
-        player = server.welcomePlayer(this);
+    private void runCli() throws IOException, RemoteException {
+        server.welcomePlayer(this);
         Scanner scan = new Scanner(System.in);
         while (true) {
             System.out.print("> ");
@@ -75,9 +61,9 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
                     System.out.println("y = ");
                     int y = scan.nextInt();
                     if(face.equalsIgnoreCase("front")) {
-                        server.addCard(player.getUsername(), cardIndex, true, x, y);
+                        server.addCard(username, cardIndex, true, x, y);
                     }else if(face.equalsIgnoreCase("back")){
-                        server.addCard(player.getUsername(), cardIndex, false, x, y);
+                        server.addCard(username, cardIndex, false, x, y);
                     }else{
                         System.out.println("Invalid face: abort");
                     }

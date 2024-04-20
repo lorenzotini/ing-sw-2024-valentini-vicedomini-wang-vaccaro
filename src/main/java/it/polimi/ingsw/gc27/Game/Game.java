@@ -1,3 +1,4 @@
+
 package it.polimi.ingsw.gc27.Game;
 
 import it.polimi.ingsw.gc27.Card.Card;
@@ -89,26 +90,21 @@ public class Game implements Serializable {
     public void setBoard(Board board) {
         this.board = board;
     }
-
     public Card getCommonObjective1() {
         return commonObjective1;
     }
-
     public Card getCommonObjective2() {
         return commonObjective2;
     }
-
     public int getGameID() {
         return GameID;
     }
-
     public List<Player> getPlayers() {
         return players;
     }
     public void setGameID(int gameID) {
         GameID = gameID;
     }
-
     public void setPlayers(List<Player> players) {
         this.players = players;
     }

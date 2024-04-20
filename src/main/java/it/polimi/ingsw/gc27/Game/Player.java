@@ -42,7 +42,6 @@ public class Player implements Serializable {
     public void setPawnColour(PawnColour pawnColour) {
         this.pawnColour = pawnColour;
     }
-
     public Manuscript getManuscript() {
         return manuscript;
     }
@@ -55,15 +54,12 @@ public class Player implements Serializable {
     public String getUsername() {
         return username;
     }
-
     public void setUsername(String username) {
         this.username = username;
     }
-
     public void setManuscript(Manuscript manuscript) {
         this.manuscript = manuscript;
     }
-
     public ArrayList<ResourceCard> getHand() {
         return hand;
     }
@@ -155,7 +151,6 @@ public class Player implements Serializable {
             if (card instanceof GoldCard){
                 if(((GoldCard)card).getPointsMultiplier().equals(PointsMultiplier.EMPTY)){
                     points = ((GoldCard)card).getCardPoints();
-                    //game.addPoints(this, points);
                 }
                 else if(((GoldCard)card).getPointsMultiplier().equals(PointsMultiplier.CORNER)){
                     points = ((GoldCard)card).getCardPoints() * numCoveredCorners;

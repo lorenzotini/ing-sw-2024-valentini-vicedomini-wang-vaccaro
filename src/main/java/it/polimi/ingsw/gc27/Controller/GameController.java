@@ -35,21 +35,23 @@ public class GameController {
      */
     public void addCard(Player player, ResourceCard card, Face face, int x, int y)  {
         if(player.getManuscript().isValidPlacement(x, y) && ((face instanceof FrontFace && player.getManuscript().satisfiedRequirement((ResourceCard) card)) || (face instanceof BackFace))){
-            player.addCard(this.game, card, face, x, y);
-            player.getHand().remove(card);
+            player.getPlayerState().addCard(this.game, card, face, x, y);
+
         }else{
             System.err.println("Error: invalid position");
         }
     }
 
     public void addStarterCard(Player player, StarterCard card, Face face){
-        player.addCard(this.game, card, face, Manuscript.FIELD_DIM/2, Manuscript.FIELD_DIM/2);
+        player.getPlayerState().addStarterCard(this.game, card, face, Manuscript.FIELD_DIM/2, Manuscript.FIELD_DIM/2);
     }
 
     // Overloading drawCard to manage Resource cards and deck
     public void drawCard(Market market, Player player, ArrayList<ResourceCard> deck, ResourceCard card, int faceUpCardIndex){
+        player.getPlayerState().drawCard(market, player, deck, card, faceUpCardIndex);
+
         // TODO: è SBAGLIATO GESTIRE QUI L'ECCEZIONE, DOVREBBE ESSERE IL MODEL A FARLO. NON RISPETTA MVC ==> CAMBIARE
-        if(deck != null && card != null){
+        /* if(deck != null && card != null){
             throw new IllegalArgumentException("Something went wrong: impossible call to drawCard method");
         }
 
@@ -60,13 +62,15 @@ public class GameController {
             market.setFaceUpResources(market.getResourceDeck().removeLast(), faceUpCardIndex);
         }else{  // player drawn card from a deck
             market.getResourceDeck().removeLast();
-        }
+        }*/
     }
 
     // Overloading drawCard to manage Gold cards and deck
     public void drawCard(Market market, Player player, ArrayList<GoldCard> deck, GoldCard card, int faceUpCardIndex){
+        player.getPlayerState().drawCard(market,player, deck, card, faceUpCardIndex);
+
         // TODO: è SBAGLIATO GESTIRE QUI L'ECCEZIONE, DOVREBBE ESSERE IL MODEL A FARLO. NON RISPETTA MVC ==> CAMBIARE
-        if(deck != null && card != null){
+        /* if(deck != null && card != null){
             throw new IllegalArgumentException("Something went wrong: impossible call to drawCard method");
         }
 
@@ -77,7 +81,7 @@ public class GameController {
             market.setFaceUpGolds(market.getGoldDeck().removeLast(), faceUpCardIndex);
         }else{  // player drawn card from a deck
             market.getGoldDeck().removeLast();
-        }
+        }*/
     }
 
     // Create a player from command line, but hand, secret objective and starter are not instantiated

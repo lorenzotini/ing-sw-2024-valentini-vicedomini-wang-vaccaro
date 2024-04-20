@@ -4,6 +4,7 @@ import it.polimi.ingsw.gc27.Card.*;
 import it.polimi.ingsw.gc27.Enumerations.Kingdom;
 import it.polimi.ingsw.gc27.Enumerations.PawnColour;
 import it.polimi.ingsw.gc27.Enumerations.PointsMultiplier;
+import it.polimi.ingsw.gc27.States.PlayerStates.*;
 
 import java.util.ArrayList;
 
@@ -13,6 +14,7 @@ public class Player {
     private Manuscript manuscript;
     private PawnColour pawnColour;
     private Card secretObjective;
+    private PlayerState playerState;
 
     public Player() {
         hand = new ArrayList<>(3);
@@ -22,6 +24,14 @@ public class Player {
         this.username = username;
         this.manuscript = manuscript;
         this.pawnColour = pawnColour;
+    }
+
+    public void setPlayerState(PlayerState playerState) {
+        this.playerState = playerState;
+    }
+
+    public PlayerState getPlayerState() {
+        return playerState;
     }
 
     public PawnColour getPawnColour() {

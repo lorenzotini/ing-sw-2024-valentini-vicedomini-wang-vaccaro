@@ -43,6 +43,9 @@ public class Initializer {
 
         //game = new Game(gameId, board, market, players, commObj1, commObj2);
 
+
+        //methods that initalizes the players' hand...
+
         return new GameController(game);
     }
 }

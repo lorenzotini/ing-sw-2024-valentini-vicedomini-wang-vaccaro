@@ -2,8 +2,10 @@ package it.polimi.ingsw.gc27.Card;
 
 import it.polimi.ingsw.gc27.Enumerations.CornerSymbol;
 
+import java.io.Serializable;
+
 //class Corner is used in every card as intended, except from objective cards where every corner is BLACK and symbol = EMPTY.
-public class Corner {
+public class Corner implements Serializable {
     private boolean hidden;
     private boolean black;
     private CornerSymbol symbol;

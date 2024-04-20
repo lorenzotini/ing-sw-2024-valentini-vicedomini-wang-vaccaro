@@ -1,6 +1,9 @@
+
 package it.polimi.ingsw.gc27.Enumerations;
 
-public enum PointsMultiplier {
+import java.io.Serializable;
+
+public enum PointsMultiplier implements Serializable {
     CORNER,
     QUILL,
     INKWELL,

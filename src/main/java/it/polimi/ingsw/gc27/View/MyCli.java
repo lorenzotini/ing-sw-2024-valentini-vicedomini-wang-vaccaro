@@ -15,61 +15,6 @@ public class MyCli {
     private static ArrayList<GoldCard> goldDeck = JsonParser.getGoldDeck(JsonParser.cardsJsonObj);
     private static ArrayList<StarterCard> starterDeck = JsonParser.getStarterDeck(JsonParser.cardsJsonObj);
 
-    public static Queue<String> emptyCard(int i , int j, Face[][] field){
-        String first;
-        String second;
-        String third;
-        String fourth;
-        String fifth;
-        Queue<String> lines = new LinkedList<>();
-
-        if (field[i+1][j] == null && field[i][j+1] == null && field[i-1][j] == null && field[i][j-1] == null) {
-            first = "           ";
-            second = "           ";
-            third = "           ";
-            fourth = "           ";
-            fifth = "           ";
-            lines.add(first);
-            lines.add(second);
-            lines.add(third);
-            lines.add(fourth);
-            lines.add(fifth);
-        } else if(field[i+1][j] != null && field[i][j+1] != null && field[i-1][j] != null && field[i][j-1] != null){
-            third = "           ";
-            lines.add(third);
-        } else if(field[i+1][j] != null && field[i][j+1] != null && field[i-1][j] != null && field[i][j-1] == null){
-            first = "           ";
-            second = "           ";
-            third = "           ";
-            lines.add(first);
-            lines.add(second);
-            lines.add(third);
-        } else if(field[i+1][j] != null && field[i][j+1] != null && field[i-1][j] == null && field[i][j-1] != null){
-            third = "               ";
-            lines.add(third);
-        } else if(field[i+1][j] != null && field[i][j+1] == null && field[i-1][j] != null && field[i][j-1] != null){
-            first = "           ";
-            second = "           ";
-            third = "           ";
-            lines.add(first);
-            lines.add(second);
-            lines.add(third);
-        } else if(field[i+1][j] == null && field[i][j+1] != null && field[i-1][j] != null && field[i][j-1] != null){
-            third = "               ";
-            lines.add(third);
-        } else {
-            first = "               ";
-            second = "               ";
-            third = "               ";
-            lines.add(first);
-            lines.add(second);
-            lines.add(third);
-        }
-
-        return lines;
-
-    }
-
     public static Queue<String> fromFaceToCliCard(Face face){
 
         Corner UR = face.getCornerUR();
@@ -216,17 +161,6 @@ public class MyCli {
         return line;
     }
 
-    public static boolean isMatrixEmpty(Queue<String>[][] matrix) {
-        for (Queue<String>[] row : matrix) {
-            for (Queue<String> queue : row) {
-                if (queue != null && !queue.isEmpty()) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-
     public static void printManuscript(Manuscript manuscript){
 
         Face[][] field = manuscript.getField();
@@ -241,49 +175,87 @@ public class MyCli {
             for(int j = yMin; j <= yMax; j++){
                 if(field[i][j] != null){
                     matrix[i][j] = fromFaceToCliCard(field[i][j]);
-                }else{
-                    matrix[i][j] = emptyCard(i, j, field);
                 }
             }
         }
 
-        // print
-        loop:
+        boolean first;
+        boolean middle;
+
         for(int j = yMin; j <= yMax; j++) {
-            for (int line = 1; line <= 5; line++) {
+            for (int line = 1; line <= 3; line++) {
+                first = true;
+                middle = false;
                 for (int i = xMin; i <= xMax; i++) {
-                    if(isMatrixEmpty(matrix)){
-                        break loop;
+                    if(matrix[i][j-1] != null && matrix[i][j-1].peek() != null){
+                        System.out.print(matrix[i][j-1].remove());
+                        first = true;
+                        middle = true;
+                        continue;
                     }
-                    switch (line) {
-                        case 1, 2, 3:
-                            if(matrix[i][j].peek() != null){
-                                System.out.print(matrix[i][j].remove());
-                            }else{
-                                System.out.print(matrix[i][j+1].remove());
-                            }
-                            break;
-                        case 4, 5:
-                            if(matrix[i][j].peek() != null){
-                                System.out.print(matrix[i][j].remove());
-                            }else if(matrix[i][j+1].peek() != null){
-                                System.out.print(matrix[i][j+1].remove());
-                            }
-                            if(matrix[i+1][j+1] != null){
-                                if(matrix[i+1][j+1].peek() != null){
-                                    System.out.print(matrix[i+1][j+1].remove());
-                                }else if(matrix[i+1][j+2] != null && matrix[i+1][j+2].peek() != null){
-                                    System.out.print(matrix[i+1][j+2].remove());
-                                }
-                            }
-                            i++;
-                            break;
-                        default:
-                            throw new IllegalStateException("Unexpected value: " + line);
+                    // if the card is null, print white spaces and go to next card on the same row
+                    if(matrix[i][j] == null){
+                        String ws = countWhiteSpaces(first, middle);
+                        System.out.print(ws);
+                        first = false;
+                        continue;
+                    }
+                    if(matrix[i][j] != null){
+                        System.out.print(matrix[i][j].remove());
+                        middle = true;
+                        first = true;
+                    }else if(matrix[i][j+1] != null){
+                        System.out.print(matrix[i][j+1].remove());
                     }
                 }
                 System.out.println();
             }
+        }
+
+        // last line of all
+        int j = yMax;
+        for(int n = 0; n <= 1; n++){
+            first = true;
+            middle = false;
+            for(int i = xMin; i <= xMax; i++){
+                if(matrix[i][j-1] != null && matrix[i][j-1].peek() != null){
+                    System.out.print(matrix[i][j-1].remove());
+                    first = true;
+                    middle = true;
+                    continue;
+                }
+                // if the card is null, print white spaces and go to next card on the same row
+                if(matrix[i][j] == null){
+                    first = true;
+                    String ws = countWhiteSpaces(first, middle);
+                    System.out.print(ws);
+                    first = false;
+                    continue;
+                }
+                if(matrix[i][j] != null){
+                    System.out.print(matrix[i][j].remove());
+                    middle = true;
+                    first = true;
+                }
+            }
+            System.out.println();
+        }
+    }
+
+    public static String countWhiteSpaces(boolean first, boolean middle){
+        String ws_11 = "           ";
+        String ws_15 = "               ";
+
+        if(!middle){
+            return ws_15;
+        }
+
+        if(first){
+            return ws_11;
+        } else if(!first){
+            return ws_15;
+        } else {
+            return "XXXXXX";
         }
     }
 
@@ -292,66 +264,37 @@ public class MyCli {
 
         Manuscript m = new Manuscript();
 
-        m.getField()[41][41] = resourceDeck.get(10).getFront();
+        //TEST 6
+        // #0
+        m.getField()[40][40] = starterDeck.get(0).getBack();
+        m.getField()[40][40].getCornerLR().setHidden(true);
+
+        // #1
+        m.getField()[41][41] = resourceDeck.get(20).getBack();
         m.getField()[41][41].getCornerLR().setHidden(true);
 
-        m.getField()[43][41] = resourceDeck.get(1).getFront();
-        m.getField()[43][41].getCornerLR().setHidden(true);
-        m.getField()[43][41].getCornerLL().setHidden(true);
+        // #2
+        m.getField()[42][42] = resourceDeck.get(21).getBack();
+        m.getField()[42][42].getCornerLR().setHidden(true);
 
-        m.getField()[42][42] = resourceDeck.get(2).getFront();
-        m.getField()[42][42].getCornerLL().setHidden(true);
-
-        m.getField()[44][42] = resourceDeck.get(24).getFront();
-
-        m.getField()[41][43] = resourceDeck.get(4).getFront();
-        m.getField()[41][43].getCornerLR().setHidden(true);
-
-        m.getField()[43][43] = starterDeck.get(2).getBack();
-        m.getField()[43][43].getCornerLL().setHidden(true);
-        m.getField()[43][43].getCornerUR().setHidden(true);
-        m.getField()[43][43].getCornerUL().setHidden(true);
+        // #3
+        m.getField()[43][43] = resourceDeck.get(22).getBack();
         m.getField()[43][43].getCornerLR().setHidden(true);
+        m.getField()[43][43].getCornerUR().setHidden(true);
 
-        m.getField()[42][44] = resourceDeck.get(34).getFront();
+        m.getField()[44][42] = resourceDeck.get(23).getBack();
+        m.getField()[44][42].getCornerUR().setHidden(true);
 
-        m.getField()[44][44] = resourceDeck.get(5).getFront();
+        m.getField()[45][41] = resourceDeck.get(24).getBack();
 
-        m.setxMin(41);
-        m.setyMin(41);
-        m.setxMax(44);
+        // #4
+        m.getField()[44][44] = resourceDeck.get(25).getBack();
+
+        m.setxMin(40);
+        m.setyMin(40);
+        m.setxMax(45);
         m.setyMax(44);
 
         MyCli.printManuscript(m);
     }
 }
-
-//////////////////////////////////////////////////
-/*
-
-
-            41              42             43             44
-   ╭-----------------╮           ╭-----------------╮
-   |A               P|           |A               P|
-41 |                 |           |                 |
-   |F             ╭-----------------╮           ╭-----------------╮
-   ╰--------------| A             P |-----------|A               P|
-42                |                 |           |                 |
-   ╭-----------------╮            I |-----------|X               X|
-   |A               P|--------------╯           ╰-----------------╯
-43 |                 |           |                 |
-   |F             ╭-----------------╮           ╭-----------------╮
-   ╰--------------|A               P|-----------|A               P|
-44                |                 |           |                 |
-                  |X               X|           |X               X|
-                  ╰-----------------╯           ╰-----------------╯
-
-
-|                 |
-|        A        |
-|       AB        |
-|       ABC       |
-
-
-*/
-//////////////////////////////////////////////////

@@ -1,6 +1,8 @@
 package it.polimi.ingsw.gc27.Game;
 
-public class Board {
+import java.io.Serializable;
+
+public class Board implements Serializable {
     private int pointsRedPlayer;
     private int pointsYellowPlayer;
     private int pointsGreenPlayer;

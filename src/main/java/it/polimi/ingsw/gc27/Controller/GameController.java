@@ -6,11 +6,14 @@ import it.polimi.ingsw.gc27.Game.Game;
 import it.polimi.ingsw.gc27.Game.Manuscript;
 import it.polimi.ingsw.gc27.Game.Market;
 import it.polimi.ingsw.gc27.Game.Player;
+import it.polimi.ingsw.gc27.Net.VirtualView;
 
+import java.io.Serializable;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
-import java.util.Scanner;
 
-public class GameController {
+public class GameController implements Serializable {
+
     private Game game;
     public GameController(Game game) {
         this.game = game;
@@ -46,66 +49,76 @@ public class GameController {
         player.getPlayerState().addStarterCard(this.game, card, face, Manuscript.FIELD_DIM/2, Manuscript.FIELD_DIM/2);
     }
 
-    // Overloading drawCard to manage Resource cards and deck
-    public void drawCard(Market market, Player player, ArrayList<ResourceCard> deck, ResourceCard card, int faceUpCardIndex){
-        player.getPlayerState().drawCard(market, player, deck, card, faceUpCardIndex);
+    // TODO: I DUE METODI SONO UGUALI, MAGARI CI PUO' ANDARE UN DESIGN PATTERN
+    public void drawResourceCard(Player player, boolean fromDeck, int faceUpCardIndex){
+        Market market = game.getMarket();
+        ArrayList<ResourceCard> deck = market.getResourceDeck();
+        ResourceCard card;
 
-        // TODO: è SBAGLIATO GESTIRE QUI L'ECCEZIONE, DOVREBBE ESSERE IL MODEL A FARLO. NON RISPETTA MVC ==> CAMBIARE
-        /* if(deck != null && card != null){
-            throw new IllegalArgumentException("Something went wrong: impossible call to drawCard method");
+        // add card to players hand and replace it on market
+        if(fromDeck){ // player drawn card from a deck
+            card = deck.removeLast();
         }
-
+        else{ // player drawn a face up card from the market
+            card = market.getFaceUpResources()[faceUpCardIndex];
+            market.setFaceUpResources(deck.removeLast(), faceUpCardIndex);
+        }
         player.getHand().add(card);
-
-        //replace card on market
-        if(deck == null){ // player drawn a face up card from the market
-            market.setFaceUpResources(market.getResourceDeck().removeLast(), faceUpCardIndex);
-        }else{  // player drawn card from a deck
-            market.getResourceDeck().removeLast();
-        }*/
     }
 
-    // Overloading drawCard to manage Gold cards and deck
-    public void drawCard(Market market, Player player, ArrayList<GoldCard> deck, GoldCard card, int faceUpCardIndex){
-        player.getPlayerState().drawCard(market,player, deck, card, faceUpCardIndex);
+    public void drawGoldCard(Player player, boolean fromDeck, int faceUpCardIndex){
+        Market market = game.getMarket();
+        ArrayList<GoldCard> deck = market.getGoldDeck();
+        GoldCard card;
 
-        // TODO: è SBAGLIATO GESTIRE QUI L'ECCEZIONE, DOVREBBE ESSERE IL MODEL A FARLO. NON RISPETTA MVC ==> CAMBIARE
-        /* if(deck != null && card != null){
-            throw new IllegalArgumentException("Something went wrong: impossible call to drawCard method");
+        // add card to players hand and replace it on market
+        if(fromDeck){ // player drawn card from a deck
+            card = deck.removeLast();
         }
-
+        else{ // player drawn a face up card from the market
+            card = market.getFaceUpGolds()[faceUpCardIndex];
+            market.setFaceUpGolds(deck.removeLast(), faceUpCardIndex);
+        }
         player.getHand().add(card);
-
-        //replace card on market
-        if(deck == null){ // player drawn a face up card from the market
-            market.setFaceUpGolds(market.getGoldDeck().removeLast(), faceUpCardIndex);
-        }else{  // player drawn card from a deck
-            market.getGoldDeck().removeLast();
-        }*/
     }
 
     // Create a player from command line, but hand, secret objective and starter are not instantiated
-    public Player welcomePlayer(){
-        Scanner scanner = new Scanner(System.in);
+    public Player welcomePlayer(VirtualView client) throws RemoteException {
         String username = "";
         String pawnColor = "";
         Manuscript manuscript = new Manuscript();
 
         // Ask for the username
         do {
-            System.out.println("Choose your username: ");
-            username = scanner.next();
+           client.show("Choose your username: ");
+            username = client.read();
         }while(!game.validUsername(username));
 
         // Ask for the pawn color
         do {
-            System.out.println("Choose your color: ");
+            client.show("Choose your color: ");
             for (PawnColour pawnColour : game.getAvailablePawns()) {
-                System.out.print(pawnColour + " ");
+                client.show(pawnColour + " ");
             }
-            pawnColor = scanner.next();
+            pawnColor = client.read();
         }while(!game.validPawn(pawnColor));
 
-        return new Player(username, manuscript, PawnColour.fromStringToPawnColour(pawnColor));
+        Player p = new Player(username, manuscript, PawnColour.fromStringToPawnColour(pawnColor));
+
+        game.getPlayers().add(p);
+        game.getAvailablePawns().remove(PawnColour.fromStringToPawnColour(pawnColor));
+
+        this.drawResourceCard(p, true, 0);
+        this.drawResourceCard(p, true, 0);
+        this.drawGoldCard(p, true, 0);
+
+        // TODO: PER ADESSO INIZIALIZZO CON UN SOLO OBIETTIVO, POI DOVRA' AVERNE DUE E SCEGLIERE
+        p.setSecretObjective(game.getObjectiveDeck().removeLast());
+
+        // TODO: ORA LA METTE FRONT, POI DOVRA' SCEGLIERE QUALE LATO GIOCARE
+        StarterCard starter = game.getStarterDeck().removeLast();
+        this.addStarterCard(p, starter, starter.getFront());
+
+        return p;
     }
 }

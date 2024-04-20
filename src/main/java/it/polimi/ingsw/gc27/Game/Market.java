@@ -3,9 +3,10 @@ package it.polimi.ingsw.gc27.Game;
 import it.polimi.ingsw.gc27.Card.GoldCard;
 import it.polimi.ingsw.gc27.Card.ResourceCard;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Market {
+public class Market implements Serializable{
     private ResourceCard[] faceUpResources = new ResourceCard[2];
     private GoldCard[] faceUpGolds = new GoldCard[2];
     private ArrayList<ResourceCard> resourceDeck;

@@ -6,9 +6,10 @@ import it.polimi.ingsw.gc27.Enumerations.PawnColour;
 import it.polimi.ingsw.gc27.Enumerations.PointsMultiplier;
 import it.polimi.ingsw.gc27.States.PlayerStates.*;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Player {
+public class Player implements Serializable {
     private String username;
     private ArrayList<ResourceCard> hand;
     private Manuscript manuscript;
@@ -24,6 +25,7 @@ public class Player {
         this.username = username;
         this.manuscript = manuscript;
         this.pawnColour = pawnColour;
+        this.hand = new ArrayList<>();
     }
 
     public void setPlayerState(PlayerState playerState) {
@@ -44,7 +46,12 @@ public class Player {
     public Manuscript getManuscript() {
         return manuscript;
     }
-
+    public Card getSecretObjective() {
+        return secretObjective;
+    }
+    public void setSecretObjective(Card secretObjective) {
+        this.secretObjective = secretObjective;
+    }
     public String getUsername() {
         return username;
     }
@@ -94,6 +101,10 @@ public class Player {
         if(card instanceof StarterCard){
             if(m.getField()[Manuscript.FIELD_DIM/2][Manuscript.FIELD_DIM/2] == null){
                 m.getField()[x][y] = face;
+                m.setxMin(Manuscript.FIELD_DIM/2);
+                m.setxMax(Manuscript.FIELD_DIM/2);
+                m.setyMin(Manuscript.FIELD_DIM/2);
+                m.setyMax(Manuscript.FIELD_DIM/2);
 
                 //increase counter permanent resources if the starter is placed face down
                 if(face instanceof BackFace){
@@ -158,7 +169,6 @@ public class Player {
             }
             game.addPoints(this, points);
         }
-
     }
 
 }

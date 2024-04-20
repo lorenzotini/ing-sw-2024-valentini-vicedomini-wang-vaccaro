@@ -4,6 +4,7 @@ module it.polimi.ingsw.gc27 {
 
     requires org.controlsfx.controls;
     requires json.simple;
+    requires java.rmi;
 
     opens it.polimi.ingsw.gc27 to javafx.fxml;
     exports it.polimi.ingsw.gc27.Enumerations;
@@ -16,4 +17,6 @@ module it.polimi.ingsw.gc27 {
     opens it.polimi.ingsw.gc27.Card.ObjectiveCard to javafx.fxml;
     exports it.polimi.ingsw.gc27.Controller;
     opens it.polimi.ingsw.gc27.Controller to javafx.fxml;
+    exports it.polimi.ingsw.gc27.Net;
+    exports it.polimi.ingsw.gc27.Net.RMI;
 }

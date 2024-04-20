@@ -4,7 +4,6 @@ import it.polimi.ingsw.gc27.Card.GoldCard;
 import it.polimi.ingsw.gc27.Card.ObjectiveCard.*;
 import it.polimi.ingsw.gc27.Card.ResourceCard;
 import it.polimi.ingsw.gc27.Card.StarterCard;
-import it.polimi.ingsw.gc27.Console;
 import it.polimi.ingsw.gc27.Enumerations.CornerSymbol;
 import it.polimi.ingsw.gc27.Enumerations.Kingdom;
 import it.polimi.ingsw.gc27.Enumerations.PawnColour;
@@ -12,14 +11,13 @@ import it.polimi.ingsw.gc27.Game.Board;
 import it.polimi.ingsw.gc27.Game.Game;
 import it.polimi.ingsw.gc27.Game.Manuscript;
 import it.polimi.ingsw.gc27.Game.Player;
-import it.polimi.ingsw.gc27.View.ViewCli;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import static it.polimi.ingsw.gc27.Enumerations.Kingdom.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class GameControllerTest {
 
@@ -246,6 +244,8 @@ class GameControllerTest {
 
         //ViewCli view=new ViewCli();
         //view.showManuscript(p2.getManuscript());
+        //MyCli view=new MyCli();
+        //view.printManuscript(p2.getManuscript());
 
 
 
@@ -304,6 +304,8 @@ class GameControllerTest {
         assertEquals(17, gc1.getGame().getBoard().getPointsBluePlayer() + animal_insect.calculateObjectivePoints(p3.getManuscript()));
 
         //view.showManuscript(p3.getManuscript());
+        //MyCli view=new MyCli();
+        //view.printManuscript(p3.getManuscript());
 
 
         //test 4
@@ -373,6 +375,8 @@ class GameControllerTest {
         assertEquals(11, gc1.getGame().getBoard().getPointsYellowPlayer() + threetods.calculateObjectivePoints(p4.getManuscript()) );
 
         //view.showManuscript(p4.getManuscript());
+        //MyCli view=new MyCli();
+        //view.printManuscript(p4.getManuscript());
 
         //game 2
         //player 5, all cards are placed from the starter to the upper border of the matrix
@@ -419,8 +423,10 @@ class GameControllerTest {
         gc2.addCard(p5,resourceDeck2.get(38), resourceDeck2.get(38).getBack(), 43, 3);
         gc2.addCard(p5,resourceDeck2.get(39), resourceDeck2.get(39).getBack(), 42, 2);
 
-        ViewCli view=new ViewCli();
+        //ViewCli view=new ViewCli();
         //view.showManuscript(p5.getManuscript());
+        //MyCli view=new MyCli();
+        //view.printManuscript(p5.getManuscript());
 
         //player 6, all cards are placed from the starter card following the north-east diagonal of the matrix up to the border
         gc2.addStarterCard(p6, starterDeck2.get(1), starterDeck2.get(1).getFront());
@@ -472,6 +478,8 @@ class GameControllerTest {
         assertEquals(6, red_ladder6.calculateObjectivePoints(p6.getManuscript()));
 
         //view.showManuscript(p6.getManuscript());
+        //MyCli view=new MyCli();
+        //view.printManuscript(p6.getManuscript());
 
 
 
@@ -506,7 +514,8 @@ class GameControllerTest {
         gc3.addCard(p7, resourceDeck3.get(3), resourceDeck3.get(3).getBack(), 35,39);
         assertTrue(p7.getManuscript().getField()[36][38].getCorner(-1,-1).isHidden());
 
-
+        //MyCli view=new MyCli();
+        //view.printManuscript(p7.getManuscript());
 
 
 

@@ -51,35 +51,11 @@ public class GameController implements Serializable {
 
     // TODO: I DUE METODI SONO UGUALI, MAGARI CI PUO' ANDARE UN DESIGN PATTERN
     public void drawResourceCard(Player player, boolean fromDeck, int faceUpCardIndex){
-        Market market = game.getMarket();
-        ArrayList<ResourceCard> deck = market.getResourceDeck();
-        ResourceCard card;
-
-        // add card to players hand and replace it on market
-        if(fromDeck){ // player drawn card from a deck
-            card = deck.removeLast();
-        }
-        else{ // player drawn a face up card from the market
-            card = market.getFaceUpResources()[faceUpCardIndex];
-            market.setFaceUpResources(deck.removeLast(), faceUpCardIndex);
-        }
-        player.getHand().add(card);
+        player.getPlayerState().drawResourceCard(player, fromDeck, faceUpCardIndex, this.game);
     }
 
     public void drawGoldCard(Player player, boolean fromDeck, int faceUpCardIndex){
-        Market market = game.getMarket();
-        ArrayList<GoldCard> deck = market.getGoldDeck();
-        GoldCard card;
-
-        // add card to players hand and replace it on market
-        if(fromDeck){ // player drawn card from a deck
-            card = deck.removeLast();
-        }
-        else{ // player drawn a face up card from the market
-            card = market.getFaceUpGolds()[faceUpCardIndex];
-            market.setFaceUpGolds(deck.removeLast(), faceUpCardIndex);
-        }
-        player.getHand().add(card);
+        player.getPlayerState().drawGoldCard(player, fromDeck, faceUpCardIndex, this.game);
     }
 
     // Create a player from command line, but hand, secret objective and starter are not instantiated

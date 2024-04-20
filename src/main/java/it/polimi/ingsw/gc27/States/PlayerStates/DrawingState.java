@@ -18,42 +18,38 @@ public class DrawingState extends PlayerState {
     }
 
     @Override
-    public void drawCard(Market market, Player player, ArrayList<ResourceCard> deck, ResourceCard card, int faceUpCardIndex) {
+    public void drawResourceCard(Player player, boolean fromDeck, int faceUpCardIndex, Game game) {
+        Market market = game.getMarket();
+        ArrayList<ResourceCard> deck = market.getResourceDeck();
+        ResourceCard card;
 
-        if(deck != null && card != null){
-            throw new IllegalArgumentException("Something went wrong: impossible call to drawCard method");
+        // add card to players hand and replace it on market
+        if(fromDeck){ // player drawn card from a deck
+            card = deck.removeLast();
         }
-
+        else{ // player drawn a face up card from the market
+            card = market.getFaceUpResources()[faceUpCardIndex];
+            market.setFaceUpResources(deck.removeLast(), faceUpCardIndex);
+        }
         player.getHand().add(card);
 
-        //replace card on market
-        if(deck == null){ // player drawn a face up card from the market
-            market.setFaceUpResources(market.getResourceDeck().removeLast(), faceUpCardIndex);
-        }else{  // player drawn card from a deck
-            market.getResourceDeck().removeLast();
-        }
-
-        //go to next state
-        getPlayer().setPlayerState(new EndOfTurnState(getPlayer(), getTurnHandler()));
     }
 
     @Override
-    public void drawCard(Market market, Player player, ArrayList<GoldCard> deck, GoldCard card, int faceUpCardIndex) {
-        if(deck != null && card != null){
-            throw new IllegalArgumentException("Something went wrong: impossible call to drawCard method");
-        }
+    public void drawGoldCard(Player player, boolean fromDeck, int faceUpCardIndex, Game game) {
+        Market market = game.getMarket();
+        ArrayList<GoldCard> deck = market.getGoldDeck();
+        GoldCard card;
 
+        // add card to players hand and replace it on market
+        if(fromDeck){ // player drawn card from a deck
+            card = deck.removeLast();
+        }
+        else{ // player drawn a face up card from the market
+            card = market.getFaceUpGolds()[faceUpCardIndex];
+            market.setFaceUpGolds(deck.removeLast(), faceUpCardIndex);
+        }
         player.getHand().add(card);
-
-        //replace card on market
-        if(deck == null){ // player drawn a face up card from the market
-            market.setFaceUpGolds(market.getGoldDeck().removeLast(), faceUpCardIndex);
-        }else{  // player drawn card from a deck
-            market.getGoldDeck().removeLast();
-        }
-
-        //go to next state
-        getPlayer().setPlayerState(new EndOfTurnState(getPlayer(), getTurnHandler()));
     }
 
     @Override

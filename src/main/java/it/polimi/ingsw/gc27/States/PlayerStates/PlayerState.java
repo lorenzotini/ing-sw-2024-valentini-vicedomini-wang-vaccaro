@@ -24,8 +24,8 @@ public abstract class PlayerState {
 
 
 
-    public abstract void drawCard(Market market, Player player, ArrayList<ResourceCard> deck, ResourceCard card, int faceUpCardIndex);
-    public abstract void drawCard(Market market, Player player, ArrayList<GoldCard> deck, GoldCard card, int faceUpCardIndex);
+    public abstract void drawResourceCard(Player player, boolean fromDeck, int faceUpCardIndex, Game game);
+    public abstract void drawGoldCard(Player player, boolean fromDeck, int faceUpCardIndex, Game game);
 
     public abstract void addCard(Game game, ResourceCard resourceCard, Face face, int x, int y);
 

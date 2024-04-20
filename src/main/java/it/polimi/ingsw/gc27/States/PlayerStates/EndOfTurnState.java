@@ -20,12 +20,12 @@ public class EndOfTurnState extends PlayerState{
 
 
     @Override
-    public void drawCard(Market market, Player player, ArrayList<ResourceCard> deck, ResourceCard card, int faceUpCardIndex) {
+    public void drawResourceCard(Player player, boolean fromDeck, int faceUpCardIndex, Game game) {
 
     }
 
     @Override
-    public void drawCard(Market market, Player player, ArrayList<GoldCard> deck, GoldCard card, int faceUpCardIndex) {
+    public void drawGoldCard(Player player, boolean fromDeck, int faceUpCardIndex, Game game) {
 
     }
 

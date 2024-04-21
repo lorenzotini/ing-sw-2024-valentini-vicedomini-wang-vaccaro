@@ -38,48 +38,24 @@ public class GameController implements Serializable {
      */
     public void addCard(Player player, ResourceCard card, Face face, int x, int y)  {
         if(player.getManuscript().isValidPlacement(x, y) && ((face instanceof FrontFace && player.getManuscript().satisfiedRequirement((ResourceCard) card)) || (face instanceof BackFace))){
-            player.addCard(this.game, card, face, x, y);
-            player.getHand().remove(card);
+            player.getPlayerState().addCard(this.game, card, face, x, y);
+
         }else{
             System.err.println("Error: invalid position");
         }
     }
 
     public void addStarterCard(Player player, StarterCard card, Face face){
-        player.addCard(this.game, card, face, Manuscript.FIELD_DIM/2, Manuscript.FIELD_DIM/2);
+        player.getPlayerState().addStarterCard(this.game, card, face, Manuscript.FIELD_DIM/2, Manuscript.FIELD_DIM/2);
     }
 
     // TODO: I DUE METODI SONO UGUALI, MAGARI CI PUO' ANDARE UN DESIGN PATTERN
     public void drawResourceCard(Player player, boolean fromDeck, int faceUpCardIndex){
-        Market market = game.getMarket();
-        ArrayList<ResourceCard> deck = market.getResourceDeck();
-        ResourceCard card;
-
-        // add card to players hand and replace it on market
-        if(fromDeck){ // player drawn card from a deck
-            card = deck.removeLast();
-        }
-        else{ // player drawn a face up card from the market
-            card = market.getFaceUpResources()[faceUpCardIndex];
-            market.setFaceUpResources(deck.removeLast(), faceUpCardIndex);
-        }
-        player.getHand().add(card);
+        player.getPlayerState().drawResourceCard(player, fromDeck, faceUpCardIndex, this.game);
     }
 
     public void drawGoldCard(Player player, boolean fromDeck, int faceUpCardIndex){
-        Market market = game.getMarket();
-        ArrayList<GoldCard> deck = market.getGoldDeck();
-        GoldCard card;
-
-        // add card to players hand and replace it on market
-        if(fromDeck){ // player drawn card from a deck
-            card = deck.removeLast();
-        }
-        else{ // player drawn a face up card from the market
-            card = market.getFaceUpGolds()[faceUpCardIndex];
-            market.setFaceUpGolds(deck.removeLast(), faceUpCardIndex);
-        }
-        player.getHand().add(card);
+        player.getPlayerState().drawGoldCard(player, fromDeck, faceUpCardIndex, this.game);
     }
 
     // Create a player from command line, but hand, secret objective and starter are not instantiated

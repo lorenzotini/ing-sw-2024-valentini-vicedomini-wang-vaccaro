@@ -4,6 +4,7 @@ import it.polimi.ingsw.gc27.Card.*;
 import it.polimi.ingsw.gc27.Enumerations.Kingdom;
 import it.polimi.ingsw.gc27.Enumerations.PawnColour;
 import it.polimi.ingsw.gc27.Enumerations.PointsMultiplier;
+import it.polimi.ingsw.gc27.States.PlayerStates.*;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ public class Player implements Serializable {
     private Manuscript manuscript;
     private PawnColour pawnColour;
     private Card secretObjective;
+    private PlayerState playerState;
 
     public Player() {
         hand = new ArrayList<>(3);
@@ -24,6 +26,14 @@ public class Player implements Serializable {
         this.manuscript = manuscript;
         this.pawnColour = pawnColour;
         this.hand = new ArrayList<>();
+    }
+
+    public void setPlayerState(PlayerState playerState) {
+        this.playerState = playerState;
+    }
+
+    public PlayerState getPlayerState() {
+        return playerState;
     }
 
     public PawnColour getPawnColour() {

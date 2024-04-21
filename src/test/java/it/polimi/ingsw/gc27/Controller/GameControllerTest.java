@@ -529,8 +529,8 @@ void addCardTest7() {
         gc1.addCard(p1, resourceDeck.get(22), resourceDeck.get(22).getFront(), 40, 44);
         assertTrue(p1.getManuscript().getField()[41][43].getCorner(-1, -1).isHidden());
 
-        //gc1.addCard(p1, goldDeck.get(23), goldDeck.get(23).getFront(), 44, 40); //sistema
-        //assertTrue(p1.getManuscript().getField()[43][41].getCorner(1, 1).isHidden());
+        gc1.addCard(p1, goldDeck.get(21), goldDeck.get(21).getFront(), 44, 40); //sistema
+        assertTrue(p1.getManuscript().getField()[43][41].getCorner(1, 1).isHidden());
 
         gc1.addCard(p1, resourceDeck.get(8), resourceDeck.get(8).getFront(), 38, 42);
         assertTrue(p1.getManuscript().getField()[41][43].getCorner(-1, -1).isHidden());
@@ -543,6 +543,84 @@ void addCardTest7() {
 
         gc1.addCard(p1, goldDeck.get(33), goldDeck.get(33).getFront(), 39, 43);
         assertTrue(p1.getManuscript().getField()[38][44].getCorner(1, 1).isHidden());
+
+        ViewCli view8=new ViewCli();
+        view8.showManuscript(p1.getManuscript());
+
+    }
+    @Test
+    void addCardTest9(){
+        gc1.addStarterCard(p1, starterDeck.get(0), starterDeck.get(0).getFront());
+
+        gc1.addCard(p1, resourceDeck.get(21), resourceDeck.get(21).getFront(), 41, 41);
+        assertTrue(p1.getManuscript().getField()[42][42].getCorner(-1, 1).isHidden());
+
+        gc1.addCard(p1, resourceDeck.get(36), resourceDeck.get(36).getFront(), 43, 41);
+        assertTrue(p1.getManuscript().getField()[42][42].getCorner(1, 1).isHidden());
+
+        gc1.addCard(p1, resourceDeck.get(20), resourceDeck.get(20).getBack(), 43, 43);
+        assertTrue(p1.getManuscript().getField()[42][42].getCorner(1, -1).isHidden());
+
+        gc1.addCard(p1, resourceDeck.get(23), resourceDeck.get(23).getBack(), 42, 44);
+        assertTrue(p1.getManuscript().getField()[43][43].getCorner(-1, -1).isHidden());
+
+        gc1.addCard(p1, resourceDeck.get(28), resourceDeck.get(28).getFront(), 41, 43);
+        assertTrue(p1.getManuscript().getField()[42][44].getCorner(-1, -1).isHidden());
+
+        gc1.addCard(p1, resourceDeck.get(22), resourceDeck.get(22).getFront(), 40, 44);
+        assertTrue(p1.getManuscript().getField()[41][43].getCorner(-1, 1).isHidden());
+
+        gc1.addCard(p1, resourceDeck.get(29), resourceDeck.get(29).getFront(), 39, 45);
+        assertTrue(p1.getManuscript().getField()[40][44].getCorner(-1, -1).isHidden());
+
+        gc1.addCard(p1, resourceDeck.get(37), resourceDeck.get(37).getFront(), 38, 44);
+        assertTrue(p1.getManuscript().getField()[39][45].getCorner(-1, 1).isHidden());
+
+        gc1.addCard(p1, goldDeck.get(29), goldDeck.get(29).getFront(), 44, 44);
+        assertTrue(p1.getManuscript().getField()[43][43].getCorner(1, -1).isHidden());
+
+        gc1.addCard(p1, resourceDeck.get(17), resourceDeck.get(17).getFront(), 44, 40);
+        assertTrue(p1.getManuscript().getField()[43][41].getCorner(1, 1).isHidden());
+
+        gc1.addCard(p1, goldDeck.get(25), goldDeck.get(25).getFront(), 42, 40);
+        assertTrue(p1.getManuscript().getField()[43][41].getCorner(-1, 1).isHidden());
+        assertTrue(p1.getManuscript().getField()[41][41].getCorner(1, 1).isHidden());
+
+        gc1.addCard(p1, resourceDeck.get(4), resourceDeck.get(4).getFront(), 43, 39);
+        assertTrue(p1.getManuscript().getField()[42][40].getCorner(1, 1).isHidden());
+        assertTrue(p1.getManuscript().getField()[44][40].getCorner(-1, 1).isHidden());
+
+        gc1.addCard(p1, resourceDeck.get(7), resourceDeck.get(7).getFront(), 45, 43);
+        assertTrue(p1.getManuscript().getField()[44][44].getCorner(1, 1).isHidden());
+
+        gc1.addCard(p1, goldDeck.get(0), goldDeck.get(0).getFront(), 45, 45);
+        assertTrue(p1.getManuscript().getField()[44][44].getCorner(1, -1).isHidden());
+
+        gc1.addCard(p1, resourceDeck.get(15), resourceDeck.get(15).getFront(), 46, 46);
+        assertTrue(p1.getManuscript().getField()[45][45].getCorner(1, -1).isHidden());
+
+        gc1.addCard(p1, goldDeck.get(14), goldDeck.get(14).getFront(), 44, 38);
+        assertTrue(p1.getManuscript().getField()[43][39].getCorner(1, 1).isHidden());
+
+        gc1.addCard(p1, resourceDeck.get(5), resourceDeck.get(5).getFront(), 43, 37);
+        assertTrue(p1.getManuscript().getField()[44][38].getCorner(-1, 1).isHidden());
+
+        gc1.addCard(p1, resourceDeck.get(8), resourceDeck.get(8).getFront(), 44, 36);
+        assertTrue(p1.getManuscript().getField()[43][37].getCorner(1, 1).isHidden());
+
+        gc1.addCard(p1, resourceDeck.get(9), resourceDeck.get(9).getFront(), 43, 35);
+        assertTrue(p1.getManuscript().getField()[44][36].getCorner(-1, 1).isHidden());
+
+        gc1.addCard(p1, resourceDeck.get(34), resourceDeck.get(34).getFront(), 42, 36);
+        assertTrue(p1.getManuscript().getField()[43][35].getCorner(-1, -1).isHidden());
+
+        TwoPlusOnePattern red_green= new TwoPlusOnePattern(91, objectiveDeck.get(4).getFront(), objectiveDeck.get(4).getBack(), FUNGIKINGDOM,PLANTKINGDOM,1,-1 );
+        assertEquals(6, red_green.calculateObjectivePoints(p1.getManuscript()));
+
+        TwoPlusOnePattern green_purple= new TwoPlusOnePattern(92, objectiveDeck.get(5).getFront(), objectiveDeck.get(5).getBack(), PLANTKINGDOM,INSECTKINGDOM,-1,-1 );
+        assertEquals(6, green_purple.calculateObjectivePoints(p1.getManuscript()));
+
+
 
 
 

@@ -14,6 +14,7 @@ import java.util.ArrayList;
 public class EndingState extends PlayerState {
     public EndingState(Player player, TurnHandler turnHandler) {
         super(player, turnHandler);
+        turnHandler.notifyCalculateObjectivePoints(getPlayer(), getTurnHandler());
     }
 
     @Override

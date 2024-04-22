@@ -1,6 +1,7 @@
 package it.polimi.ingsw.gc27.Game;
 
 import it.polimi.ingsw.gc27.Card.*;
+import it.polimi.ingsw.gc27.Card.ObjectiveCard.ObjectiveCard;
 import it.polimi.ingsw.gc27.Enumerations.Kingdom;
 import it.polimi.ingsw.gc27.Enumerations.PawnColour;
 import it.polimi.ingsw.gc27.Enumerations.PointsMultiplier;
@@ -14,7 +15,7 @@ public class Player implements Serializable {
     private ArrayList<ResourceCard> hand;
     private Manuscript manuscript;
     private PawnColour pawnColour;
-    private Card secretObjective;
+    private ObjectiveCard secretObjective;
     private PlayerState playerState;
 
     public Player() {
@@ -46,10 +47,10 @@ public class Player implements Serializable {
     public Manuscript getManuscript() {
         return manuscript;
     }
-    public Card getSecretObjective() {
+    public ObjectiveCard getSecretObjective() {
         return secretObjective;
     }
-    public void setSecretObjective(Card secretObjective) {
+    public void setSecretObjective(ObjectiveCard secretObjective) {
         this.secretObjective = secretObjective;
     }
     public String getUsername() {

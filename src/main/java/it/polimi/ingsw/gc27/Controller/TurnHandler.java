@@ -60,6 +60,26 @@ public class TurnHandler {
 
     }
 
+    public void notifyCalculateObjectivePoints(Player player, TurnHandler turnHandler) {
+        // verify that every player is in the ending state
+        int points = 0;
+        boolean everyPlayerEndingState = true;
+        for(Player p : game.getPlayers()){
+            if (!(p.getPlayerState() instanceof EndingState)) {
+                everyPlayerEndingState = false;
+                break;
+            }
+        }
+        // if everyone in ending state then start the objective points calculation
+        if(everyPlayerEndingState){
+            for(Player p : game.getPlayers()){
+                points = 0;
+                points = p.getSecretObjective().calculateObjectivePoints(player.getManuscript());
+                game.addPoints(player, points); // adding the points to the respective player
+            }
+        }
+    }
+
 
 
     //constructor

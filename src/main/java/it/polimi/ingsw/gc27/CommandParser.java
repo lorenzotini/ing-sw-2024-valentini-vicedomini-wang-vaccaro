@@ -17,6 +17,7 @@ public class CommandParser {
             int x = Integer.parseInt(parts[3]);
             int y = Integer.parseInt(parts[4]);
             return new Object[]{parts[0], cardIndex, face, x, y};
+            //return type:{String, int, String, int, int}
         }
         // handle drawGoldCard commands
         else if (parts[0].equalsIgnoreCase("drawGoldCard")) {
@@ -32,6 +33,7 @@ public class CommandParser {
             }
             int index = choice.equalsIgnoreCase("card") ? Integer.parseInt(parts[2]) : -1;
             return new Object[]{parts[0], choice, index};
+            //return type:{String, String, int}
         }
         // handle drawResourceCard commands
         else if (parts[0].equalsIgnoreCase("drawResourceCard")) {
@@ -47,8 +49,18 @@ public class CommandParser {
             }
             int index = choice.equalsIgnoreCase("card") ? Integer.parseInt(parts[2]) : -1;
             return new Object[]{parts[0], choice, index};
+            //return type:{String, String, int}
         } else {
             throw new IllegalArgumentException("Invalid command");
+        }
+    }
+    public static Object[] parseCommandFromServer(String command){
+        String[] parts = command.split(" ");
+
+        if(parts[0].equals("show") ||parts[0].equals("setUsername")){
+            return new Object[]{command.substring(parts[0].length())};
+        }else {
+            throw new IllegalArgumentException("Invalid comand, add one");
         }
     }
 }

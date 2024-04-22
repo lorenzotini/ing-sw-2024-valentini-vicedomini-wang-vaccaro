@@ -1,28 +1,30 @@
 package it.polimi.ingsw.gc27.Net.Socket;
 
+import it.polimi.ingsw.gc27.Model.Card.Face;
+import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
 import it.polimi.ingsw.gc27.CommandParser;
 import it.polimi.ingsw.gc27.Controller.GameController;
-import it.polimi.ingsw.gc27.Game.Player;
+import it.polimi.ingsw.gc27.Model.Game.Player;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.rmi.RemoteException;
 
 public class ClientHandler implements VirtualView {
 
-    final SocketServer server;
     final BufferedReader input;
     final Player player;
-    final PrintWriter output;
-
-    public ClientHandler(GameController controller, SocketServer server, BufferedReader input, BufferedWriter output) throws RemoteException {
-        this.output = new PrintWriter(output)
-        this.server = server;
+    final GameController controller;
+    final SocketClientProxy client;
+    final SocketServer server;
+    public ClientHandler(GameController controller, SocketServer server, BufferedReader input, BufferedWriter output) throws IOException {
+        this.controller = controller;
         this.input = input;
-        this.player = this.server.welcomePlayer(this);
+        this.server = server;
+        this.client = new SocketClientProxy(output);
+        this.player = this.controller.welcomePlayer(this);
     }
 
     public void runVirtualView() throws IOException {
@@ -33,25 +35,26 @@ public class ClientHandler implements VirtualView {
             Object[] commands = CommandParser.parseCommand(command);
             switch (commands[0].toString().toLowerCase()) {
                 case "addcard":
-                    if(commands[2].equals("front")){
-                        server.addCard(player, player.getHand().get((int)commands[1]), player.getHand().get((int)commands[1]).getFront(), (int)commands[3], (int)commands[4]);
-                    }else{
-                        server.addCard(player, player.getHand().get((int)commands[1]), player.getHand().get((int)commands[1]).getBack(), (int)commands[3], (int)commands[4]);
-                    }
+                    new Thread(() -> {
+                        ResourceCard card = player.getHand().get((int)commands[1]);
+                        Face face = commands[2].equals("Front") ? card.getFront() : card.getBack();
+                        int x = (int)commands[3];
+                        int y = Integer.parseInt(commands[4].toString());
+                        // TODO: gestire le eccezioni
+                        this.controller.addCard(player, card, face, x, y);
+                    }).start();
                     break;
                 case "drawresourcecard":
-                    if(commands[1].equals("deck")){
-                        server.drawResourceCard(player, true, (int)commands[2]);
-                    }else{
-                        server.drawResourceCard(player, false, (int)commands[2]);
-                    }
+                    new Thread(() -> {
+                        controller.drawResourceCard(player, commands[1].equals("deck"), (int)commands[2]);
+                    }).start();
+
                     break;
                 case "drawgoldcard":
-                    if(commands[1].equals("deck")){
-                        server.drawGoldCard(player, true, (int)commands[2]);
-                    }else{
-                        server.drawGoldCard(player, false, (int)commands[2]);
-                    }
+                    new Thread(()->{
+                        controller.drawGoldCard(player, commands[1].equals("deck"), (int)commands[2]);
+                    }).start();
+
                     break;
                 default:
                     System.out.println("Invalid command");
@@ -61,6 +64,7 @@ public class ClientHandler implements VirtualView {
 
     }
 
+
     @Override
     public void showUpdate(String update) throws RemoteException {
 
@@ -68,14 +72,20 @@ public class ClientHandler implements VirtualView {
 
     @Override
     public void show(String s) throws RemoteException {
-
+        client.show(s);
     }
 
     @Override
-    public String read() throws RemoteException {
-        return null;
+    public String read() throws IOException {
+        String str ;
+        str = input.readLine();
+        return str;
     }
+
+    @Override
+    public void setUsername(String username) throws RemoteException {
+        client.setUsername(username);
+    }
+
 }
-
-
 

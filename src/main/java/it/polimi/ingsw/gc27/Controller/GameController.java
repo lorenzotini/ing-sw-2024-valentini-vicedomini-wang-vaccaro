@@ -1,30 +1,49 @@
 package it.polimi.ingsw.gc27.Controller;
 
-import it.polimi.ingsw.gc27.Card.*;
-import it.polimi.ingsw.gc27.Enumerations.PawnColour;
-import it.polimi.ingsw.gc27.Game.Game;
-import it.polimi.ingsw.gc27.Game.Manuscript;
-import it.polimi.ingsw.gc27.Game.Market;
-import it.polimi.ingsw.gc27.Game.Player;
+import it.polimi.ingsw.gc27.Model.Card.*;
+import it.polimi.ingsw.gc27.Model.Enumerations.PawnColour;
+import it.polimi.ingsw.gc27.Model.Game.Game;
+import it.polimi.ingsw.gc27.Model.Game.Manuscript;
+import it.polimi.ingsw.gc27.Model.Game.Player;
+import it.polimi.ingsw.gc27.Net.RMI.RmiServer;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
 
 public class GameController implements Serializable {
 
     private Game game;
+
+    public int getNumMaxPlayers() {
+        return numMaxPlayers;
+    }
+
+    // TODO make numMaxPlayers final
+    private int numMaxPlayers;
+    private int id;
+
     public GameController(Game game) {
         this.game = game;
     }
+
     public GameController(){}
+
+    public GameController(Game game, int numMaxPlayers, int id){
+        this.game = game;
+        this.numMaxPlayers = numMaxPlayers;
+        this.id = id;
+    }
     public Game getGame() {
         return game;
     }
 
     public void setGame(Game game) {
         this.game = game;
+    }
+    public int getId() {
+        return id;
     }
 
     /**
@@ -59,31 +78,38 @@ public class GameController implements Serializable {
     }
 
     // Create a player from command line, but hand, secret objective and starter are not instantiated
-    public Player welcomePlayer(VirtualView client) throws RemoteException {
-        String username = "";
-        String pawnColor = "";
+    public void initializePlayer(VirtualView client, GigaController gigaChad) throws IOException, RemoteException {
+        String username;
+        String pawnColor;
         Manuscript manuscript = new Manuscript();
 
         // Ask for the username
         do {
-           client.show("Choose your username: ");
+            client.show("Choose your username: ");
             username = client.read();
-        }while(!game.validUsername(username));
+        }while(!gigaChad.validUsername(username));
+        client.setUsername(username);
+
 
         // Ask for the pawn color
-        do {
-            client.show("Choose your color: ");
-            for (PawnColour pawnColour : game.getAvailablePawns()) {
-                client.show(pawnColour + " ");
-            }
-            pawnColor = client.read();
-        }while(!game.validPawn(pawnColor));
+        synchronized (game.getAvailablePawns()){
+            do {
+                client.show("Choose your color: ");
+                for (PawnColour pawnColour : game.getAvailablePawns()) {
+                    client.show(pawnColour + " ");
+                }
+                pawnColor = client.read();
+            }while(!game.validPawn(pawnColor));
+            game.getAvailablePawns().remove(PawnColour.fromStringToPawnColour(pawnColor));
+        }
 
+        // Create the player
         Player p = new Player(username, manuscript, PawnColour.fromStringToPawnColour(pawnColor));
 
+        // Add the player to the game
         game.getPlayers().add(p);
-        game.getAvailablePawns().remove(PawnColour.fromStringToPawnColour(pawnColor));
 
+        // Draw the initial cards
         this.drawResourceCard(p, true, 0);
         this.drawResourceCard(p, true, 0);
         this.drawGoldCard(p, true, 0);
@@ -94,7 +120,8 @@ public class GameController implements Serializable {
         // TODO: ORA LA METTE FRONT, POI DOVRA' SCEGLIERE QUALE LATO GIOCARE
         StarterCard starter = game.getStarterDeck().removeLast();
         this.addStarterCard(p, starter, starter.getFront());
-
         return p;
+
+
     }
 }

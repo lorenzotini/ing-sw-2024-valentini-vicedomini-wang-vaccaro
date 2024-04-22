@@ -1,12 +1,12 @@
 package it.polimi.ingsw.gc27.Controller;
 
-import it.polimi.ingsw.gc27.Card.GoldCard;
-import it.polimi.ingsw.gc27.Card.ObjectiveCard.ObjectiveCard;
-import it.polimi.ingsw.gc27.Card.ResourceCard;
-import it.polimi.ingsw.gc27.Card.StarterCard;
-import it.polimi.ingsw.gc27.Game.Board;
-import it.polimi.ingsw.gc27.Game.Game;
-import it.polimi.ingsw.gc27.Game.Market;
+import it.polimi.ingsw.gc27.Model.Card.GoldCard;
+import it.polimi.ingsw.gc27.Model.Card.ObjectiveCard.ObjectiveCard;
+import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
+import it.polimi.ingsw.gc27.Model.Card.StarterCard;
+import it.polimi.ingsw.gc27.Model.Game.Board;
+import it.polimi.ingsw.gc27.Model.Game.Game;
+import it.polimi.ingsw.gc27.Model.Game.Market;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -41,8 +41,7 @@ public class Initializer {
         ObjectiveCard commObj1 = objectiveDeck.removeLast();
         ObjectiveCard commObj2 = objectiveDeck.removeLast();
 
-        game = new Game(gameId, board, market, new ArrayList<>(), commObj1, commObj2, starterDeck, objectiveDeck);
+        return new Game(board, market, new ArrayList<>(), commObj1, commObj2, starterDeck, objectiveDeck);
 
-        return game;
     }
 }

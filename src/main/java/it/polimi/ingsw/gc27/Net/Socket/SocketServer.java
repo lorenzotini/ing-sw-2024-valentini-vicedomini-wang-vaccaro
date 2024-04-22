@@ -1,20 +1,14 @@
 package it.polimi.ingsw.gc27.Net.Socket;
 
-import it.polimi.ingsw.gc27.Card.Face;
-import it.polimi.ingsw.gc27.Card.ResourceCard;
 import it.polimi.ingsw.gc27.Controller.GameController;
-import it.polimi.ingsw.gc27.Game.Player;
-import it.polimi.ingsw.gc27.Net.VirtualServer;
-import it.polimi.ingsw.gc27.Net.VirtualView;
 
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SocketServer implements VirtualServer{
+public class SocketServer {
 
 
     final ServerSocket listenSocket;
@@ -53,7 +47,7 @@ public class SocketServer implements VirtualServer{
             System.out.println(e.getMessage());
         }
     }*/
-    private void runServer() throws IOException {
+    public void runServer() throws IOException {
         Socket clientSocket = null;
         while ((clientSocket = this.listenSocket.accept()) != null) {
             InputStreamReader socketRx = new InputStreamReader(clientSocket.getInputStream());
@@ -73,26 +67,4 @@ public class SocketServer implements VirtualServer{
         }
     }
 
-
-
-
-    @Override
-    public void addCard(Player player, ResourceCard card, Face face, int x, int y) throws RemoteException {
-        this.controller.addCard(player, card, face, x, y);
-    }
-
-    @Override
-    public void drawResourceCard(Player player, boolean fromDeck, int faceUpCardIndex) throws RemoteException {
-        this.controller.drawResourceCard(player, fromDeck, faceUpCardIndex);
-    }
-
-    @Override
-    public void drawGoldCard(Player player, boolean fromDeck, int faceUpCardIndex) throws RemoteException {
-        this.controller.drawGoldCard(player, fromDeck, faceUpCardIndex);
-    }
-
-    @Override
-    public Player welcomePlayer(VirtualView client) throws RemoteException {
-        return this.controller.welcomePlayer(client);
-    }
 }

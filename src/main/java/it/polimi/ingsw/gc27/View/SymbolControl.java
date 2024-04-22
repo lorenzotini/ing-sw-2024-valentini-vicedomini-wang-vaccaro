@@ -1,7 +1,5 @@
 package it.polimi.ingsw.gc27.View;
-import it.polimi.ingsw.gc27.Enumerations.Kingdom;
-import it.polimi.ingsw.gc27.View.ColourControl;
-import it.polimi.ingsw.gc27.Enumerations.CornerSymbol;
+import it.polimi.ingsw.gc27.Model.Enumerations.CornerSymbol;
 
 
 public enum SymbolControl {

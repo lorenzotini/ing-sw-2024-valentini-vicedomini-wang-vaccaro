@@ -1,11 +1,11 @@
 package it.polimi.ingsw.gc27.Controller;
 
-import it.polimi.ingsw.gc27.Game.Game;
-import it.polimi.ingsw.gc27.Game.Player;
-import it.polimi.ingsw.gc27.States.PlayerStates.EndingState;
-import it.polimi.ingsw.gc27.States.PlayerStates.InitializingState;
-import it.polimi.ingsw.gc27.States.PlayerStates.PlayingState;
-import it.polimi.ingsw.gc27.States.PlayerStates.WaitingState;
+import it.polimi.ingsw.gc27.Model.Game.Game;
+import it.polimi.ingsw.gc27.Model.Game.Player;
+import it.polimi.ingsw.gc27.Model.States.PlayerStates.EndingState;
+import it.polimi.ingsw.gc27.Model.States.PlayerStates.InitializingState;
+import it.polimi.ingsw.gc27.Model.States.PlayerStates.PlayingState;
+import it.polimi.ingsw.gc27.Model.States.PlayerStates.WaitingState;
 
 public class TurnHandler {
     private Game game;

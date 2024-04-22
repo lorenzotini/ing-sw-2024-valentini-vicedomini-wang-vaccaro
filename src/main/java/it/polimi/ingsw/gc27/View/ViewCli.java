@@ -1,23 +1,10 @@
 package it.polimi.ingsw.gc27.View;
 
-import java.util.*;
+import it.polimi.ingsw.gc27.Model.Card.BackFace;
+import it.polimi.ingsw.gc27.Model.Card.Face;
+import it.polimi.ingsw.gc27.Model.Game.Manuscript;
+
 import java.util.ArrayList;
-import java.lang.*;
-
-
-import it.polimi.ingsw.gc27.Card.Face;
-import it.polimi.ingsw.gc27.Card.*;
-import it.polimi.ingsw.gc27.Card.ObjectiveCard.ObjectiveCard;
-import it.polimi.ingsw.gc27.Console;
-import it.polimi.ingsw.gc27.Controller.GameController;
-import it.polimi.ingsw.gc27.Controller.JsonParser;
-import it.polimi.ingsw.gc27.Enumerations.PawnColour;
-import it.polimi.ingsw.gc27.View.ColourControl;
-import it.polimi.ingsw.gc27.Card.BackFace;
-import it.polimi.ingsw.gc27.Card.FrontFace;
-import it.polimi.ingsw.gc27.Enumerations.CornerSymbol;
-import it.polimi.ingsw.gc27.Enumerations.Kingdom;
-import it.polimi.ingsw.gc27.Game.*;
 
 public class ViewCli implements View {
     private ArrayList<String> commandList;

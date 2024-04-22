@@ -1,11 +1,6 @@
 package it.polimi.ingsw.gc27.Model.Game;
 
-import it.polimi.ingsw.gc27.Card.*;
-import it.polimi.ingsw.gc27.Card.ObjectiveCard.ObjectiveCard;
-import it.polimi.ingsw.gc27.Enumerations.Kingdom;
-import it.polimi.ingsw.gc27.Enumerations.PawnColour;
-import it.polimi.ingsw.gc27.Enumerations.PointsMultiplier;
-import it.polimi.ingsw.gc27.States.PlayerStates.*;
+import it.polimi.ingsw.gc27.Model.Card.ObjectiveCard.*;
 import it.polimi.ingsw.gc27.Model.Card.*;
 import it.polimi.ingsw.gc27.Model.Enumerations.Kingdom;
 import it.polimi.ingsw.gc27.Model.Enumerations.PawnColour;

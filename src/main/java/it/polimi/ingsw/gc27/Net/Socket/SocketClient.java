@@ -1,7 +1,6 @@
 package it.polimi.ingsw.gc27.Net.Socket;
 
 import it.polimi.ingsw.gc27.CommandParser;
-import it.polimi.ingsw.gc27.Game.Player;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 
 import java.io.*;

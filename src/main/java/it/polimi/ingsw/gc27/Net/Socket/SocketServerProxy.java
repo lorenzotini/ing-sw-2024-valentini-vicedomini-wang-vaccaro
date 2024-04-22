@@ -1,18 +1,11 @@
 package it.polimi.ingsw.gc27.Net.Socket;
 
-import it.polimi.ingsw.gc27.Card.Face;
-import it.polimi.ingsw.gc27.Card.FrontFace;
-import it.polimi.ingsw.gc27.Card.GoldCard;
-import it.polimi.ingsw.gc27.Card.ResourceCard;
-import it.polimi.ingsw.gc27.Game.Market;
-import it.polimi.ingsw.gc27.Game.Player;
 import it.polimi.ingsw.gc27.Net.VirtualServer;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 
 import java.io.BufferedWriter;
 import java.io.PrintWriter;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
 
 public class SocketServerProxy implements VirtualServer {
     final PrintWriter output;

@@ -11,5 +11,6 @@ public interface VirtualView extends Remote {
     void show(String s) throws RemoteException;
 
     String read() throws RemoteException, IOException;
+
     void setUsername(String username)throws RemoteException;
 }

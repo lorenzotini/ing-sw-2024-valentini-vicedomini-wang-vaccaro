@@ -1,16 +1,10 @@
 package it.polimi.ingsw.gc27.Net.Socket;
 
-import it.polimi.ingsw.gc27.Card.Face;
-import it.polimi.ingsw.gc27.Card.ResourceCard;
 import it.polimi.ingsw.gc27.Controller.GameController;
-import it.polimi.ingsw.gc27.Game.Player;
-import it.polimi.ingsw.gc27.Net.VirtualServer;
-import it.polimi.ingsw.gc27.Net.VirtualView;
 
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,7 +47,7 @@ public class SocketServer {
             System.out.println(e.getMessage());
         }
     }*/
-    private void runServer() throws IOException {
+    public void runServer() throws IOException {
         Socket clientSocket = null;
         while ((clientSocket = this.listenSocket.accept()) != null) {
             InputStreamReader socketRx = new InputStreamReader(clientSocket.getInputStream());

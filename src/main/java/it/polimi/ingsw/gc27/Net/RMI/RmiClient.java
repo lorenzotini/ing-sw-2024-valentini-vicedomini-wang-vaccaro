@@ -3,6 +3,7 @@ package it.polimi.ingsw.gc27.Net.RMI;
 import it.polimi.ingsw.gc27.Net.VirtualServer;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 
+import java.io.IOException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -16,7 +17,6 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
     public RmiClient(String ipAddress, int port) throws IOException, NotBoundException {
         Registry registry = LocateRegistry.getRegistry(ipAddress, port);
         this.server = (VirtualServer) registry.lookup("VirtualServer");
-        this.run();
     }
     @Override
     public void showUpdate(String message) throws RemoteException {

@@ -1,10 +1,10 @@
 package it.polimi.ingsw.gc27.Net.Socket;
 
-import it.polimi.ingsw.gc27.Card.Face;
-import it.polimi.ingsw.gc27.Card.ResourceCard;
+import it.polimi.ingsw.gc27.Model.Card.Face;
+import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
 import it.polimi.ingsw.gc27.CommandParser;
 import it.polimi.ingsw.gc27.Controller.GameController;
-import it.polimi.ingsw.gc27.Game.Player;
+import it.polimi.ingsw.gc27.Model.Game.Player;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 
 import java.io.BufferedReader;
@@ -23,8 +23,8 @@ public class ClientHandler implements VirtualView {
         this.controller = controller;
         this.input = input;
         this.server = server;
-        this.player = this.controller.welcomePlayer(this);
         this.client = new SocketClientProxy(output);
+        this.player = this.controller.welcomePlayer(this);
     }
 
     public void runVirtualView() throws IOException {

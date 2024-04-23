@@ -23,7 +23,7 @@ public class RmiServer implements VirtualServer {
 
     final static int DEFAULT_PORT_NUMBER = 1234;
     //private ArrayList<GameController> controllersList;
-    private List<RmiClient> clients = new ArrayList<>();    //clients of different games
+    private List<VirtualView> clients = new ArrayList<>();    //clients of different games
     final BlockingQueue<String> updates = new LinkedBlockingQueue<>();
     private GigaController console;
     public RmiServer(GigaController controller) {
@@ -33,13 +33,13 @@ public class RmiServer implements VirtualServer {
     @Override
     public void connect(VirtualView client) throws RemoteException {
         synchronized (this.clients){
-            this.clients.add((RmiClient) client);
+            this.clients.add(client);
         }
         System.err.println("new client connected");
     }
     @Override
     public void addCard(String playerName, int handCardIndex, boolean isFrontFace, int x, int y) throws RemoteException {
-        Player player = this.controller.getGame().getPlayer(playerName);
+        /*Player player = this.controller.getGame().getPlayer(playerName);
         ResourceCard card = player.getHand().get(handCardIndex);
         Face face = isFrontFace ? card.getFront() : card.getBack();
 
@@ -50,11 +50,11 @@ public class RmiServer implements VirtualServer {
             updates.put("UPDATE - Added card from player: " + player.getUsername());
         }catch (InterruptedException e){
             throw new RuntimeException(e);
-        }
+        }*/
     }
     @Override
     public void drawResourceCard(String playerName, boolean fromDeck, int faceUpCardIndex) throws RemoteException {
-        Player player = this.controller.getGame().getPlayer(playerName);
+        /*Player player = this.controller.getGame().getPlayer(playerName);
         // TODO: gestire le eccezioni
         this.controller.drawResourceCard(player, fromDeck, faceUpCardIndex);
         // TODO: gestire meglio gli updates
@@ -62,11 +62,11 @@ public class RmiServer implements VirtualServer {
             updates.put("UPDATE - Drawn card from player: " + player.getUsername());
         }catch (InterruptedException e){
             throw new RuntimeException(e);
-        }
+        }*/
     }
     @Override
     public void drawGoldCard(String playerName, boolean fromDeck, int faceUpCardIndex) throws RemoteException {
-        Player player = this.controller.getGame().getPlayer(playerName);
+        /*Player player = this.controller.getGame().getPlayer(playerName);
         // TODO: gestire le eccezioni
         this.controller.drawGoldCard(player, fromDeck, faceUpCardIndex);
         // TODO: gestire meglio gli updates
@@ -74,7 +74,7 @@ public class RmiServer implements VirtualServer {
             updates.put("UPDATE - Drawn card from player: " + player.getUsername());
         }catch (InterruptedException e){
             throw new RuntimeException(e);
-        }
+        }*/
     }
     @Override
     public void welcomePlayer(VirtualView client) throws IOException{

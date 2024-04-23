@@ -28,9 +28,9 @@ public class PlayingState extends PlayerState {
         getPlayer().getHand().remove(resourceCard);
         //shows on screen that a card was played successfully
         //...
-
         //go to next state
         getPlayer().setPlayerState(new DrawingState(getPlayer(), getTurnHandler()));
+
     }
 
     @Override

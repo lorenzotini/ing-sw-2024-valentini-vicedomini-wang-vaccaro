@@ -1,6 +1,7 @@
 package it.polimi.ingsw.gc27.Controller;
 
 import it.polimi.ingsw.gc27.Exceptions.UserNotFoundException;
+import it.polimi.ingsw.gc27.Model.Game.Player;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 
 import java.io.IOException;
@@ -24,9 +25,10 @@ public class GigaController {
         throw new UserNotFoundException(username + "does not exist");
     }
 
-    public void welcomePlayer(VirtualView client) throws IOException {
+    public Player welcomePlayer(VirtualView client) throws IOException {
         client.show("Welcome to Codex Naturalis" + "\n" + "Do you want to start a new game or join an existing one? (enter 'new' or the gameId)");
         String game = client.read();
+        Player p;
         boolean canEnter = false;
 
         if (game.equalsIgnoreCase("new")) {    // start a new game
@@ -52,16 +54,16 @@ public class GigaController {
                             welcomePlayer(client);
 
                         }else {
-                            gc.initializePlayer(client, this);
+                            p =gc.initializePlayer(client, this);
                         }
-                        return;
+                        return p;
                     }
                 }
                 client.show("Game not found. Please enter a valid game id or 'new' to start a new game");
                 game = client.read();
                 if(game.equalsIgnoreCase("new")){
                     createNewGame(client);
-                    return;
+                    return p;
                 }
             }while(true);
         }
@@ -70,6 +72,10 @@ public class GigaController {
     public void createNewGame(VirtualView client) throws IOException {
         client.show("How many player? there will be? (2-4)");
         int numPlayers = Integer.parseInt(client.read());
+        while(numPlayers > 4 || numPlayers < 2 ){
+            client.show("Invalid number of players, insert a value between 2-4");
+            numPlayers = Integer.parseInt(client.read());
+        }
         GameController controller;
         Initializer init = new Initializer();
         synchronized (gameControllers){
@@ -78,6 +84,7 @@ public class GigaController {
         }
         client.show("Game created with id " + controller.getId() + "\n" + "Waiting for players to join...");
         controller.initializePlayer(client, this);
+
     }
 
     // TODO remember to remove the username from the availableUsernames map when a player leaves the game

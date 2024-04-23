@@ -103,7 +103,7 @@ public class GameController implements Serializable {
             game.getAvailablePawns().remove(PawnColour.fromStringToPawnColour(pawnColor));
         }
 
-        // Create the player
+
         Player p = new Player(username, manuscript, PawnColour.fromStringToPawnColour(pawnColor));
 
         // Add the player to the game
@@ -120,8 +120,6 @@ public class GameController implements Serializable {
         // TODO: ORA LA METTE FRONT, POI DOVRA' SCEGLIERE QUALE LATO GIOCARE
         StarterCard starter = game.getStarterDeck().removeLast();
         this.addStarterCard(p, starter, starter.getFront());
-        return p;
-
 
     }
 }

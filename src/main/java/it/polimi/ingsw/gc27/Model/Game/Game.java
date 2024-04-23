@@ -58,7 +58,7 @@ public class Game implements Serializable {
                 return p;
             }
         }
-        throw new UserNotFoundException(playerName + "is not in this game: " + this.getGameID());
+        throw new UserNotFoundException(playerName + "is not in this game");
     }
     public ArrayList<StarterCard> getStarterDeck() {
         return starterDeck;
@@ -102,14 +102,8 @@ public class Game implements Serializable {
     public Card getCommonObjective2() {
         return commonObjective2;
     }
-    public int getGameID() {
-        return GameID;
-    }
     public List<Player> getPlayers() {
         return players;
-    }
-    public void setGameID(int gameID) {
-        GameID = gameID;
     }
     public void setPlayers(List<Player> players) {
         this.players = players;

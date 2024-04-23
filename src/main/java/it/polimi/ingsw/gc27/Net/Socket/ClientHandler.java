@@ -15,7 +15,7 @@ import java.rmi.RemoteException;
 public class ClientHandler implements VirtualView {
 
     final BufferedReader input;
-    final Player player;
+    final Player player = new Player();
     final GameController controller;
     final SocketClientProxy client;
     final SocketServer server;
@@ -24,7 +24,7 @@ public class ClientHandler implements VirtualView {
         this.input = input;
         this.server = server;
         this.client = new SocketClientProxy(output);
-        this.player = this.controller.welcomePlayer(this);
+        //this.player = this.controller.initializePlayer(this);
     }
 
     public void runVirtualView() throws IOException {

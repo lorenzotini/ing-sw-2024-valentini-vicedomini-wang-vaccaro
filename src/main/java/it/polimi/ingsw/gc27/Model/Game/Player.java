@@ -5,6 +5,7 @@ import it.polimi.ingsw.gc27.Model.Card.*;
 import it.polimi.ingsw.gc27.Model.Enumerations.Kingdom;
 import it.polimi.ingsw.gc27.Model.Enumerations.PawnColour;
 import it.polimi.ingsw.gc27.Model.Enumerations.PointsMultiplier;
+import it.polimi.ingsw.gc27.Model.States.PlayerStates.InitializingState;
 import it.polimi.ingsw.gc27.Model.States.PlayerStates.PlayerState;
 
 import java.io.Serializable;
@@ -27,7 +28,8 @@ public class Player implements Serializable {
         this.manuscript = manuscript;
         this.pawnColour = pawnColour;
         this.hand = new ArrayList<>();
-    }
+        // TODO this.playerState = new InitializingState();
+     }
 
     public void setPlayerState(PlayerState playerState) {
         this.playerState = playerState;

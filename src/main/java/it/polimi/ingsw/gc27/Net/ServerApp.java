@@ -22,7 +22,7 @@ public class ServerApp {
         ServerApp serverApp = new ServerApp();
 
         serverApp.rmiServer = new RmiServer(serverApp.console);
-        serverApp.socketServer = new SocketServer(serverApp.console);
+        //serverApp.socketServer = new SocketServer(serverApp.console);
 
         serverApp.rmiServer.runServer();
         serverApp.socketServer.runServer();

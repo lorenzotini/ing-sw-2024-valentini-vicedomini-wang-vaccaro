@@ -8,7 +8,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.rmi.RemoteException;
 import java.util.Scanner;
-
+/*
 public class SocketClient implements Runnable, VirtualView {
     final BufferedReader input;
     final SocketServerProxy server;
@@ -100,4 +100,4 @@ public class SocketClient implements Runnable, VirtualView {
         return null;
     }
 
-}
+}*/

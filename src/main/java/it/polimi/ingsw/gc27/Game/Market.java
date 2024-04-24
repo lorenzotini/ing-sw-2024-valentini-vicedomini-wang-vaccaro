@@ -12,9 +12,7 @@ public class Market implements Serializable{
     private ArrayList<ResourceCard> resourceDeck;
     private ArrayList<GoldCard> goldDeck;
 
-    public Market(){
 
-    }
     public Market(ArrayList<ResourceCard> resourceDeck, ArrayList<GoldCard> goldDeck, ResourceCard[] faceUpResources, GoldCard[] faceUpGolds) {
         this.faceUpResources = faceUpResources;
         this.faceUpGolds = faceUpGolds;
@@ -41,16 +39,8 @@ public class Market implements Serializable{
     public ArrayList<ResourceCard> getResourceDeck() {
         return resourceDeck;
     }
-
-    public void setResourceDeck(ArrayList<ResourceCard> resourceDeck) {
-        this.resourceDeck = resourceDeck;
-    }
-
     public ArrayList<GoldCard> getGoldDeck() {
         return goldDeck;
     }
 
-    public void setGoldDeck(ArrayList<GoldCard> goldDeck) {
-        this.goldDeck = goldDeck;
-    }
 }

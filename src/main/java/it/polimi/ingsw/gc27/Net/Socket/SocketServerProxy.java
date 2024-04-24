@@ -13,7 +13,7 @@ import java.io.BufferedWriter;
 import java.io.PrintWriter;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
-
+/*
 public class SocketServerProxy implements VirtualServer {
     final PrintWriter output;
 
@@ -59,16 +59,18 @@ public class SocketServerProxy implements VirtualServer {
         output.flush();
     }
 
+    /*
     @Override
     public Player welcomePlayer(VirtualView client) throws RemoteException {
 
         output.println("welcomePlayer");
         output.flush();
-    }
+    }*/
 
-
+/*
     public void send(String command){
         output.println(command);
         output.flush();
     }
 }
+*/

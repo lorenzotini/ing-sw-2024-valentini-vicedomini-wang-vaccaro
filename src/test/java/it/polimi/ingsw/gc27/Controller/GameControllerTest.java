@@ -7,12 +7,11 @@ import it.polimi.ingsw.gc27.Card.StarterCard;
 import it.polimi.ingsw.gc27.Enumerations.CornerSymbol;
 import it.polimi.ingsw.gc27.Enumerations.Kingdom;
 import it.polimi.ingsw.gc27.Enumerations.PawnColour;
-import it.polimi.ingsw.gc27.Game.Board;
-import it.polimi.ingsw.gc27.Game.Game;
-import it.polimi.ingsw.gc27.Game.Manuscript;
-import it.polimi.ingsw.gc27.Game.Player;
+import it.polimi.ingsw.gc27.Game.*;
 import it.polimi.ingsw.gc27.View.MyCli;
 import it.polimi.ingsw.gc27.View.ViewCli;
+import org.junit.Before;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -31,16 +30,21 @@ class GameControllerTest {
     private static Player p4;
     private static ArrayList<Player> players1;
 
+    private static Market market;
+
     private static ArrayList<StarterCard> starterDeck;
     private static ArrayList<ResourceCard> resourceDeck;
     private static ArrayList<ObjectiveCard> objectiveDeck;
     private static ArrayList<GoldCard> goldDeck;
+    private static ResourceCard[] faceUpResources;
+    private static GoldCard[] faceUpGolds;
 
-    public void initializeGame() {
+    public  void initializeGame() {
 
         players1 = new ArrayList<>();
         g1 = new Game(1, new Board(), players1);
         gc1 = new GameController(g1);
+
 
         // generate decks
         starterDeck = JsonParser.getStarterDeck(JsonParser.cardsJsonObj);
@@ -62,6 +66,16 @@ class GameControllerTest {
         players1.add(p2);
         players1.add(p3);
         players1.add(p4);
+
+        faceUpResources = new ResourceCard[2];
+        faceUpGolds= new GoldCard[2];
+        faceUpResources[0]= resourceDeck.get(0);
+        faceUpResources[1]= resourceDeck.get(1);
+        faceUpGolds[0]=goldDeck.get(0);
+        faceUpGolds[1]=goldDeck.get(1);
+        market=new Market(resourceDeck, goldDeck, faceUpResources,faceUpGolds );
+        g1.setMarket(market);
+
 
         // create game and its controller
 
@@ -123,9 +137,13 @@ class GameControllerTest {
         assertTrue(p1.getManuscript().getField()[42][40].getCorner(1, 1).isHidden());
         assertTrue(p1.getManuscript().getField()[44][40].getCorner(-1, 1).isHidden());
 
+        gc1.drawResourceCard(p1,true,0);
+        gc1.drawGoldCard(p1,true,0);
+
 
         ObjectiveCard obj1 = objectiveDeck.get(3);
         LadderPattern ladder = new LadderPattern(90, obj1.getFront(), obj1.getBack(), Kingdom.ANIMALKINGDOM, true);
+        //assertEquals(2, ladder.calculateObjectivePoints(p1.getManuscript()));
         ObjectiveCard obj2 = objectiveDeck.get(5);
         TwoPlusOnePattern two = new TwoPlusOnePattern(92, obj2.getFront(), obj2.getBack(), Kingdom.FUNGIKINGDOM, Kingdom.ANIMALKINGDOM, -1, -1);
 
@@ -141,7 +159,10 @@ class GameControllerTest {
 
         ViewCli view = new ViewCli();
         view.showManuscript(p1.getManuscript());
-        //view.zoom(p1.getManuscript(), 41,39);
+
+        //LadderPattern purple_ladder=new LadderPattern(90, objectiveDeck.get(3).getFront(), objectiveDeck.get(3).getBack(), ANIMALKINGDOM, true);
+
+
 
 
         //int points =gc1.getGame().getBoard().getPointsRedPlayer() + ladder.calculateObjectivePoints(p1.getManuscript());
@@ -342,14 +363,14 @@ class GameControllerTest {
         ThreeKingdomPattern threetods = new ThreeKingdomPattern(96, objectiveDeck.get(8).getFront(), objectiveDeck.get(8).getBack(), FUNGIKINGDOM);
         assertEquals(11, gc1.getGame().getBoard().getPointsYellowPlayer() + threetods.calculateObjectivePoints(p4.getManuscript()));
 
-        ViewCli view4 = new ViewCli();
-        view4.showManuscript(p4.getManuscript());
-        //MyCli view=new MyCli();
-        //view.printManuscript(p4.getManuscript());
+        //ViewCli view4 = new ViewCli();
+        //view4.showManuscript(p4.getManuscript());
+        MyCli view=new MyCli();
+        view.printManuscript(p4.getManuscript());
     }
 
     @Test
-    void addCardTest() {
+    void addCardTest5() {
         initializeGame();
         gc1.addStarterCard(p1, starterDeck.get(0), starterDeck.get(0).getFront());
         gc1.addCard(p1, resourceDeck.get(0), resourceDeck.get(0).getBack(), 43, 41);
@@ -393,10 +414,10 @@ class GameControllerTest {
         gc1.addCard(p1, resourceDeck.get(38), resourceDeck.get(38).getBack(), 43, 3);
         gc1.addCard(p1, resourceDeck.get(39), resourceDeck.get(39).getBack(), 42, 2);
 
-        ViewCli view5 = new ViewCli();
-        view5.showManuscript(p1.getManuscript());
-        //MyCli view=new MyCli();
-        //view.printManuscript(p1.getManuscript());
+        //ViewCli view5 = new ViewCli();
+        //view5.showManuscript(p1.getManuscript());
+        MyCli view=new MyCli();
+        view.printManuscript(p1.getManuscript());
     }
 
     @Test
@@ -451,10 +472,10 @@ class GameControllerTest {
         LadderPattern red_ladder6 = new LadderPattern(87, objectiveDeck.get(0).getFront(), objectiveDeck.get(0).getBack(), FUNGIKINGDOM, true);
         assertEquals(6, red_ladder6.calculateObjectivePoints(p1.getManuscript()));
 
-        ViewCli view6=new ViewCli();
-        view6.showManuscript(p1.getManuscript());
-        //MyCli view=new MyCli();
-        //view.printManuscript(p1.getManuscript());
+        //ViewCli view6=new ViewCli();
+        //view6.showManuscript(p1.getManuscript());
+        MyCli view=new MyCli();
+        view.printManuscript(p1.getManuscript());
     }
 
 
@@ -490,8 +511,8 @@ void addCardTest7() {
     gc1.addCard(p1, resourceDeck.get(3), resourceDeck.get(3).getBack(), 35, 39);
     assertTrue(p1.getManuscript().getField()[36][38].getCorner(-1, -1).isHidden());
 
-    //MyCli view=new MyCli();
-    //view.printManuscript(p1.getManuscript());
+    MyCli view=new MyCli();
+    view.printManuscript(p1.getManuscript());
 
 
     }
@@ -529,7 +550,7 @@ void addCardTest7() {
         gc1.addCard(p1, resourceDeck.get(22), resourceDeck.get(22).getFront(), 40, 44);
         assertTrue(p1.getManuscript().getField()[41][43].getCorner(-1, -1).isHidden());
 
-        gc1.addCard(p1, goldDeck.get(21), goldDeck.get(21).getFront(), 44, 40); //sistema
+        gc1.addCard(p1, goldDeck.get(21), goldDeck.get(21).getFront(), 44, 40); //sistemato
         assertTrue(p1.getManuscript().getField()[43][41].getCorner(1, 1).isHidden());
 
         gc1.addCard(p1, resourceDeck.get(8), resourceDeck.get(8).getFront(), 38, 42);
@@ -544,12 +565,15 @@ void addCardTest7() {
         gc1.addCard(p1, goldDeck.get(33), goldDeck.get(33).getFront(), 39, 43);
         assertTrue(p1.getManuscript().getField()[38][44].getCorner(1, 1).isHidden());
 
-        ViewCli view8=new ViewCli();
-        view8.showManuscript(p1.getManuscript());
+        //ViewCli view8=new ViewCli();
+        //view8.showManuscript(p1.getManuscript());
 
+        MyCli view=new MyCli();
+        view.printManuscript(p1.getManuscript());
     }
     @Test
     void addCardTest9(){
+        initializeGame();
         gc1.addStarterCard(p1, starterDeck.get(0), starterDeck.get(0).getFront());
 
         gc1.addCard(p1, resourceDeck.get(21), resourceDeck.get(21).getFront(), 41, 41);
@@ -564,11 +588,11 @@ void addCardTest7() {
         gc1.addCard(p1, resourceDeck.get(23), resourceDeck.get(23).getBack(), 42, 44);
         assertTrue(p1.getManuscript().getField()[43][43].getCorner(-1, -1).isHidden());
 
-        gc1.addCard(p1, resourceDeck.get(28), resourceDeck.get(28).getFront(), 41, 43);
+        gc1.addCard(p1, resourceDeck.get(28), resourceDeck.get(28).getFront(), 41, 45);
         assertTrue(p1.getManuscript().getField()[42][44].getCorner(-1, -1).isHidden());
 
         gc1.addCard(p1, resourceDeck.get(22), resourceDeck.get(22).getFront(), 40, 44);
-        assertTrue(p1.getManuscript().getField()[41][43].getCorner(-1, 1).isHidden());
+        assertTrue(p1.getManuscript().getField()[41][45].getCorner(-1, 1).isHidden());
 
         gc1.addCard(p1, resourceDeck.get(29), resourceDeck.get(29).getFront(), 39, 45);
         assertTrue(p1.getManuscript().getField()[40][44].getCorner(-1, -1).isHidden());
@@ -618,7 +642,12 @@ void addCardTest7() {
         assertEquals(6, red_green.calculateObjectivePoints(p1.getManuscript()));
 
         TwoPlusOnePattern green_purple= new TwoPlusOnePattern(92, objectiveDeck.get(5).getFront(), objectiveDeck.get(5).getBack(), PLANTKINGDOM,INSECTKINGDOM,-1,-1 );
-        assertEquals(6, green_purple.calculateObjectivePoints(p1.getManuscript()));
+        assertEquals(3, green_purple.calculateObjectivePoints(p1.getManuscript()));
+
+        MyCli view=new MyCli();
+        view.printManuscript(p1.getManuscript());
+
+
 
 
 

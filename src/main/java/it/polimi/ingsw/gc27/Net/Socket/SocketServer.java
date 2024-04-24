@@ -13,7 +13,7 @@ import java.net.Socket;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
-
+/*
 public class SocketServer implements VirtualServer{
 
 
@@ -26,7 +26,7 @@ public class SocketServer implements VirtualServer{
         this.controller = controller;
     }
 
-    /*public void runServerSocket(int port ) throws IOException {
+    public void runServerSocket(int port ) throws IOException {
         int portNumber = Integer.parseInt(port);
 
         try (
@@ -35,7 +35,7 @@ public class SocketServer implements VirtualServer{
                 PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
                 BufferedReader in = new BufferedReader(
                         new InputStreamReader(clientSocket.getInputStream()));
-        ) {
+        ) { //?????
             String inputLine, outputLine;
             KnockKnockProtocol kkp = new KnockKnockProtocol();
             outputLine = kkp.processInput(null);
@@ -45,14 +45,14 @@ public class SocketServer implements VirtualServer{
                 outputLine = kkp.processInput(inputLine);
                 out.println(outputLine);
                 if (outputLine.equals("Bye."))
-                    break
+                    break;
             }
         } catch (IOException e) {
             System.out.println("Exception caught when trying to listen on port "
                     + portNumber + " or listening for a connection");
             System.out.println(e.getMessage());
         }
-    }*/
+    }
     private void runServer() throws IOException {
         Socket clientSocket = null;
         while ((clientSocket = this.listenSocket.accept()) != null) {
@@ -95,4 +95,4 @@ public class SocketServer implements VirtualServer{
     public Player welcomePlayer(VirtualView client) throws RemoteException {
         return this.controller.welcomePlayer(client);
     }
-}
+}*/

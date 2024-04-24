@@ -78,31 +78,24 @@ public class Manuscript implements Serializable {
 
     public int getAnimalCounter() {return animalCounter;}
 
-    public void setAnimalCounter(int animalCounter) {this.animalCounter = animalCounter;}
 
     public int getFungiCounter() {return fungiCounter;}
 
-    public void setFungiCounter(int fungiCounter) {this.fungiCounter = fungiCounter;}
 
     public int getInsectCounter() {return insectCounter;}
 
-    public void setInsectCounter(int insectCounter) {this.insectCounter = insectCounter;}
 
     public int getPlantCounter() {return plantCounter;}
 
-    public void setPlantCounter(int plantCounter) {this.plantCounter = plantCounter;}
 
     public int getInkwellCounter() {return inkwellCounter;}
 
-    public void setInkwellCounter(int inkwellCounter) {this.inkwellCounter = inkwellCounter;}
 
     public int getQuillCounter() {return quillCounter;}
 
-    public void setQuillCounter(int quillCounter) {this.quillCounter = quillCounter;}
 
     public int getManuscriptCounter() {return manuscriptCounter;}
 
-    public void setManuscriptCounter(int manuscriptCounter) {this.manuscriptCounter = manuscriptCounter;}
     // end getter e setter
 
     public boolean isValidPlacement(int x, int y){

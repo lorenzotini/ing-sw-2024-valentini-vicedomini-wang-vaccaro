@@ -1,11 +1,14 @@
-package it.polimi.ingsw.gc27.Game;
+package it.polimi.ingsw.gc27;//package it.polimi.ingsw.gc27.Game;
 
 import it.polimi.ingsw.gc27.Card.*;
 import it.polimi.ingsw.gc27.Card.ObjectiveCard.DoublePattern;
 import it.polimi.ingsw.gc27.Card.ObjectiveCard.ObjectiveCard;
+import it.polimi.ingsw.gc27.Controller.GameController;
+import it.polimi.ingsw.gc27.Controller.Initializer;
 import it.polimi.ingsw.gc27.Controller.JsonParser;
 import it.polimi.ingsw.gc27.Enumerations.CornerSymbol;
 import it.polimi.ingsw.gc27.Enumerations.PawnColour;
+import it.polimi.ingsw.gc27.Game.*;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -14,52 +17,78 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ManuscriptTest {
+    private static GameController gc1;
+    private static Game g1;
+    private static Player p1;
+    private static Player p2;
+    private static Player p3;
+    private static Player p4;
+    private static ArrayList<Player> players1;
+
+    private static Market market;
+
+    private static ArrayList<StarterCard> starterDeck;
+    private static ArrayList<ResourceCard> resourceDeck;
+    private static ArrayList<ObjectiveCard> objectiveDeck;
+    private static ArrayList<GoldCard> goldDeck;
+    private static ResourceCard[] faceUpResources;
+    private static GoldCard[] faceUpGolds;
+
+    public  void initializeGame() {
+
+        players1 = new ArrayList<>();
+        g1 = new Game(1, new Board(), players1);
+        gc1 = new GameController(g1);
+
+
+        // generate decks
+        starterDeck = JsonParser.getStarterDeck(JsonParser.cardsJsonObj);
+        resourceDeck = JsonParser.getResourceDeck(JsonParser.cardsJsonObj);
+        objectiveDeck = JsonParser.getObjectiveDeck(JsonParser.cardsJsonObj);
+        goldDeck = JsonParser.getGoldDeck(JsonParser.cardsJsonObj);
+
+        // create players and add them to the game.
+        p1 = new Player("Giocatore 1", new Manuscript(), PawnColour.RED);
+        p1.setHand(new ArrayList<ResourceCard>());
+        p2 = new Player("Giocatore 2", new Manuscript(), PawnColour.GREEN);
+        p2.setHand(new ArrayList<ResourceCard>());
+        p3 = new Player("Giocatore 3", new Manuscript(), PawnColour.BLUE);
+        p3.setHand(new ArrayList<ResourceCard>());
+        p4 = new Player("Giocatore 4", new Manuscript(), PawnColour.YELLOW);
+        p4.setHand(new ArrayList<ResourceCard>());
+
+        players1.add(p1);
+        players1.add(p2);
+        players1.add(p3);
+        players1.add(p4);
+
+        faceUpResources = new ResourceCard[2];
+        faceUpGolds= new GoldCard[2];
+        faceUpResources[0]= resourceDeck.get(0);
+        faceUpResources[1]= resourceDeck.get(1);
+        faceUpGolds[0]=goldDeck.get(0);
+        faceUpGolds[1]=goldDeck.get(1);
+        market=new Market(resourceDeck, goldDeck, faceUpResources,faceUpGolds );
+        g1.setMarket(market);
+
+
+        // create game and its controller
+
+
+
+        /*
+        Collections.shuffle(resourceDeck);
+        Collections.shuffle(goldDeck);
+        Collections.shuffle(objectiveDeck);
+        */
+    }
+
 
     @Test
     void isValidPlacementTest() {
-        ArrayList<StarterCard> starterDeck = JsonParser.getStarterDeck(JsonParser.cardsJsonObj);
-        ArrayList<ResourceCard> resourceDeck = JsonParser.getResourceDeck(JsonParser.cardsJsonObj);
-        ArrayList<ObjectiveCard> objectiveDeck = JsonParser.getObjectiveDeck(JsonParser.cardsJsonObj);
-
-        StarterCard starterCard= starterDeck.get(0);
-        Manuscript manuscript=new Manuscript();
-
-        Game game= new Game();
-        List<Player> players=new ArrayList<>();
-        Board board=new Board();
-        Player p1= new Player();
-        ResourceCard resourceCard1= resourceDeck.get(0);
-        p1.setUsername("plauto");
-        p1.setPawnColour(PawnColour.BLUE);
-        board.setPointsBluePlayer(0);
-
-        game.setGameID(23);
-        players.add(p1);
-        game.setPlayers(players);
-        p1.setManuscript(manuscript);
-        game.setBoard(board);
+        initializeGame();
 
 
-        assertTrue(p1.getManuscript().isValidPlacement(41,41)); //UL corner
-        System.out.println("UL OK");
-        assertTrue(p1.getManuscript().isValidPlacement(43,43)); //LR corner
-        System.out.println("LR OK");
-        assertTrue(p1.getManuscript().isValidPlacement(41,43)); //UR corner
-        System.out.println("UR OK");
-        assertTrue(p1.getManuscript().isValidPlacement(43,41)); //LL corner
-        System.out.println("LL OK");
-
-        assertFalse(p1.getManuscript().isValidPlacement(45,45));
-        System.out.println("RANDOM NOT VALID");
-
-        assertFalse(p1.getManuscript().isValidPlacement(41,42));
-        System.out.println("UP NOT VALID");
-        assertFalse(p1.getManuscript().isValidPlacement(42,41));
-        System.out.println("LEFT NOT VALID");
-        assertFalse(p1.getManuscript().isValidPlacement(42,43));
-        System.out.println("RIGHT NOT VALID");
-        assertFalse(p1.getManuscript().isValidPlacement(43,42));
-        System.out.println("DOWN NOT VALID");
 
 
 

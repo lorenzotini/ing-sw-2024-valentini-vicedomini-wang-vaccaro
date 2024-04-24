@@ -2,17 +2,25 @@ package it.polimi.ingsw.gc27.Controller;
 
 import it.polimi.ingsw.gc27.Model.Game.Game;
 import it.polimi.ingsw.gc27.Model.Game.Player;
-import it.polimi.ingsw.gc27.Model.States.PlayerStates.EndingState;
-import it.polimi.ingsw.gc27.Model.States.PlayerStates.InitializingState;
-import it.polimi.ingsw.gc27.Model.States.PlayerStates.PlayingState;
-import it.polimi.ingsw.gc27.Model.States.PlayerStates.WaitingState;
+import it.polimi.ingsw.gc27.Model.States.PlayerStates.*;
 
 public class TurnHandler {
     private Game game;
     private boolean twentyPointsReached;
     private boolean lastRound;
 
-
+    public void notifyChooseObjectiveState(Player player, TurnHandler turnHandler) {
+        boolean everyoneReady = true;
+        for(Player p: game.getPlayers()) {
+            if (p.getPlayerState() instanceof ChooseObjectiveState) {
+                everyoneReady = false;
+                break;
+            }
+        }
+        if(everyoneReady){
+            game.getPlayers().getFirst().setPlayerState(new PlayingState(player, turnHandler));
+        }
+    }
 
     public void notifyInitializingState(Player player, TurnHandler turnHandler) {
         boolean everyoneReady = true;
@@ -23,7 +31,7 @@ public class TurnHandler {
             }
         }
         if(everyoneReady){
-            game.getPlayers().getFirst().setPlayerState(new PlayingState(player, turnHandler));
+            game.getPlayers().getFirst().setPlayerState(new ChooseObjectiveState(player, turnHandler));
         }
     }
 
@@ -74,7 +82,7 @@ public class TurnHandler {
         if(everyPlayerEndingState){
             for(Player p : game.getPlayers()){
                 points = 0;
-                points = p.getSecretObjective().calculateObjectivePoints(player.getManuscript());
+                points = p.getSecretObjectives().getFirst().calculateObjectivePoints(player.getManuscript());
                 game.addPoints(player, points); // adding the points to the respective player
             }
         }

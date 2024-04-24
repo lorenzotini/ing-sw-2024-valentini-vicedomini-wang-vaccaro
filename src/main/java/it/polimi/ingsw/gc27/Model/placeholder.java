@@ -1,4 +1,4 @@
 package it.polimi.ingsw.gc27.Model;
 
-public class Console {
+public class placeholder {
 }

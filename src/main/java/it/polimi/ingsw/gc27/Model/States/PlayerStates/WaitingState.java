@@ -14,6 +14,11 @@ public class WaitingState extends PlayerState {
     }
 
     @Override
+    public void chooseObjectiveCard(Game game, int objectiveCardIndex) {
+        System.out.println("please wait for your turn...\n");
+    }
+
+    @Override
     public void drawResourceCard(Player player, boolean fromDeck, int faceUpCardIndex, Game game) {
         System.out.println("please wait for your turn...\n");
     }

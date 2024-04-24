@@ -3,8 +3,6 @@ package it.polimi.ingsw.gc27.Net.RMI;
 import it.polimi.ingsw.gc27.Controller.GigaController;
 import it.polimi.ingsw.gc27.Model.Card.Face;
 import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
-import it.polimi.ingsw.gc27.Controller.GameController;
-import it.polimi.ingsw.gc27.Controller.Initializer;
 import it.polimi.ingsw.gc27.Model.Game.Player;
 import it.polimi.ingsw.gc27.Net.VirtualServer;
 import it.polimi.ingsw.gc27.Net.VirtualView;
@@ -39,18 +37,18 @@ public class RmiServer implements VirtualServer {
     }
     @Override
     public void addCard(String playerName, int handCardIndex, boolean isFrontFace, int x, int y) throws RemoteException {
-        /*Player player = this.controller.getGame().getPlayer(playerName);
+        Player player = this.console.userToGameController(playerName).getGame().getPlayer(playerName);
         ResourceCard card = player.getHand().get(handCardIndex);
         Face face = isFrontFace ? card.getFront() : card.getBack();
 
         // TODO: gestire le eccezioni
-        this.controller.addCard(player, card, face, x, y);
+        this.console.userToGameController(playerName).addCard(player, card, face, x, y);
         // TODO: gestire meglio gli updates
         try{
             updates.put("UPDATE - Added card from player: " + player.getUsername());
         }catch (InterruptedException e){
             throw new RuntimeException(e);
-        }*/
+        }
     }
     @Override
     public void drawResourceCard(String playerName, boolean fromDeck, int faceUpCardIndex) throws RemoteException {

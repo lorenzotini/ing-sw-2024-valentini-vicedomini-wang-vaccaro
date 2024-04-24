@@ -13,17 +13,7 @@ import java.util.List;
 
 public class Game implements Serializable {
 
-
-    public Integer getNumActualPlayers() {
-        return numActualPlayers;
-    }
-
-    public void setNumActualPlayers(Integer numActualPlayers) {
-        this.numActualPlayers = numActualPlayers;
-    }
-
-    //private int GameID;
-    private Integer numActualPlayers;
+    private Integer numActualPlayers = 0;
     private Board board;
     private Market market;
     private List<Player> players;
@@ -50,6 +40,14 @@ public class Game implements Serializable {
         this.commonObjective2 = commonObjective2;
         this.starterDeck = starterDeck;
         this.objectiveDeck = objectiveDeck;
+    }
+
+    public Integer getNumActualPlayers() {
+        return numActualPlayers;
+    }
+
+    public void setNumActualPlayers(Integer numActualPlayers) {
+        this.numActualPlayers = numActualPlayers;
     }
 
     public Player getPlayer(String playerName){

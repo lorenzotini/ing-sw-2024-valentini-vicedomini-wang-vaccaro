@@ -25,7 +25,7 @@ public class GigaController {
         throw new UserNotFoundException(username + "does not exist");
     }
 
-    public Player welcomePlayer(VirtualView client) throws IOException {
+    public void welcomePlayer(VirtualView client) throws IOException {
         client.show("Welcome to Codex Naturalis" + "\n" + "Do you want to start a new game or join an existing one? (enter 'new' or the gameId)");
         String game = client.read();
         Player p;
@@ -41,7 +41,7 @@ public class GigaController {
                     if(gc.getId() == Integer.parseInt(game)){
                         client.show("Joining game " + game + "...");
                         // TODO check the yellow line
-                        synchronized (gc.getGame().getNumActualPlayers()){
+                        synchronized (gc.getGame().getPlayers()){
                             if(gc.getGame().getNumActualPlayers() < gc.getNumMaxPlayers()){
                                 int a = gc.getGame().getNumActualPlayers();
                                 gc.getGame().setNumActualPlayers(a + 1);
@@ -52,18 +52,17 @@ public class GigaController {
                         }
                         if(!canEnter){
                             welcomePlayer(client);
-
                         }else {
-                            p =gc.initializePlayer(client, this);
+                            gc.initializePlayer(client, this);
                         }
-                        return p;
+                        return;
                     }
                 }
                 client.show("Game not found. Please enter a valid game id or 'new' to start a new game");
                 game = client.read();
                 if(game.equalsIgnoreCase("new")){
                     createNewGame(client);
-                    return p;
+                    return;
                 }
             }while(true);
         }
@@ -71,17 +70,19 @@ public class GigaController {
 
     public void createNewGame(VirtualView client) throws IOException {
         client.show("How many player? there will be? (2-4)");
-        int numPlayers = Integer.parseInt(client.read());
-        while(numPlayers > 4 || numPlayers < 2 ){
+        int numMaxPlayers = Integer.parseInt(client.read());
+        while(numMaxPlayers > 4 || numMaxPlayers < 1 ){
             client.show("Invalid number of players, insert a value between 2-4");
-            numPlayers = Integer.parseInt(client.read());
+            numMaxPlayers = Integer.parseInt(client.read());
         }
         GameController controller;
         Initializer init = new Initializer();
         synchronized (gameControllers){
-            controller = new GameController(init.initialize(), numPlayers, gameControllers.size() + 1);
+            controller = new GameController(init.initialize(), numMaxPlayers, gameControllers.size() + 1);
             gameControllers.add(controller);
         }
+        // count the player who created the game
+        controller.getGame().setNumActualPlayers(1);
         client.show("Game created with id " + controller.getId() + "\n" + "Waiting for players to join...");
         controller.initializePlayer(client, this);
 

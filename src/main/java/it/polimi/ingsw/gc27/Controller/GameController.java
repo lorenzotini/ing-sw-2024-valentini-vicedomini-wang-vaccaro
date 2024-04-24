@@ -1,11 +1,13 @@
 package it.polimi.ingsw.gc27.Controller;
 
-import it.polimi.ingsw.gc27.Model.Card.*;
+import it.polimi.ingsw.gc27.Model.Card.Face;
+import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
+import it.polimi.ingsw.gc27.Model.Card.StarterCard;
 import it.polimi.ingsw.gc27.Model.Enumerations.PawnColour;
 import it.polimi.ingsw.gc27.Model.Game.Game;
 import it.polimi.ingsw.gc27.Model.Game.Manuscript;
 import it.polimi.ingsw.gc27.Model.Game.Player;
-import it.polimi.ingsw.gc27.Net.RMI.RmiServer;
+import it.polimi.ingsw.gc27.Model.States.PlayerStates.InitializingState;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 
 import java.io.IOException;
@@ -15,7 +17,7 @@ import java.rmi.RemoteException;
 public class GameController implements Serializable {
 
     private Game game;
-
+    private TurnHandler turnHandler;
     public int getNumMaxPlayers() {
         return numMaxPlayers;
     }
@@ -56,12 +58,7 @@ public class GameController implements Serializable {
      * @param y
      */
     public void addCard(Player player, ResourceCard card, Face face, int x, int y)  {
-        if(player.getManuscript().isValidPlacement(x, y) && ((face instanceof FrontFace && player.getManuscript().satisfiedRequirement((ResourceCard) card)) || (face instanceof BackFace))){
-            player.getPlayerState().addCard(this.game, card, face, x, y);
-
-        }else{
-            System.err.println("Error: invalid position");
-        }
+        player.getPlayerState().addCard(this.game, card, face, x, y);
     }
 
     public void addStarterCard(Player player, StarterCard card, Face face){
@@ -75,6 +72,10 @@ public class GameController implements Serializable {
 
     public void drawGoldCard(Player player, boolean fromDeck, int faceUpCardIndex){
         player.getPlayerState().drawGoldCard(player, fromDeck, faceUpCardIndex, this.game);
+    }
+
+    public void chooseObjectiveCard(Player player, int objectiveCardIndex){
+        player.getPlayerState().chooseObjectiveCard(this.game, objectiveCardIndex);
     }
 
     // Create a player from command line, but hand, secret objective and starter are not instantiated
@@ -110,16 +111,20 @@ public class GameController implements Serializable {
         game.getPlayers().add(p);
 
         // Draw the initial cards
-        this.drawResourceCard(p, true, 0);
-        this.drawResourceCard(p, true, 0);
-        this.drawGoldCard(p, true, 0);
+        p.getHand().add(this.getGame().getMarket().getResourceDeck().removeFirst());
+        p.getHand().add(this.getGame().getMarket().getResourceDeck().removeFirst());
+        p.getHand().add(this.getGame().getMarket().getGoldDeck().removeFirst());
 
-        // TODO: PER ADESSO INIZIALIZZO CON UN SOLO OBIETTIVO, POI DOVRA' AVERNE DUE E SCEGLIERE
-        p.setSecretObjective(game.getObjectiveDeck().removeLast());
 
-        // TODO: ORA LA METTE FRONT, POI DOVRA' SCEGLIERE QUALE LATO GIOCARE
-        StarterCard starter = game.getStarterDeck().removeLast();
-        this.addStarterCard(p, starter, starter.getFront());
+
+        // TODO risolvere il problema degli attributi ricorsivi turnhandler e player
+        if(game.getNumActualPlayers() == this.getNumMaxPlayers()){
+            this.turnHandler = new TurnHandler(this.game);
+            for(Player player : game.getPlayers()){
+                player.setPlayerState(new InitializingState(player, this.turnHandler));
+            }
+        }
+
 
     }
 }

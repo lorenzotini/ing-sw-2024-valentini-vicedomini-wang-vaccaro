@@ -18,6 +18,11 @@ public class DrawingState extends PlayerState {
     }
 
     @Override
+    public void chooseObjectiveCard(Game game, int objectiveCardIndex) {
+
+    }
+
+    @Override
     public void drawResourceCard(Player player, boolean fromDeck, int faceUpCardIndex, Game game) {
         Market market = game.getMarket();
         ArrayList<ResourceCard> deck = market.getResourceDeck();
@@ -32,7 +37,7 @@ public class DrawingState extends PlayerState {
             market.setFaceUpResources(deck.removeLast(), faceUpCardIndex);
         }
         player.getHand().add(card);
-
+        getTurnHandler().notifyEndOfTurnState(getPlayer(),getTurnHandler());
     }
 
     @Override
@@ -50,6 +55,7 @@ public class DrawingState extends PlayerState {
             market.setFaceUpGolds(deck.removeLast(), faceUpCardIndex);
         }
         player.getHand().add(card);
+        getTurnHandler().notifyEndOfTurnState(getPlayer(),getTurnHandler());
     }
 
     @Override

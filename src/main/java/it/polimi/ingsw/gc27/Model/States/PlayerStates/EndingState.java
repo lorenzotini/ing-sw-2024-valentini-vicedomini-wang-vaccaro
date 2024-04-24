@@ -14,6 +14,11 @@ public class EndingState extends PlayerState {
     }
 
     @Override
+    public void chooseObjectiveCard(Game game, int objectiveCardIndex) {
+
+    }
+
+    @Override
     public void drawResourceCard(Player player, boolean fromDeck, int faceUpCardIndex, Game game) {
         System.out.println("the game is ending... it's too late man\n");
     }

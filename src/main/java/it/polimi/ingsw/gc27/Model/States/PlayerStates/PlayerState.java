@@ -18,8 +18,7 @@ public abstract class PlayerState {
         this.turnHandler = turnHandler;
     }
 
-
-
+    public abstract void chooseObjectiveCard(Game game, int objectiveCardIndex);
     public abstract void drawResourceCard(Player player, boolean fromDeck, int faceUpCardIndex, Game game);
     public abstract void drawGoldCard(Player player, boolean fromDeck, int faceUpCardIndex, Game game);
 

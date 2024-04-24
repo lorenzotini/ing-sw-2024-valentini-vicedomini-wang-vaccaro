@@ -12,12 +12,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class Initializer {
-    private Game game;
+    private  Game game;
     private  ArrayList<StarterCard> starterDeck = JsonParser.getStarterDeck(JsonParser.cardsJsonObj);
     private  ArrayList<ResourceCard> resourceDeck = JsonParser.getResourceDeck(JsonParser.cardsJsonObj);
     private  ArrayList<GoldCard> goldDeck = JsonParser.getGoldDeck(JsonParser.cardsJsonObj);
     private  ArrayList<ObjectiveCard> objectiveDeck = JsonParser.getObjectiveDeck(JsonParser.cardsJsonObj);
-    private  int gameId;
     private  Market market = new Market();
     private  Board board = new Board();
 

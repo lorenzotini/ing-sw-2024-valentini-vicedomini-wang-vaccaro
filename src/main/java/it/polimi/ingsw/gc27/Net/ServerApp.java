@@ -6,7 +6,6 @@ import it.polimi.ingsw.gc27.Net.RMI.RmiServer;
 import it.polimi.ingsw.gc27.Net.Socket.SocketServer;
 
 import java.io.IOException;
-import java.rmi.RemoteException;
 
 public class ServerApp {
 

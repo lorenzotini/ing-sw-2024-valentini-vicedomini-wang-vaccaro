@@ -13,6 +13,10 @@ public class EndOfTurnState extends PlayerState{
         getTurnHandler().notifyEndOfTurnState(getPlayer(), getTurnHandler());
     }
 
+    @Override
+    public void chooseObjectiveCard(Game game, int objectiveCardIndex) {
+
+    }
 
 
     @Override

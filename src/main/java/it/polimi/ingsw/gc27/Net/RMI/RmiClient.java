@@ -83,7 +83,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
                     }
                     break;*/
                 default:
-                    System.out.println("Invalid command");
+                    System.out.println("Invalid command1");
                     break;
             }
         }

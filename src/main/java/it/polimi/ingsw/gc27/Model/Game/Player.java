@@ -11,16 +11,14 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Player implements Serializable {
-    private String username;
+    private final String username;
     private ArrayList<ResourceCard> hand;
     private Manuscript manuscript;
     private PawnColour pawnColour;
     private ArrayList<ObjectiveCard> secretObjectives;
     private PlayerState playerState;
 
-    public Player() {
-        hand = new ArrayList<>(3);
-    }
+
 
     public Player(String username, Manuscript manuscript, PawnColour pawnColour) {
         this.username = username;
@@ -28,7 +26,10 @@ public class Player implements Serializable {
         this.pawnColour = pawnColour;
         this.hand = new ArrayList<>();
         // TODO this.playerState = new InitializingState();
-     }
+    }
+    /*public Player() {
+        hand = new ArrayList<>(3);
+    }*/
 
     public void setPlayerState(PlayerState playerState) {
         this.playerState = playerState;
@@ -53,10 +54,6 @@ public class Player implements Serializable {
     }
     public String getUsername() {
         return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public void setManuscript(Manuscript manuscript) {

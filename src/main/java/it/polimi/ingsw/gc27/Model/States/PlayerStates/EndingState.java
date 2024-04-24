@@ -10,7 +10,7 @@ import it.polimi.ingsw.gc27.Model.Game.Player;
 public class EndingState extends PlayerState {
     public EndingState(Player player, TurnHandler turnHandler) {
         super(player, turnHandler);
-        turnHandler.notifyCalculateObjectivePoints(getPlayer(), getTurnHandler());
+        turnHandler.notifyCalculateObjectivePoints(getPlayer());
     }
 
     @Override

@@ -10,7 +10,7 @@ import it.polimi.ingsw.gc27.Model.Game.Player;
 public class EndOfTurnState extends PlayerState{
     public EndOfTurnState(Player player, TurnHandler turnHandler) {
         super(player, turnHandler);
-        getTurnHandler().notifyEndOfTurnState(getPlayer(), getTurnHandler());
+        getTurnHandler().notifyEndOfTurnState(getPlayer());
     }
 
     @Override

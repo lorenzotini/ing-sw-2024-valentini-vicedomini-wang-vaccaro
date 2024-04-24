@@ -9,7 +9,7 @@ public class TurnHandler {
     private boolean twentyPointsReached;
     private boolean lastRound;
 
-    public void notifyChooseObjectiveState(Player player, TurnHandler turnHandler) {
+    public void notifyChooseObjectiveState(Player player) {
         boolean everyoneReady = true;
         for(Player p: game.getPlayers()) {
             if (p.getPlayerState() instanceof ChooseObjectiveState) {
@@ -18,11 +18,11 @@ public class TurnHandler {
             }
         }
         if(everyoneReady){
-            game.getPlayers().getFirst().setPlayerState(new PlayingState(player, turnHandler));
+            game.getPlayers().getFirst().setPlayerState(new PlayingState(player, this));
         }
     }
 
-    public void notifyInitializingState(Player player, TurnHandler turnHandler) {
+    public void notifyInitializingState(Player player) {
         boolean everyoneReady = true;
         for(Player p: game.getPlayers()) {
             if (p.getPlayerState() instanceof InitializingState) {
@@ -31,11 +31,11 @@ public class TurnHandler {
             }
         }
         if(everyoneReady){
-            game.getPlayers().getFirst().setPlayerState(new ChooseObjectiveState(player, turnHandler));
+            game.getPlayers().getFirst().setPlayerState(new ChooseObjectiveState(player, this));
         }
     }
 
-    public void notifyEndOfTurnState(Player player, TurnHandler turnHandler) {
+    public void notifyEndOfTurnState(Player player) {
         // in case someone triggers the 20 points threshold
         if(game.getBoard().getPointsBluePlayer() >= game.getBoard().END_GAME_THRESHOLD ||
                 game.getBoard().getPointsRedPlayer() >= game.getBoard().END_GAME_THRESHOLD ||
@@ -49,26 +49,26 @@ public class TurnHandler {
         int index = game.getPlayers().indexOf(player); // index of the player
 
         if(!lastRound) {
-            player.setPlayerState(new WaitingState(player, turnHandler));
+            player.setPlayerState(new WaitingState(player, this));
             if(game.getPlayers().get(index+1) != null) {
-                game.getPlayers().get(index+1).setPlayerState(new PlayingState(player, turnHandler));
+                game.getPlayers().get(index+1).setPlayerState(new PlayingState(player, this));
             } else {
-                game.getPlayers().getFirst().setPlayerState(new PlayingState(player, turnHandler));
+                game.getPlayers().getFirst().setPlayerState(new PlayingState(player, this));
                 if(twentyPointsReached) {
                     lastRound = true; // once someone gets 20 points, only if the round is finished you can trigger the last round
                 }
             }
 
         } else {
-            player.setPlayerState(new EndingState(player, turnHandler));
+            player.setPlayerState(new EndingState(player, this));
             if(game.getPlayers().get(index+1) != null) {
-                game.getPlayers().get(index+1).setPlayerState(new PlayingState(player, turnHandler));
+                game.getPlayers().get(index+1).setPlayerState(new PlayingState(player, this));
             }
         }
 
     }
 
-    public void notifyCalculateObjectivePoints(Player player, TurnHandler turnHandler) {
+    public void notifyCalculateObjectivePoints(Player player) {
         // verify that every player is in the ending state
         int points = 0;
         boolean everyPlayerEndingState = true;

@@ -40,7 +40,7 @@ public class InitializingState extends PlayerState{
         //go to next state (all the player in waiting state)
         getPlayer().setPlayerState(new WaitingState(getPlayer(), getTurnHandler()));
         // notifica il TurnHandler
-        getTurnHandler().notifyInitializingState(getPlayer(), getTurnHandler());
+        getTurnHandler().notifyInitializingState(getPlayer());
 
     }
 }

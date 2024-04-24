@@ -37,7 +37,7 @@ public class DrawingState extends PlayerState {
             market.setFaceUpResources(deck.removeLast(), faceUpCardIndex);
         }
         player.getHand().add(card);
-        getTurnHandler().notifyEndOfTurnState(getPlayer(),getTurnHandler());
+        player.setPlayerState(new EndOfTurnState(getPlayer(), getTurnHandler()));
     }
 
     @Override
@@ -55,7 +55,7 @@ public class DrawingState extends PlayerState {
             market.setFaceUpGolds(deck.removeLast(), faceUpCardIndex);
         }
         player.getHand().add(card);
-        getTurnHandler().notifyEndOfTurnState(getPlayer(),getTurnHandler());
+        player.setPlayerState(new EndOfTurnState(getPlayer(), getTurnHandler()));
     }
 
     @Override

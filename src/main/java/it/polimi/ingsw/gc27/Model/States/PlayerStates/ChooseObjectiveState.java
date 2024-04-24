@@ -40,6 +40,6 @@ public class ChooseObjectiveState extends PlayerState{
         }
         this.getPlayer().getSecretObjectives().remove(objectiveCardIndex);
         this.getPlayer().setPlayerState(new WaitingState(getPlayer(), getTurnHandler()));
-        this.getTurnHandler().notifyChooseObjectiveState(getPlayer(), getTurnHandler());
+        this.getTurnHandler().notifyChooseObjectiveState(getPlayer());
     }
 }

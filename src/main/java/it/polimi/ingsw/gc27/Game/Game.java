@@ -8,6 +8,7 @@ import it.polimi.ingsw.gc27.Exceptions.UserNotFoundException;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class Game implements Serializable {
@@ -113,6 +114,7 @@ public class Game implements Serializable {
         this.players = players;
     }
 
+
     /**
      * Updates player's points, as a result of a played card or objectives points
      * @param player
@@ -143,4 +145,7 @@ public class Game implements Serializable {
         }
         return false;
     }
+
+
+
 }

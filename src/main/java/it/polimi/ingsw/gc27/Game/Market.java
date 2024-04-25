@@ -9,9 +9,11 @@ import java.util.ArrayList;
 public class Market implements Serializable{
     private ResourceCard[] faceUpResources = new ResourceCard[2];
     private GoldCard[] faceUpGolds = new GoldCard[2];
+
     private ArrayList<ResourceCard> resourceDeck;
     private ArrayList<GoldCard> goldDeck;
 
+    public Market() { };
 
     public Market(ArrayList<ResourceCard> resourceDeck, ArrayList<GoldCard> goldDeck, ResourceCard[] faceUpResources, GoldCard[] faceUpGolds) {
         this.faceUpResources = faceUpResources;
@@ -41,6 +43,14 @@ public class Market implements Serializable{
     }
     public ArrayList<GoldCard> getGoldDeck() {
         return goldDeck;
+    }
+
+    public void setResourceDeck(ArrayList<ResourceCard> resourceDeck) {
+        this.resourceDeck = resourceDeck;
+    }
+
+    public void setGoldDeck(ArrayList<GoldCard> goldDeck) {
+        this.goldDeck = goldDeck;
     }
 
 }

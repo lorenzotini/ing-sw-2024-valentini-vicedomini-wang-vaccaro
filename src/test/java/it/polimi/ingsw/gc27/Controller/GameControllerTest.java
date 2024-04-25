@@ -159,6 +159,7 @@ class GameControllerTest {
 
         ViewCli view = new ViewCli();
         view.showManuscript(p1.getManuscript());
+        view.zoom(p1.getManuscript(),42,42);
 
         //LadderPattern purple_ladder=new LadderPattern(90, objectiveDeck.get(3).getFront(), objectiveDeck.get(3).getBack(), ANIMALKINGDOM, true);
 

@@ -1,23 +1,22 @@
 package it.polimi.ingsw.gc27.Controller;
 
-import it.polimi.ingsw.gc27.Card.GoldCard;
-import it.polimi.ingsw.gc27.Card.ObjectiveCard.ObjectiveCard;
-import it.polimi.ingsw.gc27.Card.ResourceCard;
-import it.polimi.ingsw.gc27.Card.StarterCard;
-import it.polimi.ingsw.gc27.Game.Board;
-import it.polimi.ingsw.gc27.Game.Game;
-import it.polimi.ingsw.gc27.Game.Market;
+import it.polimi.ingsw.gc27.Model.Card.GoldCard;
+import it.polimi.ingsw.gc27.Model.Card.ObjectiveCard.ObjectiveCard;
+import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
+import it.polimi.ingsw.gc27.Model.Card.StarterCard;
+import it.polimi.ingsw.gc27.Model.Game.Board;
+import it.polimi.ingsw.gc27.Model.Game.Game;
+import it.polimi.ingsw.gc27.Model.Game.Market;
 
 import java.util.ArrayList;
 import java.util.Collections;
 
 public class Initializer {
-    private Game game;
+    private  Game game;
     private  ArrayList<StarterCard> starterDeck = JsonParser.getStarterDeck(JsonParser.cardsJsonObj);
     private  ArrayList<ResourceCard> resourceDeck = JsonParser.getResourceDeck(JsonParser.cardsJsonObj);
     private  ArrayList<GoldCard> goldDeck = JsonParser.getGoldDeck(JsonParser.cardsJsonObj);
     private  ArrayList<ObjectiveCard> objectiveDeck = JsonParser.getObjectiveDeck(JsonParser.cardsJsonObj);
-    private  int gameId;
     private  Market market = new Market();
     private  Board board = new Board();
 
@@ -41,8 +40,7 @@ public class Initializer {
         ObjectiveCard commObj1 = objectiveDeck.removeLast();
         ObjectiveCard commObj2 = objectiveDeck.removeLast();
 
-        game = new Game(gameId, board, market, new ArrayList<>(), commObj1, commObj2, starterDeck, objectiveDeck);
+        return new Game(board, market, new ArrayList<>(), commObj1, commObj2, starterDeck, objectiveDeck);
 
-        return game;
     }
 }

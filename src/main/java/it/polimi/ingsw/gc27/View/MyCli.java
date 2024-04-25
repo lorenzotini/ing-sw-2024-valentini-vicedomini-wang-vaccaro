@@ -1,8 +1,8 @@
 package it.polimi.ingsw.gc27.View;
 
-import it.polimi.ingsw.gc27.Card.*;
 import it.polimi.ingsw.gc27.Controller.JsonParser;
-import it.polimi.ingsw.gc27.Game.Manuscript;
+import it.polimi.ingsw.gc27.Model.Card.*;
+import it.polimi.ingsw.gc27.Model.Game.Manuscript;
 
 import java.util.ArrayList;
 import java.util.LinkedList;

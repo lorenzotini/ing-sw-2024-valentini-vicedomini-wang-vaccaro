@@ -1,9 +1,9 @@
 package it.polimi.ingsw.gc27.View;
 
-import it.polimi.ingsw.gc27.Card.ResourceCard;
-import it.polimi.ingsw.gc27.Card.StarterCard;
+import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
+import it.polimi.ingsw.gc27.Model.Card.StarterCard;
 import it.polimi.ingsw.gc27.Controller.JsonParser;
-import it.polimi.ingsw.gc27.Game.Manuscript;
+import it.polimi.ingsw.gc27.Model.Game.Manuscript;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

@@ -1,8 +1,10 @@
 package it.polimi.ingsw.gc27.Controller;
 
-import it.polimi.ingsw.gc27.Card.*;
-import it.polimi.ingsw.gc27.Card.ObjectiveCard.*;
-import it.polimi.ingsw.gc27.Enumerations.*;
+import it.polimi.ingsw.gc27.Model.Card.*;
+import it.polimi.ingsw.gc27.Model.Card.ObjectiveCard.*;
+import it.polimi.ingsw.gc27.Model.Enumerations.CornerSymbol;
+import it.polimi.ingsw.gc27.Model.Enumerations.Kingdom;
+import it.polimi.ingsw.gc27.Model.Enumerations.PointsMultiplier;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -13,7 +15,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-
 import java.util.stream.Collectors;
 
 public class JsonParser{

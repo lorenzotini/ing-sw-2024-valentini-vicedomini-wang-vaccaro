@@ -7,16 +7,18 @@ module it.polimi.ingsw.gc27 {
     requires java.rmi;
 
     opens it.polimi.ingsw.gc27 to javafx.fxml;
-    exports it.polimi.ingsw.gc27.Enumerations;
+    exports it.polimi.ingsw.gc27.Model.Enumerations;
     exports it.polimi.ingsw.gc27;
-    exports it.polimi.ingsw.gc27.Card;
-    opens it.polimi.ingsw.gc27.Card to javafx.fxml;
-    exports it.polimi.ingsw.gc27.Game;
-    opens it.polimi.ingsw.gc27.Game to javafx.fxml;
-    exports it.polimi.ingsw.gc27.Card.ObjectiveCard;
-    opens it.polimi.ingsw.gc27.Card.ObjectiveCard to javafx.fxml;
+    exports it.polimi.ingsw.gc27.Model.Card;
+    opens it.polimi.ingsw.gc27.Model.Card to javafx.fxml;
+    exports it.polimi.ingsw.gc27.Model.Game;
+    opens it.polimi.ingsw.gc27.Model.Game to javafx.fxml;
+    exports it.polimi.ingsw.gc27.Model.Card.ObjectiveCard;
+    opens it.polimi.ingsw.gc27.Model.Card.ObjectiveCard to javafx.fxml;
     exports it.polimi.ingsw.gc27.Controller;
     opens it.polimi.ingsw.gc27.Controller to javafx.fxml;
     exports it.polimi.ingsw.gc27.Net;
     exports it.polimi.ingsw.gc27.Net.RMI;
+    exports it.polimi.ingsw.gc27.Model;
+    opens it.polimi.ingsw.gc27.Model to javafx.fxml;
 }

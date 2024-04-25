@@ -1,13 +1,13 @@
 package it.polimi.ingsw.gc27.Net.RMI;
 
-import it.polimi.ingsw.gc27.Card.Face;
-import it.polimi.ingsw.gc27.Card.ResourceCard;
-import it.polimi.ingsw.gc27.Controller.GameController;
-import it.polimi.ingsw.gc27.Controller.Initializer;
-import it.polimi.ingsw.gc27.Game.Player;
+import it.polimi.ingsw.gc27.Controller.GigaController;
+import it.polimi.ingsw.gc27.Model.Card.Face;
+import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
+import it.polimi.ingsw.gc27.Model.Game.Player;
 import it.polimi.ingsw.gc27.Net.VirtualServer;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -18,25 +18,94 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class RmiServer implements VirtualServer {
+
     final static int DEFAULT_PORT_NUMBER = 1234;
-    final GameController controller;
-    final List<VirtualView> clients = new ArrayList<>();
+    //private ArrayList<GameController> controllersList;
+    private List<VirtualView> clients = new ArrayList<>();    //clients of different games
     final BlockingQueue<String> updates = new LinkedBlockingQueue<>();
-    public RmiServer(GameController controller) {
-        this.controller = controller;
+    private GigaController console;
+    public RmiServer(GigaController controller) {
+        this.console = controller;
     }
-    public static void main( String[] args ) throws RemoteException, InterruptedException {
-        // Initialize gc
-        Initializer init = new Initializer();
-        GameController gc = new GameController(init.initialize());
+
+    @Override
+    public void connect(VirtualView client) throws RemoteException {
+        synchronized (this.clients){
+            this.clients.add(client);
+        }
+        System.err.println("new client connected");
+    }
+    @Override
+    public void addCard(String playerName, int handCardIndex, boolean isFrontFace, int x, int y) throws RemoteException {
+        Player player = this.console.userToGameController(playerName).getGame().getPlayer(playerName);
+        ResourceCard card = player.getHand().get(handCardIndex);
+        Face face = isFrontFace ? card.getFront() : card.getBack();
+
+        // TODO: gestire le eccezioni
+        this.console.userToGameController(playerName).addCard(player, card, face, x, y);
+        // TODO: gestire meglio gli updates
+        try{
+            updates.put("UPDATE - Added card from player: " + player.getUsername());
+        }catch (InterruptedException e){
+            throw new RuntimeException(e);
+        }
+    }
+    @Override
+    public void drawResourceCard(String playerName, boolean fromDeck, int faceUpCardIndex) throws RemoteException {
+        /*Player player = this.controller.getGame().getPlayer(playerName);
+        // TODO: gestire le eccezioni
+        this.controller.drawResourceCard(player, fromDeck, faceUpCardIndex);
+        // TODO: gestire meglio gli updates
+        try{
+            updates.put("UPDATE - Drawn card from player: " + player.getUsername());
+        }catch (InterruptedException e){
+            throw new RuntimeException(e);
+        }*/
+    }
+    @Override
+    public void drawGoldCard(String playerName, boolean fromDeck, int faceUpCardIndex) throws RemoteException {
+        /*Player player = this.controller.getGame().getPlayer(playerName);
+        // TODO: gestire le eccezioni
+        this.controller.drawGoldCard(player, fromDeck, faceUpCardIndex);
+        // TODO: gestire meglio gli updates
+        try{
+            updates.put("UPDATE - Drawn card from player: " + player.getUsername());
+        }catch (InterruptedException e){
+            throw new RuntimeException(e);
+        }*/
+    }
+    @Override
+    public void welcomePlayer(VirtualView client) throws IOException{
+        // TODO: gestire le eccezioni
+        this.console.welcomePlayer(client);
+        // TODO: gestire meglio gli updates
+        /*try{
+            updates.put("UPDATE - Created player: " + p.getUsername());
+        }catch (InterruptedException e){
+            throw new RuntimeException(e);
+        }*/
+
+    }
+    private void broadcastUpdateThread() throws InterruptedException, RemoteException {
+        while(true){
+            String update = updates.take();
+            synchronized (this.clients){
+                for(var c: clients){
+                    c.showUpdate(update);
+                }
+            }
+        }
+    }
+
+    public void runServer() throws RemoteException, InterruptedException {
+
         String name = "VirtualServer";
-        System.out.println("Hello from Server!");
+        //System.out.println("Hello from Server!");
 
         VirtualServer stub = null;
-        VirtualServer obj = new RmiServer(gc);
 
         try {
-            stub = (VirtualServer) UnicastRemoteObject.exportObject(obj, 0);
+            stub = (VirtualServer) UnicastRemoteObject.exportObject(this, 0);
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -53,74 +122,6 @@ public class RmiServer implements VirtualServer {
             e.printStackTrace();
             System.err.println("Server ready");
         }
-        ((RmiServer)obj).broadcastUpdateThread();
-    }
-    @Override
-    public void connect(VirtualView client) throws RemoteException {
-        synchronized (this.clients){
-            this.clients.add(client);
-        }
-        System.err.println("new client connected");
-    }
-    @Override
-    public void addCard(String playerName, int handCardIndex, boolean isFrontFace, int x, int y) throws RemoteException {
-        Player player = this.controller.getGame().getPlayer(playerName);
-        ResourceCard card = player.getHand().get(handCardIndex);
-        Face face = isFrontFace ? card.getFront() : card.getBack();
-
-        // TODO: gestire le eccezioni
-        this.controller.addCard(player, card, face, x, y);
-        // TODO: gestire meglio gli updates
-        try{
-            updates.put("UPDATE - Added card from player: " + player.getUsername());
-        }catch (InterruptedException e){
-            throw new RuntimeException(e);
-        }
-    }
-    @Override
-    public void drawResourceCard(String playerName, boolean fromDeck, int faceUpCardIndex) throws RemoteException {
-        Player player = this.controller.getGame().getPlayer(playerName);
-        // TODO: gestire le eccezioni
-        this.controller.drawResourceCard(player, fromDeck, faceUpCardIndex);
-        // TODO: gestire meglio gli updates
-        try{
-            updates.put("UPDATE - Drawn card from player: " + player.getUsername());
-        }catch (InterruptedException e){
-            throw new RuntimeException(e);
-        }
-    }
-    @Override
-    public void drawGoldCard(String playerName, boolean fromDeck, int faceUpCardIndex) throws RemoteException {
-        Player player = this.controller.getGame().getPlayer(playerName);
-        // TODO: gestire le eccezioni
-        this.controller.drawGoldCard(player, fromDeck, faceUpCardIndex);
-        // TODO: gestire meglio gli updates
-        try{
-            updates.put("UPDATE - Drawn card from player: " + player.getUsername());
-        }catch (InterruptedException e){
-            throw new RuntimeException(e);
-        }
-    }
-    @Override
-    public Player welcomePlayer(VirtualView client) throws RemoteException {
-        // TODO: gestire le eccezioni
-        Player p = this.controller.welcomePlayer(client);
-        // TODO: gestire meglio gli updates
-        try{
-            updates.put("UPDATE - Created player: " + p.getUsername());
-        }catch (InterruptedException e){
-            throw new RuntimeException(e);
-        }
-        return p;
-    }
-    private void broadcastUpdateThread() throws InterruptedException, RemoteException {
-        while(true){
-            String update = updates.take();
-            synchronized (this.clients){
-                for(var c: clients){
-                    c.showUpdate(update);
-                }
-            }
-        }
+        this.broadcastUpdateThread();
     }
 }

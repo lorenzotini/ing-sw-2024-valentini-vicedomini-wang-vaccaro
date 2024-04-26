@@ -9,5 +9,5 @@ public interface VirtualServer extends Remote{
     void addCard(String playerName, int handCardIndex, boolean isFrontFace, int x, int y) throws RemoteException;
     void drawResourceCard(String playerName, boolean fromDeck, int faceUpCardIndex) throws RemoteException;
     void drawGoldCard(String playerName, boolean fromDeck, int faceUpCardIndex) throws IOException;
-    void welcomePlayer(VirtualView client) throws IOException;
+    void welcomePlayer(VirtualView client) throws IOException, InterruptedException;
 }

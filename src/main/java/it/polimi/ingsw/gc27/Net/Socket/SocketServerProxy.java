@@ -12,6 +12,8 @@ public class SocketServerProxy implements VirtualServer {
 
     public SocketServerProxy(BufferedWriter output) {
         this.output = new PrintWriter(output);
+
+
     }
     @Override
     public void connect(VirtualView client) throws RemoteException {
@@ -56,9 +58,13 @@ public class SocketServerProxy implements VirtualServer {
     @Override
     public void welcomePlayer(VirtualView client) throws RemoteException {
 
-        output.println("welcomePlayer");
+        output.println("welcomeplayer");
         output.flush();
 
-    }
 
+    }
+    public void sendData(String s){
+        output.println(s);
+        output.flush();
+    }
 }

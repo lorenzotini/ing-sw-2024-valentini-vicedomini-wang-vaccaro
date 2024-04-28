@@ -38,12 +38,12 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
         this.username = username;
     }
 
-    public void run() throws IOException {
+    public void run() throws IOException, InterruptedException {
         this.server.connect(this);
         runCli();
     }
 
-    private void runCli() throws IOException, RemoteException {
+    private void runCli() throws IOException, RemoteException, InterruptedException {
         server.welcomePlayer(this);
         Scanner scan = new Scanner(System.in);
         while (true) {

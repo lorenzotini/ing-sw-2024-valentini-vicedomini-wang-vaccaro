@@ -1,5 +1,6 @@
 package it.polimi.ingsw.gc27.Net.Socket;
 
+import it.polimi.ingsw.gc27.Controller.GigaController;
 import it.polimi.ingsw.gc27.Model.Card.Face;
 import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
 import it.polimi.ingsw.gc27.CommandParser;
@@ -11,29 +12,54 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.rmi.RemoteException;
+import java.util.Queue;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 public class ClientHandler implements VirtualView {
 
     final BufferedReader input;
-    final Player player = new Player();
-    final GameController controller;
+    private Player player ;
+    final GigaController console;
+    final BlockingQueue<String> commands = new LinkedBlockingQueue<>();
+    final GameController controller = null;
     final SocketClientProxy client;
     final SocketServer server;
-    public ClientHandler(GameController controller, SocketServer server, BufferedReader input, BufferedWriter output) throws IOException {
-        this.controller = controller;
+    public ClientHandler(GigaController console, SocketServer server, BufferedReader input, BufferedWriter output) throws IOException {
+        this.console = console;
         this.input = input;
         this.server = server;
         this.client = new SocketClientProxy(output);
-        //this.player = this.controller.initializePlayer(this);
+        System.out.println("Sono vivo\n");
+        new Thread(()->{
+            while(true){
+                try {
+                    commands.put(input.readLine());
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }}).start();
+
     }
 
-    public void runVirtualView() throws IOException {
+    public void runVirtualView() throws IOException, InterruptedException {
+
+
+        //this.player = console.welcomePlayer(this);
         String command;
+
         // Read message type
-        while ((command = input.readLine()) != null) {
+        while ((command = commands.take()) != null) {
             // Read message and perform action
             Object[] commands = CommandParser.parseCommand(command);
             switch (commands[0].toString().toLowerCase()) {
+                case "welcomeplayer":
+                    System.out.println("avvio welcome");
+                    this.player = console.welcomePlayer(this);
+                    client.runCli();
+                    break;
                 case "addcard":
                     new Thread(() -> {
                         ResourceCard card = player.getHand().get((int)commands[1]);
@@ -48,16 +74,16 @@ public class ClientHandler implements VirtualView {
                     new Thread(() -> {
                         controller.drawResourceCard(player, commands[1].equals("deck"), (int)commands[2]);
                     }).start();
-
                     break;
+
                 case "drawgoldcard":
                     new Thread(()->{
                         controller.drawGoldCard(player, commands[1].equals("deck"), (int)commands[2]);
                     }).start();
-
                     break;
+
                 default:
-                    System.out.println("Invalid command");
+                    client.show("Invalid command");
                     break;
             }
         }
@@ -76,9 +102,12 @@ public class ClientHandler implements VirtualView {
     }
 
     @Override
-    public String read() throws IOException {
+    public String read() throws IOException, InterruptedException {
         String str ;
-        str = input.readLine();
+        client.read();
+        if((str = commands.take()).equals("\n")){
+            str = commands.take();
+        }
         return str;
     }
 

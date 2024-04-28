@@ -1,10 +1,12 @@
 package it.polimi.ingsw.gc27.Net.Socket;
 
 import it.polimi.ingsw.gc27.Controller.GameController;
+import it.polimi.ingsw.gc27.Controller.GigaController;
 
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,58 +14,39 @@ public class SocketServer {
 
 
     final ServerSocket listenSocket;
-    final GameController controller;
     final List<ClientHandler> clients = new ArrayList<>();
+    final GigaController console ;
 
-    public SocketServer(ServerSocket listenSocket, GameController controller) {
-        this.listenSocket = listenSocket;
-        this.controller = controller;
+    public SocketServer( GigaController console) throws IOException {
+        this.listenSocket = new ServerSocket(3000);
+        this.console = console;
     }
 
-    /*public void runServerSocket(int port ) throws IOException {
-        int portNumber = Integer.parseInt(port);
 
-        try (
-                ServerSocket serverSocket = new ServerSocket(portNumber);
-                Socket clientSocket = serverSocket.accept();
-                PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
-                BufferedReader in = new BufferedReader(
-                        new InputStreamReader(clientSocket.getInputStream()));
-        ) {
-            String inputLine, outputLine;
-            KnockKnockProtocol kkp = new KnockKnockProtocol();
-            outputLine = kkp.processInput(null);
-            out.println(outputLine);
 
-            while ((inputLine = in.readLine()) != null) {
-                outputLine = kkp.processInput(inputLine);
-                out.println(outputLine);
-                if (outputLine.equals("Bye."))
-                    break
-            }
-        } catch (IOException e) {
-            System.out.println("Exception caught when trying to listen on port "
-                    + portNumber + " or listening for a connection");
-            System.out.println(e.getMessage());
-        }
-    }*/
-    public void runServer() throws IOException {
+    public void runServer() throws IOException, InterruptedException {
+        System.out.println("Server Socket avviato e in ascolto\n");
         Socket clientSocket = null;
+
         while ((clientSocket = this.listenSocket.accept()) != null) {
             InputStreamReader socketRx = new InputStreamReader(clientSocket.getInputStream());
-            OutputStreamWriter socketTx = new OutputStreamWriter(clientSocket.getOutputStream());
+            OutputStreamWriter socketTx = new OutputStreamWriter(clientSocket.getOutputStream(), StandardCharsets.UTF_8);
 
-            ClientHandler handler = new ClientHandler(this.controller, this, new BufferedReader(socketRx), new BufferedWriter(socketTx));
+            final ClientHandler handler = new ClientHandler(console, this, new BufferedReader(socketRx), new BufferedWriter(socketTx));
             synchronized (this.clients) {
                 clients.add(handler);
             }
-            new Thread(() -> {
+
+
+            /*new Thread(() -> {
                 try {
                     handler.runVirtualView();
-                } catch (IOException e) {
+                } catch (IOException | InterruptedException e) {
                     throw new RuntimeException(e);
                 }
             }).start();
+            */
+            handler.runVirtualView();
         }
     }
 

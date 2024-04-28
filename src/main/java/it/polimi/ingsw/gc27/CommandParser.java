@@ -50,7 +50,11 @@ public class CommandParser {
             int index = choice.equalsIgnoreCase("card") ? Integer.parseInt(parts[2]) : -1;
             return new Object[]{parts[0], choice, index};
             //return type:{String, String, int}
-        } else {
+        }else if (parts[0].equalsIgnoreCase("welcomeplayer")){
+            return new Object[]{parts[0]};
+        }
+        else {
+
             throw new IllegalArgumentException("Invalid command");
         }
     }
@@ -58,8 +62,14 @@ public class CommandParser {
         String[] parts = command.split(" ");
 
         if(parts[0].equals("show") ||parts[0].equals("setUsername")){
-            return new Object[]{command.substring(parts[0].length())};
-        }else {
+            return new Object[]{parts[0], command.substring(parts[0].length())};
+        }else if (parts[0].equalsIgnoreCase("read")) {
+            return new Object[]{parts[0]};
+        }
+        else if (parts[0].equalsIgnoreCase("runCli")){
+            return new Object[]{parts[0]};
+        }
+        else {
             throw new IllegalArgumentException("Invalid comand, add one");
         }
     }

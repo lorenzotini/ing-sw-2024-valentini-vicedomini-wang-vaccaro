@@ -21,10 +21,24 @@ public class ServerApp {
         ServerApp serverApp = new ServerApp();
 
         serverApp.rmiServer = new RmiServer(serverApp.console);
-        //serverApp.socketServer = new SocketServer(serverApp.console);
+        serverApp.socketServer = new SocketServer(serverApp.console);
 
-        serverApp.rmiServer.runServer();
+        new Thread(() -> {
+            try {
+                serverApp.rmiServer.runServer();
+            } catch (IOException | InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }).start();
+        /*new Thread(() -> {
+            try {
+                serverApp.socketServer.runServer();
+            } catch (IOException | InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }).start();*/
         serverApp.socketServer.runServer();
+        System.out.println("Server avviati e in ascolto");
 
     }
 }

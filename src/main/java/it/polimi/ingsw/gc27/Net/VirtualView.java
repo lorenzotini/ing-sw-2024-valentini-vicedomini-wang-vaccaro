@@ -10,7 +10,7 @@ public interface VirtualView extends Remote {
 
     void show(String s) throws RemoteException;
 
-    String read() throws RemoteException, IOException;
+    String read() throws RemoteException, IOException, InterruptedException;
 
     void setUsername(String username)throws RemoteException;
 }

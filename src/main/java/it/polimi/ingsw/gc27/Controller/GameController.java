@@ -85,7 +85,7 @@ public class GameController implements Serializable {
     }
 
     // Create a player from command line, but hand, secret objective and starter are not instantiated
-    public void initializePlayer(VirtualView client, GigaController gigaChad) throws IOException, RemoteException {
+    public Player initializePlayer(VirtualView client, GigaController gigaChad) throws IOException, RemoteException, InterruptedException {
         String username;
         String pawnColor;
         Manuscript manuscript = new Manuscript();
@@ -103,7 +103,7 @@ public class GameController implements Serializable {
             do {
                 client.show("Choose your color: ");
                 for (PawnColour pawnColour : game.getAvailablePawns()) {
-                    client.show(pawnColour + " ");
+                    client.show(pawnColour +"\n" );
                 }
                 pawnColor = client.read();
             }while(!game.validPawn(pawnColor));
@@ -131,6 +131,6 @@ public class GameController implements Serializable {
             }
         }
 
-
+        return p;
     }
 }

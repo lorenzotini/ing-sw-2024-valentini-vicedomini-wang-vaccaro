@@ -8,13 +8,16 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.rmi.RemoteException;
 import java.util.Scanner;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 public class SocketClient implements VirtualView, Runnable {
     final BufferedReader input;
     final SocketServerProxy server;
     private String username;
+    final BlockingQueue<String> commands = new LinkedBlockingQueue<>();
 
-    public static void main(String[] args) throws UnknownHostException, IOException  {
+    /*public static void main(String[] args) throws UnknownHostException, IOException  {
         Scanner scan = new Scanner(System.in);
 
         System.out.println("Welcome to the game CODEX NATURALIS!\n" +
@@ -44,7 +47,7 @@ public class SocketClient implements VirtualView, Runnable {
             System.exit(1);
         }
         new SocketClient(new BufferedReader(socketRx), new BufferedWriter(socketTx)).run();
-    }
+    }*/
     public SocketClient(BufferedReader input, BufferedWriter output){
         this.input = input;
         this.server = new SocketServerProxy(output);
@@ -52,10 +55,11 @@ public class SocketClient implements VirtualView, Runnable {
     public SocketClient(String ipAddress, int port){
         InputStreamReader socketRx = null;
         OutputStreamWriter socketTx = null;
-        try (Socket serverSocket = new Socket(ipAddress, port)) {
+        Socket serverSocket;
+        try {
+             serverSocket = new Socket(ipAddress, port);
             socketRx = new InputStreamReader(serverSocket.getInputStream());
             socketTx = new OutputStreamWriter(serverSocket.getOutputStream());
-
 
         } catch (UnknownHostException e) {
             System.err.println("Don't know about host " + ipAddress);
@@ -66,6 +70,16 @@ public class SocketClient implements VirtualView, Runnable {
         }
         this.input = new BufferedReader(socketRx);
         this.server = new SocketServerProxy(new BufferedWriter(socketTx));
+        new Thread(()-> {
+            try {
+                while(true) {
+                    commands.add(input.readLine());
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+        }).start();
     }
 
     public void run() {
@@ -77,26 +91,48 @@ public class SocketClient implements VirtualView, Runnable {
             }
         }).start();
         try {
-            runCli();
+            server.welcomePlayer(this);
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }
     }
-    private void runVirtualServer() throws IOException {
+    private void runVirtualServer() throws IOException, InterruptedException {
         String line;
+
         // Read message type
-        while ((line = input.readLine()) != null) {
+        while ((line = commands.take()) != null) {
             Object[] commands = CommandParser.parseCommandFromServer(line);
             switch(commands[0].toString()) {
                 case "show":
                     show(commands[1].toString());
+                    break;
                 case "setUsername":
                     setUsername(commands[1].toString());
+                    break;
+                case "runCli":
+                    new Thread(() -> {
+                        try {
+                            runCli();
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
+                    }).start();
+                    break;
+
+                case "read":
+                    String sr = this.read();
+                    server.sendData(sr);
+                    break;
+
+                default:
+                    System.out.println("damn god");
+                    break;
             }
         }
     }
     private void runCli() throws RemoteException {
-        server.welcomePlayer(this);
+
+
         Scanner scan = new Scanner(System.in);
         while (true) {
             System.out.print("> ");
@@ -158,7 +194,10 @@ public class SocketClient implements VirtualView, Runnable {
 
     @Override
     public String read() throws RemoteException {
-        return null;
+        Scanner scan = new Scanner(System.in);
+        String string;
+        while((string = scan.nextLine())=="\n"){};
+        return string;
     }
 
     @Override

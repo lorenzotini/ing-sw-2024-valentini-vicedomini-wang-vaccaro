@@ -75,7 +75,7 @@ public class RmiServer implements VirtualServer {
         }*/
     }
     @Override
-    public void welcomePlayer(VirtualView client) throws IOException{
+    public void welcomePlayer(VirtualView client) throws IOException, InterruptedException {
         // TODO: gestire le eccezioni
         this.console.welcomePlayer(client);
         // TODO: gestire meglio gli updates

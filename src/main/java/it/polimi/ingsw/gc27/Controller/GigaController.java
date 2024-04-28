@@ -25,14 +25,15 @@ public class GigaController {
         throw new UserNotFoundException(username + "does not exist");
     }
 
-    public void welcomePlayer(VirtualView client) throws IOException {
-        client.show("Welcome to Codex Naturalis" + "\n" + "Do you want to start a new game or join an existing one? (enter 'new' or the gameId)");
+    public Player welcomePlayer(VirtualView client) throws IOException, InterruptedException {
+        System.out.println(("sono in welcome Player"));
+        client.show("Welcome to Codex Naturalis\n"  + "Do you want to start a new game or join an existing one? (enter 'new' or the gameId)");
         String game = client.read();
         Player p;
         boolean canEnter = false;
 
         if (game.equalsIgnoreCase("new")) {    // start a new game
-            createNewGame(client);
+            p = createNewGame(client);
         } else {
             // join an existing game
             do{
@@ -53,22 +54,24 @@ public class GigaController {
                         if(!canEnter){
                             welcomePlayer(client);
                         }else {
-                            gc.initializePlayer(client, this);
+                             p = gc.initializePlayer(client, this);
                         }
-                        return;
+
                     }
                 }
                 client.show("Game not found. Please enter a valid game id or 'new' to start a new game");
                 game = client.read();
                 if(game.equalsIgnoreCase("new")){
-                    createNewGame(client);
-                    return;
+                    p = createNewGame(client);
+
                 }
             }while(true);
         }
+        return p;
     }
 
-    public void createNewGame(VirtualView client) throws IOException {
+    public Player createNewGame(VirtualView client) throws IOException, InterruptedException {
+        Player p;
         client.show("How many player? there will be? (2-4)");
         int numMaxPlayers = Integer.parseInt(client.read());
         while(numMaxPlayers > 4 || numMaxPlayers < 1 ){
@@ -84,8 +87,8 @@ public class GigaController {
         // count the player who created the game
         controller.getGame().setNumActualPlayers(1);
         client.show("Game created with id " + controller.getId() + "\n" + "Waiting for players to join...");
-        controller.initializePlayer(client, this);
-
+         p = controller.initializePlayer(client, this);
+        return p;
     }
 
     // TODO remember to remove the username from the availableUsernames map when a player leaves the game

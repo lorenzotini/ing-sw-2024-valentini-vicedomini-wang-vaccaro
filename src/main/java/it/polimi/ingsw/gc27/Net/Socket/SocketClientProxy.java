@@ -5,6 +5,7 @@ import it.polimi.ingsw.gc27.Net.VirtualView;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.rmi.RemoteException;
 
@@ -12,10 +13,15 @@ public class SocketClientProxy implements VirtualView {
 
     final PrintWriter output;
 
-    public SocketClientProxy(BufferedWriter output) {
+    public SocketClientProxy(BufferedWriter output) throws IOException {
         this.output = new PrintWriter(output);
+
     }
 
+    public void runCli(){
+        this.output.println("runCli");
+        this.output.flush();
+    }
 
     @Override
     public void showUpdate(String update) {
@@ -24,20 +30,27 @@ public class SocketClientProxy implements VirtualView {
 
     @Override
     public void show(String s) throws RemoteException {
-        output.println("show");
-        output.println(s);
-        output.flush();
+        String ss[] = s.split("\n");
+
+
+        for(String phrase : ss){
+            System.out.println(phrase);
+            output.println("show "+phrase);
+            output.flush();
+        }
+
     }
 
     @Override
     public String read() throws RemoteException {
+        output.println("read");
+        output.flush();
         return null;
     }
 
     @Override
     public void setUsername(String username) throws RemoteException {
-        output.println("setUsername");
-        output.println(username);
+        output.println("setUsername "+ username);
         output.flush();
     }
 

@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 public class MainClient {
 
-    public static void main(String[] args) throws IOException, NotBoundException {
+    public static void main(String[] args) throws IOException, NotBoundException, InterruptedException {
 
         Scanner scan = new Scanner(System.in);
         int connectionChoose;
@@ -46,7 +46,7 @@ public class MainClient {
                 new RmiClient(ipAddress, port).run();
             }
             else {
-                port = 80;
+                port = 3000;
                 new SocketClient(ipAddress,port).run();
             }
         }

@@ -12,7 +12,7 @@ import java.util.Map;
 
 public class GigaController {
 
-    private Map<String, Boolean> availableUsernames = new HashMap<>();
+    private Map<String, VirtualView> registeredUsernames = new HashMap<>();
 
     private List<GameController> gameControllers = new ArrayList<>();
 
@@ -55,15 +55,15 @@ public class GigaController {
                             welcomePlayer(client);
                         }else {
                              p = gc.initializePlayer(client, this);
+                             return p;
                         }
-
                     }
                 }
                 client.show("Game not found. Please enter a valid game id or 'new' to start a new game");
                 game = client.read();
                 if(game.equalsIgnoreCase("new")){
                     p = createNewGame(client);
-
+                    return p;
                 }
             }while(true);
         }
@@ -91,14 +91,20 @@ public class GigaController {
         return p;
     }
 
-    // TODO remember to remove the username from the availableUsernames map when a player leaves the game
-    public boolean validUsername(String u){
-        synchronized (availableUsernames){
-            if(availableUsernames.containsKey(u) || u.isEmpty()){ // username already taken or empty
+    // TODO remember to remove the username from the registeredUsernames map when a player leaves the game
+    public boolean validUsername(String u, VirtualView view){
+        synchronized (registeredUsernames){
+            if(registeredUsernames.containsKey(u) || u.isEmpty()){ // username already taken or empty
                 return false;
             }
-            availableUsernames.put(u, true);
+            registeredUsernames.put(u, view);
             return true;
         }
+    }
+    public VirtualView getView(String user){
+        return registeredUsernames.get(user);
+    }
+    public Player getPlayer(String username){
+        return this.userToGameController(username).getGame().getPlayer(username);
     }
 }

@@ -9,6 +9,7 @@ import it.polimi.ingsw.gc27.Model.Game.Manuscript;
 import it.polimi.ingsw.gc27.Model.Game.Player;
 import it.polimi.ingsw.gc27.Model.States.PlayerStates.InitializingState;
 import it.polimi.ingsw.gc27.Net.VirtualView;
+import it.polimi.ingsw.gc27.View.MyCli;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -88,7 +89,7 @@ public class GameController implements Serializable {
         do {
             client.show("Choose your username: ");
             username = client.read();
-        }while(!gigaChad.validUsername(username));
+        }while(!gigaChad.validUsername(username, client));
         client.setUsername(username);
 
 
@@ -97,7 +98,7 @@ public class GameController implements Serializable {
             do {
                 client.show("Choose your color: ");
                 for (PawnColour pawnColour : game.getAvailablePawns()) {
-                    client.show(pawnColour +"\n" );
+                    client.show( pawnColour.toString() );
                 }
                 pawnColor = client.read();
             }while(!game.validPawn(pawnColor));
@@ -122,9 +123,24 @@ public class GameController implements Serializable {
             this.turnHandler = new TurnHandler(this.game);
             for(Player player : game.getPlayers()){
                 player.setPlayerState(new InitializingState(player, this.turnHandler));
+                //TODO fare bene l'addstarted e tutta la fase iniziale
             }
         }
 
         return p;
     }
+    public void askStarter(Player player, VirtualView client) throws IOException, InterruptedException {
+        StarterCard starter = game.getStarterDeck().removeFirst();
+        client.show(MyCli.showStarter(starter));
+        client.show("Which side do you want to use? Front or back? ");
+        String choice = client.read();
+        do {
+            if (choice.equalsIgnoreCase("front"))
+                addStarterCard(player, starter, starter.getFront());
+            else if (choice.equalsIgnoreCase("back"))
+                addStarterCard(player, starter, starter.getFront());
+        }while(!choice.equalsIgnoreCase("front") && !choice.equalsIgnoreCase("back"));
+
+    }
+
 }

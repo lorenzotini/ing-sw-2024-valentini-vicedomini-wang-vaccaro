@@ -10,7 +10,7 @@ import java.io.IOException;
 public class ServerApp {
 
     // TODO maybe make serverApp singleton
-    private GigaController console = new GigaController();
+    private final GigaController console = new GigaController();
     private SocketServer socketServer;
     private RmiServer rmiServer;
 
@@ -30,15 +30,8 @@ public class ServerApp {
                 throw new RuntimeException(e);
             }
         }).start();
-        /*new Thread(() -> {
-            try {
-                serverApp.socketServer.runServer();
-            } catch (IOException | InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        }).start();*/
         serverApp.socketServer.runServer();
-        System.out.println("Server avviati e in ascolto");
+
 
     }
 }

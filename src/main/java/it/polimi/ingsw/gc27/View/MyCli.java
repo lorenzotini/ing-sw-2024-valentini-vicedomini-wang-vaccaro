@@ -297,4 +297,25 @@ public class MyCli {
 
         MyCli.printManuscript(m);
     }
+    public static String showFace(Face face){
+
+            Corner UR = face.getCornerUR();
+            Corner UL = face.getCornerUL();
+            Corner LR = face.getCornerLR();
+            Corner LL = face.getCornerLL();
+
+            String colour = face.getColour().toColourControl() + "\u001B[1m";   // colour and bold
+            String reset = "\u001B[0m";
+            String first = colour + "╭-----------------╮" + reset;
+            String second = colour + "|" + UL.getSymbol().toCliString() + "               " + UR.getSymbol().toCliString() + colour + "|" + reset;
+            String third = colour + "|" + MyCli.constructString(face.getPermanentResources().stream().map(o -> o.toCornerSymbol().toCliString()).collect(Collectors.toCollection(ArrayList::new))) + colour + "|" + reset;
+            String fourth = colour + "|" + LL.getSymbol().toCliString() + "               " + LR.getSymbol().toCliString() + colour + colour + "|" + reset;
+            String fifth = colour + "╰-----------------╯" + reset;
+        return (first + "\n" + second +"\n" + third+"\n"+ fourth+"\n"+fifth);
+    }
+    public static String showStarter(StarterCard card ){
+        return ("Starter Front:"+"\n"+ showFace(card.getFront( )) +("\nStarter Back:")+"\n"+showFace(card.getBack()));
+
+    }
+
 }

@@ -1,6 +1,8 @@
 package it.polimi.ingsw.gc27.Net.Socket;
 
 import it.polimi.ingsw.gc27.Controller.GameController;
+import it.polimi.ingsw.gc27.Model.Card.StarterCard;
+import it.polimi.ingsw.gc27.Model.Game.Manuscript;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 
 import java.io.BufferedReader;
@@ -34,11 +36,16 @@ public class SocketClientProxy implements VirtualView {
 
 
         for(String phrase : ss){
-            System.out.println(phrase);
             output.println("show "+phrase);
             output.flush();
         }
 
+    }
+
+    @Override
+    public void showManuscript(Manuscript manuscript) throws RemoteException {
+        output.println("send Manuscript"+ manuscript);
+        output.flush();
     }
 
     @Override
@@ -53,6 +60,8 @@ public class SocketClientProxy implements VirtualView {
         output.println("setUsername "+ username);
         output.flush();
     }
+
+
 
 
 }

@@ -4,6 +4,7 @@ import it.polimi.ingsw.gc27.Net.VirtualServer;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 
 import java.io.BufferedWriter;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.rmi.RemoteException;
 
@@ -54,7 +55,7 @@ public class SocketServerProxy implements VirtualServer {
         output.println(faceUpCardIndex);
         output.flush();
     }
-
+    public void askStarter(String playerName) throws IOException, InterruptedException{}
     @Override
     public void welcomePlayer(VirtualView client) throws RemoteException {
 

@@ -1,7 +1,10 @@
 package it.polimi.ingsw.gc27.Net.RMI;
 
+import it.polimi.ingsw.gc27.Model.Card.StarterCard;
+import it.polimi.ingsw.gc27.Model.Game.Manuscript;
 import it.polimi.ingsw.gc27.Net.VirtualServer;
 import it.polimi.ingsw.gc27.Net.VirtualView;
+import it.polimi.ingsw.gc27.View.MyCli;
 
 import java.io.IOException;
 import java.rmi.NotBoundException;
@@ -27,6 +30,12 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
     public void show(String message) throws RemoteException{
         System.out.println(message);
     }
+
+    @Override
+    public void showManuscript(Manuscript manuscript) throws RemoteException {
+        MyCli.printManuscript(manuscript);
+    }
+
     @Override
     public String read() throws RemoteException{
         Scanner s = new Scanner(System.in);
@@ -42,6 +51,8 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
         this.server.connect(this);
         runCli();
     }
+
+
 
     private void runCli() throws IOException, RemoteException, InterruptedException {
         server.welcomePlayer(this);
@@ -68,14 +79,10 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
                         System.out.println("Invalid face: abort");
                     }
                     break;
-                /*case "drawresourcecard":
-                    if(commands[1].equals("deck")){
-                        server.drawResourceCard(player, true, (int)commands[2]);
-                    }else{
-                        server.drawResourceCard(player, false, (int)commands[2]);
-                    }
+                case "askstarter":
+                    server.askStarter(username);
                     break;
-                case "drawgoldcard":
+                /*case "drawgoldcard":
                     if(commands[1].equals("deck")){
                         server.drawGoldCard(player, true, (int)commands[2]);
                     }else{

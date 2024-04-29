@@ -5,6 +5,8 @@ import it.polimi.ingsw.gc27.Model.Card.Face;
 import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
 import it.polimi.ingsw.gc27.CommandParser;
 import it.polimi.ingsw.gc27.Controller.GameController;
+import it.polimi.ingsw.gc27.Model.Card.StarterCard;
+import it.polimi.ingsw.gc27.Model.Game.Manuscript;
 import it.polimi.ingsw.gc27.Model.Game.Player;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 
@@ -30,7 +32,6 @@ public class ClientHandler implements VirtualView {
         this.input = input;
         this.server = server;
         this.client = new SocketClientProxy(output);
-        System.out.println("Sono vivo\n");
         new Thread(()->{
             while(true){
                 try {
@@ -56,7 +57,6 @@ public class ClientHandler implements VirtualView {
             Object[] commands = CommandParser.parseCommand(command);
             switch (commands[0].toString().toLowerCase()) {
                 case "welcomeplayer":
-                    System.out.println("avvio welcome");
                     this.player = console.welcomePlayer(this);
                     client.runCli();
                     break;
@@ -102,6 +102,11 @@ public class ClientHandler implements VirtualView {
     }
 
     @Override
+    public void showManuscript(Manuscript manuscript) throws RemoteException {
+        client.showManuscript(manuscript);
+    }
+
+    @Override
     public String read() throws IOException, InterruptedException {
         String str ;
         client.read();
@@ -115,6 +120,8 @@ public class ClientHandler implements VirtualView {
     public void setUsername(String username) throws RemoteException {
         client.setUsername(username);
     }
+
+
 
 }
 

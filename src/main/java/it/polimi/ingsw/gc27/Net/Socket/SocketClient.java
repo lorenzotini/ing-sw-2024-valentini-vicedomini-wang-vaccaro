@@ -1,6 +1,8 @@
 package it.polimi.ingsw.gc27.Net.Socket;
 
 import it.polimi.ingsw.gc27.CommandParser;
+import it.polimi.ingsw.gc27.Model.Card.StarterCard;
+import it.polimi.ingsw.gc27.Model.Game.Manuscript;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 
 import java.io.*;
@@ -193,6 +195,11 @@ public class SocketClient implements VirtualView, Runnable {
     }
 
     @Override
+    public void showManuscript(Manuscript manuscript) throws RemoteException {
+
+    }
+
+    @Override
     public String read() throws RemoteException {
         Scanner scan = new Scanner(System.in);
         String string;
@@ -204,5 +211,6 @@ public class SocketClient implements VirtualView, Runnable {
     public void setUsername(String username) throws RemoteException {
         this.username=username;
     }
+
 
 }

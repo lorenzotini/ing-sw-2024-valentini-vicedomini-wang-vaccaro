@@ -6,8 +6,10 @@ import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
 import it.polimi.ingsw.gc27.Model.Card.StarterCard;
 import it.polimi.ingsw.gc27.Controller.TurnHandler;
 import it.polimi.ingsw.gc27.Model.Game.Game;
+import it.polimi.ingsw.gc27.Model.Game.Manuscript;
 import it.polimi.ingsw.gc27.Model.Game.Market;
 import it.polimi.ingsw.gc27.Model.Game.Player;
+import it.polimi.ingsw.gc27.Net.VirtualView;
 import it.polimi.ingsw.gc27.View.ColourControl;
 
 import java.util.ArrayList;
@@ -36,8 +38,11 @@ public class DrawingState extends PlayerState {
             card = market.getFaceUpResources()[faceUpCardIndex];
             market.setFaceUpResources(deck.removeLast(), faceUpCardIndex);
         }
+
         player.getHand().add(card);
         player.setPlayerState(new EndOfTurnState(getPlayer(), getTurnHandler()));
+        market.notifyObservers();
+
     }
 
     @Override

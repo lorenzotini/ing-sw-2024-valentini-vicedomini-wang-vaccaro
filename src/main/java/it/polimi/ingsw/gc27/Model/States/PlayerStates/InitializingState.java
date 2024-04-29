@@ -35,8 +35,8 @@ public class InitializingState extends PlayerState{
 
     @Override
     public void addStarterCard(Game game, StarterCard starterCard, Face face, int x, int y) {
-        getPlayer().addCard(game, starterCard, face, x, y);
 
+        getPlayer().addCard(game, starterCard, face, x, y);
         //go to next state (all the player in waiting state)
         getPlayer().setPlayerState(new WaitingState(getPlayer(), getTurnHandler()));
         // notifica il TurnHandler

@@ -19,6 +19,6 @@ module it.polimi.ingsw.gc27 {
     opens it.polimi.ingsw.gc27.Controller to javafx.fxml;
     exports it.polimi.ingsw.gc27.Net;
     exports it.polimi.ingsw.gc27.Net.RMI;
-    exports it.polimi.ingsw.gc27.Model;
     opens it.polimi.ingsw.gc27.Model to javafx.fxml;
+    exports  it.polimi.ingsw.gc27.Model;
 }

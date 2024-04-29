@@ -128,6 +128,7 @@ public class RmiServer implements VirtualServer {
             e.printStackTrace();
             System.err.println("Server ready");
         }
+        //TODO elimina e sostituisci con update view listener
         this.broadcastUpdateThread();
     }
 }

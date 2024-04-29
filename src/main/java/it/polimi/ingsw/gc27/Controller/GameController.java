@@ -2,14 +2,12 @@ package it.polimi.ingsw.gc27.Controller;
 
 import it.polimi.ingsw.gc27.Model.Card.Face;
 import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
-import it.polimi.ingsw.gc27.Model.Card.StarterCard;
 import it.polimi.ingsw.gc27.Model.Enumerations.PawnColour;
 import it.polimi.ingsw.gc27.Model.Game.Game;
 import it.polimi.ingsw.gc27.Model.Game.Manuscript;
 import it.polimi.ingsw.gc27.Model.Game.Player;
 import it.polimi.ingsw.gc27.Model.States.PlayerStates.InitializingState;
 import it.polimi.ingsw.gc27.Net.VirtualView;
-import it.polimi.ingsw.gc27.View.MyCli;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -62,9 +60,10 @@ public class GameController implements Serializable {
         player.getPlayerState().addCard(this.game, card, face, x, y);
     }
 
-    public void addStarterCard(Player player, StarterCard card, Face face){
-        player.getPlayerState().addStarterCard(this.game, card, face, Manuscript.FIELD_DIM/2, Manuscript.FIELD_DIM/2);
+    public void addStarterCard(Player player, VirtualView client) throws IOException, InterruptedException {
+        player.getPlayerState().askStarterCard(this.game, player, client);
     }
+
 
     // TODO: I DUE METODI SONO UGUALI, MAGARI CI PUO' ANDARE UN DESIGN PATTERN
     public void drawResourceCard(Player player, boolean fromDeck, int faceUpCardIndex){
@@ -130,17 +129,7 @@ public class GameController implements Serializable {
         return p;
     }
     public void askStarter(Player player, VirtualView client) throws IOException, InterruptedException {
-        StarterCard starter = game.getStarterDeck().removeFirst();
-        client.show(MyCli.showStarter(starter));
-        client.show("Which side do you want to use? Front or back? ");
-        String choice = client.read();
-        do {
-            if (choice.equalsIgnoreCase("front"))
-                addStarterCard(player, starter, starter.getFront());
-            else if (choice.equalsIgnoreCase("back"))
-                addStarterCard(player, starter, starter.getFront());
-        }while(!choice.equalsIgnoreCase("front") && !choice.equalsIgnoreCase("back"));
-
+        this.addStarterCard(player, client);
     }
 
 }

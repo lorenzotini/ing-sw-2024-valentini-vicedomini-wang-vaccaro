@@ -1,6 +1,5 @@
 package it.polimi.ingsw.gc27.Net.RMI;
 
-import it.polimi.ingsw.gc27.Model.Card.StarterCard;
 import it.polimi.ingsw.gc27.Model.Game.Manuscript;
 import it.polimi.ingsw.gc27.Net.VirtualServer;
 import it.polimi.ingsw.gc27.Net.VirtualView;
@@ -82,13 +81,6 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
                 case "askstarter":
                     server.askStarter(username);
                     break;
-                /*case "drawgoldcard":
-                    if(commands[1].equals("deck")){
-                        server.drawGoldCard(player, true, (int)commands[2]);
-                    }else{
-                        server.drawGoldCard(player, false, (int)commands[2]);
-                    }
-                    break;*/
                 default:
                     System.out.println("Invalid command1");
                     break;

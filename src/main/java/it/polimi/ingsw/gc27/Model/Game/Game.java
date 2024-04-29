@@ -13,7 +13,7 @@ import java.util.List;
 
 public class Game implements Serializable {
 
-    private Integer numActualPlayers = 0;
+    private Integer numActualPlayers;
     private Board board;
     private Market market;
     private List<Player> players;

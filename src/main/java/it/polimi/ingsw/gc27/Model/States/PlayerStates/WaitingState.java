@@ -1,9 +1,8 @@
 package it.polimi.ingsw.gc27.Model.States.PlayerStates;
 
+import it.polimi.ingsw.gc27.Controller.TurnHandler;
 import it.polimi.ingsw.gc27.Model.Card.Face;
 import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
-import it.polimi.ingsw.gc27.Model.Card.StarterCard;
-import it.polimi.ingsw.gc27.Controller.TurnHandler;
 import it.polimi.ingsw.gc27.Model.Game.Game;
 import it.polimi.ingsw.gc27.Model.Game.Player;
 
@@ -33,9 +32,5 @@ public class WaitingState extends PlayerState {
         System.out.println("please wait for your turn...\n");
     }
 
-    @Override
-    public void addStarterCard(Game game, StarterCard starterCard, Face face, int x, int y) {
-        System.out.println("please wait for your turn...\n");
-    }
 
 }

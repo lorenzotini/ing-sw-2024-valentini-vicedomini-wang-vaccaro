@@ -1,17 +1,16 @@
 package it.polimi.ingsw.gc27.Model.States.PlayerStates;
 
+import it.polimi.ingsw.gc27.Controller.TurnHandler;
 import it.polimi.ingsw.gc27.Model.Card.Face;
 import it.polimi.ingsw.gc27.Model.Card.GoldCard;
 import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
-import it.polimi.ingsw.gc27.Model.Card.StarterCard;
-import it.polimi.ingsw.gc27.Controller.TurnHandler;
 import it.polimi.ingsw.gc27.Model.Game.Game;
-import it.polimi.ingsw.gc27.Model.Game.Manuscript;
 import it.polimi.ingsw.gc27.Model.Game.Market;
 import it.polimi.ingsw.gc27.Model.Game.Player;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 import it.polimi.ingsw.gc27.View.ColourControl;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class DrawingState extends PlayerState {
@@ -69,7 +68,7 @@ public class DrawingState extends PlayerState {
     }
 
     @Override
-    public void addStarterCard(Game game, StarterCard starterCard, Face face, int x, int y) {
+    public void askStarterCard(Game game, Player player, VirtualView client) throws IOException, InterruptedException {
         System.out.println("you already have a starter card\n");
     }
 

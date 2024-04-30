@@ -24,7 +24,7 @@ public class ClientHandler implements VirtualView {
     private Player player ;
     final GigaController console;
     final BlockingQueue<String> commands = new LinkedBlockingQueue<>();
-    final GameController controller = null;
+    private GameController controller ;
     final SocketClientProxy client;
     final SocketServer server;
     public ClientHandler(GigaController console, SocketServer server, BufferedReader input, BufferedWriter output) throws IOException {
@@ -47,7 +47,6 @@ public class ClientHandler implements VirtualView {
 
     public void runVirtualView() throws IOException, InterruptedException {
 
-
         //this.player = console.welcomePlayer(this);
         String command;
 
@@ -58,6 +57,7 @@ public class ClientHandler implements VirtualView {
             switch (commands[0].toString().toLowerCase()) {
                 case "welcomeplayer":
                     this.player = console.welcomePlayer(this);
+                    controller = console.userToGameController(player.getUsername());
                     client.runCli();
                     break;
                 case "addcard":
@@ -81,7 +81,16 @@ public class ClientHandler implements VirtualView {
                         controller.drawGoldCard(player, commands[1].equals("deck"), (int)commands[2]);
                     }).start();
                     break;
-
+                case "askstarter":
+                    new Thread(()->{
+                        try {
+                            controller.askStarter(player, this);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }).start();
                 default:
                     client.show("Invalid command");
                     break;
@@ -121,7 +130,14 @@ public class ClientHandler implements VirtualView {
         client.setUsername(username);
     }
 
+    @Override
+    public void runCli() throws IOException, RemoteException, InterruptedException {
 
+    }
 
+    @Override
+    public String getUsername() {
+        return this.player.getUsername();
+    }
 }
 

@@ -26,7 +26,6 @@ public class GigaController {
     }
 
     public Player welcomePlayer(VirtualView client) throws IOException, InterruptedException {
-        System.out.println(("sono in welcome Player"));
         client.show("Welcome to Codex Naturalis\n"  + "Do you want to start a new game or join an existing one? (enter 'new' or the gameId)");
         String game = client.read();
         Player p;

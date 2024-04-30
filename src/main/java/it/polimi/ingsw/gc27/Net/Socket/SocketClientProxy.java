@@ -26,6 +26,11 @@ public class SocketClientProxy implements VirtualView {
     }
 
     @Override
+    public String getUsername() {
+        return null;
+    }
+
+    @Override
     public void showUpdate(String update) {
 
     }

@@ -18,5 +18,7 @@ public interface VirtualView extends Remote {
 
     void setUsername(String username)throws RemoteException;
 
+    void runCli() throws IOException, RemoteException, InterruptedException;
+    String getUsername() throws IOException, RemoteException, InterruptedException;
 
 }

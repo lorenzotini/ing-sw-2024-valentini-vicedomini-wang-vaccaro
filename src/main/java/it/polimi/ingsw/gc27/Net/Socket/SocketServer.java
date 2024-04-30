@@ -22,10 +22,7 @@ public class SocketServer {
         this.console = console;
     }
 
-    public void askStarter(String playerName) throws IOException, InterruptedException{}
-
     public void runServer() throws IOException, InterruptedException {
-        System.out.println("Server Socket avviato e in ascolto\n");
         Socket clientSocket = null;
 
         while ((clientSocket = this.listenSocket.accept()) != null) {

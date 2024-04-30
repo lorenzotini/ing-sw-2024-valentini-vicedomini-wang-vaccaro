@@ -1,6 +1,7 @@
 package it.polimi.ingsw.gc27.Net.RMI;
 
 import it.polimi.ingsw.gc27.Model.Game.Manuscript;
+import it.polimi.ingsw.gc27.Net.MainClient;
 import it.polimi.ingsw.gc27.Net.VirtualServer;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 import it.polimi.ingsw.gc27.View.MyCli;
@@ -48,12 +49,14 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
 
     public void run() throws IOException, InterruptedException {
         this.server.connect(this);
+
         runCli();
     }
 
 
 
-    private void runCli() throws IOException, RemoteException, InterruptedException {
+    public void runCli() throws IOException, RemoteException, InterruptedException {
+        //parlare con lore per farlo spostare
         server.welcomePlayer(this);
         Scanner scan = new Scanner(System.in);
         while (true) {
@@ -86,5 +89,10 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
                     break;
             }
         }
+    }
+
+    @Override
+    public String getUsername() {
+        return this.username;
     }
 }

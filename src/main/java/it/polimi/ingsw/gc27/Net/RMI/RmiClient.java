@@ -1,7 +1,10 @@
 package it.polimi.ingsw.gc27.Net.RMI;
 
+import it.polimi.ingsw.gc27.Model.Game.Manuscript;
+import it.polimi.ingsw.gc27.Net.MainClient;
 import it.polimi.ingsw.gc27.Net.VirtualServer;
 import it.polimi.ingsw.gc27.Net.VirtualView;
+import it.polimi.ingsw.gc27.View.MyCli;
 
 import java.io.IOException;
 import java.rmi.NotBoundException;
@@ -27,6 +30,12 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
     public void show(String message) throws RemoteException{
         System.out.println(message);
     }
+
+    @Override
+    public void showManuscript(Manuscript manuscript) throws RemoteException {
+        MyCli.printManuscript(manuscript);
+    }
+
     @Override
     public String read() throws RemoteException{
         Scanner s = new Scanner(System.in);
@@ -40,10 +49,14 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
 
     public void run() throws IOException, InterruptedException {
         this.server.connect(this);
+
         runCli();
     }
 
-    private void runCli() throws IOException, RemoteException, InterruptedException {
+
+
+    public void runCli() throws IOException, RemoteException, InterruptedException {
+        //parlare con lore per farlo spostare
         server.welcomePlayer(this);
         Scanner scan = new Scanner(System.in);
         while (true) {
@@ -68,24 +81,18 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
                         System.out.println("Invalid face: abort");
                     }
                     break;
-                /*case "drawresourcecard":
-                    if(commands[1].equals("deck")){
-                        server.drawResourceCard(player, true, (int)commands[2]);
-                    }else{
-                        server.drawResourceCard(player, false, (int)commands[2]);
-                    }
+                case "askstarter":
+                    server.askStarter(username);
                     break;
-                case "drawgoldcard":
-                    if(commands[1].equals("deck")){
-                        server.drawGoldCard(player, true, (int)commands[2]);
-                    }else{
-                        server.drawGoldCard(player, false, (int)commands[2]);
-                    }
-                    break;*/
                 default:
                     System.out.println("Invalid command1");
                     break;
             }
         }
+    }
+
+    @Override
+    public String getUsername() {
+        return this.username;
     }
 }

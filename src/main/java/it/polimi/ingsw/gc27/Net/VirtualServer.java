@@ -10,4 +10,5 @@ public interface VirtualServer extends Remote{
     void drawResourceCard(String playerName, boolean fromDeck, int faceUpCardIndex) throws RemoteException;
     void drawGoldCard(String playerName, boolean fromDeck, int faceUpCardIndex) throws IOException;
     void welcomePlayer(VirtualView client) throws IOException, InterruptedException;
+    void askStarter(String playerName) throws IOException, InterruptedException;
 }

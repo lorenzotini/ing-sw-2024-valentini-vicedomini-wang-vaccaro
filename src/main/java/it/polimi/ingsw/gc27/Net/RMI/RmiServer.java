@@ -35,9 +35,15 @@ public class RmiServer implements VirtualServer {
         }
         System.err.println("new client connected");
     }
+
+    public void askStarter(String playerName) throws IOException, InterruptedException {
+
+        Player player = this.console.getPlayer(playerName);
+        this.console.userToGameController(playerName).askStarter(player, console.getView(playerName));
+    }
     @Override
     public void addCard(String playerName, int handCardIndex, boolean isFrontFace, int x, int y) throws RemoteException {
-        Player player = this.console.userToGameController(playerName).getGame().getPlayer(playerName);
+        Player player = this.console.getPlayer(playerName);
         ResourceCard card = player.getHand().get(handCardIndex);
         Face face = isFrontFace ? card.getFront() : card.getBack();
 
@@ -122,6 +128,7 @@ public class RmiServer implements VirtualServer {
             e.printStackTrace();
             System.err.println("Server ready");
         }
+        //TODO elimina e sostituisci con update view listener
         this.broadcastUpdateThread();
     }
 }

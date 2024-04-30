@@ -5,6 +5,8 @@ import it.polimi.ingsw.gc27.Model.Card.Face;
 import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
 import it.polimi.ingsw.gc27.CommandParser;
 import it.polimi.ingsw.gc27.Controller.GameController;
+import it.polimi.ingsw.gc27.Model.Card.StarterCard;
+import it.polimi.ingsw.gc27.Model.Game.Manuscript;
 import it.polimi.ingsw.gc27.Model.Game.Player;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 
@@ -22,7 +24,7 @@ public class ClientHandler implements VirtualView {
     private Player player ;
     final GigaController console;
     final BlockingQueue<String> commands = new LinkedBlockingQueue<>();
-    final GameController controller = null;
+    private GameController controller ;
     final SocketClientProxy client;
     final SocketServer server;
     public ClientHandler(GigaController console, SocketServer server, BufferedReader input, BufferedWriter output) throws IOException {
@@ -30,7 +32,6 @@ public class ClientHandler implements VirtualView {
         this.input = input;
         this.server = server;
         this.client = new SocketClientProxy(output);
-        System.out.println("Sono vivo\n");
         new Thread(()->{
             while(true){
                 try {
@@ -46,7 +47,6 @@ public class ClientHandler implements VirtualView {
 
     public void runVirtualView() throws IOException, InterruptedException {
 
-
         //this.player = console.welcomePlayer(this);
         String command;
 
@@ -56,8 +56,8 @@ public class ClientHandler implements VirtualView {
             Object[] commands = CommandParser.parseCommand(command);
             switch (commands[0].toString().toLowerCase()) {
                 case "welcomeplayer":
-                    System.out.println("avvio welcome");
                     this.player = console.welcomePlayer(this);
+                    controller = console.userToGameController(player.getUsername());
                     client.runCli();
                     break;
                 case "addcard":
@@ -81,7 +81,16 @@ public class ClientHandler implements VirtualView {
                         controller.drawGoldCard(player, commands[1].equals("deck"), (int)commands[2]);
                     }).start();
                     break;
-
+                case "askstarter":
+                    new Thread(()->{
+                        try {
+                            controller.askStarter(player, this);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }).start();
                 default:
                     client.show("Invalid command");
                     break;
@@ -102,6 +111,11 @@ public class ClientHandler implements VirtualView {
     }
 
     @Override
+    public void showManuscript(Manuscript manuscript) throws RemoteException {
+        client.showManuscript(manuscript);
+    }
+
+    @Override
     public String read() throws IOException, InterruptedException {
         String str ;
         client.read();
@@ -116,5 +130,14 @@ public class ClientHandler implements VirtualView {
         client.setUsername(username);
     }
 
+    @Override
+    public void runCli() throws IOException, RemoteException, InterruptedException {
+
+    }
+
+    @Override
+    public String getUsername() {
+        return this.player.getUsername();
+    }
 }
 

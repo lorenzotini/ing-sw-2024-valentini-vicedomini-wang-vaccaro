@@ -64,19 +64,13 @@ public class GameController implements Serializable {
      * @param y
      */
     public void addCard(Player player, ResourceCard card, Face face, int x, int y)  {
-        if(player.getManuscript().isValidPlacement(x, y) && ((face instanceof FrontFace && player.getManuscript().satisfiedRequirement((ResourceCard) card)) || (face instanceof BackFace))){
-            player.addCard(this.game, card, face, x, y);
-            //player.getPlayerState().addCard(this.game, card, face, x, y);
-
-        }else{
-            System.err.println("Error: invalid position");
-        }
+        player.getPlayerState().addCard(this.game, card, face, x, y);
     }
 
-    public void addStarterCard(Player player, StarterCard card, Face face){
-        player.setPlayerState(new InitializingState(player, new TurnHandler(game)));
-        player.getPlayerState().addStarterCard(this.game, card, face, Manuscript.FIELD_DIM/2, Manuscript.FIELD_DIM/2);
+    public void addStarterCard(Player player, VirtualView client) throws IOException, InterruptedException {
+        player.getPlayerState().askStarterCard(this.game, player, client);
     }
+
 
     // TODO: I DUE METODI SONO UGUALI, MAGARI CI PUO' ANDARE UN DESIGN PATTERN
     public void drawResourceCard(Player player, boolean fromDeck, int faceUpCardIndex){
@@ -101,7 +95,7 @@ public class GameController implements Serializable {
         do {
             client.show("Choose your username: ");
             username = client.read();
-        }while(!gigaChad.validUsername(username));
+        }while(!gigaChad.validUsername(username, client));
         client.setUsername(username);
 
 
@@ -110,7 +104,7 @@ public class GameController implements Serializable {
             do {
                 client.show("Choose your color: ");
                 for (PawnColour pawnColour : game.getAvailablePawns()) {
-                    client.show(pawnColour +"\n" );
+                    client.show( pawnColour.toString() );
                 }
                 pawnColor = client.read();
             }while(!game.validPawn(pawnColor));
@@ -135,9 +129,14 @@ public class GameController implements Serializable {
             this.turnHandler = new TurnHandler(this.game);
             for(Player player : game.getPlayers()){
                 player.setPlayerState(new InitializingState(player, this.turnHandler));
+                //TODO fare bene l'addstarted e tutta la fase iniziale
             }
         }
 
         return p;
     }
+    public void askStarter(Player player, VirtualView client) throws IOException, InterruptedException {
+        this.addStarterCard(player, client);
+    }
+
 }

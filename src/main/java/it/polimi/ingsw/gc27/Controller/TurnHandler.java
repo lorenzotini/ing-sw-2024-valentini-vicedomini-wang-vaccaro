@@ -31,7 +31,7 @@ public class TurnHandler {
             }
         }
         if(everyoneReady){
-            for(Player p: game.getPlayers()){
+            for(Player p: game.getPlayers()) {
                 p.setPlayerState(new ChooseObjectiveState(player, this));
             }
         }

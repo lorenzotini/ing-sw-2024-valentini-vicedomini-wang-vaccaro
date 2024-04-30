@@ -2,19 +2,20 @@ package it.polimi.ingsw.gc27.Model.Game;
 
 import it.polimi.ingsw.gc27.Model.Card.GoldCard;
 import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
+import it.polimi.ingsw.gc27.Model.Listener.Observable;
+
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Market implements Serializable{
+public class Market extends Observable implements Serializable {
     private ResourceCard[] faceUpResources = new ResourceCard[2];
     private GoldCard[] faceUpGolds = new GoldCard[2];
-
     private ArrayList<ResourceCard> resourceDeck;
     private ArrayList<GoldCard> goldDeck;
+    public Market(){
 
-    public Market() { };
-
+    }
     public Market(ArrayList<ResourceCard> resourceDeck, ArrayList<GoldCard> goldDeck, ResourceCard[] faceUpResources, GoldCard[] faceUpGolds) {
         this.faceUpResources = faceUpResources;
         this.faceUpGolds = faceUpGolds;
@@ -41,12 +42,13 @@ public class Market implements Serializable{
     public ArrayList<ResourceCard> getResourceDeck() {
         return resourceDeck;
     }
-    public ArrayList<GoldCard> getGoldDeck() {
-        return goldDeck;
-    }
 
     public void setResourceDeck(ArrayList<ResourceCard> resourceDeck) {
         this.resourceDeck = resourceDeck;
+    }
+
+    public ArrayList<GoldCard> getGoldDeck() {
+        return goldDeck;
     }
 
     public void setGoldDeck(ArrayList<GoldCard> goldDeck) {

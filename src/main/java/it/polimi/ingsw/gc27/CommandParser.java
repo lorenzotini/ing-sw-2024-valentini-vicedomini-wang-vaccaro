@@ -53,9 +53,11 @@ public class CommandParser {
         }else if (parts[0].equalsIgnoreCase("welcomeplayer")){
             return new Object[]{parts[0]};
         }
-        else {
+        else if(parts[0].equalsIgnoreCase("askstarter")){
+            return new Object[]{parts[0]};
+        }else{
 
-            throw new IllegalArgumentException("Invalid command");
+            throw new IllegalArgumentException("Invalid command, Modify Command Parser");
         }
     }
     public static Object[] parseCommandFromServer(String command){

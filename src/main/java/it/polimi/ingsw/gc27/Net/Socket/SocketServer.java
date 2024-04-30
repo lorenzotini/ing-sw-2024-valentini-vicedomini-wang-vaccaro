@@ -22,10 +22,7 @@ public class SocketServer {
         this.console = console;
     }
 
-
-
     public void runServer() throws IOException, InterruptedException {
-        System.out.println("Server Socket avviato e in ascolto\n");
         Socket clientSocket = null;
 
         while ((clientSocket = this.listenSocket.accept()) != null) {
@@ -38,15 +35,14 @@ public class SocketServer {
             }
 
 
-            /*new Thread(() -> {
+            new Thread(() -> {
                 try {
                     handler.runVirtualView();
                 } catch (IOException | InterruptedException e) {
                     throw new RuntimeException(e);
                 }
             }).start();
-            */
-            handler.runVirtualView();
+
         }
     }
 

@@ -31,7 +31,9 @@ public class TurnHandler {
             }
         }
         if(everyoneReady){
-            game.getPlayers().getFirst().setPlayerState(new ChooseObjectiveState(player, this));
+            for(Player p: game.getPlayers()){
+                p.setPlayerState(new ChooseObjectiveState(player, this));
+            }
         }
     }
 

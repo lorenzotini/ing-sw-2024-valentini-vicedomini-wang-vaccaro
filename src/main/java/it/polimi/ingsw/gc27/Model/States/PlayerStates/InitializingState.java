@@ -15,7 +15,7 @@ public class InitializingState extends PlayerState{
 
     @Override
     public void chooseObjectiveCard(Game game, int objectiveCardIndex) {
-
+        System.out.println("place your starter card first and only then you can start playing\n");
     }
 
     @Override

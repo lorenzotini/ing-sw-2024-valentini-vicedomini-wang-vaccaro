@@ -14,7 +14,13 @@ public class GigaController {
 
     private Map<String, Boolean> availableUsernames = new HashMap<>();
 
+
+
     private List<GameController> gameControllers = new ArrayList<>();
+
+    public List<GameController> getGameControllers() {return gameControllers;}
+
+    public void setGameControllers(List<GameController> gameControllers) {this.gameControllers = gameControllers;}
 
     public GameController userToGameController(String username){
         for(var c : gameControllers){

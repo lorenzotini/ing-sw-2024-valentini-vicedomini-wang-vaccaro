@@ -1,13 +1,14 @@
 package it.polimi.ingsw.gc27.Controller;
 
-import it.polimi.ingsw.gc27.Card.GoldCard;
-import it.polimi.ingsw.gc27.Card.ObjectiveCard.*;
-import it.polimi.ingsw.gc27.Card.ResourceCard;
-import it.polimi.ingsw.gc27.Card.StarterCard;
-import it.polimi.ingsw.gc27.Enumerations.CornerSymbol;
-import it.polimi.ingsw.gc27.Enumerations.Kingdom;
-import it.polimi.ingsw.gc27.Enumerations.PawnColour;
+import it.polimi.ingsw.gc27.Model.Card.GoldCard;
+import it.polimi.ingsw.gc27.Model.Card.ObjectiveCard.*;
+import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
+import it.polimi.ingsw.gc27.Model.Card.StarterCard;
+import it.polimi.ingsw.gc27.Model.Enumerations.CornerSymbol;
+import it.polimi.ingsw.gc27.Model.Enumerations.Kingdom;
+import it.polimi.ingsw.gc27.Model.Enumerations.PawnColour;
 import it.polimi.ingsw.gc27.Game.*;
+import it.polimi.ingsw.gc27.Model.Game.*;
 import it.polimi.ingsw.gc27.View.MyCli;
 import it.polimi.ingsw.gc27.View.ViewCli;
 import org.junit.Before;
@@ -16,7 +17,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static it.polimi.ingsw.gc27.Enumerations.Kingdom.*;
+import static it.polimi.ingsw.gc27.Model.Enumerations.Kingdom.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -512,8 +513,8 @@ void addCardTest7() {
     gc1.addCard(p1, resourceDeck.get(3), resourceDeck.get(3).getBack(), 35, 39);
     assertTrue(p1.getManuscript().getField()[36][38].getCorner(-1, -1).isHidden());
 
-    MyCli view=new MyCli();
-    view.printManuscript(p1.getManuscript());
+    //MyCli view=new MyCli();
+    //view.printManuscript(p1.getManuscript());
 
 
     }

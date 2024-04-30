@@ -1,21 +1,22 @@
-package it.polimi.ingsw.gc27;
+package it.polimi.ingsw.gc27.Controller;
 
-import it.polimi.ingsw.gc27.Controller.GameController;
 import it.polimi.ingsw.gc27.Model.Card.GoldCard;
 import it.polimi.ingsw.gc27.Model.Card.ObjectiveCard.ObjectiveCard;
-import it.polimi.ingsw.gc27.Controller.JsonParser;
-import it.polimi.ingsw.gc27.Model.Enumerations.PawnColour;
 import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
 import it.polimi.ingsw.gc27.Model.Card.StarterCard;
+import it.polimi.ingsw.gc27.Model.Enumerations.PawnColour;
 import it.polimi.ingsw.gc27.Model.Game.*;
+import it.polimi.ingsw.gc27.Net.VirtualView;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ManuscriptTest {
+class GigaControllerTest {
     private static GameController gc1;
     private static Game g1;
     private static Player p1;
@@ -32,6 +33,9 @@ class ManuscriptTest {
     private static ArrayList<GoldCard> goldDeck;
     private static ResourceCard[] faceUpResources;
     private static GoldCard[] faceUpGolds;
+    private Map<String, Boolean> availableUsernames = new HashMap<>();
+
+    private List<GameController> gameControllers = new ArrayList<>();
 
     public  void initializeGame() {
 
@@ -69,6 +73,7 @@ class ManuscriptTest {
         faceUpGolds[1]=goldDeck.get(1);
         market=new Market(resourceDeck, goldDeck, faceUpResources,faceUpGolds );
         g1.setMarket(market);
+        gameControllers.add(gc1);
 
 
         // create game and its controller
@@ -82,63 +87,28 @@ class ManuscriptTest {
         */
     }
 
-
     @Test
-    void isValidPlacementTest() {
+    void userToGameController() {
         initializeGame();
-
-
-
-
-
+        GigaController gigaC=new GigaController();
+        gigaC.setGameControllers(gameControllers);
+        gigaC.userToGameController("Giocatore 1");
 
     }
 
     @Test
-    void satisfiedRequirement() {
+    void welcomePlayer() {
+        initializeGame();initializeGame();
+        GigaController gigaC=new GigaController();
+        gigaC.setGameControllers(gameControllers);
+        //welcomePlayer(new VirtualView());
     }
 
     @Test
-    void getCounterTest() {
-        /*
-        ArrayList<StarterCard> starterDeck = JsonParser.getStarterDeck(JsonParser.cardsJsonObj);
-        ArrayList<ObjectiveCard> objectiveDeck = JsonParser.getObjectiveDeck(JsonParser.cardsJsonObj);
-        ArrayList<ResourceCard> resourceDeck = JsonParser.getResourceDeck(JsonParser.cardsJsonObj);
-
-        ResourceCard resourceCard1= resourceDeck.get(0);
-        ResourceCard resourceCard2= resourceDeck.get(4);
-        ResourceCard resourceCard3= resourceDeck.get(14);
-
-
-        StarterCard starterCard= starterDeck.get(0);
-        ObjectiveCard objectiveCard = objectiveDeck.get(15);
-
-        FrontFace frontface =objectiveCard.getFront();
-        BackFace backface =objectiveCard.getBack();
-
-        Manuscript manuscript=new Manuscript(starterCard.getFront());
-        Game game= new Game();
-        Player player= new Player();
-        /*
-        Face[][] localField = manuscript.getField();
-        localField[41][41]= resourceCard1.getFront();
-        localField[43][43]= resourceCard2.getFront();
-        localField[42][44]= resourceCard3.getFront();
-
-        //player.addCard();
-
-        int count = manuscript.getCounter(CornerSymbol.FUNGIKINGDOM);
-        assertEquals(3,count);
-        */
-
+    void createNewGame() {
     }
 
     @Test
-    void decreaseCounter() {
-    }
-
-    @Test
-    void increaseCounter() {
-
+    void validUsername() {
     }
 }

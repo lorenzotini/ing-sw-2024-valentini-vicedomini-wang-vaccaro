@@ -1,14 +1,16 @@
 package it.polimi.ingsw.gc27.Card.ObjectiveCard;
 
-import it.polimi.ingsw.gc27.Card.GoldCard;
-import it.polimi.ingsw.gc27.Card.ResourceCard;
-import it.polimi.ingsw.gc27.Card.StarterCard;
-import it.polimi.ingsw.gc27.Console;
+import it.polimi.ingsw.gc27.Model.Card.GoldCard;
+import it.polimi.ingsw.gc27.Model.Card.ObjectiveCard.LadderPattern;
+import it.polimi.ingsw.gc27.Model.Card.ObjectiveCard.ObjectiveCard;
+import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
+import it.polimi.ingsw.gc27.Model.Card.StarterCard;
 import it.polimi.ingsw.gc27.Controller.GameController;
 import it.polimi.ingsw.gc27.Controller.JsonParser;
-import it.polimi.ingsw.gc27.Enumerations.Kingdom;
-import it.polimi.ingsw.gc27.Enumerations.PawnColour;
+import it.polimi.ingsw.gc27.Model.Enumerations.Kingdom;
+import it.polimi.ingsw.gc27.Model.Enumerations.PawnColour;
 import it.polimi.ingsw.gc27.Game.*;
+import it.polimi.ingsw.gc27.Model.Game.*;
 import it.polimi.ingsw.gc27.View.ViewCli;
 import org.junit.jupiter.api.Test;
 

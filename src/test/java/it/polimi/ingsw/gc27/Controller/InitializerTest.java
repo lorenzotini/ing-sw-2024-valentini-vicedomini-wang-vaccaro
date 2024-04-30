@@ -1,13 +1,13 @@
 package it.polimi.ingsw.gc27.Controller;
 
-import it.polimi.ingsw.gc27.Card.GoldCard;
-import it.polimi.ingsw.gc27.Card.ObjectiveCard.ObjectiveCard;
-import it.polimi.ingsw.gc27.Card.ResourceCard;
-import it.polimi.ingsw.gc27.Card.StarterCard;
-import it.polimi.ingsw.gc27.Game.Board;
-import it.polimi.ingsw.gc27.Game.Game;
+import it.polimi.ingsw.gc27.Model.Card.GoldCard;
+import it.polimi.ingsw.gc27.Model.Card.ObjectiveCard.ObjectiveCard;
+import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
+import it.polimi.ingsw.gc27.Model.Card.StarterCard;
+import it.polimi.ingsw.gc27.Model.Game.Board;
+import it.polimi.ingsw.gc27.Model.Game.Game;
 import it.polimi.ingsw.gc27.Controller.Initializer;
-import it.polimi.ingsw.gc27.Game.Market;
+import it.polimi.ingsw.gc27.Model.Game.Market;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

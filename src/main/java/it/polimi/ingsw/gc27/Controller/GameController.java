@@ -1,14 +1,19 @@
 package it.polimi.ingsw.gc27.Controller;
 
-import it.polimi.ingsw.gc27.Card.*;
-import it.polimi.ingsw.gc27.Enumerations.PawnColour;
-import it.polimi.ingsw.gc27.Game.Game;
-import it.polimi.ingsw.gc27.Game.Manuscript;
-import it.polimi.ingsw.gc27.Game.Market;
-import it.polimi.ingsw.gc27.Game.Player;
+import it.polimi.ingsw.gc27.Model.Card.*;
+import it.polimi.ingsw.gc27.Model.Card.Face;
+import it.polimi.ingsw.gc27.Model.Card.FrontFace;
+import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
+import it.polimi.ingsw.gc27.Model.Card.StarterCard;
+import it.polimi.ingsw.gc27.Model.Enumerations.PawnColour;
+import it.polimi.ingsw.gc27.Model.Game.Game;
+import it.polimi.ingsw.gc27.Model.Game.Manuscript;
+import it.polimi.ingsw.gc27.Model.Game.Market;
+import it.polimi.ingsw.gc27.Model.Game.Player;
+import it.polimi.ingsw.gc27.Model.States.PlayerStates.PlayerState;
 import it.polimi.ingsw.gc27.Net.VirtualView;
-import it.polimi.ingsw.gc27.States.PlayerStates.DrawingState;
-import it.polimi.ingsw.gc27.States.PlayerStates.InitializingState;
+import it.polimi.ingsw.gc27.Model.States.PlayerStates.DrawingState;
+import it.polimi.ingsw.gc27.Model.States.PlayerStates.InitializingState;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -60,7 +65,8 @@ public class GameController implements Serializable {
      */
     public void addCard(Player player, ResourceCard card, Face face, int x, int y)  {
         if(player.getManuscript().isValidPlacement(x, y) && ((face instanceof FrontFace && player.getManuscript().satisfiedRequirement((ResourceCard) card)) || (face instanceof BackFace))){
-            player.getPlayerState().addCard(this.game, card, face, x, y);
+            player.addCard(this.game, card, face, x, y);
+            //player.getPlayerState().addCard(this.game, card, face, x, y);
 
         }else{
             System.err.println("Error: invalid position");
@@ -68,6 +74,7 @@ public class GameController implements Serializable {
     }
 
     public void addStarterCard(Player player, StarterCard card, Face face){
+        player.setPlayerState(new InitializingState(player, new TurnHandler(game)));
         player.getPlayerState().addStarterCard(this.game, card, face, Manuscript.FIELD_DIM/2, Manuscript.FIELD_DIM/2);
     }
 

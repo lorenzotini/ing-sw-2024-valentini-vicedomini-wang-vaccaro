@@ -1,7 +1,10 @@
 package it.polimi.ingsw.gc27.Card;
 
 import it.polimi.ingsw.gc27.Controller.JsonParser;
-import it.polimi.ingsw.gc27.Enumerations.Kingdom;
+import it.polimi.ingsw.gc27.Model.Card.Corner;
+import it.polimi.ingsw.gc27.Model.Card.Face;
+import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
+import it.polimi.ingsw.gc27.Model.Enumerations.Kingdom;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

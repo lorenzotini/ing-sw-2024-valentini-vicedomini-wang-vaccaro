@@ -1,14 +1,14 @@
 package it.polimi.ingsw.gc27.Game;
 
+import it.polimi.ingsw.gc27.Controller.GameController;
 import it.polimi.ingsw.gc27.Model.Card.Face;
+import it.polimi.ingsw.gc27.Model.Card.GoldCard;
+import it.polimi.ingsw.gc27.Model.Card.ObjectiveCard.ObjectiveCard;
 import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
 import it.polimi.ingsw.gc27.Model.Card.StarterCard;
 import it.polimi.ingsw.gc27.Controller.JsonParser;
 import it.polimi.ingsw.gc27.Model.Enumerations.PawnColour;
-import it.polimi.ingsw.gc27.Model.Game.Board;
-import it.polimi.ingsw.gc27.Model.Game.Game;
-import it.polimi.ingsw.gc27.Model.Game.Manuscript;
-import it.polimi.ingsw.gc27.Model.Game.Player;
+import it.polimi.ingsw.gc27.Model.Game.*;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -16,60 +16,86 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class GameTest {
+    private static GameController gc1;
+    private static Game g1;
+    private static Player p1;
+    private static Player p2;
+    private static Player p3;
+    private static Player p4;
+    private static ArrayList<Player> players1;
 
-    /*@BeforeEach
-    ArrayList<StarterCard> starterDeck = JsonParser.getStarterDeck(JsonParser.cardsJsonObj);
-    ArrayList<ObjectiveCard> objectiveDeck = JsonParser.getObjectiveDeck(JsonParser.cardsJsonObj);
-    ArrayList<ResourceCard> resourceDeck = JsonParser.getResourceDeck(JsonParser.cardsJsonObj);
+    private static Market market;
 
-    ResourceCard resourceCard1= resourceDeck.get(0);
-    ResourceCard resourceCard2= resourceDeck.get(4);
-    ResourceCard resourceCard3= resourceDeck.get(14);
+    private static ArrayList<StarterCard> starterDeck;
+    private static ArrayList<ResourceCard> resourceDeck;
+    private static ArrayList<ObjectiveCard> objectiveDeck;
+    private static ArrayList<GoldCard> goldDeck;
+    private static ResourceCard[] faceUpResources;
+    private static GoldCard[] faceUpGolds;
+
+    public  void initializeGame() {
+
+        players1 = new ArrayList<>();
+        g1 = new Game(1, new Board(), players1);
+        gc1 = new GameController(g1);
 
 
-    StarterCard starterCard= starterDeck.get(1);
-    ObjectiveCard objectiveCard = objectiveDeck.get(15);
+        // generate decks
+        starterDeck = JsonParser.getStarterDeck(JsonParser.cardsJsonObj);
+        resourceDeck = JsonParser.getResourceDeck(JsonParser.cardsJsonObj);
+        objectiveDeck = JsonParser.getObjectiveDeck(JsonParser.cardsJsonObj);
+        goldDeck = JsonParser.getGoldDeck(JsonParser.cardsJsonObj);
 
-    FrontFace frontface =objectiveCard.getFront();
-    BackFace backface =objectiveCard.getBack();
+        // create players and add them to the game.
+        p1 = new Player("Giocatore 1", new Manuscript(), PawnColour.RED);
+        p1.setHand(new ArrayList<ResourceCard>());
+        p2 = new Player("Giocatore 2", new Manuscript(), PawnColour.GREEN);
+        p2.setHand(new ArrayList<ResourceCard>());
+        p3 = new Player("Giocatore 3", new Manuscript(), PawnColour.BLUE);
+        p3.setHand(new ArrayList<ResourceCard>());
+        p4 = new Player("Giocatore 4", new Manuscript(), PawnColour.YELLOW);
+        p4.setHand(new ArrayList<ResourceCard>());
 
-    Manuscript manuscript=new Manuscript(starterCard.getFront());
+        players1.add(p1);
+        players1.add(p2);
+        players1.add(p3);
+        players1.add(p4);
 
-    Face[][] localField = manuscript.getField();
-    localField[41][41]= resourceCard1.getFront();
-    localField[43][43]= resourceCard2.getFront();
-    localField[42][44]= resourceCard3.getFront();*/
+        faceUpResources = new ResourceCard[2];
+        faceUpGolds= new GoldCard[2];
+        faceUpResources[0]= resourceDeck.get(0);
+        faceUpResources[1]= resourceDeck.get(1);
+        faceUpGolds[0]=goldDeck.get(0);
+        faceUpGolds[1]=goldDeck.get(1);
+        market=new Market(resourceDeck, goldDeck, faceUpResources,faceUpGolds );
+        g1.setMarket(market);
+
+
+        // create game and its controller
+
+
+
+        /*
+        Collections.shuffle(resourceDeck);
+        Collections.shuffle(goldDeck);
+        Collections.shuffle(objectiveDeck);
+        */
+    }
 
     @Test
     void addPointsTest() {
-        ArrayList<StarterCard> starterDeck = JsonParser.getStarterDeck(JsonParser.cardsJsonObj);
-        ArrayList<ResourceCard> resourceDeck = JsonParser.getResourceDeck(JsonParser.cardsJsonObj);
-        ResourceCard resourceCard1= resourceDeck.get(0);
-        StarterCard starterCard= starterDeck.get(0);
-        Manuscript manuscript=new Manuscript();
-
-        Game game= new Game();
-        List<Player> players=new ArrayList<>();
-        Board board=new Board();
-        Player p1= new Player();
-        Face[][] field;
-        field = new Face[85][85];
-        p1.setUsername("plauto");
-        p1.setPawnColour(PawnColour.BLUE);
-        board.setPointsBluePlayer(0);
-
-        game.setGameID(23);
-        players.add(p1);
-        game.setPlayers(players);
-        p1.setManuscript(manuscript);
-        game.setBoard(board);
-        p1.getManuscript().setField(field);
-
-        game.addPoints(p1, 1);
-        assertEquals(1, game.getBoard().getPointsBluePlayer());
-        game.addPoints(p1, 3);
-        assertEquals(4,game.getBoard().getPointsBluePlayer());
 
 
+    }
+    @Test
+    void validPawnTest(){
+        initializeGame();
+        assertTrue(g1.validPawn(String.valueOf(PawnColour.BLUE)));
+    }
+
+    @Test
+    void validUsernameTest(){
+        initializeGame();
+        assertTrue(g1.validUsername("Giocatore1"));
     }
 }

@@ -1,10 +1,10 @@
 package it.polimi.ingsw.gc27.Net.Socket;
 
+import it.polimi.ingsw.gc27.CommandParser;
+import it.polimi.ingsw.gc27.Controller.GameController;
 import it.polimi.ingsw.gc27.Controller.GigaController;
 import it.polimi.ingsw.gc27.Model.Card.Face;
 import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
-import it.polimi.ingsw.gc27.CommandParser;
-import it.polimi.ingsw.gc27.Controller.GameController;
 import it.polimi.ingsw.gc27.Model.Card.StarterCard;
 import it.polimi.ingsw.gc27.Model.Game.Manuscript;
 import it.polimi.ingsw.gc27.Model.Game.Player;
@@ -14,7 +14,6 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.rmi.RemoteException;
-import java.util.Queue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -81,7 +80,7 @@ public class ClientHandler implements VirtualView {
                         controller.drawGoldCard(player, commands[1].equals("deck"), (int)commands[2]);
                     }).start();
                     break;
-                case "askstarter":
+                /*case "askstarter":
                     new Thread(()->{
                         try {
                             controller.askStarter(player, this);
@@ -90,7 +89,7 @@ public class ClientHandler implements VirtualView {
                         } catch (InterruptedException e) {
                             throw new RuntimeException(e);
                         }
-                    }).start();
+                    }).start();*/
                 default:
                     client.show("Invalid command");
                     break;
@@ -116,6 +115,11 @@ public class ClientHandler implements VirtualView {
     }
 
     @Override
+    public void showStarter(StarterCard starterCard) throws RemoteException {
+
+    }
+
+    @Override
     public String read() throws IOException, InterruptedException {
         String str ;
         client.read();
@@ -130,10 +134,6 @@ public class ClientHandler implements VirtualView {
         client.setUsername(username);
     }
 
-    @Override
-    public void runCli() throws IOException, RemoteException, InterruptedException {
-
-    }
 
     @Override
     public String getUsername() {

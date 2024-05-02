@@ -3,8 +3,11 @@ package it.polimi.ingsw.gc27.Model.States.PlayerStates;
 import it.polimi.ingsw.gc27.Controller.TurnHandler;
 import it.polimi.ingsw.gc27.Model.Card.Face;
 import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
+import it.polimi.ingsw.gc27.Model.Card.StarterCard;
 import it.polimi.ingsw.gc27.Model.Game.Game;
 import it.polimi.ingsw.gc27.Model.Game.Player;
+
+import java.io.IOException;
 
 public class EndOfTurnState extends PlayerState{
     public EndOfTurnState(Player player, TurnHandler turnHandler) {
@@ -31,6 +34,11 @@ public class EndOfTurnState extends PlayerState{
     @Override
     public void addCard(Game game, ResourceCard resourceCard, Face face, int x, int y) {
 
+    }
+
+    @Override
+    public void addStarterCard(Game game, StarterCard starterCard, Face face) throws IOException, InterruptedException{
+        System.out.println("you already have a starter card\n");
     }
 
 }

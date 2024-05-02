@@ -20,6 +20,11 @@ public class DoublePattern extends ObjectiveCard {
 
         count = manuscript.getCounter(this.cornerSymbol);
 
-        return 2*(count/2);
+        return OBJECTIVE_POINTS*(count/2);
+    }
+
+    @Override
+    public String toString(){
+        return this.getClass().getSimpleName() + "    ";
     }
 }

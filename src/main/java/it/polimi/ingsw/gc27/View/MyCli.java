@@ -2,6 +2,7 @@ package it.polimi.ingsw.gc27.View;
 
 import it.polimi.ingsw.gc27.Controller.JsonParser;
 import it.polimi.ingsw.gc27.Model.Card.*;
+import it.polimi.ingsw.gc27.Model.Card.ObjectiveCard.ObjectiveCard;
 import it.polimi.ingsw.gc27.Model.Game.Manuscript;
 
 import java.util.ArrayList;
@@ -24,8 +25,8 @@ public class MyCli {
         Corner LR = face.getCornerLR();
         Corner LL = face.getCornerLL();
 
-        String colour = face.getColour().toColourControl() + "\u001B[1m";   // colour and bold
-        String reset = "\u001B[0m";
+        String colour = face.getColour().toColourControl() + ColourControl.BOLD;   // colour and bold
+        String reset = ColourControl.RESET;
 
         String first = "";
         String second = "";
@@ -263,60 +264,44 @@ public class MyCli {
 
     // example test
     public static void main(String[] args) {
-
-        Manuscript m = new Manuscript();
-
-        // #0
-        m.getField()[40][40] = starterDeck.get(0).getBack();
-        m.getField()[40][40].getCornerLR().setHidden(true);
-
-        // #1
-        m.getField()[41][41] = resourceDeck.get(20).getBack();
-        m.getField()[41][41].getCornerLR().setHidden(true);
-
-        // #2
-        m.getField()[42][42] = resourceDeck.get(21).getBack();
-        m.getField()[42][42].getCornerLR().setHidden(true);
-
-        // #3
-        m.getField()[43][43] = resourceDeck.get(22).getBack();
-        m.getField()[43][43].getCornerLR().setHidden(true);
-        m.getField()[43][43].getCornerUR().setHidden(true);
-
-        m.getField()[44][42] = resourceDeck.get(23).getBack();
-        m.getField()[44][42].getCornerUR().setHidden(true);
-
-        m.getField()[45][41] = resourceDeck.get(24).getBack();
-
-        // #4
-        m.getField()[44][44] = resourceDeck.get(25).getBack();
-
-        m.setxMin(40);
-        m.setyMin(40);
-        m.setxMax(45);
-        m.setyMax(44);
-
-        System.out.print(MyCli.printManuscript(m));
+        ArrayList<ObjectiveCard> objectiveDeck = JsonParser.getObjectiveDeck(JsonParser.cardsJsonObj);
+        System.out.println(showObjective(objectiveDeck.get(0), objectiveDeck.get(5)));
     }
+
     public static String showFace(Face face){
 
-            Corner UR = face.getCornerUR();
-            Corner UL = face.getCornerUL();
-            Corner LR = face.getCornerLR();
-            Corner LL = face.getCornerLL();
+        Corner UR = face.getCornerUR();
+        Corner UL = face.getCornerUL();
+        Corner LR = face.getCornerLR();
+        Corner LL = face.getCornerLL();
 
-            String colour = face.getColour().toColourControl() + "\u001B[1m";   // colour and bold
-            String reset = "\u001B[0m";
-            String first = colour + "╭-----------------╮" + reset;
-            String second = colour + "|" + UL.getSymbol().toCliString() + "               " + UR.getSymbol().toCliString() + colour + "|" + reset;
-            String third = colour + "|" + MyCli.constructString(face.getPermanentResources().stream().map(o -> o.toCornerSymbol().toCliString()).collect(Collectors.toCollection(ArrayList::new))) + colour + "|" + reset;
-            String fourth = colour + "|" + LL.getSymbol().toCliString() + "               " + LR.getSymbol().toCliString() + colour + colour + "|" + reset;
-            String fifth = colour + "╰-----------------╯" + reset;
+        String colour = face.getColour().toColourControl() + ColourControl.BOLD;   // colour and bold
+        String reset = ColourControl.RESET;
+
+        String first = colour + "╭-----------------╮" + reset;
+        String second = colour + "|" + UL.getSymbol().toCliString() + "               " + UR.getSymbol().toCliString() + colour + "|" + reset;
+        String third = colour + "|" + MyCli.constructString(face.getPermanentResources().stream().map(o -> o.toCornerSymbol().toCliString()).collect(Collectors.toCollection(ArrayList::new))) + colour + "|" + reset;
+        String fourth = colour + "|" + LL.getSymbol().toCliString() + "               " + LR.getSymbol().toCliString() + colour + colour + "|" + reset;
+        String fifth = colour + "╰-----------------╯" + reset;
+
         return (first + "\n" + second +"\n" + third+"\n"+ fourth+"\n"+fifth);
+
     }
+
     public static String showStarter(StarterCard card ){
         return ("Starter Front:"+"\n"+ showFace(card.getFront( )) +("\nStarter Back:")+"\n"+showFace(card.getBack()));
 
+    }
+
+    public static String showObjective(ObjectiveCard o1, ObjectiveCard o2){
+
+        String first = "╭-----------------╮    ╭-----------------╮";
+        String second = "| Points: " + o1.getObjPointsMap().get(o1.getClass()) + "       |    " + "| Points: " + o2.getObjPointsMap().get(o2.getClass()) + "       |";
+        String third = "|" + o1 + "|  "+"  |" + o2 + "|";
+        String fourth = "|                 |    |                 |";
+        String fifth =  "╰-----------------╯    ╰-----------------╯";
+
+        return (first + "\n" + second +"\n" + third+"\n"+ fourth+"\n"+fifth);
     }
 
 }

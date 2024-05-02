@@ -38,7 +38,7 @@ class MyCliTest {
         m.setxMax(40);
         m.setyMax(43);
 
-        MyCli.printManuscript(m);
+        System.out.print(MyCli.printManuscript(m));
     }
     @Test
     void printManuscript2() {
@@ -75,7 +75,7 @@ class MyCliTest {
         m.setyMax(44);
 
 
-        MyCli.printManuscript(m);
+        System.out.print(MyCli.printManuscript(m));
     }
     @Test
     void printManuscript3() {
@@ -98,7 +98,7 @@ class MyCliTest {
         m.setyMax(42);
 
 
-        MyCli.printManuscript(m);
+        System.out.print(MyCli.printManuscript(m));
     }
     @Test
     void printManuscript4() {
@@ -155,7 +155,7 @@ class MyCliTest {
         m.setxMax(42);
         m.setyMax(43);
 
-        MyCli.printManuscript(m);
+        System.out.print(MyCli.printManuscript(m));
     }
     @Test
     void printManuscript5() {
@@ -186,7 +186,7 @@ class MyCliTest {
         m.setxMax(44);
         m.setyMax(44);
 
-        MyCli.printManuscript(m);
+        System.out.print(MyCli.printManuscript(m));
     }
     @Test
     void printManuscript6() {
@@ -223,7 +223,7 @@ class MyCliTest {
         m.setxMax(45);
         m.setyMax(44);
 
-        MyCli.printManuscript(m);
+        System.out.print(MyCli.printManuscript(m));
     }
     @Test
     void printManuscript7() {
@@ -255,7 +255,7 @@ class MyCliTest {
         m.setxMax(45);
         m.setyMax(44);
 
-        MyCli.printManuscript(m);
+        System.out.print(MyCli.printManuscript(m));
     }
     @Test
     void printManuscript8() {
@@ -290,7 +290,7 @@ class MyCliTest {
         m.setxMax(45);
         m.setyMax(44);
 
-        MyCli.printManuscript(m);
+        System.out.print(MyCli.printManuscript(m));
 
     }
 }

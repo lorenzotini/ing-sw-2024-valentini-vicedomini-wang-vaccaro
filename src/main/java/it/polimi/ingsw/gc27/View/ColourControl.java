@@ -2,9 +2,14 @@ package it.polimi.ingsw.gc27.View;
 
 public class ColourControl {
 
+    // TODO : penso abbia senso renderla una enum al posto di una classe
     //how to use ---> ex. type : "ColourControl.RED"
     // Reset
     public static final String RESET = "\033[0m";  // Text Reset
+    public static final String BOLD = "\u001B[1m";
+    public static final String UNDERLINE = "\u001B[4m";
+    public static final String INVERTEDCOLOURS = "\u001B[7m";
+    public static final String BACKGRNDCOLOUR = "\u001B[4Xm"; // (replace X with the color code) background color
 
     // Regular Colors
     public static final String BLACK = "\033[0;30m";   // BLACK

@@ -62,11 +62,16 @@ public class LadderPattern extends ObjectiveCard {
     private int getPoints(int[][] checked, int points, int up, Face[][] field, int i, int j) {
         if(field[i + (1 * up)][j + 1] != null && field[i + (2 * up)][j + 2] != null) {
             if (field[i + (1 * up)][j + 1].getColour().equals(this.kingdom) && field[i + (2 * up)][j + 2].getColour().equals(this.kingdom)) {
-                points = points + 2;
+                points = points + OBJECTIVE_POINTS;
                 checked[i + (1 * up)][j + 1] = 1;
                 checked[i + (2 * up)][j + 2] = 1;
             }
         }
         return points;
+    }
+
+    @Override
+    public String toString(){
+        return this.getClass().getSimpleName() + "    ";
     }
 }

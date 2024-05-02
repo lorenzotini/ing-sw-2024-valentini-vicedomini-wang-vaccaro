@@ -3,9 +3,9 @@ package it.polimi.ingsw.gc27.Model.States.PlayerStates;
 import it.polimi.ingsw.gc27.Controller.TurnHandler;
 import it.polimi.ingsw.gc27.Model.Card.Face;
 import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
+import it.polimi.ingsw.gc27.Model.Card.StarterCard;
 import it.polimi.ingsw.gc27.Model.Game.Game;
 import it.polimi.ingsw.gc27.Model.Game.Player;
-import it.polimi.ingsw.gc27.Net.VirtualView;
 
 import java.io.IOException;
 
@@ -30,9 +30,10 @@ public class ChooseObjectiveState extends PlayerState{
     }
 
     @Override
-    public void askStarterCard(Game game, Player player, VirtualView client) throws IOException, InterruptedException {
-        System.out.println("You have to choose an objective card first\n");
+    public void addStarterCard(Game game, StarterCard starterCard, Face face) throws IOException, InterruptedException{
+        System.out.println("you already have a starter card\n");
     }
+
     @Override
     public void chooseObjectiveCard(Game game, int objectiveCardIndex) {
         if(objectiveCardIndex == 0){

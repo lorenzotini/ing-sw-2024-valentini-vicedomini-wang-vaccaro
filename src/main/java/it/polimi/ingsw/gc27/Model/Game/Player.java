@@ -5,7 +5,7 @@ import it.polimi.ingsw.gc27.Model.Card.ObjectiveCard.ObjectiveCard;
 import it.polimi.ingsw.gc27.Model.Enumerations.Kingdom;
 import it.polimi.ingsw.gc27.Model.Enumerations.PawnColour;
 import it.polimi.ingsw.gc27.Model.Enumerations.PointsMultiplier;
-import it.polimi.ingsw.gc27.Model.States.PlayerStates.PlayerState;
+import it.polimi.ingsw.gc27.Model.States.PlayerState;
 
 import java.io.Serializable;
 import java.util.ArrayList;

@@ -1,24 +1,17 @@
 package it.polimi.ingsw.gc27.Controller;
 
-import it.polimi.ingsw.gc27.Model.Card.*;
 import it.polimi.ingsw.gc27.Model.Card.Face;
-import it.polimi.ingsw.gc27.Model.Card.FrontFace;
 import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
-import it.polimi.ingsw.gc27.Model.Card.StarterCard;
 import it.polimi.ingsw.gc27.Model.Enumerations.PawnColour;
 import it.polimi.ingsw.gc27.Model.Game.Game;
 import it.polimi.ingsw.gc27.Model.Game.Manuscript;
-import it.polimi.ingsw.gc27.Model.Game.Market;
 import it.polimi.ingsw.gc27.Model.Game.Player;
-import it.polimi.ingsw.gc27.Model.States.PlayerStates.PlayerState;
 import it.polimi.ingsw.gc27.Net.VirtualView;
-import it.polimi.ingsw.gc27.Model.States.PlayerStates.DrawingState;
-import it.polimi.ingsw.gc27.Model.States.PlayerStates.InitializingState;
+import it.polimi.ingsw.gc27.Model.States.InitializingState;
 
 import java.io.IOException;
 import java.io.Serializable;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
 
 public class GameController implements Serializable {
 

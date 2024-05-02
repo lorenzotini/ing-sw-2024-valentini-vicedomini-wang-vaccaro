@@ -1,4 +1,4 @@
-package it.polimi.ingsw.gc27.Model.States.PlayerStates;
+package it.polimi.ingsw.gc27.Model.States;
 
 import it.polimi.ingsw.gc27.Model.Card.*;
 import it.polimi.ingsw.gc27.Controller.TurnHandler;

@@ -2,7 +2,7 @@ package it.polimi.ingsw.gc27.Controller;
 
 import it.polimi.ingsw.gc27.Model.Game.Game;
 import it.polimi.ingsw.gc27.Model.Game.Player;
-import it.polimi.ingsw.gc27.Model.States.PlayerStates.*;
+import it.polimi.ingsw.gc27.Model.States.*;
 
 public class TurnHandler {
     private Game game;

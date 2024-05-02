@@ -1,11 +1,9 @@
 package it.polimi.ingsw.gc27.Net.Socket;
 
-import it.polimi.ingsw.gc27.Controller.GameController;
 import it.polimi.ingsw.gc27.Model.Card.StarterCard;
 import it.polimi.ingsw.gc27.Model.Game.Manuscript;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -51,6 +49,11 @@ public class SocketClientProxy implements VirtualView {
     public void showManuscript(Manuscript manuscript) throws RemoteException {
         output.println("send Manuscript"+ manuscript);
         output.flush();
+    }
+
+    @Override
+    public void showStarter(StarterCard starterCard) throws RemoteException {
+
     }
 
     @Override

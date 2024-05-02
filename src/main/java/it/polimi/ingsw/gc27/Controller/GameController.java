@@ -2,12 +2,13 @@ package it.polimi.ingsw.gc27.Controller;
 
 import it.polimi.ingsw.gc27.Model.Card.Face;
 import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
+import it.polimi.ingsw.gc27.Model.Card.StarterCard;
 import it.polimi.ingsw.gc27.Model.Enumerations.PawnColour;
 import it.polimi.ingsw.gc27.Model.Game.Game;
 import it.polimi.ingsw.gc27.Model.Game.Manuscript;
 import it.polimi.ingsw.gc27.Model.Game.Player;
-import it.polimi.ingsw.gc27.Net.VirtualView;
 import it.polimi.ingsw.gc27.Model.States.InitializingState;
+import it.polimi.ingsw.gc27.Net.VirtualView;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -43,6 +44,7 @@ public class GameController implements Serializable {
     public void setGame(Game game) {
         this.game = game;
     }
+
     public int getId() {
         return id;
     }
@@ -60,11 +62,6 @@ public class GameController implements Serializable {
         player.getPlayerState().addCard(this.game, card, face, x, y);
     }
 
-    public void addStarterCard(Player player, VirtualView client) throws IOException, InterruptedException {
-        player.getPlayerState().askStarterCard(this.game, player, client);
-    }
-
-
     // TODO: I DUE METODI SONO UGUALI, MAGARI CI PUO' ANDARE UN DESIGN PATTERN
     public void drawResourceCard(Player player, boolean fromDeck, int faceUpCardIndex){
         player.getPlayerState().drawResourceCard(player, fromDeck, faceUpCardIndex, this.game);
@@ -76,6 +73,10 @@ public class GameController implements Serializable {
 
     public void chooseObjectiveCard(Player player, int objectiveCardIndex){
         player.getPlayerState().chooseObjectiveCard(this.game, objectiveCardIndex);
+    }
+
+    public void addStarterCard(Player player, StarterCard starter, Face face) throws IOException, InterruptedException {
+        player.getPlayerState().addStarterCard(this.game, starter, face);
     }
 
     // Create a player from command line, but hand, secret objective and starter are not instantiated
@@ -91,7 +92,6 @@ public class GameController implements Serializable {
         }while(!gigaChad.validUsername(username, client));
         client.setUsername(username);
 
-
         // Ask for the pawn color
         synchronized (game.getAvailablePawns()){
             do {
@@ -106,6 +106,9 @@ public class GameController implements Serializable {
 
 
         Player p = new Player(username, manuscript, PawnColour.fromStringToPawnColour(pawnColor));
+
+        StarterCard starterCard = this.game.getStarterDeck().removeFirst();
+        p.setStarterCard(starterCard);
 
         // Add the player to the game
         game.getPlayers().add(p);
@@ -127,9 +130,7 @@ public class GameController implements Serializable {
         }
 
         return p;
-    }
-    public void askStarter(Player player, VirtualView client) throws IOException, InterruptedException {
-        this.addStarterCard(player, client);
+
     }
 
 }

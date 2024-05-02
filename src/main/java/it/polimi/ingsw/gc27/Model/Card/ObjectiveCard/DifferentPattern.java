@@ -6,11 +6,11 @@ import it.polimi.ingsw.gc27.Model.Enumerations.CornerSymbol;
 import it.polimi.ingsw.gc27.Model.Game.Manuscript;
 
 public class DifferentPattern extends ObjectiveCard {
+
     public final int OBJECTIVE_POINTS = 3;
     public DifferentPattern(int id, FrontFace front, BackFace back) {
         super(id, front, back);
     }
-
 
     @Override
     public int calculateObjectivePoints(Manuscript manuscript) {
@@ -30,7 +30,12 @@ public class DifferentPattern extends ObjectiveCard {
         if(count<=min) {
             min = count;
         }
-        points = 3*min;
+        points = OBJECTIVE_POINTS*min;
         return points;
+    }
+
+    @Override
+    public String toString(){
+        return this.getClass().getSimpleName() + " ";
     }
 }

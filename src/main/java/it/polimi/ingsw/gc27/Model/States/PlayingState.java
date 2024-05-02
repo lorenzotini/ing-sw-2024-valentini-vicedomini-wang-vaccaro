@@ -1,10 +1,9 @@
 package it.polimi.ingsw.gc27.Model.States;
 
-import it.polimi.ingsw.gc27.Model.Card.*;
 import it.polimi.ingsw.gc27.Controller.TurnHandler;
+import it.polimi.ingsw.gc27.Model.Card.*;
 import it.polimi.ingsw.gc27.Model.Game.Game;
 import it.polimi.ingsw.gc27.Model.Game.Player;
-import it.polimi.ingsw.gc27.Net.VirtualView;
 
 import java.io.IOException;
 
@@ -43,7 +42,7 @@ public class PlayingState extends PlayerState {
     }
 
     @Override
-    public void askStarterCard(Game game, Player player, VirtualView client) throws IOException, InterruptedException{
+    public void addStarterCard(Game game, StarterCard starterCard, Face face) throws IOException, InterruptedException{
         System.out.println("you already have a starter card\n");
     }
 

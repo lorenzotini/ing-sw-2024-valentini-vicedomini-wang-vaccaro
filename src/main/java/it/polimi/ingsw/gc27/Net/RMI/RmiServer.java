@@ -3,6 +3,7 @@ package it.polimi.ingsw.gc27.Net.RMI;
 import it.polimi.ingsw.gc27.Controller.GigaController;
 import it.polimi.ingsw.gc27.Model.Card.Face;
 import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
+import it.polimi.ingsw.gc27.Model.Card.StarterCard;
 import it.polimi.ingsw.gc27.Model.Game.Player;
 import it.polimi.ingsw.gc27.Net.VirtualServer;
 import it.polimi.ingsw.gc27.Net.VirtualView;
@@ -20,10 +21,10 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class RmiServer implements VirtualServer {
 
     final static int DEFAULT_PORT_NUMBER = 1234;
-    //private ArrayList<GameController> controllersList;
     private List<VirtualView> clients = new ArrayList<>();    //clients of different games
     final BlockingQueue<String> updates = new LinkedBlockingQueue<>();
     private GigaController console;
+
     public RmiServer(GigaController controller) {
         this.console = controller;
     }
@@ -36,11 +37,13 @@ public class RmiServer implements VirtualServer {
         System.err.println("new client connected");
     }
 
-    public void askStarter(String playerName) throws IOException, InterruptedException {
-
+    public void addStarter(String playerName, boolean isFront) throws IOException, InterruptedException {
         Player player = this.console.getPlayer(playerName);
-        this.console.userToGameController(playerName).askStarter(player, console.getView(playerName));
+        StarterCard starter = player.getStarterCard();
+        Face face = isFront ? starter.getFront() : starter.getBack();
+        this.console.userToGameController(playerName).addStarterCard(player, starter,face);
     }
+
     @Override
     public void addCard(String playerName, int handCardIndex, boolean isFrontFace, int x, int y) throws RemoteException {
         Player player = this.console.getPlayer(playerName);
@@ -55,6 +58,7 @@ public class RmiServer implements VirtualServer {
         }catch (InterruptedException e){
             throw new RuntimeException(e);
         }
+
     }
     @Override
     public void drawResourceCard(String playerName, boolean fromDeck, int faceUpCardIndex) throws RemoteException {
@@ -90,7 +94,6 @@ public class RmiServer implements VirtualServer {
         }catch (InterruptedException e){
             throw new RuntimeException(e);
         }*/
-
     }
     private void broadcastUpdateThread() throws InterruptedException, RemoteException {
         while(true){

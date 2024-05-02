@@ -47,7 +47,7 @@ public class TwoPlusOnePattern extends ObjectiveCard {
                         if (field[i][j].getColour().equals(this.firstColour) && i >=1 && j <= (field_dim - 4) && checked[i][j] == 0) {
                             if(field[i - 1][j + 1] != null && field[i - 1][j + 3] != null) {
                                 if (field[i - 1][j + 1].getColour().equals(this.secondColour) && field[i - 1][j + 3].getColour().equals(this.secondColour)) {
-                                    points = points + 3;
+                                    points = points + OBJECTIVE_POINTS;
                                     checked[i - 1][j + 1] = 1;
                                     checked[i - 1][j + 3] = 1;
                                 }
@@ -57,7 +57,7 @@ public class TwoPlusOnePattern extends ObjectiveCard {
                         if (field[i][j].getColour().equals(this.firstColour) && i <= (field_dim-2) && j <= (field_dim - 4) && checked[i][j] == 0) {
                             if(field[i][j + 2] != null && field[i + 1][j + 3]!= null){
                                 if (field[i][j + 2].getColour().equals(this.firstColour) && field[i + 1][j + 3].getColour().equals(this.secondColour)) {
-                                    points = points + 3;
+                                    points = points + OBJECTIVE_POINTS;
                                     checked[i][j + 2] = 1;
                                     checked[i + 1][j + 3] = 1;
                                 }
@@ -67,7 +67,7 @@ public class TwoPlusOnePattern extends ObjectiveCard {
                         if (field[i][j].getColour().equals(this.firstColour) && i <= (field_dim-2) && j <= (field_dim -4) && checked[i][j] == 0) {
                             if(field[i + 1][j + 1]!= null && field[i + 1][j + 3]!= null) {
                                 if (field[i + 1][j + 1].getColour().equals(this.secondColour) && field[i + 1][j + 3].getColour().equals(this.secondColour)) {
-                                    points = points + 3;
+                                    points = points + OBJECTIVE_POINTS;
                                     checked[i + 1][j + 1] = 1;
                                     checked[i + 1][j + 3] = 1;
                                 }
@@ -77,7 +77,7 @@ public class TwoPlusOnePattern extends ObjectiveCard {
                         if (field[i][j].getColour().equals(this.firstColour) && i >=1 && j <= (field_dim - 4) && checked[i][j] == 0) {
                             if(field[i][j + 2]!= null && field[i -1][j + 3]!= null){
                                 if (field[i][j + 2].getColour().equals(this.firstColour) && field[i -1][j + 3].getColour().equals(this.secondColour)) {
-                                    points = points + 3;
+                                    points = points + OBJECTIVE_POINTS;
                                     checked[i][j + 2] = 1;
                                     checked[i - 1][j + 3] = 1;
                                 }
@@ -90,5 +90,10 @@ public class TwoPlusOnePattern extends ObjectiveCard {
         }
 
         return points;
+    }
+
+    @Override
+    public String toString(){
+        return this.getClass().getSimpleName();
     }
 }

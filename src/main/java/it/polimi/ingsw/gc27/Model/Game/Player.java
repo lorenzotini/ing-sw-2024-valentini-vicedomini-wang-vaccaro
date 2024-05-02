@@ -16,6 +16,7 @@ public class Player implements Serializable {
     private Manuscript manuscript;
     private PawnColour pawnColour;
     private ArrayList<ObjectiveCard> secretObjectives;
+    private StarterCard starterCard;
     private PlayerState playerState;
 
 
@@ -63,8 +64,17 @@ public class Player implements Serializable {
     public ArrayList<ResourceCard> getHand() {
         return hand;
     }
+
     public void setHand(ArrayList<ResourceCard> hand) {
         this.hand = hand;
+    }
+
+    public void setStarterCard(StarterCard starterCard) {
+        this.starterCard = starterCard;
+    }
+
+    public StarterCard getStarterCard() {
+        return starterCard;
     }
 
     /**
@@ -166,4 +176,6 @@ public class Player implements Serializable {
         }
     }
 
+    public void setSecretObjectives(ArrayList<ObjectiveCard> secretObjectives) {
+    }
 }

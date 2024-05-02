@@ -71,7 +71,7 @@ public class SocketServerProxy implements VirtualServer {
                 case "runCli":
                     new Thread(() -> {
                         try {
-                            client.runCli();
+                            //client.runCli();
                         } catch (Exception e) {
                             throw new RuntimeException(e);
                         }
@@ -137,6 +137,12 @@ public class SocketServerProxy implements VirtualServer {
         output.println("welcomeplayer");
         output.flush();
     }
+
+    @Override
+    public void addStarter(String playerName, boolean isFront) throws IOException, InterruptedException {
+
+    }
+
     public void sendData(String s){
         output.println(s);
         output.flush();

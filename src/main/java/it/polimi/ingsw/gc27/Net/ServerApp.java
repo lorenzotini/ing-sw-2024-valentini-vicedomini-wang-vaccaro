@@ -14,8 +14,6 @@ public class ServerApp {
     private SocketServer socketServer;
     private RmiServer rmiServer;
 
-
-
     public static void main(String[] args) throws IOException, InterruptedException {
 
         ServerApp serverApp = new ServerApp();
@@ -31,7 +29,6 @@ public class ServerApp {
             }
         }).start();
         serverApp.socketServer.runServer();
-
 
     }
 }

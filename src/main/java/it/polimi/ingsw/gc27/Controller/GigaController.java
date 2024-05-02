@@ -12,15 +12,15 @@ import java.util.Map;
 
 public class GigaController {
 
-    private Map<String, VirtualView> registeredUsernames = new HashMap<>();
+    private final Map<String, VirtualView> registeredUsernames = new HashMap<>();
 
 
 
-    private List<GameController> gameControllers = new ArrayList<>();
+    private final List<GameController> gameControllers = new ArrayList<>();
 
     public List<GameController> getGameControllers() {return gameControllers;}
 
-    public void setGameControllers(List<GameController> gameControllers) {this.gameControllers = gameControllers;}
+    //public void setGameControllers(List<GameController> gameControllers) {this.gameControllers = gameControllers;}
 
     public GameController userToGameController(String username){
         for(var c : gameControllers){
@@ -109,6 +109,7 @@ public class GigaController {
     public VirtualView getView(String user){
         return registeredUsernames.get(user);
     }
+
     public Player getPlayer(String username){
         return this.userToGameController(username).getGame().getPlayer(username);
     }

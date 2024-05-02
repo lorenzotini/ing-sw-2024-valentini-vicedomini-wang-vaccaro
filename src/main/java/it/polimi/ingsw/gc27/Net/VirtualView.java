@@ -12,13 +12,15 @@ public interface VirtualView extends Remote {
     void showUpdate(String update) throws RemoteException;
 
     void show(String s) throws RemoteException;
+
     void showManuscript(Manuscript manuscript) throws RemoteException;
+
+    void showStarter(StarterCard starterCard) throws RemoteException;
 
     String read() throws RemoteException, IOException, InterruptedException;
 
     void setUsername(String username)throws RemoteException;
 
-    void runCli() throws IOException, RemoteException, InterruptedException;
     String getUsername() throws IOException, RemoteException, InterruptedException;
 
 }

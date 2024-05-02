@@ -6,6 +6,8 @@ import java.rmi.RemoteException;
 
 public interface VirtualServer extends Remote{
 
+    int DEFAULT_PORT_NUMBER = 1234;
+
     void connect(VirtualView client) throws RemoteException;
 
     void addCard(String playerName, int handCardIndex, boolean isFrontFace, int x, int y) throws RemoteException;

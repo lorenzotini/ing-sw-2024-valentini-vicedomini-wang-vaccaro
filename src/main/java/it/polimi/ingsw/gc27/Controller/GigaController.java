@@ -14,8 +14,6 @@ public class GigaController {
 
     private final Map<String, VirtualView> registeredUsernames = new HashMap<>();
 
-
-
     private final List<GameController> gameControllers = new ArrayList<>();
 
     public List<GameController> getGameControllers() {return gameControllers;}

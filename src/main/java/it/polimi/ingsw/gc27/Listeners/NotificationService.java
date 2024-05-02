@@ -4,20 +4,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NotificationService {
-    private final List<EmailMsgListeners> customers;
+    private final List<ModelListener> listeners;
 
     public NotificationService() {
-        this.customers = new ArrayList<>();
+        this.listeners = new ArrayList<>();
     }
 
-    public void subscribe(EmailMsgListeners listener) {
-        customers.add(listener);
+    public void addListener(ModelListener listener) {
+        listeners.add(listener);
     }
-    public void unsubscribe(EmailMsgListeners listener) {
-        customers.remove(listener);
+    public void removeListener(ModelListener listener) {
+        listeners.remove(listener);
     }
 
     public void updateAll() {
-        customers.forEach(listener -> listener.update());
+        listeners.forEach(listener -> listener.update());
     }
 }

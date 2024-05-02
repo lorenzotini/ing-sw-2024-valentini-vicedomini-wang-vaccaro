@@ -1,5 +1,5 @@
 package it.polimi.ingsw.gc27.Listeners;
 
-public interface EventListener {
+public interface Listener {
     void update();
 }

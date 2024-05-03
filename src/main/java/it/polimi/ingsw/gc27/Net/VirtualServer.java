@@ -20,4 +20,6 @@ public interface VirtualServer extends Remote{
 
     void addStarter(String playerName, boolean isFront) throws IOException, InterruptedException;
 
+    //void chooseObjective(String playerName, int objectiveIndex) throws IOException, InterruptedException;
+
 }

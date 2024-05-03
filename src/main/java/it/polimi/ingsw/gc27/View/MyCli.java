@@ -265,7 +265,12 @@ public class MyCli {
     // example test
     public static void main(String[] args) {
         ArrayList<ObjectiveCard> objectiveDeck = JsonParser.getObjectiveDeck(JsonParser.cardsJsonObj);
-        System.out.println(showObjective(objectiveDeck.get(0), objectiveDeck.get(5)));
+        ObjectiveCard o1 = objectiveDeck.get(0);
+        ObjectiveCard o2 = objectiveDeck.get(1);
+        ArrayList<ObjectiveCard> secretObjectives = new ArrayList<>();
+        secretObjectives.add(o1);
+        secretObjectives.add(o2);
+        System.out.println(showObjective(secretObjectives));
     }
 
     public static String showFace(Face face){
@@ -293,7 +298,10 @@ public class MyCli {
 
     }
 
-    public static String showObjective(ObjectiveCard o1, ObjectiveCard o2){
+    public static String showObjective(ArrayList<ObjectiveCard> secretObjectives){
+
+        ObjectiveCard o1 = secretObjectives.get(0);
+        ObjectiveCard o2 = secretObjectives.get(1);
 
         String first = "╭-----------------╮    ╭-----------------╮";
         String second = "| Points: " + o1.getObjPointsMap().get(o1.getClass()) + "       |    " + "| Points: " + o2.getObjPointsMap().get(o2.getClass()) + "       |";

@@ -17,6 +17,8 @@ public interface VirtualView extends Remote {
 
     void showStarter(StarterCard starterCard) throws RemoteException;
 
+    //void showObjectives(ArrayList<ObjectiveCard> secretObjectives) throws RemoteException;
+
     String read() throws RemoteException, IOException, InterruptedException;
 
     void setUsername(String username)throws RemoteException;

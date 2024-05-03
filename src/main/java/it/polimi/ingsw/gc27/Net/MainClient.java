@@ -14,7 +14,6 @@ public class MainClient  {
 
         Scanner scan = new Scanner(System.in);
         int connectionChoice;
-        int port;
 
         System.out.println("Welcome to the game CODEX NATURALIS!");
 
@@ -25,7 +24,7 @@ public class MainClient  {
                 connectionChoice = scan.nextInt();
                 if(connectionChoice == 0 || connectionChoice == 1) {
                     break;
-                } else{
+                } else {
                     System.out.println("Invalid number, insert new value");
                 }
             } catch (InputMismatchException  e) {
@@ -37,37 +36,18 @@ public class MainClient  {
         }
 
         // TODO definire un controllo sul formato dell'ip
-        // Ask for port number
+        // Ask for ip addess
         System.out.println("\nEnter the IP address of the server you want to connect to (press Enter for default):");
         String ipAddress = scan.nextLine();
         if(ipAddress.isEmpty()){
             ipAddress = "localhost";
         }
 
-        // Ask for port number
-        System.out.println("\nEnter the port number of the server you want to connect to (enter 0 for default):");
-        while(true){
-            try {
-                port = scan.nextInt();
-                if((port > 1024 && port < 65536) || port == 0) {
-                    port = (port == 0 ? VirtualServer.DEFAULT_PORT_NUMBER : port);
-                    break;
-                } else{
-                    System.out.println("Invalid number, insert new value");
-                }
-            } catch (InputMismatchException  e) {
-                System.out.println("Invalid input. Please enter an integer.");
-            } finally {
-                // Consume the invalid input to clear the scanner's buffer
-                scan.nextLine();
-            }
-        }
-
         // Run the client
         if(connectionChoice == 0){
-            new RmiClient(ipAddress, port).run();
+            new RmiClient(ipAddress, VirtualServer.DEFAULT_PORT_NUMBER).run();
         } else {
-            new SocketClient(ipAddress,port).run();
+            new SocketClient(ipAddress, VirtualServer.DEFAULT_PORT_NUMBER).run();
         }
 
     }

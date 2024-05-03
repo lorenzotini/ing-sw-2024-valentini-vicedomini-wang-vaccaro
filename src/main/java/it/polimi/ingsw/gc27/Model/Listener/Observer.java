@@ -1,14 +1,12 @@
 package it.polimi.ingsw.gc27.Model.Listener;
 
-import it.polimi.ingsw.gc27.Net.VirtualView;
+import it.polimi.ingsw.gc27.Model.Game.Player;
 
 import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.Objects;
 
-public abstract class Observer {
-    protected Observable obj;
+public interface Observer {
 
-    public abstract void update(Observable o ) throws RemoteException;
+
+    public abstract void update(Observable o );
 
 }

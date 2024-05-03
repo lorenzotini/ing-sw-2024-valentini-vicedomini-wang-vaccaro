@@ -1,12 +1,13 @@
 package it.polimi.ingsw.gc27.Model.Listener;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public abstract class Observable {
     protected ArrayList<Observer> observers;
     protected boolean isChanged = false;
-    void addObserver(Observer o) {
+
+    public Observable() {observers = new ArrayList<>();}
+    protected void addObserver(Observer o) {
         observers.add(o);
     }
     void deleteObserver(Observer o){
@@ -16,11 +17,11 @@ public abstract class Observable {
         return isChanged;
     }
     public void notifyObservers(){
-    /*
+
         for(Observer o : observers){
             o.update(this);
         }
-        clearChanged();*/
+        //clearChanged();
     }
     void setChanged(){
         this.isChanged = true;

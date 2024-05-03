@@ -15,6 +15,7 @@ import org.junit.Before;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import static it.polimi.ingsw.gc27.Model.Enumerations.Kingdom.*;
@@ -90,7 +91,7 @@ class GameControllerTest {
     }
 
     @Test
-    void addCardTest1() {
+    void addCardTest1() throws IOException, InterruptedException {
         initializeGame();
         gc1.addStarterCard(p1, starterDeck.get(2), starterDeck.get(2).getBack());
 

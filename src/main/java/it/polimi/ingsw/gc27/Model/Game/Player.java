@@ -5,12 +5,14 @@ import it.polimi.ingsw.gc27.Model.Card.ObjectiveCard.ObjectiveCard;
 import it.polimi.ingsw.gc27.Model.Enumerations.Kingdom;
 import it.polimi.ingsw.gc27.Model.Enumerations.PawnColour;
 import it.polimi.ingsw.gc27.Model.Enumerations.PointsMultiplier;
+import it.polimi.ingsw.gc27.Model.Listener.Observable;
+import it.polimi.ingsw.gc27.Model.Listener.ObservableClass;
 import it.polimi.ingsw.gc27.Model.States.PlayerState;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Player implements Serializable {
+public class Player extends Observable implements Serializable {
     private final String username;
     private ArrayList<ResourceCard> hand;
     private Manuscript manuscript;
@@ -21,13 +23,18 @@ public class Player implements Serializable {
 
 
 
+
+
     public Player(String username, Manuscript manuscript, PawnColour pawnColour) {
         this.username = username;
         this.manuscript = manuscript;
         this.pawnColour = pawnColour;
         this.hand = new ArrayList<>();
+        notifyObservers();
         // TODO this.playerState = new InitializingState();
     }
+
+
     /*public Player() {
         hand = new ArrayList<>(3);
     }*/
@@ -174,6 +181,7 @@ public class Player implements Serializable {
             }
             game.addPoints(this, points);
         }
+        notifyObservers();
     }
 
     public void setSecretObjectives(ArrayList<ObjectiveCard> secretObjectives) {

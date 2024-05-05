@@ -7,6 +7,8 @@ import it.polimi.ingsw.gc27.Model.Enumerations.PawnColour;
 import it.polimi.ingsw.gc27.Model.Game.Game;
 import it.polimi.ingsw.gc27.Model.Game.Manuscript;
 import it.polimi.ingsw.gc27.Model.Game.Player;
+import it.polimi.ingsw.gc27.Model.Listener.Observable;
+import it.polimi.ingsw.gc27.Model.Listener.Observer;
 import it.polimi.ingsw.gc27.Model.States.InitializingState;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 
@@ -111,7 +113,7 @@ public class GameController implements Serializable {
         p.setStarterCard(starterCard);
 
         // Add the player to the game
-        game.getPlayers().add(p);
+        game.addPlayer(p, client);
 
         // Draw the initial cards
         p.getHand().add(this.getGame().getMarket().getResourceDeck().removeFirst());

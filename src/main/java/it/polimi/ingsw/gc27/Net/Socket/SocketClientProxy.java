@@ -70,6 +70,8 @@ public class SocketClientProxy implements VirtualView {
     }
 
 
+    @Override
+    public void update(String mex) {
 
-
+    }
 }

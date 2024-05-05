@@ -109,6 +109,8 @@ public class ClientHandler implements VirtualView {
         client.show(s);
     }
 
+
+    // TODO CIAO ANDRE, TOGLI QUESTO METODO CHE NON SI PUO' FARE LA SHOW DAL SERVER COME CI HANNO DETTO AL LAB
     @Override
     public void showManuscript(Manuscript manuscript) throws RemoteException {
         client.showManuscript(manuscript);
@@ -138,6 +140,11 @@ public class ClientHandler implements VirtualView {
     @Override
     public String getUsername() {
         return this.player.getUsername();
+    }
+
+    @Override
+    public void update(String mex) {
+
     }
 }
 

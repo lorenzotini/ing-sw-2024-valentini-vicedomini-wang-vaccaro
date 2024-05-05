@@ -21,4 +21,5 @@ module it.polimi.ingsw.gc27 {
     exports it.polimi.ingsw.gc27.Net.RMI;
     opens it.polimi.ingsw.gc27.Model to javafx.fxml;
     exports  it.polimi.ingsw.gc27.Model;
+    exports it.polimi.ingsw.gc27.Model.Listener to java.rmi;
 }

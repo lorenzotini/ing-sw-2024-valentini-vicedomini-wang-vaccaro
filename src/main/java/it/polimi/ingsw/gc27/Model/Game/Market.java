@@ -8,7 +8,7 @@ import it.polimi.ingsw.gc27.Model.Listener.Observable;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Market extends Observable implements Serializable {
+public class Market implements Serializable {
     private ResourceCard[] faceUpResources = new ResourceCard[2];
     private GoldCard[] faceUpGolds = new GoldCard[2];
     private ArrayList<ResourceCard> resourceDeck;

@@ -10,7 +10,7 @@ import it.polimi.ingsw.gc27.Model.Listener.Observable;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Manuscript extends Observable implements Serializable {
+public class Manuscript implements Serializable {
     public static final int FIELD_DIM = 85;
     // use a matrix to represent the whole manuscript/play field
     private Face[][] field;

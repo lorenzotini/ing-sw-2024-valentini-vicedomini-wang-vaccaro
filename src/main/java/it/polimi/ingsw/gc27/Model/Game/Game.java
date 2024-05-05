@@ -6,13 +6,17 @@ import it.polimi.ingsw.gc27.Model.Card.ObjectiveCard.ObjectiveCard;
 import it.polimi.ingsw.gc27.Model.Card.StarterCard;
 import it.polimi.ingsw.gc27.Model.Enumerations.PawnColour;
 import it.polimi.ingsw.gc27.Exceptions.UserNotFoundException;
+import it.polimi.ingsw.gc27.Model.Listener.Observable;
+import it.polimi.ingsw.gc27.Model.Listener.Observer;
+import it.polimi.ingsw.gc27.Net.VirtualView;
 
 import java.io.Serializable;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class Game implements Serializable {
+public class Game implements Serializable, Observable {
 
     private Integer numActualPlayers;
     private Board board;
@@ -140,6 +144,26 @@ public class Game implements Serializable {
         return false;
     }
 
+    public void addPlayer(Player p, VirtualView client) throws RemoteException {
+        this.players.add(p);
+        this.addObserver(client);
+        this.notifyObservers();
+    }
 
+    @Override
+    public void addObserver(Observer o) {
+        observers.add(o);
+    }
 
+    @Override
+    public void deleteObserver(Observer o) {
+        observers.remove(o);
+    }
+
+    @Override
+    public void notifyObservers() throws RemoteException {
+        for(Observer o : observers){
+            o.update("Player joined your game");
+        }
+    }
 }

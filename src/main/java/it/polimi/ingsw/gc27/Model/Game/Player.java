@@ -6,13 +6,15 @@ import it.polimi.ingsw.gc27.Model.Enumerations.Kingdom;
 import it.polimi.ingsw.gc27.Model.Enumerations.PawnColour;
 import it.polimi.ingsw.gc27.Model.Enumerations.PointsMultiplier;
 import it.polimi.ingsw.gc27.Model.Listener.Observable;
-import it.polimi.ingsw.gc27.Model.Listener.ObservableClass;
+import it.polimi.ingsw.gc27.Model.Listener.Observable;
+import it.polimi.ingsw.gc27.Model.Listener.Observer;
 import it.polimi.ingsw.gc27.Model.States.PlayerState;
 
 import java.io.Serializable;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 
-public class Player extends Observable implements Serializable {
+public class Player implements Serializable, Observable {
     private final String username;
     private ArrayList<ResourceCard> hand;
     private Manuscript manuscript;
@@ -22,15 +24,11 @@ public class Player extends Observable implements Serializable {
     private PlayerState playerState;
 
 
-
-
-
     public Player(String username, Manuscript manuscript, PawnColour pawnColour) {
         this.username = username;
         this.manuscript = manuscript;
         this.pawnColour = pawnColour;
         this.hand = new ArrayList<>();
-        notifyObservers();
         // TODO this.playerState = new InitializingState();
     }
 
@@ -181,9 +179,26 @@ public class Player extends Observable implements Serializable {
             }
             game.addPoints(this, points);
         }
-        notifyObservers();
     }
 
     public void setSecretObjectives(ArrayList<ObjectiveCard> secretObjectives) {
     }
+
+    @Override
+    public void addObserver(Observer o) {
+        observers.add(o);
+    }
+
+    @Override
+    public void deleteObserver(Observer o) {
+        observers.remove(o);
+    }
+
+    @Override
+    public void notifyObservers() throws RemoteException {
+        for(Observer o : observers){
+            o.update("boh: da classe player");
+        }
+    }
+
 }

@@ -2,6 +2,8 @@ package it.polimi.ingsw.gc27.Controller;
 
 import it.polimi.ingsw.gc27.Exceptions.UserNotFoundException;
 import it.polimi.ingsw.gc27.Model.Game.Player;
+import it.polimi.ingsw.gc27.Model.Listener.Observable;
+import it.polimi.ingsw.gc27.Model.Listener.Observer;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 
 import java.io.IOException;
@@ -111,4 +113,6 @@ public class GigaController {
     public Player getPlayer(String username){
         return this.userToGameController(username).getGame().getPlayer(username);
     }
+
+
 }

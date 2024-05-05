@@ -81,4 +81,8 @@ public class SocketClient extends MainClient implements VirtualView, Runnable {
         }
     }
 
+    @Override
+    public void update(String mex) {
+
+    }
 }

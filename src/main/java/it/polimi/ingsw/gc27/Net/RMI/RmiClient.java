@@ -2,6 +2,7 @@ package it.polimi.ingsw.gc27.Net.RMI;
 
 import it.polimi.ingsw.gc27.Model.Card.StarterCard;
 import it.polimi.ingsw.gc27.Model.Game.Manuscript;
+import it.polimi.ingsw.gc27.Model.Listener.Observable;
 import it.polimi.ingsw.gc27.Net.VirtualServer;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 import it.polimi.ingsw.gc27.View.MyCli;
@@ -68,4 +69,10 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
     public String getUsername() {
         return this.username;
     }
+
+    @Override
+    public void update(String mex) {
+        System.out.println(mex);
+    }
+
 }

@@ -40,7 +40,7 @@ public class DrawingState extends PlayerState {
 
         player.getHand().add(card);
         player.setPlayerState(new EndOfTurnState(getPlayer(), getTurnHandler()));
-        market.notifyObservers();
+        //market.notifyObservers();
 
     }
 

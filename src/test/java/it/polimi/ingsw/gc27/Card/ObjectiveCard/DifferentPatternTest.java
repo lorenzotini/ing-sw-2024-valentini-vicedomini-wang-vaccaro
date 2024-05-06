@@ -11,6 +11,7 @@ import it.polimi.ingsw.gc27.Model.Enumerations.PawnColour;
 import it.polimi.ingsw.gc27.Model.Game.*;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -84,50 +85,48 @@ class DifferentPatternTest {
     }
 
     @Test
-    void calculateObjectivePoints() {
+    void calculateObjectivePoints() throws IOException, InterruptedException { //test 3
         initializeGame();
-        //test 3
-        gc1.addStarterCard(p3, starterDeck.get(0), starterDeck.get(0).getBack());
+        p3.addCard(g1, starterDeck.get(0), starterDeck.get(0).getBack(),42,42);
 
-        gc1.addCard(p3, resourceDeck.get(15), resourceDeck.get(15).getFront(), 41, 41);
+        p3.addCard(g1, resourceDeck.get(15), resourceDeck.get(15).getFront(), 41, 41);
         assertTrue(p3.getManuscript().getField()[42][42].getCorner(-1, 1).isHidden());
 
-        gc1.addCard(p3, resourceDeck.get(17), resourceDeck.get(17).getFront(), 40, 40);
+        p3.addCard(g1, resourceDeck.get(17), resourceDeck.get(17).getFront(), 40, 40);
         assertTrue(p3.getManuscript().getField()[41][41].getCorner(-1, 1).isHidden());
 
-        gc1.addCard(p3, resourceDeck.get(14), resourceDeck.get(14).getFront(), 39, 39);
+        p3.addCard(g1, resourceDeck.get(14), resourceDeck.get(14).getFront(), 39, 39);
         assertTrue(p3.getManuscript().getField()[40][40].getCorner(-1, 1).isHidden());
 
-        gc1.addCard(p3, resourceDeck.get(36), resourceDeck.get(36).getFront(), 43, 43);
+        p3.addCard(g1, resourceDeck.get(36), resourceDeck.get(36).getFront(), 43, 43);
         assertTrue(p3.getManuscript().getField()[42][42].getCorner(1, -1).isHidden());
 
-        gc1.addCard(p3, resourceDeck.get(0), resourceDeck.get(0).getBack(), 44, 42);
+        p3.addCard(g1, resourceDeck.get(0), resourceDeck.get(0).getBack(), 44, 42);
         assertTrue(p3.getManuscript().getField()[43][43].getCorner(1, 1).isHidden());
 
-        gc1.addCard(p3, resourceDeck.get(33), resourceDeck.get(33).getFront(), 43, 41);
+        p3.addCard(g1, resourceDeck.get(33), resourceDeck.get(33).getFront(), 43, 41);
         assertTrue(p3.getManuscript().getField()[42][42].getCorner(1, 1).isHidden());
         assertTrue(p3.getManuscript().getField()[44][42].getCorner(-1, 1).isHidden());
 
-        gc1.addCard(p3, resourceDeck.get(29), resourceDeck.get(29).getFront(), 42, 40);
+        p3.addCard(g1, resourceDeck.get(29), resourceDeck.get(29).getFront(), 42, 40);
         assertTrue(p3.getManuscript().getField()[41][41].getCorner(1, 1).isHidden());
         assertTrue(p3.getManuscript().getField()[43][41].getCorner(-1, 1).isHidden());
 
-        gc1.addCard(p3, goldDeck.get(33), goldDeck.get(33).getFront(), 41, 39);
+        p3.addCard(g1, goldDeck.get(33), goldDeck.get(33).getFront(), 41, 39);
         assertTrue(p3.getManuscript().getField()[40][40].getCorner(1, 1).isHidden());
         assertTrue(p3.getManuscript().getField()[42][40].getCorner(-1, 1).isHidden());
 
-        gc1.addCard(p3, goldDeck.get(39), goldDeck.get(39).getFront(), 45, 41);
+        p3.addCard(g1, goldDeck.get(39), goldDeck.get(39).getFront(), 45, 41);
         assertTrue(p3.getManuscript().getField()[44][42].getCorner(1, 1).isHidden());
 
-        gc1.addCard(p3, resourceDeck.get(10), resourceDeck.get(10).getBack(), 46, 40);
+        p3.addCard(g1, resourceDeck.get(10), resourceDeck.get(10).getBack(), 46, 40);
         assertTrue(p3.getManuscript().getField()[45][41].getCorner(1, 1).isHidden());
 
-        gc1.addCard(p3, goldDeck.get(18), goldDeck.get(18).getFront(), 45, 43);
+        p3.addCard(g1, goldDeck.get(18), goldDeck.get(18).getFront(), 45, 43);
         assertTrue(p3.getManuscript().getField()[44][42].getCorner(1, -1).isHidden());
-        gc1.addCard(p3, resourceDeck.get(16), resourceDeck.get(16).getFront(), 41, 43);
+        p3.addCard(g1, resourceDeck.get(16), resourceDeck.get(16).getFront(), 41, 43);
 
-        DifferentPattern diff= new DifferentPattern(99, objectiveDeck.get(11).getFront(), objectiveDeck.get(11).getBack());
-        assertEquals(3, diff.calculateObjectivePoints(p3.getManuscript()));
+        assertEquals(3, objectiveDeck.get(12).calculateObjectivePoints(p3.getManuscript()));
 
 
 

@@ -16,6 +16,7 @@ public class MyCli {
     private static ArrayList<ResourceCard> resourceDeck = JsonParser.getResourceDeck(JsonParser.cardsJsonObj);
     private static ArrayList<GoldCard> goldDeck = JsonParser.getGoldDeck(JsonParser.cardsJsonObj);
     private static ArrayList<StarterCard> starterDeck = JsonParser.getStarterDeck(JsonParser.cardsJsonObj);
+    private static ArrayList<ObjectiveCard> objectiveDeck = JsonParser.getObjectiveDeck(JsonParser.cardsJsonObj);
     private static String sws = " "; // single white space
 
     public static Queue<String> fromFaceToCliCard(Face face) throws Exception {
@@ -262,17 +263,6 @@ public class MyCli {
         return sb.toString();
     }
 
-    // example test
-    public static void main(String[] args) {
-        ArrayList<ObjectiveCard> objectiveDeck = JsonParser.getObjectiveDeck(JsonParser.cardsJsonObj);
-        ObjectiveCard o1 = objectiveDeck.get(0);
-        ObjectiveCard o2 = objectiveDeck.get(1);
-        ArrayList<ObjectiveCard> secretObjectives = new ArrayList<>();
-        secretObjectives.add(o1);
-        secretObjectives.add(o2);
-        System.out.println(showObjective(secretObjectives));
-    }
-
     public static String showFace(Face face){
 
         Corner UR = face.getCornerUR();
@@ -295,7 +285,6 @@ public class MyCli {
 
     public static String showStarter(StarterCard card ){
         return ("Starter Front:"+"\n"+ showFace(card.getFront( )) +("\nStarter Back:")+"\n"+showFace(card.getBack()));
-
     }
 
     public static String showObjective(ArrayList<ObjectiveCard> secretObjectives){
@@ -303,13 +292,25 @@ public class MyCli {
         ObjectiveCard o1 = secretObjectives.get(0);
         ObjectiveCard o2 = secretObjectives.get(1);
 
-        String first = "╭-----------------╮    ╭-----------------╮";
-        String second = "| Points: " + o1.getObjPointsMap().get(o1.getClass()) + "       |    " + "| Points: " + o2.getObjPointsMap().get(o2.getClass()) + "       |";
-        String third = "|" + o1 + "|  "+"  |" + o2 + "|";
-        String fourth = "|                 |    |                 |";
-        String fifth =  "╰-----------------╯    ╰-----------------╯";
+        o1.toCliCard();
+        o2.toCliCard();
 
-        return (first + "\n" + second +"\n" + third+"\n"+ fourth+"\n"+fifth);
+        return ("Objective 1: \n" + o1.toCliCard() + "\n\nObjective 2: \n" + o2.toCliCard());
+
+    }
+
+    // example test
+    public static void main(String[] args) {
+        //OBJECTIVES
+        for(ObjectiveCard card : objectiveDeck){
+            System.out.println(card.toCliCard());
+        }
+
+        //STARTER
+        for(StarterCard card : starterDeck){
+            System.out.println(showStarter(card));
+        }
+
     }
 
 }

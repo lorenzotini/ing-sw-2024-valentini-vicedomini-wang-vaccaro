@@ -37,7 +37,7 @@ public class MainClient  {
 
         // TODO definire un controllo sul formato dell'ip
         // Ask for ip addess
-        System.out.println("\nEnter the IP address of the server you want to connect to (press Enter for default):");
+        System.out.println("\nEnter the IP address of the server you want to connect to (press Enter for localhost):");
         String ipAddress = scan.nextLine();
         if(ipAddress.isEmpty()){
             ipAddress = "localhost";

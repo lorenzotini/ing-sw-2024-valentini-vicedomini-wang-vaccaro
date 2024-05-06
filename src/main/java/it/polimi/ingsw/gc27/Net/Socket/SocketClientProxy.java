@@ -29,11 +29,6 @@ public class SocketClientProxy implements VirtualView {
     }
 
     @Override
-    public void showUpdate(String update) {
-
-    }
-
-    @Override
     public void show(String s) throws RemoteException {
         String ss[] = s.split("\n");
 

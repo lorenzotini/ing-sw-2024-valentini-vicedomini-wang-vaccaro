@@ -27,8 +27,9 @@ public abstract class ObjectiveCard extends Card {
         return objPointsMap;
     }
 
-    @Override
-    public abstract String toString();
+    protected abstract String paintString(String s);
+
+    public abstract String toCliCard();
 
     public abstract int calculateObjectivePoints(Manuscript manuscript);
 

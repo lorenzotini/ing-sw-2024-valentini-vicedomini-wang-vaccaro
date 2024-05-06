@@ -44,12 +44,6 @@ public class SocketClient extends MainClient implements VirtualView, Runnable {
         return this.username;
     }
 
-
-    public void showUpdate(String mex) throws RemoteException {
-        // TODO Attenzione! Questo può causare data race con il thread dell'interfaccia o un altro thread
-        System.out.println(mex);
-    }
-
     @Override
     public void show(String s) throws RemoteException {
         System.out.println(s);

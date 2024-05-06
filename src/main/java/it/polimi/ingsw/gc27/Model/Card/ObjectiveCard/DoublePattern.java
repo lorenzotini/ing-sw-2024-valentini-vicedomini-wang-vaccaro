@@ -4,6 +4,7 @@ import it.polimi.ingsw.gc27.Model.Card.BackFace;
 import it.polimi.ingsw.gc27.Model.Card.FrontFace;
 import it.polimi.ingsw.gc27.Model.Enumerations.CornerSymbol;
 import it.polimi.ingsw.gc27.Model.Game.Manuscript;
+import it.polimi.ingsw.gc27.View.ColourControl;
 
 public class DoublePattern extends ObjectiveCard {
     //  NOTA: DEVE CONTENERE INKWELL, MANUSCRIPT O QUILL
@@ -24,7 +25,18 @@ public class DoublePattern extends ObjectiveCard {
     }
 
     @Override
-    public String toString(){
-        return this.getClass().getSimpleName() + "    ";
+    protected String paintString(String s) {
+        return ColourControl.YELLOW + s + ColourControl.RESET;
     }
+
+    @Override
+    public String toCliCard(){
+        String first = paintString("╭-----------------╮");
+        String second = paintString("| ") + "pts: " + this.getObjPointsMap().get(this.getClass()) + paintString("          |");
+        String third = paintString("|                 |");
+        String fourth = paintString("| " + this.cornerSymbol.toCliString().repeat(2)) + paintString("              |");
+        String fifth = paintString("╰-----------------╯");
+        return first + "\n" + second + "\n" + third + "\n" + fourth + "\n" + fifth;
+    }
+
 }

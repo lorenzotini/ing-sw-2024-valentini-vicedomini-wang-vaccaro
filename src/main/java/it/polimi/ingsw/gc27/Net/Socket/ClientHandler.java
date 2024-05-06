@@ -98,12 +98,6 @@ public class ClientHandler implements VirtualView {
 
     }
 
-
-    @Override
-    public void showUpdate(String update) throws RemoteException {
-
-    }
-
     @Override
     public void show(String s) throws RemoteException {
         client.show(s);

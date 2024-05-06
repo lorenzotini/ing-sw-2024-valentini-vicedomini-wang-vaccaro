@@ -10,8 +10,6 @@ import java.rmi.RemoteException;
 
 public interface VirtualView extends Remote, Observer {
 
-    void showUpdate(String update) throws RemoteException;
-
     void show(String s) throws RemoteException;
 
     void showManuscript(Manuscript manuscript) throws RemoteException;

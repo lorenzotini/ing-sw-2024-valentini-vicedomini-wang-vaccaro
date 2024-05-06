@@ -2178,7 +2178,7 @@
     {
       "id":90,
       "ladderKingdom":"INSECTKINGDOM",
-      "upscaling": true,
+      "upscaling": false,
       "frontImage":null,
       "backImage":null
     },

@@ -27,12 +27,6 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
     }
 
     @Override
-    public void showUpdate(String message) throws RemoteException {
-        // TODO Attenzione! Questo può causare data race con il thread dell'interfaccia o un altro thread
-        System.out.println(message);
-    }
-
-    @Override
     public void show(String message) throws RemoteException{
         System.out.println(message);
     }
@@ -69,6 +63,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
     public String getUsername() {
         return this.username;
     }
+
 
     @Override
     public void update(String mex) {

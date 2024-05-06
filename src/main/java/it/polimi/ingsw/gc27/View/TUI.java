@@ -119,7 +119,7 @@ public class TUI {
                     break;
 
                 default:
-                    System.out.println("Invalid command1");
+                    System.out.println("Invalid command. Type 'help' for a list of commands.");
                     break;
             }
 

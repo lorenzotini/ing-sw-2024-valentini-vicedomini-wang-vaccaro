@@ -1,6 +1,6 @@
 package it.polimi.ingsw.gc27.Net.Rmi;
 
-import it.polimi.ingsw.gc27.Listeners.Messages.Message;
+import it.polimi.ingsw.gc27.Messages.Message;
 import it.polimi.ingsw.gc27.Model.Card.StarterCard;
 import it.polimi.ingsw.gc27.Model.Game.Manuscript;
 import it.polimi.ingsw.gc27.Net.VirtualServer;
@@ -64,9 +64,9 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
     }
 
 
+
     @Override
-    public void update(Message message) {
+    public void update(Message message) throws RemoteException {
 
     }
-
 }

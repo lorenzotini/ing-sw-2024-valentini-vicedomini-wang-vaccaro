@@ -1,4 +1,4 @@
-package it.polimi.ingsw.gc27.Listeners.Messages;
+package it.polimi.ingsw.gc27.Messages;
 
 public class PlayerJoinedMessage extends Message{
 

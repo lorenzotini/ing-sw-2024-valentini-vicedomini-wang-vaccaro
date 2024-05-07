@@ -1,7 +1,7 @@
 package it.polimi.ingsw.gc27.Model.Game;
 
-import it.polimi.ingsw.gc27.Listeners.Messages.Message;
-import it.polimi.ingsw.gc27.Listeners.Messages.UpdateBoardMessage;
+import it.polimi.ingsw.gc27.Messages.Message;
+import it.polimi.ingsw.gc27.Messages.UpdateBoardMessage;
 import it.polimi.ingsw.gc27.Model.Listener.Observable;
 import it.polimi.ingsw.gc27.Model.Listener.Observer;
 import it.polimi.ingsw.gc27.Model.MiniModel;

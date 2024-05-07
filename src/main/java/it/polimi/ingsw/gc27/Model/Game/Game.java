@@ -1,8 +1,8 @@
 
 package it.polimi.ingsw.gc27.Model.Game;
 
-import it.polimi.ingsw.gc27.Listeners.Messages.Message;
-import it.polimi.ingsw.gc27.Listeners.Messages.PlayerJoinedMessage;
+import it.polimi.ingsw.gc27.Messages.Message;
+import it.polimi.ingsw.gc27.Messages.PlayerJoinedMessage;
 import it.polimi.ingsw.gc27.Model.Card.Card;
 import it.polimi.ingsw.gc27.Model.Card.ObjectiveCard.ObjectiveCard;
 import it.polimi.ingsw.gc27.Model.Card.StarterCard;

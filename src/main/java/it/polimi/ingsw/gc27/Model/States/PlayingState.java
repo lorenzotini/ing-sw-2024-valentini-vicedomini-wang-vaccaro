@@ -1,9 +1,9 @@
 package it.polimi.ingsw.gc27.Model.States;
 
 import it.polimi.ingsw.gc27.Controller.TurnHandler;
-import it.polimi.ingsw.gc27.Listeners.Messages.Message;
-import it.polimi.ingsw.gc27.Listeners.Messages.NotYourTurnMessage;
-import it.polimi.ingsw.gc27.Listeners.Messages.UpdateManuscriptMessage;
+import it.polimi.ingsw.gc27.Messages.Message;
+import it.polimi.ingsw.gc27.Messages.NotYourTurnMessage;
+import it.polimi.ingsw.gc27.Messages.UpdateManuscriptMessage;
 import it.polimi.ingsw.gc27.Model.Card.*;
 import it.polimi.ingsw.gc27.Model.Game.Game;
 import it.polimi.ingsw.gc27.Model.Game.Player;

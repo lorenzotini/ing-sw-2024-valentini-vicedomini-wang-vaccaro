@@ -3,7 +3,7 @@ package it.polimi.ingsw.gc27.Net.Socket;
 import it.polimi.ingsw.gc27.CommandParser;
 import it.polimi.ingsw.gc27.Controller.GameController;
 import it.polimi.ingsw.gc27.Controller.GigaController;
-import it.polimi.ingsw.gc27.Listeners.Messages.Message;
+import it.polimi.ingsw.gc27.Messages.Message;
 import it.polimi.ingsw.gc27.Model.Card.Face;
 import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
 import it.polimi.ingsw.gc27.Model.Card.StarterCard;

@@ -1,9 +1,9 @@
 package it.polimi.ingsw.gc27.Model.States;
 
 import it.polimi.ingsw.gc27.Controller.TurnHandler;
-import it.polimi.ingsw.gc27.Listeners.Messages.Message;
-import it.polimi.ingsw.gc27.Listeners.Messages.NotYourTurnMessage;
-import it.polimi.ingsw.gc27.Listeners.Messages.UpdateHandMessage;
+import it.polimi.ingsw.gc27.Messages.Message;
+import it.polimi.ingsw.gc27.Messages.NotYourTurnMessage;
+import it.polimi.ingsw.gc27.Messages.UpdateHandMessage;
 import it.polimi.ingsw.gc27.Model.Card.Face;
 import it.polimi.ingsw.gc27.Model.Card.GoldCard;
 import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
@@ -14,7 +14,6 @@ import it.polimi.ingsw.gc27.Model.Game.Player;
 import it.polimi.ingsw.gc27.Model.Listener.Observable;
 import it.polimi.ingsw.gc27.Model.Listener.Observer;
 import it.polimi.ingsw.gc27.Model.MiniModel;
-import it.polimi.ingsw.gc27.View.ColourControl;
 
 import java.io.IOException;
 import java.io.Serializable;

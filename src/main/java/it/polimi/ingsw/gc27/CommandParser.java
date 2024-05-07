@@ -41,22 +41,29 @@ public class CommandParser {
                 throw new IllegalArgumentException("Invalid command");
             }
             String choice = parts[1];
-            if (!choice.equalsIgnoreCase("deck") && !choice.equalsIgnoreCase("card")) {
+            if (!choice.equalsIgnoreCase("true") && !choice.equalsIgnoreCase("false")) {
                 throw new IllegalArgumentException("Invalid choice value");
             }
-            if (choice.equalsIgnoreCase("card") && parts.length != 3) {
+            if (choice.equalsIgnoreCase("true") && parts.length != 3) {
                 throw new IllegalArgumentException("Index is required when choice is 'card'");
             }
-            int index = choice.equalsIgnoreCase("card") ? Integer.parseInt(parts[2]) : -1;
-            return new Object[]{parts[0], choice, index};
+            int index;
+            boolean cho;
+            if(choice.equalsIgnoreCase("true")){
+                cho = true;
+                index = Integer.parseInt(parts[2]) ;
+            }else{
+                cho = false;
+                index = -1;
+            }
+            return new Object[]{parts[0], cho, index};
             //return type:{String, String, int}
         }else if (parts[0].equalsIgnoreCase("welcomeplayer")){
             return new Object[]{parts[0]};
         }
-        else if(parts[0].equalsIgnoreCase("askstarter")){
-            return new Object[]{parts[0]};
+        else if(parts[0].equalsIgnoreCase("addstarter")){
+            return new Object[]{parts[0], parts[1].equalsIgnoreCase("true") };
         }else{
-
             throw new IllegalArgumentException("Invalid command, Modify Command Parser");
         }
     }

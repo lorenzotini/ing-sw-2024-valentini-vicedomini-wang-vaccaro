@@ -5,17 +5,17 @@ import it.polimi.ingsw.gc27.Model.Card.StarterCard;
 import it.polimi.ingsw.gc27.Model.Game.Manuscript;
 import it.polimi.ingsw.gc27.Net.MainClient;
 import it.polimi.ingsw.gc27.Net.VirtualView;
-import it.polimi.ingsw.gc27.View.TUI;
+import it.polimi.ingsw.gc27.View.Tui;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.Scanner;
 
-public class SocketClient extends MainClient implements VirtualView, Runnable {
+public class SocketClient implements VirtualView, Runnable {
 
     final SocketServerProxy server;
     private String username;
-    private TUI tui;
+    private Tui tui;
 
 
     public SocketClient(String ipAddress, int port) {
@@ -31,7 +31,7 @@ public class SocketClient extends MainClient implements VirtualView, Runnable {
                     this.wait();
                 }
             }
-            tui = new TUI(this, server);
+            tui = new Tui(this, server);
             tui.runCli();
         } catch (RemoteException | InterruptedException e) {
             throw new RuntimeException(e);
@@ -48,6 +48,10 @@ public class SocketClient extends MainClient implements VirtualView, Runnable {
     @Override
     public void show(String s) throws RemoteException {
         System.out.println(s);
+    }
+    public void showUpdate(String mex) throws RemoteException {
+        // TODO Attenzione! Questo può causare data race con il thread dell'interfaccia o un altro thread
+        System.out.println(mex);
     }
 
     @Override
@@ -75,6 +79,7 @@ public class SocketClient extends MainClient implements VirtualView, Runnable {
             this.notifyAll();
         }
     }
+
 
     @Override
     public void update(Message message) {

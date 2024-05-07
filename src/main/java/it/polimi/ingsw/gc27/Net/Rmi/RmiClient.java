@@ -1,13 +1,11 @@
-package it.polimi.ingsw.gc27.Net.RMI;
+package it.polimi.ingsw.gc27.Net.Rmi;
 
 import it.polimi.ingsw.gc27.Listeners.Messages.Message;
 import it.polimi.ingsw.gc27.Model.Card.StarterCard;
 import it.polimi.ingsw.gc27.Model.Game.Manuscript;
-import it.polimi.ingsw.gc27.Model.Listener.Observable;
 import it.polimi.ingsw.gc27.Net.VirtualServer;
 import it.polimi.ingsw.gc27.Net.VirtualView;
-import it.polimi.ingsw.gc27.View.MyCli;
-import it.polimi.ingsw.gc27.View.TUI;
+import it.polimi.ingsw.gc27.View.Tui;
 
 import java.io.IOException;
 import java.rmi.NotBoundException;
@@ -34,12 +32,12 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
 
     @Override
     public void showManuscript(Manuscript manuscript) throws RemoteException {
-        MyCli.printManuscript(manuscript);
+        Tui.printManuscript(manuscript);
     }
 
     @Override
     public void showStarter(StarterCard starterCard) throws RemoteException {
-        MyCli.showStarter(starterCard);
+        Tui.showStarter(starterCard);
     }
 
     @Override
@@ -56,7 +54,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
     public void run() throws IOException, InterruptedException {
         this.server.connect(this);
         server.welcomePlayer(this);
-        TUI tui = new TUI(this, server);
+        Tui tui = new Tui(this, server);
         tui.runCli();
     }
 

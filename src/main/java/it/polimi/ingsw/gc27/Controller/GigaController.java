@@ -115,4 +115,6 @@ public class GigaController {
     }
 
 
+    public void setGameControllers(List<GameController> gameControllers) {
+    }
 }

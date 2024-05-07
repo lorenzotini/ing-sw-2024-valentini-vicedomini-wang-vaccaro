@@ -6,7 +6,9 @@ import java.rmi.RemoteException;
 
 public interface VirtualServer extends Remote{
 
-    int DEFAULT_PORT_NUMBER = 1234;
+    int DEFAULT_PORT_NUMBER_RMI = 1234;
+
+    int DEFAULT_PORT_NUMBER_SOCKET = 3000;
 
     void connect(VirtualView client) throws RemoteException;
 

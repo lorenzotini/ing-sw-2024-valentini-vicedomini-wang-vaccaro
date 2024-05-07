@@ -47,7 +47,7 @@ public class MainClient  {
         if(connectionChoice == 0){
             new RmiClient(ipAddress, VirtualServer.DEFAULT_PORT_NUMBER).run();
         } else {
-            new SocketClient(ipAddress, VirtualServer.DEFAULT_PORT_NUMBER).run();
+            new SocketClient(ipAddress, 3000).run();
         }
 
     }

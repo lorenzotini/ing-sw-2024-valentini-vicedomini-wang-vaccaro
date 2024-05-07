@@ -18,7 +18,7 @@ public class SocketServer {
     final GigaController console ;
 
     public SocketServer( GigaController console) throws IOException {
-        this.listenSocket = new ServerSocket(3000);
+        this.listenSocket = new ServerSocket(1234);
         this.console = console;
     }
 

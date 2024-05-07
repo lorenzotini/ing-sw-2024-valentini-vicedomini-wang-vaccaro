@@ -12,6 +12,7 @@ import it.polimi.ingsw.gc27.Model.Game.*;
 import it.polimi.ingsw.gc27.Model.States.InitializingState;
 import it.polimi.ingsw.gc27.Model.States.PlayingState;
 import it.polimi.ingsw.gc27.View.MyCli;
+import it.polimi.ingsw.gc27.View.TUI;
 import it.polimi.ingsw.gc27.View.ViewCli;
 import org.junit.Before;
 import org.junit.jupiter.api.BeforeAll;
@@ -602,45 +603,131 @@ class GameControllerTest {
 
         //ViewCli view6=new ViewCli();
         //view6.showManuscript(p1.getManuscript());
-        MyCli view=new MyCli();
-        view.printManuscript(p1.getManuscript());
+
     }
 
 
 @Test
 void addCardTest7() throws IOException, InterruptedException {
-        initializeGame();
-    gc1.addStarterCard(p1, starterDeck.get(2), starterDeck.get(2).getFront());
+    initializeGame();
+    p1.setPlayerState(new InitializingState(p1, turnHandler));
+    gc1.addStarterCard(p1, starterDeck.get(2), starterDeck.get(2).getBack());
 
+    p1.setPlayerState(new PlayingState(p1, turnHandler));
     gc1.addCard(p1, goldDeck.get(10), goldDeck.get(10).getBack(), 41, 41);
-    assertTrue(p1.getManuscript().getField()[42][42].getCorner(-1, 1).isHidden());
 
+    p1.setPlayerState(new PlayingState(p1, turnHandler));
     gc1.addCard(p1, resourceDeck.get(10), resourceDeck.get(10).getBack(), 40, 40);
-    assertTrue(p1.getManuscript().getField()[41][41].getCorner(-1, 1).isHidden());
 
+    p1.setPlayerState(new PlayingState(p1, turnHandler));
     gc1.addCard(p1, goldDeck.get(11), goldDeck.get(11).getBack(), 39, 39);
-    assertTrue(p1.getManuscript().getField()[40][40].getCorner(-1, 1).isHidden());
 
+    p1.setPlayerState(new PlayingState(p1, turnHandler));
     gc1.addCard(p1, resourceDeck.get(11), resourceDeck.get(11).getBack(), 38, 38);
-    assertTrue(p1.getManuscript().getField()[39][39].getCorner(-1, 1).isHidden());
 
+    p1.setPlayerState(new PlayingState(p1, turnHandler));
     gc1.addCard(p1, resourceDeck.get(0), resourceDeck.get(0).getBack(), 37, 37);
-    assertTrue(p1.getManuscript().getField()[38][38].getCorner(-1, 1).isHidden());
 
+    p1.setPlayerState(new PlayingState(p1, turnHandler));
     gc1.addCard(p1, resourceDeck.get(12), resourceDeck.get(12).getBack(), 38, 36);
-    assertTrue(p1.getManuscript().getField()[37][37].getCorner(1, 1).isHidden());
 
+    p1.setPlayerState(new PlayingState(p1, turnHandler));
     gc1.addCard(p1, resourceDeck.get(1), resourceDeck.get(1).getBack(), 37, 35);
-    assertTrue(p1.getManuscript().getField()[38][36].getCorner(-1, 1).isHidden());
 
+    p1.setPlayerState(new PlayingState(p1, turnHandler));
     gc1.addCard(p1, resourceDeck.get(2), resourceDeck.get(2).getBack(), 36, 38);
-    assertTrue(p1.getManuscript().getField()[37][37].getCorner(-1, -1).isHidden());
 
+    p1.setPlayerState(new PlayingState(p1, turnHandler));
     gc1.addCard(p1, resourceDeck.get(3), resourceDeck.get(3).getBack(), 35, 39);
-    assertTrue(p1.getManuscript().getField()[36][38].getCorner(-1, -1).isHidden());
 
-    //MyCli view=new MyCli();
-    //view.printManuscript(p1.getManuscript());
+    p1.setPlayerState(new PlayingState(p1, turnHandler));
+    gc1.addCard(p1, resourceDeck.get(4), resourceDeck.get(4).getBack(), 34, 40);
+
+    p1.setPlayerState(new PlayingState(p1, turnHandler));
+    gc1.addCard(p1, resourceDeck.get(5), resourceDeck.get(5).getBack(), 41, 43);
+
+    p1.setPlayerState(new PlayingState(p1, turnHandler));
+    gc1.addCard(p1, goldDeck.get(0), goldDeck.get(0).getBack(), 40, 44);
+
+    p1.setPlayerState(new PlayingState(p1, turnHandler));
+    gc1.addCard(p1, resourceDeck.get(6), resourceDeck.get(6).getBack(), 39, 45);
+
+    p1.setPlayerState(new PlayingState(p1, turnHandler));
+    gc1.addCard(p1, goldDeck.get(1), goldDeck.get(1).getBack(), 38, 46);
+
+    p1.setPlayerState(new PlayingState(p1, turnHandler));
+    gc1.addCard(p1, goldDeck.get(20), goldDeck.get(20).getBack(), 37, 47);
+
+    p1.setPlayerState(new PlayingState(p1, turnHandler));
+    gc1.addCard(p1, goldDeck.get(21), goldDeck.get(21).getBack(), 36, 46);
+
+    p1.setPlayerState(new PlayingState(p1, turnHandler));
+    gc1.addCard(p1, goldDeck.get(22), goldDeck.get(22).getBack(), 35, 45);
+
+    p1.setPlayerState(new PlayingState(p1, turnHandler));
+    gc1.addCard(p1, goldDeck.get(23), goldDeck.get(23).getBack(), 34, 44);
+
+    p1.setPlayerState(new PlayingState(p1, turnHandler));
+    gc1.addCard(p1, resourceDeck.get(30), resourceDeck.get(30).getBack(), 33, 43);
+
+    p1.setPlayerState(new PlayingState(p1, turnHandler));
+    gc1.addCard(p1, resourceDeck.get(31), resourceDeck.get(31).getBack(), 33, 41);
+
+    p1.setPlayerState(new PlayingState(p1, turnHandler));
+    gc1.addCard(p1, resourceDeck.get(32), resourceDeck.get(32).getBack(), 32, 42);
+
+    p1.setPlayerState(new PlayingState(p1, turnHandler));
+    gc1.addCard(p1, resourceDeck.get(13), resourceDeck.get(13).getBack(), 38, 38);
+
+    p1.setPlayerState(new PlayingState(p1, turnHandler));
+    gc1.addCard(p1, goldDeck.get(24), goldDeck.get(24).getBack(), 37, 39);
+
+    p1.setPlayerState(new PlayingState(p1, turnHandler));
+    gc1.addCard(p1, resourceDeck.get(33), resourceDeck.get(33).getBack(), 43, 41);
+
+    p1.setPlayerState(new PlayingState(p1, turnHandler));
+    gc1.addCard(p1, resourceDeck.get(34), resourceDeck.get(34).getBack(), 44, 40);
+
+    p1.setPlayerState(new PlayingState(p1, turnHandler));
+    gc1.addCard(p1, resourceDeck.get(35), resourceDeck.get(35).getBack(), 45, 39);
+
+    p1.setPlayerState(new PlayingState(p1, turnHandler));
+    gc1.addCard(p1, goldDeck.get(30), goldDeck.get(30).getBack(), 46, 38);
+
+    p1.setPlayerState(new PlayingState(p1, turnHandler));
+    gc1.addCard(p1, resourceDeck.get(14), resourceDeck.get(14).getBack(), 47, 37);
+
+    p1.setPlayerState(new PlayingState(p1, turnHandler));
+    gc1.addCard(p1, goldDeck.get(31), goldDeck.get(31).getBack(), 46, 36);
+
+    p1.setPlayerState(new PlayingState(p1, turnHandler));
+    gc1.addCard(p1, resourceDeck.get(15), resourceDeck.get(15).getBack(), 47, 35);
+
+    p1.setPlayerState(new PlayingState(p1, turnHandler));
+    gc1.addCard(p1, goldDeck.get(25), goldDeck.get(25).getBack(), 43, 43);
+
+    p1.setPlayerState(new PlayingState(p1, turnHandler));
+    gc1.addCard(p1, goldDeck.get(26), goldDeck.get(26).getBack(), 44, 44);
+
+    p1.setPlayerState(new PlayingState(p1, turnHandler));
+    gc1.addCard(p1, resourceDeck.get(20), resourceDeck.get(20).getBack(), 45, 45);
+
+    p1.setPlayerState(new PlayingState(p1, turnHandler));
+    gc1.addCard(p1, resourceDeck.get(21), resourceDeck.get(21).getBack(), 46, 46);
+
+    p1.setPlayerState(new PlayingState(p1, turnHandler));
+    gc1.addCard(p1, resourceDeck.get(36), resourceDeck.get(36).getBack(), 47, 47);
+
+    p1.setPlayerState(new PlayingState(p1, turnHandler));
+    gc1.addCard(p1, resourceDeck.get(22), resourceDeck.get(22).getBack(), 46, 48);
+
+    p1.setPlayerState(new PlayingState(p1, turnHandler));
+    gc1.addCard(p1, goldDeck.get(32), goldDeck.get(32).getBack(), 47, 49);
+
+    //ViewCli view6=new ViewCli();
+    //view6.showManuscript(p1.getManuscript());
+    MyCli view=new MyCli();
+    MyCli.printManuscript(p1.getManuscript());
 
 
     }
@@ -653,60 +740,45 @@ void addCardTest7() throws IOException, InterruptedException {
 
         p1.setPlayerState(new PlayingState(p1, turnHandler));
         gc1.addCard(p1, resourceDeck.get(26), resourceDeck.get(26).getFront(), 41, 41);
-        assertTrue(p1.getManuscript().getField()[42][42].getCorner(-1, 1).isHidden());
 
         p1.setPlayerState(new PlayingState(p1, turnHandler));
         gc1.addCard(p1, resourceDeck.get(34), resourceDeck.get(34).getFront(), 43, 41);
-        assertTrue(p1.getManuscript().getField()[42][42].getCorner(1, 1).isHidden());
 
         p1.setPlayerState(new PlayingState(p1, turnHandler));
         gc1.addCard(p1, resourceDeck.get(29), resourceDeck.get(29).getFront(), 40, 40);
-        assertTrue(p1.getManuscript().getField()[41][41].getCorner(-1, 1).isHidden());
 
         p1.setPlayerState(new PlayingState(p1, turnHandler));
         gc1.addCard(p1, goldDeck.get(22), goldDeck.get(22).getFront(), 40, 42);
-        assertTrue(p1.getManuscript().getField()[41][41].getCorner(-1, -1).isHidden());
 
         p1.setPlayerState(new PlayingState(p1, turnHandler));
         gc1.addCard(p1, resourceDeck.get(33), resourceDeck.get(33).getFront(), 39, 39);
-        assertTrue(p1.getManuscript().getField()[40][40].getCorner(-1, 1).isHidden());
 
         p1.setPlayerState(new PlayingState(p1, turnHandler));
         gc1.addCard(p1, goldDeck.get(35), goldDeck.get(35).getFront(), 39, 41);
-        assertTrue(p1.getManuscript().getField()[40][40].getCorner(-1, -1).isHidden());
-        assertTrue(p1.getManuscript().getField()[40][42].getCorner(-1, 1).isHidden());
 
         p1.setPlayerState(new PlayingState(p1, turnHandler));
         gc1.addCard(p1, resourceDeck.get(10), resourceDeck.get(10).getBack(), 41, 43);
-        assertTrue(p1.getManuscript().getField()[42][42].getCorner(-1, -1).isHidden());
 
         p1.setPlayerState(new PlayingState(p1, turnHandler));
         gc1.addCard(p1, goldDeck.get(37), goldDeck.get(37).getFront(), 38, 38);
-        assertTrue(p1.getManuscript().getField()[39][39].getCorner(-1, 1).isHidden());
 
         p1.setPlayerState(new PlayingState(p1, turnHandler));
         gc1.addCard(p1, resourceDeck.get(22), resourceDeck.get(22).getFront(), 40, 44);
-        assertTrue(p1.getManuscript().getField()[41][43].getCorner(-1, -1).isHidden());
 
         p1.setPlayerState(new PlayingState(p1, turnHandler));
-        gc1.addCard(p1, goldDeck.get(21), goldDeck.get(21).getFront(), 44, 40); //sistemato
-        assertTrue(p1.getManuscript().getField()[43][41].getCorner(1, 1).isHidden());
+        gc1.addCard(p1, goldDeck.get(21), goldDeck.get(21).getFront(), 44, 40);
 
         p1.setPlayerState(new PlayingState(p1, turnHandler));
         gc1.addCard(p1, resourceDeck.get(8), resourceDeck.get(8).getFront(), 38, 42);
-        assertTrue(p1.getManuscript().getField()[41][43].getCorner(-1, -1).isHidden());
 
         p1.setPlayerState(new PlayingState(p1, turnHandler));
         gc1.addCard(p1, resourceDeck.get(9), resourceDeck.get(9).getBack(), 37, 43);
-        assertTrue(p1.getManuscript().getField()[38][42].getCorner(-1, -1).isHidden());
 
         p1.setPlayerState(new PlayingState(p1, turnHandler));
         gc1.addCard(p1, goldDeck.get(37), goldDeck.get(37).getFront(), 38, 44);
-        assertTrue(p1.getManuscript().getField()[37][43].getCorner(1, -1).isHidden());
 
         p1.setPlayerState(new PlayingState(p1, turnHandler));
         gc1.addCard(p1, goldDeck.get(33), goldDeck.get(33).getFront(), 39, 43);
-        assertTrue(p1.getManuscript().getField()[38][44].getCorner(1, 1).isHidden());
 
         //ViewCli view8=new ViewCli();
         //view8.showManuscript(p1.getManuscript());

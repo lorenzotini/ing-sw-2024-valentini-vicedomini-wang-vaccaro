@@ -2,7 +2,7 @@ package it.polimi.ingsw.gc27.Net;
 
 
 import it.polimi.ingsw.gc27.Controller.GigaController;
-import it.polimi.ingsw.gc27.Net.RMI.RmiServer;
+import it.polimi.ingsw.gc27.Net.Rmi.RmiServer;
 import it.polimi.ingsw.gc27.Net.Socket.SocketServer;
 
 import java.io.IOException;

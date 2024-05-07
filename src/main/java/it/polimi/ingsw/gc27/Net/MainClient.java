@@ -1,7 +1,8 @@
 package it.polimi.ingsw.gc27.Net;
 
-import it.polimi.ingsw.gc27.Net.RMI.RmiClient;
+import it.polimi.ingsw.gc27.Net.Rmi.RmiClient;
 import it.polimi.ingsw.gc27.Net.Socket.SocketClient;
+import it.polimi.ingsw.gc27.View.Tui;
 
 import java.io.IOException;
 import java.rmi.NotBoundException;
@@ -15,7 +16,7 @@ public class MainClient  {
         Scanner scan = new Scanner(System.in);
         int connectionChoice;
 
-        System.out.println("Welcome to the game CODEX NATURALIS!");
+        Tui.showTitle();
 
         // Ask for connection type
         System.out.println("\nChoose the connection type: 0 for RMI, 1 for Socket");
@@ -45,9 +46,9 @@ public class MainClient  {
 
         // Run the client
         if(connectionChoice == 0){
-            new RmiClient(ipAddress, VirtualServer.DEFAULT_PORT_NUMBER).run();
+            new RmiClient(ipAddress, VirtualServer.DEFAULT_PORT_NUMBER_RMI).run();
         } else {
-            new SocketClient(ipAddress, VirtualServer.DEFAULT_PORT_NUMBER).run();
+            new SocketClient(ipAddress, VirtualServer.DEFAULT_PORT_NUMBER_SOCKET).run();
         }
 
     }

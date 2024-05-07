@@ -1,4 +1,4 @@
-package it.polimi.ingsw.gc27.Net.RMI;
+package it.polimi.ingsw.gc27.Net.Rmi;
 
 import it.polimi.ingsw.gc27.Controller.GigaController;
 import it.polimi.ingsw.gc27.Model.Card.Face;
@@ -102,7 +102,7 @@ public class RmiServer implements VirtualServer {
         // Bind the remote object's stub in the registry
         Registry registry = null;
         try {
-            registry = LocateRegistry.createRegistry(DEFAULT_PORT_NUMBER);
+            registry = LocateRegistry.createRegistry(DEFAULT_PORT_NUMBER_RMI);
         } catch (RemoteException e) {
             e.printStackTrace();
         }

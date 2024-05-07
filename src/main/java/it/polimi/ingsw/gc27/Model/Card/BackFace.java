@@ -22,6 +22,7 @@ public class BackFace extends Face {
                 face.getCorner(-1, -1),
                 face.getPermanentResources());
     }
+
     @Override
     public ArrayList<Kingdom> getPermanentResources(){
         return permanentResources;

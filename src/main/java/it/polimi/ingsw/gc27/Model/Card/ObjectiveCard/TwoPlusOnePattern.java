@@ -5,6 +5,7 @@ import it.polimi.ingsw.gc27.Model.Card.Face;
 import it.polimi.ingsw.gc27.Model.Card.FrontFace;
 import it.polimi.ingsw.gc27.Model.Enumerations.Kingdom;
 import it.polimi.ingsw.gc27.Model.Game.Manuscript;
+import it.polimi.ingsw.gc27.View.ColourControl;
 
 public class TwoPlusOnePattern extends ObjectiveCard {
     public final int OBJECTIVE_POINTS = 3;
@@ -93,7 +94,58 @@ public class TwoPlusOnePattern extends ObjectiveCard {
     }
 
     @Override
-    public String toString(){
-        return this.getClass().getSimpleName();
+    protected String paintString(String s) {
+        return this.firstColour.toColourControl() + s + ColourControl.RESET;
     }
+
+    private String miniImg(String colour){
+        return colour + "███" + ColourControl.RESET;
+    }
+
+    @Override
+    public String toCliCard(){
+
+        String firstColImg = miniImg(this.firstColour.toColourControl());
+        String secondColImg = miniImg(this.secondColour.toColourControl());
+
+        String ws = " ";
+
+        String comb = x + String.valueOf(y);
+
+        switch(comb){
+            case "11":
+                return paintString("╭-----------------╮\n") +
+                        paintString("| ") + "pts: " + this.getObjPointsMap().get(this.getClass()) + "      " + secondColImg + paintString(" |\n") +
+                        paintString("|           ") + firstColImg + paintString("   |\n") +
+                        paintString("|           ") + firstColImg + paintString("   |\n") +
+                        paintString("╰-----------------╯");
+
+            case "1-1":
+                return paintString("╭-----------------╮\n") +
+                        paintString("| ") + "pts: " + this.getObjPointsMap().get(this.getClass()) + "    " + firstColImg + paintString("   |\n") +
+                        paintString("|           ") + firstColImg + paintString("   |\n") +
+                        paintString("|             ") + secondColImg + paintString(" |\n") +
+                        paintString("╰-----------------╯");
+
+            case "-11":
+                return paintString("╭-----------------╮\n") +
+                        paintString("| ") + "pts: " + this.getObjPointsMap().get(this.getClass()) + "  " + secondColImg + paintString("     |\n") +
+                        paintString("|           ") + firstColImg + paintString("   |\n") +
+                        paintString("|           ") + firstColImg + paintString("   |\n") +
+                        paintString("╰-----------------╯");
+
+            case "-1-1":
+                return paintString("╭-----------------╮\n") +
+                        paintString("| ") + "pts: " + this.getObjPointsMap().get(this.getClass()) + "    " + firstColImg + paintString("   |\n") +
+                        paintString("|           ") + firstColImg + paintString("   |\n") +
+                        paintString("|         ") + secondColImg + paintString("     |\n") +
+                        paintString("╰-----------------╯");
+
+            default:
+                return "Error in TwoPlusOnePattern toCliCard()";
+
+        }
+
+    }
+
 }

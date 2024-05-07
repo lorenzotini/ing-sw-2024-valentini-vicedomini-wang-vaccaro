@@ -92,7 +92,7 @@ public class GameController implements Serializable {
             client.show("Choose your username: ");
             username = client.read();
         }while(!gigaChad.validUsername(username, client));
-        client.setUsername(username);
+
 
         // Ask for the pawn color
         synchronized (game.getAvailablePawns()){
@@ -130,7 +130,7 @@ public class GameController implements Serializable {
                 //TODO fare bene l'addstarted e tutta la fase iniziale
             }
         }
-
+        client.setUsername(username);
         return p;
 
     }

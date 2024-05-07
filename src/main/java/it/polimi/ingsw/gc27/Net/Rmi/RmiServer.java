@@ -1,4 +1,4 @@
-package it.polimi.ingsw.gc27.Net.RMI;
+package it.polimi.ingsw.gc27.Net.Rmi;
 
 import it.polimi.ingsw.gc27.Controller.GigaController;
 import it.polimi.ingsw.gc27.Model.Card.Face;
@@ -90,29 +90,29 @@ public class RmiServer implements VirtualServer {
     public void runServer() throws RemoteException, InterruptedException {
 
         String name = "VirtualServer";
-        //System.out.println("Hello from Server!");
 
         VirtualServer stub = null;
-
+        
         try {
             stub = (VirtualServer) UnicastRemoteObject.exportObject(this, 0);
         } catch (RemoteException e) {
             e.printStackTrace();
         }
-        // Bind the remote object's stub2 in the registry
+
+        // Bind the remote object's stub in the registry
         Registry registry = null;
         try {
-            registry = LocateRegistry.createRegistry(DEFAULT_PORT_NUMBER);
+            registry = LocateRegistry.createRegistry(DEFAULT_PORT_NUMBER_RMI);
         } catch (RemoteException e) {
             e.printStackTrace();
         }
+
         try {
             registry.rebind(name, stub);
         } catch (RemoteException e) {
             e.printStackTrace();
             System.err.println("Server ready");
         }
-        //TODO elimina e sostituisci con update view listener
-        //this.broadcastUpdateThread();
+
     }
 }

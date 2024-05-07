@@ -1,7 +1,7 @@
 package it.polimi.ingsw.gc27.Net.Socket;
 
-import it.polimi.ingsw.gc27.Controller.GameController;
 import it.polimi.ingsw.gc27.Controller.GigaController;
+import it.polimi.ingsw.gc27.Net.VirtualServer;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -18,7 +18,7 @@ public class SocketServer {
     final GigaController console ;
 
     public SocketServer( GigaController console) throws IOException {
-        this.listenSocket = new ServerSocket(1234);
+        this.listenSocket = new ServerSocket(VirtualServer.DEFAULT_PORT_NUMBER_SOCKET);
         this.console = console;
     }
 

@@ -5,6 +5,7 @@ import it.polimi.ingsw.gc27.Model.Card.Face;
 import it.polimi.ingsw.gc27.Model.Card.FrontFace;
 import it.polimi.ingsw.gc27.Model.Enumerations.Kingdom;
 import it.polimi.ingsw.gc27.Model.Game.Manuscript;
+import it.polimi.ingsw.gc27.View.ColourControl;
 
 public class LadderPattern extends ObjectiveCard {
     public final int OBJECTIVE_POINTS = 2;
@@ -55,7 +56,6 @@ public class LadderPattern extends ObjectiveCard {
             }
         }
 
-
         return points;
     }
 
@@ -70,8 +70,33 @@ public class LadderPattern extends ObjectiveCard {
         return points;
     }
 
-    @Override
-    public String toString(){
-        return this.getClass().getSimpleName() + "    ";
+    private String miniImg(){
+        String img = "";
+        img = this.kingdom.toColourControl() + "███" + ColourControl.RESET;
+        return img;
     }
+
+    @Override
+    protected String paintString(String s) {
+        return this.kingdom.toColourControl() + s + ColourControl.RESET;
+    }
+
+    @Override
+    public String toCliCard(){
+
+        String img = miniImg();
+
+        String ws = " ";
+        int sp = this.upscaling ? 4 : 0;
+
+        String first = paintString("╭-----------------╮");
+        String second = paintString("| ") + "pts: " + this.getObjPointsMap().get(this.getClass()) + "   " +ws.repeat(sp) + img + ws.repeat(4-sp) + paintString("|");
+        String third = paintString("|            ") + img + paintString("  |");
+        String fourth = paintString("|          ") + ws.repeat(4-sp) + img + ws.repeat(sp) + paintString("|");
+        String fifth =  paintString("╰-----------------╯");
+
+        return first + "\n" + second + "\n" + third + "\n" + fourth + "\n" + fifth;
+
+    }
+
 }

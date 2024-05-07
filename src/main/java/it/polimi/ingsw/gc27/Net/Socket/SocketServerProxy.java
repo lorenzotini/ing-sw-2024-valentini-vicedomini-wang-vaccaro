@@ -128,10 +128,6 @@ public class SocketServerProxy implements VirtualServer {
         output.println(faceUpCardIndex);
         output.flush();
     }
-    public void askStarter(String playerName) throws IOException, InterruptedException{
-        output.println("askstarter");
-        output.flush();
-    }
     @Override
     public void welcomePlayer(VirtualView client) throws RemoteException {
         output.println("welcomeplayer");
@@ -140,7 +136,8 @@ public class SocketServerProxy implements VirtualServer {
 
     @Override
     public void addStarter(String playerName, boolean isFront) throws IOException, InterruptedException {
-
+        output.println("addStarter" + isFront);
+        output.flush();
     }
 
     public void sendData(String s){

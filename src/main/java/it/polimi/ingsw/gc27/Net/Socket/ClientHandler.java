@@ -59,37 +59,29 @@ public class ClientHandler implements VirtualView {
                     controller = console.userToGameController(player.getUsername());
                     client.runCli();
                     break;
+
                 case "addcard":
-                    new Thread(() -> {
-                        ResourceCard card = player.getHand().get((int)commands[1]);
-                        Face face = commands[2].equals("Front") ? card.getFront() : card.getBack();
-                        int x = (int)commands[3];
-                        int y = Integer.parseInt(commands[4].toString());
-                        // TODO: gestire le eccezioni
-                        this.controller.addCard(player, card, face, x, y);
-                    }).start();
+                    ResourceCard card = player.getHand().get((int)commands[1]);
+                    Face face = commands[2].equals("Front") ? card.getFront() : card.getBack();
+                    int x = (int)commands[3];
+                    int y = Integer.parseInt(commands[4].toString());
+                    // TODO: gestire le eccezioni
+                    this.controller.addCard(player, card, face, x, y);
                     break;
+
                 case "drawresourcecard":
-                    new Thread(() -> {
-                        controller.drawResourceCard(player, commands[1].equals("deck"), (int)commands[2]);
-                    }).start();
+                    controller.drawResourceCard(player, commands[1].equals("deck"), (int)commands[2]);
                     break;
 
                 case "drawgoldcard":
-                    new Thread(()->{
-                        controller.drawGoldCard(player, commands[1].equals("deck"), (int)commands[2]);
-                    }).start();
+                    controller.drawGoldCard(this.player, (boolean)commands[1], (int)commands[2] );
                     break;
-                /*case "askstarter":
-                    new Thread(()->{
-                        try {
-                            controller.askStarter(player, this);
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        } catch (InterruptedException e) {
-                            throw new RuntimeException(e);
-                        }
-                    }).start();*/
+
+                case "addstarter":
+                    StarterCard starter = this.player.getStarterCard();
+                    Face starterFace = (boolean)commands[1] ? starter.getFront() : starter.getBack();
+                    controller.addStarterCard(this.player, this.player.getStarterCard(), starterFace );
+
                 default:
                     client.show("Invalid command");
                     break;

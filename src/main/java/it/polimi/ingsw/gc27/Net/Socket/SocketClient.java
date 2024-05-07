@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.Scanner;
 
-public class SocketClient extends MainClient implements VirtualView, Runnable {
+public class SocketClient implements VirtualView, Runnable {
 
     final SocketServerProxy server;
     private String username;
@@ -48,6 +48,10 @@ public class SocketClient extends MainClient implements VirtualView, Runnable {
     public void show(String s) throws RemoteException {
         System.out.println(s);
     }
+    public void showUpdate(String mex) throws RemoteException {
+        // TODO Attenzione! Questo può causare data race con il thread dell'interfaccia o un altro thread
+        System.out.println(mex);
+    }
 
     @Override
     public void showManuscript(Manuscript manuscript) throws RemoteException {
@@ -75,8 +79,9 @@ public class SocketClient extends MainClient implements VirtualView, Runnable {
         }
     }
 
+
     @Override
-    public void update(String mex) {
+    public void update(String mex) throws RemoteException {
 
     }
 }

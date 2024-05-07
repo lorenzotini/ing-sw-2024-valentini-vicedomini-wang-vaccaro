@@ -4,6 +4,8 @@ import it.polimi.ingsw.gc27.Model.Game.Game;
 import it.polimi.ingsw.gc27.Model.Game.Player;
 import it.polimi.ingsw.gc27.Model.States.*;
 
+import java.rmi.RemoteException;
+
 public class TurnHandler {
     private Game game;
     private boolean twentyPointsReached;
@@ -37,7 +39,7 @@ public class TurnHandler {
         }
     }
 
-    public void notifyEndOfTurnState(Player player) {
+    public void notifyEndOfTurnState(Player player) throws RemoteException {
         // in case someone triggers the 20 points threshold
         if(game.getBoard().getPointsBluePlayer() >= game.getBoard().END_GAME_THRESHOLD ||
                 game.getBoard().getPointsRedPlayer() >= game.getBoard().END_GAME_THRESHOLD ||
@@ -70,7 +72,7 @@ public class TurnHandler {
 
     }
 
-    public void notifyCalculateObjectivePoints(Player player) {
+    public void notifyCalculateObjectivePoints(Player player) throws RemoteException {
         // verify that every player is in the ending state
         int points = 0;
         boolean everyPlayerEndingState = true;

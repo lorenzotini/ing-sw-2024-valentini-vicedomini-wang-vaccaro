@@ -1,5 +1,6 @@
 package it.polimi.ingsw.gc27.Net.Socket;
 
+import it.polimi.ingsw.gc27.Listeners.Messages.Message;
 import it.polimi.ingsw.gc27.Model.Card.StarterCard;
 import it.polimi.ingsw.gc27.Model.Game.Manuscript;
 import it.polimi.ingsw.gc27.Net.MainClient;
@@ -76,7 +77,7 @@ public class SocketClient extends MainClient implements VirtualView, Runnable {
     }
 
     @Override
-    public void update(String mex) {
+    public void update(Message message) {
 
     }
 }

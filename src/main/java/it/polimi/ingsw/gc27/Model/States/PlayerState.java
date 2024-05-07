@@ -8,6 +8,7 @@ import it.polimi.ingsw.gc27.Model.Game.Game;
 import it.polimi.ingsw.gc27.Model.Game.Player;
 
 import java.io.IOException;
+import java.rmi.RemoteException;
 
 //aggiungere state e setState in Game
 
@@ -20,13 +21,13 @@ public abstract class PlayerState {
         this.turnHandler = turnHandler;
     }
 
-    public abstract void chooseObjectiveCard(Game game, int objectiveCardIndex);
+    public abstract void chooseObjectiveCard(Game game, int objectiveCardIndex) throws RemoteException;
 
-    public abstract void drawResourceCard(Player player, boolean fromDeck, int faceUpCardIndex, Game game);
+    public abstract void drawResourceCard(Player player, boolean fromDeck, int faceUpCardIndex, Game game) throws RemoteException;
 
-    public abstract void drawGoldCard(Player player, boolean fromDeck, int faceUpCardIndex, Game game);
+    public abstract void drawGoldCard(Player player, boolean fromDeck, int faceUpCardIndex, Game game) throws RemoteException;
 
-    public abstract void addCard(Game game, ResourceCard resourceCard, Face face, int x, int y);
+    public abstract void addCard(Game game, ResourceCard resourceCard, Face face, int x, int y) throws RemoteException;
 
     public abstract void addStarterCard(Game game, StarterCard starterCard, Face face) throws IOException, InterruptedException;
 

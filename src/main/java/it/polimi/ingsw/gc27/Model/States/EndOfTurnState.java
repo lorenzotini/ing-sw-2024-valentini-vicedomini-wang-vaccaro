@@ -1,16 +1,20 @@
 package it.polimi.ingsw.gc27.Model.States;
 
 import it.polimi.ingsw.gc27.Controller.TurnHandler;
+import it.polimi.ingsw.gc27.Listeners.Messages.Message;
 import it.polimi.ingsw.gc27.Model.Card.Face;
 import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
 import it.polimi.ingsw.gc27.Model.Card.StarterCard;
 import it.polimi.ingsw.gc27.Model.Game.Game;
 import it.polimi.ingsw.gc27.Model.Game.Player;
+import it.polimi.ingsw.gc27.Model.Listener.Observable;
+import it.polimi.ingsw.gc27.Model.Listener.Observer;
 
 import java.io.IOException;
+import java.rmi.RemoteException;
 
 public class EndOfTurnState extends PlayerState{
-    public EndOfTurnState(Player player, TurnHandler turnHandler) {
+    public EndOfTurnState(Player player, TurnHandler turnHandler) throws RemoteException {
         super(player, turnHandler);
         getTurnHandler().notifyEndOfTurnState(getPlayer());
     }
@@ -38,7 +42,6 @@ public class EndOfTurnState extends PlayerState{
 
     @Override
     public void addStarterCard(Game game, StarterCard starterCard, Face face) throws IOException, InterruptedException{
-        System.out.println("you already have a starter card\n");
-    }
 
+    }
 }

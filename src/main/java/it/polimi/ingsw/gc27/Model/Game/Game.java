@@ -1,6 +1,8 @@
 
 package it.polimi.ingsw.gc27.Model.Game;
 
+import it.polimi.ingsw.gc27.Listeners.Messages.Message;
+import it.polimi.ingsw.gc27.Listeners.Messages.PlayerJoinedMessage;
 import it.polimi.ingsw.gc27.Model.Card.Card;
 import it.polimi.ingsw.gc27.Model.Card.ObjectiveCard.ObjectiveCard;
 import it.polimi.ingsw.gc27.Model.Card.StarterCard;
@@ -13,7 +15,6 @@ import it.polimi.ingsw.gc27.Net.VirtualView;
 import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 public class Game implements Serializable, Observable {
@@ -118,7 +119,7 @@ public class Game implements Serializable, Observable {
      * @param player
      * @param points
      */
-    public void addPoints(Player player, int points){
+    public void addPoints(Player player, int points) throws RemoteException {
         PawnColour pawncolour = player.getPawnColour();
         switch (pawncolour){
             case BLUE -> board.setPointsBluePlayer(board.getPointsBluePlayer() + points);
@@ -163,7 +164,12 @@ public class Game implements Serializable, Observable {
     @Override
     public void notifyObservers() throws RemoteException {
         for(Observer o : observers){
-            o.update("Player joined your game");
+            o.update(new PlayerJoinedMessage(this.players.getLast().getUsername()));
         }
+    }
+
+    @Override
+    public void notifyObservers(Message notYourTurnMessage) throws RemoteException {
+
     }
 }

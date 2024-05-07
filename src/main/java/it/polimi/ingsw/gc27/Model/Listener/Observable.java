@@ -1,5 +1,7 @@
 package it.polimi.ingsw.gc27.Model.Listener;
 
+import it.polimi.ingsw.gc27.Listeners.Messages.Message;
+
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
@@ -10,5 +12,6 @@ public interface Observable {
     void addObserver(Observer o);
     void deleteObserver(Observer o);
     void notifyObservers() throws RemoteException;
+    void notifyObservers(Message notYourTurnMessage) throws RemoteException;
 
 }

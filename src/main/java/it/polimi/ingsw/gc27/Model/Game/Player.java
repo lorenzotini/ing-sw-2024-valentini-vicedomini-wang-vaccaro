@@ -1,11 +1,11 @@
 package it.polimi.ingsw.gc27.Model.Game;
 
+import it.polimi.ingsw.gc27.Listeners.Messages.Message;
 import it.polimi.ingsw.gc27.Model.Card.*;
 import it.polimi.ingsw.gc27.Model.Card.ObjectiveCard.ObjectiveCard;
 import it.polimi.ingsw.gc27.Model.Enumerations.Kingdom;
 import it.polimi.ingsw.gc27.Model.Enumerations.PawnColour;
 import it.polimi.ingsw.gc27.Model.Enumerations.PointsMultiplier;
-import it.polimi.ingsw.gc27.Model.Listener.Observable;
 import it.polimi.ingsw.gc27.Model.Listener.Observable;
 import it.polimi.ingsw.gc27.Model.Listener.Observer;
 import it.polimi.ingsw.gc27.Model.States.PlayerState;
@@ -92,7 +92,7 @@ public class Player implements Serializable, Observable {
      * @param x
      * @param y
      */
-    public void addCard(Game game, Card card, Face face, int x, int y) {
+    public void addCard(Game game, Card card, Face face, int x, int y) throws RemoteException {
 
         Manuscript m = this.manuscript;
 
@@ -196,9 +196,12 @@ public class Player implements Serializable, Observable {
 
     @Override
     public void notifyObservers() throws RemoteException {
-        for(Observer o : observers){
-            o.update("boh: da classe player");
-        }
+
+    }
+
+    @Override
+    public void notifyObservers(Message notYourTurnMessage) throws RemoteException {
+
     }
 
 }

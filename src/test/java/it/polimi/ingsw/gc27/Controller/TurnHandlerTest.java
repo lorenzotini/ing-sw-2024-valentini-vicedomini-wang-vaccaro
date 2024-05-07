@@ -10,6 +10,7 @@ import it.polimi.ingsw.gc27.Model.States.*;
 //import it.polimi.ingsw.gc27.Model.States.PlayerStates.EndingState;
 import org.junit.jupiter.api.Test;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -102,7 +103,7 @@ class TurnHandlerTest {
     }
 
     @Test
-    void notifyEndOfTurnStateTest() {
+    void notifyEndOfTurnStateTest() throws RemoteException {
         initializeGame();
         g1.getBoard().setPointsBluePlayer(20);
         turnHandler.notifyEndOfTurnState(p1);

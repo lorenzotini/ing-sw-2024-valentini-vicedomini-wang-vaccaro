@@ -49,6 +49,7 @@ public class PlayingState extends PlayerState implements Observable, Serializabl
             //shows on screen that a card was played successfully
             //...
             //go to next state
+            notifyObservers();
             getPlayer().setPlayerState(new DrawingState(getPlayer(), getTurnHandler()));
         }else{
             System.err.println("Error: invalid position");

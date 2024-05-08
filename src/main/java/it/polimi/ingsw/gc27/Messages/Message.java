@@ -20,8 +20,9 @@ public abstract class Message implements Serializable {
         this.string = string;
         this.miniModel = null;
     }
-    protected Message(String string, MiniModel miniModel){
-        this.string = string;
-        this.miniModel = miniModel;
-    }
+
+//    protected Message(String string, MiniModel miniModel){
+//        this.string = string;
+//        this.miniModel = miniModel;
+//    }
 }

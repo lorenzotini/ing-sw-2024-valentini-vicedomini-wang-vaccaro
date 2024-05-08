@@ -79,4 +79,5 @@ public class InitializingState extends PlayerState implements Observable {
             o.update(notYourTurnMessage);
         }
     }
+
 }

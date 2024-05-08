@@ -11,9 +11,8 @@ import it.polimi.ingsw.gc27.Game.*;
 import it.polimi.ingsw.gc27.Model.Game.*;
 import it.polimi.ingsw.gc27.Model.States.InitializingState;
 import it.polimi.ingsw.gc27.Model.States.PlayingState;
-import it.polimi.ingsw.gc27.View.MyCli;
-import it.polimi.ingsw.gc27.View.TUI;
-import it.polimi.ingsw.gc27.View.ViewCli;
+import it.polimi.ingsw.gc27.View.Tui;
+
 import org.junit.Before;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -181,9 +180,7 @@ class GameControllerTest {
 
         assertEquals(23, gc1.getGame().getBoard().getPointsRedPlayer());
 
-        ViewCli view = new ViewCli();
-        view.showManuscript(p1.getManuscript());
-        view.zoom(p1.getManuscript(),42,42);
+
 
     }
 
@@ -250,10 +247,7 @@ class GameControllerTest {
 
         //check simboli fatto visivamente
 
-        ViewCli view2 = new ViewCli();
-        view2.showManuscript(p2.getManuscript());
-        MyCli view=new MyCli();
-        view.printManuscript(p2.getManuscript());
+
     }
 
 
@@ -322,12 +316,7 @@ class GameControllerTest {
         //two plus one animial-insect
         assertEquals(3, objectiveDeck.get(7).calculateObjectivePoints(p3.getManuscript()));
 
-        ViewCli view3 = new ViewCli();
-        view3.showManuscript(p3.getManuscript());
-        MyCli view=new MyCli();
-        view.printManuscript(p3.getManuscript());
 
-        //view.printManuscript(p3.getManuscript());
     }
 
     @Test
@@ -412,10 +401,7 @@ class GameControllerTest {
         //three fungi
         assertEquals(4, objectiveDeck.get(8).calculateObjectivePoints(p4.getManuscript()));
 
-        //ViewCli view4 = new ViewCli();
-        //view4.showManuscript(p4.getManuscript());
-        MyCli view=new MyCli();
-        view.printManuscript(p4.getManuscript());
+
     }
 
     @Test
@@ -504,10 +490,7 @@ class GameControllerTest {
         p1.setPlayerState(new PlayingState(p1, turnHandler));
         gc1.addCard(p1, resourceDeck.get(39), resourceDeck.get(39).getBack(), 42, 2);
 
-        //ViewCli view5 = new ViewCli();
-        //view5.showManuscript(p1.getManuscript());
-        MyCli view=new MyCli();
-        view.printManuscript(p1.getManuscript());
+
     }
 
     @Test
@@ -726,8 +709,9 @@ void addCardTest7() throws IOException, InterruptedException {
 
     //ViewCli view6=new ViewCli();
     //view6.showManuscript(p1.getManuscript());
-    MyCli view=new MyCli();
-    MyCli.printManuscript(p1.getManuscript());
+    //Tui tui = new Tui();
+
+
 
 
     }
@@ -780,11 +764,7 @@ void addCardTest7() throws IOException, InterruptedException {
         p1.setPlayerState(new PlayingState(p1, turnHandler));
         gc1.addCard(p1, goldDeck.get(33), goldDeck.get(33).getFront(), 39, 43);
 
-        //ViewCli view8=new ViewCli();
-        //view8.showManuscript(p1.getManuscript());
 
-        MyCli view=new MyCli();
-        view.printManuscript(p1.getManuscript());
     }
     @Test
     void addCardTest9() throws IOException, InterruptedException {
@@ -879,8 +859,7 @@ void addCardTest7() throws IOException, InterruptedException {
         //two plus one plant+insect
         assertEquals(3, objectiveDeck.get(5).calculateObjectivePoints(p1.getManuscript()));
 
-        MyCli view=new MyCli();
-        view.printManuscript(p1.getManuscript());
+
 
     }
     

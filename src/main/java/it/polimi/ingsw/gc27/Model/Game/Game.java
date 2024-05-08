@@ -148,7 +148,7 @@ public class Game implements Serializable, Observable {
     public void addPlayer(Player p, VirtualView client) throws RemoteException {
         this.players.add(p);
         this.addObserver(client);
-        this.notifyObservers();
+        this.notifyObservers(p);
     }
 
     @Override
@@ -163,11 +163,13 @@ public class Game implements Serializable, Observable {
 
     @Override
     public void notifyObservers() throws RemoteException {
-        for(Observer o : observers){
-            o.update(new PlayerJoinedMessage(this.players.getLast().getUsername()));
-        }
     }
 
+    public void notifyObservers(Player player) throws RemoteException {
+        for(Observer o : observers){
+            o.update(new PlayerJoinedMessage(player.getUsername()));
+        }
+    }
     @Override
     public void notifyObservers(Message notYourTurnMessage) throws RemoteException {
 

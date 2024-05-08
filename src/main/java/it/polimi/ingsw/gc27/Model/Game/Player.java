@@ -14,7 +14,7 @@ import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
-public class Player implements Serializable, Observable {
+public class Player implements Serializable{
     private final String username;
     private ArrayList<ResourceCard> hand;
     private Manuscript manuscript;
@@ -184,24 +184,5 @@ public class Player implements Serializable, Observable {
     public void setSecretObjectives(ArrayList<ObjectiveCard> secretObjectives) {
     }
 
-    @Override
-    public void addObserver(Observer o) {
-        observers.add(o);
-    }
-
-    @Override
-    public void deleteObserver(Observer o) {
-        observers.remove(o);
-    }
-
-    @Override
-    public void notifyObservers() throws RemoteException {
-
-    }
-
-    @Override
-    public void notifyObservers(Message notYourTurnMessage) throws RemoteException {
-
-    }
 
 }

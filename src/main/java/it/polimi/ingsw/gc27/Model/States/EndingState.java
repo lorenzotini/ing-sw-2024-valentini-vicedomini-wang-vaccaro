@@ -22,8 +22,10 @@ public class EndingState extends PlayerState implements Observable {
     }
 
     @Override
-    public void chooseObjectiveCard(Game game, int objectiveCardIndex) {
-
+    public void chooseObjectiveCard(Game game, int objectiveCardIndex) throws RemoteException {
+        MiniModel currentPlayer = new MiniModel(getPlayer());
+        Message genericErrorMessage = new NotYourTurnMessage("the game is ending... it's too late man", currentPlayer);
+        notifyObservers(genericErrorMessage);
     }
 
     @Override

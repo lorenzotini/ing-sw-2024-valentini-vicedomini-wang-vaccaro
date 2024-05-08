@@ -24,35 +24,35 @@ public class WaitingState extends PlayerState implements Observable {
     @Override
     public void chooseObjectiveCard(Game game, int objectiveCardIndex) throws RemoteException {
         MiniModel currentPlayer = new MiniModel(getPlayer());
-        Message genericErrorMessage = new NotYourTurnMessage("Patientiam forti et virtute, so please wait", currentPlayer);
+        Message genericErrorMessage = new NotYourTurnMessage("Patientiam forti est virtute, so please wait", currentPlayer);
         notifyObservers(genericErrorMessage);
     }
 
     @Override
     public void drawResourceCard(Player player, boolean fromDeck, int faceUpCardIndex, Game game) throws RemoteException {
         MiniModel currentPlayer = new MiniModel(getPlayer());
-        Message genericErrorMessage = new NotYourTurnMessage("Patientiam forti et virtute, so please wait", currentPlayer);
+        Message genericErrorMessage = new NotYourTurnMessage("Patientiam forti est virtute, so please wait", currentPlayer);
         notifyObservers(genericErrorMessage);
     }
 
     @Override
     public void drawGoldCard(Player player, boolean fromDeck, int faceUpCardIndex, Game game) throws RemoteException {
         MiniModel currentPlayer = new MiniModel(getPlayer());
-        Message genericErrorMessage = new NotYourTurnMessage("Patientiam forti et virtute, so please wait", currentPlayer);
+        Message genericErrorMessage = new NotYourTurnMessage("Patientiam forti est virtute, so please wait", currentPlayer);
         notifyObservers(genericErrorMessage);
     }
 
     @Override
     public void addCard(Game game, ResourceCard resourceCard, Face face, int x, int y) throws RemoteException {
         MiniModel currentPlayer = new MiniModel(getPlayer());
-        Message genericErrorMessage = new NotYourTurnMessage("Patientiam forti et virtute, so please wait", currentPlayer);
+        Message genericErrorMessage = new NotYourTurnMessage("Patientiam forti est virtute, so please wait", currentPlayer);
         notifyObservers(genericErrorMessage);
     }
 
     @Override
     public void addStarterCard(Game game, StarterCard starterCard, Face face) throws IOException, InterruptedException{
         MiniModel currentPlayer = new MiniModel(getPlayer());
-        Message genericErrorMessage = new NotYourTurnMessage("Patientiam forti et virtute, so please wait", currentPlayer);
+        Message genericErrorMessage = new NotYourTurnMessage("Patientiam forti est virtute, so please wait", currentPlayer);
         notifyObservers(genericErrorMessage);
     }
 

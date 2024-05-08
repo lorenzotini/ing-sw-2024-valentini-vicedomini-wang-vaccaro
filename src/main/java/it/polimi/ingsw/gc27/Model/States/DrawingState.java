@@ -49,6 +49,7 @@ public class DrawingState extends PlayerState implements Observable, Serializabl
 
         player.getHand().add(card);
         market.notifyChangesInMarket();
+        notifyObservers();
         player.setPlayerState(new EndOfTurnState(getPlayer(), getTurnHandler()));
     }
 
@@ -68,6 +69,7 @@ public class DrawingState extends PlayerState implements Observable, Serializabl
         }
         player.getHand().add(card);
         market.notifyChangesInMarket();
+        notifyObservers();
         player.setPlayerState(new EndOfTurnState(getPlayer(), getTurnHandler()));
     }
 

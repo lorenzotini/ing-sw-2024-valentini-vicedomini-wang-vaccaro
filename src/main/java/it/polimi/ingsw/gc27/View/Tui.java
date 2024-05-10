@@ -1,22 +1,17 @@
 package it.polimi.ingsw.gc27.View;
 
-import it.polimi.ingsw.gc27.Model.Card.Corner;
-import it.polimi.ingsw.gc27.Model.Card.Face;
+import it.polimi.ingsw.gc27.JsonParser;
+import it.polimi.ingsw.gc27.Model.Card.*;
 import it.polimi.ingsw.gc27.Model.Card.ObjectiveCard.ObjectiveCard;
-import it.polimi.ingsw.gc27.Model.Card.StarterCard;
 import it.polimi.ingsw.gc27.Model.Game.Manuscript;
 import it.polimi.ingsw.gc27.Net.VirtualServer;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 
 import java.io.IOException;
-import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.Scanner;
+import java.util.*;
 import java.util.stream.Collectors;
 
-public class Tui {
+public class Tui implements View{
 
     private VirtualView client;
     private VirtualServer server;
@@ -27,7 +22,8 @@ public class Tui {
         this.server = server;
     }
 
-    public void runCli() throws IOException, RemoteException, InterruptedException {
+    @Override
+    public void run() throws IOException, InterruptedException {
 
         Scanner scan = new Scanner(System.in);
 
@@ -67,11 +63,10 @@ public class Tui {
                     scan.nextLine();
                     break;
 
-                /*case "chooseobj":
+                case "chooseobj":
                     //System.out.println(Tui.showObjective(client.getMiniModel().getSecretObjectives()));
                     int obj;
-                    // Ask for connection type
-                    System.out.println("Which objective do you want to choose? (1, 2)");
+                    System.out.println("Which objective do you want to achive? (1 or 2)");
                     while(true){
                         try {
                             obj = scan.nextInt();
@@ -93,7 +88,7 @@ public class Tui {
                     }
                     // Consume the invalid input to clear the scanner's buffer
                     scan.nextLine();
-                    break;*/
+                    break;
 
                 // TODO creare una soluzione intelligente per gestire gli input di addcard, con while true e try catch vari
                 case "addcard":
@@ -429,8 +424,100 @@ public class Tui {
     }
 
     public static void main(String[] args) {
-        System.out.println(ColourControl.CYAN_BACKGROUND_BRIGHT + "       " + ColourControl.RESET);
 
+        ArrayList<ResourceCard> resourceDeck = JsonParser.getResourceDeck(JsonParser.cardsJsonObj);
+        ArrayList<GoldCard> goldDeck = JsonParser.getGoldDeck(JsonParser.cardsJsonObj);
+        ArrayList<StarterCard> starterDeck = JsonParser.getStarterDeck(JsonParser.cardsJsonObj);
+        ArrayList<ObjectiveCard> objectiveDeck = JsonParser.getObjectiveDeck(JsonParser.cardsJsonObj);
+
+        Manuscript m = new Manuscript();
+
+        // #0
+        m.getField()[40][40] = starterDeck.get(0).getFront();
+        m.getField()[40][40].getCornerLL().setHidden(true);
+        m.getField()[40][40].getCornerLR().setHidden(true);
+        m.getField()[40][40].getCornerUR().setHidden(true);
+        m.getField()[40][40].getCornerUL().setHidden(true);
+
+        // #1
+        m.getField()[39][41] = resourceDeck.get(20).getBack();
+        m.getField()[39][41].getCornerLL().setHidden(true);
+        m.getField()[39][41].getCornerLR().setHidden(true);
+
+        // #2
+        m.getField()[39][39] = resourceDeck.get(21).getBack();
+        m.getField()[39][39].getCornerUR().setHidden(true);
+
+        // #3
+        m.getField()[38][42] = resourceDeck.get(22).getFront();
+        m.getField()[38][42].getCornerLL().setHidden(true);
+
+        // #4
+        m.getField()[37][43] = resourceDeck.get(23).getBack();
+        m.getField()[37][43].getCornerUL().setHidden(true);
+
+        // #5
+        m.getField()[40][38] = resourceDeck.get(0).getFront();
+        m.getField()[40][38].getCornerLR().setHidden(true);
+
+        // #6
+        m.getField()[41][39] = resourceDeck.get(30).getFront();
+        m.getField()[41][39].getCornerLR().setHidden(true);
+
+        // #7
+        m.getField()[36][42] = resourceDeck.get(31).getFront();
+
+        // #8
+        m.getField()[42][40] = resourceDeck.get(10).getBack();
+        m.getField()[42][40].getCornerLL().setHidden(true);
+
+        // #9
+        m.getField()[40][42] = resourceDeck.get(11).getFront();
+        m.getField()[40][42].getCornerUR().setHidden(true);
+
+        // #10
+        m.getField()[41][41] = resourceDeck.get(32).getBack();
+
+        m.setxMin(36);
+        m.setyMin(38);
+        m.setxMax(42);
+        m.setyMax(43);
+
+        System.out.print(Tui.printManuscript(m));
+
+        /////////////////////////
+        Manuscript n = new Manuscript();
+
+        n.getField()[40][40] = goldDeck.get(22).getFront();
+        n.getField()[40][40].getCornerLR().setHidden(true);
+
+        n.getField()[41][41] = goldDeck.get(23).getFront();
+
+        n.setxMin(40);
+        n.setyMin(40);
+        n.setxMax(41);
+        n.setyMax(41);
+
+        for(var c : resourceDeck){
+            System.out.println(showFace(c.getFront()));
+            System.out.println();
+            System.out.println(showFace(c.getBack()));
+            System.out.println();
+        }
+
+        for(var c : goldDeck){
+            System.out.println(showFace(c.getFront()));
+            System.out.println();
+            System.out.println(showFace(c.getBack()));
+            System.out.println();
+        }
+
+        for(var c : starterDeck){
+            System.out.println(showFace(c.getFront()));
+            System.out.println();
+            System.out.println(showFace(c.getBack()));
+            System.out.println();
+        }
 
     }
 

@@ -44,6 +44,12 @@ public class RmiServer implements VirtualServer {
     }
 
     @Override
+    public void chooseObjective(String playerName, int objectiveIndex) throws IOException, InterruptedException {
+        Player player = this.console.getPlayer(playerName);
+        this.console.userToGameController(playerName).chooseObjectiveCard(player, objectiveIndex);
+    }
+
+    @Override
     public void addCard(String playerName, int handCardIndex, boolean isFrontFace, int x, int y) throws RemoteException {
         Player player = this.console.getPlayer(playerName);
         ResourceCard card = player.getHand().get(handCardIndex);

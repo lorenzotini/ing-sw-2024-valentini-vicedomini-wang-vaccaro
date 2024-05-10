@@ -16,6 +16,10 @@ public abstract class PlayerState {
     private Player player;
     private TurnHandler turnHandler;
 
+    public PlayerState(){
+
+    }
+
     public PlayerState(Player player, TurnHandler turnHandler) {
         this.player = player;
         this.turnHandler = turnHandler;

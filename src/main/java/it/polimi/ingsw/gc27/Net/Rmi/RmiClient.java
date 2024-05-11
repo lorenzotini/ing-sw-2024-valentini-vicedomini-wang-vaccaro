@@ -38,16 +38,6 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
     }
 
     @Override
-    public void showManuscript(Manuscript manuscript) throws RemoteException {
-        //Tui.printManuscript(manuscript);
-    }
-
-    @Override
-    public void showStarter(StarterCard starterCard) throws RemoteException {
-        Tui.showStarter(starterCard);
-    }
-
-    @Override
     public String read() throws RemoteException{
         Scanner s = new Scanner(System.in);
         return s.nextLine();

@@ -7,7 +7,8 @@ import java.io.Serializable;
 
 public abstract class Message implements Serializable {
     private final MiniModel miniModel;
-    public final String string;
+    protected final String string;
+
     //every extension of this class will have different params of the minimodel setted,
     //you can find the specified params setted noted in every class
 

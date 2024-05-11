@@ -11,14 +11,7 @@ import java.rmi.RemoteException;
 
 public interface VirtualView extends Remote, Observer {
 
-    void show(String s) throws RemoteException;
-
-    void showManuscript(Manuscript manuscript) throws RemoteException;
-
-    void showStarter(StarterCard starterCard) throws RemoteException;
-
-    //void showObjectives(ArrayList<ObjectiveCard> secretObjectives) throws RemoteException;
-
+    void show(String s) throws IOException;
     String read() throws IOException, InterruptedException;
 
     void setUsername(String username) throws RemoteException;

@@ -115,57 +115,14 @@ public class SocketServerProxy implements VirtualServer {
     }
 
     @Override
-    public void addCard(String playerName, int handCardIndex, boolean isFrontFace, int x, int y) throws RemoteException {
-        output.println("addCard");
-        output.println(playerName);
-        output.println(handCardIndex);
-        if (isFrontFace) {
-            output.println(1);
-        } else {
-            output.println(0);
-        }
-        output.println(x);
-        output.println(y);
-        output.flush();
-    }
-
-    @Override
-    public void drawResourceCard(String playerName, boolean fromDeck, int faceUpCardIndex) throws RemoteException{
-        output.println("drawResourceCard");
-        output.println(playerName);
-        output.println(fromDeck);
-        output.println(faceUpCardIndex);
-        output.flush();
-    }
-
-
-    @Override
-    public void drawGoldCard(String playerName, boolean fromDeck, int faceUpCardIndex) throws RemoteException{
-        output.println("drawResourceCard");
-        output.println(playerName);
-        output.println(fromDeck);
-        output.println(faceUpCardIndex);
-        output.flush();
-    }
-    @Override
     public void welcomePlayer(VirtualView client) throws RemoteException {
-        output.println("welcomeplayer");
+
         output.flush();
-    }
-
-    @Override
-    public void addStarter(String playerName, boolean isFront) throws IOException, InterruptedException {
-        output.println("addStarter" + isFront);
-        output.flush();
-    }
-
-    @Override
-    public void chooseObjective(String playerName, int objectiveIndex) throws IOException, InterruptedException {
-
     }
 
     public void sendData(String s){
         output.println(s);
         output.flush();
     }
+
 }

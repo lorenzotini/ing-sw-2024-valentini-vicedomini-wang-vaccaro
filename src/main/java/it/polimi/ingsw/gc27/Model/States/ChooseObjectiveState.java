@@ -15,7 +15,9 @@ import it.polimi.ingsw.gc27.Model.MiniModel;
 import java.io.IOException;
 import java.rmi.RemoteException;
 
-public class ChooseObjectiveState extends PlayerState implements Observable {
+public class ChooseObjectiveState extends PlayerState {
+    private String wrongStateText = "You have to choose an objective card first";
+    private String starterText = "You already have a Starter Card";
     public ChooseObjectiveState(Player player, TurnHandler turnHandler) {
         super(player, turnHandler);
     }
@@ -23,29 +25,29 @@ public class ChooseObjectiveState extends PlayerState implements Observable {
     @Override
     public void drawResourceCard(Player player, boolean fromDeck, int faceUpCardIndex, Game game) throws RemoteException {
         MiniModel currentPlayer = new MiniModel(getPlayer());
-        Message genericErrorMessage = new NotYourTurnMessage("You have to choose an objective card first", currentPlayer);
-        notifyObservers(genericErrorMessage);
+        Message genericErrorMessage = new NotYourTurnMessage(wrongStateText, currentPlayer);
+        turnHandler.getGame().notifyObservers(genericErrorMessage);
     }
 
     @Override
     public void drawGoldCard(Player player, boolean fromDeck, int faceUpCardIndex, Game game) throws RemoteException {
         MiniModel currentPlayer = new MiniModel(getPlayer());
-        Message genericErrorMessage = new NotYourTurnMessage("You have to choose an objective card first", currentPlayer);
-        notifyObservers(genericErrorMessage);
+        Message genericErrorMessage = new NotYourTurnMessage(wrongStateText, currentPlayer);
+        turnHandler.getGame().notifyObservers(genericErrorMessage);
     }
 
     @Override
     public void addCard(Game game, ResourceCard resourceCard, Face face, int x, int y) throws RemoteException {
         MiniModel currentPlayer = new MiniModel(getPlayer());
-        Message genericErrorMessage = new NotYourTurnMessage("You have to choose an objective card first", currentPlayer);
-        notifyObservers(genericErrorMessage);
+        Message genericErrorMessage = new NotYourTurnMessage(wrongStateText, currentPlayer);
+        turnHandler.getGame().notifyObservers(genericErrorMessage);
     }
 
     @Override
     public void addStarterCard(Game game, StarterCard starterCard, Face face) throws IOException, InterruptedException{
         MiniModel currentPlayer = new MiniModel(getPlayer());
-        Message genericErrorMessage = new NotYourTurnMessage("You already have a Starter Card ", currentPlayer);
-        notifyObservers(genericErrorMessage);
+        Message genericErrorMessage = new NotYourTurnMessage(starterText, currentPlayer);
+        turnHandler.getGame().notifyObservers(genericErrorMessage);
     }
 
     @Override
@@ -60,25 +62,4 @@ public class ChooseObjectiveState extends PlayerState implements Observable {
         this.getTurnHandler().notifyChooseObjectiveState(getPlayer());
     }
 
-    @Override
-    public void addObserver(Observer o) {
-
-    }
-
-    @Override
-    public void deleteObserver(Observer o) {
-
-    }
-
-    @Override
-    public void notifyObservers() throws RemoteException {
-
-    }
-
-    @Override
-    public void notifyObservers(Message notYourTurnMessage) throws RemoteException {
-        for(Observer o: observers){
-            o.update(notYourTurnMessage);
-        }
-    }
 }

@@ -3,7 +3,9 @@ package it.polimi.ingsw.gc27.View;
 import it.polimi.ingsw.gc27.JsonParser;
 import it.polimi.ingsw.gc27.Model.Card.*;
 import it.polimi.ingsw.gc27.Model.Card.ObjectiveCard.ObjectiveCard;
+import it.polimi.ingsw.gc27.Model.Game.Board;
 import it.polimi.ingsw.gc27.Model.Game.Manuscript;
+import it.polimi.ingsw.gc27.Model.Game.Market;
 import it.polimi.ingsw.gc27.Net.VirtualServer;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 
@@ -11,7 +13,7 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class Tui implements View{
+public class Tui implements View {
 
     private VirtualView client;
     private VirtualServer server;
@@ -45,15 +47,15 @@ public class Tui implements View{
                 case "addstarter":
                     //System.out.println(Tui.showStarter(client.getMiniModel().getStarter()));
                     System.out.println("What side do you want to play? (front or back)");
-                    while(true){
+                    while (true) {
                         String side = scan.next();
-                        if(side.equalsIgnoreCase("front")) {
+                        if (side.equalsIgnoreCase("front")) {
                             server.addStarter(client.getUsername(), true);
                             break;
-                        }else if(side.equalsIgnoreCase("back")){
+                        } else if (side.equalsIgnoreCase("back")) {
                             server.addStarter(client.getUsername(), false);
                             break;
-                        }else{
+                        } else {
                             System.out.println("Invalid face: insert front or back");
                         }
                         // Consume the invalid input to clear the scanner's buffer
@@ -67,13 +69,13 @@ public class Tui implements View{
                     //System.out.println(Tui.showObjective(client.getMiniModel().getSecretObjectives()));
                     int obj;
                     System.out.println("Which objective do you want to achive? (1 or 2)");
-                    while(true){
+                    while (true) {
                         try {
                             obj = scan.nextInt();
-                            if(obj == 1){
+                            if (obj == 1) {
                                 server.chooseObjective(client.getUsername(), 0);
                                 break;
-                            } else if(obj == 2){
+                            } else if (obj == 2) {
                                 server.chooseObjective(client.getUsername(), 1);
                                 break;
                             } else {
@@ -100,11 +102,11 @@ public class Tui implements View{
                     int x = scan.nextInt();
                     System.out.println("y = ");
                     int y = scan.nextInt();
-                    if(face.equalsIgnoreCase("front")) {
+                    if (face.equalsIgnoreCase("front")) {
                         server.addCard(client.getUsername(), cardIndex, true, x, y);
-                    }else if(face.equalsIgnoreCase("back")){
+                    } else if (face.equalsIgnoreCase("back")) {
                         server.addCard(client.getUsername(), cardIndex, false, x, y);
-                    }else{
+                    } else {
                         System.out.println("Invalid face: abort");
                     }
                     break;
@@ -117,9 +119,9 @@ public class Tui implements View{
                     String cardType = words[0];
                     boolean fromDeck = Boolean.parseBoolean(words[1]);
                     int faceUpIndex = Integer.parseInt(words[2]);
-                    if(cardType.equalsIgnoreCase("res")){
+                    if (cardType.equalsIgnoreCase("res")) {
                         server.drawResourceCard(client.getUsername(), fromDeck, faceUpIndex);
-                    } else if(cardType.equalsIgnoreCase("gold")) {
+                    } else if (cardType.equalsIgnoreCase("gold")) {
                         server.drawGoldCard(client.getUsername(), fromDeck, faceUpIndex);
                     }
                     break;
@@ -132,7 +134,7 @@ public class Tui implements View{
         }
     }
 
-    public static Queue<String> fromFaceToCliCard(Face face) throws Exception {
+    private static Queue<String> fromFaceToCliCard(Face face) throws Exception {
 
         Corner UR = face.getCornerUR();
         Corner UL = face.getCornerUL();
@@ -148,85 +150,85 @@ public class Tui implements View{
         String fourth = "";
         String fifth = "";
 
-        if(!UR.isHidden() && !UL.isHidden() && !LR.isHidden() && !LL.isHidden()) {  // case #1
+        if (!UR.isHidden() && !UL.isHidden() && !LR.isHidden() && !LL.isHidden()) {  // case #1
             first = colour + "╭-----------------╮" + reset;
             second = colour + "|" + UL.getSymbol().toCliString() + sws.repeat(15) + UR.getSymbol().toCliString() + colour + "|" + reset;
             third = colour + "|" + Tui.constructString(face.getPermanentResources().stream().map(o -> o.toCornerSymbol().toCliString()).collect(Collectors.toCollection(ArrayList::new))) + colour + "|" + reset;
             fourth = colour + "|" + LL.getSymbol().toCliString() + sws.repeat(15) + LR.getSymbol().toCliString() + colour + colour + "|" + reset;
             fifth = colour + "╰-----------------╯" + reset;
-        }else if(UR.isHidden() && !UL.isHidden() && !LR.isHidden() && !LL.isHidden()){ // case #2
+        } else if (UR.isHidden() && !UL.isHidden() && !LR.isHidden() && !LL.isHidden()) { // case #2
             first = colour + "╭--------------" + reset;
             second = colour + "|" + UL.getSymbol().toCliString() + sws.repeat(13) + reset;
             third = colour + "|" + Tui.constructString(face.getPermanentResources().stream().map(o -> o.toCornerSymbol().toCliString()).collect(Collectors.toCollection(ArrayList::new))) + colour + "|" + reset;
             fourth = colour + "|" + LL.getSymbol().toCliString() + sws.repeat(15) + LR.getSymbol().toCliString() + colour + "|" + reset;
             fifth = colour + "╰-----------------╯" + reset;
-        }else if(!UR.isHidden() && UL.isHidden() && !LR.isHidden() && !LL.isHidden()){ // case #3
+        } else if (!UR.isHidden() && UL.isHidden() && !LR.isHidden() && !LL.isHidden()) { // case #3
             first = colour + "--------------╮" + reset;
             second = colour + sws.repeat(13) + UR.getSymbol().toCliString() + colour + "|" + reset;
             third = colour + "|" + Tui.constructString(face.getPermanentResources().stream().map(o -> o.toCornerSymbol().toCliString()).collect(Collectors.toCollection(ArrayList::new))) + colour + "|" + reset;
             fourth = colour + "|" + LL.getSymbol().toCliString() + sws.repeat(15) + LR.getSymbol().toCliString() + colour + "|" + reset;
             fifth = colour + "╰-----------------╯" + reset;
-        }else if(!UR.isHidden() && !UL.isHidden() && LR.isHidden() && !LL.isHidden()){ // case #4
+        } else if (!UR.isHidden() && !UL.isHidden() && LR.isHidden() && !LL.isHidden()) { // case #4
             first = colour + "╭-----------------╮" + reset;
             second = colour + "|" + UL.getSymbol().toCliString() + sws.repeat(15) + UR.getSymbol().toCliString() + colour + "|" + reset;
             third = colour + "|" + Tui.constructString(face.getPermanentResources().stream().map(o -> o.toCornerSymbol().toCliString()).collect(Collectors.toCollection(ArrayList::new))) + colour + "|" + reset;
-            fourth = colour + "|" + LL.getSymbol().toCliString()+ sws.repeat(13) + reset;
+            fourth = colour + "|" + LL.getSymbol().toCliString() + sws.repeat(13) + reset;
             fifth = colour + "╰--------------" + reset;
-        }else if(!UR.isHidden() && !UL.isHidden() && !LR.isHidden() && LL.isHidden()){ // case #5
+        } else if (!UR.isHidden() && !UL.isHidden() && !LR.isHidden() && LL.isHidden()) { // case #5
             first = colour + "╭-----------------╮" + reset;
             second = colour + "|" + UL.getSymbol().toCliString() + sws.repeat(15) + UR.getSymbol().toCliString() + colour + "|" + reset;
             third = colour + "|" + Tui.constructString(face.getPermanentResources().stream().map(o -> o.toCornerSymbol().toCliString()).collect(Collectors.toCollection(ArrayList::new))) + colour + "|" + reset;
             fourth = colour + sws.repeat(13) + LR.getSymbol().toCliString() + colour + "|" + reset;
             fifth = colour + "--------------╯" + reset;
-        }else if(UR.isHidden() && UL.isHidden() && !LR.isHidden() && !LL.isHidden()){ // case #6
+        } else if (UR.isHidden() && UL.isHidden() && !LR.isHidden() && !LL.isHidden()) { // case #6
             first = colour + "-----------" + reset;
             second = colour + sws.repeat(11) + reset;
             third = colour + "|" + Tui.constructString(face.getPermanentResources().stream().map(o -> o.toCornerSymbol().toCliString()).collect(Collectors.toCollection(ArrayList::new))) + colour + "|" + reset;
             fourth = colour + "|" + LL.getSymbol().toCliString() + sws.repeat(15) + LR.getSymbol().toCliString() + colour + "|" + reset;
             fifth = colour + "╰-----------------╯" + reset;
-        }else if(!UR.isHidden() && !UL.isHidden() && LR.isHidden() && LL.isHidden()){ // case #7
+        } else if (!UR.isHidden() && !UL.isHidden() && LR.isHidden() && LL.isHidden()) { // case #7
             first = colour + "╭-----------------╮" + reset;
             second = colour + "|" + UL.getSymbol().toCliString() + sws.repeat(15) + UR.getSymbol().toCliString() + colour + "|" + reset;
             third = colour + "|" + Tui.constructString(face.getPermanentResources().stream().map(o -> o.toCornerSymbol().toCliString()).collect(Collectors.toCollection(ArrayList::new))) + colour + "|" + reset;
             fourth = colour + sws.repeat(11) + reset;
             fifth = colour + "-----------" + reset;
-        }else if(!UR.isHidden() && UL.isHidden() && !LR.isHidden() && LL.isHidden()){ // case #8
+        } else if (!UR.isHidden() && UL.isHidden() && !LR.isHidden() && LL.isHidden()) { // case #8
             first = colour + "--------------╮" + reset;
             second = colour + sws.repeat(13) + UR.getSymbol().toCliString() + colour + "|" + reset;
             third = colour + "|" + Tui.constructString(face.getPermanentResources().stream().map(o -> o.toCornerSymbol().toCliString()).collect(Collectors.toCollection(ArrayList::new))) + colour + "|" + reset;
             fourth = colour + sws.repeat(13) + LR.getSymbol().toCliString() + colour + "|" + reset;
             fifth = colour + "--------------╯" + reset;
-        }else if(UR.isHidden() && !UL.isHidden() && LR.isHidden() && !LL.isHidden()){ // case #9
+        } else if (UR.isHidden() && !UL.isHidden() && LR.isHidden() && !LL.isHidden()) { // case #9
             first = colour + "╭--------------" + reset;
             second = colour + "|" + UL.getSymbol().toCliString() + sws.repeat(13) + reset;
             third = colour + "|" + Tui.constructString(face.getPermanentResources().stream().map(o -> o.toCornerSymbol().toCliString()).collect(Collectors.toCollection(ArrayList::new))) + colour + "|" + reset;
-            fourth = colour + "|" + LL.getSymbol().toCliString()+ sws.repeat(13) + reset;
+            fourth = colour + "|" + LL.getSymbol().toCliString() + sws.repeat(13) + reset;
             fifth = colour + "╰--------------" + reset;
-        }else if(UR.isHidden() && UL.isHidden() && LR.isHidden() && LL.isHidden()){ // case #10
+        } else if (UR.isHidden() && UL.isHidden() && LR.isHidden() && LL.isHidden()) { // case #10
             first = colour + "-----------" + reset;
             second = colour + sws.repeat(11) + reset;
             third = colour + "|" + Tui.constructString(face.getPermanentResources().stream().map(o -> o.toCornerSymbol().toCliString()).collect(Collectors.toCollection(ArrayList::new))) + colour + "|" + reset;
             fourth = colour + sws.repeat(11) + reset;
             fifth = colour + "-----------" + reset;
-        }else if(!UR.isHidden() && UL.isHidden() && LR.isHidden() && LL.isHidden()){ // case #11
+        } else if (!UR.isHidden() && UL.isHidden() && LR.isHidden() && LL.isHidden()) { // case #11
             first = colour + "--------------╮" + reset;
             second = colour + sws.repeat(13) + UR.getSymbol().toCliString() + colour + "|" + reset;
             third = colour + "|" + Tui.constructString(face.getPermanentResources().stream().map(o -> o.toCornerSymbol().toCliString()).collect(Collectors.toCollection(ArrayList::new))) + colour + "|" + reset;
             fourth = colour + sws.repeat(11) + reset;
             fifth = colour + "-----------" + reset;
-        }else if(UR.isHidden() && !UL.isHidden() && LR.isHidden() && LL.isHidden()){ // case #12
+        } else if (UR.isHidden() && !UL.isHidden() && LR.isHidden() && LL.isHidden()) { // case #12
             first = colour + "╭--------------" + reset;
             second = colour + "|" + UL.getSymbol().toCliString() + sws.repeat(13) + reset;
             third = colour + "|" + Tui.constructString(face.getPermanentResources().stream().map(o -> o.toCornerSymbol().toCliString()).collect(Collectors.toCollection(ArrayList::new))) + colour + "|" + reset;
             fourth = colour + sws.repeat(11) + reset;
             fifth = colour + "-----------" + reset;
-        }else if(UR.isHidden() && UL.isHidden() && LR.isHidden() && !LL.isHidden()){ // case #13
+        } else if (UR.isHidden() && UL.isHidden() && LR.isHidden() && !LL.isHidden()) { // case #13
             first = colour + "-----------" + reset;
             second = colour + sws.repeat(11) + reset;
             third = colour + "|" + Tui.constructString(face.getPermanentResources().stream().map(o -> o.toCornerSymbol().toCliString()).collect(Collectors.toCollection(ArrayList::new))) + colour + "|" + reset;
             fourth = colour + "|" + LL.getSymbol().toCliString() + colour + sws.repeat(13) + reset;
             fifth = colour + "╰--------------" + reset;
-        }else if(UR.isHidden() && UL.isHidden() && !LR.isHidden() && LL.isHidden()) { // case #14
+        } else if (UR.isHidden() && UL.isHidden() && !LR.isHidden() && LL.isHidden()) { // case #14
             first = colour + "-----------" + reset;
             second = colour + sws.repeat(11) + reset;
             third = colour + "|" + Tui.constructString(face.getPermanentResources().stream().map(o -> o.toCornerSymbol().toCliString()).collect(Collectors.toCollection(ArrayList::new))) + colour + "|" + reset;
@@ -244,7 +246,7 @@ public class Tui implements View{
 
     }
 
-    public static String constructString(ArrayList<String> permanentResources) {
+    private static String constructString(ArrayList<String> permanentResources) {
         String start = "";
         String end = "";
 
@@ -278,62 +280,62 @@ public class Tui implements View{
         return line;
     }
 
-    private static void printxAxis(int xMin, int xMax){
+    private static void printxAxis(int xMin, int xMax) {
         String xAxis = sws.repeat(10);
-        for(int i = xMin; i <= xMax; i++){
-            if(i / 10 == 0){
+        for (int i = xMin; i <= xMax; i++) {
+            if (i / 10 == 0) {
                 xAxis = xAxis + i + sws.repeat(14);
-            }else{
+            } else {
                 xAxis = xAxis + i + sws.repeat(13);
             }
         }
         System.out.println(xAxis);
     }
 
-    private static String printyAxis(int line, int j){
-        if(line == 3){
+    private static String printyAxis(int line, int j) {
+        if (line == 3) {
             return j / 10 == 0 ? (sws + j) : String.valueOf(j);
         } else {
             return sws.repeat(2);
         }
     }
 
-    public static String countWhiteSpaces(boolean first, boolean middle, Manuscript manuscript, int i, int j, int line){
+    private static String countWhiteSpaces(boolean first, boolean middle, Manuscript manuscript, int i, int j, int line) {
         String ws_11 = sws.repeat(11);
         String ws_15 = sws.repeat(15);
 
         // Allows the player to know if the placement is valid
-        if(line == 3 && manuscript.isValidPlacement(i, j)){
+        if (line == 3 && manuscript.isValidPlacement(i, j)) {
             return sws.repeat(9) + "@" + sws.repeat(5);
         }
 
-        if(!middle){
+        if (!middle) {
             return ws_15;
         }
 
         return first ? ws_11 : ws_15;
     }
 
-    public static String printManuscript(Manuscript manuscript){
+    private static String printManuscript(Manuscript manuscript) {
 
         StringBuffer sb = new StringBuffer();
 
         Face[][] field = manuscript.getField();
-        int xMin = manuscript.getxMin() -1;
-        int xMax = manuscript.getxMax() +1;
-        int yMin = manuscript.getyMin() -1;
-        int yMax = manuscript.getyMax() +1;
+        int xMin = manuscript.getxMin() - 1;
+        int xMax = manuscript.getxMax() + 1;
+        int yMin = manuscript.getyMin() - 1;
+        int yMax = manuscript.getyMax() + 1;
 
         printxAxis(xMin, xMax);
 
         // translate the manuscript into a matrix of string representing cards
         Queue<String>[][] matrix = new Queue[Manuscript.FIELD_DIM][Manuscript.FIELD_DIM];
-        for(int i = xMin; i <= xMax; i++){
-            for(int j = yMin; j <= yMax; j++){
-                if(field[i][j] != null){
-                    try{
+        for (int i = xMin; i <= xMax; i++) {
+            for (int j = yMin; j <= yMax; j++) {
+                if (field[i][j] != null) {
+                    try {
                         matrix[i][j] = fromFaceToCliCard(field[i][j]);
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
@@ -343,31 +345,31 @@ public class Tui implements View{
         boolean first;
         boolean middle;
 
-        for(int j = yMin; j <= yMax; j++) {
+        for (int j = yMin; j <= yMax; j++) {
             for (int line = 1; line <= 3; line++) {
                 sb.append(printyAxis(line, j));
                 first = true;
                 middle = false;
                 for (int i = xMin; i <= xMax; i++) {
-                    if(matrix[i][j-1] != null && matrix[i][j-1].peek() != null){
-                        sb.append(matrix[i][j-1].remove());
+                    if (matrix[i][j - 1] != null && matrix[i][j - 1].peek() != null) {
+                        sb.append(matrix[i][j - 1].remove());
                         first = true;
                         middle = true;
                         continue;
                     }
                     // if the card is null, print white spaces and go to next card on the same row
-                    if(matrix[i][j] == null){
+                    if (matrix[i][j] == null) {
                         String ws = countWhiteSpaces(first, middle, manuscript, i, j, line);
                         sb.append(ws);
                         first = false;
                         continue;
                     }
-                    if(matrix[i][j] != null){
+                    if (matrix[i][j] != null) {
                         sb.append(matrix[i][j].remove());
                         middle = true;
                         first = true;
-                    }else if(matrix[i][j+1] != null){
-                        sb.append(matrix[i][j+1].remove());
+                    } else if (matrix[i][j + 1] != null) {
+                        sb.append(matrix[i][j + 1].remove());
                     }
                 }
                 sb.append("\n");
@@ -376,7 +378,7 @@ public class Tui implements View{
         return sb.toString();
     }
 
-    public static String showFace(Face face){
+    private static String showFace(Face face) {
 
         Corner UR = face.getCornerUR();
         Corner UL = face.getCornerUL();
@@ -392,15 +394,15 @@ public class Tui implements View{
         String fourth = colour + "|" + LL.getSymbol().toCliString() + "               " + LR.getSymbol().toCliString() + colour + colour + "|" + reset;
         String fifth = colour + "╰-----------------╯" + reset;
 
-        return (first + "\n" + second +"\n" + third+"\n"+ fourth+"\n"+fifth);
+        return (first + "\n" + second + "\n" + third + "\n" + fourth + "\n" + fifth);
 
     }
 
-    public static String showStarter(StarterCard card ){
-        return ("Starter Front:"+"\n"+ showFace(card.getFront( )) +("\nStarter Back:")+"\n"+showFace(card.getBack()));
+    public static String showStarter(StarterCard card) {
+        return ("Starter Front:" + "\n" + showFace(card.getFront()) + ("\nStarter Back:") + "\n" + showFace(card.getBack()));
     }
 
-    public static String showObjective(ArrayList<ObjectiveCard> secretObjectives){
+    public static String showObjective(ArrayList<ObjectiveCard> secretObjectives) {
 
         ObjectiveCard o1 = secretObjectives.get(0);
         ObjectiveCard o2 = secretObjectives.get(1);
@@ -498,27 +500,60 @@ public class Tui implements View{
         n.setxMax(41);
         n.setyMax(41);
 
-        for(var c : resourceDeck){
+        for (var c : resourceDeck) {
             System.out.println(showFace(c.getFront()));
             System.out.println();
             System.out.println(showFace(c.getBack()));
             System.out.println();
         }
 
-        for(var c : goldDeck){
+        for (var c : goldDeck) {
             System.out.println(showFace(c.getFront()));
             System.out.println();
             System.out.println(showFace(c.getBack()));
             System.out.println();
         }
 
-        for(var c : starterDeck){
+        for (var c : starterDeck) {
             System.out.println(showFace(c.getFront()));
             System.out.println();
             System.out.println(showFace(c.getBack()));
             System.out.println();
         }
+
+        //it's used to show the player a message/update from the server on the tui
+
 
     }
 
+    public void showString(String phrase) {
+        System.out.println(phrase);
+    }
+
+
+    //TODO implements the general method
+    @Override
+    public void show(ArrayList<ResourceCard> hand ){
+
+    }
+
+    @Override
+    public void show(Manuscript manuscript) {
+
+    }
+
+    @Override
+    public void show(Board board) {
+
+    }
+
+    @Override
+    public void show(Market market) {
+
+    }
+
+    @Override
+    public void startTheGame() {
+
+    }
 }

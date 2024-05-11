@@ -98,7 +98,7 @@ class MyCliTest {
         m.setyMax(42);
 
 
-        System.out.print(MyCli.printManuscript(m));
+        System.out.print(Tui.printManuscript(m));
     }
     @Test
     void printManuscript4() {

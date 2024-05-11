@@ -13,7 +13,7 @@ import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
-public class Market implements Serializable, Observable {
+public class Market implements Serializable {
     private ResourceCard[] faceUpResources = new ResourceCard[2];
     private GoldCard[] faceUpGolds = new GoldCard[2];
     private ArrayList<ResourceCard> resourceDeck;
@@ -59,31 +59,5 @@ public class Market implements Serializable, Observable {
     public void setGoldDeck(ArrayList<GoldCard> goldDeck) {
         this.goldDeck = goldDeck;
     }
-    public void notifyChangesInMarket() throws RemoteException {
-        notifyObservers();
-    }
 
-    @Override
-    public void addObserver(Observer o) {
-
-    }
-
-    @Override
-    public void deleteObserver(Observer o) {
-
-    }
-
-    @Override
-    public void notifyObservers() throws RemoteException {
-        MiniModel miniModel = new MiniModel(this);
-        Message message = new UpdateMarketMessage(miniModel);
-        for(Observer o : observers){
-            o.update(message);
-        }
-    }
-
-    @Override
-    public void notifyObservers(Message notYourTurnMessage) throws RemoteException {
-
-    }
 }

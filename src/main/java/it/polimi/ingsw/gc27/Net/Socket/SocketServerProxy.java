@@ -1,6 +1,7 @@
 package it.polimi.ingsw.gc27.Net.Socket;
 
 import it.polimi.ingsw.gc27.CommandParser;
+import it.polimi.ingsw.gc27.Messages.Message;
 import it.polimi.ingsw.gc27.Net.VirtualServer;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 
@@ -15,13 +16,16 @@ public class SocketServerProxy implements VirtualServer {
     final PrintWriter output;
     final BufferedReader input;
     final BlockingQueue<String> commands = new LinkedBlockingQueue<>();
+    final BlockingQueue<Message> messages = new LinkedBlockingQueue<>();
     final VirtualView client;
+    Socket serverSocket;
+    boolean flag = true;
+
 
     public SocketServerProxy(VirtualView client, String ipAddress, int port){
         this.client=client;
         InputStreamReader socketRx = null;
         OutputStreamWriter socketTx = null;
-        Socket serverSocket;
         try {
             serverSocket = new Socket(ipAddress, port);
             socketRx = new InputStreamReader(serverSocket.getInputStream());
@@ -39,7 +43,13 @@ public class SocketServerProxy implements VirtualServer {
         new Thread(()-> {
             try {
                 while(true) {
+                    if (!flag){
+                        break;
+                    }
                     commands.add(input.readLine());
+                    if (!flag){
+                        break;
+                    }
                 }
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -59,7 +69,7 @@ public class SocketServerProxy implements VirtualServer {
 
         String line;
         // Read message type
-        while ((line = commands.take()) != null) {
+        while ((line = commands.take()) != null && flag) {
             Object[] commands = CommandParser.parseCommandFromServer(line);
             switch(commands[0].toString()) {
                 case "show":
@@ -67,17 +77,8 @@ public class SocketServerProxy implements VirtualServer {
                     break;
                 case "setUsername":
                     client.setUsername(commands[1].toString());
+                    flag = false;
                     break;
-                case "runCli":
-                    new Thread(() -> {
-                        try {
-                            //client.runCli();
-                        } catch (Exception e) {
-                            throw new RuntimeException(e);
-                        }
-                    }).start();
-                    break;
-
                 case "read":
                     String sr = client.read();
                     sendData(sr);
@@ -88,6 +89,24 @@ public class SocketServerProxy implements VirtualServer {
                     break;
             }
         }
+        ObjectInputStream socketRx;
+        while(true){
+            try{
+                socketRx = new ObjectInputStream(serverSocket.getInputStream());
+                break;
+            }catch (IOException e) {
+                System.err.println("lost connesction with server " );
+                System.exit(1);
+            }
+        }
+        while(true ) {
+            try {
+                messages.add((Message) socketRx.readObject());
+            }catch(ClassNotFoundException e ){
+                //TODO capire cosa fare con le eccezioni
+            }
+        }
+
     }
     @Override
     public void connect(VirtualView client) throws RemoteException {

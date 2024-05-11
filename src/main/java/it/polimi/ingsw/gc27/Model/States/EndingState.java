@@ -15,7 +15,8 @@ import it.polimi.ingsw.gc27.Model.MiniModel;
 import java.io.IOException;
 import java.rmi.RemoteException;
 
-public class EndingState extends PlayerState implements Observable {
+public class EndingState extends PlayerState  {
+    String textMessage = "the game is ending... it's too late man";
     public EndingState(Player player, TurnHandler turnHandler) throws RemoteException {
         super(player, turnHandler);
         turnHandler.notifyCalculateObjectivePoints(getPlayer());
@@ -25,56 +26,33 @@ public class EndingState extends PlayerState implements Observable {
     public void chooseObjectiveCard(Game game, int objectiveCardIndex) throws RemoteException {
         MiniModel currentPlayer = new MiniModel(getPlayer());
         Message genericErrorMessage = new NotYourTurnMessage("the game is ending... it's too late man", currentPlayer);
-        notifyObservers(genericErrorMessage);
+        turnHandler.getGame().notifyObservers(genericErrorMessage);
     }
 
     @Override
     public void drawResourceCard(Player player, boolean fromDeck, int faceUpCardIndex, Game game) throws RemoteException {
         MiniModel currentPlayer = new MiniModel(getPlayer());
         Message genericErrorMessage = new NotYourTurnMessage("the game is ending... it's too late man", currentPlayer);
-        notifyObservers(genericErrorMessage);
+        turnHandler.getGame().notifyObservers(genericErrorMessage);
     }
 
     @Override
     public void drawGoldCard(Player player, boolean fromDeck, int faceUpCardIndex, Game game) throws RemoteException {
-        MiniModel currentPlayer = new MiniModel(getPlayer());
-        Message genericErrorMessage = new NotYourTurnMessage("the game is ending... it's too late man", currentPlayer);
-        notifyObservers(genericErrorMessage);
+       super.sendError("the game is ending... it's too late man", player, turnHandler);
     }
 
     @Override
     public void addCard(Game game, ResourceCard resourceCard, Face face, int x, int y) throws RemoteException {
         MiniModel currentPlayer = new MiniModel(getPlayer());
         Message genericErrorMessage = new NotYourTurnMessage("the game is ending... it's too late man", currentPlayer);
-        notifyObservers(genericErrorMessage);
+        turnHandler.getGame().notifyObservers(genericErrorMessage);
     }
 
     @Override
     public void addStarterCard(Game game, StarterCard starterCard, Face face) throws IOException, InterruptedException{
         MiniModel currentPlayer = new MiniModel(getPlayer());
         Message genericErrorMessage = new NotYourTurnMessage("the game is ending... it's too late man", currentPlayer);
-        notifyObservers(genericErrorMessage);
+        game.notifyObservers(genericErrorMessage);
     }
 
-    @Override
-    public void addObserver(Observer o) {
-
-    }
-
-    @Override
-    public void deleteObserver(Observer o) {
-
-    }
-
-    @Override
-    public void notifyObservers() throws RemoteException {
-
-    }
-
-    @Override
-    public void notifyObservers(Message notYourTurnMessage) throws RemoteException {
-        for(Observer o: observers){
-            o.update(notYourTurnMessage);
-        }
-    }
 }

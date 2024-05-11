@@ -7,6 +7,7 @@ import it.polimi.ingsw.gc27.Model.States.*;
 import java.rmi.RemoteException;
 
 public class TurnHandler {
+
     private Game game;
     private boolean twentyPointsReached;
     private boolean lastRound;
@@ -21,6 +22,7 @@ public class TurnHandler {
         }
         if(everyoneReady){
             game.getPlayers().getFirst().setPlayerState(new PlayingState(player, this));
+            //TODO aggiungere la notify che puoi giocare
         }
     }
 
@@ -101,7 +103,9 @@ public class TurnHandler {
         this.lastRound = false;
     }
 
+    public Game getGame() {
+        return game;
+    }
 
-    // getter and setter
 
 }

@@ -10,6 +10,7 @@ import it.polimi.ingsw.gc27.Model.Enumerations.PawnColour;
 import it.polimi.ingsw.gc27.Exceptions.UserNotFoundException;
 import it.polimi.ingsw.gc27.Model.Listener.Observable;
 import it.polimi.ingsw.gc27.Model.Listener.Observer;
+import it.polimi.ingsw.gc27.Model.Listener.PlayerListener;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 
 import java.io.Serializable;
@@ -147,8 +148,11 @@ public class Game implements Serializable, Observable {
 
     public void addPlayer(Player p, VirtualView client) throws RemoteException {
         this.players.add(p);
-        this.addObserver(client);
-        this.notifyObservers(p);
+        //create a listener
+        //he will listen the observable and decide if the message has to be sent to his player
+        PlayerListener listener = new PlayerListener(client, p);
+        this.addObserver(listener);
+        this.notifyObservers(new PlayerJoinedMessage(p.getUsername()));
     }
 
     @Override
@@ -157,21 +161,9 @@ public class Game implements Serializable, Observable {
     }
 
     @Override
-    public void deleteObserver(Observer o) {
-        observers.remove(o);
-    }
-
-    @Override
-    public void notifyObservers() throws RemoteException {
-    }
-
-    public void notifyObservers(Player player) throws RemoteException {
+    public void notifyObservers(Message message) throws RemoteException {
         for(Observer o : observers){
-            o.update(new PlayerJoinedMessage(player.getUsername()));
+            o.update(message);
         }
-    }
-    @Override
-    public void notifyObservers(Message notYourTurnMessage) throws RemoteException {
-
     }
 }

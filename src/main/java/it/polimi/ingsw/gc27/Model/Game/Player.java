@@ -88,8 +88,8 @@ public class Player implements Serializable{
      * @param game
      * @param card
      * @param face
-     * @param x
-     * @param y
+     * @requires x
+     * @requires y
      */
     public void addCard(Game game, Card card, Face face, int x, int y) throws RemoteException {
 

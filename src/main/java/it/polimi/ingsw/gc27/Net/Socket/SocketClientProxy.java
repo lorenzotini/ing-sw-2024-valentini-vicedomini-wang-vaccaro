@@ -73,6 +73,7 @@ public class SocketClientProxy implements VirtualView {
 
     @Override
     public void update(Message message) {
-
+        output.println(message);
+        output.flush();
     }
 }

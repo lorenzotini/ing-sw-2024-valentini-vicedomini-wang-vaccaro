@@ -114,56 +114,6 @@ public class Manuscript implements Serializable {
         return isValid;
     }
 
-    // substituted by getCounter()
-    /*public int countCornerSymbol(CornerSymbol x) {
-        int count = 0;
-
-        for(int i = xMin ; i <= xMax; i++) {
-            for(int j = yMin ; j <= yMax; j++) {
-                if(field[i][j] != null) {
-                    if(!field[i][j].getCornerLL().isHidden()){
-                        if(field[i][j].getCornerLL().getSymbol().equals(x)){
-                            count = count + 1;
-                        }
-                    }
-                    if(!field[i][j].getCornerUL().isHidden()){
-                        if(field[i][j].getCornerUL().getSymbol().equals(x)){
-                            count = count + 1;
-                        }
-                    }
-                    if(!field[i][j].getCornerUR().isHidden()){
-                        if(field[i][j].getCornerUR().getSymbol().equals(x)){
-                            count = count + 1;
-                        }
-                    }
-                    if(!field[i][j].getCornerLR().isHidden()){
-                        if(field[i][j].getCornerLR().getSymbol().equals(x)){
-                            count = count + 1;
-                        }
-                    }
-
-                }
-            }
-        }
-
-        return count;
-    }*/
-
-    // substituted by getCounter()
-    /*public int countBackSymbol(Kingdom x) {
-        int count = 0;
-
-        for(int i = xMin ; i <= xMax; i++) {
-            for(int j = yMin ; j <= yMax; j++) {
-                if(field[i][j] != null && field[i][j] instanceof BackFace) {
-                    if(((BackFace) field[i][j]).getPermanentResources().contains(x)){
-                        count++;
-                    }
-                }
-            }
-        }
-        return count;
-    }*/
 
     public boolean satisfiedRequirement(ResourceCard card) {
         if(card instanceof GoldCard) {

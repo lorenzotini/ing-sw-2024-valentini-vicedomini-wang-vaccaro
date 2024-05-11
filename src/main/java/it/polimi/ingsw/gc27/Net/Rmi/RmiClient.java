@@ -6,6 +6,7 @@ import it.polimi.ingsw.gc27.Messages.UpdateHandMessage;
 import it.polimi.ingsw.gc27.Model.Card.StarterCard;
 import it.polimi.ingsw.gc27.Model.Game.Manuscript;
 import it.polimi.ingsw.gc27.Model.MiniModel;
+import it.polimi.ingsw.gc27.Net.Commands.Command;
 import it.polimi.ingsw.gc27.Net.VirtualServer;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 import it.polimi.ingsw.gc27.View.Tui;
@@ -73,5 +74,9 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
     @Override
     public void update(Message message) throws RemoteException {
         message.reportUpdate(this.miniModel, view );
+    }
+
+    public void sendCommand(Command command){
+        server.receiveCommand(command);
     }
 }

@@ -6,6 +6,10 @@ import it.polimi.ingsw.gc27.Model.Card.ObjectiveCard.ObjectiveCard;
 import it.polimi.ingsw.gc27.Model.Game.Board;
 import it.polimi.ingsw.gc27.Model.Game.Manuscript;
 import it.polimi.ingsw.gc27.Model.Game.Market;
+import it.polimi.ingsw.gc27.Model.States.ChooseObjectiveState;
+import it.polimi.ingsw.gc27.Net.Commands.AddStarterCommand;
+import it.polimi.ingsw.gc27.Net.Commands.ChooseObjectiveCommand;
+import it.polimi.ingsw.gc27.Net.Commands.Command;
 import it.polimi.ingsw.gc27.Net.VirtualServer;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 
@@ -51,6 +55,8 @@ public class Tui implements View {
                         String side = scan.next();
                         if (side.equalsIgnoreCase("front")) {
                             server.addStarter(client.getUsername(), true);
+                            Command comm = new AddStarterCommand(client.getUsername(), true);
+                            client.sendCommand(comm);
                             break;
                         } else if (side.equalsIgnoreCase("back")) {
                             server.addStarter(client.getUsername(), false);
@@ -72,11 +78,9 @@ public class Tui implements View {
                     while (true) {
                         try {
                             obj = scan.nextInt();
-                            if (obj == 1) {
-                                server.chooseObjective(client.getUsername(), 0);
-                                break;
-                            } else if (obj == 2) {
-                                server.chooseObjective(client.getUsername(), 1);
+                            if (obj == 1 || obj == 2) {
+                                Command comm = new ChooseObjectiveCommand(client.getUsername(), obj );
+                                client.sendCommand(comm);
                                 break;
                             } else {
                                 System.out.println("Invalid number, insert 1 or 2");
@@ -549,6 +553,7 @@ public class Tui implements View {
 
     @Override
     public void show(Market market) {
+
 
     }
 

@@ -1,7 +1,6 @@
 package it.polimi.ingsw.gc27.Model.States;
 
 import it.polimi.ingsw.gc27.Controller.TurnHandler;
-import it.polimi.ingsw.gc27.Messages.GenericErrorMessage;
 import it.polimi.ingsw.gc27.Messages.Message;
 import it.polimi.ingsw.gc27.Messages.UpdateHandMessage;
 import it.polimi.ingsw.gc27.Messages.UpdateManuscriptMessage;
@@ -47,8 +46,7 @@ public class PlayingState extends PlayerState {
 
             getPlayer().setPlayerState(new DrawingState(getPlayer(), getTurnHandler()));
         }else{
-            Message genericErrorMessage = new GenericErrorMessage("Invalid placement, try again!");
-            turnHandler.getGame().notifyObservers(genericErrorMessage);
+            super.sendError("Invalid Placement, try again.", getPlayer(), turnHandler);
         }
 
     }

@@ -52,9 +52,19 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
 
     @Override
     public void runClient() throws IOException, InterruptedException {
+
         this.server.connect(this);
         this.server.welcomePlayer(this);
+        this.view.showString("Welcome " + this.username + "!" + "\nWaiting for other players to join the game...");
+
+        //wait for the other players to join the game
+        while(miniModel.getPlayer() == null) {
+            Thread.sleep(1000);
+        }
+
+        //start the game
         this.view.run();
+
     }
 
     @Override
@@ -64,7 +74,16 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
 
     @Override
     public void update(Message message) throws RemoteException {
-        message.reportUpdate(this.miniModel, this.view );
+        try {
+            message.reportUpdate(this.miniModel, this.view);
+        } catch (IOException | InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public MiniModel getMiniModel() {
+        return miniModel;
     }
 
 }

@@ -12,6 +12,8 @@ import java.util.Map;
 
 public class GigaController {
 
+    private int idCounter = 0;
+
     private final Map<String, VirtualView> registeredUsernames = new HashMap<>();
 
     private final List<GameController> gameControllers = new ArrayList<>();
@@ -68,9 +70,13 @@ public class GigaController {
                     p = createNewGame(client);
                     return p;
                 }
+
             }while(true);
+
         }
+
         return p;
+
     }
 
     public Player createNewGame(VirtualView client) throws IOException, InterruptedException {
@@ -84,13 +90,13 @@ public class GigaController {
         GameController controller;
         Initializer init = new Initializer();
         synchronized (gameControllers){
-            controller = new GameController(init.initialize(), numMaxPlayers, gameControllers.size() + 1);
+            controller = new GameController(init.initialize(), numMaxPlayers, this.idCounter++);
             gameControllers.add(controller);
         }
         // count the player who created the game
         controller.getGame().setNumActualPlayers(1);
         client.show("Game created with id " + controller.getId() + "\n" + "Waiting for players to join...");
-         p = controller.initializePlayer(client, this);
+        p = controller.initializePlayer(client, this);
         return p;
     }
 

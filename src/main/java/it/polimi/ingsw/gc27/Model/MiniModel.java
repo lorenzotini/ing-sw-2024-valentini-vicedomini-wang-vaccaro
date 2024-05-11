@@ -74,6 +74,14 @@ public class MiniModel implements Serializable {
         this.hand = null;
         this.currentPlayer = null;
     }
+    public MiniModel(Player player, Market market, Board board){
+        this.manuscript = player.getManuscript();
+        this.board = board;
+        this.market = market;
+        this.player = player;
+        this.hand = player.getHand();
+        this.currentPlayer = null;
+    }
 
     public Player getPlayer() {
         return player;

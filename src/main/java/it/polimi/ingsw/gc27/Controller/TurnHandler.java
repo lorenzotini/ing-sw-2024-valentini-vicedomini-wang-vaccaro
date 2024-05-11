@@ -4,9 +4,10 @@ import it.polimi.ingsw.gc27.Model.Game.Game;
 import it.polimi.ingsw.gc27.Model.Game.Player;
 import it.polimi.ingsw.gc27.Model.States.*;
 
+import java.io.Serializable;
 import java.rmi.RemoteException;
 
-public class TurnHandler {
+public class TurnHandler implements Serializable {
 
     private Game game;
     private boolean twentyPointsReached;

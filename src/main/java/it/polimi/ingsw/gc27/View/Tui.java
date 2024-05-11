@@ -28,6 +28,8 @@ public class Tui implements View {
     @Override
     public void run() throws IOException, InterruptedException {
 
+        out.println("The game is starting!");
+
         Scanner scan = new Scanner(in);
 
         while (true) {
@@ -43,10 +45,15 @@ public class Tui implements View {
                     out.println("chooseobj - choose an objective card");
                     out.println("addcard - add a card to your board");
                     out.println("draw - draw a card from the market");
+//                    out.println("Visualize:");
+//                    out.println("man - print your manuscript");
+//                    out.println("obj - print your secret objective");
+//                    out.println("market - print the market");
+//                    out.println("board - print the players' score board");
                     break;
 
                 case "addstarter":
-                    //out.println(Tui.showStarter(client.getMiniModel().getStarter()));
+                    out.println(Tui.showStarter(client.getMiniModel().getPlayer().getStarterCard()));
                     out.println("What side do you want to play? (front or back)");
                     while (true) {
                         String side = scan.next();
@@ -95,6 +102,7 @@ public class Tui implements View {
 
                 // TODO creare una soluzione intelligente per gestire gli input di addcard, con while true e try catch vari
                 case "addcard":
+                    //out.println(Tui.printManuscript(client.getMiniModel().getManuscript()));
                     out.println("Which card do you want to add? (choose from 0, 1, 2)");
                     int cardIndex = scan.nextInt();
                     out.println("Front or back?");
@@ -115,7 +123,7 @@ public class Tui implements View {
                     break;
 
                 case "draw":
-                    //out.println(Tui.showMarket());
+                    //out.println(Tui.showMarket(client.getMiniModel().getMarket()));
                     out.println("enter [cardType] [fromDeck] [faceUpIndex] (res/gold, true/false, 0/1)");
                     String line = scan.nextLine();
                     String[] words = line.split(" ");

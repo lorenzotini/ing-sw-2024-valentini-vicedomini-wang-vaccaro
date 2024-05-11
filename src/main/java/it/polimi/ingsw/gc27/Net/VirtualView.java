@@ -1,6 +1,7 @@
 package it.polimi.ingsw.gc27.Net;
 
 import it.polimi.ingsw.gc27.Model.Listener.Observer;
+import it.polimi.ingsw.gc27.Model.MiniModel;
 import it.polimi.ingsw.gc27.Net.Commands.Command;
 
 import java.io.IOException;
@@ -20,5 +21,7 @@ public interface VirtualView extends Remote, Observer {
     String getUsername() throws IOException, InterruptedException;
 
     void sendCommand(Command command) throws RemoteException;
+
+    MiniModel getMiniModel() throws RemoteException;
 
 }

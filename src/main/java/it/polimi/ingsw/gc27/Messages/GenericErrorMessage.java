@@ -5,7 +5,7 @@ import it.polimi.ingsw.gc27.View.View;
 
 public class GenericErrorMessage extends Message{
 
-    public GenericErrorMessage(String string) {
+    public GenericErrorMessage(MiniModel miniModel, String string) {
         super(string);
     }
 

@@ -50,8 +50,8 @@ public abstract class PlayerState implements Serializable {
     public void sendError(String str, Player player, TurnHandler turnHandler) throws RemoteException {
 
         MiniModel miniWithCurrentPlayer = new MiniModel(player);
-        Message genericErrorMessage = new NotYourTurnMessage(str, miniWithCurrentPlayer);
-        turnHandler.getGame().notifyObservers(genericErrorMessage);
+        Message errorMessage = new NotYourTurnMessage(str, miniWithCurrentPlayer);
+        turnHandler.getGame().notifyObservers(errorMessage);
 
     }
 

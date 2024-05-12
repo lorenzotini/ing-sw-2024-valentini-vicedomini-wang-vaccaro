@@ -1,13 +1,10 @@
 package it.polimi.ingsw.gc27.Model.Game;
 
-import it.polimi.ingsw.gc27.Messages.Message;
 import it.polimi.ingsw.gc27.Model.Card.*;
 import it.polimi.ingsw.gc27.Model.Card.ObjectiveCard.ObjectiveCard;
 import it.polimi.ingsw.gc27.Model.Enumerations.Kingdom;
 import it.polimi.ingsw.gc27.Model.Enumerations.PawnColour;
 import it.polimi.ingsw.gc27.Model.Enumerations.PointsMultiplier;
-import it.polimi.ingsw.gc27.Model.Listener.Observable;
-import it.polimi.ingsw.gc27.Model.Listener.Observer;
 import it.polimi.ingsw.gc27.Model.States.PlayerState;
 
 import java.io.Serializable;
@@ -15,6 +12,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 public class Player implements Serializable{
+
     private final String username;
     private ArrayList<ResourceCard> hand;
     private Manuscript manuscript;
@@ -26,9 +24,10 @@ public class Player implements Serializable{
 
     public Player(String username, Manuscript manuscript, PawnColour pawnColour) {
         this.username = username;
+        this.hand = new ArrayList<>();
         this.manuscript = manuscript;
         this.pawnColour = pawnColour;
-        this.hand = new ArrayList<>();
+        this.secretObjectives = new ArrayList<>();
         // TODO this.playerState = new InitializingState();
     }
 

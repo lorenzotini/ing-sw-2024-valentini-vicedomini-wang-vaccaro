@@ -6,6 +6,7 @@ import it.polimi.ingsw.gc27.Model.Game.Manuscript;
 import it.polimi.ingsw.gc27.Net.VirtualServer;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 import it.polimi.ingsw.gc27.View.Tui;
+import it.polimi.ingsw.gc27.View.View;
 
 import java.io.IOException;
 import java.rmi.NotBoundException;
@@ -51,19 +52,18 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
         this.username = username;
     }
 
+    @Override
     public void run() throws IOException, InterruptedException {
         this.server.connect(this);
         server.welcomePlayer(this);
-        Tui tui = new Tui(this, server);
-        tui.runCli();
+        View view = new Tui(this, server);
+        view.run();
     }
 
     @Override
     public String getUsername() {
         return this.username;
     }
-
-
 
     @Override
     public void update(Message message) throws RemoteException {

@@ -140,6 +140,11 @@ public class SocketServerProxy implements VirtualServer {
         output.flush();
     }
 
+    @Override
+    public void chooseObjective(String playerName, int objectiveIndex) throws IOException, InterruptedException {
+
+    }
+
     public void sendData(String s){
         output.println(s);
         output.flush();

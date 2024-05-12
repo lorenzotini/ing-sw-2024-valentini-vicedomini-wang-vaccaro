@@ -14,7 +14,7 @@ public class MiniModel implements Serializable {
     private final ArrayList<ResourceCard> hand;
     private final String currentPlayer;
 
-
+    // used when update the players manuscript
     public MiniModel(Player player, Manuscript manuscript){
         this.manuscript = manuscript;
         this.board = null;
@@ -23,6 +23,8 @@ public class MiniModel implements Serializable {
         this.hand = null;
         this.currentPlayer = null;
     }
+
+    // used when the board update, so when points are added to a player's score
     public MiniModel(Board board){
         this.manuscript = null;
         this.board = board;
@@ -31,6 +33,8 @@ public class MiniModel implements Serializable {
         this.hand = null;
         this.currentPlayer = null;
     }
+
+    //used when the player's hand updates
     public MiniModel(Player player, ArrayList<ResourceCard> hand){
         this.manuscript = null;
         this.board = null;
@@ -39,6 +43,8 @@ public class MiniModel implements Serializable {
         this.hand = hand;
         this.currentPlayer = null;
     }
+
+    //used when the market is being updated
     public MiniModel(Market market){
         this.manuscript = null;
         this.board = null;
@@ -47,6 +53,8 @@ public class MiniModel implements Serializable {
         this.hand = null;
         this.currentPlayer = null;
     }
+
+    //
     public MiniModel(Game game){
         this.manuscript = null;
         this.board = game.getBoard();
@@ -55,6 +63,8 @@ public class MiniModel implements Serializable {
         this.hand = null;
         this.currentPlayer = null;
     }
+
+    //used when you have to pass a message to a specific player
     public MiniModel(Player currentPlayer) {
         this.manuscript = null;
         this.board = null;
@@ -63,6 +73,8 @@ public class MiniModel implements Serializable {
         this.hand = null;
         this.currentPlayer = currentPlayer.getUsername();
     }
+
+    // not used
     public MiniModel(){
         this.manuscript = null;
         this.board = null;

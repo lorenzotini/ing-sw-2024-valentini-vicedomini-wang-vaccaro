@@ -10,14 +10,14 @@ import it.polimi.ingsw.gc27.Model.Card.StarterCard;
 import it.polimi.ingsw.gc27.Model.Game.Game;
 import it.polimi.ingsw.gc27.Model.Game.Manuscript;
 import it.polimi.ingsw.gc27.Model.Game.Player;
-import it.polimi.ingsw.gc27.Model.Listener.Observable;
-import it.polimi.ingsw.gc27.Model.Listener.Observer;
 import it.polimi.ingsw.gc27.Model.MiniModel;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
 
 public class InitializingState extends PlayerState {
+
+    private String wrongStateText = "place your starter card first and only then you can start playing";
 
     public InitializingState(Player player, TurnHandler turnHandler) {
         super(player, turnHandler);
@@ -26,28 +26,21 @@ public class InitializingState extends PlayerState {
     @Override
     public void chooseObjectiveCard(Game game, int objectiveCardIndex) throws RemoteException {
         MiniModel currentPlayer = new MiniModel(getPlayer());
-        Message genericErrorMessage = new NotYourTurnMessage("place your starter card first and only then you can start playing", currentPlayer);
+        Message genericErrorMessage = new NotYourTurnMessage(wrongStateText, currentPlayer);
         turnHandler.getGame().notifyObservers(genericErrorMessage);
     }
 
     @Override
-    public void drawResourceCard(Player player, boolean fromDeck, int faceUpCardIndex, Game game) throws RemoteException {
+    public void drawCard(Player player, boolean isGold, boolean fromDeck, int faceUpCardIndex) throws RemoteException {
         MiniModel currentPlayer = new MiniModel(getPlayer());
-        Message genericErrorMessage = new NotYourTurnMessage("place your starter card first and only then you can start playing", currentPlayer);
-        turnHandler.getGame().notifyObservers(genericErrorMessage);
-    }
-
-    @Override
-    public void drawGoldCard(Player player, boolean fromDeck, int faceUpCardIndex, Game game) throws RemoteException {
-        MiniModel currentPlayer = new MiniModel(getPlayer());
-        Message genericErrorMessage = new NotYourTurnMessage("place your starter card first and only then you can start playing", currentPlayer);
+        Message genericErrorMessage = new NotYourTurnMessage(wrongStateText, currentPlayer);
         turnHandler.getGame().notifyObservers(genericErrorMessage);
     }
 
     @Override
     public void addCard(Game game, ResourceCard resourceCard, Face face, int x, int y) throws RemoteException {
         MiniModel currentPlayer = new MiniModel(getPlayer());
-        Message genericErrorMessage = new NotYourTurnMessage("place your starter card first and only then you can start playing", currentPlayer);
+        Message genericErrorMessage = new NotYourTurnMessage(wrongStateText, currentPlayer);
         turnHandler.getGame().notifyObservers(genericErrorMessage);
     }
 
@@ -55,12 +48,14 @@ public class InitializingState extends PlayerState {
     public void addStarterCard(Game game, StarterCard starterCard, Face face) throws IOException, InterruptedException {
 
         getPlayer().addCard(game, starterCard, face, Manuscript.FIELD_DIM/2, Manuscript.FIELD_DIM/2);
+
         Message updateManuscriptMessage = new UpdateManuscriptMessage(new MiniModel(getPlayer(), getPlayer().getManuscript()));
         turnHandler.getGame().notifyObservers(updateManuscriptMessage);
 
         getPlayer().setPlayerState(new WaitingState(getPlayer(), getTurnHandler()));
-        // notifica il TurnHandler
+        // notify turnHandler
         getTurnHandler().notifyInitializingState(getPlayer());
+
     }
 
 

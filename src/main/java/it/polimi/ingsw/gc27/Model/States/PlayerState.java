@@ -32,9 +32,7 @@ public abstract class PlayerState implements Serializable {
 
     public abstract void chooseObjectiveCard(Game game, int objectiveCardIndex) throws RemoteException;
 
-    public abstract void drawResourceCard(Player player, boolean fromDeck, int faceUpCardIndex, Game game) throws RemoteException;
-
-    public abstract void drawGoldCard(Player player, boolean fromDeck, int faceUpCardIndex, Game game) throws RemoteException;
+    public abstract void drawCard(Player player, boolean isGold, boolean fromDeck, int faceUpCardIndex) throws RemoteException;
 
     public abstract void addCard(Game game, ResourceCard resourceCard, Face face, int x, int y) throws RemoteException;
 
@@ -48,11 +46,13 @@ public abstract class PlayerState implements Serializable {
     public TurnHandler getTurnHandler() {
         return turnHandler;
     }
+
     public void sendError(String str, Player player, TurnHandler turnHandler) throws RemoteException {
 
         MiniModel miniWithCurrentPlayer = new MiniModel(player);
         Message genericErrorMessage = new NotYourTurnMessage(str, miniWithCurrentPlayer);
         turnHandler.getGame().notifyObservers(genericErrorMessage);
+
     }
 
 }

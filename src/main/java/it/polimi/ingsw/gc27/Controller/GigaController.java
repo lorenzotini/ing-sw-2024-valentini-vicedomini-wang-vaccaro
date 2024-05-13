@@ -2,8 +2,6 @@ package it.polimi.ingsw.gc27.Controller;
 
 import it.polimi.ingsw.gc27.Exceptions.UserNotFoundException;
 import it.polimi.ingsw.gc27.Model.Game.Player;
-import it.polimi.ingsw.gc27.Model.Listener.Observable;
-import it.polimi.ingsw.gc27.Model.Listener.Observer;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 
 import java.io.IOException;
@@ -32,6 +30,7 @@ public class GigaController {
     }
 
     public Player welcomePlayer(VirtualView client) throws IOException, InterruptedException {
+
         client.show("Welcome to Codex Naturalis\n"  + "Do you want to start a new game or join an existing one? (enter 'new' or the gameId)");
         String game = client.read();
         Player p;
@@ -46,7 +45,6 @@ public class GigaController {
                     // TODO controllare che game sia convertibile in int
                     if(gc.getId() == Integer.parseInt(game)){
                         client.show("Joining game " + game + "...");
-                        // TODO check the yellow line
                         synchronized (gc.getGame().getPlayers()){
                             if(gc.getGame().getNumActualPlayers() < gc.getNumMaxPlayers()){
                                 int a = gc.getGame().getNumActualPlayers();

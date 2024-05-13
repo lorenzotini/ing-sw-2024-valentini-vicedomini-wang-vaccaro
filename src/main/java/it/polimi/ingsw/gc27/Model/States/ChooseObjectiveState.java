@@ -8,8 +8,6 @@ import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
 import it.polimi.ingsw.gc27.Model.Card.StarterCard;
 import it.polimi.ingsw.gc27.Model.Game.Game;
 import it.polimi.ingsw.gc27.Model.Game.Player;
-import it.polimi.ingsw.gc27.Model.Listener.Observable;
-import it.polimi.ingsw.gc27.Model.Listener.Observer;
 import it.polimi.ingsw.gc27.Model.MiniModel;
 
 import java.io.IOException;
@@ -23,14 +21,7 @@ public class ChooseObjectiveState extends PlayerState {
     }
 
     @Override
-    public void drawResourceCard(Player player, boolean fromDeck, int faceUpCardIndex, Game game) throws RemoteException {
-        MiniModel currentPlayer = new MiniModel(getPlayer());
-        Message genericErrorMessage = new NotYourTurnMessage(wrongStateText, currentPlayer);
-        turnHandler.getGame().notifyObservers(genericErrorMessage);
-    }
-
-    @Override
-    public void drawGoldCard(Player player, boolean fromDeck, int faceUpCardIndex, Game game) throws RemoteException {
+    public void drawCard(Player player, boolean isGold, boolean fromDeck, int faceUpCardIndex) throws RemoteException {
         MiniModel currentPlayer = new MiniModel(getPlayer());
         Message genericErrorMessage = new NotYourTurnMessage(wrongStateText, currentPlayer);
         turnHandler.getGame().notifyObservers(genericErrorMessage);

@@ -150,8 +150,7 @@ public class Game implements Serializable, Observable {
         this.players.add(p);
         //create a listener
         //he will listen the observable and decide if the message has to be sent to his player
-        PlayerListener listener = new PlayerListener(client, p);
-        this.addObserver(listener);
+        this.addObserver(new PlayerListener(client, p));
         this.notifyObservers(new PlayerJoinedMessage(p.getUsername()));
     }
 

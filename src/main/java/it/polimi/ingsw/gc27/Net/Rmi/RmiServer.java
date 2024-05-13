@@ -1,10 +1,6 @@
 package it.polimi.ingsw.gc27.Net.Rmi;
 
 import it.polimi.ingsw.gc27.Controller.GigaController;
-import it.polimi.ingsw.gc27.Model.Card.Face;
-import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
-import it.polimi.ingsw.gc27.Model.Card.StarterCard;
-import it.polimi.ingsw.gc27.Model.Game.Player;
 import it.polimi.ingsw.gc27.Net.Commands.Command;
 import it.polimi.ingsw.gc27.Net.VirtualServer;
 import it.polimi.ingsw.gc27.Net.VirtualView;
@@ -23,30 +19,13 @@ public class RmiServer implements VirtualServer {
 
     private final List<VirtualView> clients = new ArrayList<>();    //clients of different games
     private final GigaController console;
-    //final BlockingQueue<String> updates = new LinkedBlockingQueue<>();
     final BlockingQueue<Command> commands = new LinkedBlockingQueue<>();
-
 
     public RmiServer(GigaController controller) {
         this.console = controller;
     }
 
-    @Override
-    public void connect(VirtualView client) throws RemoteException {
-        synchronized (this.clients){
-            this.clients.add(client);
-        }
-        System.err.println("new client connected");
-    }
-
-    @Override
-    public void welcomePlayer(VirtualView client) throws IOException, InterruptedException {
-        // TODO: gestire le eccezioni
-        this.console.welcomePlayer(client);
-        // TODO: gestire meglio gli updates
-    }
-
-    public void runServer() throws RemoteException, InterruptedException {
+    public void runServer() throws IOException, InterruptedException {
 
         String name = "VirtualServer";
 
@@ -70,8 +49,10 @@ public class RmiServer implements VirtualServer {
             registry.rebind(name, stub);
         } catch (RemoteException e) {
             e.printStackTrace();
-            System.err.println("Server ready");
+            //System.err.println("Server ready");
         }
+
+        executeCommands();
 
     }
 
@@ -85,4 +66,20 @@ public class RmiServer implements VirtualServer {
             comm.execute(console);
         }
     }
+
+    @Override
+    public void connect(VirtualView client) throws RemoteException {
+        synchronized (this.clients){
+            this.clients.add(client);
+        }
+        System.out.println("new client connected");
+    }
+
+    @Override
+    public void welcomePlayer(VirtualView client) throws IOException, InterruptedException {
+        // TODO: gestire le eccezioni
+        this.console.welcomePlayer(client);
+        // TODO: gestire meglio gli updates
+    }
+
 }

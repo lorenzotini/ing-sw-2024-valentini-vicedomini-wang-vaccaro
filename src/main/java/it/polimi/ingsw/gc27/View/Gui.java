@@ -39,4 +39,9 @@ public class Gui implements View{
     public void show(Market market) {
 
     }
+
+    @Override
+    public void startTheGame() {
+
+    }
 }

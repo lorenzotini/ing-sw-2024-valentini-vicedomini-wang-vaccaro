@@ -15,6 +15,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 public class DrawingState extends PlayerState  {
+
     public DrawingState(Player player, TurnHandler turnHandler) {
         super(player, turnHandler);
     }
@@ -27,11 +28,11 @@ public class DrawingState extends PlayerState  {
     }
 
     @Override
-    public void drawCard(Player player, boolean isGold, boolean fromDeck, int faceUpCardIndex, Game game) throws RemoteException {
+    public void drawCard(Player player, boolean isGold, boolean fromDeck, int faceUpCardIndex) throws RemoteException {
 
-        Market market = game.getMarket();
-        ArrayList<? extends Card> deck;
-        Card card;
+        Market market = turnHandler.getGame().getMarket();
+        ArrayList<? extends ResourceCard> deck;
+        ResourceCard card;
 
         deck = isGold ? market.getGoldDeck() : market.getResourceDeck();
 
@@ -39,8 +40,8 @@ public class DrawingState extends PlayerState  {
         if(fromDeck){ // player drawn card from a deck
             card = deck.removeLast();
         } else { // player drawn a face up card from the market
-            card = market.getFaceUpResources()[faceUpCardIndex];
-            market.setFaceUpResources(deck.removeLast(), faceUpCardIndex);
+            card = market.getFaceUp(isGold)[faceUpCardIndex];
+            market.setFaceUp(deck.removeLast(), faceUpCardIndex);
         }
 
         player.getHand().add(card);

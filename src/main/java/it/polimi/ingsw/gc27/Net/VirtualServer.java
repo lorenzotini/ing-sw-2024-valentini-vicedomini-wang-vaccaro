@@ -16,5 +16,5 @@ public interface VirtualServer extends Remote{
 
     void welcomePlayer(VirtualView client) throws IOException, InterruptedException;
 
-    void receiveCommand(Command command);
+    void receiveCommand(Command command) throws RemoteException;
 }

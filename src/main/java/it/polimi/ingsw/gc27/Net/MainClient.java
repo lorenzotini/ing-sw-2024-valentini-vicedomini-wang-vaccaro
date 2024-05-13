@@ -46,9 +46,9 @@ public class MainClient  {
 
         // Run the client
         if(connectionChoice == 0){
-            new RmiClient(ipAddress, VirtualServer.DEFAULT_PORT_NUMBER_RMI).run();
+            new RmiClient(ipAddress, VirtualServer.DEFAULT_PORT_NUMBER_RMI).runClient();
         } else {
-            new SocketClient(ipAddress, VirtualServer.DEFAULT_PORT_NUMBER_SOCKET).run();
+            new SocketClient(ipAddress, VirtualServer.DEFAULT_PORT_NUMBER_SOCKET).runClient();
         }
 
     }

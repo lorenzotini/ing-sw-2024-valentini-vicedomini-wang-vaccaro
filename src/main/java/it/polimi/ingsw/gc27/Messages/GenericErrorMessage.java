@@ -3,17 +3,15 @@ package it.polimi.ingsw.gc27.Messages;
 import it.polimi.ingsw.gc27.Model.MiniModel;
 import it.polimi.ingsw.gc27.View.View;
 
-public class PlayerJoinedMessage extends Message{
-    //this minimodel's class have nothing setted,
-    //every player has to receive the message
-    public PlayerJoinedMessage(String username) {
-        super(username+ " joined the game");
+public class GenericErrorMessage extends Message{
+
+    public GenericErrorMessage(String string) {
+        super(string);
     }
 
     @Override
     public void reportUpdate(MiniModel miniModel, View view) {
-
         view.showString(this.string);
-
     }
+
 }

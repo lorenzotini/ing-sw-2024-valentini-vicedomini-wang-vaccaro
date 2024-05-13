@@ -7,9 +7,6 @@ import it.polimi.ingsw.gc27.Model.Enumerations.PawnColour;
 import it.polimi.ingsw.gc27.Model.Game.Game;
 import it.polimi.ingsw.gc27.Model.Game.Manuscript;
 import it.polimi.ingsw.gc27.Model.Game.Player;
-import it.polimi.ingsw.gc27.Model.Listener.Observable;
-import it.polimi.ingsw.gc27.Model.Listener.Observer;
-import it.polimi.ingsw.gc27.Model.Listener.PlayerListener;
 import it.polimi.ingsw.gc27.Model.States.InitializingState;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 
@@ -65,13 +62,8 @@ public class GameController implements Serializable {
         player.getPlayerState().addCard(this.game, card, face, x, y);
     }
 
-    // TODO: I DUE METODI SONO UGUALI, MAGARI CI PUO' ANDARE UN DESIGN PATTERN
-    public void drawResourceCard(Player player, boolean fromDeck, int faceUpCardIndex) throws RemoteException {
-        player.getPlayerState().drawResourceCard(player, fromDeck, faceUpCardIndex, this.game);
-    }
-
-    public void drawGoldCard(Player player, boolean fromDeck, int faceUpCardIndex) throws RemoteException {
-        player.getPlayerState().drawGoldCard(player, fromDeck, faceUpCardIndex, this.game);
+    public void drawCard(Player player, boolean isGold, boolean fromDeck, int faceUpCardIndex) throws RemoteException{
+        player.getPlayerState().drawCard(player, isGold, fromDeck, faceUpCardIndex);
     }
 
     public void chooseObjectiveCard(Player player, int objectiveCardIndex) throws RemoteException {
@@ -127,7 +119,6 @@ public class GameController implements Serializable {
         p.getSecretObjectives().add(this.getGame().getObjectiveDeck().removeFirst());
         p.getSecretObjectives().add(this.getGame().getObjectiveDeck().removeFirst());
 
-        // TODO risolvere il problema degli attributi ricorsivi turnhandler e player
         if(game.getNumActualPlayers() == this.getNumMaxPlayers()){
             this.turnHandler = new TurnHandler(this.game);
             for(Player player : game.getPlayers()){

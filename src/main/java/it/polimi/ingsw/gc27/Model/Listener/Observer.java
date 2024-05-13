@@ -10,6 +10,5 @@ public interface Observer extends Remote {
 
     void update(Message message) throws RemoteException;
 
-
     //void update(Observable o);
 }

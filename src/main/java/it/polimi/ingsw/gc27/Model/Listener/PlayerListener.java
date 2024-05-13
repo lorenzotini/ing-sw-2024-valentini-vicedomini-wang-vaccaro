@@ -7,6 +7,7 @@ import it.polimi.ingsw.gc27.Net.VirtualView;
 import java.rmi.RemoteException;
 
 public class PlayerListener implements Observer{
+
     VirtualView client;
     String playerUsername;
 

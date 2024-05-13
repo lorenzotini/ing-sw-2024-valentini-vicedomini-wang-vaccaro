@@ -5,7 +5,6 @@ import it.polimi.ingsw.gc27.Model.Card.GoldCard;
 import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
 import it.polimi.ingsw.gc27.Model.Enumerations.CornerSymbol;
 import it.polimi.ingsw.gc27.Model.Enumerations.Kingdom;
-import it.polimi.ingsw.gc27.Model.Listener.Observable;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -114,57 +113,6 @@ public class Manuscript implements Serializable {
         return isValid;
     }
 
-    // substituted by getCounter()
-    /*public int countCornerSymbol(CornerSymbol x) {
-        int count = 0;
-
-        for(int i = xMin ; i <= xMax; i++) {
-            for(int j = yMin ; j <= yMax; j++) {
-                if(field[i][j] != null) {
-                    if(!field[i][j].getCornerLL().isHidden()){
-                        if(field[i][j].getCornerLL().getSymbol().equals(x)){
-                            count = count + 1;
-                        }
-                    }
-                    if(!field[i][j].getCornerUL().isHidden()){
-                        if(field[i][j].getCornerUL().getSymbol().equals(x)){
-                            count = count + 1;
-                        }
-                    }
-                    if(!field[i][j].getCornerUR().isHidden()){
-                        if(field[i][j].getCornerUR().getSymbol().equals(x)){
-                            count = count + 1;
-                        }
-                    }
-                    if(!field[i][j].getCornerLR().isHidden()){
-                        if(field[i][j].getCornerLR().getSymbol().equals(x)){
-                            count = count + 1;
-                        }
-                    }
-
-                }
-            }
-        }
-
-        return count;
-    }*/
-
-    // substituted by getCounter()
-    /*public int countBackSymbol(Kingdom x) {
-        int count = 0;
-
-        for(int i = xMin ; i <= xMax; i++) {
-            for(int j = yMin ; j <= yMax; j++) {
-                if(field[i][j] != null && field[i][j] instanceof BackFace) {
-                    if(((BackFace) field[i][j]).getPermanentResources().contains(x)){
-                        count++;
-                    }
-                }
-            }
-        }
-        return count;
-    }*/
-
     public boolean satisfiedRequirement(ResourceCard card) {
         if(card instanceof GoldCard) {
             ArrayList<Kingdom> toBeVerified = ((GoldCard) card).getRequirements();
@@ -192,7 +140,7 @@ public class Manuscript implements Serializable {
 
     public int getCounter(CornerSymbol cs){
         return switch (cs){
-            case EMPTY -> 0;
+            case EMPTY, BLACK -> 0;
             case PLANTKINGDOM -> plantCounter;
             case ANIMALKINGDOM -> animalCounter;
             case INSECTKINGDOM -> insectCounter;

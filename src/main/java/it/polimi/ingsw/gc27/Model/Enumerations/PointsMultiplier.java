@@ -10,6 +10,16 @@ public enum PointsMultiplier implements Serializable {
     MANUSCRIPT,
     EMPTY;
 
+    public String toString(){
+        return switch (this) {
+            case CORNER -> "c";
+            case QUILL -> "q";
+            case INKWELL -> "i";
+            case MANUSCRIPT -> "m";
+            case EMPTY -> " ";
+        };
+    }
+
     public CornerSymbol toCornerSymbol() {
         try{
             return switch (this) {

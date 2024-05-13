@@ -91,6 +91,7 @@ public class TwoPlusOnePattern extends ObjectiveCard {
         }
 
         return points;
+
     }
 
     @Override
@@ -114,32 +115,32 @@ public class TwoPlusOnePattern extends ObjectiveCard {
 
         switch(comb){
             case "11":
-                return paintString("╭-----------------╮\n") +
-                        paintString("| ") + "pts: " + this.getObjPointsMap().get(this.getClass()) + "      " + secondColImg + paintString(" |\n") +
-                        paintString("|           ") + firstColImg + paintString("   |\n") +
-                        paintString("|           ") + firstColImg + paintString("   |\n") +
-                        paintString("╰-----------------╯");
+                return paintString("╔═════════════════╗\n") +
+                        paintString("║ ") + "pts: " + this.getObjPointsMap().get(this.getClass()) + "      " + secondColImg + paintString(" ║\n") +
+                        paintString("║           ") + firstColImg + paintString("   ║\n") +
+                        paintString("║           ") + firstColImg + paintString("   ║\n") +
+                        paintString("╚═════════════════╝");
 
             case "1-1":
-                return paintString("╭-----------------╮\n") +
-                        paintString("| ") + "pts: " + this.getObjPointsMap().get(this.getClass()) + "    " + firstColImg + paintString("   |\n") +
-                        paintString("|           ") + firstColImg + paintString("   |\n") +
-                        paintString("|             ") + secondColImg + paintString(" |\n") +
-                        paintString("╰-----------------╯");
+                return paintString("╔═════════════════╗\n") +
+                        paintString("║ ") + "pts: " + this.getObjPointsMap().get(this.getClass()) + "    " + firstColImg + paintString("   ║\n") +
+                        paintString("║           ") + firstColImg + paintString("   ║\n") +
+                        paintString("║             ") + secondColImg + paintString(" ║\n") +
+                        paintString("╚═════════════════╝");
 
             case "-11":
-                return paintString("╭-----------------╮\n") +
-                        paintString("| ") + "pts: " + this.getObjPointsMap().get(this.getClass()) + "  " + secondColImg + paintString("     |\n") +
-                        paintString("|           ") + firstColImg + paintString("   |\n") +
-                        paintString("|           ") + firstColImg + paintString("   |\n") +
-                        paintString("╰-----------------╯");
+                return paintString("╔═════════════════╗\n") +
+                        paintString("║ ") + "pts: " + this.getObjPointsMap().get(this.getClass()) + "  " + secondColImg + paintString("     ║\n") +
+                        paintString("║           ") + firstColImg + paintString("   ║\n") +
+                        paintString("║           ") + firstColImg + paintString("   ║\n") +
+                        paintString("╚═════════════════╝");
 
             case "-1-1":
-                return paintString("╭-----------------╮\n") +
-                        paintString("| ") + "pts: " + this.getObjPointsMap().get(this.getClass()) + "    " + firstColImg + paintString("   |\n") +
-                        paintString("|           ") + firstColImg + paintString("   |\n") +
-                        paintString("|         ") + secondColImg + paintString("     |\n") +
-                        paintString("╰-----------------╯");
+                return paintString("╔═════════════════╗\n") +
+                        paintString("║ ") + "pts: " + this.getObjPointsMap().get(this.getClass()) + "    " + firstColImg + paintString("   ║\n") +
+                        paintString("║           ") + firstColImg + paintString("   ║\n") +
+                        paintString("║         ") + secondColImg + paintString("     ║\n") +
+                        paintString("╚═════════════════╝");
 
             default:
                 return "Error in TwoPlusOnePattern toCliCard()";

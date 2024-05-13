@@ -11,17 +11,6 @@ public class BackFace extends Face {
         super(colour, cornerUR, cornerUL, cornerLR, cornerLL);
         this.permanentResources = permanentResources;
     }
-  
-    @Override
-    public Face copy(Face face){
-        return new BackFace(
-                face.getColour(),
-                face.getCorner(1, 1),
-                face.getCorner(-1, 1),
-                face.getCorner(1, -1),
-                face.getCorner(-1, -1),
-                face.getPermanentResources());
-    }
 
     @Override
     public ArrayList<Kingdom> getPermanentResources(){

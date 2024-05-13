@@ -33,11 +33,11 @@ public class ThreeKingdomPattern extends ObjectiveCard {
     @Override
     public String toCliCard(){
         String kingdom = this.kingdom.toCornerSymbol().toCliString();
-        String first =  paintString("╭-----------------╮");
-        String second = paintString("| ") + "pts: " + this.OBJECTIVE_POINTS + paintString("          |");
-        String third = paintString("|          ") + kingdom + paintString("      |");
-        String fourth = paintString("|         ") + kingdom + " " + kingdom + paintString("     |");
-        String fifth = paintString("╰-----------------╯");
+        String first =  paintString("╔═════════════════╗");
+        String second = paintString("║ ") + "pts: " + this.OBJECTIVE_POINTS + paintString("          ║");
+        String third = paintString("║          ") + kingdom + paintString("      ║");
+        String fourth = paintString("║         ") + kingdom + " " + kingdom + paintString("     ║");
+        String fifth = paintString("╚═════════════════╝");
         return first + "\n" + second + "\n" + third + "\n" + fourth + "\n" + fifth;
     }
 

@@ -123,6 +123,11 @@ public class ClientHandler implements VirtualView {
         client.setUsername(username);
     }
 
+    @Override
+    public void run() throws IOException, InterruptedException {
+
+    }
+
 
     @Override
     public String getUsername() {

@@ -1,22 +1,20 @@
 package it.polimi.ingsw.gc27.View;
 
-import it.polimi.ingsw.gc27.Model.Card.Corner;
-import it.polimi.ingsw.gc27.Model.Card.Face;
+import it.polimi.ingsw.gc27.Model.Card.*;
 import it.polimi.ingsw.gc27.Model.Card.ObjectiveCard.ObjectiveCard;
-import it.polimi.ingsw.gc27.Model.Card.StarterCard;
+import it.polimi.ingsw.gc27.Model.Game.Board;
 import it.polimi.ingsw.gc27.Model.Game.Manuscript;
+import it.polimi.ingsw.gc27.Model.Game.Market;
 import it.polimi.ingsw.gc27.Net.VirtualServer;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 
 import java.io.IOException;
-import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.Scanner;
+import java.util.*;
 import java.util.stream.Collectors;
 
-public class Tui {
+import static java.lang.System.out;
+
+public class Tui implements View{
 
     private VirtualView client;
     private VirtualServer server;
@@ -27,28 +25,29 @@ public class Tui {
         this.server = server;
     }
 
-    public void runCli() throws IOException, RemoteException, InterruptedException {
+    @Override
+    public void run() throws IOException, InterruptedException {
 
         Scanner scan = new Scanner(System.in);
 
         while (true) {
 
-            System.out.print("> ");
+            out.print("> ");
             String command = scan.nextLine();
 
             switch (command.toLowerCase()) {
 
                 case "help":
-                    System.out.println("Commands:");
-                    System.out.println("addstarter - add a starter card to your board");
-                    System.out.println("chooseobj - choose an objective card");
-                    System.out.println("addcard - add a card to your board");
-                    System.out.println("draw - draw a card from the market");
+                    out.println("Commands:");
+                    out.println("addstarter ═ add a starter card to your board");
+                    out.println("chooseobj ═ choose an objective card");
+                    out.println("addcard ═ add a card to your board");
+                    out.println("draw ═ draw a card from the market");
                     break;
 
                 case "addstarter":
                     //System.out.println(Tui.showStarter(client.getMiniModel().getStarter()));
-                    System.out.println("What side do you want to play? (front or back)");
+                    out.println("What side do you want to play? (front or back)");
                     while(true){
                         String side = scan.next();
                         if(side.equalsIgnoreCase("front")) {
@@ -58,7 +57,7 @@ public class Tui {
                             server.addStarter(client.getUsername(), false);
                             break;
                         }else{
-                            System.out.println("Invalid face: insert front or back");
+                            out.println("Invalid face: insert front or back");
                         }
                         // Consume the invalid input to clear the scanner's buffer
                         scan.nextLine();
@@ -67,11 +66,10 @@ public class Tui {
                     scan.nextLine();
                     break;
 
-                /*case "chooseobj":
+                case "chooseobj":
                     //System.out.println(Tui.showObjective(client.getMiniModel().getSecretObjectives()));
                     int obj;
-                    // Ask for connection type
-                    System.out.println("Which objective do you want to choose? (1, 2)");
+                    out.println("Which objective do you want to achive? (1 or 2)");
                     while(true){
                         try {
                             obj = scan.nextInt();
@@ -82,10 +80,10 @@ public class Tui {
                                 server.chooseObjective(client.getUsername(), 1);
                                 break;
                             } else {
-                                System.out.println("Invalid number, insert 1 or 2");
+                                out.println("Invalid number, insert 1 or 2");
                             }
                         } catch (InputMismatchException e) {
-                            System.out.println("Invalid input. Please enter an integer.");
+                            out.println("Invalid input. Please enter an integer.");
                         } finally {
                             // Consume the invalid input to clear the scanner's buffer
                             scan.nextLine();
@@ -93,30 +91,30 @@ public class Tui {
                     }
                     // Consume the invalid input to clear the scanner's buffer
                     scan.nextLine();
-                    break;*/
+                    break;
 
                 // TODO creare una soluzione intelligente per gestire gli input di addcard, con while true e try catch vari
                 case "addcard":
-                    System.out.println("Which card do you want to add? (choose from 0, 1, 2)");
+                    out.println("Which card do you want to add? (choose from 0, 1, 2)");
                     int cardIndex = scan.nextInt();
-                    System.out.println("Front or back?");
+                    out.println("Front or back?");
                     String face = scan.next();
-                    System.out.println("x = ");
+                    out.println("x = ");
                     int x = scan.nextInt();
-                    System.out.println("y = ");
+                    out.println("y = ");
                     int y = scan.nextInt();
                     if(face.equalsIgnoreCase("front")) {
                         server.addCard(client.getUsername(), cardIndex, true, x, y);
                     }else if(face.equalsIgnoreCase("back")){
                         server.addCard(client.getUsername(), cardIndex, false, x, y);
                     }else{
-                        System.out.println("Invalid face: abort");
+                        out.println("Invalid face: abort");
                     }
                     break;
 
                 case "draw":
                     //System.out.println(Tui.showMarket());
-                    System.out.println("enter [cardType] [fromDeck] [faceUpIndex] (res/gold, true/false, 0/1)");
+                    out.println("enter [cardType] [fromDeck] [faceUpIndex] (res/gold, true/false, 0/1)");
                     String line = scan.nextLine();
                     String[] words = line.split(" ");
                     String cardType = words[0];
@@ -130,14 +128,16 @@ public class Tui {
                     break;
 
                 default:
-                    System.out.println("Invalid command. Type 'help' for a list of commands.");
+                    out.println("Invalid command. Type 'help' for a list of commands.");
                     break;
+
             }
 
         }
+
     }
 
-    public static Queue<String> fromFaceToCliCard(Face face) throws Exception {
+    private static Queue<String> fromFaceToCliCard(Face face) throws Exception {
 
         Corner UR = face.getCornerUR();
         Corner UL = face.getCornerUL();
@@ -154,89 +154,89 @@ public class Tui {
         String fifth = "";
 
         if(!UR.isHidden() && !UL.isHidden() && !LR.isHidden() && !LL.isHidden()) {  // case #1
-            first = colour + "╭-----------------╮" + reset;
-            second = colour + "|" + UL.getSymbol().toCliString() + sws.repeat(15) + UR.getSymbol().toCliString() + colour + "|" + reset;
-            third = colour + "|" + Tui.constructString(face.getPermanentResources().stream().map(o -> o.toCornerSymbol().toCliString()).collect(Collectors.toCollection(ArrayList::new))) + colour + "|" + reset;
-            fourth = colour + "|" + LL.getSymbol().toCliString() + sws.repeat(15) + LR.getSymbol().toCliString() + colour + colour + "|" + reset;
-            fifth = colour + "╰-----------------╯" + reset;
+            first = colour + "╔═════════════════╗" + reset;
+            second = colour + "║" + UL.getSymbol().toCliString() + sws.repeat(15) + UR.getSymbol().toCliString() + colour + "║" + reset;
+            third = colour + "║" + constructResources(face.getPermanentResources().stream().map(o -> o.toCornerSymbol().toCliString()).collect(Collectors.toCollection(ArrayList::new)), true) + colour + "║" + reset;
+            fourth = colour + "║" + LL.getSymbol().toCliString() + sws.repeat(15) + LR.getSymbol().toCliString() + colour + colour + "║" + reset;
+            fifth = colour + "╚═════════════════╝" + reset;
         }else if(UR.isHidden() && !UL.isHidden() && !LR.isHidden() && !LL.isHidden()){ // case #2
-            first = colour + "╭--------------" + reset;
-            second = colour + "|" + UL.getSymbol().toCliString() + sws.repeat(13) + reset;
-            third = colour + "|" + Tui.constructString(face.getPermanentResources().stream().map(o -> o.toCornerSymbol().toCliString()).collect(Collectors.toCollection(ArrayList::new))) + colour + "|" + reset;
-            fourth = colour + "|" + LL.getSymbol().toCliString() + sws.repeat(15) + LR.getSymbol().toCliString() + colour + "|" + reset;
-            fifth = colour + "╰-----------------╯" + reset;
+            first = colour + "╔══════════════" + reset;
+            second = colour + "║" + UL.getSymbol().toCliString() + sws.repeat(13) + reset;
+            third = colour + "║" + constructResources(face.getPermanentResources().stream().map(o -> o.toCornerSymbol().toCliString()).collect(Collectors.toCollection(ArrayList::new)), true) + colour + "║" + reset;
+            fourth = colour + "║" + LL.getSymbol().toCliString() + sws.repeat(15) + LR.getSymbol().toCliString() + colour + "║" + reset;
+            fifth = colour + "╚═════════════════╝" + reset;
         }else if(!UR.isHidden() && UL.isHidden() && !LR.isHidden() && !LL.isHidden()){ // case #3
-            first = colour + "--------------╮" + reset;
-            second = colour + sws.repeat(13) + UR.getSymbol().toCliString() + colour + "|" + reset;
-            third = colour + "|" + Tui.constructString(face.getPermanentResources().stream().map(o -> o.toCornerSymbol().toCliString()).collect(Collectors.toCollection(ArrayList::new))) + colour + "|" + reset;
-            fourth = colour + "|" + LL.getSymbol().toCliString() + sws.repeat(15) + LR.getSymbol().toCliString() + colour + "|" + reset;
-            fifth = colour + "╰-----------------╯" + reset;
+            first = colour + "══════════════╗" + reset;
+            second = colour + sws.repeat(13) + UR.getSymbol().toCliString() + colour + "║" + reset;
+            third = colour + "║" + constructResources(face.getPermanentResources().stream().map(o -> o.toCornerSymbol().toCliString()).collect(Collectors.toCollection(ArrayList::new)), true) + colour + "║" + reset;
+            fourth = colour + "║" + LL.getSymbol().toCliString() + sws.repeat(15) + LR.getSymbol().toCliString() + colour + "║" + reset;
+            fifth = colour + "╚═════════════════╝" + reset;
         }else if(!UR.isHidden() && !UL.isHidden() && LR.isHidden() && !LL.isHidden()){ // case #4
-            first = colour + "╭-----------------╮" + reset;
-            second = colour + "|" + UL.getSymbol().toCliString() + sws.repeat(15) + UR.getSymbol().toCliString() + colour + "|" + reset;
-            third = colour + "|" + Tui.constructString(face.getPermanentResources().stream().map(o -> o.toCornerSymbol().toCliString()).collect(Collectors.toCollection(ArrayList::new))) + colour + "|" + reset;
-            fourth = colour + "|" + LL.getSymbol().toCliString()+ sws.repeat(13) + reset;
-            fifth = colour + "╰--------------" + reset;
+            first = colour + "╔═════════════════╗" + reset;
+            second = colour + "║" + UL.getSymbol().toCliString() + sws.repeat(15) + UR.getSymbol().toCliString() + colour + "║" + reset;
+            third = colour + "║" + constructResources(face.getPermanentResources().stream().map(o -> o.toCornerSymbol().toCliString()).collect(Collectors.toCollection(ArrayList::new)), true) + colour + "║" + reset;
+            fourth = colour + "║" + LL.getSymbol().toCliString()+ sws.repeat(13) + reset;
+            fifth = colour + "╚══════════════" + reset;
         }else if(!UR.isHidden() && !UL.isHidden() && !LR.isHidden() && LL.isHidden()){ // case #5
-            first = colour + "╭-----------------╮" + reset;
-            second = colour + "|" + UL.getSymbol().toCliString() + sws.repeat(15) + UR.getSymbol().toCliString() + colour + "|" + reset;
-            third = colour + "|" + Tui.constructString(face.getPermanentResources().stream().map(o -> o.toCornerSymbol().toCliString()).collect(Collectors.toCollection(ArrayList::new))) + colour + "|" + reset;
-            fourth = colour + sws.repeat(13) + LR.getSymbol().toCliString() + colour + "|" + reset;
-            fifth = colour + "--------------╯" + reset;
+            first = colour + "╔═════════════════╗" + reset;
+            second = colour + "║" + UL.getSymbol().toCliString() + sws.repeat(15) + UR.getSymbol().toCliString() + colour + "║" + reset;
+            third = colour + "║" + constructResources(face.getPermanentResources().stream().map(o -> o.toCornerSymbol().toCliString()).collect(Collectors.toCollection(ArrayList::new)), true) + colour + "║" + reset;
+            fourth = colour + sws.repeat(13) + LR.getSymbol().toCliString() + colour + "║" + reset;
+            fifth = colour + "══════════════╝" + reset;
         }else if(UR.isHidden() && UL.isHidden() && !LR.isHidden() && !LL.isHidden()){ // case #6
-            first = colour + "-----------" + reset;
+            first = colour + "═══════════" + reset;
             second = colour + sws.repeat(11) + reset;
-            third = colour + "|" + Tui.constructString(face.getPermanentResources().stream().map(o -> o.toCornerSymbol().toCliString()).collect(Collectors.toCollection(ArrayList::new))) + colour + "|" + reset;
-            fourth = colour + "|" + LL.getSymbol().toCliString() + sws.repeat(15) + LR.getSymbol().toCliString() + colour + "|" + reset;
-            fifth = colour + "╰-----------------╯" + reset;
+            third = colour + "║" + constructResources(face.getPermanentResources().stream().map(o -> o.toCornerSymbol().toCliString()).collect(Collectors.toCollection(ArrayList::new)), true) + colour + "║" + reset;
+            fourth = colour + "║" + LL.getSymbol().toCliString() + sws.repeat(15) + LR.getSymbol().toCliString() + colour + "║" + reset;
+            fifth = colour + "╚═════════════════╝" + reset;
         }else if(!UR.isHidden() && !UL.isHidden() && LR.isHidden() && LL.isHidden()){ // case #7
-            first = colour + "╭-----------------╮" + reset;
-            second = colour + "|" + UL.getSymbol().toCliString() + sws.repeat(15) + UR.getSymbol().toCliString() + colour + "|" + reset;
-            third = colour + "|" + Tui.constructString(face.getPermanentResources().stream().map(o -> o.toCornerSymbol().toCliString()).collect(Collectors.toCollection(ArrayList::new))) + colour + "|" + reset;
+            first = colour + "╔═════════════════╗" + reset;
+            second = colour + "║" + UL.getSymbol().toCliString() + sws.repeat(15) + UR.getSymbol().toCliString() + colour + "║" + reset;
+            third = colour + "║" + constructResources(face.getPermanentResources().stream().map(o -> o.toCornerSymbol().toCliString()).collect(Collectors.toCollection(ArrayList::new)), true) + colour + "║" + reset;
             fourth = colour + sws.repeat(11) + reset;
-            fifth = colour + "-----------" + reset;
+            fifth = colour + "═══════════" + reset;
         }else if(!UR.isHidden() && UL.isHidden() && !LR.isHidden() && LL.isHidden()){ // case #8
-            first = colour + "--------------╮" + reset;
-            second = colour + sws.repeat(13) + UR.getSymbol().toCliString() + colour + "|" + reset;
-            third = colour + "|" + Tui.constructString(face.getPermanentResources().stream().map(o -> o.toCornerSymbol().toCliString()).collect(Collectors.toCollection(ArrayList::new))) + colour + "|" + reset;
-            fourth = colour + sws.repeat(13) + LR.getSymbol().toCliString() + colour + "|" + reset;
-            fifth = colour + "--------------╯" + reset;
+            first = colour + "══════════════╗" + reset;
+            second = colour + sws.repeat(13) + UR.getSymbol().toCliString() + colour + "║" + reset;
+            third = colour + "║" + constructResources(face.getPermanentResources().stream().map(o -> o.toCornerSymbol().toCliString()).collect(Collectors.toCollection(ArrayList::new)), true) + colour + "║" + reset;
+            fourth = colour + sws.repeat(13) + LR.getSymbol().toCliString() + colour + "║" + reset;
+            fifth = colour + "══════════════╝" + reset;
         }else if(UR.isHidden() && !UL.isHidden() && LR.isHidden() && !LL.isHidden()){ // case #9
-            first = colour + "╭--------------" + reset;
-            second = colour + "|" + UL.getSymbol().toCliString() + sws.repeat(13) + reset;
-            third = colour + "|" + Tui.constructString(face.getPermanentResources().stream().map(o -> o.toCornerSymbol().toCliString()).collect(Collectors.toCollection(ArrayList::new))) + colour + "|" + reset;
-            fourth = colour + "|" + LL.getSymbol().toCliString()+ sws.repeat(13) + reset;
-            fifth = colour + "╰--------------" + reset;
+            first = colour + "╔══════════════" + reset;
+            second = colour + "║" + UL.getSymbol().toCliString() + sws.repeat(13) + reset;
+            third = colour + "║" + constructResources(face.getPermanentResources().stream().map(o -> o.toCornerSymbol().toCliString()).collect(Collectors.toCollection(ArrayList::new)), true) + colour + "║" + reset;
+            fourth = colour + "║" + LL.getSymbol().toCliString()+ sws.repeat(13) + reset;
+            fifth = colour + "╚══════════════" + reset;
         }else if(UR.isHidden() && UL.isHidden() && LR.isHidden() && LL.isHidden()){ // case #10
-            first = colour + "-----------" + reset;
+            first = colour + "═══════════" + reset;
             second = colour + sws.repeat(11) + reset;
-            third = colour + "|" + Tui.constructString(face.getPermanentResources().stream().map(o -> o.toCornerSymbol().toCliString()).collect(Collectors.toCollection(ArrayList::new))) + colour + "|" + reset;
+            third = colour + "║" + constructResources(face.getPermanentResources().stream().map(o -> o.toCornerSymbol().toCliString()).collect(Collectors.toCollection(ArrayList::new)), true) + colour + "║" + reset;
             fourth = colour + sws.repeat(11) + reset;
-            fifth = colour + "-----------" + reset;
+            fifth = colour + "═══════════" + reset;
         }else if(!UR.isHidden() && UL.isHidden() && LR.isHidden() && LL.isHidden()){ // case #11
-            first = colour + "--------------╮" + reset;
-            second = colour + sws.repeat(13) + UR.getSymbol().toCliString() + colour + "|" + reset;
-            third = colour + "|" + Tui.constructString(face.getPermanentResources().stream().map(o -> o.toCornerSymbol().toCliString()).collect(Collectors.toCollection(ArrayList::new))) + colour + "|" + reset;
+            first = colour + "══════════════╗" + reset;
+            second = colour + sws.repeat(13) + UR.getSymbol().toCliString() + colour + "║" + reset;
+            third = colour + "║" + constructResources(face.getPermanentResources().stream().map(o -> o.toCornerSymbol().toCliString()).collect(Collectors.toCollection(ArrayList::new)), true) + colour + "║" + reset;
             fourth = colour + sws.repeat(11) + reset;
-            fifth = colour + "-----------" + reset;
+            fifth = colour + "═══════════" + reset;
         }else if(UR.isHidden() && !UL.isHidden() && LR.isHidden() && LL.isHidden()){ // case #12
-            first = colour + "╭--------------" + reset;
-            second = colour + "|" + UL.getSymbol().toCliString() + sws.repeat(13) + reset;
-            third = colour + "|" + Tui.constructString(face.getPermanentResources().stream().map(o -> o.toCornerSymbol().toCliString()).collect(Collectors.toCollection(ArrayList::new))) + colour + "|" + reset;
+            first = colour + "╔══════════════" + reset;
+            second = colour + "║" + UL.getSymbol().toCliString() + sws.repeat(13) + reset;
+            third = colour + "║" + constructResources(face.getPermanentResources().stream().map(o -> o.toCornerSymbol().toCliString()).collect(Collectors.toCollection(ArrayList::new)), true) + colour + "║" + reset;
             fourth = colour + sws.repeat(11) + reset;
-            fifth = colour + "-----------" + reset;
+            fifth = colour + "═══════════" + reset;
         }else if(UR.isHidden() && UL.isHidden() && LR.isHidden() && !LL.isHidden()){ // case #13
-            first = colour + "-----------" + reset;
+            first = colour + "═══════════" + reset;
             second = colour + sws.repeat(11) + reset;
-            third = colour + "|" + Tui.constructString(face.getPermanentResources().stream().map(o -> o.toCornerSymbol().toCliString()).collect(Collectors.toCollection(ArrayList::new))) + colour + "|" + reset;
-            fourth = colour + "|" + LL.getSymbol().toCliString() + colour + sws.repeat(13) + reset;
-            fifth = colour + "╰--------------" + reset;
+            third = colour + "║" + constructResources(face.getPermanentResources().stream().map(o -> o.toCornerSymbol().toCliString()).collect(Collectors.toCollection(ArrayList::new)), true) + colour + "║" + reset;
+            fourth = colour + "║" + LL.getSymbol().toCliString() + colour + sws.repeat(13) + reset;
+            fifth = colour + "╚══════════════" + reset;
         }else if(UR.isHidden() && UL.isHidden() && !LR.isHidden() && LL.isHidden()) { // case #14
-            first = colour + "-----------" + reset;
+            first = colour + "═══════════" + reset;
             second = colour + sws.repeat(11) + reset;
-            third = colour + "|" + Tui.constructString(face.getPermanentResources().stream().map(o -> o.toCornerSymbol().toCliString()).collect(Collectors.toCollection(ArrayList::new))) + colour + "|" + reset;
-            fourth = colour + sws.repeat(13) + LR.getSymbol().toCliString() + colour + "|" + reset;
-            fifth = colour + "--------------╯" + reset;
+            third = colour + "║" + constructResources(face.getPermanentResources().stream().map(o -> o.toCornerSymbol().toCliString()).collect(Collectors.toCollection(ArrayList::new)), true) + colour + "║" + reset;
+            fourth = colour + sws.repeat(13) + LR.getSymbol().toCliString() + colour + "║" + reset;
+            fifth = colour + "══════════════╝" + reset;
         }
 
         Queue<String> lines = new LinkedList<>();
@@ -249,34 +249,43 @@ public class Tui {
 
     }
 
-    public static String constructString(ArrayList<String> permanentResources) {
-        String start = "";
-        String end = "";
+    // isPermanent true is used to print the permanent resources of a card. If false, the goldCard requirements are printed
+    private static String constructResources(ArrayList<String> resources, boolean isPermanent) {
+        String start = isPermanent ? " " : "";
+        String end = isPermanent ? " " : "";
 
         String permRes = "";
-        for (int i = 0; i < permanentResources.size(); i++) {
-            permRes = permRes + permanentResources.get(i);
+        for (int i = 0; i < resources.size(); i++) {
+            permRes = permRes + resources.get(i);
         }
 
-        switch (permanentResources.size()) {
+        switch (resources.size()) {
             case 0:
-                start = start + "         ";
-                end = "        " + end;
+                start = start + "        ";
+                end = "       " + end;
                 break;
             case 1:
-                start = start + "        ";
-                end = "        " + end;
-                break;
-            case 2:
-                start = start + "       ";
-                end = "        " + end;
-                break;
-            case 3:
                 start = start + "       ";
                 end = "       " + end;
                 break;
+            case 2:
+                start = start + "      ";
+                end = "       " + end;
+                break;
+            case 3:
+                start = start + "      ";
+                end = "      " + end;
+                break;
+            case 4:
+                start = start + "     ";
+                end = "      " + end;
+                break;
+            case 5:
+                start = start + "     ";
+                end = "     " + end;
+                break;
             default:
-                System.out.println("Unexpected value: " + permanentResources.size());
+                out.println("Unexpected value: " + resources.size());
         }
 
         String line = start + permRes + end;
@@ -292,7 +301,7 @@ public class Tui {
                 xAxis = xAxis + i + sws.repeat(13);
             }
         }
-        System.out.println(xAxis);
+        out.println(xAxis);
     }
 
     private static String printyAxis(int line, int j){
@@ -303,7 +312,7 @@ public class Tui {
         }
     }
 
-    public static String countWhiteSpaces(boolean first, boolean middle, Manuscript manuscript, int i, int j, int line){
+    private static String countWhiteSpaces(boolean first, boolean middle, Manuscript manuscript, int i, int j, int line){
         String ws_11 = sws.repeat(11);
         String ws_15 = sws.repeat(15);
 
@@ -378,10 +387,45 @@ public class Tui {
                 sb.append("\n");
             }
         }
-        return sb.toString();
-    }
 
-    public static String showFace(Face face){
+        // Counters
+        sb.append("\nCounters: " + "\nAnimal     -> " + manuscript.getAnimalCounter() + "\nFungi      -> " + manuscript.getFungiCounter() + "\nInsect     -> " + manuscript.getInsectCounter() + "\nPlant      -> " + manuscript.getPlantCounter() + "\ninkwell    -> " + manuscript.getInkwellCounter() + "\nquill      -> " + manuscript.getQuillCounter() + "\nmanuscript -> " + manuscript.getManuscriptCounter() + "\n");
+
+        return sb.toString();
+
+    }
+    
+    private static String writePoints(Card card, boolean isFront){
+
+        // Starter cards OR Back face OR points = 0 have no points
+        if(card instanceof StarterCard || !isFront || (isFront && ((ResourceCard) card).getCardPoints() == 0)){
+            return  "               ";
+        }
+
+        // Front face of a GoldCard
+        if(card instanceof GoldCard){
+            return ColourControl.RESET + "      " + ColourControl.YELLOW_BACKGROUND + ((ResourceCard) card).getCardPoints() + "|" + ((GoldCard) card).getPointsMultiplier().toString() + ColourControl.RESET + "      ";
+        } else { // Front face of a ResourceCard
+            return ColourControl.RESET + "       " + ColourControl.YELLOW_BACKGROUND + ((ResourceCard) card).getCardPoints() + ColourControl.RESET + "       ";
+        }
+
+    }
+    
+    private static String writeRequirements(Card card, boolean isFront){
+
+        // Only front face of GoldCard has requirements
+        if(card instanceof GoldCard && isFront){
+            return constructResources(((GoldCard) card).getRequirements().stream().map(o -> o.toCornerSymbol().toCliString()).collect(Collectors.toCollection(ArrayList::new)), false);
+        }
+
+        // Default
+        return "               ";
+
+    }
+    
+    protected static Queue<String> toCliCard(Card card, boolean isFront){
+
+        Face face = isFront ? card.getFront() : card.getBack();
 
         Corner UR = face.getCornerUR();
         Corner UL = face.getCornerUL();
@@ -391,34 +435,75 @@ public class Tui {
         String colour = face.getColour().toColourControl() + ColourControl.BOLD;   // colour and bold
         String reset = ColourControl.RESET;
 
-        String first = colour + "╭-----------------╮" + reset;
-        String second = colour + "|" + UL.getSymbol().toCliString() + "               " + UR.getSymbol().toCliString() + colour + "|" + reset;
-        String third = colour + "|" + Tui.constructString(face.getPermanentResources().stream().map(o -> o.toCornerSymbol().toCliString()).collect(Collectors.toCollection(ArrayList::new))) + colour + "|" + reset;
-        String fourth = colour + "|" + LL.getSymbol().toCliString() + "               " + LR.getSymbol().toCliString() + colour + colour + "|" + reset;
-        String fifth = colour + "╰-----------------╯" + reset;
+        String first = colour + "╔═════════════════╗" + reset;
+        String second = colour + "║" + UL.getSymbol().toCliString() + writePoints(card, isFront) + UR.getSymbol().toCliString() + colour + "║" + reset;
+        String third = colour + "║" + constructResources(face.getPermanentResources().stream().map(o -> o.toCornerSymbol().toCliString()).collect(Collectors.toCollection(ArrayList::new)), true) + colour + "║" + reset;
+        String fourth = colour + "║" + LL.getSymbol().toCliString() + writeRequirements(card, isFront) + LR.getSymbol().toCliString() + colour + colour + "║" + reset;
+        String fifth = colour + "╚═════════════════╝" + reset;
 
-        return (first + "\n" + second +"\n" + third+"\n"+ fourth+"\n"+fifth);
+        Queue<String> lines = new LinkedList<>();
+        lines.add(first);
+        lines.add(second);
+        lines.add(third);
+        lines.add(fourth);
+        lines.add(fifth);
+
+        return lines;
 
     }
 
     public static String showStarter(StarterCard card ){
-        return ("Starter Front:"+"\n"+ showFace(card.getFront( )) +("\nStarter Back:")+"\n"+showFace(card.getBack()));
+        return ("Starter Front:" +
+                "\n" + toCliCard(card, true).stream().collect(Collectors.joining("\n")) +
+                "\nStarter Back:" +
+                "\n" + toCliCard(card, false).stream().collect(Collectors.joining("\n")));
     }
 
-    public static String showObjective(ArrayList<ObjectiveCard> secretObjectives){
+    public static String showObjectives(ArrayList<ObjectiveCard> secretObjectives){
 
         ObjectiveCard o1 = secretObjectives.get(0);
         ObjectiveCard o2 = secretObjectives.get(1);
-
-        o1.toCliCard();
-        o2.toCliCard();
 
         return ("Objective 1: \n" + o1.toCliCard() + "\n\nObjective 2: \n" + o2.toCliCard());
 
     }
 
+    public static String showBoard(Board board){
+        return ("Red: " + board.getPointsRedPlayer() +
+                "\nYellow: " + board.getPointsYellowPlayer() +
+                "\nGreen: " + board.getPointsGreenPlayer() +
+                "\nBlue: " + board.getPointsBluePlayer());
+    }
+
+    public static String showMarket(Market market){
+
+        String res = "";
+
+        Queue<String> resourceDeckTop = toCliCard(market.getResourceDeck().getFirst(), false);
+        Queue<String> goldDeckTop = toCliCard(market.getGoldDeck().getFirst(), false);
+        Queue<String> resourceOne = toCliCard(market.getFaceUpResources()[0], true);
+        Queue<String> resourceTwo = toCliCard(market.getFaceUpResources()[1], true);
+        Queue<String> goldOne = toCliCard(market.getFaceUpGolds()[0], true);
+        Queue<String> goldTwo = toCliCard(market.getFaceUpGolds()[1], true);
+
+        int numLinesToPrint = resourceDeckTop.size();
+
+        for(int i = 0; i < numLinesToPrint; i++){
+            res += resourceDeckTop.remove() + "   " + resourceOne.remove() + "  " + resourceTwo.remove() + "\n";
+        }
+
+        res += "\n";
+
+        for(int i = 0; i < numLinesToPrint; i++){
+            res += goldDeckTop.remove() + "   " + goldOne.remove() + "  " + goldTwo.remove() + "\n";
+        }
+
+        return res;
+
+    }
+
     public static void showTitle() {
-        System.out.println("\n" +
+        out.println("\n" +
                 " ██████╗ ██████╗ ██████╗ ███████╗██╗  ██╗    ███╗   ██╗ █████╗ ████████╗██╗   ██╗██████╗  █████╗ ██╗     ██╗███████╗\n" +
                 "██╔════╝██╔═══██╗██╔══██╗██╔════╝╚██╗██╔╝    ████╗  ██║██╔══██╗╚══██╔══╝██║   ██║██╔══██╗██╔══██╗██║     ██║██╔════╝\n" +
                 "██║     ██║   ██║██║  ██║█████╗   ╚███╔╝     ██╔██╗ ██║███████║   ██║   ██║   ██║██████╔╝███████║██║     ██║███████╗\n" +
@@ -426,12 +511,6 @@ public class Tui {
                 "╚██████╗╚██████╔╝██████╔╝███████╗██╔╝ ██╗    ██║ ╚████║██║  ██║   ██║   ╚██████╔╝██║  ██║██║  ██║███████╗██║███████║\n" +
                 " ╚═════╝ ╚═════╝ ╚═════╝ ╚══════╝╚═╝  ╚═╝    ╚═╝  ╚═══╝╚═╝  ╚═╝   ╚═╝    ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝╚═╝╚══════╝\n" +
                 "                                                                                                                    \n");
-    }
-
-    public static void main(String[] args) {
-        System.out.println(ColourControl.CYAN_BACKGROUND_BRIGHT + "       " + ColourControl.RESET);
-
-
     }
 
 }

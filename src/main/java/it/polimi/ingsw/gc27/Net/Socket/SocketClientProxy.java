@@ -65,6 +65,11 @@ public class SocketClientProxy implements VirtualView {
         output.flush();
     }
 
+    @Override
+    public void run() throws IOException, InterruptedException {
+
+    }
+
 
     @Override
     public void update(Message message) {

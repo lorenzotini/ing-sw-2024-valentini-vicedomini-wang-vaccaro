@@ -22,6 +22,8 @@ public interface VirtualView extends Remote, Observer {
 
     void setUsername(String username) throws RemoteException;
 
+    void run() throws IOException, InterruptedException;
+
     String getUsername() throws IOException, InterruptedException;
 
 }

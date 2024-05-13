@@ -7,8 +7,6 @@ import it.polimi.ingsw.gc27.Model.Enumerations.PawnColour;
 import it.polimi.ingsw.gc27.Model.Game.Game;
 import it.polimi.ingsw.gc27.Model.Game.Manuscript;
 import it.polimi.ingsw.gc27.Model.Game.Player;
-import it.polimi.ingsw.gc27.Model.Listener.Observable;
-import it.polimi.ingsw.gc27.Model.Listener.Observer;
 import it.polimi.ingsw.gc27.Model.States.InitializingState;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 
@@ -60,20 +58,20 @@ public class GameController implements Serializable {
      * @param x
      * @param y
      */
-    public void addCard(Player player, ResourceCard card, Face face, int x, int y)  {
+    public void addCard(Player player, ResourceCard card, Face face, int x, int y) throws RemoteException {
         player.getPlayerState().addCard(this.game, card, face, x, y);
     }
 
     // TODO: I DUE METODI SONO UGUALI, MAGARI CI PUO' ANDARE UN DESIGN PATTERN
-    public void drawResourceCard(Player player, boolean fromDeck, int faceUpCardIndex){
+    public void drawResourceCard(Player player, boolean fromDeck, int faceUpCardIndex) throws RemoteException {
         player.getPlayerState().drawResourceCard(player, fromDeck, faceUpCardIndex, this.game);
     }
 
-    public void drawGoldCard(Player player, boolean fromDeck, int faceUpCardIndex){
+    public void drawGoldCard(Player player, boolean fromDeck, int faceUpCardIndex) throws RemoteException {
         player.getPlayerState().drawGoldCard(player, fromDeck, faceUpCardIndex, this.game);
     }
 
-    public void chooseObjectiveCard(Player player, int objectiveCardIndex){
+    public void chooseObjectiveCard(Player player, int objectiveCardIndex) throws RemoteException {
         player.getPlayerState().chooseObjectiveCard(this.game, objectiveCardIndex);
     }
 
@@ -82,7 +80,7 @@ public class GameController implements Serializable {
     }
 
     // Create a player from command line, but hand, secret objective and starter are not instantiated
-    public Player initializePlayer(VirtualView client, GigaController gigaChad) throws IOException, RemoteException, InterruptedException {
+    public Player initializePlayer(VirtualView client, GigaController gigaChad) throws IOException, InterruptedException {
         String username;
         String pawnColor;
         Manuscript manuscript = new Manuscript();
@@ -120,7 +118,9 @@ public class GameController implements Serializable {
         p.getHand().add(this.getGame().getMarket().getResourceDeck().removeFirst());
         p.getHand().add(this.getGame().getMarket().getGoldDeck().removeFirst());
 
-
+        // Get the secret objectives (Two cards are drawn at the beginning of the game)
+        p.getSecretObjectives().add(this.getGame().getObjectiveDeck().removeFirst());
+        p.getSecretObjectives().add(this.getGame().getObjectiveDeck().removeFirst());
 
         // TODO risolvere il problema degli attributi ricorsivi turnhandler e player
         if(game.getNumActualPlayers() == this.getNumMaxPlayers()){
@@ -130,7 +130,9 @@ public class GameController implements Serializable {
                 //TODO fare bene l'addstarted e tutta la fase iniziale
             }
         }
+
         client.setUsername(username);
+
         return p;
 
     }

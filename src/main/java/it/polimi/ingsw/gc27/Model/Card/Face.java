@@ -64,7 +64,5 @@ public abstract class Face implements Serializable {
         }
     }
 
-    public abstract Face copy(Face face);
-
     public abstract ArrayList<Kingdom> getPermanentResources();
 }

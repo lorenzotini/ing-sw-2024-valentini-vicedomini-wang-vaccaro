@@ -31,7 +31,7 @@ public class SocketClient implements VirtualView, Runnable {
                 }
             }
             tui = new Tui(this, server);
-            tui.runCli();
+            tui.run();
         } catch (RemoteException | InterruptedException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {

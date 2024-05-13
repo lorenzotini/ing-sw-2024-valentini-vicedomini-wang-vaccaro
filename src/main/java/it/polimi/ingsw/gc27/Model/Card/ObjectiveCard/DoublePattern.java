@@ -31,11 +31,11 @@ public class DoublePattern extends ObjectiveCard {
 
     @Override
     public String toCliCard(){
-        String first = paintString("╭-----------------╮");
-        String second = paintString("| ") + "pts: " + this.getObjPointsMap().get(this.getClass()) + paintString("          |");
-        String third = paintString("|                 |");
-        String fourth = paintString("| " + this.cornerSymbol.toCliString().repeat(2)) + paintString("              |");
-        String fifth = paintString("╰-----------------╯");
+        String first = paintString("╔═════════════════╗");
+        String second = paintString("║ ") + "pts: " + this.getObjPointsMap().get(this.getClass()) + paintString("          ║");
+        String third = paintString("║                 ║");
+        String fourth = paintString("║ " + this.cornerSymbol.toCliString().repeat(2)) + paintString("              ║");
+        String fifth = paintString("╚═════════════════╝");
         return first + "\n" + second + "\n" + third + "\n" + fourth + "\n" + fifth;
     }
 

@@ -12,7 +12,9 @@ public enum CornerSymbol implements Serializable {
     FUNGIKINGDOM(ColourControl.RED_BOLD + "F" + ColourControl.RESET),
     QUILL(ColourControl.YELLOW_BOLD + "q" + ColourControl.RESET),
     INKWELL(ColourControl.YELLOW_BOLD + "i" + ColourControl.RESET),
-    MANUSCRIPT(ColourControl.YELLOW_BOLD + "m" + ColourControl.RESET);
+    MANUSCRIPT(ColourControl.YELLOW_BOLD + "m" + ColourControl.RESET),
+    BLACK(ColourControl.BLACK_BOLD + "■" + ColourControl.RESET);
+
     private final String initials;
 
     CornerSymbol(String initials) {

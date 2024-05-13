@@ -42,11 +42,11 @@ public class DifferentPattern extends ObjectiveCard {
 
     @Override
     public String toCliCard(){
-        String first = paintString("╭-----------------╮");
-        String second = paintString("| ") + "pts: " + this.getObjPointsMap().get(this.getClass()) + paintString("          |");
-        String third = paintString("|                 |");
-        String fourth = paintString("| QMI             |");
-        String fifth =  paintString("╰-----------------╯");
+        String first = paintString("╔═════════════════╗");
+        String second = paintString("║ ") + "pts: " + this.getObjPointsMap().get(this.getClass()) + paintString("          ║");
+        String third = paintString("║                 ║");
+        String fourth = paintString("║ QMI             ║");
+        String fifth =  paintString("╚═════════════════╝");
         return first + "\n" + second + "\n" + third + "\n" + fourth + "\n" + fifth;
     }
 

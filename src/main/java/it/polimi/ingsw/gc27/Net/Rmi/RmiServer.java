@@ -39,8 +39,14 @@ public class RmiServer implements VirtualServer {
         StarterCard starter = player.getStarterCard();
         Face face = isFront ? starter.getFront() : starter.getBack();
         // TODO: gestire le eccezioni
-        this.console.userToGameController(playerName).addStarterCard(player, starter,face);
+        this.console.userToGameController(playerName).addStarterCard(player, starter, face);
         // TODO: gestire meglio gli updates
+    }
+
+    @Override
+    public void chooseObjective(String playerName, int objectiveIndex) throws IOException, InterruptedException {
+        Player player = this.console.getPlayer(playerName);
+        this.console.userToGameController(playerName).chooseObjectiveCard(player, objectiveIndex);
     }
 
     @Override
@@ -115,4 +121,5 @@ public class RmiServer implements VirtualServer {
         }
 
     }
+
 }

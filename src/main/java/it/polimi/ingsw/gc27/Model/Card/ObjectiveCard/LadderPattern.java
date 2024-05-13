@@ -89,11 +89,11 @@ public class LadderPattern extends ObjectiveCard {
         String ws = " ";
         int sp = this.upscaling ? 4 : 0;
 
-        String first = paintString("╭-----------------╮");
-        String second = paintString("| ") + "pts: " + this.getObjPointsMap().get(this.getClass()) + "   " +ws.repeat(sp) + img + ws.repeat(4-sp) + paintString("|");
-        String third = paintString("|            ") + img + paintString("  |");
-        String fourth = paintString("|          ") + ws.repeat(4-sp) + img + ws.repeat(sp) + paintString("|");
-        String fifth =  paintString("╰-----------------╯");
+        String first = paintString("╔═════════════════╗");
+        String second = paintString("║ ") + "pts: " + this.getObjPointsMap().get(this.getClass()) + "   " +ws.repeat(sp) + img + ws.repeat(4-sp) + paintString("║");
+        String third = paintString("║            ") + img + paintString("  ║");
+        String fourth = paintString("║          ") + ws.repeat(4-sp) + img + ws.repeat(sp) + paintString("║");
+        String fifth =  paintString("╚═════════════════╝");
 
         return first + "\n" + second + "\n" + third + "\n" + fourth + "\n" + fifth;
 

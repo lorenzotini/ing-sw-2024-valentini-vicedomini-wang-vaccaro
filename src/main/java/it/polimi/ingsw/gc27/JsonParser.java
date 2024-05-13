@@ -36,6 +36,7 @@ public class JsonParser{
         cornerSymbolHashMap.put("INKWELL", CornerSymbol.INKWELL);
         cornerSymbolHashMap.put("MANUSCRIPT", CornerSymbol.MANUSCRIPT);
         cornerSymbolHashMap.put("EMPTY", CornerSymbol.EMPTY);
+        cornerSymbolHashMap.put("BLACK", CornerSymbol.BLACK);
     }
     public static HashMap<String, PointsMultiplier> pointsMultiplierHashMapHashMap = new HashMap<>();
     static {

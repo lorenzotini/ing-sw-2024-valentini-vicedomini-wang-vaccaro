@@ -132,6 +132,7 @@ public class GameController implements Serializable {
         }
 
         client.setUsername(username);
+
         return p;
 
     }

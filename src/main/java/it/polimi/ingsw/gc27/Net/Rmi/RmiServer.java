@@ -39,7 +39,7 @@ public class RmiServer implements VirtualServer {
         StarterCard starter = player.getStarterCard();
         Face face = isFront ? starter.getFront() : starter.getBack();
         // TODO: gestire le eccezioni
-        this.console.userToGameController(playerName).addStarterCard(player, starter,face);
+        this.console.userToGameController(playerName).addStarterCard(player, starter, face);
         // TODO: gestire meglio gli updates
     }
 
@@ -121,4 +121,5 @@ public class RmiServer implements VirtualServer {
         }
 
     }
+
 }

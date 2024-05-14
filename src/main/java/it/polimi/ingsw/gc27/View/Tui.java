@@ -35,6 +35,7 @@ public class Tui implements View {
         while (true) {
 
             out.print("> ");
+
             String command = scan.nextLine();
 
             switch (command.toLowerCase()) {
@@ -45,11 +46,11 @@ public class Tui implements View {
                     out.println("chooseobj - choose an objective card");
                     out.println("addcard - add a card to your board");
                     out.println("draw - draw a card from the market");
-//                    out.println("Visualize:");
-//                    out.println("man - print your manuscript");
-//                    out.println("obj - print your secret objective");
-//                    out.println("market - print the market");
-//                    out.println("board - print the players' score board");
+                    out.println("Visualize:");
+                    out.println("man - print your manuscript");
+                    out.println("obj - print your secret objective");
+                    out.println("market - print the market");
+                    out.println("board - print the players' score board");
                     break;
 
                 case "addstarter":
@@ -76,7 +77,7 @@ public class Tui implements View {
                     break;
 
                 case "chooseobj":
-                    //out.println(Tui.showObjective(client.getMiniModel().getSecretObjectives()));
+                    out.println(Tui.showObjective(client.getMiniModel().getPlayer().getSecretObjectives()));
                     int obj;
                     out.println("Which objective do you want to achieve? (1 or 2)");
                     while (true) {
@@ -102,7 +103,7 @@ public class Tui implements View {
 
                 // TODO creare una soluzione intelligente per gestire gli input di addcard, con while true e try catch vari
                 case "addcard":
-                    //out.println(Tui.printManuscript(client.getMiniModel().getManuscript()));
+                    out.println(Tui.printManuscript(client.getMiniModel().getManuscript()));
                     out.println("Which card do you want to add? (choose from 0, 1, 2)");
                     int cardIndex = scan.nextInt();
                     out.println("Front or back?");
@@ -134,6 +135,22 @@ public class Tui implements View {
                     Command comm = new DrawCardCommand(client.getUsername(), isGold, fromDeck, faceUpIndex);
                     client.sendCommand(comm);
                     break;
+
+                    case "man":
+                    out.println(Tui.printManuscript(client.getMiniModel().getManuscript()));
+                    break;
+
+                    case "obj":
+                    out.println(Tui.showObjective(client.getMiniModel().getPlayer().getSecretObjectives()));
+                    break;
+
+//                    case "market":
+//                    out.println(Tui.showMarket(client.getMiniModel().getMarket()));
+//                    break;
+//
+//                case "board":
+//                    out.println(Tui.showBoard(client.getMiniModel().getBoard()));
+//                    break;
 
                 default:
                     out.println("Invalid command. Type 'help' for a list of commands.");

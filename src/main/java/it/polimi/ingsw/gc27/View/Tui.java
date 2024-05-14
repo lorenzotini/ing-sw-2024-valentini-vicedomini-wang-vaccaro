@@ -1,12 +1,10 @@
 package it.polimi.ingsw.gc27.View;
 
-import it.polimi.ingsw.gc27.JsonParser;
 import it.polimi.ingsw.gc27.Model.Card.*;
 import it.polimi.ingsw.gc27.Model.Card.ObjectiveCard.ObjectiveCard;
+import it.polimi.ingsw.gc27.Model.Enumerations.PointsMultiplier;
 import it.polimi.ingsw.gc27.Model.Game.Board;
 import it.polimi.ingsw.gc27.Model.Game.Manuscript;
-import it.polimi.ingsw.gc27.Model.Game.Market;
-import it.polimi.ingsw.gc27.Net.VirtualServer;
 import it.polimi.ingsw.gc27.Model.Game.Market;
 import it.polimi.ingsw.gc27.Net.Commands.*;
 import it.polimi.ingsw.gc27.Net.VirtualView;
@@ -50,6 +48,7 @@ public class Tui implements View {
                     out.println("draw - draw a card from the market");
                     out.println("Visualize:");
                     out.println("man - print your manuscript");
+                    out.println("hand - print your hand");
                     out.println("obj - print your secret objective");
                     out.println("market - print the market");
                     out.println("board - print the players' score board");
@@ -79,7 +78,7 @@ public class Tui implements View {
                     break;
 
                 case "chooseobj":
-                    out.println(Tui.showObjective(client.getMiniModel().getPlayer().getSecretObjectives()));
+                    out.println(Tui.showObjectives(client.getMiniModel().getPlayer().getSecretObjectives()));
                     int obj;
                     out.println("Which objective do you want to achieve? (1 or 2)");
                     while (true) {
@@ -126,7 +125,7 @@ public class Tui implements View {
                     break;
 
                 case "draw":
-                    //out.println(Tui.showMarket(client.getMiniModel().getMarket()));
+                    out.println(Tui.showMarket(client.getMiniModel().getMarket()));
                     out.println("enter [cardType] [fromDeck] [faceUpIndex] (res/gold, true/false, 0/1)");
                     String line = scan.nextLine();
                     String[] words = line.split(" ");
@@ -142,17 +141,21 @@ public class Tui implements View {
                     out.println(Tui.printManuscript(client.getMiniModel().getManuscript()));
                     break;
 
-                    case "obj":
-                    out.println(Tui.showObjective(client.getMiniModel().getPlayer().getSecretObjectives()));
+                    case "hand":
+                    out.println(Tui.showHand(client.getMiniModel().getHand()));
                     break;
 
-//                    case "market":
-//                    out.println(Tui.showMarket(client.getMiniModel().getMarket()));
-//                    break;
-//
-//                case "board":
-//                    out.println(Tui.showBoard(client.getMiniModel().getBoard()));
-//                    break;
+                    case "obj":
+                    out.println(Tui.showObjectives(client.getMiniModel().getPlayer().getSecretObjectives()));
+                    break;
+
+                    case "market":
+                    out.println(Tui.showMarket(client.getMiniModel().getMarket()));
+                    break;
+
+                case "board":
+                    out.println(Tui.showBoard(client.getMiniModel().getBoard()));
+                    break;
 
                 default:
                     out.println("Invalid command. Type 'help' for a list of commands.");
@@ -161,6 +164,31 @@ public class Tui implements View {
             }
 
         }
+
+    }
+
+    @Override
+    public void showString(String phrase) {
+
+    }
+
+    @Override
+    public void show(ArrayList<ResourceCard> hand) {
+
+    }
+
+    @Override
+    public void show(Manuscript manuscript) {
+
+    }
+
+    @Override
+    public void show(Board board) {
+
+    }
+
+    @Override
+    public void show(Market market) {
 
     }
 
@@ -431,6 +459,8 @@ public class Tui implements View {
 
         // Front face of a GoldCard
         if(card instanceof GoldCard){
+            if(((GoldCard) card).getPointsMultiplier().equals(PointsMultiplier.EMPTY))
+                return ColourControl.RESET + "       " + ColourControl.YELLOW_BACKGROUND + ((ResourceCard) card).getCardPoints() + ColourControl.RESET + "       ";
             return ColourControl.RESET + "      " + ColourControl.YELLOW_BACKGROUND + ((ResourceCard) card).getCardPoints() + "|" + ((GoldCard) card).getPointsMultiplier().toString() + ColourControl.RESET + "      ";
         } else { // Front face of a ResourceCard
             return ColourControl.RESET + "       " + ColourControl.YELLOW_BACKGROUND + ((ResourceCard) card).getCardPoints() + ColourControl.RESET + "       ";
@@ -502,30 +532,51 @@ public class Tui implements View {
                 "\nBlue: " + board.getPointsBluePlayer());
     }
 
+    public static String showHand(ArrayList<ResourceCard> hand){
+
+        String printedHand = "\n";
+        Queue<String> cardOne = toCliCard(hand.get(0), true);
+        Queue<String> cardTwo = toCliCard(hand.get(1), true);
+        Queue<String> cardThree = toCliCard(hand.get(2), true);
+
+        int numLinesToPrint = cardOne.size();
+
+        for(int i = 0; i < numLinesToPrint; i++){
+            printedHand += cardOne.remove() + "  " + cardTwo.remove() + "  " + cardThree.remove() + "\n";
+        }
+
+        printedHand += sws.repeat(9) + "1" + sws.repeat(20) + "2" + sws.repeat(20) + "3" + "\n";
+
+        return printedHand;
+
+    }
+
     public static String showMarket(Market market){
 
-        String res = "";
+        String printedMarket = "\n";
 
         Queue<String> resourceDeckTop = toCliCard(market.getResourceDeck().getFirst(), false);
         Queue<String> goldDeckTop = toCliCard(market.getGoldDeck().getFirst(), false);
-        Queue<String> resourceOne = toCliCard(market.getFaceUpResources()[0], true);
-        Queue<String> resourceTwo = toCliCard(market.getFaceUpResources()[1], true);
-        Queue<String> goldOne = toCliCard(market.getFaceUpGolds()[0], true);
-        Queue<String> goldTwo = toCliCard(market.getFaceUpGolds()[1], true);
+        Queue<String> resourceOne = toCliCard(market.getFaceUp(false)[0], true);
+        Queue<String> resourceTwo = toCliCard(market.getFaceUp(false)[1], true);
+        Queue<String> goldOne = toCliCard(market.getFaceUp(true)[0], true);
+        Queue<String> goldTwo = toCliCard(market.getFaceUp(true)[1], true);
 
         int numLinesToPrint = resourceDeckTop.size();
 
-        for(int i = 0; i < numLinesToPrint; i++){
-            res += resourceDeckTop.remove() + "   " + resourceOne.remove() + "  " + resourceTwo.remove() + "\n";
-        }
-
-        res += "\n";
+        printedMarket += "Resources:\n";
 
         for(int i = 0; i < numLinesToPrint; i++){
-            res += goldDeckTop.remove() + "   " + goldOne.remove() + "  " + goldTwo.remove() + "\n";
+            printedMarket += resourceDeckTop.remove() + "   " + resourceOne.remove() + "  " + resourceTwo.remove() + "\n";
         }
 
-        return res;
+        printedMarket += "\nGolds:\n";
+
+        for(int i = 0; i < numLinesToPrint; i++){
+            printedMarket += goldDeckTop.remove() + "   " + goldOne.remove() + "  " + goldTwo.remove() + "\n";
+        }
+
+        return printedMarket;
 
     }
 

@@ -2,6 +2,8 @@
   "resourceDeck" : [
     {
       "id":1,
+      "frontImagePath":"src/main/resources/Images/card1_front.png",
+      "backImagePath":"src/main/resources/Images/card1_back.png",
       "cardPoints":0,
       "colour":"FUNGIKINGDOM",
       "frontFace": {
@@ -25,6 +27,8 @@
     },
     {
       "id":2,
+      "frontImagePath":"src/main/resources/Images/card2_front.png",
+      "backImagePath":"src/main/resources/Images/card2_back.png",
       "cardPoints":0,
       "colour":"FUNGIKINGDOM",
       "frontFace": {
@@ -48,6 +52,8 @@
     },
     {
       "id":3,
+      "frontImagePath":"src/main/resources/Images/card3_front.png",
+      "backImagePath":"src/main/resources/Images/card3_back.png",
       "cardPoints":0,
       "colour":"FUNGIKINGDOM",
       "frontFace": {
@@ -71,6 +77,8 @@
     },
     {
       "id":4,
+      "frontImagePath":"src/main/resources/Images/card4_front.png",
+      "backImagePath":"src/main/resources/Images/card4_back.png",
       "cardPoints":0,
       "colour":"FUNGIKINGDOM",
       "frontFace": {
@@ -94,6 +102,8 @@
     },
     {
       "id":5,
+      "frontImagePath":"src/main/resources/Images/card5_front.png",
+      "backImagePath":"src/main/resources/Images/card5_back.png",
       "cardPoints":0,
       "colour":"FUNGIKINGDOM",
       "frontFace": {
@@ -117,6 +127,8 @@
     },
     {
       "id":6,
+      "frontImagePath":"src/main/resources/Images/card6_front.png",
+      "backImagePath":"src/main/resources/Images/card6_back.png",
       "cardPoints":0,
       "colour":"FUNGIKINGDOM",
       "frontFace": {
@@ -140,6 +152,8 @@
     },
     {
       "id":7,
+      "frontImagePath":"src/main/resources/Images/card7_front.png",
+      "backImagePath":"src/main/resources/Images/card7_back.png",
       "cardPoints":0,
       "colour":"FUNGIKINGDOM",
       "frontFace": {
@@ -163,6 +177,8 @@
     },
     {
       "id":8,
+      "frontImagePath":"src/main/resources/Images/card8_front.png",
+      "backImagePath":"src/main/resources/Images/card8_back.png",
       "cardPoints":1,
       "colour":"FUNGIKINGDOM",
       "frontFace": {
@@ -186,6 +202,8 @@
     },
     {
       "id":9,
+      "frontImagePath":"src/main/resources/Images/card9_front.png",
+      "backImagePath":"src/main/resources/Images/card9_back.png",
       "cardPoints":1,
       "colour":"FUNGIKINGDOM",
       "frontFace": {
@@ -209,6 +227,8 @@
     },
     {
       "id":10,
+      "frontImagePath":"src/main/resources/Images/card10_front.png",
+      "backImagePath":"src/main/resources/Images/card10_back.png",
       "cardPoints":1,
       "colour":"FUNGIKINGDOM",
       "frontFace": {
@@ -232,6 +252,8 @@
     },
     {
       "id":11,
+      "frontImagePath":"src/main/resources/Images/card11_front.png",
+      "backImagePath":"src/main/resources/Images/card11_back.png",
       "cardPoints":0,
       "colour":"PLANTKINGDOM",
       "frontFace": {
@@ -255,6 +277,8 @@
     },
     {
       "id":12,
+      "frontImagePath":"src/main/resources/Images/card12_front.png",
+      "backImagePath":"src/main/resources/Images/card12_back.png",
       "cardPoints":0,
       "colour":"PLANTKINGDOM",
       "frontFace": {
@@ -278,6 +302,8 @@
     },
     {
       "id":13,
+      "frontImagePath":"src/main/resources/Images/card13_front.png",
+      "backImagePath":"src/main/resources/Images/card13_back.png",
       "cardPoints":0,
       "colour":"PLANTKINGDOM",
       "frontFace": {
@@ -301,6 +327,8 @@
     },
     {
       "id":14,
+      "frontImagePath":"src/main/resources/Images/card14_front.png",
+      "backImagePath":"src/main/resources/Images/card14_back.png",
       "cardPoints":0,
       "colour":"PLANTKINGDOM",
       "frontFace": {
@@ -324,6 +352,8 @@
     },
     {
       "id":15,
+      "frontImagePath":"src/main/resources/Images/card15_front.png",
+      "backImagePath":"src/main/resources/Images/card15_back.png",
       "cardPoints":0,
       "colour":"PLANTKINGDOM",
       "frontFace": {
@@ -347,6 +377,8 @@
     },
     {
       "id":16,
+      "frontImagePath":"src/main/resources/Images/card16_front.png",
+      "backImagePath":"src/main/resources/Images/card16_back.png",
       "cardPoints":0,
       "colour":"PLANTKINGDOM",
       "frontFace": {
@@ -370,6 +402,8 @@
     },
     {
       "id":17,
+      "frontImagePath":"src/main/resources/Images/card17_front.png",
+      "backImagePath":"src/main/resources/Images/card17_back.png",
       "cardPoints":0,
       "colour":"PLANTKINGDOM",
       "frontFace": {
@@ -393,6 +427,8 @@
     },
     {
       "id":18,
+      "frontImagePath":"src/main/resources/Images/card18_front.png",
+      "backImagePath":"src/main/resources/Images/card18_back.png",
       "cardPoints":1,
       "colour":"PLANTKINGDOM",
       "frontFace": {
@@ -416,6 +452,8 @@
     },
     {
       "id":19,
+      "frontImagePath":"src/main/resources/Images/card19_front.png",
+      "backImagePath":"src/main/resources/Images/card19_back.png",
       "cardPoints":1,
       "colour":"PLANTKINGDOM",
       "frontFace": {
@@ -439,6 +477,8 @@
     },
     {
       "id":20,
+      "frontImagePath":"src/main/resources/Images/card20_front.png",
+      "backImagePath":"src/main/resources/Images/card20_back.png",
       "cardPoints":1,
       "colour":"PLANTKINGDOM",
       "frontFace": {
@@ -462,6 +502,8 @@
     },
     {
       "id":21,
+      "frontImagePath":"src/main/resources/Images/card21_front.png",
+      "backImagePath":"src/main/resources/Images/card21_back.png",
       "cardPoints":0,
       "colour":"ANIMALKINGDOM",
       "frontFace": {
@@ -485,6 +527,8 @@
     },
     {
       "id":22,
+      "frontImagePath":"src/main/resources/Images/card22_front.png",
+      "backImagePath":"src/main/resources/Images/card22_back.png",
       "cardPoints":0,
       "colour":"ANIMALKINGDOM",
       "frontFace": {
@@ -508,6 +552,8 @@
     },
     {
       "id":23,
+      "frontImagePath":"src/main/resources/Images/card23_front.png",
+      "backImagePath":"src/main/resources/Images/card23_back.png",
       "cardPoints":0,
       "colour":"ANIMALKINGDOM",
       "frontFace": {
@@ -531,6 +577,8 @@
     },
     {
       "id":24,
+      "frontImagePath":"src/main/resources/Images/card24_front.png",
+      "backImagePath":"src/main/resources/Images/card24_back.png",
       "cardPoints":0,
       "colour":"ANIMALKINGDOM",
       "frontFace": {
@@ -554,6 +602,8 @@
     },
     {
       "id":25,
+      "frontImagePath":"src/main/resources/Images/card25_front.png",
+      "backImagePath":"src/main/resources/Images/card25_back.png",
       "cardPoints":0,
       "colour":"ANIMALKINGDOM",
       "frontFace": {
@@ -577,6 +627,8 @@
     },
     {
       "id":26,
+      "frontImagePath":"src/main/resources/Images/card26_front.png",
+      "backImagePath":"src/main/resources/Images/card26_back.png",
       "cardPoints":0,
       "colour":"ANIMALKINGDOM",
       "frontFace": {
@@ -600,6 +652,8 @@
     },
     {
       "id":27,
+      "frontImagePath":"src/main/resources/Images/card27_front.png",
+      "backImagePath":"src/main/resources/Images/card27_back.png",
       "cardPoints":0,
       "colour":"ANIMALKINGDOM",
       "frontFace": {
@@ -623,6 +677,8 @@
     },
     {
       "id":28,
+      "frontImagePath":"src/main/resources/Images/card28_front.png",
+      "backImagePath":"src/main/resources/Images/card28_back.png",
       "cardPoints":1,
       "colour":"ANIMALKINGDOM",
       "frontFace": {
@@ -646,6 +702,8 @@
     },
     {
       "id":29,
+      "frontImagePath":"src/main/resources/Images/card29_front.png",
+      "backImagePath":"src/main/resources/Images/card29_back.png",
       "cardPoints":1,
       "colour":"ANIMALKINGDOM",
       "frontFace": {
@@ -669,6 +727,8 @@
     },
     {
       "id":30,
+      "frontImagePath":"src/main/resources/Images/card30_front.png",
+      "backImagePath":"src/main/resources/Images/card30_back.png",
       "cardPoints":1,
       "colour":"ANIMALKINGDOM",
       "frontFace": {
@@ -692,6 +752,8 @@
     },
     {
       "id":31,
+      "frontImagePath":"src/main/resources/Images/card31_front.png",
+      "backImagePath":"src/main/resources/Images/card31_back.png",
       "cardPoints":0,
       "colour":"INSECTKINGDOM",
       "frontFace": {
@@ -715,6 +777,8 @@
     },
     {
       "id":32,
+      "frontImagePath":"src/main/resources/Images/card32_front.png",
+      "backImagePath":"src/main/resources/Images/card32_back.png",
       "cardPoints":0,
       "colour":"INSECTKINGDOM",
       "frontFace": {
@@ -738,6 +802,8 @@
     },
     {
       "id":33,
+      "frontImagePath":"src/main/resources/Images/card33_front.png",
+      "backImagePath":"src/main/resources/Images/card33_back.png",
       "cardPoints":0,
       "colour":"INSECTKINGDOM",
       "frontFace": {
@@ -761,6 +827,8 @@
     },
     {
       "id":34,
+      "frontImagePath":"src/main/resources/Images/card34_front.png",
+      "backImagePath":"src/main/resources/Images/card34_back.png",
       "cardPoints":0,
       "colour":"INSECTKINGDOM",
       "frontFace": {
@@ -784,6 +852,8 @@
     },
     {
       "id":35,
+      "frontImagePath":"src/main/resources/Images/card35_front.png",
+      "backImagePath":"src/main/resources/Images/card35_back.png",
       "cardPoints":0,
       "colour":"INSECTKINGDOM",
       "frontFace": {
@@ -807,6 +877,8 @@
     },
     {
       "id":36,
+      "frontImagePath":"src/main/resources/Images/card36_front.png",
+      "backImagePath":"src/main/resources/Images/card36_back.png",
       "cardPoints":0,
       "colour":"INSECTKINGDOM",
       "frontFace": {
@@ -830,6 +902,8 @@
     },
     {
       "id":37,
+      "frontImagePath":"src/main/resources/Images/card37_front.png",
+      "backImagePath":"src/main/resources/Images/card37_back.png",
       "cardPoints":0,
       "colour":"INSECTKINGDOM",
       "frontFace": {
@@ -853,6 +927,8 @@
     },
     {
       "id":38,
+      "frontImagePath":"src/main/resources/Images/card38_front.png",
+      "backImagePath":"src/main/resources/Images/card38_back.png",
       "cardPoints":1,
       "colour":"INSECTKINGDOM",
       "frontFace": {
@@ -876,6 +952,8 @@
     },
     {
       "id":39,
+      "frontImagePath":"src/main/resources/Images/card39_front.png",
+      "backImagePath":"src/main/resources/Images/card39_back.png",
       "cardPoints":1,
       "colour":"INSECTKINGDOM",
       "frontFace": {
@@ -899,6 +977,8 @@
     },
     {
       "id":40,
+      "frontImagePath":"src/main/resources/Images/card40_front.png",
+      "backImagePath":"src/main/resources/Images/card40_back.png",
       "cardPoints":1,
       "colour":"INSECTKINGDOM",
       "frontFace": {
@@ -924,6 +1004,8 @@
   "goldDeck" : [
     {
       "id":41,
+      "frontImagePath":"src/main/resources/Images/card41_front.png",
+      "backImagePath":"src/main/resources/Images/card41_back.png",
       "cardPoints":1,
       "colour":"FUNGIKINGDOM",
       "requirements":["FUNGIKINGDOM", "FUNGIKINGDOM", "ANIMALKINGDOM"],
@@ -949,6 +1031,8 @@
     },
     {
       "id":42,
+      "frontImagePath":"src/main/resources/Images/card42_front.png",
+      "backImagePath":"src/main/resources/Images/card42_back.png",
       "cardPoints":1,
       "colour":"FUNGIKINGDOM",
       "requirements":["FUNGIKINGDOM", "FUNGIKINGDOM", "PLANTKINGDOM"],
@@ -974,6 +1058,8 @@
     },
     {
       "id":43,
+      "frontImagePath":"src/main/resources/Images/card43_front.png",
+      "backImagePath":"src/main/resources/Images/card43_back.png",
       "cardPoints":1,
       "colour":"FUNGIKINGDOM",
       "requirements":["FUNGIKINGDOM", "FUNGIKINGDOM", "INSECTKINGDOM"],
@@ -999,6 +1085,8 @@
     },
     {
       "id":44,
+      "frontImagePath":"src/main/resources/Images/card44_front.png",
+      "backImagePath":"src/main/resources/Images/card44_back.png",
       "cardPoints":2,
       "colour":"FUNGIKINGDOM",
       "requirements":["FUNGIKINGDOM", "FUNGIKINGDOM", "FUNGIKINGDOM", "ANIMALKINGDOM"],
@@ -1024,6 +1112,8 @@
     },
     {
       "id":45,
+      "frontImagePath":"src/main/resources/Images/card45_front.png",
+      "backImagePath":"src/main/resources/Images/card45_back.png",
       "cardPoints":2,
       "colour":"FUNGIKINGDOM",
       "requirements":["FUNGIKINGDOM", "FUNGIKINGDOM", "FUNGIKINGDOM", "PLANTKINGDOM"],
@@ -1049,6 +1139,8 @@
     },
     {
       "id":46,
+      "frontImagePath":"src/main/resources/Images/card46_front.png",
+      "backImagePath":"src/main/resources/Images/card46_back.png",
       "cardPoints":2,
       "colour":"FUNGIKINGDOM",
       "requirements":["FUNGIKINGDOM", "FUNGIKINGDOM", "FUNGIKINGDOM", "INSECTKINGDOM"],
@@ -1074,6 +1166,8 @@
     },
     {
       "id":47,
+      "frontImagePath":"src/main/resources/Images/card47_front.png",
+      "backImagePath":"src/main/resources/Images/card47_back.png",
       "cardPoints":3,
       "colour":"FUNGIKINGDOM",
       "requirements":["FUNGIKINGDOM", "FUNGIKINGDOM", "FUNGIKINGDOM"],
@@ -1099,6 +1193,8 @@
     },
     {
       "id":48,
+      "frontImagePath":"src/main/resources/Images/card48_front.png",
+      "backImagePath":"src/main/resources/Images/card48_back.png",
       "cardPoints":3,
       "colour":"FUNGIKINGDOM",
       "requirements":["FUNGIKINGDOM", "FUNGIKINGDOM", "FUNGIKINGDOM"],
@@ -1124,6 +1220,8 @@
     },
     {
       "id":49,
+      "frontImagePath":"src/main/resources/Images/card49_front.png",
+      "backImagePath":"src/main/resources/Images/card49_back.png",
       "cardPoints":3,
       "colour":"FUNGIKINGDOM",
       "requirements":["FUNGIKINGDOM", "FUNGIKINGDOM", "FUNGIKINGDOM"],
@@ -1149,6 +1247,8 @@
     },
     {
       "id":50,
+      "frontImagePath":"src/main/resources/Images/card50_front.png",
+      "backImagePath":"src/main/resources/Images/card50_back.png",
       "cardPoints":5,
       "colour":"FUNGIKINGDOM",
       "requirements":["FUNGIKINGDOM", "FUNGIKINGDOM","FUNGIKINGDOM", "FUNGIKINGDOM","FUNGIKINGDOM"],
@@ -1174,6 +1274,8 @@
     },
     {
       "id":51,
+      "frontImagePath":"src/main/resources/Images/card51_front.png",
+      "backImagePath":"src/main/resources/Images/card51_back.png",
       "cardPoints":1,
       "colour":"PLANTKINGDOM",
       "requirements":["PLANTKINGDOM", "PLANTKINGDOM", "INSECTKINGDOM"],
@@ -1199,6 +1301,8 @@
     },
     {
       "id":52,
+      "frontImagePath":"src/main/resources/Images/card52_front.png",
+      "backImagePath":"src/main/resources/Images/card52_back.png",
       "cardPoints":1,
       "colour":"PLANTKINGDOM",
       "requirements":["PLANTKINGDOM", "PLANTKINGDOM", "FUNGIKINGDOM"],
@@ -1224,6 +1328,8 @@
     },
     {
       "id":53,
+      "frontImagePath":"src/main/resources/Images/card53_front.png",
+      "backImagePath":"src/main/resources/Images/card53_back.png",
       "cardPoints":1,
       "colour":"PLANTKINGDOM",
       "requirements":["PLANTKINGDOM", "PLANTKINGDOM", "ANIMALKINGDOM"],
@@ -1249,6 +1355,8 @@
     },
     {
       "id":54,
+      "frontImagePath":"src/main/resources/Images/card54_front.png",
+      "backImagePath":"src/main/resources/Images/card54_back.png",
       "cardPoints":2,
       "colour":"PLANTKINGDOM",
       "requirements":["PLANTKINGDOM", "PLANTKINGDOM", "PLANTKINGDOM", "INSECTKINGDOM"],
@@ -1274,6 +1382,8 @@
     },
     {
       "id":55,
+      "frontImagePath":"src/main/resources/Images/card55_front.png",
+      "backImagePath":"src/main/resources/Images/card55_back.png",
       "cardPoints":2,
       "colour":"PLANTKINGDOM",
       "requirements":["PLANTKINGDOM", "PLANTKINGDOM", "PLANTKINGDOM", "ANIMALKINGDOM"],
@@ -1299,6 +1409,8 @@
     },
     {
       "id":56,
+      "frontImagePath":"src/main/resources/Images/card56_front.png",
+      "backImagePath":"src/main/resources/Images/card56_back.png",
       "cardPoints":2,
       "colour":"PLANTKINGDOM",
       "requirements":["PLANTKINGDOM", "PLANTKINGDOM", "PLANTKINGDOM", "FUNGIKINGDOM"],
@@ -1324,6 +1436,8 @@
     },
     {
       "id":57,
+      "frontImagePath":"src/main/resources/Images/card57_front.png",
+      "backImagePath":"src/main/resources/Images/card57_back.png",
       "cardPoints":3,
       "colour":"PLANTKINGDOM",
       "requirements":["PLANTKINGDOM", "PLANTKINGDOM", "PLANTKINGDOM"],
@@ -1349,6 +1463,8 @@
     },
     {
       "id":58,
+      "frontImagePath":"src/main/resources/Images/card58_front.png",
+      "backImagePath":"src/main/resources/Images/card58_back.png",
       "cardPoints":3,
       "colour":"PLANTKINGDOM",
       "requirements":["PLANTKINGDOM", "PLANTKINGDOM", "PLANTKINGDOM"],
@@ -1374,6 +1490,8 @@
     },
     {
       "id":59,
+      "frontImagePath":"src/main/resources/Images/card59_front.png",
+      "backImagePath":"src/main/resources/Images/card59_back.png",
       "cardPoints":3,
       "colour":"PLANTKINGDOM",
       "requirements":["PLANTKINGDOM", "PLANTKINGDOM", "PLANTKINGDOM"],
@@ -1399,6 +1517,8 @@
     },
     {
       "id":60,
+      "frontImagePath":"src/main/resources/Images/card60_front.png",
+      "backImagePath":"src/main/resources/Images/card60_back.png",
       "cardPoints":5,
       "colour":"PLANTKINGDOM",
       "requirements":["PLANTKINGDOM", "PLANTKINGDOM","PLANTKINGDOM", "PLANTKINGDOM","PLANTKINGDOM"],
@@ -1424,6 +1544,8 @@
     },
     {
       "id":61,
+      "frontImagePath":"src/main/resources/Images/card61_front.png",
+      "backImagePath":"src/main/resources/Images/card61_back.png",
       "cardPoints":1,
       "colour":"ANIMALKINGDOM",
       "requirements":["ANIMALKINGDOM", "ANIMALKINGDOM", "INSECTKINGDOM"],
@@ -1449,6 +1571,8 @@
     },
     {
       "id":62,
+      "frontImagePath":"src/main/resources/Images/card62_front.png",
+      "backImagePath":"src/main/resources/Images/card62_back.png",
       "cardPoints":1,
       "colour":"ANIMALKINGDOM",
       "requirements":["ANIMALKINGDOM", "ANIMALKINGDOM", "PLANTKINGDOM"],
@@ -1474,6 +1598,8 @@
     },
     {
       "id":63,
+      "frontImagePath":"src/main/resources/Images/card63_front.png",
+      "backImagePath":"src/main/resources/Images/card63_back.png",
       "cardPoints":1,
       "colour":"ANIMALKINGDOM",
       "requirements":["ANIMALKINGDOM", "ANIMALKINGDOM", "FUNGIKINGDOM"],
@@ -1499,6 +1625,8 @@
     },
     {
       "id":64,
+      "frontImagePath":"src/main/resources/Images/card64_front.png",
+      "backImagePath":"src/main/resources/Images/card64_back.png",
       "cardPoints":2,
       "colour":"ANIMALKINGDOM",
       "requirements":["ANIMALKINGDOM", "ANIMALKINGDOM", "ANIMALKINGDOM", "INSECTKINGDOM"],
@@ -1524,6 +1652,8 @@
     },
     {
       "id":65,
+      "frontImagePath":"src/main/resources/Images/card65_front.png",
+      "backImagePath":"src/main/resources/Images/card65_back.png",
       "cardPoints":2,
       "colour":"ANIMALKINGDOM",
       "requirements":["ANIMALKINGDOM", "ANIMALKINGDOM", "ANIMALKINGDOM", "FUNGIKINGDOM"],
@@ -1549,6 +1679,8 @@
     },
     {
       "id":66,
+      "frontImagePath":"src/main/resources/Images/card66_front.png",
+      "backImagePath":"src/main/resources/Images/card66_back.png",
       "cardPoints":2,
       "colour":"ANIMALKINGDOM",
       "requirements":["ANIMALKINGDOM", "ANIMALKINGDOM", "ANIMALKINGDOM", "PLANTKINGDOM"],
@@ -1574,6 +1706,8 @@
     },
     {
       "id":67,
+      "frontImagePath":"src/main/resources/Images/card67_front.png",
+      "backImagePath":"src/main/resources/Images/card67_back.png",
       "cardPoints":3,
       "colour":"ANIMALKINGDOM",
       "requirements":["ANIMALKINGDOM", "ANIMALKINGDOM", "ANIMALKINGDOM"],
@@ -1599,6 +1733,8 @@
     },
     {
       "id":68,
+      "frontImagePath":"src/main/resources/Images/card68_front.png",
+      "backImagePath":"src/main/resources/Images/card68_back.png",
       "cardPoints":3,
       "colour":"ANIMALKINGDOM",
       "requirements":["ANIMALKINGDOM", "ANIMALKINGDOM", "ANIMALKINGDOM"],
@@ -1624,6 +1760,8 @@
     },
     {
       "id":69,
+      "frontImagePath":"src/main/resources/Images/card69_front.png",
+      "backImagePath":"src/main/resources/Images/card69_back.png",
       "cardPoints":3,
       "colour":"ANIMALKINGDOM",
       "requirements":["ANIMALKINGDOM", "ANIMALKINGDOM", "ANIMALKINGDOM"],
@@ -1649,6 +1787,8 @@
     },
     {
       "id":70,
+      "frontImagePath":"src/main/resources/Images/card70_front.png",
+      "backImagePath":"src/main/resources/Images/card70_back.png",
       "cardPoints":5,
       "colour":"ANIMALKINGDOM",
       "requirements":["ANIMALKINGDOM", "ANIMALKINGDOM","ANIMALKINGDOM", "ANIMALKINGDOM","ANIMALKINGDOM"],
@@ -1674,6 +1814,8 @@
     },
     {
       "id":71,
+      "frontImagePath":"src/main/resources/Images/card71_front.png",
+      "backImagePath":"src/main/resources/Images/card71_back.png",
       "cardPoints":1,
       "colour":"INSECTKINGDOM",
       "requirements":["INSECTKINGDOM", "INSECTKINGDOM", "PLANTKINGDOM"],
@@ -1699,6 +1841,8 @@
     },
     {
       "id":72,
+      "frontImagePath":"src/main/resources/Images/card72_front.png",
+      "backImagePath":"src/main/resources/Images/card72_back.png",
       "cardPoints":1,
       "colour":"INSECTKINGDOM",
       "requirements":["INSECTKINGDOM", "INSECTKINGDOM", "ANIMALKINGDOM"],
@@ -1724,6 +1868,8 @@
     },
     {
       "id":73,
+      "frontImagePath":"src/main/resources/Images/card73_front.png",
+      "backImagePath":"src/main/resources/Images/card73_back.png",
       "cardPoints":1,
       "colour":"INSECTKINGDOM",
       "requirements":["INSECTKINGDOM", "INSECTKINGDOM", "FUNGIKINGDOM"],
@@ -1749,6 +1895,8 @@
     },
     {
       "id":74,
+      "frontImagePath":"src/main/resources/Images/card74_front.png",
+      "backImagePath":"src/main/resources/Images/card74_back.png",
       "cardPoints":2,
       "colour":"INSECTKINGDOM",
       "requirements":["INSECTKINGDOM", "INSECTKINGDOM", "INSECTKINGDOM", "ANIMALKINGDOM"],
@@ -1774,6 +1922,8 @@
     },
     {
       "id":75,
+      "frontImagePath":"src/main/resources/Images/card75_front.png",
+      "backImagePath":"src/main/resources/Images/card75_back.png",
       "cardPoints":2,
       "colour":"INSECTKINGDOM",
       "requirements":["INSECTKINGDOM", "INSECTKINGDOM", "INSECTKINGDOM", "PLANTKINGDOM"],
@@ -1799,6 +1949,8 @@
     },
     {
       "id":76,
+      "frontImagePath":"src/main/resources/Images/card76_front.png",
+      "backImagePath":"src/main/resources/Images/card76_back.png",
       "cardPoints":2,
       "colour":"INSECTKINGDOM",
       "requirements":["INSECTKINGDOM", "INSECTKINGDOM", "INSECTKINGDOM", "FUNGIKINGDOM"],
@@ -1824,6 +1976,8 @@
     },
     {
       "id":77,
+      "frontImagePath":"src/main/resources/Images/card77_front.png",
+      "backImagePath":"src/main/resources/Images/card77_back.png",
       "cardPoints":3,
       "colour":"INSECTKINGDOM",
       "requirements":["INSECTKINGDOM", "INSECTKINGDOM", "INSECTKINGDOM"],
@@ -1849,6 +2003,8 @@
     },
     {
       "id":78,
+      "frontImagePath":"src/main/resources/Images/card78_front.png",
+      "backImagePath":"src/main/resources/Images/card78_back.png",
       "cardPoints":3,
       "colour":"INSECTKINGDOM",
       "requirements":["INSECTKINGDOM", "INSECTKINGDOM", "INSECTKINGDOM"],
@@ -1874,6 +2030,8 @@
     },
     {
       "id":79,
+      "frontImagePath":"src/main/resources/Images/card79_front.png",
+      "backImagePath":"src/main/resources/Images/card79_back.png",
       "cardPoints":3,
       "colour":"INSECTKINGDOM",
       "requirements":["INSECTKINGDOM", "INSECTKINGDOM", "INSECTKINGDOM"],
@@ -1899,6 +2057,8 @@
     },
     {
       "id":80,
+      "frontImagePath":"src/main/resources/Images/card80_front.png",
+      "backImagePath":"src/main/resources/Images/card80_back.png",
       "cardPoints":5,
       "colour":"INSECTKINGDOM",
       "requirements":["INSECTKINGDOM", "INSECTKINGDOM","INSECTKINGDOM", "INSECTKINGDOM","INSECTKINGDOM"],
@@ -1926,6 +2086,8 @@
   "starterDeck":[
     {
       "id":81,
+      "frontImagePath":"src/main/resources/Images/card81_front.png",
+      "backImagePath":"src/main/resources/Images/card81_back.png",
       "permanentResources":["INSECTKINGDOM"],
       "frontImage":null,
       "backImage":null,
@@ -1964,6 +2126,8 @@
     },
     {
       "id":82,
+      "frontImagePath":"src/main/resources/Images/card82_front.png",
+      "backImagePath":"src/main/resources/Images/card82_back.png",
       "permanentResources":["FUNGIKINGDOM"],
       "frontImage":null,
       "backImage":null,
@@ -2002,6 +2166,8 @@
     },
     {
       "id":83,
+      "frontImagePath":"src/main/resources/Images/card83_front.png",
+      "backImagePath":"src/main/resources/Images/card83_back.png",
       "permanentResources":["PLANTKINGDOM", "FUNGIKINGDOM"],
       "frontImage":null,
       "backImage":null,
@@ -2040,6 +2206,8 @@
     },
     {
       "id":84,
+      "frontImagePath":"src/main/resources/Images/card84_front.png",
+      "backImagePath":"src/main/resources/Images/card84_back.png",
       "permanentResources":["ANIMALKINGDOM", "INSECTKINGDOM"],
       "frontImage":null,
       "backImage":null,
@@ -2078,6 +2246,8 @@
     },
     {
       "id":85,
+      "frontImagePath":"src/main/resources/Images/card85_front.png",
+      "backImagePath":"src/main/resources/Images/card85_back.png",
       "permanentResources":["ANIMALKINGDOM","INSECTKINGDOM","PLANTKINGDOM"],
       "frontImage":null,
       "backImage":null,
@@ -2116,6 +2286,8 @@
     },
     {
       "id":86,
+      "frontImagePath":"src/main/resources/Images/card86_front.png",
+      "backImagePath":"src/main/resources/Images/card86_back.png",
       "permanentResources":["PLANTKINGDOM","ANIMALKINGDOM","FUNGIKINGDOM"],
       "frontImage":null,
       "backImage":null,
@@ -2156,6 +2328,8 @@
   "objectiveDeck": [
     {
       "id":87,
+      "frontImagePath":"src/main/resources/Images/card87_front.png",
+      "backImagePath":"src/main/resources/Images/card87_back.png",
       "ladderKingdom":"FUNGIKINGDOM",
       "upscaling": true,
       "frontImage":null,
@@ -2163,6 +2337,8 @@
     },
     {
       "id":88,
+      "frontImagePath":"src/main/resources/Images/card88_front.png",
+      "backImagePath":"src/main/resources/Images/card88_back.png",
       "ladderKingdom":"PLANTKINGDOM",
       "upscaling": false,
       "frontImage":null,
@@ -2170,6 +2346,8 @@
     },
     {
       "id":89,
+      "frontImagePath":"src/main/resources/Images/card89_front.png",
+      "backImagePath":"src/main/resources/Images/card89_back.png",
       "ladderKingdom":"ANIMALKINGDOM",
       "upscaling": true,
       "frontImage":null,
@@ -2177,6 +2355,8 @@
     },
     {
       "id":90,
+      "frontImagePath":"src/main/resources/Images/card90_front.png",
+      "backImagePath":"src/main/resources/Images/card90_back.png",
       "ladderKingdom":"INSECTKINGDOM",
       "upscaling": false,
       "frontImage":null,
@@ -2184,6 +2364,8 @@
     },
     {
       "id":91,
+      "frontImagePath":"src/main/resources/Images/card91_front.png",
+      "backImagePath":"src/main/resources/Images/card91_back.png",
       "firstColour":"FUNGIKINGDOM",
       "secondColour": "PLANTKINGDOM",
       "i":1,
@@ -2193,6 +2375,8 @@
     },
     {
       "id":92,
+      "frontImagePath":"src/main/resources/Images/card92_front.png",
+      "backImagePath":"src/main/resources/Images/card92_back.png",
       "firstColour":"PLANTKINGDOM",
       "secondColour": "INSECTKINGDOM",
       "i":-1,
@@ -2202,6 +2386,8 @@
     },
     {
       "id":93,
+      "frontImagePath":"src/main/resources/Images/card93_front.png",
+      "backImagePath":"src/main/resources/Images/card93_back.png",
       "firstColour":"ANIMALKINGDOM",
       "secondColour": "FUNGIKINGDOM",
       "i":1,
@@ -2211,6 +2397,8 @@
     },
     {
       "id":94,
+      "frontImagePath":"src/main/resources/Images/card94_front.png",
+      "backImagePath":"src/main/resources/Images/card94_back.png",
       "firstColour":"INSECTKINGDOM",
       "secondColour": "ANIMALKINGDOM",
       "i":-1,
@@ -2220,47 +2408,63 @@
     },
     {
       "id":95,
+      "frontImagePath":"src/main/resources/Images/card95_front.png",
+      "backImagePath":"src/main/resources/Images/card95_back.png",
       "kingdom":"FUNGIKINGDOM",
       "frontImage":null,
       "backImage":null
     },
     {
       "id":96,
+      "frontImagePath":"src/main/resources/Images/card96_front.png",
+      "backImagePath":"src/main/resources/Images/card96_back.png",
       "kingdom":"PLANTKINGDOM",
       "frontImage":null,
       "backImage":null
     },
     {
       "id":97,
+      "frontImagePath":"src/main/resources/Images/card97_front.png",
+      "backImagePath":"src/main/resources/Images/card97_back.png",
       "kingdom":"ANIMALKINGDOM",
       "frontImage":null,
       "backImage":null
     },
     {
       "id":98,
+      "frontImagePath":"src/main/resources/Images/card98_front.png",
+      "backImagePath":"src/main/resources/Images/card98_back.png",
       "kingdom":"INSECTKINGDOM",
       "frontImage":null,
       "backImage":null
     },
     {
       "id":99,
+      "frontImagePath":"src/main/resources/Images/card99_front.png",
+      "backImagePath":"src/main/resources/Images/card99_back.png",
       "frontImage":null,
       "backImage":null
     },
     {
       "id":100,
+      "frontImagePath":"src/main/resources/Images/card100_front.png",
+      "backImagePath":"src/main/resources/Images/card100_back.png",
       "cornerSymbol":"MANUSCRIPT",
       "frontImage":null,
       "backImage":null
     },
     {
       "id":101,
+      "frontImagePath":"src/main/resources/Images/card101_front.png",
+      "backImagePath":"src/main/resources/Images/card101_back.png",
       "cornerSymbol":"INKWELL",
       "frontImage":null,
       "backImage":null
     },
     {
       "id":102,
+      "frontImagePath":"src/main/resources/Images/card102_front.png",
+      "backImagePath":"src/main/resources/Images/card102_back.png",
       "cornerSymbol":"QUILL",
       "frontImage":null,
       "backImage":null

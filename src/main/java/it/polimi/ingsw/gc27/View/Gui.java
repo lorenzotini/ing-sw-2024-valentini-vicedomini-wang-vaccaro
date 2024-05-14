@@ -40,8 +40,8 @@ public class Gui implements View{
 
     }
 
-    @Override
-    public void startTheGame() {
-
-    }
+//    @Override
+//    public void startTheGame() {
+//
+//    }
 }

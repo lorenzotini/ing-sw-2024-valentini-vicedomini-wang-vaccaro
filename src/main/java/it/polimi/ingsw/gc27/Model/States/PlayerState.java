@@ -1,20 +1,25 @@
 package it.polimi.ingsw.gc27.Model.States;
 
 import it.polimi.ingsw.gc27.Controller.TurnHandler;
+import it.polimi.ingsw.gc27.Messages.Message;
+import it.polimi.ingsw.gc27.Messages.NotYourTurnMessage;
 import it.polimi.ingsw.gc27.Model.Card.Face;
 import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
 import it.polimi.ingsw.gc27.Model.Card.StarterCard;
 import it.polimi.ingsw.gc27.Model.Game.Game;
 import it.polimi.ingsw.gc27.Model.Game.Player;
+import it.polimi.ingsw.gc27.Model.MiniModel;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.rmi.RemoteException;
 
 //aggiungere state e setState in Game
 
-public abstract class PlayerState {
-    private Player player;
-    private TurnHandler turnHandler;
+public abstract class PlayerState implements Serializable {
+
+    protected Player player;
+    protected TurnHandler turnHandler;
 
     public PlayerState(){
 
@@ -27,9 +32,7 @@ public abstract class PlayerState {
 
     public abstract void chooseObjectiveCard(Game game, int objectiveCardIndex) throws RemoteException;
 
-    public abstract void drawResourceCard(Player player, boolean fromDeck, int faceUpCardIndex, Game game) throws RemoteException;
-
-    public abstract void drawGoldCard(Player player, boolean fromDeck, int faceUpCardIndex, Game game) throws RemoteException;
+    public abstract void drawCard(Player player, boolean isGold, boolean fromDeck, int faceUpCardIndex) throws RemoteException;
 
     public abstract void addCard(Game game, ResourceCard resourceCard, Face face, int x, int y) throws RemoteException;
 
@@ -42,6 +45,14 @@ public abstract class PlayerState {
 
     public TurnHandler getTurnHandler() {
         return turnHandler;
+    }
+
+    public void sendError(String str, Player player, TurnHandler turnHandler) throws RemoteException {
+
+        MiniModel miniWithCurrentPlayer = new MiniModel(player);
+        Message errorMessage = new NotYourTurnMessage(str, miniWithCurrentPlayer);
+        turnHandler.getGame().notifyObservers(errorMessage);
+
     }
 
 }

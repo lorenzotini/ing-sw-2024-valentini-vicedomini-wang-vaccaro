@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.rmi.RemoteException;
 
 public class EndOfTurnState extends PlayerState{
+
     public EndOfTurnState(Player player, TurnHandler turnHandler) throws RemoteException {
         super(player, turnHandler);
         getTurnHandler().notifyEndOfTurnState(getPlayer());
@@ -21,14 +22,8 @@ public class EndOfTurnState extends PlayerState{
 
     }
 
-
     @Override
-    public void drawResourceCard(Player player, boolean fromDeck, int faceUpCardIndex, Game game) {
-
-    }
-
-    @Override
-    public void drawGoldCard(Player player, boolean fromDeck, int faceUpCardIndex, Game game) {
+    public void drawCard(Player player, boolean isGold, boolean fromDeck, int faceUpCardIndex) {
 
     }
 
@@ -41,4 +36,5 @@ public class EndOfTurnState extends PlayerState{
     public void addStarterCard(Game game, StarterCard starterCard, Face face) throws IOException, InterruptedException{
 
     }
+
 }

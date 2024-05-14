@@ -5,6 +5,7 @@ import it.polimi.ingsw.gc27.Model.Card.GoldCard;
 import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
 import it.polimi.ingsw.gc27.Model.Enumerations.CornerSymbol;
 import it.polimi.ingsw.gc27.Model.Enumerations.Kingdom;
+import it.polimi.ingsw.gc27.Model.Listener.Observable;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -112,6 +113,7 @@ public class Manuscript implements Serializable {
         }
         return isValid;
     }
+
 
     public boolean satisfiedRequirement(ResourceCard card) {
         if(card instanceof GoldCard) {

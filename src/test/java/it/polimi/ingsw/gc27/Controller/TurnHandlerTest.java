@@ -110,7 +110,7 @@ class TurnHandlerTest {
     }
 
     @Test
-    void notifyCalculateObjectivePoints() {
+    void notifyCalculateObjectivePoints() throws RemoteException {
         initializeGame();
         p1.setPlayerState(new EndingState(p1, turnHandler));
         p2.setPlayerState(new EndingState(p2, turnHandler));

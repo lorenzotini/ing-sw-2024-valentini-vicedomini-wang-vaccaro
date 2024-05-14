@@ -1,5 +1,6 @@
 package it.polimi.ingsw.gc27.Controller;
 
+import it.polimi.ingsw.gc27.Messages.UpdateStartOfGameMessage;
 import it.polimi.ingsw.gc27.Model.Card.Face;
 import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
 import it.polimi.ingsw.gc27.Model.Card.StarterCard;
@@ -7,6 +8,7 @@ import it.polimi.ingsw.gc27.Model.Enumerations.PawnColour;
 import it.polimi.ingsw.gc27.Model.Game.Game;
 import it.polimi.ingsw.gc27.Model.Game.Manuscript;
 import it.polimi.ingsw.gc27.Model.Game.Player;
+import it.polimi.ingsw.gc27.Model.MiniModel;
 import it.polimi.ingsw.gc27.Model.States.InitializingState;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 
@@ -62,13 +64,8 @@ public class GameController implements Serializable {
         player.getPlayerState().addCard(this.game, card, face, x, y);
     }
 
-    // TODO: I DUE METODI SONO UGUALI, MAGARI CI PUO' ANDARE UN DESIGN PATTERN
-    public void drawResourceCard(Player player, boolean fromDeck, int faceUpCardIndex) throws RemoteException {
-        player.getPlayerState().drawResourceCard(player, fromDeck, faceUpCardIndex, this.game);
-    }
-
-    public void drawGoldCard(Player player, boolean fromDeck, int faceUpCardIndex) throws RemoteException {
-        player.getPlayerState().drawGoldCard(player, fromDeck, faceUpCardIndex, this.game);
+    public void drawCard(Player player, boolean isGold, boolean fromDeck, int faceUpCardIndex) throws RemoteException{
+        player.getPlayerState().drawCard(player, isGold, fromDeck, faceUpCardIndex);
     }
 
     public void chooseObjectiveCard(Player player, int objectiveCardIndex) throws RemoteException {
@@ -122,16 +119,17 @@ public class GameController implements Serializable {
         p.getSecretObjectives().add(this.getGame().getObjectiveDeck().removeFirst());
         p.getSecretObjectives().add(this.getGame().getObjectiveDeck().removeFirst());
 
-        // TODO risolvere il problema degli attributi ricorsivi turnhandler e player
+        client.setUsername(username);
+
+        // All players are ready
         if(game.getNumActualPlayers() == this.getNumMaxPlayers()){
             this.turnHandler = new TurnHandler(this.game);
             for(Player player : game.getPlayers()){
                 player.setPlayerState(new InitializingState(player, this.turnHandler));
                 //TODO fare bene l'addstarted e tutta la fase iniziale
+                game.notifyObservers(new UpdateStartOfGameMessage(new MiniModel(player, game.getMarket(), game.getBoard()), player.getUsername()));
             }
         }
-
-        client.setUsername(username);
 
         return p;
 

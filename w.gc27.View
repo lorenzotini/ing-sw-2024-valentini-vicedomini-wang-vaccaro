@@ -1,0 +1,429 @@
+[33mcommit 47404715c94ca413b239eac153ed25b3e0132fc0[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mnet[m[33m, [m[1;31morigin/net[m[33m)[m
+Author: bicix72 <andreavicedomini51@mail.polimi.it>
+Date:   Tue Apr 16 10:41:01 2024 +0200
+
+    socket base
+
+[33mcommit 101a22aef779acb807470ec52f03845d0b81dcac[m
+Author: lorenzotini <lorenzo2.valentini@mail.polimi.it>
+Date:   Fri Apr 12 17:16:44 2024 +0200
+
+    update
+
+[33mcommit 2e8d54cc63d1de0c027f387e150207fe7cd9b5a8[m
+Author: lorenzotini <lorenzo2.valentini@mail.polimi.it>
+Date:   Thu Apr 11 21:40:22 2024 +0200
+
+    implement RMI CLI
+
+[33mcommit 7ed14a400a1baa593fe22522323362fb89622ba2[m
+Author: lorenzotini <lorenzo2.valentini@mail.polimi.it>
+Date:   Thu Apr 11 18:28:59 2024 +0200
+
+    add welcomePlayer in controller and draft of runCli in RmiClient
+
+[33mcommit b93f0f9e36bc344d657ff1f44ac3cb228d607e81[m
+Author: lorenzotini <lorenzo2.valentini@mail.polimi.it>
+Date:   Thu Apr 11 11:15:19 2024 +0200
+
+    cherry-picking
+
+[33mcommit 07ad8d01f52e2833045e6fe8d4b8971f1cab596f[m
+Author: lorenzotini <lorenzo2.valentini@mail.polimi.it>
+Date:   Wed Apr 10 12:24:02 2024 +0200
+
+    add methods in rmi server
+
+[33mcommit 768552b4e3a2ff1914f004ba30add3707b7f7389[m
+Author: lorenzotini <lorenzo2.valentini@mail.polimi.it>
+Date:   Sun Apr 7 18:56:02 2024 +0200
+
+    add Net classes
+
+[33mcommit 83c5e38ef683269300bdb3977bde1f6169aaff8c[m
+Author: lorenzotini <lorenzo2.valentini@mail.polimi.it>
+Date:   Sun Apr 7 16:47:41 2024 +0200
+
+    fix addCard and json
+
+[33mcommit 43baa1a62b5acfe2c889e8315309cc11cd778f51[m
+Author: lorenzotini <lorenzo2.valentini@mail.polimi.it>
+Date:   Fri Apr 5 19:27:08 2024 +0200
+
+    fix addCard for starter cards, add "addStarterCard" in controller
+
+[33mcommit d6b2234c0297629f7d61b391a53de5ca49288cf8[m
+Author: lorenzoooov <lorenzovalentini02@gmail.com>
+Date:   Thu Apr 4 12:39:26 2024 +0200
+
+    fix isValidPlacement in Manuscript and addCard in Player
+
+[33mcommit e387c204ea541788b6ee5d177a65d0f93c88da23[m
+Author: lorenzotini <lorenzo2.valentini@mail.polimi.it>
+Date:   Wed Apr 3 20:17:32 2024 +0200
+
+    First peer review
+
+[33mcommit 623c700dfded881a9195ebd0b862d07904608d51[m
+Merge: d3a7d13 9d7edb1
+Author: lucreziavaccaro <lucrezia.vaccaro@mail.polimi.it>
+Date:   Wed Apr 3 12:28:03 2024 +0200
+
+    Merge remote-tracking branch 'origin/main'
+    
+    # Conflicts:
+    #       src/main/java/it/polimi/ingsw/gc27/Game/Manuscript.java
+    #       src/main/java/it/polimi/ingsw/gc27/Game/Player.java
+
+[33mcommit d3a7d13bff4c387b3dbec4ce331692115ef90b5b[m
+Author: lucreziavaccaro <lucrezia.vaccaro@mail.polimi.it>
+Date:   Wed Apr 3 12:24:27 2024 +0200
+
+    implementation of tests: DifferentPattern, GameController, Game, Manuscript, Player
+
+[33mcommit 9d7edb15e2e880fbbb13f8cbb6bf2a9f50bb2bb4[m
+Author: lorenzotini <lorenzo2.valentini@mail.polimi.it>
+Date:   Tue Apr 2 21:47:25 2024 +0200
+
+    fix addCard(starterCard) in Player
+
+[33mcommit ae551d5c87f225e86b79fd42059e673b460dd133[m
+Author: lorenzotini <lorenzo2.valentini@mail.polimi.it>
+Date:   Thu Mar 28 14:05:32 2024 +0100
+
+    fix folders location
+
+[33mcommit dbc00aebb6b82fcebd5c76f56159cf9c0a0b5036[m
+Author: lorenzotini <lorenzo2.valentini@mail.polimi.it>
+Date:   Wed Mar 27 22:59:00 2024 +0100
+
+    Several changes, reorganized classes between controller and model, usage of counters instead of methods for symbols
+
+[33mcommit f6584a6e7b3faa5b948b3923737b4f8b9d9ce17c[m
+Author: Toni Wang <toni.wang@mail.polimi.it>
+Date:   Sun Mar 24 11:17:16 2024 +0100
+
+    deleted Deck and everything related to it
+    updated Market with decks as arraylist
+    moved functions from Manuscript to GameController
+
+[33mcommit b3c5232eb742cb9d1c3ccf5493b049b436232abd[m[33m ([m[1;31morigin/andrea2[m[33m)[m
+Merge: fdb2456 f774036
+Author: bicix72 <andreavicedomini51@mail.polimi.it>
+Date:   Sat Mar 23 09:35:39 2024 +0100
+
+    Merge branch 'andrea2'
+    
+    # Conflicts:
+    #       ing-sw-2024-valentini-vicedomini-wang-vaccaro/src/main/java/it/polimi/ingsw/gc27/Game/Manuscript.java
+
+[33mcommit fdb24568398b193a696fa06d203955db6dea4103[m
+Author: lorenzotini <lorenzo2.valentini@mail.polimi.it>
+Date:   Sat Mar 23 09:24:15 2024 +0100
+
+    add json file in resources folder
+
+[33mcommit 30f7129367a0cbaeb6c0fc4cc4b67b606feefe9f[m
+Author: lorenzotini <lorenzo2.valentini@mail.polimi.it>
+Date:   Fri Mar 22 21:51:56 2024 +0100
+
+    add JsonParser and modify card constructors
+
+[33mcommit fda5ab6eaf92e0aa7c584af14fc114df8ea66a1a[m
+Merge: 7924f53 97900d2
+Author: lucreziavaccaro <lucrezia.vaccaro@mail.polimi.it>
+Date:   Thu Mar 21 22:06:53 2024 +0100
+
+    Merge remote-tracking branch 'origin/main' into main
+
+[33mcommit 7924f53e44da6b730f1482cf9a04f7264e10e47a[m
+Author: lucreziavaccaro <lucrezia.vaccaro@mail.polimi.it>
+Date:   Thu Mar 21 22:06:31 2024 +0100
+
+    creation of CardTest, CornerTest, FaceTest
+
+[33mcommit f774036fcfd01e9204e9004edcaddcfca18c03ab[m
+Author: bicix72 <andreavicedomini51@mail.polimi.it>
+Date:   Wed Mar 20 19:50:56 2024 +0100
+
+    Apportati multipli cambiamenti a più classi:
+    spostati i metodi : addPoints, addCard, setPointsPlayer da manuscript a  GameController;
+    ho lasciato i codici vecchi in commento nel posto vecchio, perchè ho perlopiu copiato quelli e nel caso chi li ha scritti trova delle incongruenze mi puo avvisare,
+    aggiunti dei metodi converterToCornerSymbol sia in Kingdom che PointsMultiplier,
+    aggiunto metodo getRequirements in GoldCard
+    aggiunto getBoard in game
+    aggiunto getManuscript in player
+
+[33mcommit 3f009639e3d206ceecd63b77d5ffb92fa1f5eba2[m
+Author: bicix72 <andreavicedomini51@mail.polimi.it>
+Date:   Wed Mar 20 19:43:10 2024 +0100
+
+    Apportati multipli cambiamenti a più classi:
+    spostati i metodi : addPoints, addCard, setPointsPlayer da manuscript a  GameController;
+    ho lasciato i codici vecchi in commento nel posto vecchio, perchè ho perlopiu copiato quelli e nel caso chi li ha scritti trova delle incongruenze mi puo avvisare,
+    aggiunti dei metodi converterToCornerSymbol sia in Kingdom che PointsMultiplier,
+    aggiunto metodo getRequirements in GoldCard
+    aggiunto getBoard in game
+    aggiunto getManuscript in player
+
+[33mcommit b7d4c275e3b95c9f43819b1ed36aa7e007c1e12b[m
+Author: bicix72 <andreavicedomini51@mail.polimi.it>
+Date:   Wed Mar 20 19:39:07 2024 +0100
+
+    Apportati multipli cambiamenti a più classi:
+    spostati i metodi : addPoints, addCard, setPointsPlayer da manuscript a  GameController;
+    ho lasciato i codici vecchi in commento nel posto vecchio, perchè ho perlopiu copiato quelli e nel caso chi li ha scritti trova delle incongruenze mi puo avvisare,
+    aggiunti dei metodi converterToCornerSymbol sia in Kingdom che PointsMultiplier,
+    aggiunto metodo getRequirements in GoldCard
+    aggiunto getBoard in game
+    aggiunto getManuscript in player
+
+[33mcommit 2bd17c6701e946bb91e8d39a4a6e2d7a55de6101[m
+Author: bicix72 <andreavicedomini51@mail.polimi.it>
+Date:   Wed Mar 20 19:35:59 2024 +0100
+
+    Apportati multipli cambiamenti a più classi:
+    spostati i metodi : addPoints, addCard, setPointsPlayer da manuscript a  GameController;
+    ho lasciato i codici vecchi in commento nel posto vecchio, perchè ho perlopiu copiato quelli e nel caso chi li ha scritti trova delle incongruenze mi puo avvisare,
+    aggiunti dei metodi converterToCornerSymbol sia in Kingdom che PointsMultiplier,
+    aggiunto metodo getRequirements in GoldCard
+    aggiunto getBoard in game
+    aggiunto getManuscript in player
+
+[33mcommit 97900d23e58ab66b5dca4ed5b754ecdd2f021559[m
+Author: Toni Wang <toni.wang@mail.polimi.it>
+Date:   Wed Mar 20 11:51:47 2024 +0100
+
+    removed addPointsObjective from Manuscript.java
+    and implemented every method of ...Pattern
+
+[33mcommit 4604427915ed1fee1f5de32dd3edab49f788739f[m
+Author: Toni Wang <toni.wang@mail.polimi.it>
+Date:   Tue Mar 19 19:00:21 2024 +0100
+
+    fixed addPointsObjective
+
+[33mcommit 149c55d32e117028a668cf809037e3e6aaacb1a7[m
+Author: lorenzotini <lorenzo2.valentini@mail.polimi.it>
+Date:   Tue Mar 19 17:50:34 2024 +0100
+
+    strategy pattern signatures fixed
+
+[33mcommit 0fdfc6ffc4feb32ed448ec5305844e64b4a5916e[m
+Merge: 6a186eb 26105c8
+Author: Toni Wang <toni.wang@mail.polimi.it>
+Date:   Tue Mar 19 17:25:40 2024 +0100
+
+    Merge remote-tracking branch 'origin/main'
+
+[33mcommit 6a186eba3bc3dc92cf68ed645d898885ed00303d[m
+Author: Toni Wang <toni.wang@mail.polimi.it>
+Date:   Tue Mar 19 17:24:52 2024 +0100
+
+    fixed addPointsObjective
+
+[33mcommit 26105c807e591b02a91d14c2a32020e521daa113[m
+Merge: 06047ac 5aea671
+Author: lorenzotini <lorenzo2.valentini@mail.polimi.it>
+Date:   Tue Mar 19 16:28:29 2024 +0100
+
+    Merge remote-tracking branch 'origin/main'
+    
+    # Conflicts:
+    #       ing-sw-2024-valentini-vicedomini-wang-vaccaro/src/main/java/it/polimi/ingsw/gc27/Card/ObjectiveCard.java
+
+[33mcommit 06047ac503f13b0ee95a6c2b9cd479f7f638c520[m
+Author: lorenzotini <lorenzo2.valentini@mail.polimi.it>
+Date:   Tue Mar 19 16:24:43 2024 +0100
+
+    add extentions to ObjectiveCard to implement strategy pattern (calculateObjectivePoints)
+
+[33mcommit 5aea671d37bf9228e681dd1e936af3f4679610e5[m
+Author: Toni Wang <toni.wang@mail.polimi.it>
+Date:   Tue Mar 19 14:13:22 2024 +0100
+
+    deleted useless getters an setters
+
+[33mcommit d026a6ba81498f21314eb81de1106136cf323731[m
+Author: lorenzotini <lorenzo2.valentini@mail.polimi.it>
+Date:   Tue Mar 19 13:55:33 2024 +0100
+
+    Create packages
+
+[33mcommit f9b14f9bddfcf72acc4b2eb99210c60f2c113117[m
+Author: Toni Wang <toni.wang@mail.polimi.it>
+Date:   Tue Mar 19 11:34:04 2024 +0100
+
+    bug fixes : imported java.util.*
+
+[33mcommit c47a54c3859c8c6013fbb8f966eae8065e88cf6c[m
+Author: Toni Wang <toni.wang@mail.polimi.it>
+Date:   Mon Mar 18 23:11:12 2024 +0100
+
+    addPointsObjective completed
+
+[33mcommit 6b4e4f6f114ec7f2a91df7f1abf973c897addda8[m
+Author: lucreziavaccaro <lucrezia.vaccaro@mail.polimi.it>
+Date:   Mon Mar 18 18:22:30 2024 +0100
+
+    method Manuscript adjustment
+
+[33mcommit 97dc3aaa008ad52865e6e479d907417b7fcce1b4[m
+Author: lorenzotini <lorenzo2.valentini@mail.polimi.it>
+Date:   Mon Mar 18 12:48:42 2024 +0100
+
+    fixed commit (addCard was missing)
+
+[33mcommit 66ad40022ea408359763aa481621d45983a23eaa[m
+Merge: 5c35b20 55ae073
+Author: lucreziavaccaro <lucrezia.vaccaro@mail.polimi.it>
+Date:   Mon Mar 18 12:17:42 2024 +0100
+
+    method addPoints, setPoints player, countCoveredCorners implemented
+
+[33mcommit 5c35b207603b47e4c75ae182cc02c90f30c57bb8[m
+Author: lucreziavaccaro <lucrezia.vaccaro@mail.polimi.it>
+Date:   Mon Mar 18 12:08:35 2024 +0100
+
+    method addPoints, setPoints player, countCoveredCorners implemented
+
+[33mcommit 55ae07306587b375c218b44c2eb9ee9f0e8b7dc8[m
+Author: lorenzotini <lorenzo2.valentini@mail.polimi.it>
+Date:   Mon Mar 18 09:32:13 2024 +0100
+
+    addCard fixed and isValidPlacement returns bool now
+
+[33mcommit d5970af3669ec0130555df9d1318d0737d3bb5b7[m
+Merge: ad2e583 13f9fa5
+Author: lorenzotini <160732595+lorenzotini@users.noreply.github.com>
+Date:   Sun Mar 17 20:54:42 2024 +0100
+
+    Merge pull request #2 from lorenzotini/detached2
+    
+    added addCard method in Manuscript.java and getCorner(generic) in Fac…
+
+[33mcommit 13f9fa5ac51a469550117dd3001edb43fd835eb8[m[33m ([m[1;31morigin/detached2[m[33m)[m
+Merge: e673ecb ad2e583
+Author: lorenzotini <160732595+lorenzotini@users.noreply.github.com>
+Date:   Sun Mar 17 20:54:27 2024 +0100
+
+    Merge branch 'main' into detached2
+
+[33mcommit e673ecbf24b510bbcb7ef4b6a11b4e7a17f2be3e[m
+Author: lorenzotini <lorenzo2.valentini@mail.polimi.it>
+Date:   Sun Mar 17 20:35:50 2024 +0100
+
+    added addCard method in Manuscript.java and getCorner(generic) in Face.java
+
+[33mcommit ad2e5836f6351dc4b62984b04245f1dd5c67a2b4[m
+Author: Toni Wang <toni.wang@mail.polimi.it>
+Date:   Sun Mar 17 18:36:45 2024 +0100
+
+    imported some enum in face
+    added BIG method for obj points calculation
+    modified enum ObjectiveRequirementType
+
+[33mcommit b34955b5da045419acf526a696ab9207a70ac24c[m
+Author: Toni Wang <toni.wang@mail.polimi.it>
+Date:   Sun Mar 17 18:32:55 2024 +0100
+
+    imported some enum in face
+    added BIG method for obj points calculation
+    modified enum ObjectiveRequirementType
+
+[33mcommit af452e5370d98ccf418390fa755560fd8736aefa[m
+Author: Toni Wang <toni.wang@mail.polimi.it>
+Date:   Sat Mar 16 18:06:01 2024 +0100
+
+    changes to the objective and other points
+
+[33mcommit fbd97a73a88c1a8b8002f05e46d3af65eb85569e[m
+Merge: c021731 247bb91
+Author: lorenzotini <160732595+lorenzotini@users.noreply.github.com>
+Date:   Sat Mar 16 14:06:45 2024 +0100
+
+    Merge pull request #1 from lorenzotini/detached
+    
+    aligned to uml
+
+[33mcommit 247bb91cee68611f98e154ea2bfa3c6c2f65fc09[m[33m ([m[1;31morigin/detached[m[33m)[m
+Author: lorenzotini <lorenzo2.valentini@mail.polimi.it>
+Date:   Sat Mar 16 14:03:41 2024 +0100
+
+    aligned to uml
+
+[33mcommit c0217312a90e5b243f5658e17315ed6a3be1e0f9[m
+Merge: baca767 c3e35b8
+Author: Toni Wang <toni.wang@mail.polimi.it>
+Date:   Fri Mar 15 20:59:00 2024 +0100
+
+    merge
+
+[33mcommit baca7672bc16492403a3117056459fb22df72e6b[m
+Merge: 8371a9e 1830c6e
+Author: bicix72 <andreavicedomini51@mail.polimi.it>
+Date:   Fri Mar 15 19:42:43 2024 +0100
+
+    Merge remote-tracking branch 'origin/andre'
+
+[33mcommit 8371a9ea052f0cc867858bf2b89b2b0149e665d6[m
+Author: bicix72 <andreavicedomini51@mail.polimi.it>
+Date:   Fri Mar 15 17:03:01 2024 +0100
+
+    aggiunta costruttori deck,
+    rinominato kingdom
+
+[33mcommit c3e35b8d661b35ebd46f0cfa6cc782789ed94c72[m[33m ([m[1;31morigin/toni[m[33m)[m
+Author: wangteyi <toni.wang@mail.polimi.it>
+Date:   Fri Mar 15 17:47:21 2024 +0100
+
+    dovrebbe essere giusto
+
+[33mcommit 1830c6e340626caaf134cf45d00acbd81ea48124[m
+Author: bicix72 <andreavicedomini51@mail.polimi.it>
+Date:   Fri Mar 15 17:03:01 2024 +0100
+
+    agginta costruttori deck,
+    rinominato kingdom
+
+[33mcommit cd9912c345508395fa0546932e6f80835fd7dacb[m[33m ([m[1;31morigin/loribranch[m[33m)[m
+Author: lorenzotini <lorenzo2.valentini@mail.polimi.it>
+Date:   Fri Mar 15 09:51:58 2024 +0100
+
+    deleted CornerPosition.java and BackSymbol.java
+
+[33mcommit cc31725bd19fb5dd008a21592ea74b8f031e44d0[m
+Author: lorenzotini <lorenzo2.valentini@mail.polimi.it>
+Date:   Thu Mar 14 20:08:43 2024 +0100
+
+    aligned some classes to uml
+
+[33mcommit acf0cf9cd2f50b549199aaed249512b2c5d0252b[m
+Author: lorenzotini <lorenzo2.valentini@mail.polimi.it>
+Date:   Tue Mar 12 17:58:41 2024 +0100
+
+    add core structure (incomplete)
+
+[33mcommit c935c3ba9f7097bbf87df85d911005dc96f67604[m
+Author: lorenzotini <160732595+lorenzotini@users.noreply.github.com>
+Date:   Sat Mar 2 13:43:10 2024 +0100
+
+    Delete dubbi
+
+[33mcommit a51e874d14d04a85c1e4e557bf4bddf324b46f7e[m
+Author: lucreziavaccaro <161013161+lucreziavaccaro@users.noreply.github.com>
+Date:   Fri Mar 1 17:14:07 2024 +0100
+
+    Update dubbi
+
+[33mcommit 03689f34e73bf6116cbf23a52d73b81ad22e91b1[m
+Author: lucreziavaccaro <161013161+lucreziavaccaro@users.noreply.github.com>
+Date:   Fri Mar 1 17:13:26 2024 +0100
+
+    Create dubbi
+
+[33mcommit da4acacda88aaf9ed2bb6d4c1e7c27c7a5dbf287[m
+Author: lorenzotini <160732595+lorenzotini@users.noreply.github.com>
+Date:   Wed Feb 21 12:29:05 2024 +0100
+
+    Initial commit

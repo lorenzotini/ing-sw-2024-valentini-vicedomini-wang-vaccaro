@@ -1,19 +1,12 @@
 package it.polimi.ingsw.gc27.Model.Game;
 
-import it.polimi.ingsw.gc27.Messages.Message;
-import it.polimi.ingsw.gc27.Messages.UpdateMarketMessage;
 import it.polimi.ingsw.gc27.Model.Card.GoldCard;
 import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
-import it.polimi.ingsw.gc27.Model.Listener.Observable;
-import it.polimi.ingsw.gc27.Model.Listener.Observer;
-import it.polimi.ingsw.gc27.Model.MiniModel;
-
 
 import java.io.Serializable;
-import java.rmi.RemoteException;
 import java.util.ArrayList;
 
-public class Market implements Serializable, Observable {
+public class Market implements Serializable {
     private ResourceCard[] faceUpResources = new ResourceCard[2];
     private GoldCard[] faceUpGolds = new GoldCard[2];
     private ArrayList<ResourceCard> resourceDeck;
@@ -28,20 +21,20 @@ public class Market implements Serializable, Observable {
         this.goldDeck = goldDeck;
     }
 
-    public ResourceCard[] getFaceUpResources() {
-        return faceUpResources;
+    public ResourceCard[] getFaceUp(boolean isGold) {
+        if(isGold){
+            return faceUpGolds;
+        }else{
+            return faceUpResources;
+        }
     }
 
-    public void setFaceUpResources(ResourceCard card, int index) {
-        this.faceUpResources[index] = card;
-    }
-
-    public GoldCard[] getFaceUpGolds() {
-        return faceUpGolds;
-    }
-
-    public void setFaceUpGolds(GoldCard card, int index) {
-        this.faceUpGolds[index] = card;
+    public void setFaceUp(ResourceCard card, int index) {
+        if(card instanceof GoldCard){
+            this.faceUpGolds[index] = (GoldCard) card;
+        }else{
+            this.faceUpResources[index] = card;
+        }
     }
 
     public ArrayList<ResourceCard> getResourceDeck() {
@@ -59,31 +52,5 @@ public class Market implements Serializable, Observable {
     public void setGoldDeck(ArrayList<GoldCard> goldDeck) {
         this.goldDeck = goldDeck;
     }
-    public void notifyChangesInMarket() throws RemoteException {
-        notifyObservers();
-    }
 
-    @Override
-    public void addObserver(Observer o) {
-
-    }
-
-    @Override
-    public void deleteObserver(Observer o) {
-
-    }
-
-    @Override
-    public void notifyObservers() throws RemoteException {
-        MiniModel miniModel = new MiniModel(this);
-        Message message = new UpdateMarketMessage(miniModel);
-        for(Observer o : observers){
-            o.update(message);
-        }
-    }
-
-    @Override
-    public void notifyObservers(Message notYourTurnMessage) throws RemoteException {
-
-    }
 }

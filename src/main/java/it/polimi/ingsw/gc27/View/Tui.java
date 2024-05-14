@@ -1,62 +1,74 @@
 package it.polimi.ingsw.gc27.View;
 
+import it.polimi.ingsw.gc27.JsonParser;
 import it.polimi.ingsw.gc27.Model.Card.*;
 import it.polimi.ingsw.gc27.Model.Card.ObjectiveCard.ObjectiveCard;
 import it.polimi.ingsw.gc27.Model.Game.Board;
 import it.polimi.ingsw.gc27.Model.Game.Manuscript;
 import it.polimi.ingsw.gc27.Model.Game.Market;
 import it.polimi.ingsw.gc27.Net.VirtualServer;
+import it.polimi.ingsw.gc27.Model.Game.Market;
+import it.polimi.ingsw.gc27.Net.Commands.*;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static java.lang.System.in;
 import static java.lang.System.out;
 
-public class Tui implements View{
+public class Tui implements View {
 
     private VirtualView client;
-    private VirtualServer server;
-    private static String sws = " "; // single white space
+    private static final String sws = " "; // single white space
 
-    public Tui(VirtualView client, VirtualServer server) throws IOException, InterruptedException {
+    public Tui(VirtualView client) throws IOException, InterruptedException {
         this.client = client;
-        this.server = server;
     }
 
     @Override
     public void run() throws IOException, InterruptedException {
 
-        Scanner scan = new Scanner(System.in);
+        out.println("The game is starting!");
+
+        Scanner scan = new Scanner(in);
 
         while (true) {
 
             out.print("> ");
+
             String command = scan.nextLine();
 
             switch (command.toLowerCase()) {
 
                 case "help":
                     out.println("Commands:");
-                    out.println("addstarter ═ add a starter card to your board");
-                    out.println("chooseobj ═ choose an objective card");
-                    out.println("addcard ═ add a card to your board");
-                    out.println("draw ═ draw a card from the market");
+                    out.println("addstarter - add a starter card to your board");
+                    out.println("chooseobj - choose an objective card");
+                    out.println("addcard - add a card to your board");
+                    out.println("draw - draw a card from the market");
+                    out.println("Visualize:");
+                    out.println("man - print your manuscript");
+                    out.println("obj - print your secret objective");
+                    out.println("market - print the market");
+                    out.println("board - print the players' score board");
                     break;
 
                 case "addstarter":
-                    //System.out.println(Tui.showStarter(client.getMiniModel().getStarter()));
+                    out.println(Tui.showStarter(client.getMiniModel().getPlayer().getStarterCard()));
                     out.println("What side do you want to play? (front or back)");
-                    while(true){
+                    while (true) {
                         String side = scan.next();
-                        if(side.equalsIgnoreCase("front")) {
-                            server.addStarter(client.getUsername(), true);
+                        if (side.equalsIgnoreCase("front")) {
+                            Command comm = new AddStarterCommand(client.getUsername(), true);
+                            client.sendCommand(comm);
                             break;
-                        }else if(side.equalsIgnoreCase("back")){
-                            server.addStarter(client.getUsername(), false);
+                        } else if (side.equalsIgnoreCase("back")) {
+                            Command comm = new AddStarterCommand(client.getUsername(), false);
+                            client.sendCommand(comm);
                             break;
-                        }else{
+                        } else {
                             out.println("Invalid face: insert front or back");
                         }
                         // Consume the invalid input to clear the scanner's buffer
@@ -67,17 +79,15 @@ public class Tui implements View{
                     break;
 
                 case "chooseobj":
-                    //System.out.println(Tui.showObjective(client.getMiniModel().getSecretObjectives()));
+                    out.println(Tui.showObjective(client.getMiniModel().getPlayer().getSecretObjectives()));
                     int obj;
-                    out.println("Which objective do you want to achive? (1 or 2)");
-                    while(true){
+                    out.println("Which objective do you want to achieve? (1 or 2)");
+                    while (true) {
                         try {
                             obj = scan.nextInt();
-                            if(obj == 1){
-                                server.chooseObjective(client.getUsername(), 0);
-                                break;
-                            } else if(obj == 2){
-                                server.chooseObjective(client.getUsername(), 1);
+                            if (obj == 1 || obj == 2) {
+                                Command comm = new ChooseObjectiveCommand(client.getUsername(), obj);
+                                client.sendCommand(comm);
                                 break;
                             } else {
                                 out.println("Invalid number, insert 1 or 2");
@@ -95,6 +105,7 @@ public class Tui implements View{
 
                 // TODO creare una soluzione intelligente per gestire gli input di addcard, con while true e try catch vari
                 case "addcard":
+                    out.println(Tui.printManuscript(client.getMiniModel().getManuscript()));
                     out.println("Which card do you want to add? (choose from 0, 1, 2)");
                     int cardIndex = scan.nextInt();
                     out.println("Front or back?");
@@ -103,29 +114,45 @@ public class Tui implements View{
                     int x = scan.nextInt();
                     out.println("y = ");
                     int y = scan.nextInt();
-                    if(face.equalsIgnoreCase("front")) {
-                        server.addCard(client.getUsername(), cardIndex, true, x, y);
-                    }else if(face.equalsIgnoreCase("back")){
-                        server.addCard(client.getUsername(), cardIndex, false, x, y);
-                    }else{
+                    if (face.equalsIgnoreCase("front")) {
+                        Command comm = new AddCardCommand(client.getUsername(), cardIndex, true, x, y);
+                        client.sendCommand(comm);
+                    } else if (face.equalsIgnoreCase("back")) {
+                        Command comm = new AddCardCommand(client.getUsername(), cardIndex, false, x, y);
+                        client.sendCommand(comm);
+                    } else {
                         out.println("Invalid face: abort");
                     }
                     break;
 
                 case "draw":
-                    //System.out.println(Tui.showMarket());
+                    //out.println(Tui.showMarket(client.getMiniModel().getMarket()));
                     out.println("enter [cardType] [fromDeck] [faceUpIndex] (res/gold, true/false, 0/1)");
                     String line = scan.nextLine();
                     String[] words = line.split(" ");
                     String cardType = words[0];
                     boolean fromDeck = Boolean.parseBoolean(words[1]);
                     int faceUpIndex = Integer.parseInt(words[2]);
-                    if(cardType.equalsIgnoreCase("res")){
-                        server.drawResourceCard(client.getUsername(), fromDeck, faceUpIndex);
-                    } else if(cardType.equalsIgnoreCase("gold")) {
-                        server.drawGoldCard(client.getUsername(), fromDeck, faceUpIndex);
-                    }
+                    boolean isGold = cardType.equalsIgnoreCase("gold");
+                    Command comm = new DrawCardCommand(client.getUsername(), isGold, fromDeck, faceUpIndex);
+                    client.sendCommand(comm);
                     break;
+
+                    case "man":
+                    out.println(Tui.printManuscript(client.getMiniModel().getManuscript()));
+                    break;
+
+                    case "obj":
+                    out.println(Tui.showObjective(client.getMiniModel().getPlayer().getSecretObjectives()));
+                    break;
+
+//                    case "market":
+//                    out.println(Tui.showMarket(client.getMiniModel().getMarket()));
+//                    break;
+//
+//                case "board":
+//                    out.println(Tui.showBoard(client.getMiniModel().getBoard()));
+//                    break;
 
                 default:
                     out.println("Invalid command. Type 'help' for a list of commands.");
@@ -292,20 +319,20 @@ public class Tui implements View{
         return line;
     }
 
-    private static void printxAxis(int xMin, int xMax){
+    private static void printxAxis(int xMin, int xMax) {
         String xAxis = sws.repeat(10);
-        for(int i = xMin; i <= xMax; i++){
-            if(i / 10 == 0){
+        for (int i = xMin; i <= xMax; i++) {
+            if (i / 10 == 0) {
                 xAxis = xAxis + i + sws.repeat(14);
-            }else{
+            } else {
                 xAxis = xAxis + i + sws.repeat(13);
             }
         }
         out.println(xAxis);
     }
 
-    private static String printyAxis(int line, int j){
-        if(line == 3){
+    private static String printyAxis(int line, int j) {
+        if (line == 3) {
             return j / 10 == 0 ? (sws + j) : String.valueOf(j);
         } else {
             return sws.repeat(2);
@@ -317,7 +344,7 @@ public class Tui implements View{
         String ws_15 = sws.repeat(15);
 
         // Allows the player to know if the placement is valid
-        if(line == 3 && manuscript.isValidPlacement(i, j)){
+        if (line == 3 && manuscript.isValidPlacement(i, j)) {
             return sws.repeat(9) + "@" + sws.repeat(5);
         }
 
@@ -380,8 +407,8 @@ public class Tui implements View{
                         sb.append(matrix[i][j].remove());
                         middle = true;
                         first = true;
-                    }else if(matrix[i][j+1] != null){
-                        sb.append(matrix[i][j+1].remove());
+                    } else if (matrix[i][j + 1] != null) {
+                        sb.append(matrix[i][j + 1].remove());
                     }
                 }
                 sb.append("\n");
@@ -394,7 +421,7 @@ public class Tui implements View{
         return sb.toString();
 
     }
-    
+
     private static String writePoints(Card card, boolean isFront){
 
         // Starter cards OR Back face OR points = 0 have no points
@@ -410,7 +437,7 @@ public class Tui implements View{
         }
 
     }
-    
+
     private static String writeRequirements(Card card, boolean isFront){
 
         // Only front face of GoldCard has requirements
@@ -422,7 +449,7 @@ public class Tui implements View{
         return "               ";
 
     }
-    
+
     protected static Queue<String> toCliCard(Card card, boolean isFront){
 
         Face face = isFront ? card.getFront() : card.getBack();

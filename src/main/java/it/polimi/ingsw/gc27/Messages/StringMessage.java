@@ -4,17 +4,18 @@ import it.polimi.ingsw.gc27.Model.MiniModel;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 import it.polimi.ingsw.gc27.View.View;
 
-public class PlayerJoinedMessage extends Message{
-    //this minimodel's class have nothing setted,
-    //every player has to receive the message
-    public PlayerJoinedMessage(String username) {
-        super(username+ " joined the game");
+import java.rmi.RemoteException;
+
+public class StringMessage extends Message{
+    //used for socket communication
+    public StringMessage(String string) {
+        super(string);
     }
 
     @Override
     public void reportUpdate(VirtualView client, View view) {
 
         view.showString(this.string);
-
     }
+
 }

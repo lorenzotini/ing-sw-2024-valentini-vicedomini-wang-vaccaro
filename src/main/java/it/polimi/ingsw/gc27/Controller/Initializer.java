@@ -30,10 +30,10 @@ public class Initializer {
         Collections.shuffle(objectiveDeck);
 
         // populate market
-        market.setFaceUpResources(resourceDeck.removeLast(), 0);
-        market.setFaceUpResources(resourceDeck.removeLast(), 1);
-        market.setFaceUpGolds(goldDeck.removeLast(), 0);
-        market.setFaceUpGolds(goldDeck.removeLast(), 1);
+        market.setFaceUp(resourceDeck.removeLast(), 0);
+        market.setFaceUp(resourceDeck.removeLast(), 1);
+        market.setFaceUp(goldDeck.removeLast(), 0);
+        market.setFaceUp(goldDeck.removeLast(), 1);
         market.setResourceDeck(resourceDeck);
         market.setGoldDeck(goldDeck);
 

@@ -2,8 +2,6 @@ package it.polimi.ingsw.gc27.Controller;
 
 import it.polimi.ingsw.gc27.Exceptions.UserNotFoundException;
 import it.polimi.ingsw.gc27.Model.Game.Player;
-import it.polimi.ingsw.gc27.Model.Listener.Observable;
-import it.polimi.ingsw.gc27.Model.Listener.Observer;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 
 import java.io.IOException;
@@ -13,6 +11,8 @@ import java.util.List;
 import java.util.Map;
 
 public class GigaController {
+
+    private int idCounter = 0;
 
     private final Map<String, VirtualView> registeredUsernames = new HashMap<>();
 
@@ -32,6 +32,7 @@ public class GigaController {
     }
 
     public Player welcomePlayer(VirtualView client) throws IOException, InterruptedException {
+
         client.show("Welcome to Codex Naturalis\n"  + "Do you want to start a new game or join an existing one? (enter 'new' or the gameId)");
         String game = client.read();
         Player p;
@@ -46,7 +47,6 @@ public class GigaController {
                     // TODO controllare che game sia convertibile in int
                     if(gc.getId() == Integer.parseInt(game)){
                         client.show("Joining game " + game + "...");
-                        // TODO check the yellow line
                         synchronized (gc.getGame().getPlayers()){
                             if(gc.getGame().getNumActualPlayers() < gc.getNumMaxPlayers()){
                                 int a = gc.getGame().getNumActualPlayers();
@@ -70,9 +70,13 @@ public class GigaController {
                     p = createNewGame(client);
                     return p;
                 }
+
             }while(true);
+
         }
+
         return p;
+
     }
 
     public Player createNewGame(VirtualView client) throws IOException, InterruptedException {
@@ -86,13 +90,13 @@ public class GigaController {
         GameController controller;
         Initializer init = new Initializer();
         synchronized (gameControllers){
-            controller = new GameController(init.initialize(), numMaxPlayers, gameControllers.size() + 1);
+            controller = new GameController(init.initialize(), numMaxPlayers, this.idCounter++);
             gameControllers.add(controller);
         }
         // count the player who created the game
         controller.getGame().setNumActualPlayers(1);
         client.show("Game created with id " + controller.getId() + "\n" + "Waiting for players to join...");
-         p = controller.initializePlayer(client, this);
+        p = controller.initializePlayer(client, this);
         return p;
     }
 

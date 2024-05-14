@@ -1,6 +1,7 @@
 package it.polimi.ingsw.gc27.Messages;
 
 import it.polimi.ingsw.gc27.Model.MiniModel;
+import it.polimi.ingsw.gc27.Net.VirtualView;
 import it.polimi.ingsw.gc27.View.View;
 
 public class NotYourTurnMessage extends Message{
@@ -11,7 +12,8 @@ public class NotYourTurnMessage extends Message{
     }
 
     @Override
-    public void reportUpdate(MiniModel miniModel, View view) {
+    public void reportUpdate(VirtualView client, View view) {
+
         view.showString(this.string);
     }
 }

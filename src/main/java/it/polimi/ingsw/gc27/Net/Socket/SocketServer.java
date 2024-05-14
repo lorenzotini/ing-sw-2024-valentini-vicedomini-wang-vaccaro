@@ -22,44 +22,15 @@ public class SocketServer {
         this.console = console;
     }
 
-    public void runServerS() throws  IOException {
-        Socket clientSocket = null;
-
-        while ((clientSocket = this.listenSocket.accept()) != null){
-
-            //TODO non passare ObjectInputStream ma potrei passare magari direttamente il clietSocket
-            
-            ObjectInputStream socketRx = new ObjectInputStream(clientSocket.getInputStream());
-            ObjectOutputStream socketTx = new ObjectOutputStream(clientSocket.getOutputStream());
-            ClientHandler handler = new ClientHandler(console, this, socketRx , socketTx );
-
-            synchronized (this.clients) {
-                clients.add(handler);
-            }
-
-            new Thread(() -> {
-                try {
-                    handler.runVirtualView();
-                } catch (IOException | InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-            }).start();
-            //once done this cycle client and server are connected
-        }
-    }
     public void runServer() throws IOException, InterruptedException {
         Socket clientSocket = null;
 
         while ((clientSocket = this.listenSocket.accept()) != null) {
-            InputStreamReader socketRx = new InputStreamReader(clientSocket.getInputStream());
-            OutputStreamWriter socketTx = new OutputStreamWriter(clientSocket.getOutputStream(), StandardCharsets.UTF_8);
-            //damn
-            ClientHandler handler = new ClientHandler(console, this, new BufferedReader(socketRx), new BufferedWriter(socketTx));
+
+            ClientHandler handler = new ClientHandler(console, this, clientSocket);
             synchronized (this.clients) {
                 clients.add(handler);
             }
-
-
             new Thread(() -> {
                 try {
                     handler.runVirtualView();

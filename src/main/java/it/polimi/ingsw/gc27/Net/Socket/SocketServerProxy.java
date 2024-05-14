@@ -2,6 +2,9 @@ package it.polimi.ingsw.gc27.Net.Socket;
 
 import it.polimi.ingsw.gc27.CommandParser;
 import it.polimi.ingsw.gc27.Messages.Message;
+import it.polimi.ingsw.gc27.Messages.StringMessage;
+import it.polimi.ingsw.gc27.Messages.StringMessage;
+import it.polimi.ingsw.gc27.Net.Commands.Command;
 import it.polimi.ingsw.gc27.Net.VirtualServer;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 
@@ -13,24 +16,22 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class SocketServerProxy implements VirtualServer {
-    final PrintWriter output;
-    final BufferedReader input;
+
     final BlockingQueue<String> commands = new LinkedBlockingQueue<>();
     final BlockingQueue<Message> messages = new LinkedBlockingQueue<>();
+    final BlockingQueue<String> messageString = new LinkedBlockingQueue<>();
     final VirtualView client;
     Socket serverSocket;
     boolean flag = true;
-
-
+    ObjectInputStream input;;
+    ObjectOutputStream output;
     public SocketServerProxy(VirtualView client, String ipAddress, int port){
         this.client=client;
-        InputStreamReader socketRx = null;
-        OutputStreamWriter socketTx = null;
+
         try {
             serverSocket = new Socket(ipAddress, port);
-            socketRx = new InputStreamReader(serverSocket.getInputStream());
-            socketTx = new OutputStreamWriter(serverSocket.getOutputStream());
-
+            input = new ObjectInputStream(serverSocket.getInputStream());
+            output = new ObjectOutputStream(serverSocket.getOutputStream());
         } catch (UnknownHostException e) {
             System.err.println("Don't know about host " + ipAddress);
             System.exit(1);
@@ -38,91 +39,77 @@ public class SocketServerProxy implements VirtualServer {
             System.err.println("Couldn't get I/O for the connection to " + port);
             System.exit(1);
         }
-        this.input = new BufferedReader(socketRx);
-        this.output = new PrintWriter(new BufferedWriter(socketTx));
+
         new Thread(()-> {
             try {
-                while(true) {
-                    if (!flag){
-                        break;
-                    }
-                    commands.add(input.readLine());
-                    if (!flag){
-                        break;
+                Message mess;
+                while (( mess = messages.take()) instanceof StringMessage){
+                    String message = mess.takeString();
+                    if(message.equals("read")){
+                        String toBeSent = client.read();
+                        output.writeObject(toBeSent);
+                    }else {
+                        client.show(message);
                     }
                 }
-            } catch (IOException e) {
+                client.update(mess);
+                runVirtualServer();
+            } catch (InterruptedException | IOException e) {
                 throw new RuntimeException(e);
             }
 
         }).start();
         new Thread(()->{
             try{
-                runVirutalServer();
-            }catch(InterruptedException | IOException e){
+                while(true) {
+                    listenFromRemoteServer();
+                }
+            }catch( IOException e){
                 e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
             }
         }).start();
     }
 
-    private void runVirutalServer() throws IOException, InterruptedException {
-
-        String line;
+    private void runVirtualServer() throws IOException, InterruptedException {
+        Message message;
         // Read message type
-        while ((line = commands.take()) != null && flag) {
-            Object[] commands = CommandParser.parseCommandFromServer(line);
-            switch(commands[0].toString()) {
-                case "show":
-                    client.show(commands[1].toString());
-                    break;
-                case "setUsername":
-                    client.setUsername(commands[1].toString());
-                    flag = false;
-                    break;
-                case "read":
-                    String sr = client.read();
-                    sendData(sr);
-                    break;
-
-                default:
-                    System.out.println("damn god");
-                    break;
+        while ((message = messages.take()) != null) {
+                client.update(message);
             }
-        }
-        ObjectInputStream socketRx;
-        while(true){
-            try{
-                socketRx = new ObjectInputStream(serverSocket.getInputStream());
-                break;
-            }catch (IOException e) {
-                System.err.println("lost connesction with server " );
-                System.exit(1);
-            }
-        }
-        while(true ) {
-            try {
-                messages.add((Message) socketRx.readObject());
-            }catch(ClassNotFoundException e ){
-                //TODO capire cosa fare con le eccezioni
-            }
-        }
-
     }
+
+
+
     @Override
     public void connect(VirtualView client) throws RemoteException {
-        output.println("connect");
+    }
+
+    @Override
+    public void welcomePlayer(VirtualView client) throws IOException {
+        output.writeObject("welcomeplayer");
         output.flush();
     }
 
     @Override
-    public void welcomePlayer(VirtualView client) throws RemoteException {
+    public void receiveCommand(Command command) {
+        try{
+            output.writeObject(command);
+            output.flush();
+        }catch(IOException e){
+            //there is a Connection problem
+        }
+    }
 
+    public void sendData(String s) throws IOException {
+        output.writeObject(s);
         output.flush();
     }
 
-    public void sendData(String s){
-        output.println(s);
-        output.flush();
+    public void listenFromRemoteServer() throws IOException, ClassNotFoundException {
+            while(true){
+                messages.add( (Message) input.readObject());
+            }
     }
-
 }

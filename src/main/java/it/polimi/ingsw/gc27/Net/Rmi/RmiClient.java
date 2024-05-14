@@ -35,6 +35,11 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
     }
 
     @Override
+    public MiniModel getMiniModel() {
+        return this.miniModel;
+    }
+
+    @Override
     public void show(String message) throws RemoteException{
         System.out.println(message);
     }
@@ -74,16 +79,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
 
     @Override
     public void update(Message message) throws RemoteException {
-        try {
-            message.reportUpdate(this.miniModel, this.view);
-        } catch (IOException | InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    @Override
-    public MiniModel getMiniModel() {
-        return miniModel;
+        message.reportUpdate(this, this.view );
     }
 
 }

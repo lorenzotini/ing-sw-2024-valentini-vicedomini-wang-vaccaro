@@ -1,10 +1,12 @@
 package it.polimi.ingsw.gc27.Messages;
 
 import it.polimi.ingsw.gc27.Model.MiniModel;
+import it.polimi.ingsw.gc27.Net.VirtualView;
 import it.polimi.ingsw.gc27.View.View;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.rmi.RemoteException;
 
 public abstract class Message implements Serializable {
     private final MiniModel miniModel;
@@ -29,7 +31,10 @@ public abstract class Message implements Serializable {
         return miniModel;
     }
 
-    public abstract void reportUpdate(MiniModel miniModel, View view) throws IOException, InterruptedException;
+    public abstract void reportUpdate(VirtualView client, View view) throws RemoteException;
+    public String takeString(){
+        return this.string;
+    }
 
 
 //    protected Message(String string, MiniModel miniModel){

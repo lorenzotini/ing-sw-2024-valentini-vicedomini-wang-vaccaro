@@ -7,37 +7,36 @@ import it.polimi.ingsw.gc27.Model.MiniModel;
 import it.polimi.ingsw.gc27.Net.Commands.Command;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 import it.polimi.ingsw.gc27.View.Tui;
+import it.polimi.ingsw.gc27.View.View;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.Scanner;
 
-public class SocketClient implements VirtualView, Runnable {
+public class SocketClient implements VirtualView {
 
     final SocketServerProxy server;
     private String username;
-    private Tui tui;
+    private View view;
     final MiniModel miniModel;
 
 
-    public SocketClient(String ipAddress, int port) {
+    public SocketClient(String ipAddress, int port) throws IOException, InterruptedException {
         this.server = new SocketServerProxy(this, ipAddress, port);
-
+        this.miniModel = new MiniModel();
+        view = new Tui(this);
     }
 
-    public void run() {
+    public void runClient() {
         try {
             server.welcomePlayer(this);
             synchronized (this) {
-                while(username == null) {
+                while(this.miniModel.getPlayer() == null) {
                     this.wait();
                 }
             }
-            tui = new Tui(this, server);
-            tui.run();
-        } catch (RemoteException | InterruptedException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
+            view.run();
+        } catch (InterruptedException | IOException e) {
             throw new RuntimeException(e);
         }
     }
@@ -49,7 +48,12 @@ public class SocketClient implements VirtualView, Runnable {
 
     @Override
     public void sendCommand(Command command) {
+        server.receiveCommand(command);
+    }
 
+    @Override
+    public MiniModel getMiniModel() {
+        return this.miniModel;
     }
 
     @Override
@@ -60,22 +64,11 @@ public class SocketClient implements VirtualView, Runnable {
         // TODO Attenzione! Questo può causare data race con il thread dell'interfaccia o un altro thread
         System.out.println(mex);
     }
-
-    @Override
-    public void showManuscript(Manuscript manuscript) throws RemoteException {
-
-    }
-
-    @Override
-    public void showStarter(StarterCard starterCard) throws RemoteException {
-
-    }
-
     @Override
     public String read() throws RemoteException {
         Scanner scan = new Scanner(System.in);
-        String string;
-        while((string = scan.nextLine())=="\n"){};
+        String string = scan.nextLine();
+        //while((string = scan.nextLine()).equals("\n")){};
         return string;
     }
 
@@ -90,6 +83,11 @@ public class SocketClient implements VirtualView, Runnable {
 
     @Override
     public void update(Message message) {
+        try{
+            message.reportUpdate(this, this.view);
+        }catch(RemoteException e){
 
+        }
     }
+
 }

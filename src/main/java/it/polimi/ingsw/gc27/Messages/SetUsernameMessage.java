@@ -6,18 +6,18 @@ import it.polimi.ingsw.gc27.View.View;
 
 import java.rmi.RemoteException;
 
-public class UpdateStartOfGameMessage extends Message {
-
-    public UpdateStartOfGameMessage(MiniModel miniModel, String string) {
-        super(miniModel, string);
+public class SetUsernameMessage extends Message{
+    public SetUsernameMessage(String username){
+        super(username);
     }
 
     @Override
     public void reportUpdate(VirtualView client, View view) {
-        try{
-            client.getMiniModel().copy(this.getMiniModel());
+        try {
+            client.setUsername(this.string);
         }catch(RemoteException e){
-            System.out.println("error in report by connection");
+            e.printStackTrace();
         }
     }
+
 }

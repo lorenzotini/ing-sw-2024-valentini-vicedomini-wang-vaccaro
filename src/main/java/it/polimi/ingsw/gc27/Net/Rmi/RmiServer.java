@@ -11,13 +11,15 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class RmiServer implements VirtualServer {
 
-    private final List<VirtualView> clients = new ArrayList<>();    //clients of different games
+    private final List<VirtualView> clients = Collections.synchronizedList(new ArrayList<>());    //clients of different games
     private final GigaController console;
     final BlockingQueue<Command> commands = new LinkedBlockingQueue<>();
 
@@ -52,12 +54,61 @@ public class RmiServer implements VirtualServer {
             //System.err.println("Server ready");
         }
 
-        executeCommands();
+        areClientsAlive();
+        // Start the thread that checks if the clients are alive
+        new Thread(() -> {
+            try {
+                areClientsAlive();
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
+            }
+        }).start();
+
+        // Start the thread that executes the commands
+        new Thread(() -> {
+            try {
+                executeCommands();
+            } catch (InterruptedException | IOException e) {
+                throw new RuntimeException(e);
+            }
+        }).start();
 
     }
 
     public void receiveCommand(Command command){
         commands.add(command);
+    }
+
+    @Override
+    public void areClientsAlive() throws RemoteException {
+        while(true){
+            synchronized (clients){
+                Iterator<VirtualView> iterator = clients.iterator();
+                while (iterator.hasNext()){
+                    VirtualView client = iterator.next();
+                    try {
+                        if(client.getLastPing() == 0){
+                            client.setLastPing(System.currentTimeMillis());
+                        }
+                        else if(System.currentTimeMillis() - client.getLastPing() > 10000){
+                            // Declare disconnected the client
+                            iterator.remove(); // Safely remove the client using the iterator
+                            disconnect(client);
+                            System.out.println("Timeout for client expired");
+                        }
+                    } catch (RemoteException e) { // If the client is abruptly disconnected
+                        iterator.remove(); // Safely remove the client using the iterator
+                        disconnect(client);
+                        System.out.println("Client abruptly disconnected");
+                    }
+                }
+            }
+        }
+    }
+
+    @Override
+    public void receivePing(VirtualView client) throws RemoteException {
+        client.setLastPing(System.currentTimeMillis());
     }
 
     private void executeCommands() throws InterruptedException, IOException {
@@ -73,6 +124,11 @@ public class RmiServer implements VirtualServer {
             this.clients.add(client);
         }
         System.out.println("new client connected");
+    }
+
+    @Override
+    public void disconnect(VirtualView client) throws RemoteException {
+        System.out.println("client disconnected GAGAGAGAGA");
     }
 
     @Override

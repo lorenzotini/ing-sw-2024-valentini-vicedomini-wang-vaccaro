@@ -22,6 +22,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
     private final VirtualServer server;
     private String username;
     private View view; //this will be or tui or gui, when  a gui is ready is to implement
+    private long lastPing = 0;
 
     public RmiClient(String ipAddress, int port) throws IOException, NotBoundException, InterruptedException {
         Registry registry = LocateRegistry.getRegistry(ipAddress, port);
@@ -35,8 +36,23 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
     }
 
     @Override
+    public synchronized long getLastPing() {
+        return lastPing;
+    }
+
+    @Override
+    public synchronized void setLastPing(long lastPing) {
+        this.lastPing = lastPing;
+    }
+
+    @Override
     public MiniModel getMiniModel() {
         return this.miniModel;
+    }
+
+    @Override
+    public void pingToServer(VirtualServer server, VirtualView client) throws RemoteException {
+        server.receivePing(client);
     }
 
     @Override
@@ -63,9 +79,21 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
         this.view.showString("Welcome " + this.username + "!" + "\nWaiting for other players to join the game...");
 
         //wait for the other players to join the game
-        while(miniModel.getPlayer() == null) {
+        while (miniModel.getPlayer() == null) {
             Thread.sleep(1000);
         }
+
+        //keep the client alive
+        new Thread(() -> {
+            while(true) {
+                try {
+                    Thread.sleep(2000);
+                    pingToServer(server, this);
+                } catch (RemoteException | InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }).start();
 
         //start the game
         this.view.run();

@@ -8,7 +8,7 @@
 
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="it.polimi.ingsw.gc27.View.GUI.ErrorSceneController"
+            fx:controller="it.polimi.ingsw.gc27.View.GUI.ChooseObjectiveSceneController"
             prefHeight="400.0" prefWidth="600.0">
 
 </AnchorPane>

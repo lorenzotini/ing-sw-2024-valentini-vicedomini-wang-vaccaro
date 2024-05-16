@@ -2,11 +2,12 @@ package it.polimi.ingsw.gc27.Model.Card;
 
 import it.polimi.ingsw.gc27.Model.Enumerations.Kingdom;
 
+import java.nio.file.Path;
 import java.util.ArrayList;
 
 public class FrontFace extends Face {
-    public FrontFace(Kingdom colour, Corner cornerUR, Corner cornerUL, Corner cornerLR, Corner cornerLL) {
-        super(colour, cornerUR, cornerUL, cornerLR, cornerLL);
+    public FrontFace(Path imagePath, Kingdom colour, Corner cornerUR, Corner cornerUL, Corner cornerLR, Corner cornerLL) {
+        super(imagePath, colour, cornerUR, cornerUL, cornerLR, cornerLL);
     }
 
     @Override

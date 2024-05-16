@@ -12,12 +12,14 @@ import org.json.simple.parser.ParseException;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.stream.Collectors;
 
-public class JsonParser{
+public class JsonParser {
+
     public static HashMap<String, Kingdom> kingdomHashMap = new HashMap<>();
     static {
         kingdomHashMap.put("PLANTKINGDOM", Kingdom.PLANTKINGDOM);
@@ -26,6 +28,7 @@ public class JsonParser{
         kingdomHashMap.put("FUNGIKINGDOM", Kingdom.FUNGIKINGDOM);
         kingdomHashMap.put("EMPTY", Kingdom.EMPTY);
     }
+
     public static HashMap<String, CornerSymbol> cornerSymbolHashMap = new HashMap<>();
     static {
         cornerSymbolHashMap.put("PLANTKINGDOM", CornerSymbol.PLANTKINGDOM);
@@ -38,6 +41,7 @@ public class JsonParser{
         cornerSymbolHashMap.put("EMPTY", CornerSymbol.EMPTY);
         cornerSymbolHashMap.put("BLACK", CornerSymbol.BLACK);
     }
+
     public static HashMap<String, PointsMultiplier> pointsMultiplierHashMapHashMap = new HashMap<>();
     static {
         pointsMultiplierHashMapHashMap.put("CORNER", PointsMultiplier.CORNER);
@@ -46,6 +50,7 @@ public class JsonParser{
         pointsMultiplierHashMapHashMap.put("MANUSCRIPT", PointsMultiplier.MANUSCRIPT);
         pointsMultiplierHashMapHashMap.put("EMPTY", PointsMultiplier.EMPTY);
     }
+
     public static final ArrayList<String> XX = new ArrayList<>(Arrays.asList("UR", "UL", "LR", "LL"));
     public static final String filePath = "src/main/resources/Json/codex_cards_collection.json";
     public static JSONParser jsonParser = new JSONParser();
@@ -68,6 +73,9 @@ public class JsonParser{
         for(Object obj : jsonDeck){
             JSONObject jsonObject = (JSONObject) obj;
             int id = ((Long) jsonObject.get("id")).intValue();
+            Path frontImagePath = Path.of((String) jsonObject.get("frontImagePath"));
+            Path backImagePath = Path.of((String) jsonObject.get("backImagePath"));
+
             int cardPoints = ((Long) jsonObject.get("cardPoints")).intValue();
             Kingdom colour = kingdomHashMap.get((String) jsonObject.get("colour"));
 
@@ -81,7 +89,7 @@ public class JsonParser{
                 Corner c = new Corner(black, symbol);
                 frontCorners.add(c);
             }
-            FrontFace front = new FrontFace(colour, frontCorners.get(0), frontCorners.get(1), frontCorners.get(2), frontCorners.get(3));
+            FrontFace front = new FrontFace(frontImagePath, colour, frontCorners.get(0), frontCorners.get(1), frontCorners.get(2), frontCorners.get(3));
 
             //BACK
             ArrayList<Kingdom> permanentResources = new ArrayList<>();
@@ -90,7 +98,7 @@ public class JsonParser{
             Corner c2 = new Corner(false, CornerSymbol.EMPTY);
             Corner c3 = new Corner(false, CornerSymbol.EMPTY);
             Corner c4 = new Corner(false, CornerSymbol.EMPTY);
-            BackFace back = new BackFace(colour, c1, c2, c3, c4, permanentResources);
+            BackFace back = new BackFace(backImagePath, colour, c1, c2, c3, c4, permanentResources);
 
             //modificare costruttore
             ResourceCard newCard = new ResourceCard(id, cardPoints, front, back);
@@ -98,6 +106,7 @@ public class JsonParser{
         }
         return myDeck;
     }
+
     public static ArrayList<GoldCard> getGoldDeck(JSONObject cardsJsonObj){
         ArrayList<GoldCard> myDeck = new ArrayList<>();
         JSONArray jsonDeck = (JSONArray) cardsJsonObj.get("goldDeck");
@@ -106,6 +115,8 @@ public class JsonParser{
         for(Object obj : jsonDeck){
             JSONObject jsonObject = (JSONObject) obj;
             int id = ((Long) jsonObject.get("id")).intValue();
+            Path frontImagePath = Path.of((String) jsonObject.get("frontImagePath"));
+            Path backImagePath = Path.of((String) jsonObject.get("backImagePath"));
             int cardPoints = ((Long) jsonObject.get("cardPoints")).intValue();
             Kingdom colour = kingdomHashMap.get((String) jsonObject.get("colour"));
 
@@ -124,7 +135,7 @@ public class JsonParser{
                 Corner c = new Corner(black, symbol);
                 frontCorners.add(c);
             }
-            FrontFace front = new FrontFace(colour, frontCorners.get(0), frontCorners.get(1), frontCorners.get(2), frontCorners.get(3));
+            FrontFace front = new FrontFace(frontImagePath, colour, frontCorners.get(0), frontCorners.get(1), frontCorners.get(2), frontCorners.get(3));
 
             //BACK
             ArrayList<Kingdom> permanentResources = new ArrayList<>();
@@ -133,7 +144,7 @@ public class JsonParser{
             Corner c2 = new Corner(false, CornerSymbol.EMPTY);
             Corner c3 = new Corner(false, CornerSymbol.EMPTY);
             Corner c4 = new Corner(false, CornerSymbol.EMPTY);
-            BackFace back = new BackFace(colour, c1, c2, c3, c4, permanentResources);
+            BackFace back = new BackFace(backImagePath, colour, c1, c2, c3, c4, permanentResources);
 
             //modificare costruttore
             GoldCard newCard = new GoldCard(id, cardPoints, front, back, requirements, pointsMultiplier);
@@ -142,7 +153,7 @@ public class JsonParser{
         return myDeck;
     }
 
-    //ATTENZIONE: PER LE STARTER, FRONT E BACK SONO INVERTITI NELLE RISORSE GRAFICHE. FARE AFFIDAMENTO AL LIBRETTO DELLE REGOLE
+    // WARNING: STARTER CARDS' FRONT AND BACK ARE INVERTED IN THE GRAPHIC RESOURCES. REFER TO THE RULEBOOK.
     public static ArrayList<StarterCard> getStarterDeck(JSONObject cardsJsonObj){
         ArrayList<StarterCard> myDeck = new ArrayList<>();
         JSONArray jsonDeck = (JSONArray) cardsJsonObj.get("starterDeck");
@@ -152,6 +163,8 @@ public class JsonParser{
             JSONObject jsonObject = (JSONObject) obj;
 
             int id = ((Long) jsonObject.get("id")).intValue();
+            Path frontImagePath = Path.of((String) jsonObject.get("frontImagePath"));
+            Path backImagePath = Path.of((String) jsonObject.get("backImagePath"));
             Kingdom colour = Kingdom.EMPTY;
 
             //FRONT
@@ -163,7 +176,7 @@ public class JsonParser{
                 Corner c = new Corner(false, symbol);
                 frontCorners.add(c);
             }
-            FrontFace front = new FrontFace(colour, frontCorners.get(0), frontCorners.get(1), frontCorners.get(2), frontCorners.get(3));
+            FrontFace front = new FrontFace(frontImagePath, colour, frontCorners.get(0), frontCorners.get(1), frontCorners.get(2), frontCorners.get(3));
 
             //BACK
             JSONObject b = (JSONObject) jsonObject.get("backFace");
@@ -178,9 +191,8 @@ public class JsonParser{
                 Corner c = new Corner(black, symbol);
                 backCorners.add(c);
             }
-            BackFace back = new BackFace(colour, backCorners.get(0), backCorners.get(1), backCorners.get(2), backCorners.get(3), permanentResources);
+            BackFace back = new BackFace(backImagePath, colour, backCorners.get(0), backCorners.get(1), backCorners.get(2), backCorners.get(3), permanentResources);
 
-            //modificare costruttore
             StarterCard newCard = new StarterCard(id, front, back);
             myDeck.add(newCard);
         }
@@ -197,8 +209,10 @@ public class JsonParser{
         for(Object obj : jsonDeck) {
             JSONObject jsonObject = (JSONObject) obj;
             int id = ((Long) jsonObject.get("id")).intValue();
-            FrontFace front = new FrontFace(colour, c, c, c, c);
-            BackFace back = new BackFace(colour, c, c, c, c, null);
+            Path frontImagePath = Path.of((String) jsonObject.get("frontImagePath"));
+            Path backImagePath = Path.of((String) jsonObject.get("backImagePath"));
+            FrontFace front = new FrontFace(frontImagePath, colour, c, c, c, c);
+            BackFace back = new BackFace(backImagePath, colour, c, c, c, c, null);
 
             ObjectiveCard newCard = null;
             if (id >= 87 && id <= 90) {

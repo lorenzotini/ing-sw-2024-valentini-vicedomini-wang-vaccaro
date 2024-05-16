@@ -26,15 +26,11 @@ public class SocketServer {
         Socket clientSocket = null;
 
         while ((clientSocket = this.listenSocket.accept()) != null) {
-            InputStreamReader socketRx = new InputStreamReader(clientSocket.getInputStream());
-            OutputStreamWriter socketTx = new OutputStreamWriter(clientSocket.getOutputStream(), StandardCharsets.UTF_8);
 
-            final ClientHandler handler = new ClientHandler(console, this, new BufferedReader(socketRx), new BufferedWriter(socketTx));
+            ClientHandler handler = new ClientHandler(console, this, clientSocket);
             synchronized (this.clients) {
                 clients.add(handler);
             }
-
-
             new Thread(() -> {
                 try {
                     handler.runVirtualView();

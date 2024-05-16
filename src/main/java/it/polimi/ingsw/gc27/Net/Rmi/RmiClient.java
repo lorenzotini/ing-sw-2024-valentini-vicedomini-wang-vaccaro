@@ -58,6 +58,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
     @Override
     public void show(String message) throws RemoteException{
         System.out.println(message);
+        System.out.flush();
     }
 
     @Override
@@ -76,7 +77,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
 
         this.server.connect(this);
         this.server.welcomePlayer(this);
-        this.view.showString("Welcome " + this.username + "!" + "\nWaiting for other players to join the game...");
+        this.show("Welcome " + this.username + "!" + "\nWaiting for other players to join the game...");
 
         //wait for the other players to join the game
         while (miniModel.getPlayer() == null) {

@@ -29,6 +29,7 @@ public class Tui implements View {
     public void run() throws IOException, InterruptedException {
 
         out.println("The game is starting!");
+        //TODO svuotare il buffer, altrimenti printa tutti i comandi presi durante l'attesa dei giocatori
 
         Scanner scan = new Scanner(in);
 
@@ -137,19 +138,19 @@ public class Tui implements View {
                     client.sendCommand(comm);
                     break;
 
-                    case "man":
+                case "man":
                     out.println(Tui.printManuscript(client.getMiniModel().getManuscript()));
                     break;
 
-                    case "hand":
+                case "hand":
                     out.println(Tui.showHand(client.getMiniModel().getHand()));
                     break;
 
-                    case "obj":
+                case "obj":
                     out.println(Tui.showObjectives(client.getMiniModel().getPlayer().getSecretObjectives()));
                     break;
 
-                    case "market":
+                case "market":
                     out.println(Tui.showMarket(client.getMiniModel().getMarket()));
                     break;
 
@@ -169,28 +170,29 @@ public class Tui implements View {
 
     @Override
     public void showString(String phrase) {
-
+        out.println(phrase);
     }
 
     @Override
     public void show(ArrayList<ResourceCard> hand) {
-
+        showHand(hand);
     }
 
     @Override
     public void show(Manuscript manuscript) {
-
+        printManuscript(manuscript);
     }
 
     @Override
     public void show(Board board) {
-
+        showBoard(board);
     }
 
     @Override
     public void show(Market market) {
-
+        showMarket(market);
     }
+
 
     private static Queue<String> fromFaceToCliCard(Face face) throws Exception {
 

@@ -54,7 +54,7 @@ public class RmiServer implements VirtualServer {
             //System.err.println("Server ready");
         }
 
-        areClientsAlive();
+        //areClientsAlive();
         // Start the thread that checks if the clients are alive
         new Thread(() -> {
             try {

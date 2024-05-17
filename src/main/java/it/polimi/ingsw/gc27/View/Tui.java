@@ -35,7 +35,7 @@ public class Tui implements View {
 
         while (true) {
 
-            out.print("> ");
+            out.print(client.getMiniModel().getPlayer().getPlayerState() + "\n> ");
 
             String command = scan.nextLine();
 
@@ -79,7 +79,8 @@ public class Tui implements View {
                     break;
 
                 case "chooseobj":
-                    out.println(Tui.showObjectives(client.getMiniModel().getPlayer().getSecretObjectives()));
+                    // TODO fatto così chiede quale vuole come se fosse la prima volta anche se l'ha già fatto
+                    out.println(showObjectives(client.getMiniModel().getPlayer().getSecretObjectives()));
                     int obj;
                     out.println("Which objective do you want to achieve? (1 or 2)");
                     while (true) {
@@ -176,6 +177,13 @@ public class Tui implements View {
     @Override
     public void show(ArrayList<ResourceCard> hand) {
         showHand(hand);
+    }
+
+    @Override
+    public void show(ObjectiveCard secretObj) {
+        ArrayList<ObjectiveCard> obj = new ArrayList<>();
+        obj.add(secretObj);
+        showObjectives(obj);
     }
 
     @Override
@@ -520,10 +528,13 @@ public class Tui implements View {
 
     public static String showObjectives(ArrayList<ObjectiveCard> secretObjectives){
 
-        ObjectiveCard o1 = secretObjectives.get(0);
-        ObjectiveCard o2 = secretObjectives.get(1);
+        String print = "";
+        int i = 1;
+        for(ObjectiveCard o : secretObjectives){
+            print += "Objective " + i + ": \n" + o.toCliCard() + "\n\n";
+        }
 
-        return ("Objective 1: \n" + o1.toCliCard() + "\n\nObjective 2: \n" + o2.toCliCard());
+        return print;
 
     }
 

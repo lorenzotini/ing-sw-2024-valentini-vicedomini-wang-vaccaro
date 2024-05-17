@@ -47,12 +47,13 @@ public class InitializingState extends PlayerState {
     @Override
     public void addStarterCard(Game game, StarterCard starterCard, Face face) throws IOException, InterruptedException {
 
-        getPlayer().addCard(game, starterCard, face, Manuscript.FIELD_DIM/2, Manuscript.FIELD_DIM/2);
+        getPlayer().addCard(game, starterCard, face, Manuscript.FIELD_DIM / 2, Manuscript.FIELD_DIM / 2);
 
         Message updateManuscriptMessage = new UpdateManuscriptMessage(new MiniModel(getPlayer(), getPlayer().getManuscript()));
         turnHandler.getGame().notifyObservers(updateManuscriptMessage);
 
         getPlayer().setPlayerState(new WaitingState(getPlayer(), getTurnHandler()));
+
         // notify turnHandler
         getTurnHandler().notifyInitializingState(getPlayer());
 

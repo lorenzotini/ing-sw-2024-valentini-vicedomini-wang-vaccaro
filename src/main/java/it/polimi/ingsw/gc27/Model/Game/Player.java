@@ -11,7 +11,7 @@ import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
-public class Player implements Serializable{
+public class Player implements Serializable {
 
     private final String username;
     private ArrayList<ResourceCard> hand;
@@ -47,6 +47,7 @@ public class Player implements Serializable{
     public PawnColour getPawnColour() {
         return pawnColour;
     }
+
     public void setPawnColour(PawnColour pawnColour) {
         this.pawnColour = pawnColour;
     }
@@ -54,9 +55,11 @@ public class Player implements Serializable{
     public Manuscript getManuscript() {
         return manuscript;
     }
+
     public ArrayList<ObjectiveCard> getSecretObjectives() {
         return secretObjectives;
     }
+
     public String getUsername() {
         return username;
     }
@@ -85,6 +88,7 @@ public class Player implements Serializable{
      * Actually adds the card on the manuscript, covering the corners involved and counts them.
      * Updates the manuscript's counters.
      * Then, calculate the points earned and add them to the board.
+     *
      * @param game
      * @param card
      * @param face
@@ -96,41 +100,41 @@ public class Player implements Serializable{
         Manuscript m = this.manuscript;
 
         //update manuscript ends in order to show only the used part when displayed
-        if(x > m.getxMax()){
+        if (x > m.getxMax()) {
             m.setxMax(x);
-        } else if(x < m.getxMin()) {
+        } else if (x < m.getxMin()) {
             m.setxMin(x);
         }
-        if(y > m.getyMax()){
+        if (y > m.getyMax()) {
             m.setyMax(y);
-        } else if(y < m.getyMin()) {
+        } else if (y < m.getyMin()) {
             m.setyMin(y);
         }
 
         //momentaneamente il metodo prende una card e gestisce separatamente se è una starter. In futuro provare a riscrivere con un design pattern
-        if(card instanceof StarterCard){
-            if(m.getField()[Manuscript.FIELD_DIM/2][Manuscript.FIELD_DIM/2] == null){
+        if (card instanceof StarterCard) {
+            if (m.getField()[Manuscript.FIELD_DIM / 2][Manuscript.FIELD_DIM / 2] == null) {
                 m.getField()[x][y] = face;
-                m.setxMin(Manuscript.FIELD_DIM/2);
-                m.setxMax(Manuscript.FIELD_DIM/2);
-                m.setyMin(Manuscript.FIELD_DIM/2);
-                m.setyMax(Manuscript.FIELD_DIM/2);
+                m.setxMin(Manuscript.FIELD_DIM / 2);
+                m.setxMax(Manuscript.FIELD_DIM / 2);
+                m.setyMin(Manuscript.FIELD_DIM / 2);
+                m.setyMax(Manuscript.FIELD_DIM / 2);
 
                 //increase counter permanent resources if the starter is placed face down
-                if(face instanceof BackFace){
+                if (face instanceof BackFace) {
                     ArrayList<Kingdom> permRes = card.getBack().getPermanentResources();
-                    for(Kingdom resource : permRes){
+                    for (Kingdom resource : permRes) {
                         m.increaseCounter(resource.toCornerSymbol());
                     }
                 }
 
-                for(int i = -1; i <= 1; i = i + 2){
-                    for(int j = -1; j <= 1; j = j + 2){
+                for (int i = -1; i <= 1; i = i + 2) {
+                    for (int j = -1; j <= 1; j = j + 2) {
                         m.increaseCounter(m.getField()[x][y].getCorner(i, -j).getSymbol());
                     }
                 }
                 return;
-            }else {
+            } else {
                 System.err.println("The starter card already exists");
                 return;
             }
@@ -142,9 +146,9 @@ public class Player implements Serializable{
         // set to "hidden" the corners covered by the added card and count them
         int numCoveredCorners = 0;
 
-        for(int i = -1; i <= 1; i = i + 2){
-            for(int j = -1; j <= 1; j = j + 2){
-                if(m.getField()[x + i][y + j] != null){
+        for (int i = -1; i <= 1; i = i + 2) {
+            for (int j = -1; j <= 1; j = j + 2) {
+                if (m.getField()[x + i][y + j] != null) {
                     m.getField()[x + i][y + j].getCorner(-i, j).setHidden(true);
                     numCoveredCorners++;
                     m.decreaseCounter(m.getField()[x + i][y + j].getCorner(-i, j).getSymbol());
@@ -153,28 +157,25 @@ public class Player implements Serializable{
             }
         }
         // increase kingdom counter if backface
-        if(face instanceof BackFace){
+        if (face instanceof BackFace) {
             m.increaseCounter(face.getColour().toCornerSymbol());
         }
 
 
-
         //calculate the points earned with the card, in case of face up goldCard
         int points;
-        if(face instanceof FrontFace){
-            if (card instanceof GoldCard){
-                if(((GoldCard)card).getPointsMultiplier().equals(PointsMultiplier.EMPTY)){
-                    points = ((GoldCard)card).getCardPoints();
-                }
-                else if(((GoldCard)card).getPointsMultiplier().equals(PointsMultiplier.CORNER)){
-                    points = ((GoldCard)card).getCardPoints() * numCoveredCorners;
-                }
-                else{
-                    points = ((GoldCard)card).getCardPoints() * this.manuscript.getCounter(((GoldCard) card).getPointsMultiplier().toCornerSymbol());
+        if (face instanceof FrontFace) {
+            if (card instanceof GoldCard) {
+                if (((GoldCard) card).getPointsMultiplier().equals(PointsMultiplier.EMPTY)) {
+                    points = ((GoldCard) card).getCardPoints();
+                } else if (((GoldCard) card).getPointsMultiplier().equals(PointsMultiplier.CORNER)) {
+                    points = ((GoldCard) card).getCardPoints() * numCoveredCorners;
+                } else {
+                    points = ((GoldCard) card).getCardPoints() * this.manuscript.getCounter(((GoldCard) card).getPointsMultiplier().toCornerSymbol());
                 }
                 //game.addPoints(this, points);
-            }else {
-                points= ((ResourceCard)card).getCardPoints();
+            } else {
+                points = ((ResourceCard) card).getCardPoints();
             }
             game.addPoints(this, points);
         }

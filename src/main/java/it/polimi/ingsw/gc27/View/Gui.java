@@ -1,5 +1,6 @@
 package it.polimi.ingsw.gc27.View;
 
+import it.polimi.ingsw.gc27.Model.Card.ObjectiveCard.ObjectiveCard;
 import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
 import it.polimi.ingsw.gc27.Model.Game.Board;
 import it.polimi.ingsw.gc27.Model.Game.Manuscript;
@@ -22,6 +23,11 @@ public class Gui implements View{
 
     @Override
     public void show(ArrayList<ResourceCard> hand) {
+
+    }
+
+    @Override
+    public void show(ObjectiveCard objectiveCard) {
 
     }
 

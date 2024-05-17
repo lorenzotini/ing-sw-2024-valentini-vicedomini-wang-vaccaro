@@ -5,15 +5,14 @@ import it.polimi.ingsw.gc27.Model.Card.GoldCard;
 import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
 import it.polimi.ingsw.gc27.Model.Enumerations.CornerSymbol;
 import it.polimi.ingsw.gc27.Model.Enumerations.Kingdom;
-import it.polimi.ingsw.gc27.Model.Listener.Observable;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Manuscript implements Serializable {
+
     public static final int FIELD_DIM = 85;
-    // use a matrix to represent the whole manuscript/play field
-    private Face[][] field;
+    private Face[][] field;  // use a matrix to represent the whole manuscript/play field
     private int xMax;
     private int yMax;
     private int xMin;
@@ -25,88 +24,96 @@ public class Manuscript implements Serializable {
     private int inkwellCounter;
     private int quillCounter;
     private int manuscriptCounter;
-    /*public Manuscript(){
-        //initialize the matrix and place the starter card at its centre
-        field = new Face[FIELD_DIM][FIELD_DIM];
-        //field[FIELD_DIM/2][FIELD_DIM/2] = myStarter;
-        setxMax(FIELD_DIM/2);
-        setxMin(FIELD_DIM/2);
-        setyMax(FIELD_DIM/2);
-        setyMin(FIELD_DIM/2);
-    }*/
-    public Manuscript(){
-        field = new Face[FIELD_DIM][FIELD_DIM];
+
+    public Manuscript() {
+        this.field = new Face[FIELD_DIM][FIELD_DIM];
+        this.xMax = FIELD_DIM / 2;
+        this.xMin = FIELD_DIM / 2;
+        this.yMax = FIELD_DIM / 2;
+        this.yMin = FIELD_DIM / 2;
     }
+
     // getter e setter
     public void setxMax(int x) {
         this.xMax = x;
     }
+
     public void setyMax(int y) {
         this.yMax = y;
     }
+
     public void setxMin(int x) {
         this.xMin = x;
     }
+
     public void setyMin(int y) {
         this.yMin = y;
     }
+
     public int getxMax() {
         return xMax;
     }
+
     public int getyMax() {
         return yMax;
     }
+
     public int getxMin() {
         return xMin;
     }
+
     public int getyMin() {
         return yMin;
     }
+
     public Face[][] getField() {
         return field;
     }
 
-    public void setField(Face[][] field) {
-        this.field = field;
-    }
-    public Face getFace(int x, int y) {
-        return this.field[x][y];
-    }
-    public void setFace(Face face, int x, int y) {
-        //credo bisogna aggiungere un eccezione
-        field[x][y] = face;
+    public int getAnimalCounter() {
+        return animalCounter;
     }
 
-    public int getAnimalCounter() {return animalCounter;}
+
+    public int getFungiCounter() {
+        return fungiCounter;
+    }
 
 
-    public int getFungiCounter() {return fungiCounter;}
+    public int getInsectCounter() {
+        return insectCounter;
+    }
 
 
-    public int getInsectCounter() {return insectCounter;}
+    public int getPlantCounter() {
+        return plantCounter;
+    }
 
 
-    public int getPlantCounter() {return plantCounter;}
+    public int getInkwellCounter() {
+        return inkwellCounter;
+    }
 
 
-    public int getInkwellCounter() {return inkwellCounter;}
+    public int getQuillCounter() {
+        return quillCounter;
+    }
 
 
-    public int getQuillCounter() {return quillCounter;}
-
-
-    public int getManuscriptCounter() {return manuscriptCounter;}
+    public int getManuscriptCounter() {
+        return manuscriptCounter;
+    }
 
     // end getter e setter
 
-    public boolean isValidPlacement(int x, int y){
+    public boolean isValidPlacement(int x, int y) {
         boolean isValid = false;
-        for(int i = -1; i <= 1; i = i + 2){
-            for(int j = -1; j <= 1; j = j + 2){
-                if(field[x + i][y + j] != null && (field[x + i][y + j].getCorner(-i, j).isBlack() || field[x + i][y + j].getCorner(-i, j).isHidden())){
+        for (int i = -1; i <= 1; i = i + 2) {
+            for (int j = -1; j <= 1; j = j + 2) {
+                if (field[x + i][y + j] != null && (field[x + i][y + j].getCorner(-i, j).isBlack() || field[x + i][y + j].getCorner(-i, j).isHidden())) {
                     return false;
                 }
-                if(field[x + i][y + j] != null){
+                if (field[x + i][y + j] != null) {
                     isValid = true;
                 }
             }
@@ -116,7 +123,7 @@ public class Manuscript implements Serializable {
 
 
     public boolean satisfiedRequirement(ResourceCard card) {
-        if(card instanceof GoldCard) {
+        if (card instanceof GoldCard) {
             ArrayList<Kingdom> toBeVerified = ((GoldCard) card).getRequirements();
             Kingdom tracciato;
             while (!toBeVerified.isEmpty()) {
@@ -134,14 +141,14 @@ public class Manuscript implements Serializable {
                     return false;
             }
             return true;
-        }else{
+        } else {
             //if dynamic type is ResourceCard, then it has no requirements.
             return true;
         }
     }
 
-    public int getCounter(CornerSymbol cs){
-        return switch (cs){
+    public int getCounter(CornerSymbol cs) {
+        return switch (cs) {
             case EMPTY, BLACK -> 0;
             case PLANTKINGDOM -> plantCounter;
             case ANIMALKINGDOM -> animalCounter;
@@ -152,8 +159,9 @@ public class Manuscript implements Serializable {
             case MANUSCRIPT -> manuscriptCounter;
         };
     }
-    public void decreaseCounter(CornerSymbol cs){
-        switch (cs){
+
+    public void decreaseCounter(CornerSymbol cs) {
+        switch (cs) {
             case PLANTKINGDOM -> plantCounter--;
             case ANIMALKINGDOM -> animalCounter--;
             case FUNGIKINGDOM -> fungiCounter--;
@@ -161,12 +169,14 @@ public class Manuscript implements Serializable {
             case MANUSCRIPT -> manuscriptCounter--;
             case QUILL -> quillCounter--;
             case INKWELL -> inkwellCounter--;
-            case EMPTY -> {}   // do nothing
+            case EMPTY -> {
+            }   // do nothing
             case null, default -> throw new NullPointerException();
         }
     }
-    public void increaseCounter(CornerSymbol cs){
-        switch (cs){
+
+    public void increaseCounter(CornerSymbol cs) {
+        switch (cs) {
             case PLANTKINGDOM -> plantCounter++;
             case ANIMALKINGDOM -> animalCounter++;
             case FUNGIKINGDOM -> fungiCounter++;
@@ -174,7 +184,8 @@ public class Manuscript implements Serializable {
             case MANUSCRIPT -> manuscriptCounter++;
             case QUILL -> quillCounter++;
             case INKWELL -> inkwellCounter++;
-            case EMPTY -> {}   // do nothing
+            case EMPTY -> {
+            }   // do nothing
             case null, default -> throw new NullPointerException();
         }
     }

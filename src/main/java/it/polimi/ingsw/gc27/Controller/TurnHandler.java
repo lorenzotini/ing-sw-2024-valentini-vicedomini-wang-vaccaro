@@ -13,36 +13,56 @@ public class TurnHandler implements Serializable {
     private boolean twentyPointsReached;
     private boolean lastRound;
 
-    public void notifyChooseObjectiveState(Player player) {
-        boolean everyoneReady = true;
-        for(Player p: game.getPlayers()) {
-            if (p.getPlayerState() instanceof ChooseObjectiveState) {
-                everyoneReady = false;
-                break;
-            }
-        }
-        if(everyoneReady){
-            game.getPlayers().getFirst().setPlayerState(new PlayingState(player, this));
-            //TODO aggiungere la notify che puoi giocare
-        }
+    //constructor
+    public TurnHandler(Game game){
+        this.game = game;
+        this.twentyPointsReached = false;
+        this.lastRound = false;
+    }
+
+    public Game getGame() {
+        return game;
     }
 
     public void notifyInitializingState(Player player) {
+
         boolean everyoneReady = true;
+
         for(Player p: game.getPlayers()) {
             if (p.getPlayerState() instanceof InitializingState) {
                 everyoneReady = false;
                 break;
             }
         }
+
         if(everyoneReady){
             for(Player p: game.getPlayers()) {
                 p.setPlayerState(new ChooseObjectiveState(player, this));
             }
         }
+
+    }
+
+    public void notifyChooseObjectiveState(Player player) {
+
+        boolean everyoneReady = true;
+
+        for(Player p: game.getPlayers()) {
+            if (p.getPlayerState() instanceof ChooseObjectiveState) {
+                everyoneReady = false;
+                break;
+            }
+        }
+
+        if(everyoneReady){
+            game.getPlayers().getFirst().setPlayerState(new PlayingState(player, this));
+            //TODO aggiungere la notify che puoi giocare
+        }
+
     }
 
     public void notifyEndOfTurnState(Player player) throws RemoteException {
+
         // in case someone triggers the 20 points threshold
         if(game.getBoard().getPointsBluePlayer() >= game.getBoard().END_GAME_THRESHOLD ||
                 game.getBoard().getPointsRedPlayer() >= game.getBoard().END_GAME_THRESHOLD ||
@@ -76,37 +96,26 @@ public class TurnHandler implements Serializable {
     }
 
     public void notifyCalculateObjectivePoints(Player player) throws RemoteException {
+
         // verify that every player is in the ending state
-        int points = 0;
+        int points;
         boolean everyPlayerEndingState = true;
+
         for(Player p : game.getPlayers()){
             if (!(p.getPlayerState() instanceof EndingState)) {
                 everyPlayerEndingState = false;
                 break;
             }
         }
+
         // if everyone in ending state then start the objective points calculation
         if(everyPlayerEndingState){
             for(Player p : game.getPlayers()){
-                points = 0;
                 points = p.getSecretObjectives().getFirst().calculateObjectivePoints(player.getManuscript());
                 game.addPoints(player, points); // adding the points to the respective player
             }
         }
+
     }
-
-
-
-    //constructor
-    public TurnHandler(Game game){
-        this.game = game;
-        this.twentyPointsReached = false;
-        this.lastRound = false;
-    }
-
-    public Game getGame() {
-        return game;
-    }
-
 
 }

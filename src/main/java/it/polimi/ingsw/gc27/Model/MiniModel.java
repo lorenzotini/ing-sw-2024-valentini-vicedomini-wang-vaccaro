@@ -1,5 +1,6 @@
 package it.polimi.ingsw.gc27.Model;
 
+import it.polimi.ingsw.gc27.Model.Card.ObjectiveCard.ObjectiveCard;
 import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
 import it.polimi.ingsw.gc27.Model.Game.*;
 
@@ -18,6 +19,16 @@ public class MiniModel implements Serializable {
     // used when update the players manuscript
     public MiniModel(Player player, Manuscript manuscript){
         this.manuscript = manuscript;
+        this.board = null;
+        this.market = null;
+        this.player = player;
+        this.hand = null;
+        this.currentPlayer = null;
+    }
+
+    // used when update the players objectiveCard
+    public MiniModel(Player player, ObjectiveCard objectiveCard){
+        this.manuscript = null;
         this.board = null;
         this.market = null;
         this.player = player;
@@ -84,6 +95,7 @@ public class MiniModel implements Serializable {
         this.hand = null;
         this.currentPlayer = null;
     }
+
     public MiniModel(Player player, Market market, Board board){
         this.manuscript = player.getManuscript();
         this.board = board;

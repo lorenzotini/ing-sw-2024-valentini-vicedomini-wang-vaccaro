@@ -46,14 +46,14 @@ public class DrawingState extends PlayerState {
 
         player.getHand().add(card);
 
+        player.setPlayerState(new EndOfTurnState(player, getTurnHandler()));
+
         //send messages, one for the updated hand and the other for the updated market
         Message updateHandMessage = new UpdateHandMessage(new MiniModel(player, player.getHand()));
         turnHandler.getGame().notifyObservers(updateHandMessage);
 
         Message updateMarketMessage = new UpdateHandMessage(new MiniModel(market));
         turnHandler.getGame().notifyObservers(updateMarketMessage);
-
-        player.setPlayerState(new EndOfTurnState(getPlayer(), getTurnHandler()));
 
     }
 

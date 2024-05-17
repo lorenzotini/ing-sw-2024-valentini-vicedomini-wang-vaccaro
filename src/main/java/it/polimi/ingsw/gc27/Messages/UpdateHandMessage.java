@@ -10,7 +10,7 @@ public class UpdateHandMessage extends Message{
     //this minimodel's class have player, hand and the string setted,
     //player is the only one that has to receive the message
     public UpdateHandMessage(MiniModel miniModel){
-        super(miniModel, "You've drawn a card!");
+        super(miniModel, "Your hand changed.");
     }
 
     @Override

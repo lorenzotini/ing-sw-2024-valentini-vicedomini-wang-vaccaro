@@ -47,19 +47,16 @@ public class ChooseObjectiveState extends PlayerState {
     @Override
     public void chooseObjectiveCard(Game game, int objectiveCardIndex) throws RemoteException {
 
-        if (objectiveCardIndex == 0) {
-            objectiveCardIndex = 1;
-        } else {
-            objectiveCardIndex = 0;
-        }
+        // The index is chosen by the player between 1 and 2, corresponding to 0 and 1 in the list. Then you switch it to remove the other card.
+        objectiveCardIndex = objectiveCardIndex == 1 ? 1 : 0;
 
         this.getPlayer().getSecretObjectives().remove(objectiveCardIndex);
         this.getPlayer().setPlayerState(new WaitingState(getPlayer(), getTurnHandler()));
 
+        this.getPlayer().setPlayerState(new WaitingState(getPlayer(), getTurnHandler()));
+
         Message updateObjectiveMessage = new UpdateObjectiveMessage(new MiniModel(getPlayer(), getPlayer().getSecretObjectives().getFirst()));
         turnHandler.getGame().notifyObservers(updateObjectiveMessage);
-
-        getPlayer().setPlayerState(new WaitingState(getPlayer(), getTurnHandler()));
 
         this.getTurnHandler().notifyChooseObjectiveState(getPlayer());
 

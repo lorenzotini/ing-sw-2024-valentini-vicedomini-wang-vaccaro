@@ -20,6 +20,14 @@ public class Tui implements View {
 
     private VirtualView client;
     private static final String sws = " "; // single white space
+    private static final Queue<String> noCardPrint = new LinkedList<>();
+    static{
+        noCardPrint.add("╔═════════════════╗");
+        noCardPrint.add("║      #####      ║");
+        noCardPrint.add("║      #####      ║");
+        noCardPrint.add("║      #####      ║");
+        noCardPrint.add("╚═════════════════╝");
+    }
 
     public Tui(VirtualView client) throws IOException, InterruptedException {
         this.client = client;
@@ -107,8 +115,8 @@ public class Tui implements View {
                 // TODO creare una soluzione intelligente per gestire gli input di addcard, con while true e try catch vari
                 case "addcard":
                     out.println(Tui.printManuscript(client.getMiniModel().getManuscript()));
-                    out.println("Which card do you want to add? (choose from 0, 1, 2)");
-                    int cardIndex = scan.nextInt();
+                    out.println("Which card do you want to add? (choose from 1, 2, 3)");
+                    int cardIndex = scan.nextInt() + 1;
                     out.println("Front or back?");
                     String face = scan.next();
                     out.println("x = ");
@@ -176,29 +184,29 @@ public class Tui implements View {
 
     @Override
     public void show(ArrayList<ResourceCard> hand) {
-        showHand(hand);
+        out.println(showHand(hand));
     }
 
     @Override
     public void show(ObjectiveCard secretObj) {
         ArrayList<ObjectiveCard> obj = new ArrayList<>();
         obj.add(secretObj);
-        showObjectives(obj);
+        out.println(showObjectives(obj));
     }
 
     @Override
     public void show(Manuscript manuscript) {
-        printManuscript(manuscript);
+        out.println(printManuscript(manuscript));
     }
 
     @Override
     public void show(Board board) {
-        showBoard(board);
+        out.println(showBoard(board));
     }
 
     @Override
     public void show(Market market) {
-        showMarket(market);
+        out.println(showMarket(market));
     }
 
 
@@ -357,7 +365,7 @@ public class Tui implements View {
         return line;
     }
 
-    private static void printxAxis(int xMin, int xMax) {
+    private static String printxAxis(int xMin, int xMax) {
         String xAxis = sws.repeat(10);
         for (int i = xMin; i <= xMax; i++) {
             if (i / 10 == 0) {
@@ -366,7 +374,7 @@ public class Tui implements View {
                 xAxis = xAxis + i + sws.repeat(13);
             }
         }
-        out.println(xAxis);
+        return xAxis;
     }
 
     private static String printyAxis(int line, int j) {
@@ -397,13 +405,15 @@ public class Tui implements View {
 
         StringBuffer sb = new StringBuffer();
 
+        sb.append("\n");
+
         Face[][] field = manuscript.getField();
         int xMin = manuscript.getxMin() -1;
         int xMax = manuscript.getxMax() +1;
         int yMin = manuscript.getyMin() -1;
         int yMax = manuscript.getyMax() +1;
 
-        printxAxis(xMin, xMax);
+        sb.append(printxAxis(xMin, xMax));
 
         // translate the manuscript into a matrix of string representing cards
         Queue<String>[][] matrix = new Queue[Manuscript.FIELD_DIM][Manuscript.FIELD_DIM];
@@ -520,7 +530,7 @@ public class Tui implements View {
     }
 
     public static String showStarter(StarterCard card ){
-        return ("Starter Front:" +
+        return ("\nStarter Front:" +
                 "\n" + toCliCard(card, true).stream().collect(Collectors.joining("\n")) +
                 "\nStarter Back:" +
                 "\n" + toCliCard(card, false).stream().collect(Collectors.joining("\n")));
@@ -528,48 +538,65 @@ public class Tui implements View {
 
     public static String showObjectives(ArrayList<ObjectiveCard> secretObjectives){
 
-        String print = "";
+        String printedObjectives = "\n";
         int i = 1;
         for(ObjectiveCard o : secretObjectives){
-            print += "Objective " + i + ": \n" + o.toCliCard() + "\n\n";
+            printedObjectives += "Objective" + (secretObjectives.size() == 1 ? "" : " " + i) + ": \n" + o.toCliCard() + "\n\n";
+            i++;
         }
 
-        return print;
+        return printedObjectives;
 
     }
 
     public static String showBoard(Board board){
-        return ("Red: " + board.getPointsRedPlayer() +
-                "\nYellow: " + board.getPointsYellowPlayer() +
-                "\nGreen: " + board.getPointsGreenPlayer() +
-                "\nBlue: " + board.getPointsBluePlayer());
+        return ("\nRed: " + ColourControl.RED_BACKGROUND_BRIGHT + board.getPointsRedPlayer() + ColourControl.RESET +
+                "\nYellow: " + ColourControl.YELLOW_BACKGROUND_BRIGHT + board.getPointsYellowPlayer() + ColourControl.RESET +
+                "\nGreen: " + ColourControl.GREEN_BACKGROUND_BRIGHT + board.getPointsGreenPlayer() + ColourControl.RESET +
+                "\nBlue: " + ColourControl.BLUE_BACKGROUND_BRIGHT + board.getPointsBluePlayer() + ColourControl.RESET);
     }
 
     public static String showHand(ArrayList<ResourceCard> hand){
 
         String printedHand = "\n";
-        Queue<String> cardOne = toCliCard(hand.get(0), true);
-        Queue<String> cardTwo = toCliCard(hand.get(1), true);
-        Queue<String> cardThree = toCliCard(hand.get(2), true);
 
-        int numLinesToPrint = cardOne.size();
+        ArrayList<Queue<String>> cards = new ArrayList<>();
 
-        for(int i = 0; i < numLinesToPrint; i++){
-            printedHand += cardOne.remove() + "  " + cardTwo.remove() + "  " + cardThree.remove() + "\n";
+        for(var card : hand){
+            cards.add(toCliCard(card, true));
         }
 
+        int numLinesToPrint = cards.getFirst().size();
+
+        for(int i = 0; i < numLinesToPrint; i++){
+            for(var card : cards){
+                printedHand += card.remove() + "  ";
+            }
+            printedHand += "\n";
+        }
+
+        // Print the numbers of the cards
         printedHand += sws.repeat(9) + "1" + sws.repeat(20) + "2" + sws.repeat(20) + "3" + "\n";
 
         return printedHand;
 
     }
 
-    public static String showMarket(Market market){
+    public static String showMarket(Market market) {
 
         String printedMarket = "\n";
 
-        Queue<String> resourceDeckTop = toCliCard(market.getResourceDeck().getFirst(), false);
-        Queue<String> goldDeckTop = toCliCard(market.getGoldDeck().getFirst(), false);
+        Queue<String> resourceDeckTop;
+        Queue<String> goldDeckTop;
+
+        try {
+            resourceDeckTop = toCliCard(market.getResourceDeck().getFirst(), false);
+            goldDeckTop = toCliCard(market.getGoldDeck().getFirst(), false);
+        } catch (NoSuchElementException e) {
+            resourceDeckTop = noCardPrint;
+            goldDeckTop = noCardPrint;
+        }
+
         Queue<String> resourceOne = toCliCard(market.getFaceUp(false)[0], true);
         Queue<String> resourceTwo = toCliCard(market.getFaceUp(false)[1], true);
         Queue<String> goldOne = toCliCard(market.getFaceUp(true)[0], true);
@@ -579,13 +606,13 @@ public class Tui implements View {
 
         printedMarket += "Resources:\n";
 
-        for(int i = 0; i < numLinesToPrint; i++){
+        for (int i = 0; i < numLinesToPrint; i++) {
             printedMarket += resourceDeckTop.remove() + "   " + resourceOne.remove() + "  " + resourceTwo.remove() + "\n";
         }
 
         printedMarket += "\nGolds:\n";
 
-        for(int i = 0; i < numLinesToPrint; i++){
+        for (int i = 0; i < numLinesToPrint; i++) {
             printedMarket += goldDeckTop.remove() + "   " + goldOne.remove() + "  " + goldTwo.remove() + "\n";
         }
 

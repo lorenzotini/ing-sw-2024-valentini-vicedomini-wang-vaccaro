@@ -39,14 +39,14 @@ public class PlayingState extends PlayerState {
             //shows on screen that a card was played successfully
             //...
 
+            getPlayer().setPlayerState(new DrawingState(getPlayer(), getTurnHandler()));
+
             //update message
             Message updateHandMessage = new UpdateHandMessage(new MiniModel(getPlayer(), getPlayer().getHand()));
             turnHandler.getGame().notifyObservers(updateHandMessage);
 
             Message updateManuscriptMessage = new UpdateManuscriptMessage(new MiniModel(getPlayer(), getPlayer().getManuscript()));
             turnHandler.getGame().notifyObservers(updateManuscriptMessage);
-
-            getPlayer().setPlayerState(new DrawingState(getPlayer(), getTurnHandler()));
 
         } else {
 

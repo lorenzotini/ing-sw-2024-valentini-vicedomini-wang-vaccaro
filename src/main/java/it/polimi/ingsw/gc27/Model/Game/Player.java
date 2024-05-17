@@ -113,7 +113,9 @@ public class Player implements Serializable {
 
         //momentaneamente il metodo prende una card e gestisce separatamente se è una starter. In futuro provare a riscrivere con un design pattern
         if (card instanceof StarterCard) {
+
             if (m.getField()[Manuscript.FIELD_DIM / 2][Manuscript.FIELD_DIM / 2] == null) {
+
                 m.getField()[x][y] = face;
                 m.setxMin(Manuscript.FIELD_DIM / 2);
                 m.setxMax(Manuscript.FIELD_DIM / 2);
@@ -128,18 +130,23 @@ public class Player implements Serializable {
                     }
                 }
 
+                //increase counter of the corners of the starter card
                 for (int i = -1; i <= 1; i = i + 2) {
                     for (int j = -1; j <= 1; j = j + 2) {
                         m.increaseCounter(m.getField()[x][y].getCorner(i, -j).getSymbol());
                     }
                 }
+
                 return;
+
             } else {
+
                 System.err.println("The starter card already exists");
                 return;
-            }
-        }
 
+            }
+
+        }
 
         m.getField()[x][y] = face;
 
@@ -156,16 +163,19 @@ public class Player implements Serializable {
                 m.increaseCounter(m.getField()[x][y].getCorner(i, -j).getSymbol());
             }
         }
+
         // increase kingdom counter if backface
         if (face instanceof BackFace) {
             m.increaseCounter(face.getColour().toCornerSymbol());
         }
 
-
         //calculate the points earned with the card, in case of face up goldCard
         int points;
+
         if (face instanceof FrontFace) {
+
             if (card instanceof GoldCard) {
+
                 if (((GoldCard) card).getPointsMultiplier().equals(PointsMultiplier.EMPTY)) {
                     points = ((GoldCard) card).getCardPoints();
                 } else if (((GoldCard) card).getPointsMultiplier().equals(PointsMultiplier.CORNER)) {
@@ -177,12 +187,11 @@ public class Player implements Serializable {
             } else {
                 points = ((ResourceCard) card).getCardPoints();
             }
+
             game.addPoints(this, points);
+
         }
-    }
 
-    public void setSecretObjectives(ArrayList<ObjectiveCard> secretObjectives) {
     }
-
 
 }

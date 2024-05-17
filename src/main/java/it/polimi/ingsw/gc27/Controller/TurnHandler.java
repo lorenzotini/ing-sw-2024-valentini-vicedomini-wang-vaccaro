@@ -37,7 +37,7 @@ public class TurnHandler implements Serializable {
 
         if(everyoneReady){
             for(Player p: game.getPlayers()) {
-                p.setPlayerState(new ChooseObjectiveState(player, this));
+                p.setPlayerState(new ChooseObjectiveState(p, this));
             }
         }
 
@@ -55,7 +55,7 @@ public class TurnHandler implements Serializable {
         }
 
         if(everyoneReady){
-            game.getPlayers().getFirst().setPlayerState(new PlayingState(player, this));
+            game.getPlayers().getFirst().setPlayerState(new PlayingState(game.getPlayers().getFirst(), this));
             //TODO aggiungere la notify che puoi giocare
         }
 
@@ -75,12 +75,14 @@ public class TurnHandler implements Serializable {
         // what happens if it's the last round or not
         int index = game.getPlayers().indexOf(player); // index of the player
 
+        // TODO controllare che il player passato a new Playing state sia quello giusto, penso vada passato lo stesso player che chiama
+        // TODO setPlayerState (es game.getPlayers().get(index+1).setPlayerState(new PlayingState(game.getPlayers().get(index+1), this));)
         if(!lastRound) {
             player.setPlayerState(new WaitingState(player, this));
             if(game.getPlayers().get(index+1) != null) {
-                game.getPlayers().get(index+1).setPlayerState(new PlayingState(player, this));
+                game.getPlayers().get(index+1).setPlayerState(new PlayingState(game.getPlayers().get(index+1), this));
             } else {
-                game.getPlayers().getFirst().setPlayerState(new PlayingState(player, this));
+                game.getPlayers().getFirst().setPlayerState(new PlayingState(game.getPlayers().getFirst(), this));
                 if(twentyPointsReached) {
                     lastRound = true; // once someone gets 20 points, only if the round is finished you can trigger the last round
                 }
@@ -89,7 +91,7 @@ public class TurnHandler implements Serializable {
         } else {
             player.setPlayerState(new EndingState(player, this));
             if(game.getPlayers().get(index+1) != null) {
-                game.getPlayers().get(index+1).setPlayerState(new PlayingState(player, this));
+                game.getPlayers().get(index+1).setPlayerState(new PlayingState(game.getPlayers().get(index+1), this));
             }
         }
 

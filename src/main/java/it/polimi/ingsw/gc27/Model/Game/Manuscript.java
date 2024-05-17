@@ -184,7 +184,7 @@ public class Manuscript implements Serializable {
             case MANUSCRIPT -> manuscriptCounter++;
             case QUILL -> quillCounter++;
             case INKWELL -> inkwellCounter++;
-            case EMPTY -> {
+            case EMPTY, BLACK -> {
             }   // do nothing
             case null, default -> throw new NullPointerException();
         }

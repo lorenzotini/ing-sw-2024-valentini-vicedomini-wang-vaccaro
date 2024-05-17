@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class Gui implements View{
-
     @Override
     public void run() throws IOException {
 

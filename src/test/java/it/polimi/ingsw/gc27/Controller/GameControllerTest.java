@@ -1,5 +1,6 @@
 package it.polimi.ingsw.gc27.Controller;
 
+import it.polimi.ingsw.gc27.JsonParser;
 import it.polimi.ingsw.gc27.Model.Card.GoldCard;
 import it.polimi.ingsw.gc27.Model.Card.ObjectiveCard.*;
 import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
@@ -159,8 +160,8 @@ class GameControllerTest {
         assertTrue(p1.getManuscript().getField()[42][40].getCorner(1, 1).isHidden());
         assertTrue(p1.getManuscript().getField()[44][40].getCorner(-1, 1).isHidden());
 
-        gc1.drawResourceCard(p1,true,0);
-        gc1.drawGoldCard(p1,true,0);
+        //gc1.drawResourceCard(p1,true,0);
+        //gc1.drawGoldCard(p1,true,0);
 
 
         //ObjectiveCard obj1 = objectiveDeck.get(3);

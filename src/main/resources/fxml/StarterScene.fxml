@@ -16,7 +16,7 @@
             <Image url="@../Images/logo.png" />
          </image>
       </ImageView>
-      <Button graphicTextGap="3.0" layoutX="737.0" layoutY="415.0" mnemonicParsing="false" onAction="#switchToChooseGameScene" prefHeight="130.0" prefWidth="255.0" style="-fx-border-radius: 30px; -fx-background-color: #5da5dc;" text="PLAY" textFill="WHITE">
+      <Button fx:id="startGameButton" graphicTextGap="3.0" layoutX="737.0" layoutY="415.0" mnemonicParsing="false" onAction="#switchToChooseGameScene" prefHeight="130.0" prefWidth="255.0" style="-fx-border-radius: 30px; -fx-background-color: #5da5dc;" text="PLAY" textFill="WHITE">
          <font>
             <Font name="Garamond" size="45.0" />
          </font>

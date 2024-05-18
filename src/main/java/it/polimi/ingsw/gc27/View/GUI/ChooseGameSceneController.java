@@ -1,5 +1,8 @@
 package it.polimi.ingsw.gc27.View.GUI;
 
+import it.polimi.ingsw.gc27.Controller.GigaController;
+import it.polimi.ingsw.gc27.Net.VirtualView;
+import it.polimi.ingsw.gc27.View.Gui;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -16,10 +19,14 @@ public class ChooseGameSceneController {
     private Scene scene;
     private Parent root;
 
+
+
     public void switchToNewGameScene(ActionEvent event) throws IOException {
+
+        //notify del gigaController che voglio creare un nuovo game
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/NewGameScene.fxml"));
         Parent scene2Root = loader.load();
-        Scene scene2 = new Scene(scene2Root,1200,800);
+        Scene scene2 = new Scene(scene2Root,1600,900);
 
 
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

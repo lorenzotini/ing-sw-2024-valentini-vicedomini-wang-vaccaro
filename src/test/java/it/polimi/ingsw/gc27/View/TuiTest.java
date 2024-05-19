@@ -33,7 +33,7 @@ class TuiTest {
         objectiveDeck = JsonParser.getObjectiveDeck(JsonParser.cardsJsonObj);
     }
     @Test
-    void printManuscript1() {
+    void showManuscript1() {
         Manuscript m = new Manuscript();
 
         m.getField()[40][40] = resourceDeck.get(0).getBack();
@@ -52,10 +52,10 @@ class TuiTest {
         m.setxMax(40);
         m.setyMax(43);
 
-        System.out.print(Tui.printManuscript(m));
+        System.out.print(Tui.showManuscript(m));
     }
     @Test
-    void printManuscript2() {
+    void showManuscript2() {
         Manuscript m = new Manuscript();
 
         m.getField()[41][41] = resourceDeck.get(0).getBack();
@@ -89,10 +89,10 @@ class TuiTest {
         m.setyMax(44);
 
 
-        System.out.print(Tui.printManuscript(m));
+        System.out.print(Tui.showManuscript(m));
     }
     @Test
-    void printManuscript3() {
+    void showManuscript3() {
         Manuscript m = new Manuscript();
 
         m.getField()[41][41] = resourceDeck.get(0).getBack();
@@ -112,10 +112,10 @@ class TuiTest {
         m.setyMax(42);
 
 
-        System.out.print(Tui.printManuscript(m));
+        System.out.print(Tui.showManuscript(m));
     }
     @Test
-    void printManuscript4() {
+    void showManuscript4() {
         Manuscript m = new Manuscript();
 
         // #0
@@ -169,10 +169,10 @@ class TuiTest {
         m.setxMax(42);
         m.setyMax(43);
 
-        System.out.print(Tui.printManuscript(m));
+        System.out.print(Tui.showManuscript(m));
     }
     @Test
-    void printManuscript5() {
+    void showManuscript5() {
         Manuscript m = new Manuscript();
 
         // #0
@@ -200,10 +200,10 @@ class TuiTest {
         m.setxMax(44);
         m.setyMax(44);
 
-        System.out.print(Tui.printManuscript(m));
+        System.out.print(Tui.showManuscript(m));
     }
     @Test
-    void printManuscript6() {
+    void showManuscript6() {
         Manuscript m = new Manuscript();
 
         // #0
@@ -237,10 +237,10 @@ class TuiTest {
         m.setxMax(45);
         m.setyMax(44);
 
-        System.out.print(Tui.printManuscript(m));
+        System.out.print(Tui.showManuscript(m));
     }
     @Test
-    void printManuscript7() {
+    void showManuscript7() {
         Manuscript m = new Manuscript();
 
         // #2
@@ -269,10 +269,10 @@ class TuiTest {
         m.setxMax(45);
         m.setyMax(44);
 
-        System.out.print(Tui.printManuscript(m));
+        System.out.print(Tui.showManuscript(m));
     }
     @Test
-    void printManuscript8() {
+    void showManuscript8() {
         Manuscript m = new Manuscript();
 
         m.getField()[41][41] = resourceDeck.get(21).getBack();
@@ -304,7 +304,7 @@ class TuiTest {
         m.setxMax(45);
         m.setyMax(44);
 
-        System.out.print(Tui.printManuscript(m));
+        System.out.print(Tui.showManuscript(m));
 
     }
 

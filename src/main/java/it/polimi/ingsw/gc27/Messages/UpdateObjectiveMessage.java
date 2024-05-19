@@ -6,9 +6,9 @@ import it.polimi.ingsw.gc27.View.View;
 
 import java.rmi.RemoteException;
 
-public class UpdateObjectiveMessage extends  Message {
+public class UpdateObjectiveMessage extends Message {
 
-    public UpdateObjectiveMessage(MiniModel miniModel){
+    public UpdateObjectiveMessage(MiniModel miniModel) {
         super(miniModel, "You chose your secret objective!");
     }
 

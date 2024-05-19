@@ -20,11 +20,6 @@ public class GameController implements Serializable {
 
     private Game game;
     private TurnHandler turnHandler;
-    public int getNumMaxPlayers() {
-        return numMaxPlayers;
-    }
-
-    // TODO make numMaxPlayers final
     private int numMaxPlayers;
     private int id;
 
@@ -32,13 +27,15 @@ public class GameController implements Serializable {
         this.game = game;
     }
 
-    public GameController(){}
+    public GameController() {
+    }
 
-    public GameController(Game game, int numMaxPlayers, int id){
+    public GameController(Game game, int numMaxPlayers, int id) {
         this.game = game;
         this.numMaxPlayers = numMaxPlayers;
         this.id = id;
     }
+
     public Game getGame() {
         return game;
     }
@@ -51,9 +48,15 @@ public class GameController implements Serializable {
         return id;
     }
 
+    public int getNumMaxPlayers() {
+        return numMaxPlayers;
+    }
+
+
     /**
      * This method changes the player's manuscript, adding the selected card on it and possibly adding
      * points on the board and then removes the card from the player's hand.
+     *
      * @param player
      * @param card
      * @param face
@@ -64,7 +67,7 @@ public class GameController implements Serializable {
         player.getPlayerState().addCard(this.game, card, face, x, y);
     }
 
-    public void drawCard(Player player, boolean isGold, boolean fromDeck, int faceUpCardIndex) throws RemoteException{
+    public void drawCard(Player player, boolean isGold, boolean fromDeck, int faceUpCardIndex) throws RemoteException {
         player.getPlayerState().drawCard(player, isGold, fromDeck, faceUpCardIndex);
     }
 
@@ -84,20 +87,20 @@ public class GameController implements Serializable {
 
         // Ask for the username
         do {
-            client.show("Choose your username: ");
+            client.show("\nChoose your username: ");
             username = client.read();
-        }while(!gigaChad.validUsername(username, client));
+        } while (!gigaChad.validUsername(username, client));
 
 
         // Ask for the pawn color
-        synchronized (game.getAvailablePawns()){
+        synchronized (game.getAvailablePawns()) {
             do {
-                client.show("Choose your color: ");
+                client.show("\nChoose your color: ");
                 for (PawnColour pawnColour : game.getAvailablePawns()) {
-                    client.show( pawnColour.toString() );
+                    client.show(pawnColour.toString());
                 }
                 pawnColor = client.read();
-            }while(!game.validPawn(pawnColor));
+            } while (!game.validPawn(pawnColor));
             game.getAvailablePawns().remove(PawnColour.fromStringToPawnColour(pawnColor));
         }
 
@@ -122,9 +125,9 @@ public class GameController implements Serializable {
         client.setUsername(username);
 
         // All players are ready
-        if(game.getNumActualPlayers() == this.getNumMaxPlayers()){
+        if (game.getNumActualPlayers() == this.getNumMaxPlayers()) {
             this.turnHandler = new TurnHandler(this.game);
-            for(Player player : game.getPlayers()){
+            for (Player player : game.getPlayers()) {
                 player.setPlayerState(new InitializingState(player, this.turnHandler));
                 //TODO fare bene l'addstarted e tutta la fase iniziale
                 game.notifyObservers(new UpdateStartOfGameMessage(new MiniModel(player, game.getMarket(), game.getBoard()), player.getUsername()));

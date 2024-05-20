@@ -1,5 +1,6 @@
 package it.polimi.ingsw.gc27.Net;
 
+import it.polimi.ingsw.gc27.Controller.IpChecker;
 import it.polimi.ingsw.gc27.Net.Rmi.RmiClient;
 import it.polimi.ingsw.gc27.Net.Socket.SocketClient;
 import it.polimi.ingsw.gc27.View.Tui;
@@ -40,6 +41,17 @@ public class MainClient  {
         // Ask for ip addess
         System.out.println("\nEnter the IP address of the server you want to connect to (press Enter for localhost):");
         String ipAddress = scan.nextLine();
+        while(true){
+            if(ipAddress.isEmpty()){
+                ipAddress = "localhost";
+                break;
+            } else if (!IpChecker.checkIp(ipAddress)) {
+                System.out.println("Invalid IP address. Use the x.x.x.x format or press enter for localhost.");
+                ipAddress = scan.nextLine();
+            }
+            else{
+                break;
+            }
         if(ipAddress.isEmpty()){
             ipAddress = "localhost";
         }

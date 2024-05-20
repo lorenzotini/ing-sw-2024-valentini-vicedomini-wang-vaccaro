@@ -31,28 +31,33 @@ public class PlayingState extends PlayerState {
     @Override
     public void addCard(Game game, ResourceCard card, Face face, int x, int y) throws RemoteException {
 
-        if(getPlayer().getManuscript().isValidPlacement(x, y) && ((face instanceof FrontFace && getPlayer().getManuscript().satisfiedRequirement((ResourceCard) card)) || (face instanceof BackFace))){
+        if (getPlayer().getManuscript().isValidPlacement(x, y) && ((face instanceof FrontFace && getPlayer().getManuscript().satisfiedRequirement((ResourceCard) card)) || (face instanceof BackFace))) {
+
             getPlayer().addCard(game, card, face, x, y);
             getPlayer().getHand().remove(card);
 
             //shows on screen that a card was played successfully
             //...
 
-            //update message
-            Message updateHand = new UpdateHandMessage(new MiniModel(getPlayer(), getPlayer().getHand()));
-            turnHandler.getGame().notifyObservers(updateHand);
-            Message updateManuscript = new UpdateManuscriptMessage(new MiniModel(getPlayer(), getPlayer().getManuscript()));
-            turnHandler.getGame().notifyObservers(updateManuscript);
-
             getPlayer().setPlayerState(new DrawingState(getPlayer(), getTurnHandler()));
-        }else{
+
+            //update message
+            Message updateHandMessage = new UpdateHandMessage(new MiniModel(getPlayer(), getPlayer().getHand()));
+            turnHandler.getGame().notifyObservers(updateHandMessage);
+
+            Message updateManuscriptMessage = new UpdateManuscriptMessage(new MiniModel(getPlayer(), getPlayer().getManuscript()));
+            turnHandler.getGame().notifyObservers(updateManuscriptMessage);
+
+        } else {
+
             super.sendError("Invalid Placement, try again.", getPlayer(), turnHandler);
+
         }
 
     }
 
     @Override
-    public void addStarterCard(Game game, StarterCard starterCard, Face face) throws IOException, InterruptedException{
+    public void addStarterCard(Game game, StarterCard starterCard, Face face) throws IOException, InterruptedException {
         super.sendError("Just play a ******* card!", getPlayer(), turnHandler);
     }
 }

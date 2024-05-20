@@ -1,14 +1,14 @@
 package it.polimi.ingsw.gc27.Net.Socket;
 
-import it.polimi.ingsw.gc27.CommandParser;
 import it.polimi.ingsw.gc27.Messages.Message;
-import it.polimi.ingsw.gc27.Messages.StringMessage;
 import it.polimi.ingsw.gc27.Messages.StringMessage;
 import it.polimi.ingsw.gc27.Net.Commands.Command;
 import it.polimi.ingsw.gc27.Net.VirtualServer;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.rmi.RemoteException;
@@ -87,6 +87,11 @@ public class SocketServerProxy implements VirtualServer {
     }
 
     @Override
+    public void disconnect(VirtualView client) throws RemoteException {
+
+    }
+
+    @Override
     public void welcomePlayer(VirtualView client) throws IOException {
         output.writeObject("welcomeplayer");
         output.flush();
@@ -101,6 +106,17 @@ public class SocketServerProxy implements VirtualServer {
             //there is a Connection problem
         }
     }
+
+    @Override
+    public void areClientsAlive() throws RemoteException {
+
+    }
+
+    @Override
+    public void receivePing(VirtualView client) throws RemoteException {
+
+    }
+
 
     public void sendData(String s) throws IOException {
         output.writeObject(s);

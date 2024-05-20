@@ -1,10 +1,9 @@
 package it.polimi.ingsw.gc27.Net.Socket;
 
 import it.polimi.ingsw.gc27.Messages.Message;
-import it.polimi.ingsw.gc27.Model.Card.StarterCard;
-import it.polimi.ingsw.gc27.Model.Game.Manuscript;
 import it.polimi.ingsw.gc27.Model.MiniModel;
 import it.polimi.ingsw.gc27.Net.Commands.Command;
+import it.polimi.ingsw.gc27.Net.VirtualServer;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 import it.polimi.ingsw.gc27.View.Tui;
 import it.polimi.ingsw.gc27.View.View;
@@ -54,6 +53,21 @@ public class SocketClient implements VirtualView {
     @Override
     public MiniModel getMiniModel() {
         return this.miniModel;
+    }
+
+    @Override
+    public long getLastPing() {
+        return 0;
+    }
+
+    @Override
+    public void setLastPing(long l) {
+
+    }
+
+    @Override
+    public void pingToServer(VirtualServer virtualServer, VirtualView client) throws RemoteException {
+
     }
 
     @Override

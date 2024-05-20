@@ -4,7 +4,6 @@ import it.polimi.ingsw.gc27.Model.MiniModel;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 import it.polimi.ingsw.gc27.View.View;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.rmi.RemoteException;
 
@@ -19,20 +18,24 @@ public abstract class Message implements Serializable {
         this.miniModel = miniModel;
         this.string = string;
     }
-    protected Message(MiniModel miniModel){
+
+    protected Message(MiniModel miniModel) {
         this.miniModel = miniModel;
         this.string = null;
     }
-    protected Message(String string){
+
+    protected Message(String string) {
         this.string = string;
         this.miniModel = null;
     }
-    public MiniModel getMiniModel(){
+
+    public MiniModel getMiniModel() {
         return miniModel;
     }
 
     public abstract void reportUpdate(VirtualView client, View view) throws RemoteException;
-    public String takeString(){
+
+    public String takeString() {
         return this.string;
     }
 

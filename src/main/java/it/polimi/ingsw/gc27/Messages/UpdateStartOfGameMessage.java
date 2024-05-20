@@ -14,9 +14,9 @@ public class UpdateStartOfGameMessage extends Message {
 
     @Override
     public void reportUpdate(VirtualView client, View view) {
-        try{
+        try {
             client.getMiniModel().copy(this.getMiniModel());
-        }catch(RemoteException e){
+        } catch (RemoteException e) {
             System.out.println("error in report by connection");
         }
     }

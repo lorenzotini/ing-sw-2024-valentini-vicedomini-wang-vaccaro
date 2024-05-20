@@ -24,4 +24,10 @@ public interface VirtualView extends Remote, Observer {
 
     MiniModel getMiniModel() throws RemoteException;
 
+    long getLastPing() throws RemoteException;
+
+    void setLastPing(long l) throws RemoteException;
+
+    void pingToServer(VirtualServer virtualServer, VirtualView client) throws RemoteException;
+
 }

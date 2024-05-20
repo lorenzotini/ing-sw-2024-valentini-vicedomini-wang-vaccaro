@@ -85,8 +85,6 @@ public class MainClient  {
             } else if (!IpChecker.checkIp(ipAddress)) {
                 System.out.println("Invalid IP address. Use the x.x.x.x format or press enter for localhost.");
                 ipAddress = scan.nextLine();
-            } else {
-                break;
             }
         }
 

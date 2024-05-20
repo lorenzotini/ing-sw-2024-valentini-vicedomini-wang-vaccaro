@@ -17,13 +17,8 @@ public class UpdateStartOfGameMessage extends Message {
     public void reportUpdate(VirtualView client, View view) {
         try{
             client.getMiniModel().copy(this.getMiniModel());
-            view.run();
         }catch(RemoteException e){
             System.out.println("error in report by connection");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
         }
 
     }

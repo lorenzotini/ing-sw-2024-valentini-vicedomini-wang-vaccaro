@@ -79,19 +79,21 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
     public void runClient() throws IOException, InterruptedException {
 
         this.server.connect(this);
-        this.server.welcomePlayer(this);
-        this.show("Welcome " + this.username + "!" + "\nWaiting for other players to join the game...");
-
         new Thread(() -> {
             while(true) {
                 try {
-                    Message message = messages.take();
-                    message.reportUpdate(this, this.view );
+                    Message mess = messages.take();
+                    mess.reportUpdate(this, view);
                 } catch (RemoteException | InterruptedException e) {
                     throw new RuntimeException(e);
                 }
             }
         }).start();
+        this.server.welcomePlayer(this);
+        this.show("Welcome " + this.username + "!" + "\nWaiting for other players to join the game...");
+
+
+
         //wait for the other players to join the game
         while (miniModel.getPlayer() == null) {
             Thread.sleep(1000);
@@ -109,7 +111,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
             }
         }).start();
         //start the game
-
+        view.run();
     }
 
     @Override
@@ -119,8 +121,8 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
 
     @Override
     public void update(Message message) throws RemoteException {
+       //message.reportUpdate(this, view);
         messages.add(message);
-
     }
 
 }

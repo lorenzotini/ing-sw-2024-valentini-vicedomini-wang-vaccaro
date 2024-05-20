@@ -5,7 +5,6 @@ import it.polimi.ingsw.gc27.Model.MiniModel;
 import it.polimi.ingsw.gc27.Net.Commands.Command;
 import it.polimi.ingsw.gc27.Net.VirtualServer;
 import it.polimi.ingsw.gc27.Net.VirtualView;
-import it.polimi.ingsw.gc27.View.Tui;
 import it.polimi.ingsw.gc27.View.View;
 
 import java.io.IOException;
@@ -20,10 +19,10 @@ public class SocketClient implements VirtualView {
     final MiniModel miniModel;
 
 
-    public SocketClient(String ipAddress, int port) throws IOException, InterruptedException {
+    public SocketClient(String ipAddress, int port, View view) throws IOException, InterruptedException {
         this.server = new SocketServerProxy(this, ipAddress, port);
+        this.view = view;
         this.miniModel = new MiniModel();
-        view = new Tui(this);
     }
 
     public void runClient() {

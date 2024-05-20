@@ -5,7 +5,6 @@ import it.polimi.ingsw.gc27.Model.MiniModel;
 import it.polimi.ingsw.gc27.Net.Commands.Command;
 import it.polimi.ingsw.gc27.Net.VirtualServer;
 import it.polimi.ingsw.gc27.Net.VirtualView;
-import it.polimi.ingsw.gc27.View.Tui;
 import it.polimi.ingsw.gc27.View.View;
 
 import java.io.IOException;
@@ -14,23 +13,22 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.Scanner;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class RmiClient extends UnicastRemoteObject implements VirtualView {
 
-    private final MiniModel miniModel;
     private final VirtualServer server;
-    private String username;
-    private View view; //this will be or tui or gui, when  a gui is ready is to implement
-    private long lastPing = 0;
+    private final View view; //this will be or tui or gui, when  a gui is ready is to implement
+    private final MiniModel miniModel;
     private final BlockingQueue<Message> messages = new LinkedBlockingQueue<>();
+    private String username;
+    private long lastPing = 0;
 
-    public RmiClient(String ipAddress, int port) throws IOException, NotBoundException, InterruptedException {
+    public RmiClient(String ipAddress, int port, View view) throws IOException, NotBoundException, InterruptedException {
         Registry registry = LocateRegistry.getRegistry(ipAddress, port);
         this.server = (VirtualServer) registry.lookup("VirtualServer");
-        this.view = new Tui(this); //when gui is ready there will be a command for this
+        this.view = view;
         this.miniModel = new MiniModel();
     }
 
@@ -59,15 +57,13 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
     }
 
     @Override
-    public void show(String message) throws RemoteException{
-        System.out.println(message);
-        System.out.flush();
+    public void show(String message) throws RemoteException {
+        view.showString(message);
     }
 
     @Override
-    public String read() throws RemoteException{
-        Scanner s = new Scanner(System.in);
-        return s.nextLine();
+    public String read() throws RemoteException {
+        return view.read();
     }
 
     @Override
@@ -79,8 +75,9 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
     public void runClient() throws IOException, InterruptedException {
 
         this.server.connect(this);
+
         new Thread(() -> {
-            while(true) {
+            while (true) {
                 try {
                     Message mess = messages.take();
                     mess.reportUpdate(this, view);
@@ -89,9 +86,9 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
                 }
             }
         }).start();
+
         this.server.welcomePlayer(this);
         this.show("Welcome " + this.username + "!" + "\nWaiting for other players to join the game...");
-
 
 
         //wait for the other players to join the game
@@ -101,7 +98,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
 
         //keep the client alive
         new Thread(() -> {
-            while(true) {
+            while (true) {
                 try {
                     Thread.sleep(2000);
                     pingToServer(server, this);
@@ -110,6 +107,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
                 }
             }
         }).start();
+
         //start the game
         view.run();
     }
@@ -121,7 +119,6 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
 
     @Override
     public void update(Message message) throws RemoteException {
-       //message.reportUpdate(this, view);
         messages.add(message);
     }
 

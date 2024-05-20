@@ -86,21 +86,21 @@ public class RmiServer implements VirtualServer {
                 Iterator<VirtualView> iterator = clients.iterator();
                 while (iterator.hasNext()){
                     VirtualView client = iterator.next();
-//                    try {
-//                        if(client.getLastPing() == 0){
-//                            client.setLastPing(System.currentTimeMillis());
-//                        }
-//                        else if(System.currentTimeMillis() - client.getLastPing() > 10000){
-//                            // Declare disconnected the client
-//                            iterator.remove(); // Safely remove the client using the iterator
-//                            disconnect(client);
-//                            System.out.println("Timeout for client expired");
-//                        }
-//                    } catch (RemoteException e) { // If the client is abruptly disconnected
-//                        iterator.remove(); // Safely remove the client using the iterator
-//                        disconnect(client);
-//                        System.out.println("Client abruptly disconnected");
-//                    }
+                    try {
+                        if(client.getLastPing() == 0){
+                            client.setLastPing(System.currentTimeMillis());
+                        }
+                        else if(System.currentTimeMillis() - client.getLastPing() > 10000){
+                            // Declare disconnected the client
+                            iterator.remove(); // Safely remove the client using the iterator
+                            disconnect(client);
+                            System.out.println("Timeout for client expired");
+                        }
+                    } catch (RemoteException e) { // If the client is abruptly disconnected
+                        iterator.remove(); // Safely remove the client using the iterator
+                        disconnect(client);
+                        System.out.println("Client abruptly disconnected");
+                    }
                 }
             }
         }

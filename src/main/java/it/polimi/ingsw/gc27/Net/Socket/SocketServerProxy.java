@@ -3,6 +3,7 @@ package it.polimi.ingsw.gc27.Net.Socket;
 import it.polimi.ingsw.gc27.Messages.Message;
 import it.polimi.ingsw.gc27.Messages.StringMessage;
 import it.polimi.ingsw.gc27.Net.Commands.Command;
+import it.polimi.ingsw.gc27.Net.Commands.PingCommand;
 import it.polimi.ingsw.gc27.Net.VirtualServer;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 
@@ -23,10 +24,12 @@ public class SocketServerProxy implements VirtualServer {
     final VirtualView client;
     Socket serverSocket;
     boolean flag = true;
-    ObjectInputStream input;;
+    ObjectInputStream input;
+    ;
     ObjectOutputStream output;
-    public SocketServerProxy(VirtualView client, String ipAddress, int port){
-        this.client=client;
+
+    public SocketServerProxy(VirtualView client, String ipAddress, int port) {
+        this.client = client;
 
         try {
             serverSocket = new Socket(ipAddress, port);
@@ -39,16 +42,27 @@ public class SocketServerProxy implements VirtualServer {
             System.err.println("Couldn't get I/O for the connection to " + port);
             System.exit(1);
         }
+        new Thread(() -> {
+            try {
+                while (true) {
+                    listenFromRemoteServer();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        }).start();
 
-        new Thread(()-> {
+        new Thread(() -> {
             try {
                 Message mess;
-                while (( mess = messages.take()) instanceof StringMessage){
+                while ((mess = messages.take()) instanceof StringMessage) {
                     String message = mess.takeString();
-                    if(message.equals("read")){
+                    if (message.equals("read")) {
                         String toBeSent = client.read();
                         output.writeObject(toBeSent);
-                    }else {
+                    } else {
                         client.show(message);
                     }
                 }
@@ -59,27 +73,29 @@ public class SocketServerProxy implements VirtualServer {
             }
 
         }).start();
-        new Thread(()->{
-            try{
-                while(true) {
-                    listenFromRemoteServer();
-                }
-            }catch( IOException e){
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
-                throw new RuntimeException(e);
-            }
-        }).start();
+
     }
 
     private void runVirtualServer() throws IOException, InterruptedException {
         Message message;
+
+        new Thread(() -> {
+            while (true){
+                try {
+                    output.writeObject(new PingCommand());
+                    this.wait(1000);
+                } catch (IOException | InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+
+        }).start();
         // Read message type
         while ((message = messages.take()) != null) {
-                client.update(message);
-            }
-    }
+            client.update(message);
+        }
 
+    }
 
 
     @Override
@@ -99,10 +115,10 @@ public class SocketServerProxy implements VirtualServer {
 
     @Override
     public void receiveCommand(Command command) {
-        try{
+        try {
             output.writeObject(command);
             output.flush();
-        }catch(IOException e){
+        } catch (IOException e) {
             //there is a Connection problem
         }
     }
@@ -124,8 +140,8 @@ public class SocketServerProxy implements VirtualServer {
     }
 
     public void listenFromRemoteServer() throws IOException, ClassNotFoundException {
-            while(true){
-                messages.add( (Message) input.readObject());
-            }
+        while (true) {
+            messages.add((Message) input.readObject());
+        }
     }
 }

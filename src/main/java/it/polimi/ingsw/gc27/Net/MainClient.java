@@ -75,6 +75,9 @@ public class MainClient  {
         // Ask for ip addess
         System.out.println("\nEnter the IP address of the server you want to connect to (press Enter for localhost):");
         String ipAddress = scan.nextLine();
+        if (ipAddress.equals("\n")){
+            ipAddress = scan.nextLine();
+        }
         while(true){
             if(ipAddress.isEmpty()){
                 ipAddress = "localhost";
@@ -82,6 +85,8 @@ public class MainClient  {
             } else if (!IpChecker.checkIp(ipAddress)) {
                 System.out.println("Invalid IP address. Use the x.x.x.x format or press enter for localhost.");
                 ipAddress = scan.nextLine();
+            }else{
+                break;
             }
         }
 

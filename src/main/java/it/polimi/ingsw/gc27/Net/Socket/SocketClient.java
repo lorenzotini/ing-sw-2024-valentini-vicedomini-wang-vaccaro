@@ -29,6 +29,7 @@ public class SocketClient implements VirtualView {
     public void runClient() {
         try {
             server.welcomePlayer(this);
+
             synchronized (this) {
                 while(this.miniModel.getPlayer() == null) {
                     this.wait();
@@ -82,7 +83,7 @@ public class SocketClient implements VirtualView {
     public String read() throws RemoteException {
         Scanner scan = new Scanner(System.in);
         String string = scan.nextLine();
-        //while((string = scan.nextLine()).equals("\n")){};
+        while((string = scan.nextLine()).equals("\n")){};
         return string;
     }
 

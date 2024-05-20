@@ -15,6 +15,8 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Scanner;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 public class RmiClient extends UnicastRemoteObject implements VirtualView {
 
@@ -23,6 +25,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
     private String username;
     private View view; //this will be or tui or gui, when  a gui is ready is to implement
     private long lastPing = 0;
+    private final BlockingQueue<Message> messages = new LinkedBlockingQueue<>();
 
     public RmiClient(String ipAddress, int port) throws IOException, NotBoundException, InterruptedException {
         Registry registry = LocateRegistry.getRegistry(ipAddress, port);
@@ -79,6 +82,16 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
         this.server.welcomePlayer(this);
         this.show("Welcome " + this.username + "!" + "\nWaiting for other players to join the game...");
 
+        new Thread(() -> {
+            while(true) {
+                try {
+                    Message message = messages.take();
+                    message.reportUpdate(this, this.view );
+                } catch (RemoteException | InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }).start();
         //wait for the other players to join the game
         while (miniModel.getPlayer() == null) {
             Thread.sleep(1000);
@@ -95,9 +108,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
                 }
             }
         }).start();
-
         //start the game
-        this.view.run();
 
     }
 
@@ -108,7 +119,8 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
 
     @Override
     public void update(Message message) throws RemoteException {
-        message.reportUpdate(this, this.view );
+        messages.add(message);
+
     }
 
 }

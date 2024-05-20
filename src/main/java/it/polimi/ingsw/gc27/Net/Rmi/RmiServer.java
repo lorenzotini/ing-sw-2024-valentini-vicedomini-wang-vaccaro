@@ -124,11 +124,11 @@ public class RmiServer implements VirtualServer {
             this.clients.add(client);
         }
         System.out.println("new client connected");
-//        try {
-//            client.show("ciaoo");
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
+        try {
+            client.show("ciaoo");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

@@ -18,11 +18,6 @@ public class Gui implements View{
     }
 
     @Override
-    public void welcomePlayer(VirtualView client) throws IOException, InterruptedException {
-
-    }
-
-    @Override
     public void setClient(VirtualView client) {
 
     }

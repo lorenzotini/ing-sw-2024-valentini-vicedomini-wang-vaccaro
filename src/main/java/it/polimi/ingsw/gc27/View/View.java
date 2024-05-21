@@ -14,8 +14,6 @@ public interface View {
 
     void run() throws IOException, InterruptedException;
 
-    void welcomePlayer(VirtualView client) throws IOException, InterruptedException;
-
     void setClient(VirtualView client);
 
     //the idea is that every object will be showed in his own way,

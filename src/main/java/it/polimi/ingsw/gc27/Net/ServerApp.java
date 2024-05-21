@@ -6,6 +6,7 @@ import it.polimi.ingsw.gc27.Net.Rmi.RmiServer;
 import it.polimi.ingsw.gc27.Net.Socket.SocketServer;
 
 import java.io.IOException;
+import java.net.Inet4Address;
 
 public class ServerApp {
 
@@ -21,6 +22,8 @@ public class ServerApp {
         serverApp.rmiServer = new RmiServer(serverApp.console);
         serverApp.socketServer = new SocketServer(serverApp.console);
 
+        System.out.println("Listening on: " + Inet4Address.getLocalHost().getHostAddress());
+
         new Thread(() -> {
             try {
                 serverApp.rmiServer.runServer();
@@ -28,6 +31,7 @@ public class ServerApp {
                 throw new RuntimeException(e);
             }
         }).start();
+
         serverApp.socketServer.runServer();
 
     }

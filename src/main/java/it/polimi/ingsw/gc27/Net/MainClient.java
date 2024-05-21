@@ -43,9 +43,12 @@ public class MainClient  {
                 return;
             }
 
+
             // Check if the IP address is valid
+            boolean ipPresent = false;
             if (!args[0].startsWith("--") && IpChecker.checkIp(args[0])) {
                 ipAddress = args[0];
+                 ipPresent = true;
             } else if (!args[0].startsWith("--") && !IpChecker.checkIp(args[0])){
                 System.out.println("Invalid IP address. Please use the x.x.x.x format.");
                 return;
@@ -53,6 +56,10 @@ public class MainClient  {
 
             // Parse arguments
             for(String arg : args){
+                if(ipPresent){
+                    ipPresent = false;
+                    continue;
+                }
                 switch (arg){
                     case("--rmi"):
                         connectionChoice = 0;

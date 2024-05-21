@@ -604,9 +604,13 @@ public class Tui implements View {
 
         try {
             resourceDeckTop = toCliCard(market.getResourceDeck().getFirst(), false);
-            goldDeckTop = toCliCard(market.getGoldDeck().getFirst(), false);
         } catch (NoSuchElementException e) {
             resourceDeckTop = noCardPrint;
+        }
+
+        try {
+            goldDeckTop = toCliCard(market.getGoldDeck().getFirst(), false);
+        } catch (NoSuchElementException e) {
             goldDeckTop = noCardPrint;
         }
 

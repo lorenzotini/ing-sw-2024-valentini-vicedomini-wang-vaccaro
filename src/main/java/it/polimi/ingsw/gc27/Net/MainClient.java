@@ -48,7 +48,7 @@ public class MainClient  {
             boolean ipPresent = false;
             if (!args[0].startsWith("--") && IpChecker.checkIp(args[0])) {
                 ipAddress = args[0];
-                 ipPresent = true;
+                ipPresent = true;
             } else if (!args[0].startsWith("--") && !IpChecker.checkIp(args[0])){
                 System.out.println("Invalid IP address. Please use the x.x.x.x format.");
                 return;
@@ -85,49 +85,6 @@ public class MainClient  {
 
         }
 
-<<<<<<< HEAD
-
-        Tui.showTitle();
-
-        // Ask for connection type
-//        System.out.println("\nChoose the connection type: 0 for RMI, 1 for Socket");
-//        while(true){
-//            try {
-//                connectionChoice = scan.nextInt();
-//                if(connectionChoice == 0 || connectionChoice == 1) {
-//                    break;
-//                } else {
-//                    System.out.println("Invalid number, insert new value");
-//                }
-//            } catch (InputMismatchException  e) {
-//                System.out.println("Invalid input. Please enter an integer.");
-//            } finally {
-//                // Consume the invalid input to clear the scanner's buffer
-//                scan.nextLine();
-//            }
-//        }
-
-
-        // Ask for ip addess
-        System.out.println("\nEnter the IP address of the server you want to connect to (press Enter for localhost):");
-        String ipAddress = scan.nextLine();
-        while(true){
-            if(ipAddress.isEmpty()){
-                ipAddress = "localhost";
-                break;
-            } else if (!IpChecker.checkIp(ipAddress)) {
-                System.out.println("Invalid IP address. Use the x.x.x.x format or press enter for localhost.");
-                ipAddress = scan.nextLine();
-            }
-            else{
-                break;
-            }
-        if(ipAddress.isEmpty()){
-            ipAddress = "localhost";
-        }
-
-=======
->>>>>>> main
         // Run the client
         if(connectionChoice == 0){
             client = new RmiClient(ipAddress, VirtualServer.DEFAULT_PORT_NUMBER_RMI, view);

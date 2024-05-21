@@ -12,9 +12,10 @@ import java.util.ArrayList;
 
 public class Gui implements View{
 
+
     @Override
     public void run() throws IOException {
-
+        //da qui inizia la partita vera e propria
     }
 
     @Override

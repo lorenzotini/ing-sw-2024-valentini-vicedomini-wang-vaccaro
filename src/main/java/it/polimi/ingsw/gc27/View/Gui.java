@@ -5,6 +5,7 @@ import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
 import it.polimi.ingsw.gc27.Model.Game.Board;
 import it.polimi.ingsw.gc27.Model.Game.Manuscript;
 import it.polimi.ingsw.gc27.Model.Game.Market;
+import it.polimi.ingsw.gc27.Net.VirtualView;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -13,6 +14,16 @@ public class Gui implements View{
 
     @Override
     public void run() throws IOException {
+
+    }
+
+    @Override
+    public void welcomePlayer(VirtualView client) throws IOException, InterruptedException {
+
+    }
+
+    @Override
+    public void setClient(VirtualView client) {
 
     }
 
@@ -46,8 +57,9 @@ public class Gui implements View{
 
     }
 
-//    @Override
-//    public void startTheGame() {
-//
-//    }
+    @Override
+    public String read() {
+        return "";
+    }
+
 }

@@ -4,6 +4,7 @@ import it.polimi.ingsw.gc27.Model.MiniModel;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 import it.polimi.ingsw.gc27.View.View;
 
+import java.io.IOException;
 import java.rmi.RemoteException;
 
 public class UpdateStartOfGameMessage extends Message {
@@ -14,10 +15,11 @@ public class UpdateStartOfGameMessage extends Message {
 
     @Override
     public void reportUpdate(VirtualView client, View view) {
-        try {
+        try{
             client.getMiniModel().copy(this.getMiniModel());
-        } catch (RemoteException e) {
+        }catch(RemoteException e){
             System.out.println("error in report by connection");
         }
+
     }
 }

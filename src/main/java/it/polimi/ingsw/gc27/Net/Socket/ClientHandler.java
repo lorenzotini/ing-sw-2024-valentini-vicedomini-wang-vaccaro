@@ -7,6 +7,7 @@ import it.polimi.ingsw.gc27.Messages.StringMessage;
 import it.polimi.ingsw.gc27.Model.Game.Player;
 import it.polimi.ingsw.gc27.Model.MiniModel;
 import it.polimi.ingsw.gc27.Net.Commands.Command;
+import it.polimi.ingsw.gc27.Net.Commands.PingCommand;
 import it.polimi.ingsw.gc27.Net.VirtualServer;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 
@@ -22,14 +23,13 @@ public class ClientHandler implements VirtualView {
 
     final ObjectInputStream input;
     final ObjectOutputStream output;
-
+    boolean flag;
     private Player player ;
     final GigaController console;
     final SocketServer server;
     final Socket socketClient;
 
-    // here there are two queue, the first is to send Message to client, the second is for the command received
-    final BlockingQueue<Message> messages = new LinkedBlockingQueue<>();
+    // is for the command received
     final BlockingQueue<Command> commands = new LinkedBlockingQueue<>();
 
 
@@ -50,6 +50,21 @@ public class ClientHandler implements VirtualView {
                     }
                 } catch (ClassNotFoundException | InterruptedException | IOException e) {
                     throw new RuntimeException(e);
+                }
+                while(true){
+                    try {
+                        Command command;
+                        command = (Command) input.readObject();
+                        if(command instanceof PingCommand){
+                            this.flag = true;
+                        }else{
+                            commands.add(command);
+                        }
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    } catch (ClassNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             }).start();
         new Thread(()->{
@@ -154,6 +169,29 @@ public class ClientHandler implements VirtualView {
         }catch( IOException e){
             e.printStackTrace();
         }
+    }
+
+    private void verifyPing() throws InterruptedException {
+        int count = 0;
+        while(true){
+            if(flag){
+                count = 0;
+                flag=false;
+                this.wait(1000);
+            }else{
+                this.wait(1000);
+                count++;
+                if(count == 3){
+                    disconnected();
+                    System.out.println("giocatore socket disconnesso");
+                }
+            }
+
+        }
+    }
+
+    public void disconnected(){
+        //console.disconnected(this.player);
     }
 
 }

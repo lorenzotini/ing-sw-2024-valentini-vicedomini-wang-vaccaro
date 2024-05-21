@@ -1,11 +1,14 @@
 package it.polimi.ingsw.gc27.Model.States;
 
 import it.polimi.ingsw.gc27.Controller.TurnHandler;
+import it.polimi.ingsw.gc27.Messages.Message;
+import it.polimi.ingsw.gc27.Messages.NotYourTurnMessage;
 import it.polimi.ingsw.gc27.Model.Card.Face;
 import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
 import it.polimi.ingsw.gc27.Model.Card.StarterCard;
 import it.polimi.ingsw.gc27.Model.Game.Game;
 import it.polimi.ingsw.gc27.Model.Game.Player;
+import it.polimi.ingsw.gc27.Model.MiniModel;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
@@ -20,7 +23,9 @@ public class WaitingState extends PlayerState {
 
     @Override
     public void chooseObjectiveCard(Game game, int objectiveCardIndex) throws RemoteException {
-        super.sendError(waitText, getPlayer(), turnHandler);
+        MiniModel miniWithCurrentPlayer = new MiniModel(player);
+        Message errorMessage = new NotYourTurnMessage(waitText, miniWithCurrentPlayer);
+        turnHandler.getGame().notifyObservers(errorMessage);
     }
 
     @Override

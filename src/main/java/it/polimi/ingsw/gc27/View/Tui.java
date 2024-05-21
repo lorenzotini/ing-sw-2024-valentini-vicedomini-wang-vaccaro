@@ -21,6 +21,7 @@ public class Tui implements View {
     private VirtualView client;
     private static final String sws = " "; // single white space
     private static final Queue<String> noCardPrint = new LinkedList<>();
+    private Scanner scan = new Scanner(in);
 
     static {
         noCardPrint.add("╔═════════════════╗");
@@ -30,17 +31,13 @@ public class Tui implements View {
         noCardPrint.add("╚═════════════════╝");
     }
 
-    public Tui(VirtualView client) throws IOException, InterruptedException {
-        this.client = client;
-    }
-
     @Override
     public void run() throws IOException, InterruptedException {
 
+        showTitle();
+
         out.println("\nThe game is starting!");
         //TODO svuotare il buffer, altrimenti printa tutti i comandi presi durante l'attesa dei giocatori
-
-        Scanner scan = new Scanner(in);
 
         while (true) {
 
@@ -65,7 +62,7 @@ public class Tui implements View {
                     break;
 
                 case "addstarter":
-                    out.println(Tui.showStarter(client.getMiniModel().getPlayer().getStarterCard()));
+                    out.println(showStarter(client.getMiniModel().getPlayer().getStarterCard()));
                     out.println("\nWhat side do you want to play? (front or back)");
                     while (true) {
                         String side = scan.next();
@@ -115,7 +112,7 @@ public class Tui implements View {
 
                 // TODO creare una soluzione intelligente per gestire gli input di addcard, con while true e try catch vari
                 case "addcard":
-                    out.println(Tui.showManuscript(client.getMiniModel().getManuscript()));
+                    out.println(showManuscript(client.getMiniModel().getManuscript()));
                     out.println("\nWhich card do you want to add? (choose from 1, 2, 3)");
                     int cardIndex = scan.nextInt() + 1;
                     out.println("\nFront or back?");
@@ -136,7 +133,7 @@ public class Tui implements View {
                     break;
 
                 case "draw":
-                    out.println(Tui.showMarket(client.getMiniModel().getMarket()));
+                    out.println(showMarket(client.getMiniModel().getMarket()));
                     out.println("\nEnter [cardType] [fromDeck] [faceUpIndex] (res/gold, true/false, 0/1)");
                     String line = scan.nextLine();
                     String[] words = line.split(" ");
@@ -149,23 +146,23 @@ public class Tui implements View {
                     break;
 
                 case "man":
-                    out.println("\n" + Tui.showManuscript(client.getMiniModel().getManuscript()));
+                    out.println("\n" + showManuscript(client.getMiniModel().getManuscript()));
                     break;
 
                 case "hand":
-                    out.println("\n" + Tui.showHand(client.getMiniModel().getHand()));
+                    out.println("\n" + showHand(client.getMiniModel().getHand()));
                     break;
 
                 case "obj":
-                    out.println("\n" + Tui.showObjectives(client.getMiniModel().getPlayer().getSecretObjectives()));
+                    out.println("\n" + showObjectives(client.getMiniModel().getPlayer().getSecretObjectives()));
                     break;
 
                 case "market":
-                    out.println("\n" + Tui.showMarket(client.getMiniModel().getMarket()));
+                    out.println("\n" + showMarket(client.getMiniModel().getMarket()));
                     break;
 
                 case "board":
-                    out.println("\n" + Tui.showBoard(client.getMiniModel().getBoard()));
+                    out.println("\n" + showBoard(client.getMiniModel().getBoard()));
                     break;
 
                 default:
@@ -176,6 +173,16 @@ public class Tui implements View {
 
         }
 
+    }
+
+    @Override
+    public void welcomePlayer(VirtualView client) throws IOException, InterruptedException{
+
+    }
+
+    @Override
+    public void setClient(VirtualView client){
+        this.client = client;
     }
 
     @Override
@@ -208,6 +215,11 @@ public class Tui implements View {
     @Override
     public void show(Market market) {
         out.println(showMarket(market));
+    }
+
+    @Override
+    public String read() {
+        return scan.nextLine();
     }
 
 
@@ -592,9 +604,13 @@ public class Tui implements View {
 
         try {
             resourceDeckTop = toCliCard(market.getResourceDeck().getFirst(), false);
-            goldDeckTop = toCliCard(market.getGoldDeck().getFirst(), false);
         } catch (NoSuchElementException e) {
             resourceDeckTop = noCardPrint;
+        }
+
+        try {
+            goldDeckTop = toCliCard(market.getGoldDeck().getFirst(), false);
+        } catch (NoSuchElementException e) {
             goldDeckTop = noCardPrint;
         }
 

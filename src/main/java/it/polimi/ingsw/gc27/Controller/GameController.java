@@ -108,6 +108,7 @@ public class GameController implements Serializable {
         Player p = new Player(username, manuscript, PawnColour.fromStringToPawnColour(pawnColor));
 
         StarterCard starterCard = this.game.getStarterDeck().removeFirst();
+
         p.setStarterCard(starterCard);
 
         // Add the player to the game

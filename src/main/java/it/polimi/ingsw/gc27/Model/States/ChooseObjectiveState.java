@@ -51,7 +51,7 @@ public class ChooseObjectiveState extends PlayerState {
         objectiveCardIndex = objectiveCardIndex == 1 ? 1 : 0;
 
         this.getPlayer().getSecretObjectives().remove(objectiveCardIndex);
-        this.getPlayer().setPlayerState(new WaitingState(getPlayer(), getTurnHandler()));
+
 
         this.getPlayer().setPlayerState(new WaitingState(getPlayer(), getTurnHandler()));
 

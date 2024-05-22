@@ -7,6 +7,7 @@ import it.polimi.ingsw.gc27.Model.Game.Board;
 import it.polimi.ingsw.gc27.Model.Game.Manuscript;
 import it.polimi.ingsw.gc27.Model.Game.Market;
 import it.polimi.ingsw.gc27.Net.VirtualView;
+import it.polimi.ingsw.gc27.View.GUI.ChooseGameSceneController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -47,9 +48,7 @@ public class Gui extends Application implements View {
         stage.show();
     }
 
-    //public static void main(){
-      //  launch();
-    //}
+
 
 
 
@@ -61,11 +60,13 @@ public class Gui extends Application implements View {
 
 
     @Override
-    public void welcomePlayer(VirtualView client)  {
+    public void welcomePlayer(VirtualView client) throws InterruptedException {
         //nella scena 2 on clickButton mi dice se manderò "new" oppure "id"
-//        messages.add("new");
-//        this.read();
+        ChooseGameSceneController controller= new ChooseGameSceneController();
+        controller.setGui(this);
 
+        this.read(); // 2 possible input "new" or id
+        String m= messagesReceived.take();
 
 
 
@@ -134,6 +135,11 @@ public class Gui extends Application implements View {
 
         return mess;
     }
+
+    public void stringFromSceneController(String string){
+        messages.add(string);
+    }
+
 
 
 }

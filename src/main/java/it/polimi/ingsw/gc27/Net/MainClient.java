@@ -17,6 +17,7 @@ public class MainClient  {
         // Default values
         String ipAddress = "localhost";
         View view = new Tui();
+
         int connectionChoice = 0;
         VirtualView client;
 
@@ -71,7 +72,10 @@ public class MainClient  {
 
                     case ("--gui"):
                         view = new Gui();
-                        //Gui.launch(Gui.class);
+                        View finalView=view;
+                        new Thread(()->{
+                            ((Gui)finalView).launch(Gui.class);
+                        }).start();
                         break;
 
                     case ("--tui"):

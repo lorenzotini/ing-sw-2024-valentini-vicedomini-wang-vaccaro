@@ -36,22 +36,7 @@ public class Gui extends Application implements View {
 
 
 
-    public Gui(){
-
-        new Thread(()->{
-            try {
-                launch();
-                //welcomePlayer(client);
-                //mainApp.init();
-
-                //messages.add("new");
-                //this.read();
-
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        }).start();
-    }
+    public Gui(){}
     public void start(Stage stage) throws Exception {
         FXMLLoader fxmlLoader=new FXMLLoader(getClass().getResource("/fxml/StarterScene.fxml")); //root node
         Scene scene;
@@ -62,13 +47,15 @@ public class Gui extends Application implements View {
         stage.show();
     }
 
-
+    //public static void main(){
+      //  launch();
+    //}
 
 
 
     @Override
-    public void run() throws IOException {
-        //da qui inizia la partita vera e propria
+    public void run() {
+
     }
 
 

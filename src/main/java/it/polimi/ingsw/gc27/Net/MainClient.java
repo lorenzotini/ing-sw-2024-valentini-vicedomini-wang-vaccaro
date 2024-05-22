@@ -93,8 +93,16 @@ public class MainClient  {
         // Run the client
         if(connectionChoice == 0){
             client = new RmiClient(ipAddress, VirtualServer.DEFAULT_PORT_NUMBER_RMI, view);
+            //view.setClient(client);
+            if(view instanceof Gui ){
+                ((Gui)view).welcomePlayer(client);
+            }
         } else {
             client = new SocketClient(ipAddress, VirtualServer.DEFAULT_PORT_NUMBER_SOCKET, view);
+            //view.setClient(client);
+            if(view instanceof Gui ){
+                ((Gui)view).welcomePlayer(client);
+            }
         }
 
         view.setClient(client);

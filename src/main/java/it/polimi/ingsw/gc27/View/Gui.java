@@ -9,6 +9,7 @@ import it.polimi.ingsw.gc27.Model.Game.Market;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 import it.polimi.ingsw.gc27.View.GUI.ChooseGameSceneController;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -36,7 +37,9 @@ public class Gui extends Application implements View {
 
 
 
-    public Gui(){}
+    public Gui(){
+
+    }
     public void start(Stage stage) throws Exception {
         FXMLLoader fxmlLoader=new FXMLLoader(getClass().getResource("/fxml/StarterScene.fxml")); //root node
         Scene scene;
@@ -62,6 +65,7 @@ public class Gui extends Application implements View {
     public void welcomePlayer(VirtualView client) throws InterruptedException {
         //nella scena 2 on clickButton mi dice se manderò "new" oppure "id"
         ChooseGameSceneController controller= new ChooseGameSceneController();
+        controller.init();
         controller.setGui(this);
 
         this.read(); // 2 possible input "new" or id

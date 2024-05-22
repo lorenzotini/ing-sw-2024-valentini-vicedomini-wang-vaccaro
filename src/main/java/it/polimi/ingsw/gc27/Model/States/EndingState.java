@@ -14,7 +14,9 @@ import java.io.IOException;
 import java.rmi.RemoteException;
 
 public class EndingState extends PlayerState  {
+
     String textMessage = "the game is ending... it's too late man";
+
     public EndingState(Player player, TurnHandler turnHandler) throws RemoteException {
         super(player, turnHandler);
         turnHandler.notifyCalculateObjectivePoints(getPlayer());
@@ -23,28 +25,28 @@ public class EndingState extends PlayerState  {
     @Override
     public void chooseObjectiveCard(Game game, int objectiveCardIndex) throws RemoteException {
         MiniModel currentPlayer = new MiniModel(getPlayer());
-        Message genericErrorMessage = new NotYourTurnMessage("the game is ending... it's too late man", currentPlayer);
+        Message genericErrorMessage = new NotYourTurnMessage(textMessage, currentPlayer);
         turnHandler.getGame().notifyObservers(genericErrorMessage);
     }
 
     @Override
     public void drawCard(Player player, boolean isGold, boolean fromDeck, int faceUpCardIndex) throws RemoteException {
         MiniModel currentPlayer = new MiniModel(getPlayer());
-        Message genericErrorMessage = new NotYourTurnMessage("the game is ending... it's too late man", currentPlayer);
+        Message genericErrorMessage = new NotYourTurnMessage(textMessage, currentPlayer);
         turnHandler.getGame().notifyObservers(genericErrorMessage);
     }
 
     @Override
     public void addCard(Game game, ResourceCard resourceCard, Face face, int x, int y) throws RemoteException {
         MiniModel currentPlayer = new MiniModel(getPlayer());
-        Message genericErrorMessage = new NotYourTurnMessage("the game is ending... it's too late man", currentPlayer);
+        Message genericErrorMessage = new NotYourTurnMessage(textMessage, currentPlayer);
         turnHandler.getGame().notifyObservers(genericErrorMessage);
     }
 
     @Override
     public void addStarterCard(Game game, StarterCard starterCard, Face face) throws IOException, InterruptedException{
         MiniModel currentPlayer = new MiniModel(getPlayer());
-        Message genericErrorMessage = new NotYourTurnMessage("the game is ending... it's too late man", currentPlayer);
+        Message genericErrorMessage = new NotYourTurnMessage(textMessage, currentPlayer);
         game.notifyObservers(genericErrorMessage);
     }
 

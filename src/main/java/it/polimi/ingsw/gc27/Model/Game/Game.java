@@ -33,11 +33,11 @@ public class Game implements Serializable, Observable {
 
     public Game() {
     }
+
     public Game(int gameID, Board board, List<Player> players) {
         this.board = board;
         this.players = players;
     }
-
 
     public Game(Board board, Market market, List<Player> players, Card commonObjective1, Card commonObjective2, ArrayList<StarterCard> starterDeck, ArrayList<ObjectiveCard> objectiveDeck) {
         this.board = board;
@@ -52,11 +52,9 @@ public class Game implements Serializable, Observable {
     public Integer getNumActualPlayers() {
         return numActualPlayers;
     }
-
     public void setNumActualPlayers(Integer numActualPlayers) {
         this.numActualPlayers = numActualPlayers;
     }
-
     public Player getPlayer(String playerName){
         for(Player p : players){
             if(p.getUsername().equals(playerName)){
@@ -129,14 +127,7 @@ public class Game implements Serializable, Observable {
             case YELLOW -> board.setPointsYellowPlayer(board.getPointsYellowPlayer() + points);
         }
     }
-    public boolean validUsername(String u){
-        for(var p : players){
-            if(p.getUsername().equals(u)){
-                return false;
-            }
-        }
-        return true;
-    }
+
     public boolean validPawn(String pawn){
         for(var available : availablePawns){
             if(available.toString().equalsIgnoreCase(pawn)){
@@ -165,4 +156,5 @@ public class Game implements Serializable, Observable {
             o.update(message);
         }
     }
+
 }

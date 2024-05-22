@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
-public class DrawingState extends PlayerState  {
+public class DrawingState extends PlayerState {
 
     public DrawingState(Player player, TurnHandler turnHandler) {
         super(player, turnHandler);
@@ -37,7 +37,7 @@ public class DrawingState extends PlayerState  {
         deck = isGold ? market.getGoldDeck() : market.getResourceDeck();
 
         // add card to players hand and replace it on market
-        if(fromDeck){ // player drawn card from a deck
+        if (fromDeck) { // player drawn card from a deck
             card = deck.removeLast();
         } else { // player drawn a face up card from the market
             card = market.getFaceUp(isGold)[faceUpCardIndex];
@@ -46,6 +46,8 @@ public class DrawingState extends PlayerState  {
 
         player.getHand().add(card);
 
+        player.setPlayerState(new EndOfTurnState(player, getTurnHandler()));
+
         //send messages, one for the updated hand and the other for the updated market
         Message updateHandMessage = new UpdateHandMessage(new MiniModel(player, player.getHand()));
         turnHandler.getGame().notifyObservers(updateHandMessage);
@@ -53,14 +55,12 @@ public class DrawingState extends PlayerState  {
         Message updateMarketMessage = new UpdateHandMessage(new MiniModel(market));
         turnHandler.getGame().notifyObservers(updateMarketMessage);
 
-        player.setPlayerState(new EndOfTurnState(getPlayer(), getTurnHandler()));
-
     }
 
     @Override
     public void addCard(Game game, ResourceCard resourceCard, Face face, int x, int y) throws RemoteException {
         MiniModel miniWithCurrentP = new MiniModel(getPlayer());
-        Message genericErrorMessage = new NotYourTurnMessage("It's time to draw a card!",  miniWithCurrentP);
+        Message genericErrorMessage = new NotYourTurnMessage("It's time to draw a card!", miniWithCurrentP);
         turnHandler.getGame().notifyObservers(genericErrorMessage);
     }
 

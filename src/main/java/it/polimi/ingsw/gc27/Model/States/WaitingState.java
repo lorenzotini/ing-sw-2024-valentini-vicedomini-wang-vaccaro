@@ -12,28 +12,30 @@ import java.rmi.RemoteException;
 
 public class WaitingState extends PlayerState {
 
+    private final String waitText = "Patientiam forti est virtute, so please wait";
+
     public WaitingState(Player player, TurnHandler turnHandler) {
         super(player, turnHandler);
     }
 
     @Override
     public void chooseObjectiveCard(Game game, int objectiveCardIndex) throws RemoteException {
-        super.sendError("Patientiam forti est virtute, so please wait", getPlayer(), turnHandler);
+        super.sendError(waitText, getPlayer(), turnHandler);
     }
 
     @Override
     public void drawCard(Player player, boolean isGold, boolean fromDeck, int faceUpCardIndex) throws RemoteException {
-        super.sendError("Patientiam forti est virtute, so please wait", getPlayer(), turnHandler);
+        super.sendError(waitText, getPlayer(), turnHandler);
     }
 
     @Override
     public void addCard(Game game, ResourceCard resourceCard, Face face, int x, int y) throws RemoteException {
-        super.sendError("Patientiam forti est virtute, so please wait", getPlayer(), turnHandler);
+        super.sendError(waitText, getPlayer(), turnHandler);
     }
 
     @Override
     public void addStarterCard(Game game, StarterCard starterCard, Face face) throws IOException, InterruptedException{
-        super.sendError("Patientiam forti est virtute, so please wait", getPlayer(),turnHandler);
+        super.sendError(waitText, getPlayer(),turnHandler);
     }
 
 }

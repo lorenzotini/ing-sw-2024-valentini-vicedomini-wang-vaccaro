@@ -3,6 +3,7 @@ package it.polimi.ingsw.gc27.Model.States;
 import it.polimi.ingsw.gc27.Controller.TurnHandler;
 import it.polimi.ingsw.gc27.Messages.Message;
 import it.polimi.ingsw.gc27.Messages.NotYourTurnMessage;
+import it.polimi.ingsw.gc27.Messages.UpdateObjectiveMessage;
 import it.polimi.ingsw.gc27.Model.Card.Face;
 import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
 import it.polimi.ingsw.gc27.Model.Card.StarterCard;
@@ -14,8 +15,10 @@ import java.io.IOException;
 import java.rmi.RemoteException;
 
 public class ChooseObjectiveState extends PlayerState {
+
     private String wrongStateText = "You have to choose an objective card first";
     private String starterText = "You already have a Starter Card";
+
     public ChooseObjectiveState(Player player, TurnHandler turnHandler) {
         super(player, turnHandler);
     }
@@ -35,22 +38,28 @@ public class ChooseObjectiveState extends PlayerState {
     }
 
     @Override
-    public void addStarterCard(Game game, StarterCard starterCard, Face face) throws IOException, InterruptedException{
+    public void addStarterCard(Game game, StarterCard starterCard, Face face) throws IOException, InterruptedException {
         MiniModel currentPlayer = new MiniModel(getPlayer());
         Message genericErrorMessage = new NotYourTurnMessage(starterText, currentPlayer);
         turnHandler.getGame().notifyObservers(genericErrorMessage);
     }
 
     @Override
-    public void chooseObjectiveCard(Game game, int objectiveCardIndex) {
-        if(objectiveCardIndex == 0){
-            objectiveCardIndex = 1;
-        } else {
-            objectiveCardIndex = 0;
-        }
+    public void chooseObjectiveCard(Game game, int objectiveCardIndex) throws RemoteException {
+
+        // The index is chosen by the player between 1 and 2, corresponding to 0 and 1 in the list. Then you switch it to remove the other card.
+        objectiveCardIndex = objectiveCardIndex == 1 ? 1 : 0;
+
         this.getPlayer().getSecretObjectives().remove(objectiveCardIndex);
         this.getPlayer().setPlayerState(new WaitingState(getPlayer(), getTurnHandler()));
+
+        this.getPlayer().setPlayerState(new WaitingState(getPlayer(), getTurnHandler()));
+
+        Message updateObjectiveMessage = new UpdateObjectiveMessage(new MiniModel(getPlayer(), getPlayer().getSecretObjectives().getFirst()));
+        turnHandler.getGame().notifyObservers(updateObjectiveMessage);
+
         this.getTurnHandler().notifyChooseObjectiveState(getPlayer());
+
     }
 
 }

@@ -1,22 +1,18 @@
 package it.polimi.ingsw.gc27.Net.Socket;
 
-import it.polimi.ingsw.gc27.CommandParser;
-import it.polimi.ingsw.gc27.Controller.GameController;
 import it.polimi.ingsw.gc27.Controller.GigaController;
 import it.polimi.ingsw.gc27.Messages.Message;
 import it.polimi.ingsw.gc27.Messages.SetUsernameMessage;
 import it.polimi.ingsw.gc27.Messages.StringMessage;
-import it.polimi.ingsw.gc27.Messages.StringMessage;
-import it.polimi.ingsw.gc27.Model.Card.Face;
-import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
-import it.polimi.ingsw.gc27.Model.Card.StarterCard;
-import it.polimi.ingsw.gc27.Model.Game.Manuscript;
 import it.polimi.ingsw.gc27.Model.Game.Player;
 import it.polimi.ingsw.gc27.Model.MiniModel;
 import it.polimi.ingsw.gc27.Net.Commands.Command;
+import it.polimi.ingsw.gc27.Net.VirtualServer;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.rmi.RemoteException;
 import java.util.concurrent.BlockingQueue;
@@ -83,6 +79,7 @@ public class ClientHandler implements VirtualView {
         }
     }
 
+
     @Override
     public void show(String s) {
         try{
@@ -133,6 +130,22 @@ public class ClientHandler implements VirtualView {
     public MiniModel getMiniModel() {
         return null;
     }
+
+    @Override
+    public long getLastPing() {
+        return 0;
+    }
+
+    @Override
+    public void setLastPing(long l) {
+
+    }
+
+    @Override
+    public void pingToServer(VirtualServer virtualServer, VirtualView client) throws RemoteException {
+
+    }
+
     @Override
     public void update(Message message) {
         try{

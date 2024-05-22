@@ -35,7 +35,6 @@ public class Gui extends Application implements View {
 
 
 
-
     public Gui(){}
     public void start(Stage stage) throws Exception {
         FXMLLoader fxmlLoader=new FXMLLoader(getClass().getResource("/fxml/StarterScene.fxml")); //root node

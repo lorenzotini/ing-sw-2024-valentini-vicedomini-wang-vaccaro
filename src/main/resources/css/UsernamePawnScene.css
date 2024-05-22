@@ -22,13 +22,23 @@
 }
 
 .pawn_blue{
-
+    -fx-background-image: url('../Images/pawn_blue.png');
+    -fx-background-size: cover;
+    -fx-background-color: transparent;
 }
 
 .pawn_green {
-
+    -fx-background-image: url('../Images/pawn_green.png');
+    -fx-background-size: cover;
+    -fx-background-color: transparent;
 }
 
 .pawn_yellow {
+    -fx-background-image: url('../Images/pawn_yellow.png');
+    -fx-background-size: cover;
+    -fx-background-color: transparent;
+}
 
+.imageview{
+    -fx-image: url('../Images/CodexNaturalisBackgroundRemoved.png');
 }

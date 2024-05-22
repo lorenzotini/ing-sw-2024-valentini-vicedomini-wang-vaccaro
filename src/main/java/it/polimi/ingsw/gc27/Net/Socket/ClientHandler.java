@@ -26,7 +26,7 @@ public class ClientHandler implements VirtualView {
     final ObjectInputStream input;
     final ObjectOutputStream output;
     boolean flag;
-    private Player player ;
+    private Player player;
     final GigaController console;
     final SocketServer server;
     final Socket socketClient;
@@ -185,7 +185,7 @@ public class ClientHandler implements VirtualView {
     private void verifyPing() throws InterruptedException {
         new Thread(()->{
             int count = 0;
-            while(true){
+            while(count <= 3){
                 if(flag){
                     count = 0;
                     flag=false;
@@ -215,7 +215,7 @@ public class ClientHandler implements VirtualView {
         //console.disconnected(this.player);
         if(disconnected == false){
             disconnected = true;
-            System.out.println("disconessione avvenuta");
+            //System.out.println("disconessione avvenuta");
             //console.disconnected(this.player);
         }
     }

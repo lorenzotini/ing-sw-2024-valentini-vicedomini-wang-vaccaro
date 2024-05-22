@@ -12,10 +12,12 @@ import it.polimi.ingsw.gc27.Model.Listener.Observable;
 import it.polimi.ingsw.gc27.Model.Listener.Observer;
 import it.polimi.ingsw.gc27.Model.Listener.PlayerListener;
 import it.polimi.ingsw.gc27.Net.VirtualView;
+import javafx.util.Pair;
 
 import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class Game implements Serializable, Observable {
@@ -30,6 +32,8 @@ public class Game implements Serializable, Observable {
     private ArrayList<ObjectiveCard> objectiveDeck;
     private ArrayList<PawnColour> availablePawns = new ArrayList<>(List.of(PawnColour.GREEN, PawnColour.YELLOW, PawnColour.BLUE, PawnColour.RED));
 
+    private Chat generalChat ;
+    private HashMap< Pair<Player, Player>, Chat> chatMap;
 
     public Game() {
     }
@@ -47,6 +51,7 @@ public class Game implements Serializable, Observable {
         this.commonObjective2 = commonObjective2;
         this.starterDeck = starterDeck;
         this.objectiveDeck = objectiveDeck;
+
     }
 
     public Integer getNumActualPlayers() {
@@ -138,6 +143,14 @@ public class Game implements Serializable, Observable {
     }
 
     public void addPlayer(Player p, VirtualView client) throws RemoteException {
+
+        for(Player player : players){
+            Chat chat = new Chat(player, p);
+            chatMap.put(new Pair<Player, Player>(player, p),   chat);
+            chatMap.put(new Pair<Player, Player>(p, player),   chat);
+        }
+        generalChat.addPlayer(p);
+
         this.players.add(p);
         //create a listener
         //he will listen the observable and decide if the message has to be sent to his player
@@ -155,6 +168,12 @@ public class Game implements Serializable, Observable {
         for(Observer o : observers){
             o.update(message);
         }
+    }
+    public Chat getGeneralChat(){
+        return this.generalChat;
+    }
+    public Chat getChat(Player p1, Player p2){
+        return chatMap.get(new Pair<Player,Player>(p1, p2));
     }
 
 }

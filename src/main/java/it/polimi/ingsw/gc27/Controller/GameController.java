@@ -1,13 +1,12 @@
 package it.polimi.ingsw.gc27.Controller;
 
+import it.polimi.ingsw.gc27.Messages.UpdateChatMessage;
 import it.polimi.ingsw.gc27.Messages.UpdateStartOfGameMessage;
 import it.polimi.ingsw.gc27.Model.Card.Face;
 import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
 import it.polimi.ingsw.gc27.Model.Card.StarterCard;
 import it.polimi.ingsw.gc27.Model.Enumerations.PawnColour;
-import it.polimi.ingsw.gc27.Model.Game.Game;
-import it.polimi.ingsw.gc27.Model.Game.Manuscript;
-import it.polimi.ingsw.gc27.Model.Game.Player;
+import it.polimi.ingsw.gc27.Model.Game.*;
 import it.polimi.ingsw.gc27.Model.MiniModel;
 import it.polimi.ingsw.gc27.Model.States.InitializingState;
 import it.polimi.ingsw.gc27.Net.VirtualView;
@@ -137,6 +136,18 @@ public class GameController implements Serializable {
 
         return p;
 
+    }
+    public void sendChatMessage(ChatMessage chatMessage) throws RemoteException {
+        Chat chat;
+        if(chatMessage.getReceiver() == null){
+            chat = game.getGeneralChat();
+            chat.addChatMessage(chatMessage);
+        }
+        else{
+            chat=game.getChat(chatMessage.getSender(), chatMessage.getReceiver());
+            chat.addChatMessage(chatMessage);
+        }
+        game.notifyObservers(new UpdateChatMessage(chat));
     }
 
 }

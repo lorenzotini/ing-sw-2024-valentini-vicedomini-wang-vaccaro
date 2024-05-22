@@ -26,5 +26,6 @@ module it.polimi.ingsw.gc27 {
     exports  it.polimi.ingsw.gc27.Messages;
     exports  it.polimi.ingsw.gc27.Net.Commands;
     opens it.polimi.ingsw.gc27.View.GUI;
+    exports it.polimi.ingsw.gc27.View.Listener to java.rmi;
 
 }

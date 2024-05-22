@@ -1,0 +1,34 @@
+.stackpane {
+    -fx-background-image: url('../Images/background2.png');
+    -fx-background-size: cover;
+}
+
+.check-box {
+    -fx-background-image: url('../Images/decoration1.png');
+    -fx-background-size: cover;
+}
+
+
+.decorationbutton{
+    -fx-background-image: url('../Images/decoration1.png');
+    -fx-background-size: cover;
+    -fx-background-color: transparent;
+}
+
+.pawn_red {
+    -fx-background-image: url('../Images/pawn_red.png');
+    -fx-background-size: cover;
+    -fx-background-color: transparent;
+}
+
+.pawn_blue{
+
+}
+
+.pawn_green {
+
+}
+
+.pawn_yellow {
+
+}

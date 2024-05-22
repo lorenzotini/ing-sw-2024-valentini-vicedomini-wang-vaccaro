@@ -2,7 +2,6 @@ package it.polimi.ingsw.gc27.Model.States;
 
 import it.polimi.ingsw.gc27.Controller.TurnHandler;
 import it.polimi.ingsw.gc27.Messages.Message;
-import it.polimi.ingsw.gc27.Messages.NotYourTurnMessage;
 import it.polimi.ingsw.gc27.Messages.UpdateObjectiveMessage;
 import it.polimi.ingsw.gc27.Model.Card.Face;
 import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
@@ -25,23 +24,17 @@ public class ChooseObjectiveState extends PlayerState {
 
     @Override
     public void drawCard(Player player, boolean isGold, boolean fromDeck, int faceUpCardIndex) throws RemoteException {
-        MiniModel currentPlayer = new MiniModel(getPlayer());
-        Message genericErrorMessage = new NotYourTurnMessage(wrongStateText, currentPlayer);
-        turnHandler.getGame().notifyObservers(genericErrorMessage);
+        super.sendError(wrongStateText, getPlayer(), turnHandler);
     }
 
     @Override
     public void addCard(Game game, ResourceCard resourceCard, Face face, int x, int y) throws RemoteException {
-        MiniModel currentPlayer = new MiniModel(getPlayer());
-        Message genericErrorMessage = new NotYourTurnMessage(wrongStateText, currentPlayer);
-        turnHandler.getGame().notifyObservers(genericErrorMessage);
+        super.sendError(wrongStateText, getPlayer(), turnHandler);
     }
 
     @Override
     public void addStarterCard(Game game, StarterCard starterCard, Face face) throws IOException, InterruptedException {
-        MiniModel currentPlayer = new MiniModel(getPlayer());
-        Message genericErrorMessage = new NotYourTurnMessage(starterText, currentPlayer);
-        turnHandler.getGame().notifyObservers(genericErrorMessage);
+        super.sendError(starterText, getPlayer(), turnHandler);
     }
 
     @Override
@@ -58,7 +51,7 @@ public class ChooseObjectiveState extends PlayerState {
         Message updateObjectiveMessage = new UpdateObjectiveMessage(new MiniModel(getPlayer(), getPlayer().getSecretObjectives().getFirst()));
         turnHandler.getGame().notifyObservers(updateObjectiveMessage);
 
-        this.getTurnHandler().notifyChooseObjectiveState(getPlayer());
+        this.getTurnHandler().notifyChooseObjectiveState();
 
     }
 

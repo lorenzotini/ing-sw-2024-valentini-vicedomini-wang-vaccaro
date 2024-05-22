@@ -55,4 +55,8 @@ public abstract class PlayerState implements Serializable {
 
     }
 
+    @Override
+    public String toString() {
+        return this.getClass().getSimpleName();
+    }
 }

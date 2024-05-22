@@ -6,10 +6,12 @@ import it.polimi.ingsw.gc27.Model.Enumerations.PointsMultiplier;
 import it.polimi.ingsw.gc27.Model.Game.Board;
 import it.polimi.ingsw.gc27.Model.Game.Manuscript;
 import it.polimi.ingsw.gc27.Model.Game.Market;
+import it.polimi.ingsw.gc27.Model.States.*;
 import it.polimi.ingsw.gc27.Net.Commands.*;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 
 import java.io.IOException;
+import java.rmi.RemoteException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -62,6 +64,11 @@ public class Tui implements View {
                     break;
 
                 case "addstarter":
+
+                    if(!checkState(InitializingState.class)){
+                        break;
+                    }
+
                     out.println(showStarter(client.getMiniModel().getPlayer().getStarterCard()));
                     out.println("\nWhat side do you want to play? (front or back)");
                     while (true) {
@@ -85,6 +92,11 @@ public class Tui implements View {
                     break;
 
                 case "chooseobj":
+
+                    if(!checkState(ChooseObjectiveState.class)){
+                        break;
+                    }
+
                     // TODO fatto così chiede quale vuole come se fosse la prima volta anche se l'ha già fatto
                     out.println(showObjectives(client.getMiniModel().getPlayer().getSecretObjectives()));
                     int obj;
@@ -112,9 +124,14 @@ public class Tui implements View {
 
                 // TODO creare una soluzione intelligente per gestire gli input di addcard, con while true e try catch vari
                 case "addcard":
+
+                    if(!checkState(PlayingState.class)){
+                        break;
+                    }
+
                     out.println(showManuscript(client.getMiniModel().getManuscript()));
                     out.println("\nWhich card do you want to add? (choose from 1, 2, 3)");
-                    int cardIndex = scan.nextInt() + 1;
+                    int cardIndex = scan.nextInt() - 1;
                     out.println("\nFront or back?");
                     String face = scan.next();
                     out.println("\nx = ");
@@ -133,6 +150,11 @@ public class Tui implements View {
                     break;
 
                 case "draw":
+
+                    if(!checkState(DrawingState.class)){
+                        break;
+                    }
+
                     out.println(showMarket(client.getMiniModel().getMarket()));
                     out.println("\nEnter [cardType] [fromDeck] [faceUpIndex] (res/gold, true/false, 0/1)");
                     String line = scan.nextLine();
@@ -173,6 +195,16 @@ public class Tui implements View {
 
         }
 
+    }
+
+    private boolean checkState(Class<? extends PlayerState> requestedState) throws RemoteException {
+        PlayerState playerState = client.getMiniModel().getPlayer().getPlayerState();
+        if (requestedState.isInstance(playerState)) {
+            return true;
+        } else {
+            out.println("Wrong state");
+            return false;
+        }
     }
 
     @Override
@@ -598,13 +630,13 @@ public class Tui implements View {
         Queue<String> goldDeckTop;
 
         try {
-            resourceDeckTop = toCliCard(market.getResourceDeck().getFirst(), false);
+            resourceDeckTop = toCliCard(market.getResourceDeck().getLast(), false);
         } catch (NoSuchElementException e) {
             resourceDeckTop = noCardPrint;
         }
 
         try {
-            goldDeckTop = toCliCard(market.getGoldDeck().getFirst(), false);
+            goldDeckTop = toCliCard(market.getGoldDeck().getLast(), false);
         } catch (NoSuchElementException e) {
             goldDeckTop = noCardPrint;
         }

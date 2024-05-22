@@ -11,8 +11,8 @@ public abstract class Message implements Serializable {
     private final MiniModel miniModel;
     protected final String string;
 
-    //every extension of this class will have different params of the minimodel setted,
-    //you can find the specified params setted noted in every class
+    //every extension of this class will have different params of the minimodel set,
+    //you can find the specified params set noted in every class
 
     protected Message(MiniModel miniModel, String string) {
         this.miniModel = miniModel;
@@ -39,9 +39,4 @@ public abstract class Message implements Serializable {
         return this.string;
     }
 
-
-//    protected Message(String string, MiniModel miniModel){
-//        this.string = string;
-//        this.miniModel = miniModel;
-//    }
 }

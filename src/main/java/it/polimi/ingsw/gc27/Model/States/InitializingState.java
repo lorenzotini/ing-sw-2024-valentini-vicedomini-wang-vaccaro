@@ -2,7 +2,6 @@ package it.polimi.ingsw.gc27.Model.States;
 
 import it.polimi.ingsw.gc27.Controller.TurnHandler;
 import it.polimi.ingsw.gc27.Messages.Message;
-import it.polimi.ingsw.gc27.Messages.NotYourTurnMessage;
 import it.polimi.ingsw.gc27.Messages.UpdateManuscriptMessage;
 import it.polimi.ingsw.gc27.Model.Card.Face;
 import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
@@ -25,23 +24,17 @@ public class InitializingState extends PlayerState {
 
     @Override
     public void chooseObjectiveCard(Game game, int objectiveCardIndex) throws RemoteException {
-        MiniModel currentPlayer = new MiniModel(getPlayer());
-        Message genericErrorMessage = new NotYourTurnMessage(wrongStateText, currentPlayer);
-        turnHandler.getGame().notifyObservers(genericErrorMessage);
+        super.sendError(wrongStateText, getPlayer(), turnHandler);
     }
 
     @Override
     public void drawCard(Player player, boolean isGold, boolean fromDeck, int faceUpCardIndex) throws RemoteException {
-        MiniModel currentPlayer = new MiniModel(getPlayer());
-        Message genericErrorMessage = new NotYourTurnMessage(wrongStateText, currentPlayer);
-        turnHandler.getGame().notifyObservers(genericErrorMessage);
+        super.sendError(wrongStateText, getPlayer(), turnHandler);
     }
 
     @Override
     public void addCard(Game game, ResourceCard resourceCard, Face face, int x, int y) throws RemoteException {
-        MiniModel currentPlayer = new MiniModel(getPlayer());
-        Message genericErrorMessage = new NotYourTurnMessage(wrongStateText, currentPlayer);
-        turnHandler.getGame().notifyObservers(genericErrorMessage);
+        super.sendError(wrongStateText, getPlayer(), turnHandler);
     }
 
     @Override
@@ -49,13 +42,10 @@ public class InitializingState extends PlayerState {
 
         getPlayer().addCard(game, starterCard, face, Manuscript.FIELD_DIM / 2, Manuscript.FIELD_DIM / 2);
 
-        getPlayer().setPlayerState(new WaitingState(getPlayer(), getTurnHandler()));
+        getPlayer().setPlayerState(new ChooseObjectiveState(getPlayer(), getTurnHandler()));
 
         Message updateManuscriptMessage = new UpdateManuscriptMessage(new MiniModel(getPlayer(), getPlayer().getManuscript()));
         turnHandler.getGame().notifyObservers(updateManuscriptMessage);
-
-        // notify turnHandler
-        getTurnHandler().notifyInitializingState(getPlayer());
 
     }
 

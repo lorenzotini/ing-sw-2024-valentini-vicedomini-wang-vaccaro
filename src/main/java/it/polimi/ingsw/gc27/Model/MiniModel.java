@@ -77,21 +77,21 @@ public class MiniModel implements Serializable {
     }
 
     //used when you have to pass a message to a specific player
-    public MiniModel(Player currentPlayer) {
+    public MiniModel(String currentPlayer) {
         this.manuscript = null;
         this.board = null;
         this.market = null;
         this.player = null;
         this.hand = null;
-        this.currentPlayer = currentPlayer.getUsername();
+        this.currentPlayer = currentPlayer;
     }
 
-    // not used
-    public MiniModel(){
+    // used to update player state
+    public MiniModel(Player player) {
         this.manuscript = null;
         this.board = null;
         this.market = null;
-        this.player = null;
+        this.player = player;
         this.hand = null;
         this.currentPlayer = null;
     }
@@ -102,6 +102,16 @@ public class MiniModel implements Serializable {
         this.market = market;
         this.player = player;
         this.hand = player.getHand();
+        this.currentPlayer = null;
+    }
+
+    // not used
+    public MiniModel(){
+        this.manuscript = null;
+        this.board = null;
+        this.market = null;
+        this.player = null;
+        this.hand = null;
         this.currentPlayer = null;
     }
 

@@ -40,13 +40,12 @@ public class Gui extends Application implements View {
 
         new Thread(()->{
             try {
-
+                launch();
                 //welcomePlayer(client);
                 //mainApp.init();
 
                 //messages.add("new");
                 //this.read();
-
 
             } catch (Exception e) {
                 throw new RuntimeException(e);
@@ -63,9 +62,7 @@ public class Gui extends Application implements View {
         stage.show();
     }
 
-    public static void main(){
-        launch();
-    }
+
 
 
 

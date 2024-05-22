@@ -71,6 +71,7 @@ public class MainClient  {
 
                     case ("--gui"):
                         view = new Gui();
+                        //Gui.launch(Gui.class);
                         break;
 
                     case ("--tui"):

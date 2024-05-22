@@ -14,7 +14,7 @@ public class UpdateStartOfGameMessage extends Message {
     }
 
     @Override
-    public void reportUpdate(VirtualView client, View view) {
+    public void reportUpdate(VirtualView client, View view) throws RemoteException{
         try{
             client.getMiniModel().copy(this.getMiniModel());
         }catch(RemoteException e){

@@ -45,6 +45,7 @@ public class InitializingState extends PlayerState {
         getPlayer().setPlayerState(new ChooseObjectiveState(getPlayer(), getTurnHandler()));
 
         Message updateManuscriptMessage = new UpdateManuscriptMessage(new MiniModel(getPlayer(), getPlayer().getManuscript()));
+
         turnHandler.getGame().notifyObservers(updateManuscriptMessage);
 
     }

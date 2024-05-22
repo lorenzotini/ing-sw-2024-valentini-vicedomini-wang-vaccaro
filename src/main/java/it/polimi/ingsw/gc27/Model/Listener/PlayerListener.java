@@ -4,9 +4,10 @@ import it.polimi.ingsw.gc27.Messages.Message;
 import it.polimi.ingsw.gc27.Model.Game.Player;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 
+import java.io.Serializable;
 import java.rmi.RemoteException;
 
-public class PlayerListener implements Observer{
+public class PlayerListener implements Observer, Serializable {
 
     VirtualView client;
     String playerUsername;
@@ -30,6 +31,7 @@ public class PlayerListener implements Observer{
                         || (message.getMiniModel().currentPlayer != null && message.getMiniModel().currentPlayer.equals(playerUsername))
                             || (message.getMiniModel().getPlayer() != null && message.getMiniModel().getPlayer().getUsername().equals(playerUsername))) {
                 //the condition check that the client of this listener has to receive the update
+
                 client.update(message);
             }
         }catch( RemoteException e){

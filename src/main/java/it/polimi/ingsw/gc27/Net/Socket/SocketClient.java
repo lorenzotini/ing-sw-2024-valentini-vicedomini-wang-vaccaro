@@ -2,10 +2,12 @@ package it.polimi.ingsw.gc27.Net.Socket;
 
 import it.polimi.ingsw.gc27.Messages.Message;
 import it.polimi.ingsw.gc27.Model.MiniModel;
+import it.polimi.ingsw.gc27.Model.States.WaitingState;
 import it.polimi.ingsw.gc27.Net.Commands.Command;
 import it.polimi.ingsw.gc27.Net.VirtualServer;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 import it.polimi.ingsw.gc27.View.View;
+import java.nio.file.Path;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
@@ -29,10 +31,8 @@ public class SocketClient implements VirtualView {
         try {
             server.welcomePlayer(this);
 
-            synchronized (this) {
-                while(this.miniModel.getPlayer() == null) {
-                    this.wait();
-                }
+            while(this.miniModel.getPlayer() == null) {
+                Thread.sleep(100);
             }
             view.run();
         } catch (InterruptedException | IOException e) {
@@ -81,17 +81,16 @@ public class SocketClient implements VirtualView {
     @Override
     public String read() throws RemoteException {
         Scanner scan = new Scanner(System.in);
-        String string = scan.nextLine();
+        String string;
         while((string = scan.nextLine()).equals("\n")){};
         return string;
     }
 
     @Override
     public void setUsername(String username) throws RemoteException {
-        synchronized (this) {
-            this.username = username;
-            this.notifyAll();
-        }
+
+        this.username = username;
+        this.show("Welcome " + this.username + "!" + "\nWaiting for other players to join the game...");
     }
 
 

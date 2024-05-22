@@ -1,9 +1,10 @@
 package it.polimi.ingsw.gc27.Net.Socket;
 
 import it.polimi.ingsw.gc27.Controller.GigaController;
-import it.polimi.ingsw.gc27.Messages.Message;
+import it.polimi.ingsw.gc27.Messages.*;
 import it.polimi.ingsw.gc27.Messages.SetUsernameMessage;
 import it.polimi.ingsw.gc27.Messages.StringMessage;
+import it.polimi.ingsw.gc27.Messages.UpdateManuscriptMessage;
 import it.polimi.ingsw.gc27.Model.Game.Player;
 import it.polimi.ingsw.gc27.Model.MiniModel;
 import it.polimi.ingsw.gc27.Net.Commands.Command;
@@ -21,6 +22,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 public class ClientHandler implements VirtualView {
 
+
     final ObjectInputStream input;
     final ObjectOutputStream output;
     boolean flag;
@@ -28,7 +30,7 @@ public class ClientHandler implements VirtualView {
     final GigaController console;
     final SocketServer server;
     final Socket socketClient;
-
+    private boolean disconnected;
     // is for the command received
     final BlockingQueue<Command> commands = new LinkedBlockingQueue<>();
 
@@ -47,6 +49,7 @@ public class ClientHandler implements VirtualView {
                     String message = (String) input.readObject();
                     if(message.equals("welcomeplayer")){
                         console.welcomePlayer(this);
+                        verifyPing();
                     }
                 } catch (ClassNotFoundException | InterruptedException | IOException e) {
                     throw new RuntimeException(e);
@@ -61,7 +64,8 @@ public class ClientHandler implements VirtualView {
                             commands.add(command);
                         }
                     } catch (IOException e) {
-                        throw new RuntimeException(e);
+
+                        disconnected();
                     } catch (ClassNotFoundException e) {
                         throw new RuntimeException(e);
                     }
@@ -84,8 +88,9 @@ public class ClientHandler implements VirtualView {
         //this.player = console.welcomePlayer(this);
         Command command;
         // Read message type
-        while ((command = (Command) commands.take()) != null ) {
+        while (true ) {
             // Read message and perform action
+            command = commands.take();
             try {
                 command.execute(console);
             } catch (InterruptedException e) {
@@ -99,6 +104,7 @@ public class ClientHandler implements VirtualView {
     public void show(String s) {
         try{
             this.output.writeObject(new StringMessage(s));
+            output.reset();
             this.output.flush();
         }catch(IOException e){
             //TODO this.console.disconnected(this);
@@ -111,6 +117,7 @@ public class ClientHandler implements VirtualView {
     public String read() throws IOException {
         String mex = null;
         output.writeObject(new StringMessage("read"));
+        output.reset();
         output.flush();
         try {
             mex = (String) input.readObject();
@@ -126,6 +133,7 @@ public class ClientHandler implements VirtualView {
 
         try{
             output.writeObject(new SetUsernameMessage(username));
+            output.reset();
             output.flush();
         }catch( IOException e){
             e.printStackTrace();
@@ -164,7 +172,10 @@ public class ClientHandler implements VirtualView {
     @Override
     public void update(Message message) {
         try{
+            if (message instanceof UpdateManuscriptMessage)
+                message.getMiniModel().setManuscript(null);
             output.writeObject(message);
+            output.reset();
             output.flush();
         }catch( IOException e){
             e.printStackTrace();
@@ -172,26 +183,41 @@ public class ClientHandler implements VirtualView {
     }
 
     private void verifyPing() throws InterruptedException {
-        int count = 0;
-        while(true){
-            if(flag){
-                count = 0;
-                flag=false;
-                this.wait(1000);
-            }else{
-                this.wait(1000);
-                count++;
+        new Thread(()->{
+            int count = 0;
+            while(true){
+                if(flag){
+                    count = 0;
+                    flag=false;
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                }else{
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                    count++;
                 if(count == 3){
                     disconnected();
                     System.out.println("giocatore socket disconnesso");
                 }
             }
 
-        }
+        }}).start();
     }
 
-    public void disconnected(){
+    public synchronized void disconnected(){
         //console.disconnected(this.player);
+        if(disconnected == false){
+            disconnected = true;
+            System.out.println("disconessione avvenuta");
+            //console.disconnected(this.player);
+        }
     }
 
 }

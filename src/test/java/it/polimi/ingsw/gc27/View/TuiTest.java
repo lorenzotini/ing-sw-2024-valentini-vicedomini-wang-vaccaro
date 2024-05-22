@@ -126,43 +126,43 @@ class TuiTest {
         m.getField()[40][40].getCornerUL().setHidden(true);
 
         // #1
-        m.getField()[39][41] = resourceDeck.get(20).getBack();
+        m.getField()[39][41] = goldDeck.get(20).getFront();
         m.getField()[39][41].getCornerLL().setHidden(true);
         m.getField()[39][41].getCornerLR().setHidden(true);
 
         // #2
-        m.getField()[39][39] = resourceDeck.get(21).getBack();
+        m.getField()[39][39] = goldDeck.get(21).getFront();
         m.getField()[39][39].getCornerUR().setHidden(true);
 
         // #3
-        m.getField()[38][42] = resourceDeck.get(22).getFront();
+        m.getField()[38][42] = goldDeck.get(22).getFront();
         m.getField()[38][42].getCornerLL().setHidden(true);
 
         // #4
-        m.getField()[37][43] = resourceDeck.get(23).getBack();
+        m.getField()[37][43] = goldDeck.get(23).getFront();
         m.getField()[37][43].getCornerUL().setHidden(true);
 
         // #5
-        m.getField()[40][38] = resourceDeck.get(0).getFront();
+        m.getField()[40][38] = goldDeck.get(0).getFront();
         m.getField()[40][38].getCornerLR().setHidden(true);
 
         // #6
-        m.getField()[41][39] = resourceDeck.get(30).getFront();
+        m.getField()[41][39] = goldDeck.get(30).getFront();
         m.getField()[41][39].getCornerLR().setHidden(true);
 
         // #7
-        m.getField()[36][42] = resourceDeck.get(31).getFront();
+        m.getField()[36][42] = goldDeck.get(31).getFront();
 
         // #8
-        m.getField()[42][40] = resourceDeck.get(10).getBack();
+        m.getField()[42][40] = goldDeck.get(10).getFront();
         m.getField()[42][40].getCornerLL().setHidden(true);
 
         // #9
-        m.getField()[40][42] = resourceDeck.get(11).getFront();
+        m.getField()[40][42] = goldDeck.get(11).getFront();
         m.getField()[40][42].getCornerUR().setHidden(true);
 
         // #10
-        m.getField()[41][41] = resourceDeck.get(32).getBack();
+        m.getField()[41][41] = goldDeck.get(32).getFront();
 
         m.setxMin(36);
         m.setyMin(38);

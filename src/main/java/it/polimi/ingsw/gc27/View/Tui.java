@@ -46,7 +46,9 @@ public class Tui implements View {
             out.print(client.getMiniModel().getPlayer().getPlayerState() + "\n> ");
 
             String command = scan.nextLine();
-
+            if (command.equals("\n") || command.isEmpty()){
+                command = scan.nextLine();
+            }
             switch (command.toLowerCase()) {
 
                 case "help":
@@ -88,7 +90,7 @@ public class Tui implements View {
                         scan.nextLine();
                     }
                     // Consume the invalid input to clear the scanner's buffer
-                    scan.nextLine();
+
                     break;
 
                 case "chooseobj":
@@ -119,7 +121,6 @@ public class Tui implements View {
                         }
                     }
                     // Consume the invalid input to clear the scanner's buffer
-                    scan.nextLine();
                     break;
 
                 // TODO creare una soluzione intelligente per gestire gli input di addcard, con while true e try catch vari

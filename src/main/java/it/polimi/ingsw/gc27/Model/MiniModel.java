@@ -1,7 +1,7 @@
 package it.polimi.ingsw.gc27.Model;
 
 import it.polimi.ingsw.gc27.Model.Card.ObjectiveCard.ObjectiveCard;
-import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
+import it.polimi.ingsw.gc27.Model.Card.*;
 import it.polimi.ingsw.gc27.Model.Game.*;
 
 import java.io.Serializable;

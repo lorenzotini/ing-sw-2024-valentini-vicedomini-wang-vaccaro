@@ -12,13 +12,14 @@ import org.json.simple.parser.ParseException;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.Serializable;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.stream.Collectors;
 
-public class JsonParser {
+public class JsonParser implements Serializable {
 
     public static HashMap<String, Kingdom> kingdomHashMap = new HashMap<>();
     static {

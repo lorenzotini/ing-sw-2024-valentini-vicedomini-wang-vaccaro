@@ -123,7 +123,7 @@ public class RmiServer implements VirtualServer {
         synchronized (this.clients){
             this.clients.add(client);
         }
-        System.out.println("new client connected");
+        System.out.println("Client connected - rmi - " + client.toString());
 
     }
 

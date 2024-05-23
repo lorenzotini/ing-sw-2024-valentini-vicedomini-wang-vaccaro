@@ -4,6 +4,7 @@ import it.polimi.ingsw.gc27.Model.Card.*;
 import it.polimi.ingsw.gc27.Model.Card.ObjectiveCard.ObjectiveCard;
 import it.polimi.ingsw.gc27.Model.Enumerations.PointsMultiplier;
 import it.polimi.ingsw.gc27.Model.Game.Board;
+import it.polimi.ingsw.gc27.Model.Game.ChatMessage;
 import it.polimi.ingsw.gc27.Model.Game.Manuscript;
 import it.polimi.ingsw.gc27.Model.Game.Market;
 import it.polimi.ingsw.gc27.Model.States.*;
@@ -187,7 +188,23 @@ public class Tui implements View {
                 case "board":
                     out.println("\n" + showBoard(client.getMiniModel().getBoard()));
                     break;
-
+                case "sendmessage":
+                    out.println("\nto who?");
+                    String receiver = scan.nextLine();
+                    if(receiver.equals("\n")){
+                        receiver = scan.nextLine();
+                        break;
+                    }
+                    out.println("\n" + "content:");
+                    String mess = scan.nextLine();
+                    if(mess.equals("\n")){
+                        mess = scan.nextLine();
+                        break;
+                    }
+                    else{
+                        client.sendCommand(new SendMessageCommand(client.getMiniModel().getPlayer(), receiver, mess ));
+                    }
+                    break;
                 default:
                     out.println("\nInvalid command. Type 'help' for a list of commands.");
                     break;

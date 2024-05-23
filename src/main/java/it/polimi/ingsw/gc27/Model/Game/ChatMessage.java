@@ -1,6 +1,8 @@
 package it.polimi.ingsw.gc27.Model.Game;
 
-public class ChatMessage {
+import java.io.Serializable;
+
+public class ChatMessage implements Serializable {
     Player sender;
     Player receiver;
     String content;

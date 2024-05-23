@@ -15,6 +15,7 @@ import it.polimi.ingsw.gc27.Net.VirtualView;
 import javafx.util.Pair;
 
 import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,8 +33,8 @@ public class Game implements Serializable, Observable {
     private ArrayList<ObjectiveCard> objectiveDeck;
     private ArrayList<PawnColour> availablePawns = new ArrayList<>(List.of(PawnColour.GREEN, PawnColour.YELLOW, PawnColour.BLUE, PawnColour.RED));
 
-    private Chat generalChat ;
-    private HashMap< Pair<Player, Player>, Chat> chatMap;
+    private Chat generalChat = new Chat();
+    final private HashMap< Pair<Player, Player>, Chat> chatMap = new HashMap<>();
 
     public Game() {
     }
@@ -174,6 +175,18 @@ public class Game implements Serializable, Observable {
     }
     public Chat getChat(Player p1, Player p2){
         return chatMap.get(new Pair<Player,Player>(p1, p2));
+    }
+    public ArrayList<Chat> getChats(Player player){
+        ArrayList<Chat> chats = new ArrayList<>();
+        chats.add(this.generalChat);
+        System.out.println("aggiunta chat globale");
+        for(Pair<Player , Player> p : chatMap.keySet()){
+            if(p.getKey().getUsername().equals(player.getUsername())){
+                chats.add(chatMap.get(p));
+                System.out.println("aggiunta chat singola");
+            }
+        }
+        return chats;
     }
 
 }

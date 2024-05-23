@@ -15,6 +15,9 @@ public class MiniModel implements Serializable {
     private Player player;
     private ArrayList<ResourceCard> hand;
     public String currentPlayer;
+    public ArrayList<Chat> chat = new ArrayList<>();
+
+
 
     // used when update the players manuscript
     public MiniModel(Player player, Manuscript manuscript){
@@ -105,7 +108,16 @@ public class MiniModel implements Serializable {
         this.currentPlayer = null;
     }
 
-    // not used
+    public MiniModel(Player player, Market market, Board board, ArrayList<Chat> chats){
+        this.manuscript = player.getManuscript();
+        this.board = board;
+        this.market = market;
+        this.player = player;
+        this.hand = player.getHand();
+        this.currentPlayer = null;
+        this.chat.addAll(chats);
+    }
+
     public MiniModel(){
         this.manuscript = null;
         this.board = null;
@@ -113,6 +125,24 @@ public class MiniModel implements Serializable {
         this.player = null;
         this.hand = null;
         this.currentPlayer = null;
+    }
+    public MiniModel(Chat chat,Player player, String receiver){
+        this.manuscript = null;
+        this.board = null;
+        this.market = null;
+        this.player = player;
+        this.hand = null;
+        this.currentPlayer = receiver;
+        this.chat.add(chat);
+    }
+    public MiniModel(Chat chat){
+        this.manuscript = null;
+        this.board = null;
+        this.market = null;
+        this.player = null;
+        this.hand = null;
+        this.currentPlayer =null;
+        this.chat.add(chat);
     }
 
     public Player getPlayer() {
@@ -160,7 +190,23 @@ public class MiniModel implements Serializable {
         this.market = miniModel.market;
         this.player = miniModel.player;
         this.hand = miniModel.hand;
+        this.chat.addAll(miniModel.chat);
     }
 
+    public Chat getChat(ArrayList<Player> chatters) {
+        boolean flag ;
+        for(Chat chat : this.chat) {
+            flag = true;
+            for(Player p : chatters){
+                   String username = p.getUsername();
+                   if(!chat.contains(username)){
+                       flag = false;
+                   }
+            }if(flag){
+                return chat;
+            }
+        }
+        return null;
+    }
 }
 

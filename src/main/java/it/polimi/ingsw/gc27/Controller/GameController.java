@@ -130,7 +130,7 @@ public class GameController implements Serializable {
             for (Player player : game.getPlayers()) {
                 player.setPlayerState(new InitializingState(player, this.turnHandler));
                 //TODO fare bene l'addstarted e tutta la fase iniziale
-                game.notifyObservers(new UpdateStartOfGameMessage(new MiniModel(player, game.getMarket(), game.getBoard()), player.getUsername()));
+                game.notifyObservers(new UpdateStartOfGameMessage(new MiniModel(player, game.getMarket(), game.getBoard(), game.getChats(player)), player.getUsername()));
             }
         }
 
@@ -142,12 +142,14 @@ public class GameController implements Serializable {
         if(chatMessage.getReceiver() == null){
             chat = game.getGeneralChat();
             chat.addChatMessage(chatMessage);
+            game.notifyObservers(new UpdateChatMessage(chat));
         }
         else{
             chat=game.getChat(chatMessage.getSender(), chatMessage.getReceiver());
             chat.addChatMessage(chatMessage);
+            game.notifyObservers(new UpdateChatMessage(chat, chatMessage.getSender(), chatMessage.getReceiver().getUsername()));
         }
-        game.notifyObservers(new UpdateChatMessage(chat));
+
     }
 
 }

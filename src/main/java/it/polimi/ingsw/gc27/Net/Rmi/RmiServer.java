@@ -32,7 +32,7 @@ public class RmiServer implements VirtualServer {
         String name = "VirtualServer";
 
         VirtualServer stub = null;
-        
+
         try {
             stub = (VirtualServer) UnicastRemoteObject.exportObject(this, 0);
         } catch (RemoteException e) {
@@ -75,32 +75,31 @@ public class RmiServer implements VirtualServer {
 
     }
 
-    public void receiveCommand(Command command){
+    public void receiveCommand(Command command) {
         commands.add(command);
     }
 
     @Override
     public void areClientsAlive() throws RemoteException {
-        while(true){
-            synchronized (clients){
+        while (true) {
+            synchronized (clients) {
                 Iterator<VirtualView> iterator = clients.iterator();
-                while (iterator.hasNext()){
+                while (iterator.hasNext()) {
                     VirtualView client = iterator.next();
-//                    try {
-//                        if(client.getLastPing() == 0){
-//                            client.setLastPing(System.currentTimeMillis());
-//                        }
-//                        else if(System.currentTimeMillis() - client.getLastPing() > 10000){
-//                            // Declare disconnected the client
-//                            iterator.remove(); // Safely remove the client using the iterator
-//                            disconnect(client);
-//                            System.out.println("Timeout for client expired");
-//                        }
-//                    } catch (RemoteException e) { // If the client is abruptly disconnected
-//                        iterator.remove(); // Safely remove the client using the iterator
-//                        disconnect(client);
-//                        System.out.println("Client abruptly disconnected");
-//                    }
+                    try {
+                        if (client.getLastPing() == 0) {
+                            client.setLastPing(System.currentTimeMillis());
+                        } else if (System.currentTimeMillis() - client.getLastPing() > 10000) {
+                            // Declare disconnected the client
+                            iterator.remove(); // Safely remove the client using the iterator
+                            disconnect(client);
+                            System.out.println("Timeout for client expired");
+                        }
+                    } catch (RemoteException e) { // If the client is abruptly disconnected
+                        iterator.remove(); // Safely remove the client using the iterator
+                        disconnect(client);
+                        System.out.println("Client abruptly disconnected");
+                    }
                 }
             }
         }
@@ -112,7 +111,7 @@ public class RmiServer implements VirtualServer {
     }
 
     private void executeCommands() throws InterruptedException, IOException {
-        while(true){
+        while (true) {
             Command comm = commands.take();
             comm.execute(console);
         }
@@ -120,11 +119,10 @@ public class RmiServer implements VirtualServer {
 
     @Override
     public void connect(VirtualView client) throws RemoteException {
-        synchronized (this.clients){
+        synchronized (this.clients) {
             this.clients.add(client);
         }
         System.out.println("Client connected - rmi - " + client.toString());
-
     }
 
     @Override
@@ -134,9 +132,7 @@ public class RmiServer implements VirtualServer {
 
     @Override
     public void welcomePlayer(VirtualView client) throws IOException, InterruptedException {
-        // TODO: gestire le eccezioni
         this.console.welcomePlayer(client);
-        // TODO: gestire meglio gli updates
     }
 
 }

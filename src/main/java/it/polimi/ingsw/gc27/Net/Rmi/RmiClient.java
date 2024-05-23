@@ -76,26 +76,6 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
 
         this.server.connect(this);
 
-        new Thread(() -> {
-            while (true) {
-                try {
-                    Message mess = messages.take();
-                    mess.reportUpdate(this, view);
-                } catch (RemoteException | InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        }).start();
-
-        this.server.welcomePlayer(this);
-        this.show("Welcome " + this.username + "!" + "\nWaiting for other players to join the game...");
-
-
-        //wait for the other players to join the game
-        while (miniModel.getPlayer() == null) {
-            Thread.sleep(1000);
-        }
-
         //keep the client alive
         new Thread(() -> {
             while (true) {
@@ -108,8 +88,29 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
             }
         }).start();
 
+        new Thread(() -> {
+            while (true) {
+                try {
+                    Message mess = messages.take();
+                    mess.reportUpdate(this, view);
+                } catch (RemoteException | InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }).start();
+
+        this.server.welcomePlayer(this);
+
+        this.show("Welcome " + this.username + "!" + "\nWaiting for other players to join the game...");
+
+        //wait for the other players to join the game
+        while (miniModel.getPlayer() == null) {
+            Thread.sleep(1000);
+        }
+
         //start the game
         view.run();
+
     }
 
     @Override

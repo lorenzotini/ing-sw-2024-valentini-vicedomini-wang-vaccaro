@@ -5,7 +5,7 @@ import it.polimi.ingsw.gc27.Net.VirtualView;
 import it.polimi.ingsw.gc27.View.View;
 
 public class NotYourTurnMessage extends Message{
-    //this minimodel's class have only currentPlayer and the string setted,
+    //this minimodel's class have only currentPlayer and the string set,
     //currentPlayer is the player that has to receive the message
     public NotYourTurnMessage(String errorMessage, MiniModel currentPlayer) {
         super(currentPlayer, errorMessage);

@@ -189,7 +189,10 @@ public class Tui implements View {
                     out.println("\n" + showBoard(client.getMiniModel().getBoard()));
                     break;
                 case "sendmessage":
-                    out.println("\nto who?");
+                    out.println("\nchat available : \nglobal");
+                    for(String u : client.getMiniModel().getOtherPlayerUsername()){
+                        out.println(u);
+                    }
                     String receiver = scan.nextLine();
                     if(receiver.equals("\n")){
                         receiver = scan.nextLine();

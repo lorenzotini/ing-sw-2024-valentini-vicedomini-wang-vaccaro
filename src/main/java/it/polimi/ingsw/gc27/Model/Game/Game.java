@@ -173,7 +173,7 @@ public class Game implements Serializable, Observable {
     public Chat getGeneralChat(){
         return this.generalChat;
     }
-    public Chat getChat(Player p1, Player p2){
+    public Chat getChat(Player p1, Player p2) {
         return chatMap.get(new Pair<Player,Player>(p1, p2));
     }
     public ArrayList<Chat> getChats(Player player){

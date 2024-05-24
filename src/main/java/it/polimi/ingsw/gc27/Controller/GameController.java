@@ -130,7 +130,7 @@ public class GameController implements Serializable {
             for (Player player : game.getPlayers()) {
                 player.setPlayerState(new InitializingState(player, this.turnHandler));
                 //TODO fare bene l'addstarted e tutta la fase iniziale
-                game.notifyObservers(new UpdateStartOfGameMessage(new MiniModel(player, game.getMarket(), game.getBoard(), game.getChats(player)), player.getUsername()));
+                game.notifyObservers(new UpdateStartOfGameMessage(new MiniModel(player, game), player.getUsername()));
             }
         }
 

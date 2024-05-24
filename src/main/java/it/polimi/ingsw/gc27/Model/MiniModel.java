@@ -6,6 +6,7 @@ import it.polimi.ingsw.gc27.Model.Game.*;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 public class MiniModel implements Serializable {
 
@@ -15,8 +16,11 @@ public class MiniModel implements Serializable {
     private Player player;
     private ArrayList<ResourceCard> hand;
     public String currentPlayer;
-    public ArrayList<Chat> chat = new ArrayList<>();
-
+    private ArrayList<String> otherPlayerUsername = new ArrayList<>();
+    final private ArrayList<Chat> chat = new ArrayList<>();
+    public ArrayList<Chat> getChat() {
+        return chat;
+    }
 
 
     // used when update the players manuscript
@@ -117,6 +121,19 @@ public class MiniModel implements Serializable {
         this.currentPlayer = null;
         this.chat.addAll(chats);
     }
+    public MiniModel(Player player, Game game){
+        this.manuscript = player.getManuscript();
+        this.board = game.getBoard();
+        this.market = game.getMarket();
+        this.player = player;
+        this.hand = player.getHand();
+        this.currentPlayer = null;
+        this.chat.addAll(game.getChats(player));
+        this.otherPlayerUsername.addAll(game.getPlayers().stream()
+                        .map(Player::getUsername)
+                        .filter(username -> !username.equals(player.getUsername()))
+                        .collect(Collectors.toCollection(ArrayList<String>::new )));
+    }
 
     public MiniModel(){
         this.manuscript = null;
@@ -185,28 +202,44 @@ public class MiniModel implements Serializable {
     }
 
     public void copy(MiniModel miniModel){
-        this.manuscript = miniModel.manuscript ;
+        this.manuscript = miniModel.manuscript;
         this.board = miniModel.board;
         this.market = miniModel.market;
         this.player = miniModel.player;
         this.hand = miniModel.hand;
         this.chat.addAll(miniModel.chat);
+        this.otherPlayerUsername.addAll(miniModel.otherPlayerUsername);
     }
 
     public Chat getChat(ArrayList<Player> chatters) {
         boolean flag ;
         for(Chat chat : this.chat) {
-            flag = true;
-            for(Player p : chatters){
-                   String username = p.getUsername();
-                   if(!chat.contains(username)){
-                       flag = false;
-                   }
-            }if(flag){
-                return chat;
+            if(chat.getChatters().size()>2) {
+
+                flag = true;
+                for (Player p : chatters) {
+                    String username = p.getUsername();
+                    if (!chat.contains(username)) {
+                        flag = false;
+                    }
+                }
+                if (flag) {
+                    return chat;
+                }
             }
         }
         return null;
+    }
+    public ArrayList<String> getOtherPlayerUsername() {
+        return otherPlayerUsername;
+    }
+
+
+    public boolean chekOtherUsername(String user){ //verifichi che la stringa passata sia l'username di un altro giocatore
+        if(otherPlayerUsername.contains(user)){
+            return true;
+        }
+        return false;
     }
 }
 

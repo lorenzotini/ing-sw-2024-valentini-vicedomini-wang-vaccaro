@@ -7,7 +7,6 @@ import it.polimi.ingsw.gc27.Model.Card.Card;
 import it.polimi.ingsw.gc27.Model.Card.ObjectiveCard.ObjectiveCard;
 import it.polimi.ingsw.gc27.Model.Card.StarterCard;
 import it.polimi.ingsw.gc27.Model.Enumerations.PawnColour;
-import it.polimi.ingsw.gc27.Exceptions.UserNotFoundException;
 import it.polimi.ingsw.gc27.Model.Listener.Observable;
 import it.polimi.ingsw.gc27.Model.Listener.Observer;
 import it.polimi.ingsw.gc27.Model.Listener.PlayerListener;
@@ -61,7 +60,7 @@ public class Game implements Serializable, Observable {
                 return p;
             }
         }
-        throw new UserNotFoundException(playerName + "is not in this game");
+        return null;
     }
     public ArrayList<StarterCard> getStarterDeck() {
         return starterDeck;

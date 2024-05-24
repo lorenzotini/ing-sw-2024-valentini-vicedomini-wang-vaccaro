@@ -12,6 +12,8 @@ import java.rmi.RemoteException;
 
 public class EndingState extends PlayerState  {
 
+    // This state is reached when the player has finished his last turn, since someone reached the victory points limit
+
     String textMessage = "the game is ending... it's too late man";
 
     public EndingState(Player player, TurnHandler turnHandler) throws RemoteException {

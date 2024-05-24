@@ -3,17 +3,13 @@ package it.polimi.ingsw.gc27.Controller;
 import it.polimi.ingsw.gc27.Messages.Message;
 import it.polimi.ingsw.gc27.Messages.UpdatePlayerStateMessage;
 import it.polimi.ingsw.gc27.Model.Game.Board;
-import it.polimi.ingsw.gc27.Messages.YourTurnMessage;
 import it.polimi.ingsw.gc27.Model.Game.Game;
 import it.polimi.ingsw.gc27.Model.Game.Player;
 import it.polimi.ingsw.gc27.Model.MiniModel;
 import it.polimi.ingsw.gc27.Model.States.EndingState;
 import it.polimi.ingsw.gc27.Model.States.PlayingState;
 import it.polimi.ingsw.gc27.Model.States.WaitingState;
-import it.polimi.ingsw.gc27.Model.MiniModel;
-import it.polimi.ingsw.gc27.Model.States.*;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.util.List;
@@ -35,6 +31,8 @@ public class TurnHandler implements Serializable {
         return game;
     }
 
+
+    // TODO adesso il salto al player va a quello immediatamente successivo, ma andrebbe ciclato fino a trovarne uno connesso
     public void notifyChooseObjectiveState() throws RemoteException {
 
         boolean everyoneReady = true;
@@ -81,22 +79,22 @@ public class TurnHandler implements Serializable {
             updatePlayerStateMessage = new UpdatePlayerStateMessage(new MiniModel(player));
             this.game.notifyObservers(updatePlayerStateMessage);
 
-            if (getNextOf(index, players) != null) {
+            if (!getNextOf(index, players).isDisconnected()) {  // the next player is connected
 
                 getNextOf(index, players).setPlayerState(new PlayingState(getNextOf(index, players), this));
                 updatePlayerStateMessage = new UpdatePlayerStateMessage(new MiniModel(getNextOf(index, players)));
                 this.game.notifyObservers(updatePlayerStateMessage);
 
-            } else {
+            } else { // the next player is disconnected --> skip him
 
-                players.getFirst().setPlayerState(new PlayingState(players.getFirst(), this));
-                updatePlayerStateMessage = new UpdatePlayerStateMessage(new MiniModel(players.getFirst()));
+                getNextOf(index + 1, players).setPlayerState(new PlayingState(getNextOf(index + 1, players), this));
+                updatePlayerStateMessage = new UpdatePlayerStateMessage(new MiniModel(getNextOf(index + 1, players)));
                 this.game.notifyObservers(updatePlayerStateMessage);
 
-                if (twentyPointsReached) {
-                    lastRound = true; // once someone gets 20 points, only if the round is finished you can trigger the last round
-                }
+            }
 
+            if (twentyPointsReached) {
+                lastRound = true; // once someone gets 20 points, only if the round is finished you can trigger the last round
             }
 
         } else {
@@ -105,8 +103,14 @@ public class TurnHandler implements Serializable {
             updatePlayerStateMessage = new UpdatePlayerStateMessage(new MiniModel(player));
             this.game.notifyObservers(updatePlayerStateMessage);
 
-            if (getNextOf(index, players) != null) {
+            if (!getNextOf(index, players).isDisconnected()) { // the next player is connected
                 getNextOf(index, players).setPlayerState(new PlayingState(getNextOf(index, players), this));
+                updatePlayerStateMessage = new UpdatePlayerStateMessage(new MiniModel(getNextOf(index, players)));
+                this.game.notifyObservers(updatePlayerStateMessage);
+            } else { // the next player is disconnected --> skip him
+                getNextOf(index + 1, players).setPlayerState(new PlayingState(getNextOf(index + 1, players), this));
+                updatePlayerStateMessage = new UpdatePlayerStateMessage(new MiniModel(getNextOf(index + 1, players)));
+                this.game.notifyObservers(updatePlayerStateMessage);
             }
 
         }
@@ -136,11 +140,17 @@ public class TurnHandler implements Serializable {
 
     }
 
+    /**
+     * @param index
+     * @param players
+     * @return
+     * @requires index < players.size()
+     */
     private Player getNextOf(int index, List<Player> players) {
         if (index + 1 < players.size()) {
             return players.get(index + 1);
         } else {
-            return null;
+            return players.getFirst();
         }
     }
 

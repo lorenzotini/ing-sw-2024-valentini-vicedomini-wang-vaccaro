@@ -22,7 +22,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
     private final View view; //this will be or tui or gui, when  a gui is ready is to implement
     private final MiniModel miniModel;
     private final BlockingQueue<Message> messages = new LinkedBlockingQueue<>();
-    private String username;
+    private String username = "";
     private long lastPing = 0;
 
     public RmiClient(String ipAddress, int port, View view) throws IOException, NotBoundException, InterruptedException {
@@ -80,7 +80,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
         new Thread(() -> {
             while (true) {
                 try {
-                    Thread.sleep(2000);
+                    Thread.sleep(1000);
                     pingToServer(server, this);
                 } catch (RemoteException | InterruptedException e) {
                     throw new RuntimeException(e);

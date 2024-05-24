@@ -9,6 +9,7 @@ import it.polimi.ingsw.gc27.Model.Game.Game;
 import it.polimi.ingsw.gc27.Model.Game.Manuscript;
 import it.polimi.ingsw.gc27.Model.Game.Player;
 import it.polimi.ingsw.gc27.Model.MiniModel;
+import it.polimi.ingsw.gc27.Model.States.DisconnectedState;
 import it.polimi.ingsw.gc27.Model.States.InitializingState;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 
@@ -79,8 +80,13 @@ public class GameController implements Serializable {
         player.getPlayerState().addStarterCard(this.game, starter, face);
     }
 
+    public void suspendPlayer(Player player) {
+        player.setDisconnected(true);
+        player.setPlayerState(new DisconnectedState());
+    }
+
     // Create a player from command line, but hand, secret objective and starter are not instantiated
-    public Player initializePlayer(VirtualView client, GigaController gigaChad) throws IOException, InterruptedException {
+    public void initializePlayer(VirtualView client, GigaController gigaChad) throws IOException, InterruptedException {
         String username;
         String pawnColor;
         Manuscript manuscript = new Manuscript();
@@ -134,8 +140,6 @@ public class GameController implements Serializable {
                 game.notifyObservers(new UpdateStartOfGameMessage(new MiniModel(player, game.getMarket(), game.getBoard()), player.getUsername()));
             }
         }
-
-        return p;
 
     }
 

@@ -20,7 +20,7 @@ public class Player implements Serializable {
     private ArrayList<ObjectiveCard> secretObjectives;
     private StarterCard starterCard;
     private PlayerState playerState;
-
+    private boolean isDisconnected = false;
 
     public Player(String username, Manuscript manuscript, PawnColour pawnColour) {
         this.username = username;
@@ -32,9 +32,14 @@ public class Player implements Serializable {
     }
 
 
-    /*public Player() {
-        hand = new ArrayList<>(3);
-    }*/
+
+    public boolean isDisconnected() {
+        return isDisconnected;
+    }
+
+    public void setDisconnected(boolean disconnected) {
+        isDisconnected = disconnected;
+    }
 
     public void setPlayerState(PlayerState playerState) {
         this.playerState = playerState;

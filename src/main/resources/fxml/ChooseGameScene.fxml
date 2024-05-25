@@ -9,12 +9,12 @@
    <children>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Button fx:id="joinGameButton" mnemonicParsing="false" prefHeight="65.0" prefWidth="153.0" text="JOIN GAME">
+            <Button fx:id="joinGameButton" onMouseClicked="#sendJoinGame" mnemonicParsing="false" prefHeight="65.0" prefWidth="153.0" text="JOIN GAME">
                <HBox.margin>
                   <Insets right="10.0" />
                </HBox.margin>
             </Button>
-            <Button fx:id="newGameButton" mnemonicParsing="false" onAction="#sendNewGame" prefHeight="66.0" prefWidth="154.0" text="NEW GAME">
+            <Button fx:id="newGameButton" onMouseClicked="#sendNewGame" prefHeight="66.0" prefWidth="154.0" text="NEW GAME">
                <HBox.margin>
                   <Insets left="10.0" />
                </HBox.margin>

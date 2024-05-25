@@ -48,12 +48,13 @@ public class GigaController {
                 for (var gc : gameControllers) {
                     // TODO controllare che game sia convertibile in int
                     if (gc.getId() == Integer.parseInt(game)) {
-                        client.show("\nJoining game " + game + "...");
+
                         synchronized (gc.getGame().getPlayers()) {
                             if (gc.getGame().getNumActualPlayers() < gc.getNumMaxPlayers()) {
                                 int a = gc.getGame().getNumActualPlayers();
                                 gc.getGame().setNumActualPlayers(a + 1);
                                 canEnter = true;
+                                client.show("\nJoining game " + game + "...");
                             } else {
                                 client.show("\nGame is full. Restarting...");
                             }

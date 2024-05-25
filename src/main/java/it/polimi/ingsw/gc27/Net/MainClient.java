@@ -1,6 +1,7 @@
 package it.polimi.ingsw.gc27.Net;
 
 import it.polimi.ingsw.gc27.Controller.IpChecker;
+import it.polimi.ingsw.gc27.MainApp;
 import it.polimi.ingsw.gc27.Net.Rmi.RmiClient;
 import it.polimi.ingsw.gc27.Net.Socket.SocketClient;
 import it.polimi.ingsw.gc27.View.Gui;
@@ -77,7 +78,7 @@ public class MainClient  {
                         view = Gui.getInstance();
                         View finalView=view;
                         new Thread(()->{
-                            Application.launch(Gui.class);
+                            Application.launch(MainApp.class);
                         }).start();
                         break;
 

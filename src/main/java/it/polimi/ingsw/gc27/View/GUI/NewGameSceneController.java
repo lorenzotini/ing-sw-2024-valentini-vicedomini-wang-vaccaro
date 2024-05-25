@@ -1,6 +1,7 @@
 package it.polimi.ingsw.gc27.View.GUI;
 
 import it.polimi.ingsw.gc27.View.Gui;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 
@@ -20,9 +21,21 @@ public class NewGameSceneController implements GeneralSceneController {
         this.gui=gui;
     }
     @FXML
-    public void prova() throws IOException {
-        Gui.changeScene("/fxml/StarterScene.fxml");
+    public void sendLoginScene() throws IOException {
+        Gui.getInstance().switchScene(Gui.getInstance().getStage(), "/fxml/StarterScene.fxml");
 
     }
+
+    public void send2Players() {
+        Gui.getInstance().stringFromSceneController("2");
+    }
+
+    public void send3Players() {
+        Gui.getInstance().stringFromSceneController("3");
+    }
+    public void send4Players() {
+        Gui.getInstance().stringFromSceneController("4");
+    }
+
 
 }

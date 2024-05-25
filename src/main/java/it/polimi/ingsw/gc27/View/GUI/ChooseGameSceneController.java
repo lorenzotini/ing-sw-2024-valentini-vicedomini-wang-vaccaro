@@ -23,19 +23,12 @@ public class ChooseGameSceneController implements GeneralSceneController{
     public void setGui(Gui gui) {
         this.gui=gui;
     }
-//    @FXML
-//    public void init(){
-//        this.newGameButton=new Button();
-//        this.joinGameButton=new Button();
-//
-//    }
+
 //TODO: funzione change scene in gui + capire perchè non funziona (gui null), gestire in gui l'inizializzazione delle scene
     @FXML
     public void sendNewGame() throws IOException {
-
-        System.out.println("pippo");
-        Gui.stringFromSceneController("new");
-        Gui.changeScene("/fxml/NewGameScene.fxml");
+        Gui.getInstance().stringFromSceneController("new");
+        Gui.getInstance().switchScene(Gui.getInstance().getStage(),"/fxml/NewGameScene.fxml");
 //        //da mettere nella gui
 //        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/NewGameScene.fxml"));
 //        Parent scene2Root = loader.load();
@@ -48,7 +41,7 @@ public class ChooseGameSceneController implements GeneralSceneController{
     }
 
     public void sendJoinGame() throws IOException {
-        Gui.changeScene("/fxml/JoinGameScene.fxml");
+        Gui.getInstance().switchScene(Gui.getInstance().getStage(),"/fxml/NewGameScene.fxml");
         //changeScene, in quella farà gui.stringFrom..
     }
 

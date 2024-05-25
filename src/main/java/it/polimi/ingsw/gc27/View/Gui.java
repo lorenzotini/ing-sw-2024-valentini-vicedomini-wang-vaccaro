@@ -29,7 +29,19 @@ import static javafx.application.Application.launch;
 
 
 
-public class Gui extends Application implements View {
+public class Gui implements View {
+
+    private static Gui gui=null;
+
+    public Stage getStage() {
+        return stage;
+    }
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
+
+    private Stage stage;
 
     private VirtualView client;
     final BlockingQueue<String> messages= new LinkedBlockingQueue<>();
@@ -39,18 +51,25 @@ public class Gui extends Application implements View {
 
 
 
-    public Gui(){
+    private Gui(){}
 
+    public static Gui getInstance() {
+        synchronized (Gui.class){
+            if(gui==null)
+                gui = new Gui();
+            return gui;
+        }
     }
-    public void start(Stage stage) throws Exception {
-        FXMLLoader fxmlLoader=new FXMLLoader(getClass().getResource("/fxml/StarterScene.fxml")); //root node
-        Scene scene;
-        scene = new Scene(fxmlLoader.load(),1600,900);
-        //stage.setFullScreen(true);
-        stage.setTitle("Codex Naturalis");
-        stage.setScene(scene);
-        stage.show();
-    }
+//    public void start(Stage stage) throws Exception {
+//        this.stage=stage;
+//        FXMLLoader fxmlLoader=new FXMLLoader(getClass().getResource("/fxml/StarterScene.fxml")); //root node
+//        Scene scene;
+//        scene = new Scene(fxmlLoader.load(),1600,900);
+//        //stage.setFullScreen(true);
+//        stage.setTitle("Codex Naturalis");
+//        stage.setScene(scene);
+//        stage.show();
+//    }
 
 
 
@@ -84,40 +103,37 @@ public class Gui extends Application implements View {
         String gameIsFull = "\nGame is full. Restarting...";
 
         //nella scena 2 on clickButton mi dice se manderò "new" oppure "id"
-        ChooseGameSceneController controller= new ChooseGameSceneController();
-        controller.init();
+        ChooseGameSceneController controller = new ChooseGameSceneController();
+        //controller.init();
         controller.setGui(this);
 
         this.read(); // 2 possible input "new" or id
         String m = messagesReceived.take();
 
-        if(m.equals(newGameChosen)){ // if the input is "new", therefore created a new game
+        if (m.equals(newGameChosen)) { // if the input is "new", therefore created a new game
             this.read();
             m = messagesReceived.take();
 
-            while(m.equals(invalidNumOfPlayers)){ // invalid num of players, ask again
+            while (m.equals(invalidNumOfPlayers)) { // invalid num of players, ask again
                 this.read();
                 m = messagesReceived.take();
             }
 
-            if(m.contains(gameCreated)){
+            if (m.contains(gameCreated)) {
                 // change the scene to LobbyScene, where the player waits for the other players to join
 
             }
 
-        }else { // if the input is a game id, therefore joining an already existing game
-            while(m.equals(gameNotFound)) { // continue the loop until a valid game id
+        } else { // if the input is a game id, therefore joining an already existing game
+            while (m.equals(gameNotFound)) { // continue the loop until a valid game id
                 this.read();
                 m = messagesReceived.take();
             }
-            if(m.contains(joiningGame)){
+            if (m.contains(joiningGame)) {
                 // change the scene to LobbyScene, where the player waits for the other players to join
             } else if (m.equals(gameIsFull)) {
                 welcomePlayer(this.client); // if the game is full restart the process
             }
-
-        }
-
 
 
 //        if(this.buttonReceiver();){
@@ -134,72 +150,75 @@ public class Gui extends Application implements View {
 //
 //            }
 //        }).start();
-    }
-
-
-
-    @Override
-    public void setClient(VirtualView client) {
-        this.client=client;
+        }
 
     }
+        @Override
+        public void setClient (VirtualView client){
+            this.client = client;
 
-    @Override
-    public void showString(String phrase) {
-        messagesReceived.add(phrase);
+        }
 
-    }
+        @Override
+        public void showString (String phrase){
+            messagesReceived.add(phrase);
+            System.out.println(phrase);
 
-    @Override
-    public void show(ArrayList<ResourceCard> hand) {
 
-    }
+        }
 
-    @Override
-    public void show(ObjectiveCard objectiveCard) {
+        @Override
+        public void show (ArrayList < ResourceCard > hand) {
 
-    }
+        }
 
-    @Override
-    public void show(Manuscript manuscript) {
+        @Override
+        public void show (ObjectiveCard objectiveCard){
 
-    }
+        }
 
-    @Override
-    public void show(Board board) {
+        @Override
+        public void show (Manuscript manuscript){
 
-    }
+        }
 
-    @Override
-    public void show(Market market) {
+        @Override
+        public void show (Board board){
 
-    }
+        }
 
-    @Override
-    public String read() {
-        String mess="";
-        try{
-             mess=messages.take();}
-        catch (InterruptedException e){}
+        @Override
+        public void show (Market market){
 
-        return mess;
-    }
+        }
 
-    public void stringFromSceneController(String string){
-        messages.add(string);
-    }
+        @Override
+        public String read () {
+            String mess = "";
+            try {
+                mess = messages.take();
+            } catch (InterruptedException e) {
+            }
 
-    public void switchScene(Stage stage, ActionEvent event, String scenePath) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(scenePath));
-        Parent root = loader.load();
-        Scene scene = new Scene(root,1600,900);
+            return mess;
+        }
 
-        //startGameButton.setOnMouseClicked();
-        //stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        public void stringFromSceneController (String string){
+            messages.add(string);
+        }
 
-        stage.setScene(scene);
-        stage.show();
-    }
+        public void switchScene (Stage stage, String scenePath) throws IOException {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(scenePath));
+            Parent root = loader.load();
+            Scene scene = new Scene(root, 1600, 900);
+
+//TODO: rendere singleton e far funzionare le prime 3 schermate
+            //startGameButton.setOnMouseClicked();
+            //stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+            stage.setScene(scene);
+            stage.show();
+        }
 
 
 

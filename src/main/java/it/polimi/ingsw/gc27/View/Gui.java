@@ -43,7 +43,7 @@ public class Gui extends Application implements View {
     public void start(Stage stage) throws Exception {
         FXMLLoader fxmlLoader=new FXMLLoader(getClass().getResource("/fxml/StarterScene.fxml")); //root node
         Scene scene;
-        scene = new Scene(fxmlLoader.load(),1200,800);
+        scene = new Scene(fxmlLoader.load(),1600,900);
         //stage.setFullScreen(true);
         stage.setTitle("Codex Naturalis");
         stage.setScene(scene);
@@ -63,13 +63,28 @@ public class Gui extends Application implements View {
 
     @Override
     public void welcomePlayer(VirtualView client) throws InterruptedException {
+        // the message received when the game id is not found
+        String gameNotFound = "\nGame not found. Please enter a valid game id or 'new' to start a new game";
+        // the message received when the number of players is not valid
+        String invalidNumOfPlayers = "\nInvalid number of players, insert a value between 2-4";
+        // the message received when creating a new game, next step is to choose the number of players
+        String newGameChosen = "\nHow many player? there will be? (2-4)";
+        //
+
+
         //nella scena 2 on clickButton mi dice se manderò "new" oppure "id"
         ChooseGameSceneController controller= new ChooseGameSceneController();
         controller.init();
         controller.setGui(this);
 
         this.read(); // 2 possible input "new" or id
-        String m= messagesReceived.take();
+        String m = messagesReceived.take();
+
+        while(m.equals(gameNotFound)) { // continue the loop until a valid game id
+            this.read();
+            m = messagesReceived.take();
+        }
+
 
 
 
@@ -141,6 +156,10 @@ public class Gui extends Application implements View {
 
     public void stringFromSceneController(String string){
         messages.add(string);
+    }
+
+    public void changeScene() {
+
     }
 
 

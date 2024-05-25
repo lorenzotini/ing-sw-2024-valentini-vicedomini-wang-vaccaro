@@ -11,6 +11,8 @@ import it.polimi.ingsw.gc27.View.GUI.ChooseGameSceneController;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
@@ -65,12 +67,21 @@ public class Gui extends Application implements View {
     public void welcomePlayer(VirtualView client) throws InterruptedException {
         // the message received when the game id is not found
         String gameNotFound = "\nGame not found. Please enter a valid game id or 'new' to start a new game";
+
         // the message received when the number of players is not valid
         String invalidNumOfPlayers = "\nInvalid number of players, insert a value between 2-4";
+
         // the message received when creating a new game, next step is to choose the number of players
         String newGameChosen = "\nHow many player? there will be? (2-4)";
-        //
 
+        // the message received when joining an already existing game
+        String joiningGame = "\nJoining game";
+
+        // the message when a game is created, the id is specified
+        String gameCreated = "\nGame created with id";
+
+        // the message received when the game is full
+        String gameIsFull = "\nGame is full. Restarting...";
 
         //nella scena 2 on clickButton mi dice se manderò "new" oppure "id"
         ChooseGameSceneController controller= new ChooseGameSceneController();
@@ -80,12 +91,32 @@ public class Gui extends Application implements View {
         this.read(); // 2 possible input "new" or id
         String m = messagesReceived.take();
 
-        while(m.equals(gameNotFound)) { // continue the loop until a valid game id
+        if(m.equals(newGameChosen)){ // if the input is "new", therefore created a new game
             this.read();
             m = messagesReceived.take();
+
+            while(m.equals(invalidNumOfPlayers)){ // invalid num of players, ask again
+                this.read();
+                m = messagesReceived.take();
+            }
+
+            if(m.contains(gameCreated)){
+                // change the scene to LobbyScene, where the player waits for the other players to join
+
+            }
+
+        }else { // if the input is a game id, therefore joining an already existing game
+            while(m.equals(gameNotFound)) { // continue the loop until a valid game id
+                this.read();
+                m = messagesReceived.take();
+            }
+            if(m.contains(joiningGame)){
+                // change the scene to LobbyScene, where the player waits for the other players to join
+            } else if (m.equals(gameIsFull)) {
+                welcomePlayer(this.client); // if the game is full restart the process
+            }
+
         }
-
-
 
 
 
@@ -158,8 +189,16 @@ public class Gui extends Application implements View {
         messages.add(string);
     }
 
-    public void changeScene() {
+    public void switchScene(Stage stage, ActionEvent event, String scenePath) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(scenePath));
+        Parent root = loader.load();
+        Scene scene = new Scene(root,1600,900);
 
+        //startGameButton.setOnMouseClicked();
+        //stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        stage.setScene(scene);
+        stage.show();
     }
 
 

@@ -105,7 +105,7 @@ public class Gui implements View {
         //nella scena 2 on clickButton mi dice se manderò "new" oppure "id"
         ChooseGameSceneController controller = new ChooseGameSceneController();
         //controller.init();
-        controller.setGui(this);
+        //controller.setGui(this);
 
         this.read(); // 2 possible input "new" or id
         String m = messagesReceived.take();

@@ -9,20 +9,17 @@ import java.io.IOException;
 
 //this scene will open after button "new game" (in ChooseGameNetScene) clicked,
 //and number of players will be asked
-public class NewGameSceneController implements GeneralSceneController {
-    private Gui gui;
+public class NewGameSceneController {
+
 
      @FXML
      private Button go;
 
 
-    @Override
-    public void setGui(Gui gui) {
-        this.gui=gui;
-    }
+
     @FXML
     public void sendLoginScene() throws IOException {
-        Gui.getInstance().switchScene(Gui.getInstance().getStage(), "/fxml/StarterScene.fxml");
+        Gui.getInstance().switchScene(Gui.getInstance().getStage(), "/fxml/LoginScene.fxml");
 
     }
 

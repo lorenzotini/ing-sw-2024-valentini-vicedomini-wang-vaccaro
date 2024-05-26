@@ -12,17 +12,14 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class ChooseGameSceneController implements GeneralSceneController{
-    private Gui gui;
+public class ChooseGameSceneController {
+
     @FXML
     public Button joinGameButton;
     @FXML
     public Button newGameButton;
 
-    @Override
-    public void setGui(Gui gui) {
-        this.gui=gui;
-    }
+
 
 //TODO: funzione change scene in gui + capire perchè non funziona (gui null), gestire in gui l'inizializzazione delle scene
     @FXML

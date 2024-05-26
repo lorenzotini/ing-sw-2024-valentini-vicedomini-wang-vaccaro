@@ -16,7 +16,7 @@ public class EndingState extends PlayerState  {
 
     String textMessage = "the game is ending... it's too late man";
 
-    public EndingState(Player player, TurnHandler turnHandler) throws RemoteException {
+    public EndingState(Player player, TurnHandler turnHandler) {
         super(player, turnHandler);
         turnHandler.notifyCalculateObjectivePoints(getPlayer());
     }

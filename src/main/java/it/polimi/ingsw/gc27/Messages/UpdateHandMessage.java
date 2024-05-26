@@ -14,10 +14,14 @@ public class UpdateHandMessage extends Message{
     }
 
     @Override
-    public void reportUpdate(VirtualView client, View view) throws RemoteException {
-        client.getMiniModel().setHand(this.getMiniModel().getHand());
-        client.getMiniModel().setPlayer(this.getMiniModel().getPlayer());
-        view.showString(this.string);
-        view.show(client.getMiniModel().getHand());
+    public void reportUpdate(VirtualView client, View view) {
+        try{
+            client.getMiniModel().setHand(this.getMiniModel().getHand());
+            client.getMiniModel().setPlayer(this.getMiniModel().getPlayer());
+            view.showString(this.string);
+            view.show(client.getMiniModel().getHand());
+        } catch (RemoteException e){
+            e.printStackTrace();
+        }
     }
 }

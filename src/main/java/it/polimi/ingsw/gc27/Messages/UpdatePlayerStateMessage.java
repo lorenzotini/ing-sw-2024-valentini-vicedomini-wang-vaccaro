@@ -13,9 +13,13 @@ public class UpdatePlayerStateMessage extends Message {
     }
 
     @Override
-    public void reportUpdate(VirtualView client, View view) throws RemoteException {
-        client.getMiniModel().setPlayer(this.getMiniModel().getPlayer());
-        view.showString(this.string);
+    public void reportUpdate(VirtualView client, View view) {
+        try{
+            client.getMiniModel().setPlayer(this.getMiniModel().getPlayer());
+            view.showString(this.string);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 
 }

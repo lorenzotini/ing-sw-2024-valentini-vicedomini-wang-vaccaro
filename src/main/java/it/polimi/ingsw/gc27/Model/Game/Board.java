@@ -1,7 +1,6 @@
 package it.polimi.ingsw.gc27.Model.Game;
 
 import java.io.Serializable;
-import java.rmi.RemoteException;
 
 public class Board implements Serializable {
 
@@ -16,7 +15,7 @@ public class Board implements Serializable {
         return pointsRedPlayer;
     }
 
-    public void setPointsRedPlayer(int pointsRedPlayer) throws RemoteException {
+    public void setPointsRedPlayer(int pointsRedPlayer) {
         this.pointsRedPlayer = pointsRedPlayer;
 
     }
@@ -25,7 +24,7 @@ public class Board implements Serializable {
         return pointsYellowPlayer;
     }
 
-    public void setPointsYellowPlayer(int pointsYellowPlayer) throws RemoteException {
+    public void setPointsYellowPlayer(int pointsYellowPlayer) {
         this.pointsYellowPlayer = pointsYellowPlayer;
 
     }
@@ -34,7 +33,7 @@ public class Board implements Serializable {
         return pointsGreenPlayer;
     }
 
-    public void setPointsGreenPlayer(int pointsGreenPlayer) throws RemoteException {
+    public void setPointsGreenPlayer(int pointsGreenPlayer) {
         this.pointsGreenPlayer = pointsGreenPlayer;
 
     }
@@ -43,7 +42,7 @@ public class Board implements Serializable {
         return pointsBluePlayer;
     }
 
-    public void setPointsBluePlayer(int pointsBluePlayer) throws RemoteException {
+    public void setPointsBluePlayer(int pointsBluePlayer) {
         this.pointsBluePlayer = pointsBluePlayer;
 
     }

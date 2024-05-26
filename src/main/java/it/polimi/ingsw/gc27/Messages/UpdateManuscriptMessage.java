@@ -15,11 +15,14 @@ public class UpdateManuscriptMessage extends Message{
     }
 
     @Override
-    public void reportUpdate(VirtualView client, View view) throws RemoteException {
-
-        client.getMiniModel().setPlayer(this.getMiniModel().getPlayer());
-        client.getMiniModel().setManuscript(this.getMiniModel().getPlayer().getManuscript());
-        view.showString(this.string);
-        view.show(client.getMiniModel().getPlayer().getManuscript());
+    public void reportUpdate(VirtualView client, View view) {
+        try{
+            client.getMiniModel().setPlayer(this.getMiniModel().getPlayer());
+            client.getMiniModel().setManuscript(this.getMiniModel().getPlayer().getManuscript());
+            view.showString(this.string);
+            view.show(client.getMiniModel().getPlayer().getManuscript());
+        } catch (RemoteException e){
+            e.printStackTrace();
+        }
     }
 }

@@ -37,16 +37,6 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
     }
 
     @Override
-    public synchronized long getLastPing() {
-        return lastPing;
-    }
-
-    @Override
-    public synchronized void setLastPing(long lastPing) {
-        this.lastPing = lastPing;
-    }
-
-    @Override
     public MiniModel getMiniModel() {
         return this.miniModel;
     }
@@ -93,7 +83,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
                 try {
                     Message mess = messages.take();
                     mess.reportUpdate(this, view);
-                } catch (RemoteException | InterruptedException e) {
+                } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
             }

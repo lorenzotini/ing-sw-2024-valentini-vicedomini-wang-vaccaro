@@ -158,16 +158,6 @@ public class ClientHandler implements VirtualView {
     }
 
     @Override
-    public long getLastPing() {
-        return 0;
-    }
-
-    @Override
-    public void setLastPing(long l) {
-
-    }
-
-    @Override
     public void pingToServer(VirtualServer virtualServer, VirtualView client) throws RemoteException {
 
     }

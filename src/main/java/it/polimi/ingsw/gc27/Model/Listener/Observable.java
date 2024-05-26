@@ -10,6 +10,11 @@ public interface Observable {
     ArrayList<Observer> observers = new ArrayList<>();
 
     void addObserver(Observer o);
+
+    void removeObserver(Observer o);
+
+    void removeObserver(String username);
+
     void notifyObservers(Message notYourTurnMessage) throws RemoteException;
 
 }

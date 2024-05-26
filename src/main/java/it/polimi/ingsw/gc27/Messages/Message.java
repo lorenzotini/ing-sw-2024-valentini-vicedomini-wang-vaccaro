@@ -5,9 +5,9 @@ import it.polimi.ingsw.gc27.Net.VirtualView;
 import it.polimi.ingsw.gc27.View.View;
 
 import java.io.Serializable;
-import java.rmi.RemoteException;
 
 public abstract class Message implements Serializable {
+
     private final MiniModel miniModel;
     protected final String string;
 
@@ -33,9 +33,9 @@ public abstract class Message implements Serializable {
         return miniModel;
     }
 
-    public abstract void reportUpdate(VirtualView client, View view) throws RemoteException;
+    public abstract void reportUpdate(VirtualView client, View view) ;
 
-    public String takeString() {
+    public String getString() {
         return this.string;
     }
 

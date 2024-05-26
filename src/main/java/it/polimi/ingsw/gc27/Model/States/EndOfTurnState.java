@@ -14,7 +14,7 @@ public class EndOfTurnState extends PlayerState {
 
     private final String waitText = "It's not your turn, wait for the other player.";
 
-    public EndOfTurnState(Player player, TurnHandler turnHandler) throws RemoteException {
+    public EndOfTurnState(Player player, TurnHandler turnHandler) {
         super(player, turnHandler);
         getTurnHandler().notifyEndOfTurnState(getPlayer());
     }

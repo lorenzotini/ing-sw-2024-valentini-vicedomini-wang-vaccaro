@@ -2,7 +2,6 @@ package it.polimi.ingsw.gc27.Net.Socket;
 
 import it.polimi.ingsw.gc27.Messages.Message;
 import it.polimi.ingsw.gc27.Messages.StringMessage;
-import it.polimi.ingsw.gc27.Messages.*;
 import it.polimi.ingsw.gc27.Net.Commands.Command;
 import it.polimi.ingsw.gc27.Net.Commands.PingCommand;
 import it.polimi.ingsw.gc27.Net.VirtualServer;
@@ -59,7 +58,7 @@ public class SocketServerProxy implements VirtualServer {
             try {
                 Message mess;
                 while ((mess = messages.take()) instanceof StringMessage) {
-                    String message = mess.takeString();
+                    String message = mess.getString();
                     if (message.equals("read")) {
                         String toBeSent = client.read();
                         output.writeObject(toBeSent);

@@ -20,6 +20,7 @@ public class RmiServer implements VirtualServer {
     private final Map<VirtualView, Long> clientsPing = new HashMap<>();
     private final GigaController console;
     final BlockingQueue<Command> commands = new LinkedBlockingQueue<>();
+    private static final int MAX_PING_TIME = 5000;
 
     public RmiServer(GigaController controller) {
         this.console = controller;
@@ -63,26 +64,22 @@ public class RmiServer implements VirtualServer {
         commands.add(command);
     }
 
-    // TODO promemoria: ha senso che in caso di disconnessione, il client rimanga nella lista fino alla fine della partita, così da
-    // TODO potersi riconnettere. Alla fine della partita invece, verranno rimossi tutti i client dalla lista.
     @Override
     public void areClientsAlive() throws RemoteException {
 
         while (true) {
 
             synchronized (clients) {
-                for(VirtualView client : clients) {
-                    String username =  console.getUsername(client);
+                Iterator<VirtualView> iterator = clients.iterator();
+                while(iterator.hasNext()) {
+                    VirtualView client = iterator.next();
                     if (clientsPing.get(client) == 0) {
                         clientsPing.put(client, System.currentTimeMillis());
-                    } else if (System.currentTimeMillis() - clientsPing.get(client) > 10000) {
+                    } else if (System.currentTimeMillis() - clientsPing.get(client) > MAX_PING_TIME) {
                         System.out.println("Timeout for client expired - rmi - " + client);
-                        try{
-                            console.userToGameController(username).suspendPlayer(console.getPlayer(username));
-                        } catch (NullPointerException e){
-                            // do nothing
-                        }
-                        clients.remove(client);
+                        // Remove all the references to the client
+                        iterator.remove();
+                        console.removeReferences(client);
                     }
                 }
             }

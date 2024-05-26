@@ -6,12 +6,9 @@ import it.polimi.ingsw.gc27.Model.Game.Board;
 import it.polimi.ingsw.gc27.Model.Game.Game;
 import it.polimi.ingsw.gc27.Model.Game.Player;
 import it.polimi.ingsw.gc27.Model.MiniModel;
-import it.polimi.ingsw.gc27.Model.States.EndingState;
-import it.polimi.ingsw.gc27.Model.States.PlayingState;
-import it.polimi.ingsw.gc27.Model.States.WaitingState;
+import it.polimi.ingsw.gc27.Model.States.*;
 
 import java.io.Serializable;
-import java.rmi.RemoteException;
 import java.util.List;
 
 public class TurnHandler implements Serializable {
@@ -33,7 +30,7 @@ public class TurnHandler implements Serializable {
 
 
     // TODO adesso il salto al player va a quello immediatamente successivo, ma andrebbe ciclato fino a trovarne uno connesso
-    public void notifyChooseObjectiveState() throws RemoteException {
+    public void notifyChooseObjectiveState() {
 
         boolean everyoneReady = true;
 
@@ -55,7 +52,7 @@ public class TurnHandler implements Serializable {
 
     }
 
-    public void notifyEndOfTurnState(Player player) throws RemoteException {
+    public void notifyEndOfTurnState(Player player) {
 
         List<Player> players = game.getPlayers();
         Board board = game.getBoard();
@@ -117,7 +114,7 @@ public class TurnHandler implements Serializable {
 
     }
 
-    public void notifyCalculateObjectivePoints(Player player) throws RemoteException {
+    public void notifyCalculateObjectivePoints(Player player) {
 
         // verify that every player is in the ending state
         int points;
@@ -136,6 +133,26 @@ public class TurnHandler implements Serializable {
                 points = p.getSecretObjectives().getFirst().calculateObjectivePoints(player.getManuscript());
                 game.addPoints(player, points); // adding the points to the respective player
             }
+        }
+
+        //TODO terminare la partita e notificare i giocatori e il vincitore
+
+    }
+
+    // TODO controllare che non ci siano problemi di concorrenza
+//    public void revivePlayer(Player player){
+//        player.setDisconnected(false);
+//    }
+
+    public void handleDisconnection(Player player, GameController gc) {
+
+        PlayerState state = player.getPlayerState();
+
+        if(state instanceof InitializingState || state instanceof ChooseObjectiveState){
+            System.out.println("UCCIDERE LA PARTITAAAAA");
+            //gc.endGame();
+        } else if(state instanceof PlayingState) {
+            player.setPlayerState(new EndOfTurnState(player, this));
         }
 
     }

@@ -14,9 +14,13 @@ public class UpdateBoardMessage extends Message{
     }
 
     @Override
-    public void reportUpdate(VirtualView client, View view) throws RemoteException {
-        client.getMiniModel().setBoard(this.getMiniModel().getBoard());
-        view.showString(this.string);
-        view.show(client.getMiniModel().getBoard());
+    public void reportUpdate(VirtualView client, View view) {
+        try{
+            client.getMiniModel().setBoard(this.getMiniModel().getBoard());
+            view.showString(this.string);
+            view.show(client.getMiniModel().getBoard());
+        }catch (RemoteException e){
+            e.printStackTrace();
+        }
     }
 }

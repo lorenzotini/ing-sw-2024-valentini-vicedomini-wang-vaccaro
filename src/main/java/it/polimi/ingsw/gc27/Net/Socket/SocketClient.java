@@ -2,12 +2,10 @@ package it.polimi.ingsw.gc27.Net.Socket;
 
 import it.polimi.ingsw.gc27.Messages.Message;
 import it.polimi.ingsw.gc27.Model.MiniModel;
-import it.polimi.ingsw.gc27.Model.States.WaitingState;
 import it.polimi.ingsw.gc27.Net.Commands.Command;
 import it.polimi.ingsw.gc27.Net.VirtualServer;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 import it.polimi.ingsw.gc27.View.View;
-import java.nio.file.Path;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
@@ -55,15 +53,6 @@ public class SocketClient implements VirtualView {
         return this.miniModel;
     }
 
-    @Override
-    public long getLastPing() {
-        return 0;
-    }
-
-    @Override
-    public void setLastPing(long l) {
-
-    }
 
     @Override
     public void pingToServer(VirtualServer virtualServer, VirtualView client) throws RemoteException {
@@ -96,11 +85,7 @@ public class SocketClient implements VirtualView {
 
     @Override
     public void update(Message message) {
-        try{
-            message.reportUpdate(this, this.view);
-        }catch(RemoteException e){
-
-        }
+        message.reportUpdate(this, this.view);
     }
 
 }

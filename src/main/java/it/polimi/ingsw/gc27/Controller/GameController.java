@@ -9,7 +9,6 @@ import it.polimi.ingsw.gc27.Model.Game.Game;
 import it.polimi.ingsw.gc27.Model.Game.Manuscript;
 import it.polimi.ingsw.gc27.Model.Game.Player;
 import it.polimi.ingsw.gc27.Model.MiniModel;
-import it.polimi.ingsw.gc27.Model.States.DisconnectedState;
 import it.polimi.ingsw.gc27.Model.States.InitializingState;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 
@@ -20,6 +19,7 @@ import java.rmi.RemoteException;
 public class GameController implements Serializable {
 
     private Game game;
+
     private TurnHandler turnHandler;
     private int numMaxPlayers;
     private int id;
@@ -39,6 +39,10 @@ public class GameController implements Serializable {
 
     public Game getGame() {
         return game;
+    }
+
+    public TurnHandler getTurnHandler() {
+        return turnHandler;
     }
 
     public void setGame(Game game) {
@@ -82,7 +86,7 @@ public class GameController implements Serializable {
 
     public void suspendPlayer(Player player) {
         player.setDisconnected(true);
-        player.setPlayerState(new DisconnectedState());
+        turnHandler.handleDisconnection(player, this);
     }
 
     // Create a player from command line, but hand, secret objective and starter are not instantiated
@@ -136,7 +140,6 @@ public class GameController implements Serializable {
             this.turnHandler = new TurnHandler(this.game);
             for (Player player : game.getPlayers()) {
                 player.setPlayerState(new InitializingState(player, this.turnHandler));
-                //TODO fare bene l'addstarted e tutta la fase iniziale
                 game.notifyObservers(new UpdateStartOfGameMessage(new MiniModel(player, game.getMarket(), game.getBoard()), player.getUsername()));
             }
         }

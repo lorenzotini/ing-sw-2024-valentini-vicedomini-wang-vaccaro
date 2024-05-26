@@ -26,19 +26,10 @@ public class ChooseGameSceneController {
     public void sendNewGame() throws IOException {
         Gui.getInstance().stringFromSceneController("new");
         Gui.getInstance().switchScene(Gui.getInstance().getStage(),"/fxml/NewGameScene.fxml");
-//        //da mettere nella gui
-//        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/NewGameScene.fxml"));
-//        Parent scene2Root = loader.load();
-//        Scene scene2 = new Scene(scene2Root, 1600, 900);
-//
-//
-//        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-//        stage.setScene(scene2);
-//        stage.show();
     }
 
     public void sendJoinGame() throws IOException {
-        Gui.getInstance().switchScene(Gui.getInstance().getStage(),"/fxml/NewGameScene.fxml");
+        Gui.getInstance().switchScene(Gui.getInstance().getStage(),"/fxml/JoinGameScene.fxml");
         //changeScene, in quella farà gui.stringFrom..
     }
 

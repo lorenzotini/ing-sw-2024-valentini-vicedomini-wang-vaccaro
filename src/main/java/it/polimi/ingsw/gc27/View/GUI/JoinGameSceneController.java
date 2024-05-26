@@ -16,7 +16,8 @@ public class JoinGameSceneController {
     public Button sendGameIdButton;
 
     public void sendGameId(ActionEvent event) throws IOException {
+        Gui.getInstance().stringFromSceneController(idTextField.getText());
         //prende stringa da mandare
-        Gui.getInstance().switchScene(Gui.getInstance().getStage(),"/fxml/StarterScene.fxml" );
+        Gui.getInstance().switchScene(Gui.getInstance().getStage(),"/fxml/LoginScene.fxml" );
     }
 }

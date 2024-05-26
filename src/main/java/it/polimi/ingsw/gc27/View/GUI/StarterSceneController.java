@@ -32,7 +32,7 @@ public class StarterSceneController { //per chiamare start
     public void switchToChooseGameScene(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ChooseGameScene.fxml"));
         Parent sceneRoot = loader.load();
-        Scene scene = new Scene(sceneRoot,1600,900);
+        Scene scene = new Scene(sceneRoot,1000,500);
 
         //startGameButton.setOnMouseClicked();
 

@@ -210,7 +210,7 @@ public class Gui implements View {
         public void switchScene (Stage stage, String scenePath) throws IOException {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(scenePath));
             Parent root = loader.load();
-            Scene scene = new Scene(root, 1600, 900);
+            Scene scene = new Scene(root, 1000, 500);
 
 //TODO: rendere singleton e far funzionare le prime 3 schermate
             //startGameButton.setOnMouseClicked();

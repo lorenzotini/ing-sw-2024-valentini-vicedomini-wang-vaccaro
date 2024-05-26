@@ -13,7 +13,7 @@
    <children>
       <ImageView fitHeight="605.0" fitWidth="682.0" layoutX="80.0" layoutY="132.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../Images/logo.png" />
+            <Image url="@../Images/other images/logo.png" />
          </image>
       </ImageView>
       <Button fx:id="startGameButton" graphicTextGap="3.0" layoutX="737.0" layoutY="415.0" mnemonicParsing="false" onAction="#switchToChooseGameScene" prefHeight="130.0" prefWidth="255.0" style="-fx-border-radius: 30px; -fx-background-color: #5da5dc;" text="PLAY" textFill="WHITE">

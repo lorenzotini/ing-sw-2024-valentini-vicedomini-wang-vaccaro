@@ -12,8 +12,6 @@ import it.polimi.ingsw.gc27.Model.Game.Market;
 import it.polimi.ingsw.gc27.Model.Game.Player;
 import it.polimi.ingsw.gc27.Model.MiniModel;
 
-import java.io.IOException;
-import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 public class DrawingState extends PlayerState {
@@ -25,12 +23,12 @@ public class DrawingState extends PlayerState {
     }
 
     @Override
-    public void chooseObjectiveCard(Game game, int objectiveCardIndex) throws RemoteException {
+    public void chooseObjectiveCard(Game game, int objectiveCardIndex) {
         super.sendError(wrongStateText, getPlayer(), turnHandler);
     }
 
     @Override
-    public void drawCard(Player player, boolean isGold, boolean fromDeck, int faceUpCardIndex) throws RemoteException {
+    public void drawCard(Player player, boolean isGold, boolean fromDeck, int faceUpCardIndex) {
 
         Market market = turnHandler.getGame().getMarket();
         ArrayList<? extends ResourceCard> deck;
@@ -60,12 +58,12 @@ public class DrawingState extends PlayerState {
     }
 
     @Override
-    public void addCard(Game game, ResourceCard resourceCard, Face face, int x, int y) throws RemoteException {
+    public void addCard(Game game, ResourceCard resourceCard, Face face, int x, int y) {
         super.sendError(wrongStateText, getPlayer(), turnHandler);
     }
 
     @Override
-    public void addStarterCard(Game game, StarterCard starterCard, Face face) throws IOException, InterruptedException {
+    public void addStarterCard(Game game, StarterCard starterCard, Face face) {
         super.sendError(wrongStateText, getPlayer(), turnHandler);
     }
 }

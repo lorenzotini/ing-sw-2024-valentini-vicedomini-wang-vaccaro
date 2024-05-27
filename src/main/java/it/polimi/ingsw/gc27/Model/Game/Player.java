@@ -8,7 +8,6 @@ import it.polimi.ingsw.gc27.Model.Enumerations.PointsMultiplier;
 import it.polimi.ingsw.gc27.Model.States.PlayerState;
 
 import java.io.Serializable;
-import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 public class Player implements Serializable {
@@ -100,7 +99,7 @@ public class Player implements Serializable {
      * @requires x
      * @requires y
      */
-    public void addCard(Game game, Card card, Face face, int x, int y) throws RemoteException {
+    public void addCard(Game game, Card card, Face face, int x, int y) {
 
         Manuscript m = this.manuscript;
 

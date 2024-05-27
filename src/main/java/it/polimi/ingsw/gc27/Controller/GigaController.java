@@ -38,7 +38,6 @@ public class GigaController {
         game.addObserver(new PlayerListener(client, player));
         registeredUsernames.put(player.getUsername(), client);
         player.setDisconnected(false);
-        //gc.getTurnHandler().revivePlayer(player);
 
         // Update the client's miniModel with the player's data
         MiniModel miniModel = new MiniModel(player, game.getMarket(), game.getBoard());
@@ -49,13 +48,13 @@ public class GigaController {
 
     // Remove refs and set player state to disconnected
     public void removeReferences(VirtualView client){
+
         try{
             String username = getUsername(client);
             userToGameController(username).suspendPlayer(getPlayer(username));
             registeredUsernames.remove(username);
             userToGameController(username).getGame().removeObserver(username);
         } catch (NullPointerException e){
-            // do nothing
             System.out.println("Client hadn't choose an username yet");
             System.out.println("NullPointerException caught while suspending player: " + e.getMessage());
         }

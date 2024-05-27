@@ -351,6 +351,18 @@ public class Tui implements View {
             third = colour + "║" + constructResources(face.getPermanentResources().stream().map(o -> o.toCornerSymbol().toCliString()).collect(Collectors.toCollection(ArrayList::new)), true) + colour + "║" + reset;
             fourth = colour + sws.repeat(13) + LR.getSymbol().toCliString() + colour + "║" + reset;
             fifth = colour + "══════════════╝" + reset;
+        } else if (!UR.isHidden() && UL.isHidden() && LR.isHidden() && !LL.isHidden()) { // case #15
+            first = colour + "══════════════╗" + reset;
+            second = colour + sws.repeat(13) + UR.getSymbol().toCliString() + colour + "║" + reset;
+            third = colour + "║" + constructResources(face.getPermanentResources().stream().map(o -> o.toCornerSymbol().toCliString()).collect(Collectors.toCollection(ArrayList::new)), true) + colour + "║" + reset;
+            fourth = colour + "║" + LL.getSymbol().toCliString() + sws.repeat(13) + reset;
+            fifth = colour + "╚══════════════" + reset;
+        } else if (UR.isHidden() && !UL.isHidden() && !LR.isHidden() && LL.isHidden()) { // case #16
+            first = colour + "╔══════════════" + reset;
+            second = colour + "║" + UL.getSymbol().toCliString() + sws.repeat(13) + reset;
+            third = colour + "║" + constructResources(face.getPermanentResources().stream().map(o -> o.toCornerSymbol().toCliString()).collect(Collectors.toCollection(ArrayList::new)), true) + colour + "║" + reset;
+            fourth = colour + sws.repeat(13) + LR.getSymbol().toCliString() + colour + "║" + reset;
+            fifth = colour + "══════════════╝" + reset;
         }
 
         Queue<String> lines = new LinkedList<>();

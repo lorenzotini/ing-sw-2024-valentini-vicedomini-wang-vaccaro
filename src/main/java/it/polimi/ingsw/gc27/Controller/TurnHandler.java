@@ -1,9 +1,12 @@
 package it.polimi.ingsw.gc27.Controller;
 
 import it.polimi.ingsw.gc27.Messages.Message;
+import it.polimi.ingsw.gc27.Messages.UpdateManuscriptMessage;
+import it.polimi.ingsw.gc27.Messages.UpdateObjectiveMessage;
 import it.polimi.ingsw.gc27.Messages.UpdatePlayerStateMessage;
 import it.polimi.ingsw.gc27.Model.Game.Board;
 import it.polimi.ingsw.gc27.Model.Game.Game;
+import it.polimi.ingsw.gc27.Model.Game.Manuscript;
 import it.polimi.ingsw.gc27.Model.Game.Player;
 import it.polimi.ingsw.gc27.Model.MiniModel;
 import it.polimi.ingsw.gc27.Model.States.*;
@@ -29,7 +32,6 @@ public class TurnHandler implements Serializable {
     }
 
 
-    // TODO adesso il salto al player va a quello immediatamente successivo, ma andrebbe ciclato fino a trovarne uno connesso
     public void notifyChooseObjectiveState() {
 
         boolean everyoneReady = true;
@@ -76,16 +78,21 @@ public class TurnHandler implements Serializable {
             updatePlayerStateMessage = new UpdatePlayerStateMessage(new MiniModel(player));
             this.game.notifyObservers(updatePlayerStateMessage);
 
-            if (!getNextOf(index, players).isDisconnected()) {  // the next player is connected
+            if (getNextOf(index, players).isDisconnected()) {  // the next player is disconnected --> skip him
+
+                int i = 0;
+                while(getNextOf(index + i, players).isDisconnected()){
+                    i++;
+                }
+
+                getNextOf(index + i, players).setPlayerState(new PlayingState(getNextOf(index + i, players), this));
+                updatePlayerStateMessage = new UpdatePlayerStateMessage(new MiniModel(getNextOf(index + i, players)));
+                this.game.notifyObservers(updatePlayerStateMessage);
+
+            } else { // the next player is connected
 
                 getNextOf(index, players).setPlayerState(new PlayingState(getNextOf(index, players), this));
                 updatePlayerStateMessage = new UpdatePlayerStateMessage(new MiniModel(getNextOf(index, players)));
-                this.game.notifyObservers(updatePlayerStateMessage);
-
-            } else { // the next player is disconnected --> skip him
-
-                getNextOf(index + 1, players).setPlayerState(new PlayingState(getNextOf(index + 1, players), this));
-                updatePlayerStateMessage = new UpdatePlayerStateMessage(new MiniModel(getNextOf(index + 1, players)));
                 this.game.notifyObservers(updatePlayerStateMessage);
 
             }
@@ -100,14 +107,23 @@ public class TurnHandler implements Serializable {
             updatePlayerStateMessage = new UpdatePlayerStateMessage(new MiniModel(player));
             this.game.notifyObservers(updatePlayerStateMessage);
 
-            if (!getNextOf(index, players).isDisconnected()) { // the next player is connected
+            if (getNextOf(index, players).isDisconnected()) { // the next player is disconnected --> find the next connected player
+
+                int i = 0;
+                while(getNextOf(index + i, players).isDisconnected()){
+                    i++;
+                }
+
+                getNextOf(index + i, players).setPlayerState(new PlayingState(getNextOf(index + i, players), this));
+                updatePlayerStateMessage = new UpdatePlayerStateMessage(new MiniModel(getNextOf(index + i, players)));
+                this.game.notifyObservers(updatePlayerStateMessage);
+
+            } else { // the next player is connected
+
                 getNextOf(index, players).setPlayerState(new PlayingState(getNextOf(index, players), this));
                 updatePlayerStateMessage = new UpdatePlayerStateMessage(new MiniModel(getNextOf(index, players)));
                 this.game.notifyObservers(updatePlayerStateMessage);
-            } else { // the next player is disconnected --> skip him
-                getNextOf(index + 1, players).setPlayerState(new PlayingState(getNextOf(index + 1, players), this));
-                updatePlayerStateMessage = new UpdatePlayerStateMessage(new MiniModel(getNextOf(index + 1, players)));
-                this.game.notifyObservers(updatePlayerStateMessage);
+
             }
 
         }
@@ -139,20 +155,55 @@ public class TurnHandler implements Serializable {
 
     }
 
-    // TODO controllare che non ci siano problemi di concorrenza
-//    public void revivePlayer(Player player){
-//        player.setDisconnected(false);
-//    }
-
     public void handleDisconnection(Player player, GameController gc) {
 
-        PlayerState state = player.getPlayerState();
+        String stateClassName = player.getPlayerState().getClass().getSimpleName();
+        Message updateObjectiveMessage;
 
-        if(state instanceof InitializingState || state instanceof ChooseObjectiveState){
-            System.out.println("UCCIDERE LA PARTITAAAAA");
-            //gc.endGame();
-        } else if(state instanceof PlayingState) {
-            player.setPlayerState(new EndOfTurnState(player, this));
+        switch(stateClassName){
+
+            case "InitializingState":
+                // automatically choose the starter card for the player
+                player.addCard(game, player.getStarterCard(), player.getStarterCard().getFront(), Manuscript.FIELD_DIM / 2, Manuscript.FIELD_DIM / 2);
+                player.setPlayerState(new ChooseObjectiveState(player, this));
+                Message updateManuscriptMessage = new UpdateManuscriptMessage(new MiniModel(player, player.getManuscript()));
+                this.getGame().notifyObservers(updateManuscriptMessage);
+
+                // automatically choose the objective card for the player
+                player.getSecretObjectives().remove(1);
+                player.setPlayerState(new WaitingState(player, this));
+                updateObjectiveMessage = new UpdateObjectiveMessage(new MiniModel(player, player.getSecretObjectives().getFirst()));
+                this.getGame().notifyObservers(updateObjectiveMessage);
+                this.notifyChooseObjectiveState();
+
+                break;
+
+            case "ChooseObjectiveState":
+                // automatically choose the objective card for the player
+                player.getSecretObjectives().remove(1);
+                player.setPlayerState(new WaitingState(player, this));
+                updateObjectiveMessage = new UpdateObjectiveMessage(new MiniModel(player, player.getSecretObjectives().getFirst()));
+                this.getGame().notifyObservers(updateObjectiveMessage);
+                this.notifyChooseObjectiveState();
+                break;
+
+            case "PlayingState":
+                // set the player to end of turn state
+                player.setPlayerState(new EndOfTurnState(player, this));
+                break;
+
+            case "DrawingState":
+                // automatically draw a card for the player
+                gc.drawCard(player, true, true, 0);
+                player.setPlayerState(new EndOfTurnState(player, this));
+                break;
+
+            case "WaitingState":
+                // do nothing
+                break;
+
+            default:
+                break;
         }
 
     }

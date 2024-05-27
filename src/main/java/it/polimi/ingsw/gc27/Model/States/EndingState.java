@@ -7,9 +7,6 @@ import it.polimi.ingsw.gc27.Model.Card.StarterCard;
 import it.polimi.ingsw.gc27.Model.Game.Game;
 import it.polimi.ingsw.gc27.Model.Game.Player;
 
-import java.io.IOException;
-import java.rmi.RemoteException;
-
 public class EndingState extends PlayerState  {
 
     // This state is reached when the player has finished his last turn, since someone reached the victory points limit
@@ -22,23 +19,23 @@ public class EndingState extends PlayerState  {
     }
 
     @Override
-    public void chooseObjectiveCard(Game game, int objectiveCardIndex) throws RemoteException {
+    public void chooseObjectiveCard(Game game, int objectiveCardIndex) {
         super.sendError(textMessage, getPlayer(), turnHandler);
 
     }
 
     @Override
-    public void drawCard(Player player, boolean isGold, boolean fromDeck, int faceUpCardIndex) throws RemoteException {
+    public void drawCard(Player player, boolean isGold, boolean fromDeck, int faceUpCardIndex) {
         super.sendError(textMessage, getPlayer(), turnHandler);
     }
 
     @Override
-    public void addCard(Game game, ResourceCard resourceCard, Face face, int x, int y) throws RemoteException {
+    public void addCard(Game game, ResourceCard resourceCard, Face face, int x, int y) {
         super.sendError(textMessage, getPlayer(), turnHandler);
     }
 
     @Override
-    public void addStarterCard(Game game, StarterCard starterCard, Face face) throws IOException, InterruptedException{
+    public void addStarterCard(Game game, StarterCard starterCard, Face face) {
         super.sendError(textMessage, getPlayer(), turnHandler);
     }
 

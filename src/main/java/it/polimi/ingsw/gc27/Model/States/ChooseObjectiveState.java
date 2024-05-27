@@ -10,9 +10,6 @@ import it.polimi.ingsw.gc27.Model.Game.Game;
 import it.polimi.ingsw.gc27.Model.Game.Player;
 import it.polimi.ingsw.gc27.Model.MiniModel;
 
-import java.io.IOException;
-import java.rmi.RemoteException;
-
 public class ChooseObjectiveState extends PlayerState {
 
     private String wrongStateText = "You have to choose an objective card first";
@@ -23,22 +20,22 @@ public class ChooseObjectiveState extends PlayerState {
     }
 
     @Override
-    public void drawCard(Player player, boolean isGold, boolean fromDeck, int faceUpCardIndex) throws RemoteException {
+    public void drawCard(Player player, boolean isGold, boolean fromDeck, int faceUpCardIndex) {
         super.sendError(wrongStateText, getPlayer(), turnHandler);
     }
 
     @Override
-    public void addCard(Game game, ResourceCard resourceCard, Face face, int x, int y) throws RemoteException {
+    public void addCard(Game game, ResourceCard resourceCard, Face face, int x, int y) {
         super.sendError(wrongStateText, getPlayer(), turnHandler);
     }
 
     @Override
-    public void addStarterCard(Game game, StarterCard starterCard, Face face) throws IOException, InterruptedException {
+    public void addStarterCard(Game game, StarterCard starterCard, Face face) {
         super.sendError(starterText, getPlayer(), turnHandler);
     }
 
     @Override
-    public void chooseObjectiveCard(Game game, int objectiveCardIndex) throws RemoteException {
+    public void chooseObjectiveCard(Game game, int objectiveCardIndex) {
 
         // The index is chosen by the player between 1 and 2, corresponding to 0 and 1 in the list. Then you switch it to remove the other card.
         objectiveCardIndex = objectiveCardIndex == 1 ? 1 : 0;

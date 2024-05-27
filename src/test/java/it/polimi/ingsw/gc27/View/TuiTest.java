@@ -32,6 +32,47 @@ class TuiTest {
         goldDeck = JsonParser.getGoldDeck(JsonParser.cardsJsonObj);
         objectiveDeck = JsonParser.getObjectiveDeck(JsonParser.cardsJsonObj);
     }
+
+    @Test
+    void showManuscriptLol() {
+        Manuscript m = new Manuscript();
+
+        m.getField()[42][42] = resourceDeck.get(0).getBack();
+        m.getField()[42][42].getCornerUR().setHidden(true);
+        m.getField()[42][42].getCornerLL().setHidden(true);
+
+        m.getField()[41][43] = resourceDeck.get(1).getBack();
+
+        m.getField()[43][41] = resourceDeck.get(2).getBack();
+
+        m.setxMin(41);
+        m.setyMin(41);
+        m.setxMax(43);
+        m.setyMax(43);
+
+        System.out.print(Tui.showManuscript(m));
+    }
+
+    @Test
+    void showManuscript0() {
+        Manuscript m = new Manuscript();
+
+        m.getField()[42][42] = resourceDeck.get(0).getBack();
+        m.getField()[42][42].getCornerUL().setHidden(true);
+        m.getField()[42][42].getCornerLR().setHidden(true);
+
+        m.getField()[41][41] = resourceDeck.get(1).getBack();
+
+        m.getField()[43][43] = resourceDeck.get(2).getBack();
+
+        m.setxMin(41);
+        m.setyMin(41);
+        m.setxMax(43);
+        m.setyMax(43);
+
+        System.out.print(Tui.showManuscript(m));
+    }
+
     @Test
     void showManuscript1() {
         Manuscript m = new Manuscript();

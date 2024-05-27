@@ -14,7 +14,6 @@ import it.polimi.ingsw.gc27.Net.VirtualView;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.rmi.RemoteException;
 
 public class GameController implements Serializable {
 
@@ -68,19 +67,19 @@ public class GameController implements Serializable {
      * @param x
      * @param y
      */
-    public void addCard(Player player, ResourceCard card, Face face, int x, int y) throws RemoteException {
+    public void addCard(Player player, ResourceCard card, Face face, int x, int y) {
         player.getPlayerState().addCard(this.game, card, face, x, y);
     }
 
-    public void drawCard(Player player, boolean isGold, boolean fromDeck, int faceUpCardIndex) throws RemoteException {
+    public void drawCard(Player player, boolean isGold, boolean fromDeck, int faceUpCardIndex) {
         player.getPlayerState().drawCard(player, isGold, fromDeck, faceUpCardIndex);
     }
 
-    public void chooseObjectiveCard(Player player, int objectiveCardIndex) throws RemoteException {
+    public void chooseObjectiveCard(Player player, int objectiveCardIndex) {
         player.getPlayerState().chooseObjectiveCard(this.game, objectiveCardIndex);
     }
 
-    public void addStarterCard(Player player, StarterCard starter, Face face) throws IOException, InterruptedException {
+    public void addStarterCard(Player player, StarterCard starter, Face face) {
         player.getPlayerState().addStarterCard(this.game, starter, face);
     }
 

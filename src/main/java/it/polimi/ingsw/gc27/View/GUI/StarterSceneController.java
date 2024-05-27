@@ -27,18 +27,19 @@ public class StarterSceneController { //per chiamare start
     private Parent root;
 
 
-
+    //collegato al bottone "start"
     @FXML
     public void switchToChooseGameScene(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ChooseGameScene.fxml"));
-        Parent sceneRoot = loader.load();
-        Scene scene = new Scene(sceneRoot,1000,500);
-
-        //startGameButton.setOnMouseClicked();
-
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setScene(scene);
-        stage.show();
+        Gui.getInstance().switchScene("/fxml/ChooseGameScene.fxml");
+//        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ChooseGameScene.fxml"));
+//        Parent sceneRoot = loader.load();
+//        Scene scene = new Scene(sceneRoot,1000,500);
+//
+//        //startGameButton.setOnMouseClicked();
+//
+//        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+//        stage.setScene(scene);
+//        stage.show();
     }
 
 

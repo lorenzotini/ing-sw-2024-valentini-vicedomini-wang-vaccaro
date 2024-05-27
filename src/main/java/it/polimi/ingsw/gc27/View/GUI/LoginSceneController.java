@@ -67,7 +67,9 @@ public class LoginSceneController {
         }
     }
     public void sendColour() throws IOException {
-        Gui.getInstance().switchScene(Gui.getInstance().getStage(),"/fxml/PlaceStarterCardScene.fxml" );
+        PlaceStarterCardScene s=new PlaceStarterCardScene();
+        s.init();
+        Gui.getInstance().switchScene("/fxml/PlaceStarterCardScene.fxml" );
     }
 
 

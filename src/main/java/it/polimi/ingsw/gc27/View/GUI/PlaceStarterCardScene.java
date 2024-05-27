@@ -1,17 +1,31 @@
 package it.polimi.ingsw.gc27.View.GUI;
 
+import it.polimi.ingsw.gc27.JsonParser;
+import it.polimi.ingsw.gc27.Model.Card.StarterCard;
 import it.polimi.ingsw.gc27.View.Gui;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
-import javafx.scene.image.ImageView;
+import javafx.scene.image.*;
+
+import java.rmi.RemoteException;
+import java.util.ArrayList;
 
 public class PlaceStarterCardScene {
+    private static ArrayList<StarterCard> starterDeck = JsonParser.getStarterDeck(JsonParser.cardsJsonObj);
     public ImageView frontStarter;
     public ImageView backStarter;
+
     public Button frontStarterButton;
     public Button backStarterButton;
 
+    public void init() throws RemoteException {
+        //StarterCard card = Gui.getInstance().getClient().getMiniModel().getPlayer().getStarterCard();
+        //String imagepath="src/main/resources/Images/cards/card2_front.png";
+        //Image image= new Image("file:///src/main/resources/Images/cards/card2_front.png");
+        //frontStarter.setImage(image);
 
+
+    }
 
     public void sendStarter(ActionEvent event) {
         if(event.getSource().equals(frontStarterButton)){

@@ -43,6 +43,10 @@ public class Gui implements View {
 
     private Stage stage;
 
+    public VirtualView getClient() {
+        return client;
+    }
+
     private VirtualView client;
     final BlockingQueue<String> messages= new LinkedBlockingQueue<>();
     final BlockingQueue<String> messagesReceived= new LinkedBlockingQueue<>();
@@ -72,11 +76,13 @@ public class Gui implements View {
 //    }
 
 
+    public void initializing(){
 
+    }
 
 
     @Override
-    public void run() {
+    public void run() { //da addStarterCard in poi
 
     }
 
@@ -207,7 +213,7 @@ public class Gui implements View {
             messages.add(string);
         }
 
-        public void switchScene (Stage stage, String scenePath) throws IOException {
+        public void switchScene (String scenePath) throws IOException {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(scenePath));
             Parent root = loader.load();
             Scene scene = new Scene(root, 1000, 500);

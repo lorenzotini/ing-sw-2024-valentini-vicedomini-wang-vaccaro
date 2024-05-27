@@ -25,11 +25,11 @@ public class ChooseGameSceneController {
     @FXML
     public void sendNewGame() throws IOException {
         Gui.getInstance().stringFromSceneController("new");
-        Gui.getInstance().switchScene(Gui.getInstance().getStage(),"/fxml/NewGameScene.fxml");
+        Gui.getInstance().switchScene("/fxml/NewGameScene.fxml");
     }
 
     public void sendJoinGame() throws IOException {
-        Gui.getInstance().switchScene(Gui.getInstance().getStage(),"/fxml/JoinGameScene.fxml");
+        Gui.getInstance().switchScene("/fxml/JoinGameScene.fxml");
         //changeScene, in quella farà gui.stringFrom..
     }
 

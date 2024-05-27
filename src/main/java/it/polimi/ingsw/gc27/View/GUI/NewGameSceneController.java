@@ -31,7 +31,7 @@ public class NewGameSceneController {
     public void sendLoginScene() throws IOException {
         //faccio  in modo che è qui che viene mandata l'informazione del numero di players
         Gui.getInstance().stringFromSceneController(chosenButton);
-        Gui.getInstance().switchScene(Gui.getInstance().getStage(), "/fxml/LoginScene.fxml");
+        Gui.getInstance().switchScene( "/fxml/LoginScene.fxml");
 
     }
 

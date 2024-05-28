@@ -47,9 +47,9 @@ public class Tui implements View {
             out.print(client.getMiniModel().getPlayer().getPlayerState() + "\n> ");
 
             String command = scan.nextLine();
-            if (command.equals("\n") || command.isEmpty()){
-                command = scan.nextLine();
-            }
+//            if (command.equals("\n") || command.isEmpty()){
+//                command = scan.nextLine();
+//            }
             switch (command.toLowerCase()) {
 
                 case "help":
@@ -189,18 +189,30 @@ public class Tui implements View {
                     out.println("\n" + showBoard(client.getMiniModel().getBoard()));
                     break;
                 case "sendmessage":
-                    out.println("\nchat available : \nglobal");
-                    for(String u : client.getMiniModel().getOtherPlayerUsername()){
-                        out.println(u);
-                    }
                     String receiver = scan.nextLine();
-                    if(receiver.equals("\n")){
+                    boolean f = true;
+                    do {
+
+                        out.println("\nchat available with: \nglobal");
+                        for (String u : client.getMiniModel().getOtherPlayerUsername()) {
+                            out.println(u);
+                        }
+                        out.println("Choose one");
                         receiver = scan.nextLine();
-                        break;
-                    }
+//                        if (receiver.equals("\n") || receiver.equals("")) {
+//                            receiver = scan.nextLine();
+//                            break;
+//                        }
+                        f = true;
+                        for (String u : client.getMiniModel().getOtherPlayerUsername()) {
+                            if (!u.equals(receiver)) {
+                                f = false;
+                            }
+                        }
+                    }while(!f);
                     out.println("\n" + "content:");
                     String mess = scan.nextLine();
-                    if(mess.equals("\n")){
+                    if(mess.equals("\n") || mess.equals("")){
                         mess = scan.nextLine();
                         break;
                     }

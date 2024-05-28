@@ -22,18 +22,18 @@ public class UpdateChatMessage extends Message{
     public void reportUpdate(VirtualView client, View view) throws RemoteException {
 
         Chat chat2 = client.getMiniModel().getChat(this.getMiniModel().getChat().getFirst().getChatters());
-        if(chat2 == null) {
-            System.out.println("errore dei personaggi della chat");
-        }else{
+//        if(chat2 == null) {
+//            System.out.println("errore dei personaggi della chat");
+//        }else{
 
-            client.getMiniModel().getChat().remove(chat2);
-            client.getMiniModel().getChat().add(this.getMiniModel().getChat().getFirst());
-        }
-        for(ChatMessage mess : this.getMiniModel().getChat().getFirst().getChat()){
-            System.out.println("Sender:"+mess.getSender() + "\n");
-            System.out.println("Receiver:"+mess.getReceiver() + "\n");
-            System.out.println(mess.getContent() + "\n");
-        }
+        client.getMiniModel().getChat().remove(chat2);
+        client.getMiniModel().getChat().add(this.getMiniModel().getChat().getFirst());
+//        }
+//        for(ChatMessage mess : this.getMiniModel().getChat().getFirst().getChat()){
+//            System.out.println("Sender:"+mess.getSender() + "\n");
+//            System.out.println("Receiver:"+mess.getReceiver() + "\n");
+//            System.out.println(mess.getContent() + "\n");
+//        }
 
     }
 }

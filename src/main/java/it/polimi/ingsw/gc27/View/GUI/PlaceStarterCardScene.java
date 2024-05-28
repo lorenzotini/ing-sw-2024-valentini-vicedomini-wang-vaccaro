@@ -1,23 +1,22 @@
 package it.polimi.ingsw.gc27.View.GUI;
 
-import it.polimi.ingsw.gc27.JsonParser;
-import it.polimi.ingsw.gc27.Model.Card.StarterCard;
-import it.polimi.ingsw.gc27.View.Gui;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.image.*;
-
-import java.rmi.RemoteException;
-import java.util.ArrayList;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import  it.polimi.ingsw.gc27.View.Gui;
 
 public class PlaceStarterCardScene implements GenericController{
+
+    @FXML
     public ImageView frontStarter;
+    @FXML
     public ImageView backStarter;
-
+    @FXML
     public Button frontStarterButton;
+    @FXML
     public Button backStarterButton;
-
-
 
 
     public void sendStarter(ActionEvent event) {
@@ -28,5 +27,14 @@ public class PlaceStarterCardScene implements GenericController{
         }
     }
 
+    public void changeImageFront(String imagePath) {
+        Image image = new Image(imagePath);
+        frontStarter.setImage(image);
+    }
+
+    public void changeImageBack(String imagePath) {
+        Image image = new Image(imagePath);
+        backStarter.setImage(image);
+    }
 
 }

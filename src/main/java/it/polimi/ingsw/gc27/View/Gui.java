@@ -14,7 +14,6 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -25,11 +24,9 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 
-
-
 public class Gui implements View {
 
-    private static Gui gui=null;
+    private static Gui gui = null;
 
     public Stage getStage() {
         return stage;
@@ -46,81 +43,68 @@ public class Gui implements View {
     }
 
     private VirtualView client;
-    final BlockingQueue<String> messages= new LinkedBlockingQueue<>();
-    final BlockingQueue<String> messagesReceived= new LinkedBlockingQueue<>();
+    final BlockingQueue<String> messages = new LinkedBlockingQueue<>();
+    final BlockingQueue<String> messagesReceived = new LinkedBlockingQueue<>();
 
+    final String STARTER = "/fxml/StarterScene.fxml"; //0
+    final String CHOSEGAME = "/fxml/ChooseGameScene.fxml"; //1
+    final String NEWGAME = "/fxml/NewGameScene.fxml"; //2.1
+    final String JOINGAME = "/fxml/JoinGameScene.fxml"; //2.2
+    final String LOGIN = "/fxml/LoginScene.fxml"; //3
+    final String PLACESTARTER = "/fxml/PlaceStarterCardScene.fxml"; //4
+    final String LOBBY = "/fxml/LobbyScene.fxml";
 
-    final String STARTER="/fxml/StarterScene.fxml"; //0
-    final String CHOSEGAME="/fxml/ChooseGameScene.fxml"; //1
-    final String NEWGAME="/fxml/NewGameScene.fxml"; //2.1
-    final String JOINGAME="/fxml/JoinGameScene.fxml"; //2.2
-
-    final String LOGIN="/fxml/LoginScene.fxml"; //3
-    final String PLACESTARTER="/fxml/PlaceStarterCardScene.fxml"; //4
-
-    final String LOBBY="/fxml/LobbyScene.fxml";
-
-    final ArrayList<String> paths= new ArrayList<>(Arrays.asList(STARTER, CHOSEGAME,NEWGAME,JOINGAME,LOGIN,PLACESTARTER, LOBBY));
-
-
+    final ArrayList<String> paths = new ArrayList<>(Arrays.asList(STARTER, CHOSEGAME, NEWGAME, JOINGAME, LOGIN, PLACESTARTER, LOBBY));
 
     private final HashMap<String, Scene> pathSceneMap = new HashMap<>();
-    private final HashMap<String, GenericController> pathContrMap= new HashMap<>();
+    private final HashMap<String, GenericController> pathContrMap = new HashMap<>();
 
     //creo un thread che comunica con il server inviandogli i messaggi
 
 
-
-    private Gui(){}
+    private Gui() {
+    }
 
     public static Gui getInstance() {
-        synchronized (Gui.class){
-            if(gui==null)
+        synchronized (Gui.class) {
+            if (gui == null)
                 gui = new Gui();
             return gui;
         }
     }
 
+
     public void initializing() throws IOException {
-        for(String path : paths) {
+        for (String path : paths) {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(path));
             Parent root = loader.load();
             pathSceneMap.put(path, new Scene(root));
-            GenericController contr=loader.getController();
+            GenericController contr = loader.getController();
             pathContrMap.put(path, contr);
         }
     }
 
     @Override
     public void run() throws IOException { //da addStarterCard in poi
-        Platform.runLater(()->{
+
+        Platform.runLater(() -> {
             try {
-                switchScene("/fxml/PlaceStarterCardScene.fxml" ); //errore
+                // set the starter cards
+                StarterCard starter = this.client.getMiniModel().getPlayer().getStarterCard();
+                PlaceStarterCardScene contr = (PlaceStarterCardScene) getControllerFromName(PLACESTARTER);
+                contr.changeImageFront(getClass().getResource(starter.getFront().getImagePath()).toExternalForm());
+                contr.changeImageBack(getClass().getResource(starter.getBack().getImagePath()).toExternalForm());
+                switchScene("/fxml/PlaceStarterCardScene.fxml");
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         });
-
-        //System.out.print("\nciaociaociao");
-        //ricevo la starter card
-        StarterCard starter=this.client.getMiniModel().getPlayer().getStarterCard();
-        //System.out.print("\ncarta trovata");
-        String fr_path= String.valueOf(starter.getFront().getImagePath());
-        //System.out.print("\npercorso trovato");
-
-        //System.out.print("\npre errore");
-        Image image=new Image(getClass().getResourceAsStream(fr_path));
-        //System.out.print("\npost errore");
-        PlaceStarterCardScene contr= (PlaceStarterCardScene) getControllerFromName(PLACESTARTER);
-        contr.frontStarter.setImage(image);
-
 
     }
 
     public GenericController getControllerFromName(String path) {
         return pathContrMap.get(path);
     }
-
 
 
     @Override
@@ -178,83 +162,76 @@ public class Gui implements View {
         }
 
     }
-        @Override
-        public void setClient (VirtualView client){
-            this.client = client;
+
+    @Override
+    public void setClient(VirtualView client) {
+        this.client = client;
+    }
+
+    @Override
+    public void showString(String phrase) {
+        messagesReceived.add(phrase);
+        System.out.println(phrase);
+
+
+    }
+
+    @Override
+    public void show(ArrayList<ResourceCard> hand) {
+
+    }
+
+    @Override
+    public void show(ObjectiveCard objectiveCard) {
+
+    }
+
+    @Override
+    public void show(Manuscript manuscript) {
+
+    }
+
+    @Override
+    public void show(Board board) {
+
+    }
+
+    @Override
+    public void show(Market market) {
+
+    }
+
+    @Override
+    public String read() {
+        String mess = "";
+        try {
+            mess = messages.take();
+        } catch (InterruptedException e) {
 
         }
+        return mess;
+    }
 
-        @Override
-        public void showString (String phrase){
-            messagesReceived.add(phrase);
-            System.out.println(phrase);
+    public void stringFromSceneController(String string) {
+        messages.add(string);
+    }
 
-
-        }
-
-        @Override
-        public void show (ArrayList < ResourceCard > hand) {
-
-        }
-
-        @Override
-        public void show (ObjectiveCard objectiveCard){
-
-        }
-
-        @Override
-        public void show (Manuscript manuscript){
-
-        }
-
-        @Override
-        public void show (Board board){
-
-        }
-
-        @Override
-        public void show (Market market){
-
-        }
-
-        @Override
-        public String read () {
-            String mess = "";
-            try {
-                mess = messages.take();
-            } catch (InterruptedException e) {
-            }
-
-            return mess;
-        }
-
-        public void stringFromSceneController (String string){
-            messages.add(string);
-        }
-
-        public void switchScene (String scenePath) throws IOException {
+    public void switchScene(String scenePath) throws IOException {
+        Scene scene = pathSceneMap.get(scenePath);
+        if (scene == null) {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(scenePath));
             Parent root = loader.load();
-
-            //cerco tra le scene già inizializzate
-            //Scene scene = getSceneByName(scenePath);
-            //Scene scene = root.getScene();
-            Scene scene=new Scene(root);
-            loader.getController();
-
-
-            //TODO: rendere singleton e far funzionare le prime 3 schermate
-            //startGameButton.setOnMouseClicked();
-            //stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-            stage.setScene(scene);
-            stage.show();
+            scene = new Scene(root);
+            pathSceneMap.put(scenePath, scene);
+            pathContrMap.put(scenePath, loader.getController());
         }
+        stage.setScene(scene);
+        stage.show();
+    }
 
     public Scene getSceneFromName(String path) {
         return pathSceneMap.get(path);
     }
-
 
 
 //        public Scene getSceneByName(String path){ //bruttissimo da sistemare
@@ -266,7 +243,6 @@ public class Gui implements View {
 //            }
 //            return s;
 //        }
-
 
 
 }

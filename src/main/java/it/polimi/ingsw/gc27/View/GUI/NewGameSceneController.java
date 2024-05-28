@@ -23,10 +23,6 @@ public class NewGameSceneController implements GenericController{
     private String chosenButton;
 
 
-
-
-
-
     @FXML
     public void sendLoginScene() throws IOException {
         //faccio  in modo che è qui che viene mandata l'informazione del numero di players

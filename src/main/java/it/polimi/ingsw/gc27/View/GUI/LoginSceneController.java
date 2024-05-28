@@ -2,17 +2,13 @@ package it.polimi.ingsw.gc27.View.GUI;
 
 import it.polimi.ingsw.gc27.View.Gui;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Background;
 
 import java.io.IOException;
 
 
-
-public class LoginSceneController implements GenericController{
+public class LoginSceneController implements GenericController {
 
 
     public TextField UsernameInput;
@@ -24,7 +20,7 @@ public class LoginSceneController implements GenericController{
     public Button sendUsernameButton;
     public Button sendColourButton;
 
-    public void init(){
+    public void init() {
         blueButton.setDisable(true);
         greenButton.setDisable(true);
         yellowButton.setDisable(true);
@@ -53,24 +49,19 @@ public class LoginSceneController implements GenericController{
     }
 
     public void selectColour(ActionEvent event) {
-        if(event.getSource().equals(blueButton)){
+        if (event.getSource().equals(blueButton)) {
             Gui.getInstance().stringFromSceneController("blue");
-        }
-        else if(event.getSource().equals(redButton)){ //sistema in button
+        } else if (event.getSource().equals(redButton)) { //sistema in button
             Gui.getInstance().stringFromSceneController("red");
-        }
-        else if(event.getSource().equals(yellowButton)){
+        } else if (event.getSource().equals(yellowButton)) {
             Gui.getInstance().stringFromSceneController("yellow");
-        }
-        else{
+        } else {
             Gui.getInstance().stringFromSceneController("green");
         }
     }
+
     public void sendColour() throws IOException {
-
-        Gui.getInstance().switchScene("/fxml/LobbyScene.fxml" );
+        Gui.getInstance().switchScene("/fxml/LobbyScene.fxml");
     }
-
-
 
 }

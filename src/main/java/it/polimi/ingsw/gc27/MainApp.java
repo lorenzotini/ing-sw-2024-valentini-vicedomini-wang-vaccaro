@@ -12,7 +12,7 @@ public class MainApp extends Application {
         Gui.getInstance().initializing();
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/StarterScene.fxml")); //root node
         Scene scene;
-        scene = new Scene(fxmlLoader.load(), 1600, 900);
+        scene = new Scene(fxmlLoader.load(), 1200, 800);
         //stage.setFullScreen(true);
         stage.setTitle("Codex Naturalis");
         stage.setScene(scene);

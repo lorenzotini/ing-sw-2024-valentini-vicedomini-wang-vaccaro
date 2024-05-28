@@ -13,7 +13,9 @@ import it.polimi.ingsw.gc27.View.GUI.ChooseGameSceneController;
 import it.polimi.ingsw.gc27.View.GUI.GenericController;
 import it.polimi.ingsw.gc27.View.GUI.PlaceStarterCardScene;
 import it.polimi.ingsw.gc27.View.GUI.StarterSceneController;
+import it.polimi.ingsw.gc27.View.Listener.ViewObserver;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -68,7 +70,9 @@ public class Gui implements View {
     final String LOGIN="/fxml/LoginScene.fxml"; //3
     final String PLACESTARTER="/fxml/PlaceStarterCardScene.fxml"; //4
 
-    final ArrayList<String> paths= new ArrayList<>(Arrays.asList(STARTER, CHOSEGAME,NEWGAME,JOINGAME,LOGIN,PLACESTARTER));
+    final String LOBBY="/fxml/LobbyScene.fxml";
+
+    final ArrayList<String> paths= new ArrayList<>(Arrays.asList(STARTER, CHOSEGAME,NEWGAME,JOINGAME,LOGIN,PLACESTARTER, LOBBY));
 
 
 
@@ -88,16 +92,6 @@ public class Gui implements View {
             return gui;
         }
     }
-//    public void start(Stage stage) throws Exception {
-//        this.stage=stage;
-//        FXMLLoader fxmlLoader=new FXMLLoader(getClass().getResource("/fxml/StarterScene.fxml")); //root node
-//        Scene scene;
-//        scene = new Scene(fxmlLoader.load(),1600,900);
-//        //stage.setFullScreen(true);
-//        stage.setTitle("Codex Naturalis");
-//        stage.setScene(scene);
-//        stage.show();
-//    }
 
     public void initializing() throws IOException {
         for(String path : paths) {
@@ -111,18 +105,24 @@ public class Gui implements View {
 
     @Override
     public void run() throws IOException { //da addStarterCard in poi
-        switchScene("/fxml/PlaceStarterCardScene.fxml" ); //errore
+        Platform.runLater(()->{
+            try {
+                switchScene("/fxml/PlaceStarterCardScene.fxml" ); //errore
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
-        System.out.print("\nciaociaociao");
+        //System.out.print("\nciaociaociao");
         //ricevo la starter card
         StarterCard starter=this.client.getMiniModel().getPlayer().getStarterCard();
-        System.out.print("\ncarta trovata");
+        //System.out.print("\ncarta trovata");
         String fr_path= String.valueOf(starter.getFront().getImagePath());
-        System.out.print("\npercorso trovato");
+        //System.out.print("\npercorso trovato");
 
-        System.out.print("\npre errore");
+        //System.out.print("\npre errore");
         Image image=new Image("file:///"+fr_path);
-        System.out.print("\npost errore");
+        //System.out.print("\npost errore");
         PlaceStarterCardScene contr= (PlaceStarterCardScene) getControllerFromName(PLACESTARTER);
         contr.frontStarter.setImage(image);
 
@@ -187,22 +187,6 @@ public class Gui implements View {
             } else if (m.equals(gameIsFull)) {
                 welcomePlayer(this.client); // if the game is full restart the process
             }
-
-
-//        if(this.buttonReceiver();){
-//            messages.add("new");
-//            this.read();
-//        }else if (button2){
-//
-//            messages.add(id);
-//        }
-
-
-//        new Thread(() -> {
-//            while (true) {
-//
-//            }
-//        }).start();
         }
 
     }
@@ -271,7 +255,7 @@ public class Gui implements View {
             loader.getController();
 
 
-//TODO: rendere singleton e far funzionare le prime 3 schermate
+            //TODO: rendere singleton e far funzionare le prime 3 schermate
             //startGameButton.setOnMouseClicked();
             //stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
@@ -282,6 +266,8 @@ public class Gui implements View {
     public Scene getSceneFromName(String path) {
         return pathSceneMap.get(path);
     }
+
+
 
 //        public Scene getSceneByName(String path){ //bruttissimo da sistemare
 //            Scene s=null;

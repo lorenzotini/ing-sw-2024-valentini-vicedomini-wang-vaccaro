@@ -68,7 +68,7 @@ public class LoginSceneController implements GenericController{
     }
     public void sendColour() throws IOException {
 
-        // Gui.getInstance().switchScene("/fxml/PlaceStarterCardScene.fxml" );
+        Gui.getInstance().switchScene("/fxml/LobbyScene.fxml" );
     }
 
 

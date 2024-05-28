@@ -17,14 +17,8 @@ public class PlaceStarterCardScene implements GenericController{
     public Button frontStarterButton;
     public Button backStarterButton;
 
-    public void init() throws RemoteException {
-        //StarterCard card = Gui.getInstance().getClient().getMiniModel().getPlayer().getStarterCard();
-        //String imagepath="src/main/resources/Images/cards/card2_front.png";
-        //Image image= new Image("file:///src/main/resources/Images/cards/card2_front.png");
-        //frontStarter.setImage(image);
 
 
-    }
 
     public void sendStarter(ActionEvent event) {
         if(event.getSource().equals(frontStarterButton)){

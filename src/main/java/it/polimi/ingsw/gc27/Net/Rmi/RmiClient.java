@@ -58,7 +58,8 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
 
     @Override
     public void show(String message) throws RemoteException {
-        view.showString(message);
+        System.out.println(message);
+        //view.showString(message);
     }
 
     @Override

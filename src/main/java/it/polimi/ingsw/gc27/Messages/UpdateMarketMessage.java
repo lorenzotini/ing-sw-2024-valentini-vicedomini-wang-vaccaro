@@ -8,7 +8,7 @@ import java.rmi.RemoteException;
 
 public class UpdateMarketMessage extends Message{
 
-    //the minimodel of this class will have only market setted
+    //the minimodel of this class will have only market set
     //everyone will receive this
     public UpdateMarketMessage(MiniModel miniModel){
         super(miniModel, "The Market has been updated!");

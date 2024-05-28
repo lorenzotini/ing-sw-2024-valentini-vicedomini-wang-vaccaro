@@ -4,6 +4,7 @@ import it.polimi.ingsw.gc27.Model.Card.*;
 import it.polimi.ingsw.gc27.Model.Card.ObjectiveCard.ObjectiveCard;
 import it.polimi.ingsw.gc27.Model.Enumerations.PointsMultiplier;
 import it.polimi.ingsw.gc27.Model.Game.Board;
+import it.polimi.ingsw.gc27.Model.Game.ChatMessage;
 import it.polimi.ingsw.gc27.Model.Game.Manuscript;
 import it.polimi.ingsw.gc27.Model.Game.Market;
 import it.polimi.ingsw.gc27.Model.States.*;
@@ -46,9 +47,9 @@ public class Tui implements View {
             out.print(client.getMiniModel().getPlayer().getPlayerState() + "\n> ");
 
             String command = scan.nextLine();
-            if (command.equals("\n") || command.isEmpty()){
-                command = scan.nextLine();
-            }
+//            if (command.equals("\n") || command.isEmpty()){
+//                command = scan.nextLine();
+//            }
             switch (command.toLowerCase()) {
 
                 case "help":
@@ -187,7 +188,38 @@ public class Tui implements View {
                 case "board":
                     out.println("\n" + showBoard(client.getMiniModel().getBoard()));
                     break;
+                case "sendmessage":
+                    String receiver = scan.nextLine();
+                    boolean f = true;
+                    do {
 
+                        out.println("\nchat available with: \nglobal");
+                        for (String u : client.getMiniModel().getOtherPlayerUsername()) {
+                            out.println(u);
+                        }
+                        out.println("Choose one");
+                        receiver = scan.nextLine();
+//                        if (receiver.equals("\n") || receiver.equals("")) {
+//                            receiver = scan.nextLine();
+//                            break;
+//                        }
+                        f = true;
+                        for (String u : client.getMiniModel().getOtherPlayerUsername()) {
+                            if (!u.equals(receiver)) {
+                                f = false;
+                            }
+                        }
+                    }while(!f);
+                    out.println("\n" + "content:");
+                    String mess = scan.nextLine();
+                    if(mess.equals("\n") || mess.equals("")){
+                        mess = scan.nextLine();
+                        break;
+                    }
+                    else{
+                        client.sendCommand(new SendMessageCommand(client.getMiniModel().getPlayer(), receiver, mess ));
+                    }
+                    break;
                 default:
                     out.println("\nInvalid command. Type 'help' for a list of commands.");
                     break;

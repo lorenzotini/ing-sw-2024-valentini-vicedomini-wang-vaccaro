@@ -12,7 +12,7 @@ import java.io.IOException;
 
 
 
-public class LoginSceneController {
+public class LoginSceneController implements GenericController{
 
 
     public TextField UsernameInput;
@@ -67,9 +67,8 @@ public class LoginSceneController {
         }
     }
     public void sendColour() throws IOException {
-        PlaceStarterCardScene s=new PlaceStarterCardScene();
-        s.init();
-        Gui.getInstance().switchScene("/fxml/PlaceStarterCardScene.fxml" );
+
+        // Gui.getInstance().switchScene("/fxml/PlaceStarterCardScene.fxml" );
     }
 
 

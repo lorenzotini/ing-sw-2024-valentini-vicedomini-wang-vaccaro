@@ -9,7 +9,7 @@ import java.io.IOException;
 
 
 
-public class JoinGameSceneController {
+public class JoinGameSceneController implements GenericController{
 
 
     public TextField idTextField;

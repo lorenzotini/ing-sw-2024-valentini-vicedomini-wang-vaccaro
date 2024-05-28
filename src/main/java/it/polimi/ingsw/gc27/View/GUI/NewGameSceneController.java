@@ -10,7 +10,7 @@ import java.io.IOException;
 
 //this scene will open after button "new game" (in ChooseGameNetScene) clicked,
 //and number of players will be asked
-public class NewGameSceneController {
+public class NewGameSceneController implements GenericController{
     @FXML
     public CheckBox checkBox2;
     @FXML

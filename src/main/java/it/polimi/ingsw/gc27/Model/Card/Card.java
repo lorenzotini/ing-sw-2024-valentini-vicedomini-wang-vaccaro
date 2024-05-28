@@ -3,6 +3,10 @@ package it.polimi.ingsw.gc27.Model.Card;
 import java.io.Serializable;
 
 public abstract class Card implements Serializable {
+    public int getCardID() {
+        return cardID;
+    }
+
     private int cardID;
     private FrontFace front;
     private BackFace back;

@@ -10,8 +10,7 @@ import javafx.scene.image.*;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
-public class PlaceStarterCardScene {
-    private static ArrayList<StarterCard> starterDeck = JsonParser.getStarterDeck(JsonParser.cardsJsonObj);
+public class PlaceStarterCardScene implements GenericController{
     public ImageView frontStarter;
     public ImageView backStarter;
 

@@ -12,7 +12,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class ChooseGameSceneController {
+public class ChooseGameSceneController implements GenericController{
 
     @FXML
     public Button joinGameButton;

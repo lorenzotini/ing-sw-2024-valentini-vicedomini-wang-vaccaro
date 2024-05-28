@@ -15,7 +15,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 //first scene of the game, displayes logo and "Play", "Exit" buttons
-public class StarterSceneController { //per chiamare start
+public class StarterSceneController implements GenericController{ //per chiamare start
 
     @FXML
     public Button startGameButton; //servirà thread che ascolta i bottoni e thread che manda le chiamate al controller

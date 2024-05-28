@@ -9,6 +9,7 @@ import javafx.stage.Stage;
 public class MainApp extends Application {
     public void start(Stage stage) throws Exception {
         Gui.getInstance().setStage(stage);
+        Gui.getInstance().initializing();
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/StarterScene.fxml")); //root node
         Scene scene;
         scene = new Scene(fxmlLoader.load(), 1600, 900);

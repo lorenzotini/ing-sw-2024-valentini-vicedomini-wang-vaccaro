@@ -9,7 +9,7 @@
 
 <StackPane id="stackpane" fx:id="stackpane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1600.0" styleClass="stackpane" stylesheets="@../css/UsernamePawnScene.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Pane prefHeight="200.0" prefWidth="200.0">
+      <Pane prefHeight="200.0" prefWidth="200.0" styleClass="stackpane" stylesheets="@../css/UsernamePawnScene.css">
          <children>
             <Button layoutX="360.0" layoutY="620.0" mnemonicParsing="false" prefHeight="110.0" prefWidth="110.0" styleClass="pawn_red" stylesheets="@../css/UsernamePawnScene.css" />
             <Button layoutX="610.0" layoutY="620.0" mnemonicParsing="false" prefHeight="110.0" prefWidth="110.0" styleClass="pawn_blue" stylesheets="@../css/UsernamePawnScene.css" />

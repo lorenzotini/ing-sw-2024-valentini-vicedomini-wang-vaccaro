@@ -1,0 +1,14 @@
+.anchorpane {
+    -fx-background-image: url("../Images/utility/background2.png");
+    -fx-background-size: cover;
+}
+
+.imageview {
+    -fx-image: url("../Images/utility/CodexNaturalisBackgroundRemoved.png");
+}
+
+.playbutton{
+    -fx-background-color: #e4dfb2;
+    -fx-border-width: 7px;
+    -fx-border-color: #b89047;
+}

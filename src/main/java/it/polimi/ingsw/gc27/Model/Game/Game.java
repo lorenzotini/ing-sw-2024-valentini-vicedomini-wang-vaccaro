@@ -3,15 +3,20 @@ package it.polimi.ingsw.gc27.Model.Game;
 
 import it.polimi.ingsw.gc27.Messages.Message;
 import it.polimi.ingsw.gc27.Messages.PlayerJoinedMessage;
+import it.polimi.ingsw.gc27.Model.Card.Card;
 import it.polimi.ingsw.gc27.Model.Card.ObjectiveCard.ObjectiveCard;
 import it.polimi.ingsw.gc27.Model.Card.StarterCard;
 import it.polimi.ingsw.gc27.Model.Enumerations.PawnColour;
 import it.polimi.ingsw.gc27.Model.Listener.Observer;
 import it.polimi.ingsw.gc27.Model.Listener.PlayerListener;
 import it.polimi.ingsw.gc27.Net.VirtualView;
+import javafx.util.Pair;
 
 import java.io.Serializable;
+import java.lang.reflect.Array;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -29,6 +34,8 @@ public class Game implements Serializable {
     private ArrayList<ObjectiveCard> objectiveDeck;
     private ArrayList<PawnColour> availablePawns = new ArrayList<>(List.of(PawnColour.GREEN, PawnColour.YELLOW, PawnColour.BLUE, PawnColour.RED));
 
+    private Chat generalChat = new Chat();
+    final private HashMap< Pair<Player, Player>, Chat> chatMap = new HashMap<>();
 
     public Game() {
     }
@@ -46,6 +53,7 @@ public class Game implements Serializable {
         this.commonObjective2 = commonObjective2;
         this.starterDeck = starterDeck;
         this.objectiveDeck = objectiveDeck;
+
     }
 
     public Integer getNumActualPlayers() {
@@ -68,11 +76,21 @@ public class Game implements Serializable {
     public ArrayList<StarterCard> getStarterDeck() {
         return starterDeck;
     }
-
+    public void setStarterDeck(ArrayList<StarterCard> starterDeck) {
+        this.starterDeck = starterDeck;
+    }
     public ArrayList<ObjectiveCard> getObjectiveDeck() {
         return objectiveDeck;
     }
-
+    public void setObjectiveDeck(ArrayList<ObjectiveCard> objectiveDeck) {
+        this.objectiveDeck = objectiveDeck;
+    }
+    public void setCommonObjective1(Card commonObjective1) {
+        this.commonObjective1 = commonObjective1;
+    }
+    public void setCommonObjective2(Card commonObjective2) {
+        this.commonObjective2 = commonObjective2;
+    }
     public Market getMarket() {
         return market;
     }
@@ -84,7 +102,9 @@ public class Game implements Serializable {
     public synchronized ArrayList<PawnColour> getAvailablePawns() {
         return availablePawns;
     }
-
+    public void setAvailablePawns(ArrayList<PawnColour> availablePawns) {
+        this.availablePawns = availablePawns;
+    }
     public Board getBoard() {
         return board;
     }
@@ -92,7 +112,12 @@ public class Game implements Serializable {
     public void setBoard(Board board) {
         this.board = board;
     }
-
+    public Card getCommonObjective1() {
+        return commonObjective1;
+    }
+    public Card getCommonObjective2() {
+        return commonObjective2;
+    }
     public List<Player> getPlayers() {
         return players;
     }
@@ -108,7 +133,7 @@ public class Game implements Serializable {
      * @param player
      * @param points
      */
-    public void addPoints(Player player, int points) {
+    public void addPoints(Player player, int points) throws RemoteException {
         PawnColour pawncolour = player.getPawnColour();
         switch (pawncolour) {
             case BLUE -> board.setPointsBluePlayer(board.getPointsBluePlayer() + points);
@@ -127,7 +152,15 @@ public class Game implements Serializable {
         return false;
     }
 
-    public void addPlayer(Player p, VirtualView client) {
+    public void addPlayer(Player p, VirtualView client) throws RemoteException {
+
+        for(Player player : players){
+            Chat chat = new Chat(player, p);
+            chatMap.put(new Pair<Player, Player>(player, p),   chat);
+            chatMap.put(new Pair<Player, Player>(p, player),   chat);
+        }
+        generalChat.addPlayer(p);
+
         this.players.add(p);
         //create a listener
         //he will listen the observable and decide if the message has to be sent to his player
@@ -151,6 +184,24 @@ public class Game implements Serializable {
         for (Observer o : observers) {
             o.update(message);
         }
+    }
+    public Chat getGeneralChat(){
+        return this.generalChat;
+    }
+    public Chat getChat(Player p1, Player p2) {
+        return chatMap.get(new Pair<Player,Player>(p1, p2));
+    }
+    public ArrayList<Chat> getChats(Player player){
+        ArrayList<Chat> chats = new ArrayList<>();
+        chats.add(this.generalChat);
+        System.out.println("aggiunta chat globale");
+        for(Pair<Player , Player> p : chatMap.keySet()){
+            if(p.getKey().getUsername().equals(player.getUsername())){
+                chats.add(chatMap.get(p));
+                System.out.println("aggiunta chat singola");
+            }
+        }
+        return chats;
     }
 
 }

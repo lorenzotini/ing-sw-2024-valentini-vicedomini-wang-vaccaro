@@ -7,7 +7,7 @@ import it.polimi.ingsw.gc27.View.View;
 import java.rmi.RemoteException;
 
 public class UpdateBoardMessage extends Message{
-    //this minimodel's class have only board and the string setted,
+    //this minimodel's class have only board and the string set,
     //every player has to receive the message
     public UpdateBoardMessage(MiniModel miniModel){
         super(miniModel,"Points!");

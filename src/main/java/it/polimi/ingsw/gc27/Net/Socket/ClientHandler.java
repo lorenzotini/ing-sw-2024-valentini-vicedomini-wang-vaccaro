@@ -103,7 +103,7 @@ public class ClientHandler implements VirtualView {
     public void show(String s) {
         try {
             this.output.writeObject(new StringMessage(s));
-            output.reset();
+            this.output.reset();
             this.output.flush();
         } catch (IOException e) {
             //TODO this.console.disconnected(this);

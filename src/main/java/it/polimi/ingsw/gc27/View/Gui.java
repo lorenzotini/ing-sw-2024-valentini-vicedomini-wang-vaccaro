@@ -1,40 +1,28 @@
 package it.polimi.ingsw.gc27.View;
 
-import it.polimi.ingsw.gc27.Messages.Message;
 import it.polimi.ingsw.gc27.Model.Card.ObjectiveCard.ObjectiveCard;
 import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
 import it.polimi.ingsw.gc27.Model.Card.StarterCard;
 import it.polimi.ingsw.gc27.Model.Game.Board;
 import it.polimi.ingsw.gc27.Model.Game.Manuscript;
 import it.polimi.ingsw.gc27.Model.Game.Market;
-import it.polimi.ingsw.gc27.Model.Game.Player;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 import it.polimi.ingsw.gc27.View.GUI.ChooseGameSceneController;
 import it.polimi.ingsw.gc27.View.GUI.GenericController;
 import it.polimi.ingsw.gc27.View.GUI.PlaceStarterCardScene;
-import it.polimi.ingsw.gc27.View.GUI.StarterSceneController;
-import it.polimi.ingsw.gc27.View.Listener.ViewObserver;
-import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
-
-import static javafx.application.Application.launch;
 
 
 
@@ -121,7 +109,7 @@ public class Gui implements View {
         //System.out.print("\npercorso trovato");
 
         //System.out.print("\npre errore");
-        Image image=new Image("file:///"+fr_path);
+        Image image=new Image(getClass().getResourceAsStream(fr_path));
         //System.out.print("\npost errore");
         PlaceStarterCardScene contr= (PlaceStarterCardScene) getControllerFromName(PLACESTARTER);
         contr.frontStarter.setImage(image);

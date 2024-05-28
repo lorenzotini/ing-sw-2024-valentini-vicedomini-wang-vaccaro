@@ -6,7 +6,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 
 public class FrontFace extends Face {
-    public FrontFace(Path imagePath, Kingdom colour, Corner cornerUR, Corner cornerUL, Corner cornerLR, Corner cornerLL) {
+    public FrontFace(String imagePath, Kingdom colour, Corner cornerUR, Corner cornerUL, Corner cornerLR, Corner cornerLL) {
         super(imagePath, colour, cornerUR, cornerUL, cornerLR, cornerLL);
     }
 

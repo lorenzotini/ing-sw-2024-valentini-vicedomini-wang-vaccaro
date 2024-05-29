@@ -28,6 +28,26 @@ public class Gui implements View {
 
     private static Gui gui = null;
 
+    private Stage stage;
+
+    private VirtualView client;
+    final BlockingQueue<String> messages = new LinkedBlockingQueue<>();
+    final BlockingQueue<String> messagesReceived = new LinkedBlockingQueue<>();
+
+    final String STARTER = "/fxml/StarterScene.fxml"; //scene number 0
+    final String CHOSEGAME = "/fxml/ChooseGameScene.fxml"; //scene number 1
+    final String NEWGAME = "/fxml/NewGameScene.fxml"; //scene number 2.1
+    final String JOINGAME = "/fxml/JoinGameScene.fxml"; //scene number 2.2
+    final String LOGIN = "/fxml/LoginScene.fxml"; //scene number 3
+    final String PLACESTARTER = "/fxml/PlaceStarterCardScene.fxml"; //scene number 4
+    final String LOBBY = "/fxml/LobbyScene.fxml"; //scene number 5
+
+    final ArrayList<String> paths = new ArrayList<>(Arrays.asList(STARTER, CHOSEGAME, NEWGAME, JOINGAME, LOGIN, PLACESTARTER, LOBBY));
+
+    private final HashMap<String, Scene> pathSceneMap = new HashMap<>(); //maps path to scene
+    private final HashMap<String, GenericController> pathContrMap = new HashMap<>(); //maps path to controller of the scene
+
+    //setters and getters
     public Stage getStage() {
         return stage;
     }
@@ -35,36 +55,18 @@ public class Gui implements View {
     public void setStage(Stage stage) {
         this.stage = stage;
     }
-
-    private Stage stage;
-
     public VirtualView getClient() {
         return client;
     }
+    @Override
+    public void setClient(VirtualView client) {
+        this.client = client;
+    }
+    //end setters and getters
 
-    private VirtualView client;
-    final BlockingQueue<String> messages = new LinkedBlockingQueue<>();
-    final BlockingQueue<String> messagesReceived = new LinkedBlockingQueue<>();
-
-    final String STARTER = "/fxml/StarterScene.fxml"; //0
-    final String CHOSEGAME = "/fxml/ChooseGameScene.fxml"; //1
-    final String NEWGAME = "/fxml/NewGameScene.fxml"; //2.1
-    final String JOINGAME = "/fxml/JoinGameScene.fxml"; //2.2
-    final String LOGIN = "/fxml/LoginScene.fxml"; //3
-    final String PLACESTARTER = "/fxml/PlaceStarterCardScene.fxml"; //4
-    final String LOBBY = "/fxml/LobbyScene.fxml";
-
-    final ArrayList<String> paths = new ArrayList<>(Arrays.asList(STARTER, CHOSEGAME, NEWGAME, JOINGAME, LOGIN, PLACESTARTER, LOBBY));
-
-    private final HashMap<String, Scene> pathSceneMap = new HashMap<>();
-    private final HashMap<String, GenericController> pathContrMap = new HashMap<>();
-
-    //creo un thread che comunica con il server inviandogli i messaggi
-
-
+    //singleton pattern
     private Gui() {
     }
-
     public static Gui getInstance() {
         synchronized (Gui.class) {
             if (gui == null)
@@ -73,7 +75,7 @@ public class Gui implements View {
         }
     }
 
-
+    //loads scenes and controllers in hashmaps
     public void initializing() throws IOException {
         for (String path : paths) {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(path));
@@ -84,8 +86,9 @@ public class Gui implements View {
         }
     }
 
+    //start of the game after initialization
     @Override
-    public void run() throws IOException { //da addStarterCard in poi
+    public void run() throws IOException {
 
         Platform.runLater(() -> {
             try {
@@ -102,9 +105,23 @@ public class Gui implements View {
 
     }
 
+    public void switchScene(String scenePath) throws IOException {
+        Scene scene = pathSceneMap.get(scenePath);
+        if (scene == null) {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(scenePath));
+            Parent root = loader.load();
+            scene = new Scene(root);
+            pathSceneMap.put(scenePath, scene);
+            pathContrMap.put(scenePath, loader.getController());
+        }
+        stage.setScene(scene);
+        stage.show();
+    }
+
     public GenericController getControllerFromName(String path) {
         return pathContrMap.get(path);
     }
+
 
 
     @Override
@@ -163,10 +180,7 @@ public class Gui implements View {
 
     }
 
-    @Override
-    public void setClient(VirtualView client) {
-        this.client = client;
-    }
+
 
     @Override
     public void showString(String phrase) {
@@ -216,33 +230,13 @@ public class Gui implements View {
         messages.add(string);
     }
 
-    public void switchScene(String scenePath) throws IOException {
-        Scene scene = pathSceneMap.get(scenePath);
-        if (scene == null) {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(scenePath));
-            Parent root = loader.load();
-            scene = new Scene(root);
-            pathSceneMap.put(scenePath, scene);
-            pathContrMap.put(scenePath, loader.getController());
-        }
-        stage.setScene(scene);
-        stage.show();
-    }
-
-    public Scene getSceneFromName(String path) {
-        return pathSceneMap.get(path);
-    }
 
 
-//        public Scene getSceneByName(String path){ //bruttissimo da sistemare
-//            Scene s=null;
-//            for(int i = 0; i <= paths.size(); i++){
-//                if(paths.get(i).equals(path)){
-//                    s= scenes.get(i);
-//                }
-//            }
-//            return s;
-//        }
+
+
+
+
+
 
 
 }

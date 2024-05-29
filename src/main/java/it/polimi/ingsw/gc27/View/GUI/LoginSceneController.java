@@ -7,7 +7,7 @@ import javafx.scene.control.TextField;
 
 import java.io.IOException;
 
-
+//fourth scene, sends information about player
 public class LoginSceneController implements GenericController {
 
 
@@ -20,18 +20,7 @@ public class LoginSceneController implements GenericController {
     public Button sendUsernameButton;
     public Button sendColourButton;
 
-    public void init() {
-        blueButton.setDisable(true);
-        greenButton.setDisable(true);
-        yellowButton.setDisable(true);
-        redButton.setDisable(true);
-        blueButton.setStyle("-fx-background-color: DeepPink");
-        greenButton.setStyle("-fx-background-color: DeepPink");
-        yellowButton.setStyle("-fx-background-color: DeepPink");
-        redButton.setStyle("-fx-background-color: DeepPink");
-    }
-
-    public void sendUsername() { //invia la stringa inserita come username (non fa controlli)
+    public void sendUsername() { //does not check if username is valid
 
         Gui.getInstance().stringFromSceneController(UsernameInput.getText());
         blueButton.setDisable(false);
@@ -51,7 +40,7 @@ public class LoginSceneController implements GenericController {
     public void selectColour(ActionEvent event) {
         if (event.getSource().equals(blueButton)) {
             Gui.getInstance().stringFromSceneController("blue");
-        } else if (event.getSource().equals(redButton)) { //sistema in button
+        } else if (event.getSource().equals(redButton)) {
             Gui.getInstance().stringFromSceneController("red");
         } else if (event.getSource().equals(yellowButton)) {
             Gui.getInstance().stringFromSceneController("yellow");
@@ -60,7 +49,7 @@ public class LoginSceneController implements GenericController {
         }
     }
 
-    public void sendColour() throws IOException {
+    public void sendToLobby() throws IOException {
         Gui.getInstance().switchScene("/fxml/LobbyScene.fxml");
     }
 

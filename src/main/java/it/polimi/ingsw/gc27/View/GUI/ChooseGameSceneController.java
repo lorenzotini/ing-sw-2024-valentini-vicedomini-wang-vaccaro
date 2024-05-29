@@ -11,7 +11,7 @@ import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-
+//second scene, displays "joinGameButton" and "newGameButton"
 public class ChooseGameSceneController implements GenericController{
 
     @FXML
@@ -20,8 +20,6 @@ public class ChooseGameSceneController implements GenericController{
     public Button newGameButton;
 
 
-
-//TODO: funzione change scene in gui + capire perchè non funziona (gui null), gestire in gui l'inizializzazione delle scene
     @FXML
     public void sendNewGame() throws IOException {
         Gui.getInstance().stringFromSceneController("new");
@@ -30,7 +28,6 @@ public class ChooseGameSceneController implements GenericController{
 
     public void sendJoinGame() throws IOException {
         Gui.getInstance().switchScene("/fxml/JoinGameScene.fxml");
-        //changeScene, in quella farà gui.stringFrom..
     }
 
 }

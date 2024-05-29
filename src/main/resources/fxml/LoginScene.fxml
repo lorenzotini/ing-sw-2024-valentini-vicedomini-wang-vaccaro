@@ -14,6 +14,6 @@
       <Button fx:id="yellowButton" disable="true" layoutX="315.0" layoutY="265.0" mnemonicParsing="false" onAction="#selectColour" text="yellow" />
       <Button fx:id="redButton" disable="true" layoutX="436.0" layoutY="265.0" mnemonicParsing="false" onAction="#selectColour" text="red" />
       <Button fx:id="sendUsernameButton" layoutX="367.0" layoutY="159.0" mnemonicParsing="false" onMouseClicked="#sendUsername" text="-&gt;" />
-      <Button fx:id="sendColourButton" disable="true" layoutX="498.0" layoutY="265.0" mnemonicParsing="false" onMouseClicked="#sendColour" text="-&gt;" />
+      <Button fx:id="sendColourButton" disable="true" layoutX="498.0" layoutY="265.0" mnemonicParsing="false" onMouseClicked="#sendToLobby" text="-&gt;" />
    </children>
 </AnchorPane>

@@ -10,5 +10,6 @@
       <TextField fx:id="idTextField" layoutX="270.0" layoutY="204.0" />
       <TextArea layoutX="230.0" layoutY="71.0" prefHeight="118.0" prefWidth="181.0" text="insert game id" />
       <Button fx:id="sendGameIdButton" layoutX="447.0" layoutY="204.0" mnemonicParsing="false" onAction="#sendGameId" text="-&gt;" />
+      <Button fx:id="backButton" layoutX="111.0" layoutY="414.0" mnemonicParsing="false" onAction="#previousScene" text="BACK" />
    </children>
 </Pane>

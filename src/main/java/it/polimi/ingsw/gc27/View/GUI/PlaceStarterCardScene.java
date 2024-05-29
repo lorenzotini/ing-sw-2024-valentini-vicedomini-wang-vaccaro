@@ -6,7 +6,7 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import  it.polimi.ingsw.gc27.View.Gui;
-
+//sixth scene, allows the player to choose front or back of starterCard
 public class PlaceStarterCardScene implements GenericController{
 
     @FXML
@@ -18,7 +18,7 @@ public class PlaceStarterCardScene implements GenericController{
     @FXML
     public Button backStarterButton;
 
-
+    @FXML
     public void sendStarter(ActionEvent event) {
         if(event.getSource().equals(frontStarterButton)){
             Gui.getInstance().stringFromSceneController("front");

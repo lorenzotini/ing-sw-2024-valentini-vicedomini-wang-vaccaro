@@ -76,7 +76,6 @@ public class MainClient  {
 
                     case ("--gui"):
                         view = Gui.getInstance();
-                        View finalView=view;
                         new Thread(()->{
                             Application.launch(MainApp.class);
                         }).start();

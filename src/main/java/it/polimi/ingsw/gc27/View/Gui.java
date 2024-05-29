@@ -8,6 +8,7 @@ import it.polimi.ingsw.gc27.Model.Game.Manuscript;
 import it.polimi.ingsw.gc27.Model.Game.Market;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 import it.polimi.ingsw.gc27.View.GUI.ChooseGameSceneController;
+import it.polimi.ingsw.gc27.View.GUI.ChooseObjectiveSceneController;
 import it.polimi.ingsw.gc27.View.GUI.GenericController;
 import it.polimi.ingsw.gc27.View.GUI.PlaceStarterCardScene;
 import javafx.application.Platform;
@@ -32,6 +33,7 @@ public class Gui implements View {
 
     private VirtualView client;
     final BlockingQueue<String> messages = new LinkedBlockingQueue<>();
+
     final BlockingQueue<String> messagesReceived = new LinkedBlockingQueue<>();
 
     final String STARTER = "/fxml/StarterScene.fxml"; //scene number 0
@@ -39,10 +41,12 @@ public class Gui implements View {
     final String NEWGAME = "/fxml/NewGameScene.fxml"; //scene number 2.1
     final String JOINGAME = "/fxml/JoinGameScene.fxml"; //scene number 2.2
     final String LOGIN = "/fxml/LoginScene.fxml"; //scene number 3
-    final String PLACESTARTER = "/fxml/PlaceStarterCardScene.fxml"; //scene number 4
     final String LOBBY = "/fxml/LobbyScene.fxml"; //scene number 5
+    final String PLACESTARTER = "/fxml/PlaceStarterCardScene.fxml"; //scene number 5
+    final String CHOOSEOBJ = "/fxml/ChooseObjectiveScene.fxml"; //scene number 5
 
-    final ArrayList<String> paths = new ArrayList<>(Arrays.asList(STARTER, CHOSEGAME, NEWGAME, JOINGAME, LOGIN, PLACESTARTER, LOBBY));
+
+    final ArrayList<String> paths = new ArrayList<>(Arrays.asList(STARTER, CHOSEGAME, NEWGAME, JOINGAME, LOGIN, PLACESTARTER, LOBBY, CHOOSEOBJ ));
 
     private final HashMap<String, Scene> pathSceneMap = new HashMap<>(); //maps path to scene
     private final HashMap<String, GenericController> pathContrMap = new HashMap<>(); //maps path to controller of the scene
@@ -62,6 +66,7 @@ public class Gui implements View {
     public void setClient(VirtualView client) {
         this.client = client;
     }
+    public BlockingQueue<String> getMessagesReceived() {return messagesReceived;}
     //end setters and getters
 
     //singleton pattern
@@ -98,6 +103,18 @@ public class Gui implements View {
                 contr.changeImageFront(getClass().getResource(starter.getFront().getImagePath()).toExternalForm());
                 contr.changeImageBack(getClass().getResource(starter.getBack().getImagePath()).toExternalForm());
                 switchScene("/fxml/PlaceStarterCardScene.fxml");
+
+                //una volta che arriva la notify allora cambia la scena
+
+                // set the starter cards
+//                ObjectiveCard objective1 = this.client.getMiniModel().getPlayer().getSecretObjectives().get(0);
+//                ObjectiveCard objective2 = this.client.getMiniModel().getPlayer().getSecretObjectives().get(1);
+//                ChooseObjectiveSceneController contrObj = (ChooseObjectiveSceneController) getControllerFromName(CHOOSEOBJ);
+//                contrObj.changeImageObj1(getClass().getResource(objective1.getFront().getImagePath()).toExternalForm());
+//                contrObj.changeImageObj2(getClass().getResource(objective2.getFront().getImagePath()).toExternalForm());
+//                switchScene("/fxml/ChooseObjectiveScene.fxml");
+
+
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -149,15 +166,15 @@ public class Gui implements View {
         //controller.init();
         //controller.setGui(this);
 
-        this.read(); // 2 possible input "new" or id
+         // 2 possible input "new" or id
         String m = messagesReceived.take();
 
         if (m.equals(newGameChosen)) { // if the input is "new", therefore created a new game
-            this.read();
+
             m = messagesReceived.take();
 
             while (m.equals(invalidNumOfPlayers)) { // invalid num of players, ask again
-                this.read();
+
                 m = messagesReceived.take();
             }
 
@@ -168,7 +185,7 @@ public class Gui implements View {
 
         } else { // if the input is a game id, therefore joining an already existing game
             while (m.equals(gameNotFound)) { // continue the loop until a valid game id
-                this.read();
+
                 m = messagesReceived.take();
             }
             if (m.contains(joiningGame)) {

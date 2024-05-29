@@ -11,14 +11,32 @@ import java.io.IOException;
 //and gameID will be asked
 
 public class JoinGameSceneController implements GenericController{
+    private String m;
 
     public TextField idTextField;
     public Button sendGameIdButton;
     public Button backButton;
 
-    public void sendGameId(ActionEvent event) throws IOException {
+    public void sendGameId(ActionEvent event) throws IOException, InterruptedException {
         Gui.getInstance().stringFromSceneController(idTextField.getText());
-        Gui.getInstance().switchScene("/fxml/LoginScene.fxml" );
+        m=Gui.getInstance().getMessagesReceived().take();
+
+        // the message received when the game id is not found
+        String gameNotFound = "\nGame not found. Please enter a valid game id or 'new' to start a new game";
+        // the message received when joining an already existing game
+        String joiningGame = "\nJoining game";
+
+
+        while (m.equals(gameNotFound)) { // continue the loop until a valid game id
+            System.out.println(gameNotFound);
+            //visualizzo errore
+            m=Gui.getInstance().getMessagesReceived().take();
+        }
+        if (m.contains(joiningGame)) {
+            // change the scene to LoginScene, where the player waits for the other players to join
+            Gui.getInstance().switchScene("/fxml/LoginScene.fxml" );
+        }
+
     }
 
     //players can change their minds and go back to chooseGameScene

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.gc27.View.GUI;
 
 import it.polimi.ingsw.gc27.View.Gui;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -19,23 +20,25 @@ public class JoinGameSceneController implements GenericController{
 
     public void sendGameId(ActionEvent event) throws IOException, InterruptedException {
         Gui.getInstance().stringFromSceneController(idTextField.getText());
-        m=Gui.getInstance().getMessagesReceived().take();
 
-        // the message received when the game id is not found
-        String gameNotFound = "\nGame not found. Please enter a valid game id or 'new' to start a new game";
-        // the message received when joining an already existing game
-        String joiningGame = "\nJoining game";
-
-
-        while (m.equals(gameNotFound)) { // continue the loop until a valid game id
-            System.out.println(gameNotFound);
-            //visualizzo errore
-            m=Gui.getInstance().getMessagesReceived().take();
-        }
-        if (m.contains(joiningGame)) {
-            // change the scene to LoginScene, where the player waits for the other players to join
-            Gui.getInstance().switchScene("/fxml/LoginScene.fxml" );
-        }
+//        m = Gui.getInstance().getMessagesReceived().take();
+//
+//        // the message received when the game id is not found
+//        String gameNotFound = "\nGame not found. Please enter a valid game id or 'new' to start a new game";
+//        // the message received when joining an already existing game
+//        String joiningGame = "Joining game";
+//
+//
+//        while (m.equals(gameNotFound)) { // continue the loop until a valid game id
+//            System.out.println(m);
+//            //visualizzo errore
+//            m=Gui.getInstance().getMessagesReceived().take();
+//        }
+//        if (m.contains(joiningGame)) {
+//            System.out.println(m);
+//            // change the scene to LoginScene, where the player waits for the other players to join
+//            Gui.getInstance().switchScene("/fxml/LoginScene.fxml" );
+//        }
 
     }
 
@@ -43,4 +46,16 @@ public class JoinGameSceneController implements GenericController{
     public void previousScene(ActionEvent event) throws IOException {
         Gui.getInstance().switchScene("/fxml/ChooseGameScene.fxml");
     }//TODO: DOES NOT WORK PROPERLY, LOOK AT NOTE IN newGameSceneController TO KNOW WHY
+
+
+    @Override
+    public void receiveOk() {
+        Platform.runLater(()->{
+            try {
+                Gui.getInstance().switchScene("/fxml/LoginGameScene.fxml");
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+    }
 }

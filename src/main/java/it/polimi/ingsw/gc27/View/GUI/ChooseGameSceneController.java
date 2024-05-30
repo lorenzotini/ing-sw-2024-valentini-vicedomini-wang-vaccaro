@@ -1,6 +1,7 @@
 package it.polimi.ingsw.gc27.View.GUI;
 
 import it.polimi.ingsw.gc27.View.Gui;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -30,4 +31,8 @@ public class ChooseGameSceneController implements GenericController{
         Gui.getInstance().switchScene("/fxml/JoinGameScene.fxml");
     }
 
+    @Override
+    public void receiveOk() {
+
+    }
 }

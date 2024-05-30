@@ -30,7 +30,9 @@ public class PlaceStarterCardScene implements GenericController{
             Command comm = new AddStarterCommand(Gui.getInstance().getClient().getUsername(), true);
             Gui.getInstance().getClient().sendCommand(comm);
         } else {
-            Gui.getInstance().stringFromSceneController("back");
+            Command comm = new AddStarterCommand(Gui.getInstance().getClient().getUsername(), false);
+            Gui.getInstance().getClient().sendCommand(comm);
+            //Gui.getInstance().stringFromSceneController("back");
         }
     }
 

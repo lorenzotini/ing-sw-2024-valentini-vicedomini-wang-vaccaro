@@ -222,6 +222,12 @@ public class Tui implements View {
         return scan.nextLine();
     }
 
+    @Override
+    public void okAck() {}
+
+    @Override
+    public void koAck() {}
+
 
     private static Queue<String> fromFaceToCliCard(Face face) throws Exception {
 

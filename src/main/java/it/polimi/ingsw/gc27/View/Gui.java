@@ -45,11 +45,11 @@ public class Gui implements View {
     final String PLACESTARTER = "/fxml/PlaceStarterCardScene.fxml"; //scene number 5
     final String CHOOSEOBJ = "/fxml/ChooseObjectiveScene.fxml"; //scene number 5
 
-
     final ArrayList<String> paths = new ArrayList<>(Arrays.asList(STARTER, CHOSEGAME, NEWGAME, JOINGAME, LOGIN, PLACESTARTER, LOBBY, CHOOSEOBJ ));
 
     private final HashMap<String, Scene> pathSceneMap = new HashMap<>(); //maps path to scene
     private final HashMap<String, GenericController> pathContrMap = new HashMap<>(); //maps path to controller of the scene
+    private GenericController currentController;
 
     //setters and getters
     public Stage getStage() {
@@ -89,6 +89,7 @@ public class Gui implements View {
             GenericController contr = loader.getController();
             pathContrMap.put(path, contr);
         }
+        currentController=getControllerFromName(STARTER);
     }
 
     //start of the game after initialization
@@ -106,13 +107,6 @@ public class Gui implements View {
 
                 //una volta che arriva la notify allora cambia la scena
 
-                // set the starter cards
-//                ObjectiveCard objective1 = this.client.getMiniModel().getPlayer().getSecretObjectives().get(0);
-//                ObjectiveCard objective2 = this.client.getMiniModel().getPlayer().getSecretObjectives().get(1);
-//                ChooseObjectiveSceneController contrObj = (ChooseObjectiveSceneController) getControllerFromName(CHOOSEOBJ);
-//                contrObj.changeImageObj1(getClass().getResource(objective1.getFront().getImagePath()).toExternalForm());
-//                contrObj.changeImageObj2(getClass().getResource(objective2.getFront().getImagePath()).toExternalForm());
-//                switchScene("/fxml/ChooseObjectiveScene.fxml");
 
 
             } catch (IOException e) {
@@ -130,6 +124,7 @@ public class Gui implements View {
             scene = new Scene(root);
             pathSceneMap.put(scenePath, scene);
             pathContrMap.put(scenePath, loader.getController());
+            currentController=loader.getController();
         }
         stage.setScene(scene);
         stage.show();
@@ -243,8 +238,23 @@ public class Gui implements View {
         return mess;
     }
 
+
     public void stringFromSceneController(String string) {
         messages.add(string);
+    }
+
+    @Override
+    public void okAck(String string) {
+
+            currentController.receiveOk();
+            //notifies scene controllers
+            //changes scene
+
+    }
+
+    @Override
+    public void koAck(String string) {
+        //error handler
     }
 
 

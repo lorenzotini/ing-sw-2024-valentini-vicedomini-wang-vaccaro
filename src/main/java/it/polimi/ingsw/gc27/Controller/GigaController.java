@@ -84,7 +84,7 @@ public class GigaController {
 
     public Player createNewGame(VirtualView client) throws IOException, InterruptedException {
         Player p;
-        client.show("\nHow many player? there will be? (2-4)");
+        client.show("\nHow many players there will be? (2-4)");
         int numMaxPlayers = Integer.parseInt(client.read());
         while (numMaxPlayers > 4 || numMaxPlayers < 1) {
             client.show("\nInvalid number of players, insert a value between 2-4");

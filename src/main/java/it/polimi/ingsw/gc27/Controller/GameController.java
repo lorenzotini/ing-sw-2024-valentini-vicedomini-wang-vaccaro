@@ -1,5 +1,7 @@
 package it.polimi.ingsw.gc27.Controller;
 
+import it.polimi.ingsw.gc27.Messages.KoMessage;
+import it.polimi.ingsw.gc27.Messages.OkMessage;
 import it.polimi.ingsw.gc27.Messages.UpdateStartOfGameMessage;
 import it.polimi.ingsw.gc27.Model.Card.Face;
 import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
@@ -86,10 +88,16 @@ public class GameController implements Serializable {
         Manuscript manuscript = new Manuscript();
 
         // Ask for the username
+        boolean flag = false;
         do {
+            if(flag){
+                client.update(new KoMessage("KO"));
+            }
             client.show("\nChoose your username: ");
             username = client.read();
+            flag = true;
         } while (!gigaChad.validUsername(username, client));
+        client.update(new OkMessage("OK"));
 
 
         // Ask for the pawn color
@@ -98,6 +106,7 @@ public class GameController implements Serializable {
                 client.show("\nChoose your color: ");
                 for (PawnColour pawnColour : game.getAvailablePawns()) {
                     client.show(pawnColour.toString());
+                    //client.update(new ColorMessage());
                 }
                 pawnColor = client.read();
             } while (!game.validPawn(pawnColor));

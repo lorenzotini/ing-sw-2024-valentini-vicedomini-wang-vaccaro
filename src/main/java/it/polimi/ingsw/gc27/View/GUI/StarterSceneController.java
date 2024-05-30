@@ -22,5 +22,9 @@ public class StarterSceneController implements GenericController{
         Gui.getInstance().switchScene("/fxml/ChooseGameScene.fxml");
     }
 
+    @Override
+    public void receiveOk() {
+
+    }
 }
 

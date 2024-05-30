@@ -23,7 +23,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 public class Game implements Serializable {
 
-    private BlockingQueue<Observer> observers = new LinkedBlockingQueue<>() {};
+    private transient BlockingQueue<Observer> observers = new LinkedBlockingQueue<>() {};
     private Integer numActualPlayers;
     private Board board;
     private Market market;
@@ -85,12 +85,7 @@ public class Game implements Serializable {
     public void setObjectiveDeck(ArrayList<ObjectiveCard> objectiveDeck) {
         this.objectiveDeck = objectiveDeck;
     }
-    public void setCommonObjective1(Card commonObjective1) {
-        this.commonObjective1 = commonObjective1;
-    }
-    public void setCommonObjective2(Card commonObjective2) {
-        this.commonObjective2 = commonObjective2;
-    }
+
     public Market getMarket() {
         return market;
     }
@@ -133,7 +128,7 @@ public class Game implements Serializable {
      * @param player
      * @param points
      */
-    public void addPoints(Player player, int points) throws RemoteException {
+    public void addPoints(Player player, int points) {
         PawnColour pawncolour = player.getPawnColour();
         switch (pawncolour) {
             case BLUE -> board.setPointsBluePlayer(board.getPointsBluePlayer() + points);

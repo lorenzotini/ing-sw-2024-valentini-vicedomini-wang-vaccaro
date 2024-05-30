@@ -6,9 +6,14 @@ import it.polimi.ingsw.gc27.Model.Game.Game;
 import it.polimi.ingsw.gc27.Model.Game.Player;
 import it.polimi.ingsw.gc27.Model.Listener.PlayerListener;
 import it.polimi.ingsw.gc27.Model.MiniModel;
+import it.polimi.ingsw.gc27.Net.Commands.Command;
+import it.polimi.ingsw.gc27.Net.Commands.ReconnectPlayerCommand;
+import it.polimi.ingsw.gc27.Net.Commands.SuspendPlayerCommand;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 
 import java.io.IOException;
+import java.io.Serializable;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -32,29 +37,16 @@ public class GigaController {
         return null;
     }
 
-    private void reconnectClient(VirtualView client, Player player, GameController gc){
-
-        Game game = gc.getGame();
-        game.addObserver(new PlayerListener(client, player));
-        registeredUsernames.put(player.getUsername(), client);
-        player.setDisconnected(false);
-
-        // Update the client's miniModel with the player's data
-        MiniModel miniModel = new MiniModel(player, game.getMarket(), game.getBoard());
-        Message message = new UpdateStartOfGameMessage(miniModel, "");
-        game.notifyObservers(message);
-
-    }
 
     // Remove refs and set player state to disconnected
-    public void removeReferences(VirtualView client){
+    public void removeReferences(VirtualView client) {
 
-        try{
+        try {
+
             String username = getUsername(client);
-            userToGameController(username).suspendPlayer(getPlayer(username));
+            userToGameController(username).addCommand(new SuspendPlayerCommand(username));
             registeredUsernames.remove(username);
-            userToGameController(username).getGame().removeObserver(username);
-        } catch (NullPointerException e){
+        } catch (NullPointerException e) {
             System.out.println("Client hadn't choose an username yet");
             System.out.println("NullPointerException caught while suspending player: " + e.getMessage());
         }
@@ -85,8 +77,8 @@ public class GigaController {
                                 gc.getGame().setNumActualPlayers(a + 1);
                                 canEnter = true;
 
-                            } else if(gc.getGame().getNumActualPlayers() == gc.getNumMaxPlayers() &&      // game full, but a disconnected player can rejoin
-                                    gc.getGame().getPlayers().stream().anyMatch(Player::isDisconnected)){
+                            } else if (gc.getGame().getNumActualPlayers() == gc.getNumMaxPlayers() &&      // game full, but a disconnected player can rejoin
+                                    gc.getGame().getPlayers().stream().anyMatch(Player::isDisconnected)) {
 
                                 client.show("This game has a disconnected player. Are you him? If so, please enter your username.");
                                 String disconnectedUsername = client.read();
@@ -94,7 +86,7 @@ public class GigaController {
                                 // If the player is found, reconnect him, else null is returned
                                 boolean clientReconnected = tryReconnectPlayer(client, gc, disconnectedUsername);
 
-                                if(clientReconnected){
+                                if (clientReconnected) {
                                     return;
                                 }
 
@@ -149,13 +141,17 @@ public class GigaController {
         controller.getGame().setNumActualPlayers(1);
         client.show("\nGame created with id " + controller.getId() + "\n" + "\nWaiting for players to join...");
         controller.initializePlayer(client, this);
+        controller.executeCommands();
     }
 
-    private boolean tryReconnectPlayer(VirtualView client, GameController gc, String disconnectedUsername) {
+    private boolean tryReconnectPlayer(VirtualView client, GameController gc, String disconnectedUsername) throws RemoteException {
 
-        for(Player p : gc.getGame().getPlayers()){
-            if(p.getUsername().equals(disconnectedUsername) && p.isDisconnected()){
-                reconnectClient(client, p, gc);
+        for (Player p : gc.getGame().getPlayers()) {
+            if (p.getUsername().equals(disconnectedUsername) && p.isDisconnected()) {
+                //reconnectClient(client, p, gc);
+                registeredUsernames.put(p.getUsername(), client);
+                client.setUsername(p.getUsername());
+                gc.addCommand(new ReconnectPlayerCommand(client, p));
                 return true;
             }
         }
@@ -184,9 +180,9 @@ public class GigaController {
         return registeredUsernames;
     }
 
-    public String getUsername(VirtualView client){
-        for (String username : registeredUsernames.keySet()){
-            if (registeredUsernames.get(username).equals(client)){
+    public String getUsername(VirtualView client) {
+        for (String username : registeredUsernames.keySet()) {
+            if (registeredUsernames.get(username).equals(client)) {
                 return username;
             }
         }
@@ -199,5 +195,10 @@ public class GigaController {
 
 
     public void setGameControllers(List<GameController> gameControllers) {
+    }
+
+    public void addCommandToGameController(Command command) {
+        String player = command.getPlayerName();
+        userToGameController(player).addCommand(command);
     }
 }

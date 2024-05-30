@@ -37,7 +37,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
     }
 
     @Override
-    public MiniModel getMiniModel() {
+    public MiniModel getMiniModel() throws RemoteException {
         return this.miniModel;
     }
 
@@ -105,8 +105,8 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
     }
 
     @Override
-    public String getUsername() {
-        return this.username;
+    public String getUsername() throws RemoteException {
+        return this.getMiniModel().getPlayer().getUsername();
     }
 
     @Override

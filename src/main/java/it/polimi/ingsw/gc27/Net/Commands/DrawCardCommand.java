@@ -1,6 +1,6 @@
 package it.polimi.ingsw.gc27.Net.Commands;
 
-import it.polimi.ingsw.gc27.Controller.GigaController;
+import it.polimi.ingsw.gc27.Controller.GameController;
 import it.polimi.ingsw.gc27.Model.Game.Player;
 
 import java.io.IOException;
@@ -19,10 +19,14 @@ public class DrawCardCommand implements  Command {
         this.faceUpCardIndex = faceUpCardIndex;
     }
 
-    public void execute(GigaController console) throws IOException, InterruptedException {
-        Player player = console.getPlayer(playerName);
+    public void execute(GameController gc) throws IOException, InterruptedException {
+        Player player = gc.getPlayer(playerName);
         // TODO: gestire le eccezioni
-        console.userToGameController(playerName).drawCard(player, isGold, fromDeck, faceUpCardIndex);
+        gc.drawCard(player, isGold, fromDeck, faceUpCardIndex);
+    }
+    @Override
+    public String getPlayerName() {
+        return this.playerName;
     }
 
 }

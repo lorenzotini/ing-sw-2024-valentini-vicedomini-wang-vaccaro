@@ -15,6 +15,7 @@ import it.polimi.ingsw.gc27.Net.VirtualView;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.net.Socket;
 import java.rmi.RemoteException;
 import java.util.concurrent.BlockingQueue;
@@ -32,7 +33,6 @@ public class ClientHandler implements VirtualView {
     final Socket socketClient;
     private boolean disconnected;
     // is for the command received
-    final BlockingQueue<Command> commands = new LinkedBlockingQueue<>();
 
 
     public ClientHandler(GigaController console, SocketServer server, Socket socketClient) throws IOException {
@@ -61,7 +61,7 @@ public class ClientHandler implements VirtualView {
                     if (command instanceof PingCommand) {
                         this.flag = true;
                     } else {
-                        commands.add(command);
+                        console.addCommandToGameController(command);
                     }
                 } catch (IOException e) {
                     disconnected();
@@ -70,33 +70,9 @@ public class ClientHandler implements VirtualView {
                 }
             }
         }).start();
-        new Thread(() -> {
-            while (true) {
-                try {
-                    runVirtualView();
-                } catch (InterruptedException | IOException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        }).start();
 
     }
 
-    public void runVirtualView() throws IOException, InterruptedException {
-
-        //this.player = console.welcomePlayer(this);
-        Command command;
-        // Read message type
-        while (true) {
-            // Read message and perform action
-            command = commands.take();
-            try {
-                command.execute(console);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        }
-    }
 
 
     @Override
@@ -106,11 +82,11 @@ public class ClientHandler implements VirtualView {
             this.output.reset();
             this.output.flush();
         } catch (IOException e) {
+            e.printStackTrace();
             //TODO this.console.disconnected(this);
             //this to do will be implemented when the disconnection problem will be solved
         }
     }
-    // TODO CIAO ANDRE, TOGLI QUESTO METODO CHE NON SI PUO' FARE LA SHOW DAL SERVER COME CI HANNO DETTO AL LAB
 
     @Override
     public String read() throws IOException {
@@ -209,6 +185,7 @@ public class ClientHandler implements VirtualView {
         //console.disconnected(this.player);
         if (disconnected == false) {
             disconnected = true;
+            console.removeReferences(this);
             System.out.println("disconessione avvenuta");
             //console.disconnected(this.player);
         }

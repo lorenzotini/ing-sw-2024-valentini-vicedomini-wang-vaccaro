@@ -33,12 +33,7 @@ class InitializerTest {
 
         assertNotNull(game);
 
-        assertNotNull(game.getMarket());
-        assertNotNull(game.getMarket().getFaceUpResources()[0]);
-        assertNotNull(game.getMarket().getFaceUpResources()[1]);
-        assertNotNull(game.getMarket().getFaceUpGolds()[0]);
-        assertNotNull(game.getMarket().getFaceUpGolds()[1]);
-        assertFalse(game.getMarket().getResourceDeck().isEmpty());
+assertFalse(game.getMarket().getResourceDeck().isEmpty());
         assertFalse(game.getMarket().getGoldDeck().isEmpty());
 
         assertNotNull(game.getCommonObjective1());

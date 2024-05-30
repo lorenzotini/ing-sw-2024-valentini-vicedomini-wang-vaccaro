@@ -9,11 +9,15 @@ import it.polimi.ingsw.gc27.Model.Enumerations.PawnColour;
 import it.polimi.ingsw.gc27.Model.Game.*;
 import it.polimi.ingsw.gc27.Model.MiniModel;
 import it.polimi.ingsw.gc27.Model.States.InitializingState;
+import it.polimi.ingsw.gc27.Net.Commands.Command;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 
+import java.io.Console;
 import java.io.IOException;
 import java.io.Serializable;
 import java.rmi.RemoteException;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 public class GameController implements Serializable {
 
@@ -22,6 +26,7 @@ public class GameController implements Serializable {
     private TurnHandler turnHandler;
     private int numMaxPlayers;
     private int id;
+    private final BlockingQueue<Command> commands = new LinkedBlockingQueue<>();
 
     public GameController(Game game) {
         this.game = game;
@@ -159,4 +164,23 @@ public class GameController implements Serializable {
 
     }
 
+    public void addCommand(Command command) {
+        commands.add(command);
+    }
+
+    public void executeCommands(){
+
+        new Thread(()->{
+            while(this!= null){
+                try {
+                    commands.take().execute(this);
+                } catch (IOException | InterruptedException e) {
+
+                }
+            }
+        }).start();
+    }
+    public Player getPlayer(String username){
+        return getGame().getPlayer(username);
+    }
 }

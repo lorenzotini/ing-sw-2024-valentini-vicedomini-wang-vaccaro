@@ -19,8 +19,9 @@ public class UpdateChatMessage extends Message{
     }
 
     @Override
-    public void reportUpdate(VirtualView client, View view) throws RemoteException {
+    public void reportUpdate(VirtualView client, View view)  {
 
+        try{
         Chat chat2 = client.getMiniModel().getChat(this.getMiniModel().getChat().getFirst().getChatters());
 //        if(chat2 == null) {
 //            System.out.println("errore dei personaggi della chat");
@@ -34,6 +35,9 @@ public class UpdateChatMessage extends Message{
 //            System.out.println("Receiver:"+mess.getReceiver() + "\n");
 //            System.out.println(mess.getContent() + "\n");
 //        }
+          }catch(RemoteException e){
+
+        }
 
     }
 }

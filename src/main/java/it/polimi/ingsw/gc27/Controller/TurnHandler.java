@@ -46,12 +46,23 @@ public class TurnHandler implements Serializable {
         }
 
         if (everyoneReady) {
-            Player p = players.getFirst();
-            p.setPlayerState(new PlayingState(p, this));
-            Message updatePlayerStateMessage = new UpdatePlayerStateMessage(new MiniModel(p));
-            this.game.notifyObservers(updatePlayerStateMessage);
-        }
+            int i = 0;
 
+            do {
+
+
+                Player p = players.get(i);
+                if(!p.isDisconnected()) {
+                    p.setPlayerState(new PlayingState(p, this));
+                    Message updatePlayerStateMessage = new UpdatePlayerStateMessage(new MiniModel(p));
+                    this.game.notifyObservers(updatePlayerStateMessage);
+                    break;
+                }else{
+                    i++;
+                }
+            }while(i < players.size());
+            //TODO fai un check se bisogna fare qualcosa in caso in cui i sia uguale alla size o se deve esser gestito bene
+        }
     }
 
     public void notifyEndOfTurnState(Player player) {
@@ -83,6 +94,11 @@ public class TurnHandler implements Serializable {
                 int i = 0;
                 while(getNextOf(index + i, players).isDisconnected()){
                     i++;
+                    if(index == players.size()){
+                        //supendGame();
+                        return ;
+                        //TODO bisogna sospendere il gioco
+                    }
                 }
 
                 getNextOf(index + i, players).setPlayerState(new PlayingState(getNextOf(index + i, players), this));
@@ -166,14 +182,14 @@ public class TurnHandler implements Serializable {
                 // automatically choose the starter card for the player
                 player.addCard(game, player.getStarterCard(), player.getStarterCard().getFront(), Manuscript.FIELD_DIM / 2, Manuscript.FIELD_DIM / 2);
                 player.setPlayerState(new ChooseObjectiveState(player, this));
-                Message updateManuscriptMessage = new UpdateManuscriptMessage(new MiniModel(player, player.getManuscript()));
-                this.getGame().notifyObservers(updateManuscriptMessage);
+//                Message updateManuscriptMessage = new UpdateManuscriptMessage(new MiniModel(player, player.getManuscript()));
+//                this.getGame().notifyObservers(updateManuscriptMessage);
 
                 // automatically choose the objective card for the player
                 player.getSecretObjectives().remove(1);
                 player.setPlayerState(new WaitingState(player, this));
-                updateObjectiveMessage = new UpdateObjectiveMessage(new MiniModel(player, player.getSecretObjectives().getFirst()));
-                this.getGame().notifyObservers(updateObjectiveMessage);
+//              updateObjectiveMessage = new UpdateObjectiveMessage(new MiniModel(player, player.getSecretObjectives().getFirst()));
+//              this.getGame().notifyObservers(updateObjectiveMessage);
                 this.notifyChooseObjectiveState();
 
                 break;
@@ -218,7 +234,7 @@ public class TurnHandler implements Serializable {
         if (index + 1 < players.size()) {
             return players.get(index + 1);
         } else {
-            return players.getFirst();
+            return players.get(index + 1 - players.size());
         }
     }
 

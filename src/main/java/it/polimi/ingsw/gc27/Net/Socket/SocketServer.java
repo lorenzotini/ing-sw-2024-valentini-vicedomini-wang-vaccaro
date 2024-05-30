@@ -32,13 +32,14 @@ public class SocketServer {
                 clients.add(handler);
                 System.out.println("Client connected - socket - " + clientSocket.getInetAddress().getHostAddress());
             }
-            new Thread(() -> {
-                try {
-                    handler.runVirtualView();
-                } catch (IOException | InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-            }).start();
+            //this is gonna be deleted, if you find this and is after the 5 june, delete this
+//            new Thread(() -> {
+//                try {
+//                    handler.runVirtualView();
+//                } catch (IOException | InterruptedException e) {
+//                    throw new RuntimeException(e);
+//                }
+//            }).start();
 
         }
     }

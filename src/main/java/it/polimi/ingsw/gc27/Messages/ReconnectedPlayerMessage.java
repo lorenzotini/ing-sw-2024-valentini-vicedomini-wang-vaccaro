@@ -6,11 +6,11 @@ import it.polimi.ingsw.gc27.View.View;
 
 import java.rmi.RemoteException;
 
-public class UpdateStartOfGameMessage extends Message {
-
-    public UpdateStartOfGameMessage(MiniModel miniModel, String string) {
+public class ReconnectedPlayerMessage extends Message {
+    public ReconnectedPlayerMessage(MiniModel miniModel, String string) {
         super(miniModel, string);
     }
+
 
     @Override
     public void reportUpdate(VirtualView client, View view) {
@@ -20,5 +20,6 @@ public class UpdateStartOfGameMessage extends Message {
         }catch (RemoteException e){
 
         }
+        view.showString(string);
     }
 }

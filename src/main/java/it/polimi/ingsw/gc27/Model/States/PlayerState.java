@@ -17,7 +17,7 @@ import java.io.Serializable;
 public abstract class PlayerState implements Serializable {
 
     protected Player player;
-    protected TurnHandler turnHandler;
+    protected transient TurnHandler turnHandler;
 
     public PlayerState(){
 

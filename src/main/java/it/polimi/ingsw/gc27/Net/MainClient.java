@@ -82,7 +82,6 @@ public class MainClient  {
                         return;
                 }
             }
-
         }
 
         // Run the client

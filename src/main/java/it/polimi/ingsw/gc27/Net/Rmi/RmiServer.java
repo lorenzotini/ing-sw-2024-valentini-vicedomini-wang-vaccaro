@@ -19,7 +19,6 @@ public class RmiServer implements VirtualServer {
     private final List<VirtualView> clients = Collections.synchronizedList(new ArrayList<>());    //clients of different games
     private final Map<VirtualView, Long> clientsPing = new HashMap<>();
     private final GigaController console;
-    final BlockingQueue<Command> commands = new LinkedBlockingQueue<>();
     private static final int MAX_PING_TIME = 5000;
 
     public RmiServer(GigaController controller) {
@@ -50,18 +49,11 @@ public class RmiServer implements VirtualServer {
         }).start();
 
         // Start the thread that executes the commands
-        new Thread(() -> {
-            try {
-                executeCommands();
-            } catch (InterruptedException | IOException e) {
-                throw new RuntimeException(e);
-            }
-        }).start();
-
     }
 
     public void receiveCommand(Command command) {
-        commands.add(command);
+
+        console.addCommandToGameController(command);
     }
 
     @Override
@@ -98,13 +90,6 @@ public class RmiServer implements VirtualServer {
     @Override
     public void receivePing(VirtualView client) throws RemoteException {
         clientsPing.replace(client, System.currentTimeMillis());
-    }
-
-    private void executeCommands() throws InterruptedException, IOException {
-        while (true) {
-            Command comm = commands.take();
-            comm.execute(console);
-        }
     }
 
     @Override

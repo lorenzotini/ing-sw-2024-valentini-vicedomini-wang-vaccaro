@@ -90,7 +90,6 @@ public class MainClient  {
                         return;
                 }
             }
-
         }
 
         // Run the client
@@ -105,7 +104,6 @@ public class MainClient  {
 //                ((Gui)view).welcomePlayer(client);
 //            }
         }
-
         view.setClient(client);
         client.runClient();
 

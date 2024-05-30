@@ -29,10 +29,8 @@ public class SocketClient implements VirtualView {
         try {
             server.welcomePlayer(this);
 
-            synchronized (this) {
-                while(this.miniModel.getPlayer() == null) {
-                    this.wait();
-                }
+            while(this.miniModel.getPlayer() == null) {
+                Thread.sleep(100);
             }
             view.run();
         } catch (InterruptedException | IOException e) {
@@ -55,15 +53,6 @@ public class SocketClient implements VirtualView {
         return this.miniModel;
     }
 
-    @Override
-    public long getLastPing() {
-        return 0;
-    }
-
-    @Override
-    public void setLastPing(long l) {
-
-    }
 
     @Override
     public void pingToServer(VirtualServer virtualServer, VirtualView client) throws RemoteException {
@@ -81,27 +70,22 @@ public class SocketClient implements VirtualView {
     @Override
     public String read() throws RemoteException {
         Scanner scan = new Scanner(System.in);
-        String string = scan.nextLine();
+        String string;
         while((string = scan.nextLine()).equals("\n")){};
         return string;
     }
 
     @Override
     public void setUsername(String username) throws RemoteException {
-        synchronized (this) {
-            this.username = username;
-            this.notifyAll();
-        }
+
+        this.username = username;
+        this.show("Welcome " + this.username + "!" + "\nWaiting for other players to join the game...");
     }
 
 
     @Override
     public void update(Message message) {
-        try{
-            message.reportUpdate(this, this.view);
-        }catch(RemoteException e){
-
-        }
+        message.reportUpdate(this, this.view);
     }
 
 }

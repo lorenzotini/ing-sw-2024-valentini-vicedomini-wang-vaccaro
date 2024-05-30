@@ -1,19 +1,18 @@
 package it.polimi.ingsw.gc27.Controller;
 
+import it.polimi.ingsw.gc27.JsonParser;
 import it.polimi.ingsw.gc27.Model.Card.GoldCard;
 import it.polimi.ingsw.gc27.Model.Card.ObjectiveCard.ObjectiveCard;
 import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
 import it.polimi.ingsw.gc27.Model.Card.StarterCard;
 import it.polimi.ingsw.gc27.Model.Enumerations.PawnColour;
 import it.polimi.ingsw.gc27.Model.Game.*;
-import it.polimi.ingsw.gc27.Model.States.*;
-//import it.polimi.ingsw.gc27.Model.States.PlayerStates.EndingState;
+import it.polimi.ingsw.gc27.Model.States.ChooseObjectiveState;
+import it.polimi.ingsw.gc27.Model.States.EndingState;
 import org.junit.jupiter.api.Test;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class TurnHandlerTest {
     private static GameController gc1;

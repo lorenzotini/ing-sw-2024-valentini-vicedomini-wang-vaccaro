@@ -1,19 +1,6 @@
 package it.polimi.ingsw.gc27.Game;
 
-import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
-import it.polimi.ingsw.gc27.Model.Card.StarterCard;
-import it.polimi.ingsw.gc27.Controller.JsonParser;
-import it.polimi.ingsw.gc27.Model.Enumerations.PawnColour;
-import it.polimi.ingsw.gc27.Model.Game.Board;
-import it.polimi.ingsw.gc27.Model.Game.Game;
-import it.polimi.ingsw.gc27.Model.Game.Manuscript;
-import it.polimi.ingsw.gc27.Model.Game.Player;
 import org.junit.jupiter.api.Test;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerTest {
 

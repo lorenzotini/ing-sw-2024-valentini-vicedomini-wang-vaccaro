@@ -1,6 +1,6 @@
 package it.polimi.ingsw.gc27.Net.Commands;
 
-import it.polimi.ingsw.gc27.Controller.GigaController;
+import it.polimi.ingsw.gc27.Controller.GameController;
 import it.polimi.ingsw.gc27.Model.Game.Player;
 
 import java.io.IOException;
@@ -14,10 +14,14 @@ public class ChooseObjectiveCommand implements Command {
         this.playerName = playerName;
         this.objectiveIndex = objectiveIndex;
     }
-
-    public void execute(GigaController console) throws IOException, InterruptedException {
-        Player player = console.getPlayer(playerName);
-        console.userToGameController(playerName).chooseObjectiveCard(player, objectiveIndex);
+    @Override
+    public void execute(GameController gc)  {
+        Player player = gc.getPlayer(playerName);
+        gc.chooseObjectiveCard(player, objectiveIndex);
+    }
+    @Override
+    public String getPlayerName() {
+        return this.playerName;
     }
 
 }

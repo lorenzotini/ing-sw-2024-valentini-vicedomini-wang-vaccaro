@@ -4,15 +4,15 @@ import it.polimi.ingsw.gc27.Model.MiniModel;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 import it.polimi.ingsw.gc27.View.View;
 
-public class GenericErrorMessage extends Message{
+public class YourTurnMessage extends Message{
 
-    public GenericErrorMessage(MiniModel miniModel, String string) {
-        super(string);
+    public YourTurnMessage(MiniModel miniModel, String string) {
+        super(miniModel, string);
     }
 
     @Override
     public void reportUpdate(VirtualView client, View view) {
-        view.showString(this.string);
+        view.showString("It's your turn to play");
     }
 
 }

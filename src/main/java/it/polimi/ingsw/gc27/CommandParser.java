@@ -1,6 +1,6 @@
 package it.polimi.ingsw.gc27;
 
-public class CommandParser {
+public class CommandParser  {
     public static Object[] parseCommand(String command) {
         String[] parts = command.split(" ");
 

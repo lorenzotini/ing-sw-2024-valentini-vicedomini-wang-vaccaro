@@ -14,7 +14,6 @@ public class StringMessage extends Message{
 
     @Override
     public void reportUpdate(VirtualView client, View view) {
-
         view.showString(this.string);
     }
 

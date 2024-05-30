@@ -1,14 +1,15 @@
 package it.polimi.ingsw.gc27.Net;
 
-import it.polimi.ingsw.gc27.Model.Listener.Observer;
+import it.polimi.ingsw.gc27.Messages.Message;
 import it.polimi.ingsw.gc27.Model.MiniModel;
 import it.polimi.ingsw.gc27.Net.Commands.Command;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-public interface VirtualView extends Remote, Observer {
+public interface VirtualView extends Remote, Serializable {
 
     void show(String s) throws IOException;
 
@@ -24,10 +25,8 @@ public interface VirtualView extends Remote, Observer {
 
     MiniModel getMiniModel() throws RemoteException;
 
-    long getLastPing() throws RemoteException;
-
-    void setLastPing(long l) throws RemoteException;
-
     void pingToServer(VirtualServer virtualServer, VirtualView client) throws RemoteException;
+
+    void update(Message message) throws RemoteException;
 
 }

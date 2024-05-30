@@ -1,7 +1,6 @@
 package it.polimi.ingsw.gc27.Controller;
 
 import it.polimi.ingsw.gc27.Messages.Message;
-import it.polimi.ingsw.gc27.Messages.UpdateManuscriptMessage;
 import it.polimi.ingsw.gc27.Messages.UpdateObjectiveMessage;
 import it.polimi.ingsw.gc27.Messages.UpdatePlayerStateMessage;
 import it.polimi.ingsw.gc27.Model.Game.Board;
@@ -97,7 +96,6 @@ public class TurnHandler implements Serializable {
                     if(index == players.size()){
                         //supendGame();
                         return ;
-                        //TODO bisogna sospendere il gioco
                     }
                 }
 
@@ -220,6 +218,9 @@ public class TurnHandler implements Serializable {
 
             default:
                 break;
+        }
+        if(game.isSuspended()){
+            gc.suspendGame();
         }
 
     }

@@ -12,7 +12,7 @@ public class SuspendPlayerCommand implements Command {
         this.player = username;
     }
     @Override
-    public void execute(GameController gc) throws IOException, InterruptedException {
+    public void execute(GameController gc)  {
         gc.suspendPlayer(gc.getPlayer(player));
         gc.getGame().removeObserver(player);
     }

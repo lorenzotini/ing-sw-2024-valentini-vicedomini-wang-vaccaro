@@ -14,8 +14,8 @@ public class ChooseObjectiveCommand implements Command {
         this.playerName = playerName;
         this.objectiveIndex = objectiveIndex;
     }
-
-    public void execute(GameController gc) throws IOException, InterruptedException {
+    @Override
+    public void execute(GameController gc)  {
         Player player = gc.getPlayer(playerName);
         gc.chooseObjectiveCard(player, objectiveIndex);
     }

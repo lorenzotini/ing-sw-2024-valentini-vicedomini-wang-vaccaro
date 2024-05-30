@@ -23,7 +23,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 public class Game implements Serializable {
 
-    private transient BlockingQueue<Observer> observers = new LinkedBlockingQueue<>() {};
+    private final transient BlockingQueue<Observer> observers = new LinkedBlockingQueue<>() {};
     private Integer numActualPlayers;
     private Board board;
     private Market market;
@@ -33,9 +33,9 @@ public class Game implements Serializable {
     private ArrayList<StarterCard> starterDeck;
     private ArrayList<ObjectiveCard> objectiveDeck;
     private ArrayList<PawnColour> availablePawns = new ArrayList<>(List.of(PawnColour.GREEN, PawnColour.YELLOW, PawnColour.BLUE, PawnColour.RED));
-
-    private Chat generalChat = new Chat();
+    private final Chat generalChat = new Chat();
     final private HashMap< Pair<Player, Player>, Chat> chatMap = new HashMap<>();
+
 
     public Game() {
     }
@@ -197,6 +197,17 @@ public class Game implements Serializable {
             }
         }
         return chats;
+    }
+
+    public boolean isSuspended() {
+        int count = 0;
+        for(Player p: players){
+            if(p.isDisconnected()){
+                count++;
+            }
+        }
+        return count >= players.size() - 1;
+
     }
 
 }

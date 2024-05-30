@@ -1,5 +1,6 @@
 package it.polimi.ingsw.gc27.Controller;
 
+import it.polimi.ingsw.gc27.Messages.SuspendedGameMessage;
 import it.polimi.ingsw.gc27.Messages.UpdateChatMessage;
 import it.polimi.ingsw.gc27.Messages.UpdateStartOfGameMessage;
 import it.polimi.ingsw.gc27.Model.Card.Face;
@@ -10,23 +11,27 @@ import it.polimi.ingsw.gc27.Model.Game.*;
 import it.polimi.ingsw.gc27.Model.MiniModel;
 import it.polimi.ingsw.gc27.Model.States.InitializingState;
 import it.polimi.ingsw.gc27.Net.Commands.Command;
+import it.polimi.ingsw.gc27.Net.Commands.ReconnectPlayerCommand;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 
-import java.io.Console;
 import java.io.IOException;
 import java.io.Serializable;
 import java.rmi.RemoteException;
+import java.util.Timer;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class GameController implements Serializable {
 
     private Game game;
-
+    boolean suspended;
     private TurnHandler turnHandler;
     private int numMaxPlayers;
     private int id;
     private final BlockingQueue<Command> commands = new LinkedBlockingQueue<>();
+    private GigaController console;
+
+    long time;
 
     public GameController(Game game) {
         this.game = game;
@@ -35,10 +40,11 @@ public class GameController implements Serializable {
     public GameController() {
     }
 
-    public GameController(Game game, int numMaxPlayers, int id) {
+    public GameController(Game game, int numMaxPlayers, int id, GigaController console) {
         this.game = game;
         this.numMaxPlayers = numMaxPlayers;
         this.id = id;
+        this.console = console;
     }
 
     public Game getGame() {
@@ -149,15 +155,15 @@ public class GameController implements Serializable {
         }
 
     }
-    public void sendChatMessage(ChatMessage chatMessage) throws RemoteException {
+
+    public void sendChatMessage(ChatMessage chatMessage) {
         Chat chat;
-        if(chatMessage.getReceiver() == null){
+        if (chatMessage.getReceiver() == null) {
             chat = game.getGeneralChat();
             chat.addChatMessage(chatMessage);
             game.notifyObservers(new UpdateChatMessage(chat));
-        }
-        else{
-            chat=game.getChat(chatMessage.getSender(), chatMessage.getReceiver());
+        } else {
+            chat = game.getChat(chatMessage.getSender(), chatMessage.getReceiver());
             chat.addChatMessage(chatMessage);
             game.notifyObservers(new UpdateChatMessage(chat, chatMessage.getSender(), chatMessage.getReceiver().getUsername()));
         }
@@ -168,19 +174,59 @@ public class GameController implements Serializable {
         commands.add(command);
     }
 
-    public void executeCommands(){
+    public void executeCommands() {
 
-        new Thread(()->{
-            while(this!= null){
+        new Thread(() -> {
+            while (this != null) {
                 try {
                     commands.take().execute(this);
-                } catch (IOException | InterruptedException e) {
-
+                } catch (InterruptedException e) {
+                    //TODO eventuale non so se va gestito
                 }
             }
         }).start();
     }
-    public Player getPlayer(String username){
+
+    public Player getPlayer(String username) {
         return getGame().getPlayer(username);
+    }
+
+    public void suspendGame()  {
+        Command command = null;
+        suspended = true;
+
+        new Thread(() -> {
+            time = System.currentTimeMillis();
+            while (suspended) {
+                long timeConfront = System.currentTimeMillis();
+                synchronized (this) {
+
+                    if (timeConfront - time > 60000) {
+                        System.out.println("The game: " + id + " has been closed");
+                        suspended = false;
+                        console.closeGame(this);
+                    }
+                }
+            }
+        }).start();
+
+        do {
+            try{
+                command = commands.take();
+            }catch (InterruptedException e ){
+
+            }
+
+            synchronized (this){
+                if (command instanceof ReconnectPlayerCommand) {
+                    command.execute(this);
+                    suspended = false;
+
+                } else {
+                    System.out.println("the game has been suspended");
+                    game.notifyObservers(new SuspendedGameMessage("The game has been suspended"));
+                }
+            }
+        } while (!(command instanceof ReconnectPlayerCommand));
     }
 }

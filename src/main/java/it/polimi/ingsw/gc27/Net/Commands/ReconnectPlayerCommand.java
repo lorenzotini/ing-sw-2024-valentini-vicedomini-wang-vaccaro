@@ -21,7 +21,7 @@ public class ReconnectPlayerCommand implements Command{
         this.player=player;
     }
     @Override
-    public void execute(GameController gc) throws IOException, InterruptedException {
+    public void execute(GameController gc)  {
         Game game = gc.getGame();
         game.addObserver(new PlayerListener(client, player));
         player.setDisconnected(false);

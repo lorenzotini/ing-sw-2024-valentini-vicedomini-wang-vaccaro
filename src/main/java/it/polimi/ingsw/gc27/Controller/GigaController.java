@@ -1,5 +1,9 @@
 package it.polimi.ingsw.gc27.Controller;
 
+import it.polimi.ingsw.gc27.Messages.ClosedGameForNoOneLeftMessage;
+import it.polimi.ingsw.gc27.Messages.Message;
+import it.polimi.ingsw.gc27.Messages.UpdateStartOfGameMessage;
+import it.polimi.ingsw.gc27.Model.Game.Game;
 import it.polimi.ingsw.gc27.Model.Game.Player;
 import it.polimi.ingsw.gc27.Net.Commands.Command;
 import it.polimi.ingsw.gc27.Net.Commands.ReconnectPlayerCommand;
@@ -23,12 +27,14 @@ public class GigaController {
 
 
     public GameController userToGameController(String username) {
-        for (var c : gameControllers) {
-            if (c.getGame().getPlayers().stream().anyMatch(p -> p.getUsername().equals(username))) {
-                return c;
+        synchronized (gameControllers){
+            for (var c : gameControllers) {
+                if (c.getGame().getPlayers().stream().anyMatch(p -> p.getUsername().equals(username))) {
+                    return c;
+                }
             }
         }
-        return null;
+        return null;//TODO sarebbe bene tornare un eccezione
     }
 
 
@@ -70,53 +76,63 @@ public class GigaController {
 
         boolean canEnter = false;
 
+
         if (game.equalsIgnoreCase("new")) {    // start a new game
             createNewGame(client);
         } else {
+
+
             // join an existing game
             do {
-                for (var gc : gameControllers) {
-                    if (gc.getId() == gameId) {
-                        // TODO non so se è meglio togliere questa show
-                        client.show("\nJoining game " + game + "...");
-                        synchronized (gc.getGame().getPlayers()) {
+                GameController gc = null;
+                synchronized (gameControllers){
+                    for (var control : gameControllers) {
+                        if (control.getId() == Integer.parseInt(game)) {
+                            gc = control;
+                        }
+                    }
+                }
 
-                            if (gc.getGame().getNumActualPlayers() < gc.getNumMaxPlayers()) { // game not full, can join
+                // TODO controllare che game sia convertibile in int
 
-                                int a = gc.getGame().getNumActualPlayers();
-                                gc.getGame().setNumActualPlayers(a + 1);
-                                canEnter = true;
+                // TODO non so se è meglio togliere questa show
+                if(gc!= null) {
+                    client.show("\nJoining game " + game + "...");
+                    synchronized (gc.getGame().getPlayers()) {
 
-                            } else if (gc.getGame().getNumActualPlayers() == gc.getNumMaxPlayers() &&      // game full, but a disconnected player can rejoin
-                                    gc.getGame().getPlayers().stream().anyMatch(Player::isDisconnected)) {
+                        if (gc.getGame().getNumActualPlayers() < gc.getNumMaxPlayers()) { // game not full, can join
 
-                                client.show("\nThis game has a disconnected player. Are you him? If so, please enter your username.");
-                                String disconnectedUsername = client.read();
+                            int a = gc.getGame().getNumActualPlayers();
+                            gc.getGame().setNumActualPlayers(a + 1);
+                            canEnter = true;
 
-                                // If the player is found, reconnect him, else null is returned
-                                boolean clientReconnected = tryReconnectPlayer(client, gc, disconnectedUsername);
+                        } else if (gc.getGame().getNumActualPlayers() == gc.getNumMaxPlayers() &&      // game full, but a disconnected player can rejoin
+                                gc.getGame().getPlayers().stream().anyMatch(Player::isDisconnected)) {
 
-                                if (clientReconnected) {
-                                    return;
-                                }
+                            client.show("\nThis game has a disconnected player. Are you him? If so, please enter your username.");
+                            String disconnectedUsername = client.read();
 
-                            } else {
+                            // If the player is found, reconnect him, else null is returned
+                            boolean clientReconnected = tryReconnectPlayer(client, gc, disconnectedUsername);
 
-                                client.show("\nGame is full. Restarting...");
-
+                            if (clientReconnected) {
+                                return;
                             }
 
-                        }
-
-                        if (!canEnter) {
-                            welcomePlayer(client);
                         } else {
+
+                            client.show("\nGame is full. Restarting...");
+                        }
+                    }
+
+                    if (!canEnter) {
+                        welcomePlayer(client);
+                    } else {
 //                            if (player.isDisconnected ) {
 //                                return;
 //                            }
-                            gc.initializePlayer(client, this);
-                            return;
-                        }
+                        gc.initializePlayer(client, this);
+                        return;
                     }
                 }
 
@@ -154,18 +170,15 @@ public class GigaController {
 
         GameController controller;
         Initializer init = new Initializer();
-
         synchronized (gameControllers) {
-            controller = new GameController(init.initialize(), numMaxPlayers, this.idCounter++);
+            controller = new GameController(init.initialize(), numMaxPlayers, this.idCounter++, this);
             gameControllers.add(controller);
         }
-
         // count the player who created the game
         controller.getGame().setNumActualPlayers(1);
         client.show("\nGame created with id " + controller.getId() + "\n" + "\nWaiting for players to join...");
         controller.initializePlayer(client, this);
         controller.executeCommands();
-
     }
 
     private boolean tryReconnectPlayer(VirtualView client, GameController gc, String disconnectedUsername) throws RemoteException {
@@ -185,7 +198,7 @@ public class GigaController {
 
     }
 
-    // TODO remember to remove the username from the registeredUsernames map when a player leaves the game
+
     public boolean validUsername(String u, VirtualView view) {
         synchronized (registeredUsernames) {
             if (registeredUsernames.containsKey(u) || u.isEmpty()) { // username already taken or empty
@@ -217,12 +230,15 @@ public class GigaController {
         return this.userToGameController(username).getGame().getPlayer(username);
     }
 
-
-    public void setGameControllers(List<GameController> gameControllers) {
-    }
-
     public void addCommandToGameController(Command command) {
         String player = command.getPlayerName();
         userToGameController(player).addCommand(command);
+    }
+
+    public void closeGame(GameController controller) {
+        synchronized (gameControllers) {
+            controller.getGame().notifyObservers(new ClosedGameForNoOneLeftMessage("The game has been closed because it's been suspended for too long"));
+            gameControllers.remove(controller);
+        }
     }
 }

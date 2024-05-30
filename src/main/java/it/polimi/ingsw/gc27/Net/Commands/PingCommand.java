@@ -6,7 +6,7 @@ import java.io.IOException;
 
 public class PingCommand implements Command {
     @Override
-    public void execute(GameController gc) throws IOException, InterruptedException {
+    public void execute(GameController gc)  {
     }
 
     @Override

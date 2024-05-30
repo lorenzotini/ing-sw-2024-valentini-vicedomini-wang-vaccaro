@@ -16,7 +16,7 @@ public class SendMessageCommand implements Command {
         this.content = content;
     }
     @Override
-    public void execute(GameController gc) throws IOException, InterruptedException {
+    public void execute(GameController gc) {
         gc.sendChatMessage(new ChatMessage(gc.getPlayer(player.getUsername()), gc.getPlayer(receiver), this.content));
     }
     @Override

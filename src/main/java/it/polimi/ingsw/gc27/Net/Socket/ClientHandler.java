@@ -147,7 +147,7 @@ public class ClientHandler implements VirtualView {
             output.reset();
             output.flush();
         } catch (IOException e) {
-            e.printStackTrace();
+
         }
     }
 

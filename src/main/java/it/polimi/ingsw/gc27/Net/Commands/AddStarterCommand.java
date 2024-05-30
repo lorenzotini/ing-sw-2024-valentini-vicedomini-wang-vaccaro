@@ -17,7 +17,8 @@ public class AddStarterCommand implements Command {
         this.isFront = isFront;
     }
 
-    public void execute(GameController gc) throws IOException, InterruptedException {
+    @Override
+    public void execute(GameController gc) {
         Player player = gc.getPlayer(playerName);
         StarterCard starter = player.getStarterCard();
         Face face = isFront ? starter.getFront() : starter.getBack();

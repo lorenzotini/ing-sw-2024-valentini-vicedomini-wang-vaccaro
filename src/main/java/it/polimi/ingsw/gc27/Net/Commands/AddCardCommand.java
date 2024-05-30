@@ -23,8 +23,8 @@ public class AddCardCommand implements Command {
         this.x = x;
         this.y = y;
     }
-
-    public void execute(GameController gc) throws IOException, InterruptedException {
+    @Override
+    public void execute(GameController gc) {
         Player player = gc.getPlayer(playerName);
         ResourceCard card = player.getHand().get(handCardIndex);
         Face face = isFrontFace ? card.getFront() : card.getBack();

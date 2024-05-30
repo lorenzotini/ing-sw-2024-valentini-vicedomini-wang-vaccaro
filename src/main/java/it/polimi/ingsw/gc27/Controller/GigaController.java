@@ -1,18 +1,12 @@
 package it.polimi.ingsw.gc27.Controller;
 
-import it.polimi.ingsw.gc27.Messages.Message;
-import it.polimi.ingsw.gc27.Messages.UpdateStartOfGameMessage;
-import it.polimi.ingsw.gc27.Model.Game.Game;
 import it.polimi.ingsw.gc27.Model.Game.Player;
-import it.polimi.ingsw.gc27.Model.Listener.PlayerListener;
-import it.polimi.ingsw.gc27.Model.MiniModel;
 import it.polimi.ingsw.gc27.Net.Commands.Command;
 import it.polimi.ingsw.gc27.Net.Commands.ReconnectPlayerCommand;
 import it.polimi.ingsw.gc27.Net.Commands.SuspendPlayerCommand;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -56,7 +50,24 @@ public class GigaController {
     public void welcomePlayer(VirtualView client) throws IOException, InterruptedException {
 
         client.show("\nWelcome to Codex Naturalis\n" + "\nDo you want to start a new game or join an existing one? (enter 'new' or the gameId)");
-        String game = client.read();
+
+        // check if the input is a valid game id or 'new'
+        String game;
+        int gameId = 0;
+        while(true){
+            game = client.read();
+            if(game.equalsIgnoreCase("new")){
+                break;
+            } else {
+                try {
+                    gameId = Integer.parseInt(game);
+                    break;
+                } catch (NumberFormatException e) {
+                    client.show("\nInvalid input. Please enter a valid game id or 'new' to start a new game");
+                }
+            }
+        }
+
         boolean canEnter = false;
 
         if (game.equalsIgnoreCase("new")) {    // start a new game
@@ -65,8 +76,7 @@ public class GigaController {
             // join an existing game
             do {
                 for (var gc : gameControllers) {
-                    // TODO controllare che game sia convertibile in int
-                    if (gc.getId() == Integer.parseInt(game)) {
+                    if (gc.getId() == gameId) {
                         // TODO non so se è meglio togliere questa show
                         client.show("\nJoining game " + game + "...");
                         synchronized (gc.getGame().getPlayers()) {
@@ -80,7 +90,7 @@ public class GigaController {
                             } else if (gc.getGame().getNumActualPlayers() == gc.getNumMaxPlayers() &&      // game full, but a disconnected player can rejoin
                                     gc.getGame().getPlayers().stream().anyMatch(Player::isDisconnected)) {
 
-                                client.show("This game has a disconnected player. Are you him? If so, please enter your username.");
+                                client.show("\nThis game has a disconnected player. Are you him? If so, please enter your username.");
                                 String disconnectedUsername = client.read();
 
                                 // If the player is found, reconnect him, else null is returned
@@ -125,23 +135,37 @@ public class GigaController {
     }
 
     public void createNewGame(VirtualView client) throws IOException, InterruptedException {
+
         client.show("\nHow many player? there will be? (2-4)");
-        int numMaxPlayers = Integer.parseInt(client.read());
-        while (numMaxPlayers > 4 || numMaxPlayers < 1) {
-            client.show("\nInvalid number of players, insert a value between 2-4");
-            numMaxPlayers = Integer.parseInt(client.read());
-        }
+        int numMaxPlayers;
+
+        do {
+            try {
+                numMaxPlayers = Integer.parseInt(client.read());
+                if (numMaxPlayers <= 4 && numMaxPlayers >= 1){
+                    break;
+                }
+            } catch (NumberFormatException e) {
+                client.show("\nInvalid format. Please enter a number between 2 and 4");
+                continue;
+            }
+            client.show("\nInvalid input. Please enter a number between 2 and 4");
+        } while (true);
+
         GameController controller;
         Initializer init = new Initializer();
+
         synchronized (gameControllers) {
             controller = new GameController(init.initialize(), numMaxPlayers, this.idCounter++);
             gameControllers.add(controller);
         }
+
         // count the player who created the game
         controller.getGame().setNumActualPlayers(1);
         client.show("\nGame created with id " + controller.getId() + "\n" + "\nWaiting for players to join...");
         controller.initializePlayer(client, this);
         controller.executeCommands();
+
     }
 
     private boolean tryReconnectPlayer(VirtualView client, GameController gc, String disconnectedUsername) throws RemoteException {

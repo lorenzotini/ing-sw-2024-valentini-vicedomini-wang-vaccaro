@@ -11,7 +11,7 @@
       <CheckBox fx:id="checkBox2" layoutX="135.0" layoutY="126.0" mnemonicParsing="false" onAction="#chooseNumber" text="2" />
       <CheckBox fx:id="checkBox4" layoutX="135.0" layoutY="223.0" mnemonicParsing="false" onAction="#chooseNumber" text="4" />
       <CheckBox fx:id="checkBox3" layoutX="135.0" layoutY="172.0" mnemonicParsing="false" onAction="#chooseNumber" text="3" />
-      <Button fx:id="go" layoutX="428.0" layoutY="177.0" mnemonicParsing="false" onAction="#sendLoginScene" onMouseClicked="#sendLoginScene" text="GO" />
+      <Button fx:id="go" layoutX="428.0" layoutY="177.0" mnemonicParsing="false" onAction="#sendNumberOfPlayers" onMouseClicked="#sendNumberOfPlayers" text="GO" />
       <Button fx:id="backButton" layoutX="92.0" layoutY="572.0" mnemonicParsing="false" onAction="#previousScene" text="BACK" />
    </children>
 </AnchorPane>

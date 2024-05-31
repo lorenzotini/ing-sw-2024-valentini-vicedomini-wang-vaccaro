@@ -2,6 +2,7 @@ package it.polimi.ingsw.gc27.View.GUI;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.GridPane;
@@ -22,29 +23,51 @@ public class ManuscriptSceneController implements GenericController{
     @FXML
     private ImageView manusProva;
 
+
     public void initialize(){
 
         GridPane grid = new GridPane();
         grid.setGridLinesVisible(true);
 
+        grid.setHgap(-35);
+        grid.setVgap(-40);
+
         scrollPane.setContent(grid);
 
-//            FileInputStream inputstream;
-//            try {
-//                inputstream = new FileInputStream("C:\\Users\\loren\\Documents\\Studio\\ANNO_3\\Progetto_ing_soft\\ing-sw-2024-valentini-vicedomini-wang-vaccaro\\src\\main\\resources\\Images\\cards\\card5_front.png");
-//            } catch (FileNotFoundException e) {
-//                throw new RuntimeException(e);
-//            }
-//            Image image = new Image(inputstream);
-
+        // TODO sostituire gli estremi dei for con Manuscript.FIELD_DIM
+        // populate grid with imageViews
         boolean flag = true;
-        for(int i = 0 ; i < 5 ; i++){
-            for (int j = 0; j < 5; j++) {
+        for(int i = 0; i < 11; i++){       // requires odd terminal value to work, especially for the j loop
+            for (int j = 0; j < 11; j++) {
                 if (flag) {
+
                     ImageView imageView = new ImageView();
-                    imageView.setFitHeight(200);
-                    imageView.setFitWidth(300);
+
+                    // default image in order to make the imageView able to receive drag events
+                    imageView.setImage(new Image("/images/cards/card1_back.png"));
+
+                    // handle drag events
+                    imageView.setOnDragOver(event -> {
+                        Dragboard db = event.getDragboard();
+                        if(db.hasImage() || db.hasFiles()){
+                            event.acceptTransferModes(TransferMode.ANY);
+                        }
+                        event.consume();
+                    });
+
+                    imageView.setOnDragDropped(event -> {
+                        Dragboard db = event.getDragboard();
+                        if(db.hasImage()){
+                            imageView.setImage(db.getImage());
+                        }
+                        event.consume();
+                    });
+
+                    imageView.setFitHeight(100);
+                    imageView.setFitWidth(150);
+
                     grid.add(imageView, i, j);
+
                 }
                 flag = !flag;
             }
@@ -66,6 +89,7 @@ public class ManuscriptSceneController implements GenericController{
         Dragboard db = event.getDragboard();
         if(db.hasImage()){
             manusProva.setImage(db.getImage());
+            deleteImage();
         }
         event.consume();
     }
@@ -79,7 +103,6 @@ public class ManuscriptSceneController implements GenericController{
         event.consume();
     }
 
-    @FXML
     void deleteImage(){
         manoProva.setImage(null);
     }

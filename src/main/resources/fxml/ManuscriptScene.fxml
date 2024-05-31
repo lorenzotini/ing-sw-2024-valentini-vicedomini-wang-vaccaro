@@ -17,9 +17,9 @@
             <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
          </children>
       </HBox>
-      <ImageView fx:id="manoProva" fitHeight="150.0" fitWidth="200.0" layoutX="959.0" layoutY="506.0" onDragDetected="#imageViewDragDetected" onDragEntered="#deleteImage" pickOnBounds="true" preserveRatio="true" styleClass="manuscriptCard">
+      <ImageView fx:id="manoProva" fitHeight="150.0" fitWidth="200.0" layoutX="959.0" layoutY="506.0" onDragDetected="#imageViewDragDetected" pickOnBounds="true" preserveRatio="true" styleClass="manuscriptCard">
          <image>
-            <Image url="@../Images/cards/card1_back.png" />
+            <Image url="@../Images/cards/card11_back.png" />
          </image>
       </ImageView>
       <ImageView fx:id="manusProva" fitHeight="150.0" fitWidth="200.0" layoutX="958.0" layoutY="237.0" onDragDropped="#imageViewDragDropped" onDragOver="#imageViewDragOver" pickOnBounds="true" preserveRatio="true" styleClass="manuscriptCard" />

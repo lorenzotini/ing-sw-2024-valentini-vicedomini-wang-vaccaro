@@ -1,6 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" />
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../css/ManuscriptScene.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.gc27.View.GUI.ManuscriptSceneController">
+   <children>
+      <ScrollPane fx:id="scrollPane" layoutX="58.0" layoutY="135.0" prefHeight="444.0" prefWidth="751.0" />
+      <HBox layoutX="169.0" layoutY="592.0" prefHeight="100.0" prefWidth="470.0" spacing="10.0">
+         <children>
+            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+         </children>
+      </HBox>
+      <ImageView fx:id="manoProva" fitHeight="150.0" fitWidth="200.0" layoutX="959.0" layoutY="506.0" onDragDetected="#imageViewDragDetected" onDragEntered="#deleteImage" pickOnBounds="true" preserveRatio="true" styleClass="manuscriptCard">
+         <image>
+            <Image url="@../Images/cards/card1_back.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="manusProva" fitHeight="150.0" fitWidth="200.0" layoutX="958.0" layoutY="237.0" onDragDropped="#imageViewDragDropped" onDragOver="#imageViewDragOver" pickOnBounds="true" preserveRatio="true" styleClass="manuscriptCard" />
+      <Label layoutX="1042.0" layoutY="191.0" text="piazza qui" />
+      <Label layoutX="1035.0" layoutY="478.0" text="da qui" />
+   </children>
+</AnchorPane>

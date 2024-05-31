@@ -87,5 +87,8 @@ public class SocketClient implements VirtualView {
     public void update(Message message) {
         message.reportUpdate(this, this.view);
     }
-
+    @Override
+    public void close(){
+        System.exit(0);
+    }
 }

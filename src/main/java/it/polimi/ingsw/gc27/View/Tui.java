@@ -130,7 +130,6 @@ public class Tui implements View {
                     if(!checkState(PlayingState.class)){
                         break;
                     }
-
                     out.println(showManuscript(client.getMiniModel().getManuscript()));
                     out.println("\nWhich card do you want to add? (choose from 1, 2, 3)");
                     int cardIndex = scan.nextInt() - 1;

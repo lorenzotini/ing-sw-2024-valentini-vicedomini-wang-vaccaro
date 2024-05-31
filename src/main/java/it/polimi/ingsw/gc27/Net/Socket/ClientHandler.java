@@ -151,6 +151,11 @@ public class ClientHandler implements VirtualView {
         }
     }
 
+    @Override
+    public void close() {
+
+    }
+
     private void verifyPing() throws InterruptedException {
         new Thread(() -> {
             int count = 0;

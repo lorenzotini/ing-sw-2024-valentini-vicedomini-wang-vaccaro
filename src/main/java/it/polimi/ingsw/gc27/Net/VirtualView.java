@@ -28,5 +28,6 @@ public interface VirtualView extends Remote, Serializable {
     void pingToServer(VirtualServer virtualServer, VirtualView client) throws RemoteException;
 
     void update(Message message) throws RemoteException;
+    void close() throws RemoteException;
 
 }

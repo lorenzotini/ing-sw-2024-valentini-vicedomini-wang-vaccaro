@@ -42,10 +42,10 @@ public class PlayingState extends PlayerState {
             Message updateManuscriptMessage = new UpdateManuscriptMessage(new MiniModel(getPlayer(), getPlayer().getManuscript()));
             turnHandler.getGame().notifyObservers(updateManuscriptMessage);
 
-        } else {
-
+        } else if((face instanceof FrontFace) && !(getPlayer().getManuscript().satisfiedRequirement((ResourceCard) card))){
+            super.sendError("You don't have enough resource, change card or place it in the back.", getPlayer(), turnHandler);
+        }else{
             super.sendError("Invalid Placement, try again.", getPlayer(), turnHandler);
-
         }
 
     }

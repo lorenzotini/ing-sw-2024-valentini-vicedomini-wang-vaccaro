@@ -210,6 +210,8 @@ public class GameController implements Serializable {
             }
         }).start();
 
+        System.out.println("the game has been suspended");
+        game.notifyObservers(new SuspendedGameMessage("The game has been suspended"));
         do {
             try{
                 command = commands.take();
@@ -223,8 +225,7 @@ public class GameController implements Serializable {
                     suspended = false;
 
                 } else {
-                    System.out.println("the game has been suspended");
-                    game.notifyObservers(new SuspendedGameMessage("The game has been suspended"));
+                    game.notifyObservers(new SuspendedGameMessage("The game has been suspended, wait for someone to comeback"));
                 }
             }
         } while (!(command instanceof ReconnectPlayerCommand));

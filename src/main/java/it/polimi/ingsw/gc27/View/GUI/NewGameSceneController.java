@@ -20,6 +20,7 @@ public class NewGameSceneController implements GenericController{
     @FXML
     public Button go;
     public Button backButton;
+    @FXML
     public CheckBox checkBox1;
     private String chosenButton;
 

@@ -47,6 +47,9 @@ public class NewGameSceneController implements GenericController{
     public void previousScene(ActionEvent event) throws IOException {
         Gui.getInstance().switchScene("/fxml/ChooseGameScene.fxml");
     }//TODO: DOES NOT WORK PROPERLY BECAUSE THE "NEW GAME" MESSAGE IS SENT ANYWAY
+
+    public void sendNumberOfPlayers(ActionEvent event) {
+    }
     //TODO: POSSIBLE FIX, SEND THE "NEW GAME" OR "JOIN GAME" MESSAGE NOT IMMEDIATELY BUT AFTER INFORMATION ABOUT
     //TODO: NUMBER OF PLAYERS OR GAMEID IS COLLECTED
 }

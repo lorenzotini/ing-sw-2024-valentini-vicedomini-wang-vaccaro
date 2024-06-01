@@ -1,0 +1,23 @@
+.anchorpane{
+    -fx-background-image: url("../Images/utility/background2.png");
+    -fx-background-size: cover;
+}
+
+.objectivecard1{
+    -fx-image: url("../Images/cards/card101_front.png");
+}
+
+.objectivecard2{
+
+}
+
+.customlabel{
+    -fx-image: url("../Images/utility/gamemastercard2.png");
+}
+
+.decoration{
+    -fx-image: url("../Images/utility/decoration1.png");
+}
+.decoration2{
+    -fx-image: url("../Images/utility/decoration2.png");
+}

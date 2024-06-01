@@ -1,7 +1,10 @@
 package it.polimi.ingsw.gc27.Model.Enumerations;
 
 import it.polimi.ingsw.gc27.View.ColourControl;
-public enum Kingdom {
+
+import java.io.Serializable;
+
+public enum Kingdom implements Serializable {
     EMPTY,
     PLANTKINGDOM,
     ANIMALKINGDOM,

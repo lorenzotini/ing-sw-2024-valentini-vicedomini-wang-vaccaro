@@ -23,11 +23,13 @@ module it.polimi.ingsw.gc27 {
     exports  it.polimi.ingsw.gc27.Model;
     exports it.polimi.ingsw.gc27.Model.Listener to java.rmi;
     exports it.polimi.ingsw.gc27.View; //added for GUI
+    exports it.polimi.ingsw.gc27.View.GUI; //added for GUI
+
     exports  it.polimi.ingsw.gc27.Messages;
     exports  it.polimi.ingsw.gc27.Net.Commands;
     opens it.polimi.ingsw.gc27.View;
     opens it.polimi.ingsw.gc27.View.GUI;
-    exports it.polimi.ingsw.gc27.View.GUI;
+
 
 
 }

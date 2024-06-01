@@ -12,24 +12,24 @@
          <font>
             <Font name="Agency FB" size="25.0" />
          </font></TextField>
-      <Button fx:id="blueButton" disable="true" layoutX="330.0" layoutY="521.0" mnemonicParsing="false" onAction="#selectColour" prefHeight="100.0" prefWidth="100.0" styleClass="pawn_blue" stylesheets="@../css/LoginScene.css" text="Choose" textFill="#e4dfb2">
+      <Button fx:id="blueButton" layoutX="330.0" layoutY="521.0" mnemonicParsing="false" onAction="#selectColour" prefHeight="100.0" prefWidth="100.0" styleClass="pawn_blue" stylesheets="@../css/LoginScene.css" text="Choose" textFill="#e4dfb2">
          <font>
             <Font name="Agency FB" size="27.0" />
          </font></Button>
-      <Button fx:id="greenButton" disable="true" layoutX="500.0" layoutY="521.0" mnemonicParsing="false" onAction="#selectColour" prefHeight="100.0" prefWidth="100.0" styleClass="pawn_green" text="the" textFill="#e4dfb2">
+      <Button fx:id="greenButton" layoutX="500.0" layoutY="521.0" mnemonicParsing="false" onAction="#selectColour" prefHeight="100.0" prefWidth="100.0" styleClass="pawn_green" text="the" textFill="#e4dfb2">
          <font>
             <Font name="Agency FB" size="27.0" />
          </font></Button>
-      <Button fx:id="yellowButton" disable="true" layoutX="670.0" layoutY="521.0" mnemonicParsing="false" onAction="#selectColour" prefHeight="100.0" prefWidth="100.0" styleClass="pawn_yellow" text="pawn" textFill="#e4dfb2">
+      <Button fx:id="yellowButton" layoutX="670.0" layoutY="521.0" mnemonicParsing="false" onAction="#selectColour" prefHeight="100.0" prefWidth="100.0" styleClass="pawn_yellow" text="pawn" textFill="#e4dfb2">
          <font>
             <Font name="Agency FB" size="27.0" />
          </font></Button>
-      <Button fx:id="redButton" disable="true" layoutX="840.0" layoutY="521.0" mnemonicParsing="false" onAction="#selectColour" prefHeight="100.0" prefWidth="100.0" styleClass="pawn_red" text="colour" textFill="#e4dfb2">
+      <Button fx:id="redButton" layoutX="828.0" layoutY="521.0" mnemonicParsing="false" onAction="#selectColour" prefHeight="100.0" prefWidth="100.0" styleClass="pawn_red" text="colour" textFill="#e4dfb2">
          <font>
             <Font name="Agency FB" size="27.0" />
          </font></Button>
-      <Button fx:id="sendUsernameButton" layoutX="1002.0" layoutY="227.0" mnemonicParsing="false" onMouseClicked="#sendUsername" prefHeight="38.0" prefWidth="65.0" text="-&gt;" />
-      <Button fx:id="sendColourButton" disable="true" layoutX="1002.0" layoutY="552.0" mnemonicParsing="false" onMouseClicked="#sendToLobby" prefHeight="38.0" prefWidth="65.0" text="-&gt;" />
+      <Button fx:id="sendUsernameButton" layoutX="1002.0" layoutY="227.0" mnemonicParsing="false" onAction="#sendUsername" prefHeight="38.0" prefWidth="65.0" text="-&gt;" />
+      <Button fx:id="sendColourButton" layoutX="1002.0" layoutY="552.0" mnemonicParsing="false" onMouseClicked="#sendToLobby" prefHeight="38.0" prefWidth="65.0" text="-&gt;" />
       <ImageView fitHeight="478.0" fitWidth="477.0" layoutX="218.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true" styleClass="imageview" />
    </children>
 </AnchorPane>

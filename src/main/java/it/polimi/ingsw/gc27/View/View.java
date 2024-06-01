@@ -11,10 +11,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public interface View {
-
     void run() throws IOException, InterruptedException;
-
-    void welcomePlayer(VirtualView client) throws IOException, InterruptedException;
 
     void setClient(VirtualView client);
 
@@ -35,5 +32,8 @@ public interface View {
     void show(Market market);
 
     String read();
+
+    void okAck(String string);
+    void koAck(String string);
 
 }

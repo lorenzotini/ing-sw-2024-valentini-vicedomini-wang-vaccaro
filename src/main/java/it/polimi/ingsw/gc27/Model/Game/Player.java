@@ -8,7 +8,6 @@ import it.polimi.ingsw.gc27.Model.Enumerations.PointsMultiplier;
 import it.polimi.ingsw.gc27.Model.States.PlayerState;
 
 import java.io.Serializable;
-import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 public class Player implements Serializable {
@@ -20,7 +19,7 @@ public class Player implements Serializable {
     private ArrayList<ObjectiveCard> secretObjectives;
     private StarterCard starterCard;
     private PlayerState playerState;
-
+    private boolean isDisconnected = false;
 
     public Player(String username, Manuscript manuscript, PawnColour pawnColour) {
         this.username = username;
@@ -32,9 +31,14 @@ public class Player implements Serializable {
     }
 
 
-    /*public Player() {
-        hand = new ArrayList<>(3);
-    }*/
+
+    public boolean isDisconnected() {
+        return isDisconnected;
+    }
+
+    public void setDisconnected(boolean disconnected) {
+        isDisconnected = disconnected;
+    }
 
     public void setPlayerState(PlayerState playerState) {
         this.playerState = playerState;
@@ -95,7 +99,7 @@ public class Player implements Serializable {
      * @requires x
      * @requires y
      */
-    public void addCard(Game game, Card card, Face face, int x, int y) throws RemoteException {
+    public void addCard(Game game, Card card, Face face, int x, int y) {
 
         Manuscript m = this.manuscript;
 

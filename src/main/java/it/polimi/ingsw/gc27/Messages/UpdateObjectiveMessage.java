@@ -13,9 +13,16 @@ public class UpdateObjectiveMessage extends Message {
     }
 
     @Override
-    public void reportUpdate(VirtualView client, View view) throws RemoteException {
-        client.getMiniModel().setPlayer(this.getMiniModel().getPlayer());
-        view.showString(this.string);
-        view.show(client.getMiniModel().getPlayer().getSecretObjectives().getFirst());
+    public void reportUpdate(VirtualView client, View view) {
+
+        try {
+            client.getMiniModel().setPlayer(this.getMiniModel().getPlayer());
+
+            view.showString(this.string);
+            view.show(client.getMiniModel().getPlayer().getSecretObjectives().getFirst());
+
+        }catch(RemoteException e){
+
+        }
     }
 }

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.gc27.Net.Commands;
 
+import it.polimi.ingsw.gc27.Controller.GameController;
 import it.polimi.ingsw.gc27.Controller.GigaController;
 import it.polimi.ingsw.gc27.Model.Card.Face;
 import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
@@ -22,13 +23,18 @@ public class AddCardCommand implements Command {
         this.x = x;
         this.y = y;
     }
-
-    public void execute(GigaController console) throws IOException, InterruptedException {
-        Player player = console.getPlayer(playerName);
+    @Override
+    public void execute(GameController gc) {
+        Player player = gc.getPlayer(playerName);
         ResourceCard card = player.getHand().get(handCardIndex);
         Face face = isFrontFace ? card.getFront() : card.getBack();
         // TODO: gestire le eccezioni
-        console.userToGameController(playerName).addCard(player, card, face, x, y);
+        gc.addCard(player, card, face, x, y);
+    }
+
+    @Override
+    public String getPlayerName() {
+        return this.playerName;
     }
 
 }

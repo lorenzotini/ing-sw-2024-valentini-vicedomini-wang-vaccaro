@@ -2,7 +2,6 @@ package it.polimi.ingsw.gc27.Model.States;
 
 import it.polimi.ingsw.gc27.Controller.TurnHandler;
 import it.polimi.ingsw.gc27.Messages.Message;
-import it.polimi.ingsw.gc27.Messages.NotYourTurnMessage;
 import it.polimi.ingsw.gc27.Messages.UpdateObjectiveMessage;
 import it.polimi.ingsw.gc27.Model.Card.Face;
 import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
@@ -10,9 +9,6 @@ import it.polimi.ingsw.gc27.Model.Card.StarterCard;
 import it.polimi.ingsw.gc27.Model.Game.Game;
 import it.polimi.ingsw.gc27.Model.Game.Player;
 import it.polimi.ingsw.gc27.Model.MiniModel;
-
-import java.io.IOException;
-import java.rmi.RemoteException;
 
 public class ChooseObjectiveState extends PlayerState {
 
@@ -24,28 +20,22 @@ public class ChooseObjectiveState extends PlayerState {
     }
 
     @Override
-    public void drawCard(Player player, boolean isGold, boolean fromDeck, int faceUpCardIndex) throws RemoteException {
-        MiniModel currentPlayer = new MiniModel(getPlayer());
-        Message genericErrorMessage = new NotYourTurnMessage(wrongStateText, currentPlayer);
-        turnHandler.getGame().notifyObservers(genericErrorMessage);
+    public void drawCard(Player player, boolean isGold, boolean fromDeck, int faceUpCardIndex) {
+        super.sendError(wrongStateText, getPlayer(), turnHandler);
     }
 
     @Override
-    public void addCard(Game game, ResourceCard resourceCard, Face face, int x, int y) throws RemoteException {
-        MiniModel currentPlayer = new MiniModel(getPlayer());
-        Message genericErrorMessage = new NotYourTurnMessage(wrongStateText, currentPlayer);
-        turnHandler.getGame().notifyObservers(genericErrorMessage);
+    public void addCard(Game game, ResourceCard resourceCard, Face face, int x, int y) {
+        super.sendError(wrongStateText, getPlayer(), turnHandler);
     }
 
     @Override
-    public void addStarterCard(Game game, StarterCard starterCard, Face face) throws IOException, InterruptedException {
-        MiniModel currentPlayer = new MiniModel(getPlayer());
-        Message genericErrorMessage = new NotYourTurnMessage(starterText, currentPlayer);
-        turnHandler.getGame().notifyObservers(genericErrorMessage);
+    public void addStarterCard(Game game, StarterCard starterCard, Face face) {
+        super.sendError(starterText, getPlayer(), turnHandler);
     }
 
     @Override
-    public void chooseObjectiveCard(Game game, int objectiveCardIndex) throws RemoteException {
+    public void chooseObjectiveCard(Game game, int objectiveCardIndex) {
 
         // The index is chosen by the player between 1 and 2, corresponding to 0 and 1 in the list. Then you switch it to remove the other card.
         objectiveCardIndex = objectiveCardIndex == 1 ? 1 : 0;
@@ -58,7 +48,7 @@ public class ChooseObjectiveState extends PlayerState {
         Message updateObjectiveMessage = new UpdateObjectiveMessage(new MiniModel(getPlayer(), getPlayer().getSecretObjectives().getFirst()));
         turnHandler.getGame().notifyObservers(updateObjectiveMessage);
 
-        this.getTurnHandler().notifyChooseObjectiveState(getPlayer());
+        this.getTurnHandler().notifyChooseObjectiveState();
 
     }
 

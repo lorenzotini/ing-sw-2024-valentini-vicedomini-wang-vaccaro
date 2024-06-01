@@ -58,15 +58,18 @@ public class SocketServerProxy implements VirtualServer {
             try {
                 Message mess;
                 while ((mess = messages.take()) instanceof StringMessage) {
-                    String message = mess.takeString();
+                    String message = mess.getString();
                     if (message.equals("read")) {
                         String toBeSent = client.read();
                         output.writeObject(toBeSent);
+                        output.reset();
+                        output.flush();
                     } else {
                         client.show(message);
                     }
                 }
                 client.update(mess);
+
                 runVirtualServer();
             } catch (InterruptedException | IOException e) {
                 throw new RuntimeException(e);
@@ -83,18 +86,19 @@ public class SocketServerProxy implements VirtualServer {
             while (true){
                 try {
                     output.writeObject(new PingCommand());
-                    this.wait(1000);
+                    output.reset();
+                    Thread.sleep(1000);
                 } catch (IOException | InterruptedException e) {
                     throw new RuntimeException(e);
                 }
             }
-
         }).start();
+
         // Read message type
-        while ((message = messages.take()) != null) {
+        while (true) {
+            message = messages.take();
             client.update(message);
         }
-
     }
 
 
@@ -110,6 +114,7 @@ public class SocketServerProxy implements VirtualServer {
     @Override
     public void welcomePlayer(VirtualView client) throws IOException {
         output.writeObject("welcomeplayer");
+        output.reset();
         output.flush();
     }
 
@@ -117,6 +122,7 @@ public class SocketServerProxy implements VirtualServer {
     public void receiveCommand(Command command) {
         try {
             output.writeObject(command);
+            output.reset();
             output.flush();
         } catch (IOException e) {
             //there is a Connection problem
@@ -136,12 +142,15 @@ public class SocketServerProxy implements VirtualServer {
 
     public void sendData(String s) throws IOException {
         output.writeObject(s);
+        output.reset();
         output.flush();
     }
 
     public void listenFromRemoteServer() throws IOException, ClassNotFoundException {
         while (true) {
+            //Message mess = (Message)input.readObject();
             messages.add((Message) input.readObject());
+
         }
     }
 }

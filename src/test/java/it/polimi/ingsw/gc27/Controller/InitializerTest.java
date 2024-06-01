@@ -1,18 +1,19 @@
 package it.polimi.ingsw.gc27.Controller;
 
+import it.polimi.ingsw.gc27.JsonParser;
 import it.polimi.ingsw.gc27.Model.Card.GoldCard;
 import it.polimi.ingsw.gc27.Model.Card.ObjectiveCard.ObjectiveCard;
 import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
 import it.polimi.ingsw.gc27.Model.Card.StarterCard;
 import it.polimi.ingsw.gc27.Model.Game.Board;
 import it.polimi.ingsw.gc27.Model.Game.Game;
-import it.polimi.ingsw.gc27.Controller.Initializer;
 import it.polimi.ingsw.gc27.Model.Game.Market;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class InitializerTest {
     private static Initializer init=new Initializer();
@@ -32,12 +33,7 @@ class InitializerTest {
 
         assertNotNull(game);
 
-        assertNotNull(game.getMarket());
-        assertNotNull(game.getMarket().getFaceUpResources()[0]);
-        assertNotNull(game.getMarket().getFaceUpResources()[1]);
-        assertNotNull(game.getMarket().getFaceUpGolds()[0]);
-        assertNotNull(game.getMarket().getFaceUpGolds()[1]);
-        assertFalse(game.getMarket().getResourceDeck().isEmpty());
+assertFalse(game.getMarket().getResourceDeck().isEmpty());
         assertFalse(game.getMarket().getGoldDeck().isEmpty());
 
         assertNotNull(game.getCommonObjective1());

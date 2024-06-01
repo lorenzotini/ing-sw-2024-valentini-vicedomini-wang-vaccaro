@@ -20,11 +20,12 @@ public class NewGameSceneController implements GenericController{
     @FXML
     public Button go;
     public Button backButton;
+    public CheckBox checkBox1;
     private String chosenButton;
 
 
     @FXML
-    public void sendLoginScene() throws IOException {
+    public void sendNumberOfPlayers() throws IOException {
         Gui.getInstance().stringFromSceneController(chosenButton);
         Gui.getInstance().switchScene( "/fxml/LoginScene.fxml");
 
@@ -34,6 +35,9 @@ public class NewGameSceneController implements GenericController{
     public void chooseNumber(ActionEvent event) {
         if(event.getSource().equals(checkBox2)){
             chosenButton="2";
+        }
+        else if(event.getSource().equals(checkBox1)){
+            chosenButton="1";
         }
         else if(event.getSource().equals(checkBox3)){
             chosenButton="3";
@@ -48,7 +52,14 @@ public class NewGameSceneController implements GenericController{
         Gui.getInstance().switchScene("/fxml/ChooseGameScene.fxml");
     }//TODO: DOES NOT WORK PROPERLY BECAUSE THE "NEW GAME" MESSAGE IS SENT ANYWAY
 
-    public void sendNumberOfPlayers(ActionEvent event) {
+    @Override
+    public void receiveOk(String ackType) {
+
+    }
+
+    @Override
+    public void receiveKo(String ackType) {
+
     }
     //TODO: POSSIBLE FIX, SEND THE "NEW GAME" OR "JOIN GAME" MESSAGE NOT IMMEDIATELY BUT AFTER INFORMATION ABOUT
     //TODO: NUMBER OF PLAYERS OR GAMEID IS COLLECTED

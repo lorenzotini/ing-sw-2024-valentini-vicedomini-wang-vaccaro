@@ -7,10 +7,7 @@ import it.polimi.ingsw.gc27.Model.Game.Board;
 import it.polimi.ingsw.gc27.Model.Game.Manuscript;
 import it.polimi.ingsw.gc27.Model.Game.Market;
 import it.polimi.ingsw.gc27.Net.VirtualView;
-import it.polimi.ingsw.gc27.View.GUI.ChooseGameSceneController;
-import it.polimi.ingsw.gc27.View.GUI.ChooseObjectiveSceneController;
-import it.polimi.ingsw.gc27.View.GUI.GenericController;
-import it.polimi.ingsw.gc27.View.GUI.PlaceStarterCardScene;
+import it.polimi.ingsw.gc27.View.GUI.*;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -44,12 +41,22 @@ public class Gui implements View {
     final String LOBBY = "/fxml/LobbyScene.fxml"; //scene number 5
     final String PLACESTARTER = "/fxml/PlaceStarterCardScene.fxml"; //scene number 5
     final String CHOOSEOBJ = "/fxml/ChooseObjectiveScene.fxml"; //scene number 5
+    final String ERROR = "/fxml/ErrorScene.fxml";
 
-
-    final ArrayList<String> paths = new ArrayList<>(Arrays.asList(STARTER, CHOSEGAME, NEWGAME, JOINGAME, LOGIN, PLACESTARTER, LOBBY, CHOOSEOBJ ));
+    final ArrayList<String> paths = new ArrayList<>(Arrays.asList(STARTER, CHOSEGAME, NEWGAME, JOINGAME, LOGIN, PLACESTARTER, LOBBY, CHOOSEOBJ, ERROR ));
 
     private final HashMap<String, Scene> pathSceneMap = new HashMap<>(); //maps path to scene
     private final HashMap<String, GenericController> pathContrMap = new HashMap<>(); //maps path to controller of the scene
+
+    public GenericController getCurrentController() {
+        return currentController;
+    }
+
+    public void setCurrentController(GenericController currentController) {
+        this.currentController = currentController;
+    }
+
+    private GenericController currentController;
 
     //setters and getters
     public Stage getStage() {
@@ -89,6 +96,7 @@ public class Gui implements View {
             GenericController contr = loader.getController();
             pathContrMap.put(path, contr);
         }
+        currentController=getControllerFromName(STARTER);
     }
 
     //start of the game after initialization
@@ -106,33 +114,88 @@ public class Gui implements View {
 
                 //una volta che arriva la notify allora cambia la scena
 
-                // set the starter cards
-//                ObjectiveCard objective1 = this.client.getMiniModel().getPlayer().getSecretObjectives().get(0);
-//                ObjectiveCard objective2 = this.client.getMiniModel().getPlayer().getSecretObjectives().get(1);
-//                ChooseObjectiveSceneController contrObj = (ChooseObjectiveSceneController) getControllerFromName(CHOOSEOBJ);
-//                contrObj.changeImageObj1(getClass().getResource(objective1.getFront().getImagePath()).toExternalForm());
-//                contrObj.changeImageObj2(getClass().getResource(objective2.getFront().getImagePath()).toExternalForm());
-//                switchScene("/fxml/ChooseObjectiveScene.fxml");
 
 
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         });
+//        StarterCard starter = null;
+//        try {
+//            starter = Gui.getInstance().getClient().getMiniModel().getPlayer().getStarterCard();
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+//        PlaceStarterCardScene contr = (PlaceStarterCardScene) Gui.getInstance().getControllerFromName("/fxml/PlaceStarterCardScene.fxml");
+//        //contr.changeImageFront(getClass().getResource(starter.getFront().getImagePath()).toExternalForm());
+//        contr.changeImageFront("file:" + starter.getFront().getImagePath());
+//        contr.changeImageFront("file:" + starter.getBack().getImagePath());
+//        //contr.changeImageBack(getClass().getResource(starter.getBack().getImagePath()).toExternalForm());
+//        Platform.runLater(()->{
+//            try {
+//                Gui.getInstance().switchScene("/fxml/PlaceStarterCardScene.fxml");
+//            } catch (IOException e) {
+//                throw new RuntimeException(e);
+//            }
+//        });
 
     }
 
     public void switchScene(String scenePath) throws IOException {
-        Scene scene = pathSceneMap.get(scenePath);
-        if (scene == null) {
+        Platform.runLater(()->{
+//            Task<Parent> task = new Task<>() {
+//                @Override
+//                protected Parent call() {
+//                    Parent p = null;
+//                    FXMLLoader loader = new FXMLLoader(getClass().getResource(scenePath));
+//                    try {
+//                        p = loader.load();
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//                    currentController = loader.getController();
+//                    System.out.println("\ncontroller");
+////                try {
+////                    boardController.setViewGUI(viewGUI);
+////                } catch (Exception e) {
+////                    e.printStackTrace();
+////                }
+//                    return p;
+//                }
+//            };
+//            new Thread(task).start();
+//                Parent finalParent = task.getValue();
+
+
             FXMLLoader loader = new FXMLLoader(getClass().getResource(scenePath));
-            Parent root = loader.load();
-            scene = new Scene(root);
-            pathSceneMap.put(scenePath, scene);
-            pathContrMap.put(scenePath, loader.getController());
-        }
-        stage.setScene(scene);
-        stage.show();
+            Parent root= null;
+            try {
+                root = loader.load();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            stage.setScene(pathSceneMap.get(scenePath));
+                //viewGUI.play();
+                stage.show();
+                currentController = getControllerFromName(scenePath);
+
+        });
+
+//        Scene scene = pathSceneMap.get(scenePath);
+//        //if (scene == null)
+//            FXMLLoader loader = new FXMLLoader(getClass().getResource(scenePath));
+//            Parent root = loader.load();
+//            //creo un trhead a parte per fare il load della scena ,un parent null dove glielo metto, nel mentre visualizzo ancora
+//            //la scena precedente, appena il thread ha finito il loading poi gli carico la nuova scena
+//            scene = new Scene(root);
+//            //pathSceneMap.put(scenePath, scene);
+//            //pathContrMap.put(scenePath, loader.getController());
+//            stage.setScene(scene);
+//            stage.show();
+//            currentController=loader.getController();
+
+
+
     }
 
     public GenericController getControllerFromName(String path) {
@@ -141,7 +204,7 @@ public class Gui implements View {
 
 
 
-    @Override
+
     public void welcomePlayer(VirtualView client) throws InterruptedException {
         // the message received when the game id is not found
         String gameNotFound = "\nGame not found. Please enter a valid game id or 'new' to start a new game";
@@ -243,8 +306,27 @@ public class Gui implements View {
         return mess;
     }
 
+
     public void stringFromSceneController(String string) {
         messages.add(string);
+    }
+
+    @Override
+    public void okAck(String string) {
+
+        currentController.receiveOk(string);
+
+
+            //notifies scene controllers
+            //changes scene
+
+    }
+
+    @Override
+    public void koAck(String string) {
+
+        currentController.receiveKo(string);
+        //error handler
     }
 
 

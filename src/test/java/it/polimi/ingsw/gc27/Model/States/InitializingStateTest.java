@@ -1,7 +1,7 @@
 package it.polimi.ingsw.gc27.Model.States;
 
 import it.polimi.ingsw.gc27.Controller.GameController;
-import it.polimi.ingsw.gc27.Controller.JsonParser;
+import it.polimi.ingsw.gc27.JsonParser;
 import it.polimi.ingsw.gc27.Model.Card.GoldCard;
 import it.polimi.ingsw.gc27.Model.Card.ObjectiveCard.ObjectiveCard;
 import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
@@ -11,8 +11,6 @@ import it.polimi.ingsw.gc27.Model.Game.*;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class InitializingStateTest {
     private static GameController gc1;

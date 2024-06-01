@@ -10,16 +10,14 @@ import it.polimi.ingsw.gc27.Model.Game.Game;
 import it.polimi.ingsw.gc27.Model.Game.Player;
 import it.polimi.ingsw.gc27.Model.MiniModel;
 
-import java.io.IOException;
 import java.io.Serializable;
-import java.rmi.RemoteException;
 
 //aggiungere state e setState in Game
 
 public abstract class PlayerState implements Serializable {
 
     protected Player player;
-    protected TurnHandler turnHandler;
+    protected transient TurnHandler turnHandler;
 
     public PlayerState(){
 
@@ -30,13 +28,26 @@ public abstract class PlayerState implements Serializable {
         this.turnHandler = turnHandler;
     }
 
-    public abstract void chooseObjectiveCard(Game game, int objectiveCardIndex) throws RemoteException;
+    public abstract void chooseObjectiveCard(Game game, int objectiveCardIndex);
 
-    public abstract void drawCard(Player player, boolean isGold, boolean fromDeck, int faceUpCardIndex) throws RemoteException;
+    public abstract void drawCard(Player player, boolean isGold, boolean fromDeck, int faceUpCardIndex);
 
-    public abstract void addCard(Game game, ResourceCard resourceCard, Face face, int x, int y) throws RemoteException;
+    public abstract void addCard(Game game, ResourceCard resourceCard, Face face, int x, int y);
 
-    public abstract void addStarterCard(Game game, StarterCard starterCard, Face face) throws IOException, InterruptedException;
+    public abstract void addStarterCard(Game game, StarterCard starterCard, Face face);
+
+    public void sendError(String str, Player player, TurnHandler turnHandler) {
+
+        MiniModel miniWithCurrentPlayer = new MiniModel(player);
+        Message errorMessage = new NotYourTurnMessage(str, miniWithCurrentPlayer);
+        turnHandler.getGame().notifyObservers(errorMessage);
+
+    }
+
+    @Override
+    public String toString() {
+        return this.getClass().getSimpleName();
+    }
 
     // getter and setter
     public Player getPlayer() {
@@ -45,14 +56,6 @@ public abstract class PlayerState implements Serializable {
 
     public TurnHandler getTurnHandler() {
         return turnHandler;
-    }
-
-    public void sendError(String str, Player player, TurnHandler turnHandler) throws RemoteException {
-
-        MiniModel miniWithCurrentPlayer = new MiniModel(player);
-        Message errorMessage = new NotYourTurnMessage(str, miniWithCurrentPlayer);
-        turnHandler.getGame().notifyObservers(errorMessage);
-
     }
 
 }

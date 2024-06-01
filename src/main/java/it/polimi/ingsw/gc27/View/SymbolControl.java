@@ -2,7 +2,7 @@ package it.polimi.ingsw.gc27.View;
 import it.polimi.ingsw.gc27.Model.Enumerations.CornerSymbol;
 
 
-public enum SymbolControl {
+public enum SymbolControl  {
     PLANT(ColourControl.GREEN + "PLT" + ColourControl.RESET, CornerSymbol.PLANTKINGDOM),
     INSECT(ColourControl.PURPLE + "INS" + ColourControl.RESET, CornerSymbol.INSECTKINGDOM),
     SHROOM(ColourControl.RED + "SHR" + ColourControl.RESET, CornerSymbol.FUNGIKINGDOM),

@@ -6,18 +6,22 @@ import it.polimi.ingsw.gc27.View.View;
 
 import java.rmi.RemoteException;
 
-public class UpdateHandMessage extends Message{
-    //this minimodel's class have player, hand and the string setted,
+public class UpdateHandMessage extends Message {
+    //this minimodel's class have player, hand and the string set,
     //player is the only one that has to receive the message
-    public UpdateHandMessage(MiniModel miniModel){
+    public UpdateHandMessage(MiniModel miniModel) {
         super(miniModel, "Your hand changed.");
     }
 
     @Override
-    public void reportUpdate(VirtualView client, View view) throws RemoteException {
-        client.getMiniModel().setHand(this.getMiniModel().getHand());
-        client.getMiniModel().setPlayer(this.getMiniModel().getPlayer());
-        view.showString(this.string);
-        view.show(client.getMiniModel().getHand());
+    public void reportUpdate(VirtualView client, View view) {
+        try {
+            client.getMiniModel().setHand(this.getMiniModel().getHand());
+            client.getMiniModel().setPlayer(this.getMiniModel().getPlayer());
+            view.showString(this.string);
+            view.show(client.getMiniModel().getHand());
+        }catch(RemoteException e){
+
+        }
     }
 }

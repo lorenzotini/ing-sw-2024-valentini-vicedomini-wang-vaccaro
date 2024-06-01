@@ -3,10 +3,7 @@ package it.polimi.ingsw.gc27.View.GUI;
 import it.polimi.ingsw.gc27.View.Gui;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 
@@ -22,5 +19,14 @@ public class StarterSceneController implements GenericController{
         Gui.getInstance().switchScene("/fxml/ChooseGameScene.fxml");
     }
 
+    @Override
+    public void receiveOk(String ackType) {
+
+    }
+
+    @Override
+    public void receiveKo(String ackType) {
+
+    }
 }
 

@@ -1,45 +1,38 @@
 package it.polimi.ingsw.gc27.Model.States;
 
 import it.polimi.ingsw.gc27.Controller.TurnHandler;
-import it.polimi.ingsw.gc27.Messages.Message;
-import it.polimi.ingsw.gc27.Messages.NotYourTurnMessage;
 import it.polimi.ingsw.gc27.Model.Card.Face;
 import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
 import it.polimi.ingsw.gc27.Model.Card.StarterCard;
 import it.polimi.ingsw.gc27.Model.Game.Game;
 import it.polimi.ingsw.gc27.Model.Game.Player;
-import it.polimi.ingsw.gc27.Model.MiniModel;
-
-import java.io.IOException;
-import java.rmi.RemoteException;
 
 public class WaitingState extends PlayerState {
 
     private final String waitText = "Patientiam forti est virtute, so please wait";
 
+    // Use this state to wait for other players to choose starter and objective cards
     public WaitingState(Player player, TurnHandler turnHandler) {
         super(player, turnHandler);
     }
 
     @Override
-    public void chooseObjectiveCard(Game game, int objectiveCardIndex) throws RemoteException {
-        MiniModel miniWithCurrentPlayer = new MiniModel(player);
-        Message errorMessage = new NotYourTurnMessage(waitText, miniWithCurrentPlayer);
-        turnHandler.getGame().notifyObservers(errorMessage);
-    }
-
-    @Override
-    public void drawCard(Player player, boolean isGold, boolean fromDeck, int faceUpCardIndex) throws RemoteException {
+    public void chooseObjectiveCard(Game game, int objectiveCardIndex) {
         super.sendError(waitText, getPlayer(), turnHandler);
     }
 
     @Override
-    public void addCard(Game game, ResourceCard resourceCard, Face face, int x, int y) throws RemoteException {
+    public void drawCard(Player player, boolean isGold, boolean fromDeck, int faceUpCardIndex) {
         super.sendError(waitText, getPlayer(), turnHandler);
     }
 
     @Override
-    public void addStarterCard(Game game, StarterCard starterCard, Face face) throws IOException, InterruptedException{
+    public void addCard(Game game, ResourceCard resourceCard, Face face, int x, int y) {
+        super.sendError(waitText, getPlayer(), turnHandler);
+    }
+
+    @Override
+    public void addStarterCard(Game game, StarterCard starterCard, Face face) {
         super.sendError(waitText, getPlayer(),turnHandler);
     }
 

@@ -1,27 +1,21 @@
 package it.polimi.ingsw.gc27.Model.Game;
 
-import it.polimi.ingsw.gc27.Messages.Message;
-import it.polimi.ingsw.gc27.Messages.UpdateBoardMessage;
-import it.polimi.ingsw.gc27.Model.Listener.Observable;
-import it.polimi.ingsw.gc27.Model.Listener.Observer;
-import it.polimi.ingsw.gc27.Model.MiniModel;
-
 import java.io.Serializable;
-import java.rmi.RemoteException;
 
 public class Board implements Serializable {
+
     private int pointsRedPlayer;
     private int pointsYellowPlayer;
     private int pointsGreenPlayer;
     private int pointsBluePlayer;
-    public final int END_GAME_THRESHOLD=20;
-    public final int MAX_POINTS=29;
+    public final static int END_GAME_THRESHOLD = 20;
+    public final static int MAX_POINTS = 29;
 
     public int getPointsRedPlayer() {
         return pointsRedPlayer;
     }
 
-    public void setPointsRedPlayer(int pointsRedPlayer) throws RemoteException {
+    public void setPointsRedPlayer(int pointsRedPlayer) {
         this.pointsRedPlayer = pointsRedPlayer;
 
     }
@@ -30,7 +24,7 @@ public class Board implements Serializable {
         return pointsYellowPlayer;
     }
 
-    public void setPointsYellowPlayer(int pointsYellowPlayer) throws RemoteException {
+    public void setPointsYellowPlayer(int pointsYellowPlayer) {
         this.pointsYellowPlayer = pointsYellowPlayer;
 
     }
@@ -39,7 +33,7 @@ public class Board implements Serializable {
         return pointsGreenPlayer;
     }
 
-    public void setPointsGreenPlayer(int pointsGreenPlayer) throws RemoteException {
+    public void setPointsGreenPlayer(int pointsGreenPlayer) {
         this.pointsGreenPlayer = pointsGreenPlayer;
 
     }
@@ -48,7 +42,7 @@ public class Board implements Serializable {
         return pointsBluePlayer;
     }
 
-    public void setPointsBluePlayer(int pointsBluePlayer) throws RemoteException {
+    public void setPointsBluePlayer(int pointsBluePlayer) {
         this.pointsBluePlayer = pointsBluePlayer;
 
     }

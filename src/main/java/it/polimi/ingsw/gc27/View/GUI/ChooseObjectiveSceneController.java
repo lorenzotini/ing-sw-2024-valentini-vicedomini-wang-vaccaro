@@ -36,4 +36,13 @@ public class ChooseObjectiveSceneController implements GenericController{
         obj2.setImage(image);
     }
 
+    @Override
+    public void receiveOk(String ackType) {
+
+    }
+
+    @Override
+    public void receiveKo(String ackType) {
+
+    }
 }

@@ -2,26 +2,18 @@ package it.polimi.ingsw.gc27.Controller;
 
 import it.polimi.ingsw.gc27.JsonParser;
 import it.polimi.ingsw.gc27.Model.Card.GoldCard;
-import it.polimi.ingsw.gc27.Model.Card.ObjectiveCard.*;
+import it.polimi.ingsw.gc27.Model.Card.ObjectiveCard.ObjectiveCard;
 import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
 import it.polimi.ingsw.gc27.Model.Card.StarterCard;
-import it.polimi.ingsw.gc27.Model.Enumerations.CornerSymbol;
-import it.polimi.ingsw.gc27.Model.Enumerations.Kingdom;
 import it.polimi.ingsw.gc27.Model.Enumerations.PawnColour;
-import it.polimi.ingsw.gc27.Game.*;
 import it.polimi.ingsw.gc27.Model.Game.*;
 import it.polimi.ingsw.gc27.Model.States.InitializingState;
 import it.polimi.ingsw.gc27.Model.States.PlayingState;
-import it.polimi.ingsw.gc27.View.Tui;
-
-import org.junit.Before;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
-import static it.polimi.ingsw.gc27.Model.Enumerations.Kingdom.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 

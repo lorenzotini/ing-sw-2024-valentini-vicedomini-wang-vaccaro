@@ -49,10 +49,22 @@ public class JoinGameSceneController implements GenericController{
 
 
     @Override
-    public void receiveOk() {
+    public void receiveOk(String ackType) {
+        Platform.runLater(() -> {
+            try {
+                // Cambia la scena qui
+                Gui.getInstance().switchScene("/fxml/LoginScene.fxml");
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+    }
+
+    @Override
+    public void receiveKo(String ackType) {
         Platform.runLater(()->{
             try {
-                Gui.getInstance().switchScene("/fxml/LoginGameScene.fxml");
+                Gui.getInstance().switchScene("/fxml/ErrorScene.fxml");
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

@@ -7,11 +7,12 @@
 
 <AnchorPane prefHeight="696.0" prefWidth="941.0" style="-fx-background-color: wheat;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.gc27.View.GUI.NewGameSceneController">
    <children>
-      <Label layoutX="144.0" layoutY="46.0" prefHeight="80.0" prefWidth="214.0" text="HOW MANY PLAYERS?" />
+      <Label layoutX="201.0" layoutY="30.0" prefHeight="80.0" prefWidth="214.0" text="HOW MANY PLAYERS?" />
       <CheckBox fx:id="checkBox2" layoutX="135.0" layoutY="126.0" mnemonicParsing="false" onAction="#chooseNumber" text="2" />
       <CheckBox fx:id="checkBox4" layoutX="135.0" layoutY="223.0" mnemonicParsing="false" onAction="#chooseNumber" text="4" />
       <CheckBox fx:id="checkBox3" layoutX="135.0" layoutY="172.0" mnemonicParsing="false" onAction="#chooseNumber" text="3" />
-      <Button fx:id="go" layoutX="428.0" layoutY="177.0" mnemonicParsing="false" onAction="#sendNumberOfPlayers" onMouseClicked="#sendNumberOfPlayers" text="GO" />
+      <Button fx:id="go" layoutX="428.0" layoutY="177.0" mnemonicParsing="false" onMouseClicked="#sendNumberOfPlayers" text="GO" />
       <Button fx:id="backButton" layoutX="92.0" layoutY="572.0" mnemonicParsing="false" onAction="#previousScene" text="BACK" />
+      <CheckBox fx:id="checkBox1" layoutX="135.0" layoutY="85.0" mnemonicParsing="false" onAction="#chooseNumber" text="1" />
    </children>
 </AnchorPane>

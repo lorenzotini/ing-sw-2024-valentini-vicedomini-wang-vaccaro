@@ -283,10 +283,10 @@ public class Tui implements View {
     }
 
     @Override
-    public void okAck() {}
+    public void okAck(String string) {}
 
     @Override
-    public void koAck() {}
+    public void koAck(String string) {}
 
 
     private static Queue<String> fromFaceToCliCard(Face face) throws Exception {

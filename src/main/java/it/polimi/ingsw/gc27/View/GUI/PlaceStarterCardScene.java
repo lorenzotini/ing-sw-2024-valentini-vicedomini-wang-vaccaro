@@ -23,6 +23,23 @@ public class PlaceStarterCardScene implements GenericController{
     @FXML
     public Button backStarterButton;
 
+//    @FXML
+//    public void initialize() throws RemoteException {
+//        Platform.runLater(()->{
+//            StarterCard starter = null;
+//            try {
+//                starter = Gui.getInstance().getClient().getMiniModel().getPlayer().getStarterCard();
+//            } catch (RemoteException e) {
+//                throw new RuntimeException(e);
+//            }
+//            PlaceStarterCardScene contr = (PlaceStarterCardScene) Gui.getInstance().getControllerFromName("/fxml/PlaceStarterCardScene.fxml");
+//            contr.changeImageFront(getClass().getResource(starter.getFront().getImagePath()).toExternalForm());
+//            contr.changeImageBack(getClass().getResource(starter.getBack().getImagePath()).toExternalForm());
+//        });
+//
+//        //changeImageFront(Gui.getInstance().getClient().getMiniModel().getPlayer().getStarterCard().getFront().getImagePath());
+//    }
+
     @FXML
     public void sendStarter(ActionEvent event) throws IOException, InterruptedException {
         if(event.getSource().equals(frontStarterButton)){
@@ -46,4 +63,13 @@ public class PlaceStarterCardScene implements GenericController{
         backStarter.setImage(image);
     }
 
+    @Override
+    public void receiveOk(String ackType) {
+
+    }
+
+    @Override
+    public void receiveKo(String ackType) {
+
+    }
 }

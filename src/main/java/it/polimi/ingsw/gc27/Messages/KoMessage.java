@@ -11,7 +11,7 @@ public class KoMessage extends Message{
     }
 
     @Override
-    public void reportUpdate(VirtualView client, View view) throws RemoteException {
-        view.koAck();
+    public void reportUpdate(VirtualView client, View view) {
+        view.koAck(this.string);
     }
 }

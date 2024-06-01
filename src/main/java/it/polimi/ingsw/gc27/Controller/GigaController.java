@@ -1,8 +1,6 @@
 package it.polimi.ingsw.gc27.Controller;
 
-import it.polimi.ingsw.gc27.Messages.ClosedGameForNoOneLeftMessage;
-import it.polimi.ingsw.gc27.Messages.Message;
-import it.polimi.ingsw.gc27.Messages.UpdateStartOfGameMessage;
+import it.polimi.ingsw.gc27.Messages.*;
 import it.polimi.ingsw.gc27.Model.Game.Game;
 import it.polimi.ingsw.gc27.Model.Game.Player;
 import it.polimi.ingsw.gc27.Net.Commands.Command;
@@ -70,6 +68,7 @@ public class GigaController {
                     break;
                 } catch (NumberFormatException e) {
                     client.show("\nInvalid input. Please enter a valid game id or 'new' to start a new game");
+                    client.update(new KoMessage("invalidFormat"));
                 }
             }
         }
@@ -87,7 +86,7 @@ public class GigaController {
                 GameController gc = null;
                 synchronized (gameControllers){
                     for (var control : gameControllers) {
-                        if (control.getId() == Integer.parseInt(game)) {
+                        if (control.getId() == gameId) {
                             gc = control;
                         }
                     }
@@ -98,6 +97,7 @@ public class GigaController {
                 // TODO non so se è meglio togliere questa show
                 if(gc!= null) {
                     client.show("\nJoining game " + game + "...");
+                    client.update(new OkMessage("validID"));
                     synchronized (gc.getGame().getPlayers()) {
 
                         if (gc.getGame().getNumActualPlayers() < gc.getNumMaxPlayers()) { // game not full, can join
@@ -135,15 +135,16 @@ public class GigaController {
                         return;
                     }
                 }
+                else {
+                    client.show("\nGame not found. Please enter a valid game id or 'new' to start a new game");
+                    client.update(new KoMessage("invalidID"));
+                    game = client.read();
 
-                client.show("\nGame not found. Please enter a valid game id or 'new' to start a new game");
-                game = client.read();
-
-                if (game.equalsIgnoreCase("new")) {
-                    createNewGame(client);
-                    return;
+                    if (game.equalsIgnoreCase("new")) {
+                        createNewGame(client);
+                        return;
+                    }
                 }
-
             } while (true);
 
         }

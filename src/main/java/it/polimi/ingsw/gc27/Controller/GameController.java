@@ -111,13 +111,13 @@ public class GameController implements Serializable {
         boolean flag = false;
         do {
             if(flag){
-                client.update(new KoMessage("KO"));
+                client.update(new KoMessage("invalidUsername"));
             }
             client.show("\nChoose your username: ");
             username = client.read();
             flag = true;
         } while (!gigaChad.validUsername(username, client));
-        client.update(new OkMessage("OK"));
+        client.update(new OkMessage("validUsername"));
 
 
         // Ask for the pawn color
@@ -131,6 +131,7 @@ public class GameController implements Serializable {
                 pawnColor = client.read();
             } while (!game.validPawn(pawnColor));
             game.getAvailablePawns().remove(PawnColour.fromStringToPawnColour(pawnColor));
+            //todo: far visualizzare solo i PawnColour disponibili nella gui
         }
 
 
@@ -161,6 +162,7 @@ public class GameController implements Serializable {
                 player.setPlayerState(new InitializingState(player, this.turnHandler));
                 game.notifyObservers(new UpdateStartOfGameMessage(new MiniModel(player, game.getMarket(), game.getBoard()), player.getUsername()));
             }
+            client.update(new OkMessage("thegamecanstart")); //for gui
         }
 
     }

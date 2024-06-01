@@ -12,7 +12,7 @@ public class OkMessage extends Message{
     }
 
     @Override
-    public void reportUpdate(VirtualView client, View view) throws RemoteException {
+    public void reportUpdate(VirtualView client, View view) {
         view.okAck(this.string);
     }
 }

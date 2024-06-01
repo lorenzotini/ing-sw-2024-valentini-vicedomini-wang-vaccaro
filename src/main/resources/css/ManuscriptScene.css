@@ -1,0 +1,14 @@
+.manuscriptCard {
+    /*-fx-image: url("../Images/cards/card1_back.png");*/
+
+    /*-fx-border-radius: 25px;*/
+}
+
+.gridpane{
+    -fx-background-color: #000000;
+    -fx-alignment: centre;
+}
+
+.rettangolo{
+
+}

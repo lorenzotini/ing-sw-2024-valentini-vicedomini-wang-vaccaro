@@ -1,4 +1,13 @@
+
 .anchorpane{
     -fx-background-image: url("../Images/utility/background2.png");
     -fx-background-size: cover;
 }
+
+.customlabel{
+    -fx-image: url("../Images/utility/customlabel.png");
+}
+
+
+
+

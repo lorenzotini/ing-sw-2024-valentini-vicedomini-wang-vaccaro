@@ -1,6 +1,7 @@
 package it.polimi.ingsw.gc27.Net.Socket;
 
 import it.polimi.ingsw.gc27.Messages.Message;
+import it.polimi.ingsw.gc27.Messages.PingMessage;
 import it.polimi.ingsw.gc27.Messages.StringMessage;
 import it.polimi.ingsw.gc27.Net.Commands.Command;
 import it.polimi.ingsw.gc27.Net.Commands.PingCommand;
@@ -18,17 +19,14 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 public class SocketServerProxy implements VirtualServer {
 
-    final BlockingQueue<String> commands = new LinkedBlockingQueue<>();
     final BlockingQueue<Message> messages = new LinkedBlockingQueue<>();
-    final BlockingQueue<String> messageString = new LinkedBlockingQueue<>();
     final VirtualView client;
     Socket serverSocket;
-    boolean flag = true;
     ObjectInputStream input;
-    ;
+    float lastPingFromServer = 0;
     ObjectOutputStream output;
 
-    public SocketServerProxy(VirtualView client, String ipAddress, int port) {
+    public SocketServerProxy(VirtualView client, String ipAddress, int port) throws InterruptedException{
         this.client = client;
 
         try {
@@ -76,7 +74,29 @@ public class SocketServerProxy implements VirtualServer {
             }
 
         }).start();
+        new Thread(this::checkServerIsAlive).start();
+    }
 
+    private void checkServerIsAlive()  {
+        if(this.lastPingFromServer == 0){
+            this.lastPingFromServer = System.currentTimeMillis();
+        }
+        while(true){
+            if((System.currentTimeMillis() - this.lastPingFromServer) >10000) {
+                System.out.println("The connection has been lost, please restart the game");
+                try {
+                    client.close();
+                }catch(RemoteException e){
+
+                }
+            }
+
+            try {
+                Thread.sleep(1000);
+            }catch(InterruptedException e){
+                //TODO find a thing to do
+            }
+        }
     }
 
     private void runVirtualServer() throws IOException, InterruptedException {
@@ -149,8 +169,13 @@ public class SocketServerProxy implements VirtualServer {
     public void listenFromRemoteServer() throws IOException, ClassNotFoundException {
         while (true) {
             //Message mess = (Message)input.readObject();
-            messages.add((Message) input.readObject());
-
+            Message mess =(Message) input.readObject();
+            if(mess instanceof PingMessage){
+                this.lastPingFromServer = System.currentTimeMillis();
+            }
+            else{
+                messages.add(mess);
+            }
         }
     }
 }

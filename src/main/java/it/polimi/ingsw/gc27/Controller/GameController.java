@@ -107,11 +107,12 @@ public class GameController implements Serializable {
         Manuscript manuscript = new Manuscript();
 
         // Ask for the username
+
+
         do {
             client.show("\nChoose your username: ");
             username = client.read();
         } while (!gigaChad.validUsername(username, client));
-
 
         // Ask for the pawn color
         synchronized (game.getAvailablePawns()) {
@@ -185,7 +186,7 @@ public class GameController implements Serializable {
                     //TODO eventuale non so se va gestito
                 }
             }
-            System.out.println("E' stato chiuso questo thread" );
+            System.out.println("E' stato chiuso questo thread");
         }).start();
     }
 
@@ -193,7 +194,7 @@ public class GameController implements Serializable {
         return getGame().getPlayer(username);
     }
 
-    public void suspendGame()  {
+    public void suspendGame() {
         Command command = null;
         suspended = true;
 
@@ -216,16 +217,16 @@ public class GameController implements Serializable {
         System.out.println("the game has been suspended");
         game.notifyObservers(new SuspendedGameMessage("The game has been suspended"));
         do {
-            try{
+            try {
                 command = commands.take();
-            }catch (InterruptedException e ){
+            } catch (InterruptedException e) {
 
             }
 
-            synchronized (this){
+            synchronized (this) {
                 if (command instanceof ReconnectPlayerCommand) {
                     command.execute(this);
-                    if(!game.isSuspended()){
+                    if (!game.isSuspended()) {
                         suspended = false;
                     }
 

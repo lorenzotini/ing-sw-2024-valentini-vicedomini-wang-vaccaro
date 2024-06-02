@@ -31,7 +31,7 @@ public class ClientHandler implements VirtualView {
     final GigaController console;
     final SocketServer server;
     final Socket socketClient;
-    private boolean disconnected;
+    private boolean disconnected = false;
     // is for the command received
 
 
@@ -48,8 +48,13 @@ public class ClientHandler implements VirtualView {
             try {
                 String message = (String) input.readObject();
                 if (message.equals("welcomeplayer")) {
-                    console.welcomePlayer(this);
-                    verifyPing();
+                    try{
+
+                        console.welcomePlayer(this);
+                        verifyPing();
+                    }catch(IOException e){
+                        disconnected();
+                    }
                 }
             } catch (ClassNotFoundException | InterruptedException | IOException e) {
                 throw new RuntimeException(e);
@@ -70,7 +75,13 @@ public class ClientHandler implements VirtualView {
                 }
             }
         }).start();
-
+        new Thread(() ->{
+            try{
+                pingFromServer();
+            }catch(RemoteException e){
+                System.out.println("remote exception lol xd");
+            }
+        }).start();
     }
 
 
@@ -139,7 +150,7 @@ public class ClientHandler implements VirtualView {
     }
 
     @Override
-    public void update(Message message) {
+    public synchronized void update(Message message) {
         try {
             output.writeObject(message);
             output.reset();
@@ -152,6 +163,18 @@ public class ClientHandler implements VirtualView {
     @Override
     public void close() {
 
+    }
+
+    @Override
+    public void pingFromServer() throws RemoteException {
+        while(!disconnected){
+            update(new PingMessage(""));
+            try{
+                Thread.sleep(5000);
+            }catch(InterruptedException e){
+
+            }
+        }
     }
 
     private void verifyPing() throws InterruptedException {
@@ -184,7 +207,7 @@ public class ClientHandler implements VirtualView {
         }).start();
     }
 
-    public synchronized void disconnected() {
+    public void disconnected() {
         //console.disconnected(this.player);
 
         if (!disconnected) {

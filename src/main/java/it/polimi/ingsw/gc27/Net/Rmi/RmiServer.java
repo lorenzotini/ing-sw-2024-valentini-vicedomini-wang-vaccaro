@@ -65,6 +65,12 @@ public class RmiServer implements VirtualServer {
                         iterator.remove();
                         console.removeReferences(client);
                     }
+                    try{
+                        client.pingFromServer();
+                    }catch (RemoteException e){
+                        iterator.remove();
+                        console.removeReferences(client);
+                    }
                 }
             }
 

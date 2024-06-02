@@ -23,7 +23,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
     private final MiniModel miniModel;
     private final BlockingQueue<Message> messages = new LinkedBlockingQueue<>();
     private String username = "";
-    private long lastPing = 0;
+    private long lastPingFromServer = 0 ;
 
     public RmiClient(String ipAddress, int port, View view) throws IOException, NotBoundException, InterruptedException {
         Registry registry = LocateRegistry.getRegistry(ipAddress, port);
@@ -66,7 +66,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
     public void runClient() throws IOException, InterruptedException {
 
         this.server.connect(this);
-
+        new Thread(this :: checkServerIsAlive).start();
         //keep the client alive
         new Thread(() -> {
             while (true) {
@@ -100,6 +100,23 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
         view.run();
     }
 
+    private void checkServerIsAlive()  {
+        if(this.lastPingFromServer == 0){
+            this.lastPingFromServer = System.currentTimeMillis();
+        }
+        while(true){
+            if((System.currentTimeMillis() - this.lastPingFromServer) >10000){
+                System.out.println("The connection has been lost, please restart the game");
+                close();
+            }
+            try {
+                Thread.sleep(1000);
+            }catch(InterruptedException e){
+                //TODO find a thing to do
+            }
+        }
+    }
+
     @Override
     public String getUsername() throws RemoteException {
         return this.getMiniModel().getPlayer().getUsername();
@@ -112,5 +129,9 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
     @Override
     public void close(){
         System.exit(0);
+    }
+    @Override
+    public void pingFromServer(){
+        this.lastPingFromServer = System.currentTimeMillis();
     }
 }

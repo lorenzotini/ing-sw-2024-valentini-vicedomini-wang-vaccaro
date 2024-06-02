@@ -50,7 +50,7 @@ public class SocketClient implements VirtualView {
 
     @Override
     public MiniModel getMiniModel() {
-            return new MiniModel().copy(this.miniModel);
+            return this.miniModel;
     }
 
 
@@ -90,5 +90,10 @@ public class SocketClient implements VirtualView {
     @Override
     public void close(){
         System.exit(0);
+    }
+
+    @Override
+    public void pingFromServer() throws RemoteException {
+
     }
 }

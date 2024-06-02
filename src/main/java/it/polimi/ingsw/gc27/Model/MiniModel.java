@@ -18,13 +18,9 @@ public class MiniModel implements Serializable {
     public String currentPlayer;
     private ArrayList<String> otherPlayerUsername = new ArrayList<>();
     final private ArrayList<Chat> chat = new ArrayList<>();
-    public ArrayList<Chat> getChat() {
-        return chat;
-    }
-
 
     // used when update the players manuscript
-    public MiniModel(Player player, Manuscript manuscript){
+    public MiniModel(Player player, Manuscript manuscript) {
         this.manuscript = manuscript;
         this.board = null;
         this.market = null;
@@ -34,7 +30,7 @@ public class MiniModel implements Serializable {
     }
 
     // used when update the players objectiveCard
-    public MiniModel(Player player, ObjectiveCard objectiveCard){
+    public MiniModel(Player player, ObjectiveCard objectiveCard) {
         this.manuscript = null;
         this.board = null;
         this.market = null;
@@ -44,7 +40,7 @@ public class MiniModel implements Serializable {
     }
 
     // used when the board update, so when points are added to a player's score
-    public MiniModel(Board board){
+    public MiniModel(Board board) {
         this.manuscript = null;
         this.board = board;
         this.market = null;
@@ -54,7 +50,7 @@ public class MiniModel implements Serializable {
     }
 
     //used when the player's hand updates
-    public MiniModel(Player player, ArrayList<ResourceCard> hand){
+    public MiniModel(Player player, ArrayList<ResourceCard> hand) {
         this.manuscript = null;
         this.board = null;
         this.market = null;
@@ -64,7 +60,7 @@ public class MiniModel implements Serializable {
     }
 
     //used when the market is being updated
-    public MiniModel(Market market){
+    public MiniModel(Market market) {
         this.manuscript = null;
         this.board = null;
         this.market = market;
@@ -74,7 +70,7 @@ public class MiniModel implements Serializable {
     }
 
     //
-    public MiniModel(Game game){
+    public MiniModel(Game game) {
         this.manuscript = null;
         this.board = game.getBoard();
         this.market = game.getMarket();
@@ -103,7 +99,7 @@ public class MiniModel implements Serializable {
         this.currentPlayer = null;
     }
 
-    public MiniModel(Player player, Market market, Board board){
+    public MiniModel(Player player, Market market, Board board) {
         this.manuscript = player.getManuscript();
         this.board = board;
         this.market = market;
@@ -112,7 +108,7 @@ public class MiniModel implements Serializable {
         this.currentPlayer = null;
     }
 
-    public MiniModel(Player player, Market market, Board board, ArrayList<Chat> chats){
+    public MiniModel(Player player, Market market, Board board, ArrayList<Chat> chats) {
         this.manuscript = player.getManuscript();
         this.board = board;
         this.market = market;
@@ -121,7 +117,8 @@ public class MiniModel implements Serializable {
         this.currentPlayer = null;
         this.chat.addAll(chats);
     }
-    public MiniModel(Player player, Game game){
+
+    public MiniModel(Player player, Game game) {
         this.manuscript = player.getManuscript();
         this.board = game.getBoard();
         this.market = game.getMarket();
@@ -130,12 +127,12 @@ public class MiniModel implements Serializable {
         this.currentPlayer = player.getUsername();
         this.chat.addAll(game.getChats(player));
         this.otherPlayerUsername.addAll(game.getPlayers().stream()
-                        .map(Player::getUsername)
-                        .filter(username -> !username.equals(player.getUsername()))
-                        .collect(Collectors.toCollection(ArrayList<String>::new )));
+                .map(Player::getUsername)
+                .filter(username -> !username.equals(player.getUsername()))
+                .collect(Collectors.toCollection(ArrayList<String>::new)));
     }
 
-    public MiniModel(){
+    public MiniModel() {
         this.manuscript = null;
         this.board = null;
         this.market = null;
@@ -143,7 +140,8 @@ public class MiniModel implements Serializable {
         this.hand = null;
         this.currentPlayer = null;
     }
-    public MiniModel(Chat chat,Player player, String receiver){
+
+    public MiniModel(Chat chat, Player player, String receiver) {
         this.manuscript = null;
         this.board = null;
         this.market = null;
@@ -152,56 +150,58 @@ public class MiniModel implements Serializable {
         this.currentPlayer = receiver;
         this.chat.add(chat);
     }
-    public MiniModel(Chat chat){
+
+    public MiniModel(Chat chat) {
         this.manuscript = null;
         this.board = null;
         this.market = null;
         this.player = null;
         this.hand = null;
-        this.currentPlayer =null;
+        this.currentPlayer = null;
         this.chat.add(chat);
     }
 
-    public  Player getPlayer() {
+    public synchronized Player getPlayer() {
         return player;
     }
 
-    public  Market getMarket() {
+    public synchronized Market getMarket() {
         return market;
     }
 
-    public  Board getBoard() {
+    public synchronized Board getBoard() {
         return board;
     }
 
-    public  Manuscript getManuscript() {
+    public synchronized Manuscript getManuscript() {
         return manuscript;
     }
 
-    public  ArrayList<ResourceCard> getHand() {
+    public synchronized ArrayList<ResourceCard> getHand() {
         return hand;
     }
-    public  void setHand(ArrayList<ResourceCard> hand) {
+
+    public synchronized void setHand(ArrayList<ResourceCard> hand) {
         this.hand = hand;
     }
 
-    public  void setManuscript(Manuscript manuscript) {
+    public synchronized void setManuscript(Manuscript manuscript) {
         this.manuscript = manuscript;
     }
 
-    public  void setMarket(Market market) {
+    public synchronized void setMarket(Market market) {
         this.market = market;
     }
 
-    public  void setBoard(Board board) {
+    public synchronized void setBoard(Board board) {
         this.board = board;
     }
 
-    public  void setPlayer(Player player) {
+    public synchronized void setPlayer(Player player) {
         this.player = player;
     }
 
-    public  MiniModel copy(MiniModel miniModel){
+    public synchronized void copy(MiniModel miniModel) {
 
         this.manuscript = miniModel.manuscript;
         this.board = miniModel.board;
@@ -210,13 +210,13 @@ public class MiniModel implements Serializable {
         this.hand = miniModel.hand;
         this.chat.addAll(miniModel.chat);
         this.otherPlayerUsername.addAll(miniModel.otherPlayerUsername);
-        return this;
+
     }
 
-    public  Chat getChat(ArrayList<Player> chatters) {
-        boolean flag ;
-        for(Chat chat : this.chat) {
-            if(chat.getChatters().size()>2) {
+    public synchronized Chat getChat(ArrayList<Player> chatters) {
+        boolean flag;
+        for (Chat chat : this.chat) {
+            if (chat.getChatters().size() > 2) {
 
                 flag = true;
                 for (Player p : chatters) {
@@ -232,16 +232,20 @@ public class MiniModel implements Serializable {
         }
         return null;
     }
-    public  ArrayList<String> getOtherPlayerUsername() {
+
+    public synchronized ArrayList<String> getOtherPlayerUsername() {
         return otherPlayerUsername;
     }
 
 
-    public  boolean chekOtherUsername(String user){ //verifichi che la stringa passata sia l'username di un altro giocatore
-        if(otherPlayerUsername.contains(user)){
+    public synchronized boolean chekOtherUsername(String user) { //verifichi che la stringa passata sia l'username di un altro giocatore
+        if (otherPlayerUsername.contains(user)) {
             return true;
         }
         return false;
+    }
+    public synchronized ArrayList<Chat> getChat() {
+        return chat;
     }
 }
 

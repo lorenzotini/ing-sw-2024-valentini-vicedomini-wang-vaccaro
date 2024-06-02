@@ -189,11 +189,11 @@ public class Game implements Serializable {
     public ArrayList<Chat> getChats(Player player){
         ArrayList<Chat> chats = new ArrayList<>();
         chats.add(this.generalChat);
-        System.out.println("aggiunta chat globale");
+        //System.out.println("aggiunta chat globale");
         for(Pair<Player , Player> p : chatMap.keySet()){
             if(p.getKey().getUsername().equals(player.getUsername())){
                 chats.add(chatMap.get(p));
-                System.out.println("aggiunta chat singola");
+            //    System.out.println("aggiunta chat singola");
             }
         }
         return chats;

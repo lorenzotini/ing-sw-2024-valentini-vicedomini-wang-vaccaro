@@ -16,6 +16,6 @@
       <VBox fx:id="counters" layoutX="29.0" layoutY="536.0" prefHeight="154.0" prefWidth="133.0" />
       <HBox fx:id="marketResources" layoutX="50.0" layoutY="102.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="50.0" prefWidth="225.0" spacing="10.0" />
       <HBox fx:id="marketGolds" layoutX="50.0" layoutY="33.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="50.0" prefWidth="225.0" spacing="10.0" />
-      <VBox fx:id="commonObjectives" layoutX="1000.0" layoutY="14.0" prefHeight="200.0" prefWidth="150.0" spacing="10.0" />
+      <VBox fx:id="commonObjectives" alignment="TOP_CENTER" layoutX="1050.0" layoutY="14.0" prefHeight="200.0" prefWidth="180.0" spacing="10.0" />
    </children>
 </AnchorPane>

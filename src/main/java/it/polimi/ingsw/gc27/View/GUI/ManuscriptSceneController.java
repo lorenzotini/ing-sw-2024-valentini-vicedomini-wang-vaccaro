@@ -119,7 +119,7 @@ public class ManuscriptSceneController implements GenericController {
             handCard.setFitHeight(100);
             handCard.setFitWidth(150);
             handleDragDetected(handCard);
-            zoomCardOnHover(handCard);
+            zoomCardOnHover(handCard, 1.3);
             handCards.getChildren().add(handCard);
         }
 
@@ -133,7 +133,7 @@ public class ManuscriptSceneController implements GenericController {
             resourceDeckCard.setFitHeight(50);
             resourceDeckCard.setFitWidth(75);
             handleDragDetected(resourceDeckCard);
-            zoomCardOnHover(resourceDeckCard);
+            zoomCardOnHover(resourceDeckCard, 2.5);
             resourceDeckStackPane.getChildren().add(resourceDeckCard);
         }
         marketResources.getChildren().add(resourceDeckStackPane);
@@ -145,7 +145,7 @@ public class ManuscriptSceneController implements GenericController {
             goldDeckCard.setFitHeight(50);
             goldDeckCard.setFitWidth(75);
             handleDragDetected(goldDeckCard);
-            zoomCardOnHover(goldDeckCard);
+            zoomCardOnHover(goldDeckCard, 2.5);
             goldDeckStackPane.getChildren().add(goldDeckCard);
         }
         marketGolds.getChildren().add(goldDeckStackPane);
@@ -156,14 +156,14 @@ public class ManuscriptSceneController implements GenericController {
             marketResource.setFitHeight(50);
             marketResource.setFitWidth(75);
             handleDragDetected(marketResource);
-            zoomCardOnHover(marketResource);
+            zoomCardOnHover(marketResource, 2.5);
             marketResources.getChildren().add(marketResource);
             // golds
             ImageView marketGold = new ImageView(new Image(deckGold.get(i).getFront().getImagePath()));
             marketGold.setFitHeight(50);
             marketGold.setFitWidth(75);
             handleDragDetected(marketGold);
-            zoomCardOnHover(marketGold);
+            zoomCardOnHover(marketGold, 2.5);
             marketGolds.getChildren().add(marketGold);
         }
 
@@ -172,7 +172,7 @@ public class ManuscriptSceneController implements GenericController {
             ImageView commonObjective = new ImageView(new Image(deckobjective.get(i).getFront().getImagePath()));
             commonObjective.setFitHeight(100);
             commonObjective.setFitWidth(150);
-            zoomCardOnHover(commonObjective);
+            zoomCardOnHover(commonObjective, 1.2);
             commonObjectives.getChildren().add(commonObjective);
         }
 
@@ -229,12 +229,10 @@ public class ManuscriptSceneController implements GenericController {
 
     }
 
-    void zoomCardOnHover(ImageView imgView){
+    void zoomCardOnHover(ImageView imgView, double factor){
 
         double originalHeight = imgView.getFitHeight();
         double originalWidth = imgView.getFitWidth();
-
-        double factor = 1.5 + (100-originalHeight)/originalHeight;
 
         imgView.setOnMouseEntered(event -> {
             imgView.setFitHeight(originalHeight*factor);

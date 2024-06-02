@@ -68,7 +68,7 @@ public class Tui implements View {
 
                 case "addstarter":
 
-                    if(!checkState(InitializingState.class)){
+                    if (!checkState(InitializingState.class)) {
                         break;
                     }
 
@@ -96,7 +96,7 @@ public class Tui implements View {
 
                 case "chooseobj":
 
-                    if(!checkState(ChooseObjectiveState.class)){
+                    if (!checkState(ChooseObjectiveState.class)) {
                         break;
                     }
 
@@ -127,7 +127,7 @@ public class Tui implements View {
                 // TODO creare una soluzione intelligente per gestire gli input di addcard, con while true e try catch vari
                 case "addcard":
 
-                    if(!checkState(PlayingState.class)){
+                    if (!checkState(PlayingState.class)) {
                         break;
                     }
                     out.println(showManuscript(client.getMiniModel().getManuscript()));
@@ -152,7 +152,7 @@ public class Tui implements View {
 
                 case "draw":
 
-                    if(!checkState(DrawingState.class)){
+                    if (!checkState(DrawingState.class)) {
                         break;
                     }
 
@@ -198,25 +198,24 @@ public class Tui implements View {
                         }
                         out.println("Choose one");
                         receiver = scan.nextLine();
-//                        if (receiver.equals("\n") || receiver.equals("")) {
-//                            receiver = scan.nextLine();
-//                            break;
-//                        }
-                        f = true;
-                        for (String u : client.getMiniModel().getOtherPlayerUsername()) {
-                            if (!u.equals(receiver)) {
-                                f = false;
-                            }
+                        if (receiver.equals("\n") || receiver.equals("")) {
+                            receiver = scan.nextLine();
+                            break;
                         }
-                    }while(!f);
+                        f = false;
+
+                        if (client.getMiniModel().chekOtherUsername(receiver)) {
+                            f = true;
+                        }
+
+                    } while (!f);
                     out.println("\n" + "content:");
                     String mess = scan.nextLine();
-                    if(mess.equals("\n") || mess.equals("")){
+                    if (mess.equals("\n") || mess.equals("")) {
                         mess = scan.nextLine();
                         break;
-                    }
-                    else{
-                        client.sendCommand(new SendMessageCommand(client.getMiniModel().getPlayer(), receiver, mess ));
+                    } else {
+                        client.sendCommand(new SendMessageCommand(client.getMiniModel().getPlayer(), receiver, mess));
                     }
                     break;
                 default:
@@ -240,7 +239,7 @@ public class Tui implements View {
     }
 
     @Override
-    public void setClient(VirtualView client){
+    public void setClient(VirtualView client) {
         this.client = client;
     }
 

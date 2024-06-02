@@ -50,7 +50,7 @@ public class SocketClient implements VirtualView {
 
     @Override
     public MiniModel getMiniModel() {
-        return this.miniModel;
+            return new MiniModel().copy(this.miniModel);
     }
 
 
@@ -85,7 +85,7 @@ public class SocketClient implements VirtualView {
 
     @Override
     public void update(Message message) {
-        message.reportUpdate(this, this.view);
+            message.reportUpdate(this, this.view);
     }
     @Override
     public void close(){

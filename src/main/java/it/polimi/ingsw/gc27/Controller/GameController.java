@@ -30,7 +30,7 @@ public class GameController implements Serializable {
     private int id;
     private final BlockingQueue<Command> commands = new LinkedBlockingQueue<>();
     private GigaController console;
-
+    private boolean inMatch;
     long time;
 
     public GameController(Game game) {
@@ -45,6 +45,7 @@ public class GameController implements Serializable {
         this.numMaxPlayers = numMaxPlayers;
         this.id = id;
         this.console = console;
+        this.inMatch = true;
     }
 
     public Game getGame() {
@@ -150,7 +151,7 @@ public class GameController implements Serializable {
             this.turnHandler = new TurnHandler(this.game);
             for (Player player : game.getPlayers()) {
                 player.setPlayerState(new InitializingState(player, this.turnHandler));
-                game.notifyObservers(new UpdateStartOfGameMessage(new MiniModel(player, game.getMarket(), game.getBoard()), player.getUsername()));
+                game.notifyObservers(new UpdateStartOfGameMessage(new MiniModel(player, game), ""));
             }
         }
 
@@ -177,13 +178,14 @@ public class GameController implements Serializable {
     public void executeCommands() {
 
         new Thread(() -> {
-            while (this != null) {
+            while (inMatch) {
                 try {
                     commands.take().execute(this);
                 } catch (InterruptedException e) {
                     //TODO eventuale non so se va gestito
                 }
             }
+            System.out.println("E' stato chiuso questo thread" );
         }).start();
     }
 
@@ -201,9 +203,10 @@ public class GameController implements Serializable {
                 long timeConfront = System.currentTimeMillis();
                 synchronized (this) {
 
-                    if (timeConfront - time > 60000) {
+                    if (timeConfront - time > 30000) {
                         System.out.println("The game: " + id + " has been closed");
                         suspended = false;
+                        inMatch = false;
                         console.closeGame(this);
                     }
                 }
@@ -222,7 +225,9 @@ public class GameController implements Serializable {
             synchronized (this){
                 if (command instanceof ReconnectPlayerCommand) {
                     command.execute(this);
-                    suspended = false;
+                    if(!game.isSuspended()){
+                        suspended = false;
+                    }
 
                 } else {
                     game.notifyObservers(new SuspendedGameMessage("The game has been suspended, wait for someone to comeback"));

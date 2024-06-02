@@ -43,5 +43,10 @@ public class SocketServer {
 
         }
     }
+    public void disconnect(ClientHandler handler){
+        synchronized (this.clients) {
+            clients.remove(handler);
+        }
+    }
 
 }

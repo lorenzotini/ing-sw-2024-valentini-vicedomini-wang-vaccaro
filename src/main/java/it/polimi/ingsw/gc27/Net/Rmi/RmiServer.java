@@ -40,27 +40,19 @@ public class RmiServer implements VirtualServer {
         }
 
         // Start the thread that checks if the clients are alive
-        new Thread(() -> {
-            try {
-                areClientsAlive();
-            } catch (RemoteException e) {
-                throw new RuntimeException(e);
-            }
-        }).start();
+        new Thread(this::areClientsAlive).start();
+        //new Thread(sayYouAreAlive()).start();
 
         // Start the thread that executes the commands
     }
 
     public void receiveCommand(Command command) {
-
         console.addCommandToGameController(command);
     }
 
     @Override
-    public void areClientsAlive() throws RemoteException {
-
+    public void areClientsAlive()  {
         while (true) {
-
             synchronized (clients) {
                 Iterator<VirtualView> iterator = clients.iterator();
                 while(iterator.hasNext()) {
@@ -82,9 +74,7 @@ public class RmiServer implements VirtualServer {
                 Thread.currentThread().interrupt(); // Restore the interrupted status
                 throw new RuntimeException(e);
             }
-
         }
-
     }
 
     @Override

@@ -7,7 +7,7 @@ import it.polimi.ingsw.gc27.Net.VirtualServer;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 import it.polimi.ingsw.gc27.View.View;
 
-import java.io.IOException;
+import java.io.*;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -91,17 +91,13 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
         }).start();
 
         this.server.welcomePlayer(this);
-
         this.show("Welcome " + this.username + "!" + "\nWaiting for other players to join the game...");
-
         //wait for the other players to join the game
         while (miniModel.getPlayer() == null) {
             Thread.sleep(1000);
         }
-
         //start the game
         view.run();
-
     }
 
     @Override

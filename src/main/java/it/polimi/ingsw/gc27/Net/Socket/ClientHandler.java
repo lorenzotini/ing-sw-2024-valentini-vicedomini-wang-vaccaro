@@ -105,7 +105,7 @@ public class ClientHandler implements VirtualView {
 
     @Override
     public void setUsername(String username) throws RemoteException {
-
+        player = console.getPlayer(username);
         try {
             output.writeObject(new SetUsernameMessage(username));
             output.reset();
@@ -141,13 +141,11 @@ public class ClientHandler implements VirtualView {
     @Override
     public void update(Message message) {
         try {
-            if (message instanceof UpdateManuscriptMessage)
-                message.getMiniModel().setManuscript(null);
             output.writeObject(message);
             output.reset();
             output.flush();
         } catch (IOException e) {
-
+            System.out.println("non funziona");
         }
     }
 
@@ -188,7 +186,9 @@ public class ClientHandler implements VirtualView {
 
     public synchronized void disconnected() {
         //console.disconnected(this.player);
-        if (disconnected == false) {
+
+        if (!disconnected) {
+            server.disconnect(this); //rimuove questo handler dalla lista di handler
             disconnected = true;
             console.removeReferences(this);
             System.out.println("disconessione avvenuta");

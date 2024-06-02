@@ -3,13 +3,7 @@
     -fx-background-size: cover;
 }
 
-.objectivecard1{
-    -fx-image: url("../Images/cards/card101_front.png");
-}
 
-.objectivecard2{
-
-}
 
 .customlabel{
     -fx-image: url("../Images/utility/gamemastercard2.png");

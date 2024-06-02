@@ -4,6 +4,7 @@ import it.polimi.ingsw.gc27.View.Gui;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
 import java.io.IOException;
@@ -12,34 +13,13 @@ import java.io.IOException;
 //and gameID will be asked
 
 public class JoinGameSceneController implements GenericController{
-    private String m;
-
+    public TextArea errorGameID;
     public TextField idTextField;
     public Button sendGameIdButton;
     public Button backButton;
 
     public void sendGameId(ActionEvent event) throws IOException, InterruptedException {
         Gui.getInstance().stringFromSceneController(idTextField.getText());
-
-//        m = Gui.getInstance().getMessagesReceived().take();
-//
-//        // the message received when the game id is not found
-//        String gameNotFound = "\nGame not found. Please enter a valid game id or 'new' to start a new game";
-//        // the message received when joining an already existing game
-//        String joiningGame = "Joining game";
-//
-//
-//        while (m.equals(gameNotFound)) { // continue the loop until a valid game id
-//            System.out.println(m);
-//            //visualizzo errore
-//            m=Gui.getInstance().getMessagesReceived().take();
-//        }
-//        if (m.contains(joiningGame)) {
-//            System.out.println(m);
-//            // change the scene to LoginScene, where the player waits for the other players to join
-//            Gui.getInstance().switchScene("/fxml/LoginScene.fxml" );
-//        }
-
     }
 
     //players can change their minds and go back to chooseGameScene
@@ -50,24 +30,23 @@ public class JoinGameSceneController implements GenericController{
 
     @Override
     public void receiveOk(String ackType) {
-        Platform.runLater(() -> {
-            try {
-                // Cambia la scena qui
-                Gui.getInstance().switchScene("/fxml/LoginScene.fxml");
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        });
+       if(ackType.equals("validID")){
+           Platform.runLater(() -> {
+               try {
+                   // Cambia la scena qui
+                   errorGameID.setVisible(false);
+                   Gui.getInstance().switchScene("/fxml/LoginScene.fxml");
+               } catch (IOException e) {
+                   throw new RuntimeException(e);
+               }
+           });
+       }
     }
 
     @Override
     public void receiveKo(String ackType) {
         Platform.runLater(()->{
-            try {
-                Gui.getInstance().switchScene("/fxml/ErrorScene.fxml");
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            errorGameID.setVisible(true);
         });
     }
 }

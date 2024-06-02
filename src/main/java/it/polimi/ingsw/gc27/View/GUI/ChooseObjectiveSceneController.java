@@ -1,11 +1,16 @@
 package it.polimi.ingsw.gc27.View.GUI;
 
+import it.polimi.ingsw.gc27.Net.Commands.ChooseObjectiveCommand;
+import it.polimi.ingsw.gc27.Net.Commands.Command;
 import it.polimi.ingsw.gc27.View.Gui;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+
+import java.io.IOException;
 
 public class ChooseObjectiveSceneController implements GenericController{
     @FXML
@@ -19,12 +24,21 @@ public class ChooseObjectiveSceneController implements GenericController{
 
 
     @FXML
-    public void sendObj(ActionEvent event) {
+    public void sendObj(ActionEvent event) throws IOException, InterruptedException {
         if(event.getSource().equals(objButton1)){
-            Gui.getInstance().stringFromSceneController("1");
+            Command comm = new ChooseObjectiveCommand(Gui.getInstance().getClient().getUsername(), 1);
+            Gui.getInstance().getClient().sendCommand(comm);
         } else {
-            Gui.getInstance().stringFromSceneController("2");
+            Command comm = new ChooseObjectiveCommand(Gui.getInstance().getClient().getUsername(), 2);
+            Gui.getInstance().getClient().sendCommand(comm);
         }
+        Platform.runLater(()->{
+            try {
+                Gui.getInstance().switchScene("/fxml/ManuscriptScene.fxml");
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 
     public void changeImageObj1(String imagePath) {

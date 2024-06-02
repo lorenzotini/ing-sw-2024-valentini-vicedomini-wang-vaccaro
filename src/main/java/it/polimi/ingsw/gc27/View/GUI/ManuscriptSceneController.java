@@ -107,6 +107,15 @@ public class ManuscriptSceneController implements GenericController{
         manoProva.setImage(null);
     }
 
+    @Override
+    public void receiveOk(String ackType) {
+
+    }
+
+    @Override
+    public void receiveKo(String ackType) {
+
+    }
 }
 
 

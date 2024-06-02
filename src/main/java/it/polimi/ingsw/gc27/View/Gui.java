@@ -43,7 +43,9 @@ public class Gui implements View {
     final String CHOOSEOBJ = "/fxml/ChooseObjectiveScene.fxml"; //scene number 5
     final String ERROR = "/fxml/ErrorScene.fxml";
 
-    final ArrayList<String> paths = new ArrayList<>(Arrays.asList(STARTER, CHOSEGAME, NEWGAME, JOINGAME, LOGIN, PLACESTARTER, LOBBY, CHOOSEOBJ, ERROR ));
+    final String MANUSCRIPT = "/fxml/ManuscriptScene.fxml";
+
+    final ArrayList<String> paths = new ArrayList<>(Arrays.asList(STARTER, CHOSEGAME, NEWGAME, JOINGAME, LOGIN, PLACESTARTER, LOBBY, CHOOSEOBJ, ERROR, MANUSCRIPT ));
 
     private final HashMap<String, Scene> pathSceneMap = new HashMap<>(); //maps path to scene
     private final HashMap<String, GenericController> pathContrMap = new HashMap<>(); //maps path to controller of the scene
@@ -105,14 +107,22 @@ public class Gui implements View {
 
         Platform.runLater(() -> {
             try {
-                // set the starter cards
+                 //set the starter cards
                 StarterCard starter = this.client.getMiniModel().getPlayer().getStarterCard();
                 PlaceStarterCardScene contr = (PlaceStarterCardScene) getControllerFromName(PLACESTARTER);
                 contr.changeImageFront(getClass().getResource(starter.getFront().getImagePath()).toExternalForm());
                 contr.changeImageBack(getClass().getResource(starter.getBack().getImagePath()).toExternalForm());
                 switchScene("/fxml/PlaceStarterCardScene.fxml");
 
-                //una volta che arriva la notify allora cambia la scena
+                ObjectiveCard objectiveCard1 = this.client.getMiniModel().getPlayer().getSecretObjectives().get(0);
+
+                ObjectiveCard objectiveCard2 = this.client.getMiniModel().getPlayer().getSecretObjectives().get(1);
+
+                ChooseObjectiveSceneController contr2 = (ChooseObjectiveSceneController) getControllerFromName(CHOOSEOBJ);
+
+                contr2.changeImageObj1(getClass().getResource(objectiveCard1.getFront().getImagePath()).toExternalForm());
+
+                contr2.changeImageObj2(getClass().getResource(objectiveCard2.getFront().getImagePath()).toExternalForm());
 
 
 
@@ -120,53 +130,10 @@ public class Gui implements View {
                 throw new RuntimeException(e);
             }
         });
-//        StarterCard starter = null;
-//        try {
-//            starter = Gui.getInstance().getClient().getMiniModel().getPlayer().getStarterCard();
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//        PlaceStarterCardScene contr = (PlaceStarterCardScene) Gui.getInstance().getControllerFromName("/fxml/PlaceStarterCardScene.fxml");
-//        //contr.changeImageFront(getClass().getResource(starter.getFront().getImagePath()).toExternalForm());
-//        contr.changeImageFront("file:" + starter.getFront().getImagePath());
-//        contr.changeImageFront("file:" + starter.getBack().getImagePath());
-//        //contr.changeImageBack(getClass().getResource(starter.getBack().getImagePath()).toExternalForm());
-//        Platform.runLater(()->{
-//            try {
-//                Gui.getInstance().switchScene("/fxml/PlaceStarterCardScene.fxml");
-//            } catch (IOException e) {
-//                throw new RuntimeException(e);
-//            }
-//        });
-
     }
 
     public void switchScene(String scenePath) throws IOException {
         Platform.runLater(()->{
-//            Task<Parent> task = new Task<>() {
-//                @Override
-//                protected Parent call() {
-//                    Parent p = null;
-//                    FXMLLoader loader = new FXMLLoader(getClass().getResource(scenePath));
-//                    try {
-//                        p = loader.load();
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//                    currentController = loader.getController();
-//                    System.out.println("\ncontroller");
-////                try {
-////                    boardController.setViewGUI(viewGUI);
-////                } catch (Exception e) {
-////                    e.printStackTrace();
-////                }
-//                    return p;
-//                }
-//            };
-//            new Thread(task).start();
-//                Parent finalParent = task.getValue();
-
-
             FXMLLoader loader = new FXMLLoader(getClass().getResource(scenePath));
             Parent root= null;
             try {
@@ -175,27 +142,10 @@ public class Gui implements View {
                 throw new RuntimeException(e);
             }
             stage.setScene(pathSceneMap.get(scenePath));
-                //viewGUI.play();
-                stage.show();
-                currentController = getControllerFromName(scenePath);
+            stage.show();
+            currentController = getControllerFromName(scenePath);
 
         });
-
-//        Scene scene = pathSceneMap.get(scenePath);
-//        //if (scene == null)
-//            FXMLLoader loader = new FXMLLoader(getClass().getResource(scenePath));
-//            Parent root = loader.load();
-//            //creo un trhead a parte per fare il load della scena ,un parent null dove glielo metto, nel mentre visualizzo ancora
-//            //la scena precedente, appena il thread ha finito il loading poi gli carico la nuova scena
-//            scene = new Scene(root);
-//            //pathSceneMap.put(scenePath, scene);
-//            //pathContrMap.put(scenePath, loader.getController());
-//            stage.setScene(scene);
-//            stage.show();
-//            currentController=loader.getController();
-
-
-
     }
 
     public GenericController getControllerFromName(String path) {
@@ -313,18 +263,11 @@ public class Gui implements View {
 
     @Override
     public void okAck(String string) {
-
         currentController.receiveOk(string);
-
-
-            //notifies scene controllers
-            //changes scene
-
     }
 
     @Override
     public void koAck(String string) {
-
         currentController.receiveKo(string);
         //error handler
     }

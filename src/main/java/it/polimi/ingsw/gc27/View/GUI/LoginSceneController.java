@@ -26,8 +26,10 @@ public class LoginSceneController implements GenericController {
     public Button sendUsernameButton;
     @FXML
     public Button sendColourButton;
+    public TextField errorUsername;
+
     @FXML
-    public void initialize(){
+    public void initialize() {
         blueButton.setDisable(true);
         greenButton.setDisable(true);
         yellowButton.setDisable(true);
@@ -43,7 +45,7 @@ public class LoginSceneController implements GenericController {
 //            yellowButton.setDisable(false);
 //            redButton.setDisable(false);
 //            sendColourButton.setDisable(false);
-        System.out.println("\nsent Username: "+UsernameInput.getText());
+        System.out.println("\nsent Username: " + UsernameInput.getText());
     }
 
     public void selectColour(ActionEvent event) {
@@ -60,41 +62,41 @@ public class LoginSceneController implements GenericController {
 
     public void sendToLobby() throws IOException {
         Gui.getInstance().switchScene("/fxml/LobbyScene.fxml");
-
     }
 
 
     @Override
     public void receiveOk(String ackType) {
-
-        Platform.runLater(()->{
-            blueButton.setDisable(false);
-            greenButton.setDisable(false);
-            yellowButton.setDisable(false);
-            redButton.setDisable(false);
+        //only shows available pawn colours
+        Platform.runLater(() -> {
+            if (ackType.contains("BLUE"))
+                blueButton.setDisable(false);
+            if (ackType.contains("GREEN"))
+                greenButton.setDisable(false);
+            if (ackType.contains("YELLOW"))
+                yellowButton.setDisable(false);
+            if (ackType.contains("RED"))
+                redButton.setDisable(false);
             sendColourButton.setDisable(false);
+            //if the player chooses the wrong username (already chosen) and then the right one, the message error is set to invisible
+            errorUsername.setVisible(false);
 
-            System.out.println("\nreceived Ok");
-//            try {
-//                Thread.sleep(500);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-            });
+        });
 
 
     }
 
     @Override
     public void receiveKo(String ackType) {
-        Platform.runLater(()->{ //TODO far aprire un popup con un messaggio passato
-            try {
-                Gui.getInstance().switchScene("/fxml/ErrorScene.fxml");
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+        Platform.runLater(() -> { //TODO far aprire un popup con un messaggio passato
+//            try {
+//                Gui.getInstance().switchScene("/fxml/ErrorScene.fxml");
+//            } catch (IOException e) {
+//                throw new RuntimeException(e);
+//            }
+            errorUsername.setVisible(true);
         });
-        //sendUsernameButton.setStyle("-fx-background-color: green");
+
 
     }
 }

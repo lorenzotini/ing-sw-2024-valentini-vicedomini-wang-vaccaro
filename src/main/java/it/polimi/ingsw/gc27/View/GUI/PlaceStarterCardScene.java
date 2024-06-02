@@ -2,6 +2,7 @@ package it.polimi.ingsw.gc27.View.GUI;
 
 import it.polimi.ingsw.gc27.Net.Commands.AddStarterCommand;
 import it.polimi.ingsw.gc27.Net.Commands.Command;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -23,23 +24,6 @@ public class PlaceStarterCardScene implements GenericController{
     @FXML
     public Button backStarterButton;
 
-//    @FXML
-//    public void initialize() throws RemoteException {
-//        Platform.runLater(()->{
-//            StarterCard starter = null;
-//            try {
-//                starter = Gui.getInstance().getClient().getMiniModel().getPlayer().getStarterCard();
-//            } catch (RemoteException e) {
-//                throw new RuntimeException(e);
-//            }
-//            PlaceStarterCardScene contr = (PlaceStarterCardScene) Gui.getInstance().getControllerFromName("/fxml/PlaceStarterCardScene.fxml");
-//            contr.changeImageFront(getClass().getResource(starter.getFront().getImagePath()).toExternalForm());
-//            contr.changeImageBack(getClass().getResource(starter.getBack().getImagePath()).toExternalForm());
-//        });
-//
-//        //changeImageFront(Gui.getInstance().getClient().getMiniModel().getPlayer().getStarterCard().getFront().getImagePath());
-//    }
-
     @FXML
     public void sendStarter(ActionEvent event) throws IOException, InterruptedException {
         if(event.getSource().equals(frontStarterButton)){
@@ -51,6 +35,14 @@ public class PlaceStarterCardScene implements GenericController{
             Gui.getInstance().getClient().sendCommand(comm);
             //Gui.getInstance().stringFromSceneController("back");
         }
+        Platform.runLater(()->{
+            try {
+                Gui.getInstance().switchScene("/fxml/ChooseObjectiveScene.fxml");
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
     }
 
     public void changeImageFront(String imagePath) {
@@ -65,6 +57,7 @@ public class PlaceStarterCardScene implements GenericController{
 
     @Override
     public void receiveOk(String ackType) {
+
 
     }
 

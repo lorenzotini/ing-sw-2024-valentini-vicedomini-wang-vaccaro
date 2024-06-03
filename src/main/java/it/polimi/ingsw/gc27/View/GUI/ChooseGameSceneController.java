@@ -16,7 +16,6 @@ public class ChooseGameSceneController implements GenericController{
 
     @FXML
     public void sendNewGame() throws IOException {
-        Gui.getInstance().stringFromSceneController("new");
         Gui.getInstance().switchScene("/fxml/NewGameScene.fxml");
     }
 

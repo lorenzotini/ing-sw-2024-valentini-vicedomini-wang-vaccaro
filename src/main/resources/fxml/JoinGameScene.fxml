@@ -10,7 +10,7 @@
       <TextField fx:id="idTextField" layoutX="270.0" layoutY="204.0" />
       <TextArea layoutX="230.0" layoutY="71.0" prefHeight="118.0" prefWidth="181.0" text="insert game id" />
       <Button fx:id="sendGameIdButton" layoutX="447.0" layoutY="204.0" mnemonicParsing="false" onAction="#sendGameId" text="-&gt;" />
-      <Button fx:id="backButton" layoutX="111.0" layoutY="414.0" mnemonicParsing="false" onAction="#previousScene" text="BACK" />
-      <TextArea fx:id="errorGameID" layoutX="244.0" layoutY="259.0" prefHeight="104.0" prefWidth="286.0" text="THIS GAME ID DOES NOT EXIST ! ! !&#10;&#10;ASK YOUR FRIENDS AGAIN IF YOU WANT TO &#10;JOIN THEIR GAME" visible="false" />
+      <Button fx:id="backButton" layoutX="111.0" layoutY="414.0" mnemonicParsing="false" onAction="#previousScene" text="BACK" visible="false" />
+      <TextArea fx:id="errorGameID" layoutX="244.0" layoutY="259.0" prefHeight="104.0" prefWidth="286.0" visible="false" />
    </children>
 </Pane>

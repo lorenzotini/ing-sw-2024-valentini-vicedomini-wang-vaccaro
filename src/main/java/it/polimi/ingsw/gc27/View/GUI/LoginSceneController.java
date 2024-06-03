@@ -5,9 +5,11 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
 import java.io.IOException;
+import java.text.NumberFormat;
 
 //fourth scene, sends information about player
 public class LoginSceneController implements GenericController {
@@ -26,7 +28,18 @@ public class LoginSceneController implements GenericController {
     public Button sendUsernameButton;
     @FXML
     public Button sendColourButton;
+    @FXML
     public TextField errorUsername;
+
+
+
+    @FXML
+    public TextArea gameIDCreated;//displays the ID of the game the player has just created
+
+    public TextArea getGameIDCreated() {
+        return gameIDCreated;
+    }
+
 
     @FXML
     public void initialize() {
@@ -69,17 +82,25 @@ public class LoginSceneController implements GenericController {
     public void receiveOk(String ackType) {
         //only shows available pawn colours
         Platform.runLater(() -> {
-            if (ackType.contains("BLUE"))
-                blueButton.setDisable(false);
-            if (ackType.contains("GREEN"))
-                greenButton.setDisable(false);
-            if (ackType.contains("YELLOW"))
-                yellowButton.setDisable(false);
-            if (ackType.contains("RED"))
-                redButton.setDisable(false);
-            sendColourButton.setDisable(false);
-            //if the player chooses the wrong username (already chosen) and then the right one, the message error is set to invisible
-            errorUsername.setVisible(false);
+            if(ackType.contains("Choose your color:")) {
+                if (ackType.contains("BLUE"))
+                    blueButton.setDisable(false);
+                if (ackType.contains("GREEN"))
+                    greenButton.setDisable(false);
+                if (ackType.contains("YELLOW"))
+                    yellowButton.setDisable(false);
+                if (ackType.contains("RED"))
+                    redButton.setDisable(false);
+                sendColourButton.setDisable(false);
+                //if the player chooses the wrong username (already chosen) and then the right one, the message error is set to invisible
+                errorUsername.setVisible(false);
+            }
+            if(ackType.contains("Game created with id")) {//receives game id, sets it into TextArea of LoginScene
+                gameIDCreated.setVisible(true);
+                gameIDCreated.setText(ackType);
+
+            }
+
 
         });
 

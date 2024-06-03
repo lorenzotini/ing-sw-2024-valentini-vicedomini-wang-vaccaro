@@ -215,9 +215,6 @@ public class Gui implements View {
     @Override
     public void showString(String phrase) {
         messagesReceived.add(phrase);
-        System.out.println(phrase);
-
-
     }
 
     @Override
@@ -263,11 +260,13 @@ public class Gui implements View {
 
     @Override
     public void okAck(String string) {
+        System.out.println("\nOk " +currentController.toString() + string);
         currentController.receiveOk(string);
     }
 
     @Override
     public void koAck(String string) {
+        System.out.println("\nKo " +currentController.toString() + string);
         currentController.receiveKo(string);
         //error handler
     }

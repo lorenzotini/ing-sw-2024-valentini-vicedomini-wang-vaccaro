@@ -3,6 +3,7 @@ package it.polimi.ingsw.gc27.View.GUI;
 import it.polimi.ingsw.gc27.View.Gui;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -13,10 +14,20 @@ import java.io.IOException;
 //and gameID will be asked
 
 public class JoinGameSceneController implements GenericController{
+    @FXML
     public TextArea errorGameID;
+    @FXML
     public TextField idTextField;
+    @FXML
     public Button sendGameIdButton;
+
+    @FXML
     public Button backButton;
+    @FXML
+    public void initialize(){
+        backButton.setVisible(false);
+    }
+
 
     public void sendGameId(ActionEvent event) throws IOException, InterruptedException {
         Gui.getInstance().stringFromSceneController(idTextField.getText());
@@ -46,7 +57,24 @@ public class JoinGameSceneController implements GenericController{
     @Override
     public void receiveKo(String ackType) {
         Platform.runLater(()->{
-            errorGameID.setVisible(true);
+            backButton.setVisible(true);
+            if (ackType.equals("invalidID")) {
+
+                errorGameID.setText("THIS GAME ID DOES NOT EXIST ! ! !\n" +
+                        "\n" +
+                        "ASK YOUR FRIENDS AGAIN IF YOU WANT TO \n" +
+                        "JOIN THEIR GAME");
+                errorGameID.setVisible(true);
+            }
+            else if(ackType.equals("gameFull")){
+                errorGameID.setText("THIS GAME IS FULL! ");
+                errorGameID.setVisible(true);
+            }
+            else if(ackType.equals("invalidFormatID")){
+                errorGameID.setText("INVALID FORMAT: PLEASE INSERT A NUMBER");
+                errorGameID.setVisible(true);
+            }
+
         });
     }
 }

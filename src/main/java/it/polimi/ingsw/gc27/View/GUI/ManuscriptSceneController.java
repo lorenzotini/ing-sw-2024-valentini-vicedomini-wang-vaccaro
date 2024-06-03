@@ -10,6 +10,8 @@ import it.polimi.ingsw.gc27.Model.Game.Manuscript;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -17,10 +19,8 @@ import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.input.TransferMode;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
+import javafx.scene.text.Text;
 import javafx.scene.transform.Scale;
 
 import java.util.ArrayList;
@@ -30,7 +30,7 @@ import java.util.Collections;
 public class ManuscriptSceneController implements GenericController {
 
     @FXML
-    private ScrollPane scrollPane;
+    private ScrollPane manuscriptScrollPane;
     @FXML
     private HBox handCards;
     @FXML
@@ -41,6 +41,8 @@ public class ManuscriptSceneController implements GenericController {
     private HBox marketGolds;
     @FXML
     private VBox commonObjectives;
+    @FXML
+    private TabPane chat;
 
 
     public void initialize() {
@@ -49,27 +51,27 @@ public class ManuscriptSceneController implements GenericController {
         ArrayList<StarterCard> deckStarter = JsonParser.getStarterDeck(JsonParser.cardsJsonObj);
         ArrayList<ResourceCard> deckResource = JsonParser.getResourceDeck(JsonParser.cardsJsonObj);
         ArrayList<GoldCard> deckGold = JsonParser.getGoldDeck(JsonParser.cardsJsonObj);
-        ArrayList<ObjectiveCard> deckobjective = JsonParser.getObjectiveDeck(JsonParser.cardsJsonObj);
+        ArrayList<ObjectiveCard> deckObjective = JsonParser.getObjectiveDeck(JsonParser.cardsJsonObj);
         Collections.shuffle(deckStarter);
         Collections.shuffle(deckResource);
         Collections.shuffle(deckGold);
-        Collections.shuffle(deckobjective);
+        Collections.shuffle(deckObjective);
 
         GridPane grid = new GridPane();
         grid.setGridLinesVisible(true);
         grid.setHgap(-35);
         grid.setVgap(-40);
 
-        scrollPane.setContent(grid);
-        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
-        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
-        scrollPane.setFitToWidth(true);
-        scrollPane.setFitToHeight(true);
+        manuscriptScrollPane.setContent(grid);
+        manuscriptScrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        manuscriptScrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        manuscriptScrollPane.setFitToWidth(true);
+        manuscriptScrollPane.setFitToHeight(true);
 
         // make the grid scalable
         Scale scaleTransform = new Scale(1, 1, 0, 0);
         grid.getTransforms().add(scaleTransform);
-        scrollPane.addEventFilter(ScrollEvent.SCROLL, event -> {
+        manuscriptScrollPane.addEventFilter(ScrollEvent.SCROLL, event -> {
             if (event.isControlDown()) { // Use Ctrl+Scroll for zooming
                 double deltaY = event.getDeltaY();
                 double zoomFactor = 1.05;
@@ -125,7 +127,6 @@ public class ManuscriptSceneController implements GenericController {
 
         // market
         // TODO controllare che vengano caricate in ordine e non al contrario
-        // TODO sembra che le carte non vengano tolte dal mazzo, capire perché
         StackPane resourceDeckStackPane = new StackPane();
         resourceDeckStackPane.setAlignment(Pos.TOP_CENTER);
         for(Card card : deckResource) {
@@ -169,16 +170,34 @@ public class ManuscriptSceneController implements GenericController {
 
         // common objectives
         for (int i = 0; i < 2; i++) {
-            ImageView commonObjective = new ImageView(new Image(deckobjective.get(i).getFront().getImagePath()));
+            ImageView commonObjective = new ImageView(new Image(deckObjective.get(i).getFront().getImagePath()));
             commonObjective.setFitHeight(100);
             commonObjective.setFitWidth(150);
             zoomCardOnHover(commonObjective, 1.2);
             commonObjectives.getChildren().add(commonObjective);
         }
 
+        // chat
+        for(int i = 0; i < 5; i++){
+            Tab chatTab = new Tab();
+            ScrollPane chatContent = new ScrollPane();
+            chatContent.setPrefHeight(Region.USE_COMPUTED_SIZE);
+            chatContent.setPrefWidth(Region.USE_COMPUTED_SIZE);
+            chatContent.setFitToWidth(true);
+            chatContent.setFitToHeight(true);
+            VBox chatMessages = new VBox();
+            for(int j = 0; j < 20; j++){
+                chatMessages.getChildren().add(new Text("Messaggio di prova" + j));
+            }
+            chatContent.setContent(chatMessages);
+            chatTab.setText("Player " + i);
+            chatTab.setContent(chatContent);
+            chat.getTabs().add(chatTab);
+        }
+
         // counters
         for (int i = 0; i < 7; i++) {
-            TextField counter = new TextField(String.valueOf(i + 1));
+            TextField counter = new TextField("counter " + String.valueOf(i + 1));
             counter.setEditable(false);
             counters.getChildren().add(counter);
         }

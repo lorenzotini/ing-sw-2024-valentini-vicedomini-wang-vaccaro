@@ -25,6 +25,8 @@ public class NewGameSceneController implements GenericController{
     private String chosenButton;
 
 
+
+
     @FXML
     public void sendNumberOfPlayers() throws IOException {
         Gui.getInstance().stringFromSceneController(chosenButton);
@@ -36,15 +38,34 @@ public class NewGameSceneController implements GenericController{
     public void chooseNumber(ActionEvent event) {
         if(event.getSource().equals(checkBox2)){
             chosenButton="2";
+            deselectOtherBoxes(checkBox2);
         }
         else if(event.getSource().equals(checkBox1)){
             chosenButton="1";
+            deselectOtherBoxes(checkBox1);
         }
         else if(event.getSource().equals(checkBox3)){
             chosenButton="3";
+            deselectOtherBoxes(checkBox3);
         }
         else{
+            deselectOtherBoxes(checkBox4);
             chosenButton="4";
+        }
+    }
+
+    public void deselectOtherBoxes(CheckBox checkBox){
+        if(!checkBox.equals(checkBox1)){
+            checkBox1.setSelected(false);
+        }
+        if(!checkBox.equals(checkBox2)){
+            checkBox2.setSelected(false);
+        }
+        if(!checkBox.equals(checkBox3)){
+            checkBox3.setSelected(false);
+        }
+        if(!checkBox.equals(checkBox4)){
+            checkBox4.setSelected(false);
         }
     }
 
@@ -64,4 +85,6 @@ public class NewGameSceneController implements GenericController{
     }
     //TODO: POSSIBLE FIX, SEND THE "NEW GAME" OR "JOIN GAME" MESSAGE NOT IMMEDIATELY BUT AFTER INFORMATION ABOUT
     //TODO: NUMBER OF PLAYERS OR GAMEID IS COLLECTED
+
+
 }

@@ -101,33 +101,49 @@ public class GameController implements Serializable {
     }
 
     // Create a player from command line, but hand, secret objective and starter are not instantiated
-    public void initializePlayer(VirtualView client, GigaController gigaChad) throws IOException, InterruptedException {
+    public void initializePlayer(VirtualView client, GigaController gigaChad) throws  InterruptedException {
         String username;
         String pawnColor;
+        PawnColour pawnColourSelected;
         Manuscript manuscript = new Manuscript();
 
         // Ask for the username
 
+        try {
+            do {
 
-        do {
-            client.show("\nChoose your username: ");
-            username = client.read();
-        } while (!gigaChad.validUsername(username, client));
-
+                client.show("\nChoose your username: ");
+                username = client.read();
+            } while (!gigaChad.validUsername(username, client));
+        }catch (IOException e){
+            System.out.println("Disconnected player before choosing a username, he'll be removed");
+            synchronized (game.getPlayers()){
+                game.setNumActualPlayers(game.getNumActualPlayers()-1);
+            }
+            return;
+        }
         // Ask for the pawn color
         synchronized (game.getAvailablePawns()) {
-            do {
-                client.show("\nChoose your color: ");
-                for (PawnColour pawnColour : game.getAvailablePawns()) {
-                    client.show(pawnColour.toString());
-                }
-                pawnColor = client.read();
-            } while (!game.validPawn(pawnColor));
-            game.getAvailablePawns().remove(PawnColour.fromStringToPawnColour(pawnColor));
+            try {
+                do {
+                    client.show("\nChoose your color: ");
+                    for (PawnColour pawnColour : game.getAvailablePawns()) {
+                        client.show(pawnColour.toString());
+                    }
+                    pawnColor = client.read();
+                } while (!game.validPawn(pawnColor));
+                pawnColourSelected = PawnColour.fromStringToPawnColour(pawnColor);
+                game.getAvailablePawns().remove(pawnColourSelected);
+            }catch(IOException e){
+                System.out.println("Disconnected player before choosing a color");
+                pawnColourSelected = game.getAvailablePawns().getFirst();
+                game.getAvailablePawns().remove(pawnColourSelected);
+
+            }
         }
 
 
-        Player p = new Player(username, manuscript, PawnColour.fromStringToPawnColour(pawnColor));
+        Player p = new Player(username, manuscript, pawnColourSelected);
 
         StarterCard starterCard = this.game.getStarterDeck().removeFirst();
 
@@ -145,8 +161,11 @@ public class GameController implements Serializable {
         p.getSecretObjectives().add(this.getGame().getObjectiveDeck().removeFirst());
         p.getSecretObjectives().add(this.getGame().getObjectiveDeck().removeFirst());
 
-        client.setUsername(username);
+        try {
+            client.setUsername(username);
+        }catch(IOException e){
 
+        }
         // All players are ready
         if (game.getNumActualPlayers() == this.getNumMaxPlayers()) {
             this.turnHandler = new TurnHandler(this.game);

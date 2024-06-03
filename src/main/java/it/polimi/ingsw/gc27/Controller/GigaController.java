@@ -53,26 +53,32 @@ public class GigaController {
 
     }
 
-    public void welcomePlayer(VirtualView client) throws IOException, InterruptedException {
-
-        client.show("\nWelcome to Codex Naturalis\n" + "\nDo you want to start a new game or join an existing one? (enter 'new' or the gameId)");
-
-        // check if the input is a valid game id or 'new'
+    public void welcomePlayer(VirtualView client) throws  InterruptedException {
         String game;
-        int gameId = 0;
-        while(true){
-            game = client.read();
-            if(game.equalsIgnoreCase("new")){
-                break;
-            } else {
-                try {
-                    gameId = Integer.parseInt(game);
+        try {
+            client.show("\nWelcome to Codex Naturalis\n" + "\nDo you want to start a new game or join an existing one? (enter 'new' or the gameId)");
+
+
+            // check if the input is a valid game id or 'new'
+
+            int gameId = 0;
+
+            while (true) {
+                game = client.read();
+                if (game.equalsIgnoreCase("new")) {
                     break;
-                } catch (NumberFormatException e) {
-                    client.show("\nInvalid input. Please enter a valid game id or 'new' to start a new game");
+                } else {
+                    try {
+                        gameId = Integer.parseInt(game);
+                        break;
+                    } catch (NumberFormatException e) {
+                        client.show("\nInvalid input. Please enter a valid game id or 'new' to start a new game");
+                    }
                 }
             }
-        }
+        }catch(IOException e){
+            return;
+        };
 
         boolean canEnter = false;
 
@@ -97,7 +103,12 @@ public class GigaController {
 
                 // TODO non so se è meglio togliere questa show
                 if(gc!= null) {
-                    client.show("\nJoining game " + game + "...");
+                    try {
+
+                        client.show("\nJoining game " + game + "...");
+                    }catch (IOException e) {
+                        System.out.println("Connection lost after trying to join a game (110)");
+                    }
                     synchronized (gc.getGame().getPlayers()) {
 
                         if (gc.getGame().getNumActualPlayers() < gc.getNumMaxPlayers()) { // game not full, can join
@@ -108,20 +119,35 @@ public class GigaController {
 
                         } else if (gc.getGame().getNumActualPlayers() == gc.getNumMaxPlayers() &&      // game full, but a disconnected player can rejoin
                                 gc.getGame().getPlayers().stream().anyMatch(Player::isDisconnected)) {
-
-                            client.show("\nThis game has a disconnected player. Are you him? If so, please enter your username.");
-                            String disconnectedUsername = client.read();
-
+                            String disconnectedUsername ;
+                            try {
+                                client.show("\nThis game has a disconnected player. Are you him? If so, please enter your username.");
+                                disconnectedUsername = client.read();
+                            }catch(IOException e){
+                                System.out.println("Connection lost before reconnecting a game (123)");
+                                return;
+                            }
                             // If the player is found, reconnect him, else null is returned
-                            boolean clientReconnected = tryReconnectPlayer(client, gc, disconnectedUsername);
+                            try{
 
-                            if (clientReconnected) {
+                                boolean clientReconnected = tryReconnectPlayer(client, gc, disconnectedUsername);
+
+                                if (clientReconnected) {
+                                    return;
+                                }
+                            }catch (RemoteException e){
+                                System.out.println("Connection lost before reconnecting a game (123)");
                                 return;
                             }
 
-                        } else {
 
-                            client.show("\nGame is full. Restarting...");
+                        } else {
+                            try {
+                                client.show("\nGame is full. Restarting...");
+                            }catch (IOException e){
+                                System.out.println("Connection lost before entering game (131)");
+                                return;
+                            }
                         }
                     }
 
@@ -135,10 +161,13 @@ public class GigaController {
                         return;
                     }
                 }
-
-                client.show("\nGame not found. Please enter a valid game id or 'new' to start a new game");
-                game = client.read();
-
+                try {
+                    client.show("\nGame not found. Please enter a valid game id or 'new' to start a new game");
+                    game = client.read();
+                }catch(IOException e){
+                    System.out.println("Connection lost before entering game (131)");
+                    return;
+                }
                 if (game.equalsIgnoreCase("new")) {
                     createNewGame(client);
                     return;
@@ -150,24 +179,30 @@ public class GigaController {
 
     }
 
-    public void createNewGame(VirtualView client) throws IOException, InterruptedException {
-
-        client.show("\nHow many player? there will be? (2-4)");
+    public void createNewGame(VirtualView client) throws InterruptedException {
         int numMaxPlayers;
+        try {
 
-        do {
-            try {
-                numMaxPlayers = Integer.parseInt(client.read());
-                if (numMaxPlayers <= 4 && numMaxPlayers >= 1){
-                    break;
+
+            client.show("\nHow many player? there will be? (2-4)");
+
+
+            do {
+                try {
+                    numMaxPlayers = Integer.parseInt(client.read());
+                    if (numMaxPlayers <= 4 && numMaxPlayers >= 1) {
+                        break;
+                    }
+                } catch (NumberFormatException e) {
+                    client.show("\nInvalid format. Please enter a number between 2 and 4");
+                    continue;
                 }
-            } catch (NumberFormatException e) {
-                client.show("\nInvalid format. Please enter a number between 2 and 4");
-                continue;
-            }
-            client.show("\nInvalid input. Please enter a number between 2 and 4");
-        } while (true);
-
+                client.show("\nInvalid input. Please enter a number between 2 and 4");
+            } while (true);
+        }catch(IOException e){
+            System.out.print("Lost before creating a game");
+            return;
+        }
         GameController controller;
         Initializer init = new Initializer();
         synchronized (gameControllers) {
@@ -176,7 +211,13 @@ public class GigaController {
         }
         // count the player who created the game
         controller.getGame().setNumActualPlayers(1);
-        client.show("\nGame created with id " + controller.getId() + "\n" + "\nWaiting for players to join...");
+        try{
+            client.show("\nGame created with id " + controller.getId() + "\n" + "\nWaiting for players to join...");
+
+        }catch(IOException e){
+            System.out.print("Lost before knowing id game");
+            return;
+        }
         controller.initializePlayer(client, this);
         controller.executeCommands();
     }
@@ -186,8 +227,9 @@ public class GigaController {
         for (Player p : gc.getGame().getPlayers()) {
             if (p.getUsername().equals(disconnectedUsername) && p.isDisconnected()) {
                 //reconnectClient(client, p, gc);
-                registeredUsernames.put(p.getUsername(), client);
+
                 client.setUsername(p.getUsername());
+                registeredUsernames.put(p.getUsername(), client);
                 gc.addCommand(new ReconnectPlayerCommand(client, p));
                 return true;
             }

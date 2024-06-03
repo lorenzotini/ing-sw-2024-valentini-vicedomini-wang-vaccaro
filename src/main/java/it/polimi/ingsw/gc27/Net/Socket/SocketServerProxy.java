@@ -19,14 +19,16 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 public class SocketServerProxy implements VirtualServer {
 
+    //in case same RemoteException would being called they'd be ignored because the ping system is going to do what
+    // the catch of them would do
     final BlockingQueue<Message> messages = new LinkedBlockingQueue<>();
     final VirtualView client;
     Socket serverSocket;
     ObjectInputStream input;
-    float lastPingFromServer = 0;
+    long lastPingFromServer = 0;
     ObjectOutputStream output;
 
-    public SocketServerProxy(VirtualView client, String ipAddress, int port) throws InterruptedException{
+    public SocketServerProxy(VirtualView client, String ipAddress, int port) {
         this.client = client;
 
         try {
@@ -42,11 +44,7 @@ public class SocketServerProxy implements VirtualServer {
         }
         new Thread(() -> {
             try {
-                while (true) {
-                    listenFromRemoteServer();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
+                listenFromRemoteServer();
             } catch (ClassNotFoundException e) {
                 throw new RuntimeException(e);
             }
@@ -82,7 +80,7 @@ public class SocketServerProxy implements VirtualServer {
             this.lastPingFromServer = System.currentTimeMillis();
         }
         while(true){
-            if((System.currentTimeMillis() - this.lastPingFromServer) >10000) {
+            if((System.currentTimeMillis() - this.lastPingFromServer) >5000) {
                 System.out.println("The connection has been lost, please restart the game");
                 try {
                     client.close();
@@ -99,7 +97,7 @@ public class SocketServerProxy implements VirtualServer {
         }
     }
 
-    private void runVirtualServer() throws IOException, InterruptedException {
+    private void runVirtualServer() throws InterruptedException {
         Message message;
 
         new Thread(() -> {
@@ -117,7 +115,11 @@ public class SocketServerProxy implements VirtualServer {
         // Read message type
         while (true) {
             message = messages.take();
-            client.update(message);
+            try{
+                client.update(message);
+            }catch(IOException e){
+
+            }
         }
     }
 
@@ -133,6 +135,7 @@ public class SocketServerProxy implements VirtualServer {
 
     @Override
     public void welcomePlayer(VirtualView client) throws IOException {
+
         output.writeObject("welcomeplayer");
         output.reset();
         output.flush();
@@ -159,17 +162,16 @@ public class SocketServerProxy implements VirtualServer {
 
     }
 
-
-    public void sendData(String s) throws IOException {
-        output.writeObject(s);
-        output.reset();
-        output.flush();
-    }
-
-    public void listenFromRemoteServer() throws IOException, ClassNotFoundException {
+    public void listenFromRemoteServer() throws ClassNotFoundException {
         while (true) {
-            //Message mess = (Message)input.readObject();
-            Message mess =(Message) input.readObject();
+//            Message mess = (Message)input.readObject();
+//            messages.add(mess);
+            Message mess= null ;
+            try{
+                 mess =(Message) input.readObject();
+            }catch(IOException e){
+                continue;
+            }
             if(mess instanceof PingMessage){
                 this.lastPingFromServer = System.currentTimeMillis();
             }
@@ -177,5 +179,6 @@ public class SocketServerProxy implements VirtualServer {
                 messages.add(mess);
             }
         }
+
     }
 }

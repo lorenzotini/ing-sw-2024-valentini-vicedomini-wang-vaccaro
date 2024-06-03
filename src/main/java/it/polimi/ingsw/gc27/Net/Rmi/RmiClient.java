@@ -63,9 +63,14 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
     }
 
     @Override
-    public void runClient() throws IOException, InterruptedException {
+    public void runClient() throws InterruptedException {
+        try{
 
-        this.server.connect(this);
+            this.server.connect(this);
+        }catch(RemoteException e){
+            System.out.println("There is a problem with the connection, please retry");
+            close();
+        }
         new Thread(this :: checkServerIsAlive).start();
         //keep the client alive
         new Thread(() -> {
@@ -89,15 +94,26 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
                 }
             }
         }).start();
+        try{
 
-        this.server.welcomePlayer(this);
-        this.show("Welcome " + this.username + "!" + "\nWaiting for other players to join the game...");
+            this.server.welcomePlayer(this);
+            this.show("Welcome " + this.username + "!" + "\nWaiting for other players to join the game...");
+        }catch(IOException e){
+            System.out.println("The connection has been lost while setting the player, please try to reconnect ");
+            close();
+        }
         //wait for the other players to join the game
         while (miniModel.getPlayer() == null) {
             Thread.sleep(1000);
         }
         //start the game
-        view.run();
+        try{
+
+            view.run();
+        }catch(IOException e){
+            System.out.println("There has been a problem with the UI, plese restart ");
+            close();
+        }
     }
 
     private void checkServerIsAlive()  {
@@ -110,6 +126,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
                 close();
             }
             try {
+
                 Thread.sleep(1000);
             }catch(InterruptedException e){
                 //TODO find a thing to do

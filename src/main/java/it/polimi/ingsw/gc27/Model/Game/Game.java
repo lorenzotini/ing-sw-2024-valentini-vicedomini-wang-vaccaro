@@ -147,7 +147,7 @@ public class Game implements Serializable {
         return false;
     }
 
-    public void addPlayer(Player p, VirtualView client) throws RemoteException {
+    public void addPlayer(Player p, VirtualView client) {
 
         for(Player player : players){
             Chat chat = new Chat(player, p);

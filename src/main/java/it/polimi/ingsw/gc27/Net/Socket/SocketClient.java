@@ -34,8 +34,11 @@ public class SocketClient implements VirtualView {
             }
             view.run();
         } catch (InterruptedException | IOException e) {
-            throw new RuntimeException(e);
+            System.out.print("The connection has been lost");
+            close();
+            //throw new RuntimeException(e);
         }
+
     }
 
     @Override

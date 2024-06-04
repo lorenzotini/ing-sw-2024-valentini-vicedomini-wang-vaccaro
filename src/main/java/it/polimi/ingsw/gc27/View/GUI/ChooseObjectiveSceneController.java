@@ -34,6 +34,8 @@ public class ChooseObjectiveSceneController implements GenericController{
         }
         Platform.runLater(()->{
             try {
+                ManuscriptSceneController manuscriptSceneController = (ManuscriptSceneController) Gui.getInstance().getControllerFromName(ScenePaths.MANUSCRIPT.getValue());
+                manuscriptSceneController.init();
                 Gui.getInstance().switchScene("/fxml/ManuscriptScene.fxml");
             } catch (IOException e) {
                 throw new RuntimeException(e);

@@ -16,7 +16,6 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -31,23 +30,7 @@ public class Gui implements View {
 
     private VirtualView client;
     final BlockingQueue<String> messages = new LinkedBlockingQueue<>();
-
     final BlockingQueue<String> messagesReceived = new LinkedBlockingQueue<>();
-
-    final String STARTER = "/fxml/StarterScene.fxml"; //scene number 0
-    final String CHOSEGAME = "/fxml/ChooseGameScene.fxml"; //scene number 1
-    final String NEWGAME = "/fxml/NewGameScene.fxml"; //scene number 2.1
-    final String JOINGAME = "/fxml/JoinGameScene.fxml"; //scene number 2.2
-    final String LOGIN = "/fxml/LoginScene.fxml"; //scene number 3
-    final String LOBBY = "/fxml/LobbyScene.fxml"; //scene number 5
-    final String PLACESTARTER = "/fxml/PlaceStarterCardScene.fxml"; //scene number 5
-    final String CHOOSEOBJ = "/fxml/ChooseObjectiveScene.fxml"; //scene number 5
-    final String ERROR = "/fxml/ErrorScene.fxml";
-
-    final String MANUSCRIPT = "/fxml/ManuscriptScene.fxml";
-
-    final ArrayList<String> paths = new ArrayList<>(Arrays.asList(STARTER, CHOSEGAME, NEWGAME, JOINGAME, LOGIN, PLACESTARTER, LOBBY, CHOOSEOBJ, ERROR, MANUSCRIPT ));
-
     private final HashMap<String, Scene> pathSceneMap = new HashMap<>(); //maps path to scene
     private final HashMap<String, GenericController> pathContrMap = new HashMap<>(); //maps path to controller of the scene
 
@@ -95,14 +78,14 @@ public class Gui implements View {
 
     //loads scenes and controllers in hashmaps
     public void initializing() throws IOException {
-        for (String path : paths) {
+        for (String path : ScenePaths.valuesList()) {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(path));
             Parent root = loader.load();
             pathSceneMap.put(path, new Scene(root));
             GenericController contr = loader.getController();
             pathContrMap.put(path, contr);
         }
-        currentController=getControllerFromName(STARTER);
+        currentController=getControllerFromName(ScenePaths.STARTER.getValue());
     }
 
     //start of the game after initialization
@@ -114,18 +97,17 @@ public class Gui implements View {
                 if (!isReconnected) {
                     //set the starter cards
                     StarterCard starter = this.client.getMiniModel().getPlayer().getStarterCard();
-                    PlaceStarterCardScene contr = (PlaceStarterCardScene) getControllerFromName(PLACESTARTER);
+                    PlaceStarterCardScene contr = (PlaceStarterCardScene) getControllerFromName(ScenePaths.PLACESTARTER.getValue());
                     contr.changeImageFront(getClass().getResource(starter.getFront().getImagePath()).toExternalForm());
                     contr.changeImageBack(getClass().getResource(starter.getBack().getImagePath()).toExternalForm());
                     switchScene("/fxml/PlaceStarterCardScene.fxml");
 
                     ObjectiveCard objectiveCard1 = this.client.getMiniModel().getPlayer().getSecretObjectives().get(0);
                     ObjectiveCard objectiveCard2 = this.client.getMiniModel().getPlayer().getSecretObjectives().get(1);
-                    ChooseObjectiveSceneController contr2 = (ChooseObjectiveSceneController) getControllerFromName(CHOOSEOBJ);
+                    ChooseObjectiveSceneController contr2 = (ChooseObjectiveSceneController) getControllerFromName(ScenePaths.CHOOSEOBJ.getValue());
                     contr2.changeImageObj1(getClass().getResource(objectiveCard1.getFront().getImagePath()).toExternalForm());
                     contr2.changeImageObj2(getClass().getResource(objectiveCard2.getFront().getImagePath()).toExternalForm());
                 }
-
 
             } catch (IOException e) {
                 throw new RuntimeException(e);

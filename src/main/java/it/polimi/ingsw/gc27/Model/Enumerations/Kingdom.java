@@ -13,10 +13,10 @@ public enum Kingdom implements Serializable {
 
     public CornerSymbol toCornerSymbol(){
         return switch (this) {
-            case FUNGIKINGDOM -> CornerSymbol.FUNGIKINGDOM;
-            case PLANTKINGDOM -> CornerSymbol.PLANTKINGDOM;
-            case ANIMALKINGDOM -> CornerSymbol.ANIMALKINGDOM;
-            case INSECTKINGDOM -> CornerSymbol.INSECTKINGDOM;
+            case FUNGIKINGDOM -> CornerSymbol.FUNGI;
+            case PLANTKINGDOM -> CornerSymbol.PLANT;
+            case ANIMALKINGDOM -> CornerSymbol.ANIMAL;
+            case INSECTKINGDOM -> CornerSymbol.INSECT;
             case EMPTY -> CornerSymbol.EMPTY;
         };
         //aggiungere Ecception

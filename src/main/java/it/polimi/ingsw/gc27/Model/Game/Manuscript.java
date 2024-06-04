@@ -121,6 +121,10 @@ public class Manuscript implements Serializable {
         return isValid;
     }
 
+    public Face getStarterFace() {
+        return field[FIELD_DIM / 2][FIELD_DIM / 2];
+    }
+
 
     public boolean satisfiedRequirement(ResourceCard card) {
         if (card instanceof GoldCard) {
@@ -150,10 +154,10 @@ public class Manuscript implements Serializable {
     public int getCounter(CornerSymbol cs) {
         return switch (cs) {
             case EMPTY, BLACK -> 0;
-            case PLANTKINGDOM -> plantCounter;
-            case ANIMALKINGDOM -> animalCounter;
-            case INSECTKINGDOM -> insectCounter;
-            case FUNGIKINGDOM -> fungiCounter;
+            case PLANT -> plantCounter;
+            case ANIMAL -> animalCounter;
+            case INSECT -> insectCounter;
+            case FUNGI -> fungiCounter;
             case QUILL -> quillCounter;
             case INKWELL -> inkwellCounter;
             case MANUSCRIPT -> manuscriptCounter;
@@ -162,10 +166,10 @@ public class Manuscript implements Serializable {
 
     public void decreaseCounter(CornerSymbol cs) {
         switch (cs) {
-            case PLANTKINGDOM -> plantCounter--;
-            case ANIMALKINGDOM -> animalCounter--;
-            case FUNGIKINGDOM -> fungiCounter--;
-            case INSECTKINGDOM -> insectCounter--;
+            case PLANT -> plantCounter--;
+            case ANIMAL -> animalCounter--;
+            case FUNGI -> fungiCounter--;
+            case INSECT -> insectCounter--;
             case MANUSCRIPT -> manuscriptCounter--;
             case QUILL -> quillCounter--;
             case INKWELL -> inkwellCounter--;
@@ -177,10 +181,10 @@ public class Manuscript implements Serializable {
 
     public void increaseCounter(CornerSymbol cs) {
         switch (cs) {
-            case PLANTKINGDOM -> plantCounter++;
-            case ANIMALKINGDOM -> animalCounter++;
-            case FUNGIKINGDOM -> fungiCounter++;
-            case INSECTKINGDOM -> insectCounter++;
+            case PLANT -> plantCounter++;
+            case ANIMAL -> animalCounter++;
+            case FUNGI -> fungiCounter++;
+            case INSECT -> insectCounter++;
             case MANUSCRIPT -> manuscriptCounter++;
             case QUILL -> quillCounter++;
             case INKWELL -> inkwellCounter++;

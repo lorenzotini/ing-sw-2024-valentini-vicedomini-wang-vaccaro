@@ -13,7 +13,6 @@ import org.json.simple.parser.ParseException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Serializable;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -32,10 +31,10 @@ public class JsonParser implements Serializable {
 
     public static HashMap<String, CornerSymbol> cornerSymbolHashMap = new HashMap<>();
     static {
-        cornerSymbolHashMap.put("PLANTKINGDOM", CornerSymbol.PLANTKINGDOM);
-        cornerSymbolHashMap.put("ANIMALKINGDOM", CornerSymbol.ANIMALKINGDOM);
-        cornerSymbolHashMap.put("INSECTKINGDOM", CornerSymbol.INSECTKINGDOM);
-        cornerSymbolHashMap.put("FUNGIKINGDOM", CornerSymbol.FUNGIKINGDOM);
+        cornerSymbolHashMap.put("PLANTKINGDOM", CornerSymbol.PLANT);
+        cornerSymbolHashMap.put("ANIMALKINGDOM", CornerSymbol.ANIMAL);
+        cornerSymbolHashMap.put("INSECTKINGDOM", CornerSymbol.INSECT);
+        cornerSymbolHashMap.put("FUNGIKINGDOM", CornerSymbol.FUNGI);
         cornerSymbolHashMap.put("QUILL", CornerSymbol.QUILL);
         cornerSymbolHashMap.put("INKWELL", CornerSymbol.INKWELL);
         cornerSymbolHashMap.put("MANUSCRIPT", CornerSymbol.MANUSCRIPT);

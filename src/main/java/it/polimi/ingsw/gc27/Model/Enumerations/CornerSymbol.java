@@ -3,13 +3,16 @@ package it.polimi.ingsw.gc27.Model.Enumerations;
 import it.polimi.ingsw.gc27.View.ColourControl;
 
 import java.io.Serializable;
+import java.util.Arrays;
+import java.util.List;
 
 public enum CornerSymbol implements Serializable {
+
     EMPTY(" "),
-    PLANTKINGDOM(ColourControl.GREEN_BOLD + "P" + ColourControl.RESET),
-    ANIMALKINGDOM(ColourControl.CYAN_BOLD + "A" + ColourControl.RESET),
-    INSECTKINGDOM(ColourControl.PURPLE_BOLD + "I" + ColourControl.RESET),
-    FUNGIKINGDOM(ColourControl.RED_BOLD + "F" + ColourControl.RESET),
+    PLANT(ColourControl.GREEN_BOLD + "P" + ColourControl.RESET),
+    ANIMAL(ColourControl.CYAN_BOLD + "A" + ColourControl.RESET),
+    INSECT(ColourControl.PURPLE_BOLD + "I" + ColourControl.RESET),
+    FUNGI(ColourControl.RED_BOLD + "F" + ColourControl.RESET),
     QUILL(ColourControl.YELLOW_BOLD + "q" + ColourControl.RESET),
     INKWELL(ColourControl.YELLOW_BOLD + "i" + ColourControl.RESET),
     MANUSCRIPT(ColourControl.YELLOW_BOLD + "m" + ColourControl.RESET),
@@ -24,6 +27,11 @@ public enum CornerSymbol implements Serializable {
     public String toCliString() {
         return initials;
     }
+
+    public static List<CornerSymbol> valuesList() {
+        return Arrays.asList(CornerSymbol.values());
+    }
+
 }
 
 

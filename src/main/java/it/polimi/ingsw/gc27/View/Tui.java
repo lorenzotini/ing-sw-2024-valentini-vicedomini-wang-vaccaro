@@ -46,6 +46,8 @@ public class Tui implements View {
 
             out.print(client.getMiniModel().getPlayer().getPlayerState() + "\n> ");
 
+            scan.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+
             String command = scan.nextLine();
 //            if (command.equals("\n") || command.isEmpty()){
 //                command = scan.nextLine();
@@ -155,17 +157,25 @@ public class Tui implements View {
                     if (!checkState(DrawingState.class)) {
                         break;
                     }
-
-                    out.println(showMarket(client.getMiniModel().getMarket()));
-                    out.println("\nEnter [cardType] [fromDeck] [faceUpIndex] (res/gold, true/false, 0/1)");
-                    String line = scan.nextLine();
-                    String[] words = line.split(" ");
-                    String cardType = words[0];
-                    boolean fromDeck = Boolean.parseBoolean(words[1]);
-                    int faceUpIndex = Integer.parseInt(words[2]);
-                    boolean isGold = cardType.equalsIgnoreCase("gold");
-                    Command comm = new DrawCardCommand(client.getUsername(), isGold, fromDeck, faceUpIndex);
-                    client.sendCommand(comm);
+                    do {
+                        out.println(showMarket(client.getMiniModel().getMarket()));
+                        out.println("\nEnter [cardType] [fromDeck] [faceUpIndex] (res/gold, true/false, 0/1)");
+                        String line = scan.nextLine();
+                        String[] words = line.split(" ");
+                        if (words.length == 3) {
+                            try{
+                                String cardType = words[0];
+                                boolean fromDeck = Boolean.parseBoolean(words[1]);
+                                int faceUpIndex = Integer.parseInt(words[2]);
+                                boolean isGold = cardType.equalsIgnoreCase("gold");
+                                Command comm = new DrawCardCommand(client.getUsername(), isGold, fromDeck, faceUpIndex);
+                                client.sendCommand(comm);
+                                break;
+                            }catch(Exception e){
+                                out.println("Invalid format");
+                            }
+                        }
+                    }while(true);
                     break;
 
                 case "man":

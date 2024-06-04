@@ -5,6 +5,7 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
@@ -33,6 +34,10 @@ public class LoginSceneController implements GenericController {
 
     @FXML
     public TextArea gameIDCreated;//displays the ID of the game the player has just created
+    @FXML
+    public Label customlabel1;
+    @FXML
+    public Label customlabel2;
 
 
     public TextArea getGameIDCreated() {
@@ -61,17 +66,40 @@ public class LoginSceneController implements GenericController {
     public void selectColour(ActionEvent event) {
         if (event.getSource().equals(blueButton)) {
             Gui.getInstance().stringFromSceneController("blue");
+            blueButton.getStyleClass().add("pressed");
+            disableOtherButtons(blueButton);
         } else if (event.getSource().equals(redButton)) {
             Gui.getInstance().stringFromSceneController("red");
+            redButton.getStyleClass().add("pressed");
+            disableOtherButtons(redButton);
         } else if (event.getSource().equals(yellowButton)) {
             Gui.getInstance().stringFromSceneController("yellow");
+            yellowButton.getStyleClass().add("pressed");
+            disableOtherButtons(yellowButton);
         } else {
             Gui.getInstance().stringFromSceneController("green");
+            greenButton.getStyleClass().add("pressed");
+            disableOtherButtons(greenButton);
         }
     }
 
     public void sendToLobby() throws IOException {
         Gui.getInstance().switchScene("/fxml/LobbyScene.fxml");
+    }
+
+    public void disableOtherButtons(Button button){
+        if(!button.equals(redButton)){
+            redButton.setDisable(true);
+        }
+        if(!button.equals(greenButton)){
+            greenButton.setDisable(true);
+        }
+        if(!button.equals(blueButton)){
+            blueButton.setDisable(true);
+        }
+        if(!button.equals(yellowButton)){
+            yellowButton.setDisable(true);
+        }
     }
 
 
@@ -91,6 +119,8 @@ public class LoginSceneController implements GenericController {
                 sendColourButton.setDisable(false);
                 //if the player chooses the wrong username (already chosen) and then the right one, the message error is set to invisible
                 errorUsername.setVisible(false);
+                customlabel1.setText("Choose the");
+                customlabel2.setText("Pawn Colour");
             }
             if(ackType.contains("Game created with id")) {//receives game id, sets it into TextArea of LoginScene
                 gameIDCreated.setVisible(true);//forse da togliere(?)
@@ -106,13 +136,8 @@ public class LoginSceneController implements GenericController {
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
-
             }
-
-
         });
-
-
     }
 
     @Override
@@ -121,7 +146,6 @@ public class LoginSceneController implements GenericController {
             errorUsername.setText("Username not available");
             errorUsername.setVisible(true);
         });
-
 
     }
 }

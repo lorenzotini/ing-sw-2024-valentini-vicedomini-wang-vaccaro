@@ -56,8 +56,10 @@ public class NewGameSceneController implements GenericController{
     }
 
     @Override
-    public void receiveOk(String ackType) {
-
+    public void receiveOk(String ackType) { //shows the game id in the login scene
+        LoginSceneController log= (LoginSceneController) Gui.getInstance().getControllerFromName("/fxml/LoginScene.fxml");
+        log.getGameIDCreated().setVisible(true);
+        log.getGameIDCreated().setText(ackType);
     }
 
     @Override

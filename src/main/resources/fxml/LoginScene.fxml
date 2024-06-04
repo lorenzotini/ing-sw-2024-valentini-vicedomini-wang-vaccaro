@@ -32,7 +32,7 @@
       <Button fx:id="sendUsernameButton" layoutX="1002.0" layoutY="227.0" mnemonicParsing="false" onAction="#sendUsername" prefHeight="38.0" prefWidth="65.0" text="-&gt;" />
       <Button fx:id="sendColourButton" layoutX="1002.0" layoutY="552.0" mnemonicParsing="false" onAction="#sendToLobby" prefHeight="38.0" prefWidth="65.0" text="-&gt;" />
       <ImageView fitHeight="478.0" fitWidth="477.0" layoutX="218.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true" styleClass="imageview" />
-      <TextField fx:id="errorUsername" layoutX="695.0" layoutY="315.0" prefHeight="100.0" prefWidth="200.0" text="USERNAME NOT AVAILABLE ! ! !" visible="false" />
+      <TextField fx:id="errorUsername" layoutX="695.0" layoutY="315.0" prefHeight="100.0" prefWidth="200.0"  visible="false" />
       <TextArea fx:id="gameIDCreated" layoutX="645.0" layoutY="40.0" prefHeight="118.0" prefWidth="250.0" visible="false" />
    </children>
 </AnchorPane>

@@ -41,17 +41,30 @@ public class JoinGameSceneController implements GenericController{
 
     @Override
     public void receiveOk(String ackType) {
-       if(ackType.equals("validID")){
+
            Platform.runLater(() -> {
-               try {
-                   // Cambia la scena qui
-                   errorGameID.setVisible(false);
-                   Gui.getInstance().switchScene("/fxml/LoginScene.fxml");
-               } catch (IOException e) {
-                   throw new RuntimeException(e);
+               if(ackType.equals("validID")) {
+                   try {
+                       // Cambia la scena qui
+                       errorGameID.setVisible(false);
+                       Gui.getInstance().switchScene("/fxml/LoginScene.fxml");
+                   } catch (IOException e) {
+                       throw new RuntimeException(e);
+                   }
+               }
+               else if(ackType.equals("disconnectedPlayer")){
+                   try {
+                       LoginSceneController loginContr= (LoginSceneController) Gui.getInstance().getControllerFromName("/fxml/LoginScene.fxml");
+                       loginContr.getGameIDCreated().setText("\nThis game has a disconnected player. Are you him? If so, please enter your username.");
+                       loginContr.getGameIDCreated().setVisible(true);
+                       Gui.getInstance().switchScene("/fxml/LoginScene.fxml");
+                   } catch (IOException e) {
+                       throw new RuntimeException(e);
+                   }
+               }else{
+                   System.out.println("\nMESSAGGIO NON TROVATO\n");
                }
            });
-       }
     }
 
     @Override

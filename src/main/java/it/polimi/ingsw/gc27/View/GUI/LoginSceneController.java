@@ -31,13 +31,16 @@ public class LoginSceneController implements GenericController {
     @FXML
     public TextField errorUsername;
 
-
-
     @FXML
     public TextArea gameIDCreated;//displays the ID of the game the player has just created
 
+
     public TextArea getGameIDCreated() {
         return gameIDCreated;
+    }
+    public TextField getErrorUsername() {return errorUsername;}
+    public void setGameIDCreated(TextArea gameIDCreated) {
+        this.gameIDCreated = gameIDCreated;
     }
 
 
@@ -53,12 +56,6 @@ public class LoginSceneController implements GenericController {
     @FXML
     public void sendUsername() { //does not check if username is valid
         Gui.getInstance().stringFromSceneController(UsernameInput.getText());
-//            blueButton.setDisable(false);
-//            greenButton.setDisable(false);
-//            yellowButton.setDisable(false);
-//            redButton.setDisable(false);
-//            sendColourButton.setDisable(false);
-        System.out.println("\nsent Username: " + UsernameInput.getText());
     }
 
     public void selectColour(ActionEvent event) {
@@ -96,8 +93,19 @@ public class LoginSceneController implements GenericController {
                 errorUsername.setVisible(false);
             }
             if(ackType.contains("Game created with id")) {//receives game id, sets it into TextArea of LoginScene
-                gameIDCreated.setVisible(true);
+                gameIDCreated.setVisible(true);//forse da togliere(?)
                 gameIDCreated.setText(ackType);
+                //todo: non funziona più dopo a ver messo la resilienza
+            }
+            if(ackType.contains("playerReconnected")){
+                errorUsername.setText("Welcome back!!!");
+                errorUsername.setVisible(true);
+                Gui.getInstance().setReconnected(true);
+                try {
+                    Gui.getInstance().switchScene("/fxml/ManuscriptScene.fxml");
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
 
             }
 
@@ -109,12 +117,8 @@ public class LoginSceneController implements GenericController {
 
     @Override
     public void receiveKo(String ackType) {
-        Platform.runLater(() -> { //TODO far aprire un popup con un messaggio passato
-//            try {
-//                Gui.getInstance().switchScene("/fxml/ErrorScene.fxml");
-//            } catch (IOException e) {
-//                throw new RuntimeException(e);
-//            }
+        Platform.runLater(() -> {
+            errorUsername.setText("Username not available");
             errorUsername.setVisible(true);
         });
 

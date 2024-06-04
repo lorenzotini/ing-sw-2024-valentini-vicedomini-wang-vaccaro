@@ -112,18 +112,19 @@ public class GigaController {
                                 gc.getGame().getPlayers().stream().anyMatch(Player::isDisconnected)) {
 
                             client.show("\nThis game has a disconnected player. Are you him? If so, please enter your username.");
+                            client.update(new OkMessage("disconnectedPlayer"));
                             String disconnectedUsername = client.read();
 
                             // If the player is found, reconnect him, else null is returned
                             boolean clientReconnected = tryReconnectPlayer(client, gc, disconnectedUsername);
 
+
                             if (clientReconnected) {
+                                client.update(new OkMessage("playerReconnected"));
                                 return;
                             }
-
                         } else {
                             client.show("\nGame is full. Restarting...");
-
                             client.update(new KoMessage("gameFull"));
                         }
                     }

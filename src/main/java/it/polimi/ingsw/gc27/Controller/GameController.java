@@ -97,7 +97,11 @@ public class GameController implements Serializable {
 
     public void suspendPlayer(Player player) {
         player.setDisconnected(true);
-        turnHandler.handleDisconnection(player, this);
+        try {
+            turnHandler.handleDisconnection(player, this);
+        }catch(NullPointerException e){
+
+        }
     }
 
     // Create a player from command line, but hand, secret objective and starter are not instantiated
@@ -136,9 +140,10 @@ public class GameController implements Serializable {
                 game.getAvailablePawns().remove(pawnColourSelected);
             }catch(IOException e){
                 System.out.println("Disconnected player before choosing a color");
-                pawnColourSelected = game.getAvailablePawns().getFirst();
-                game.getAvailablePawns().remove(pawnColourSelected);
-
+                synchronized (game.getPlayers()){
+                    game.setNumActualPlayers(game.getNumActualPlayers()-1);
+                }
+                return;
             }
         }
 
@@ -166,15 +171,15 @@ public class GameController implements Serializable {
         }catch(IOException e){
 
         }
+
         // All players are ready
-        if (game.getNumActualPlayers() == this.getNumMaxPlayers()) {
+        if (game.ready(p) == numMaxPlayers) {
             this.turnHandler = new TurnHandler(this.game);
             for (Player player : game.getPlayers()) {
                 player.setPlayerState(new InitializingState(player, this.turnHandler));
                 game.notifyObservers(new UpdateStartOfGameMessage(new MiniModel(player, game), ""));
             }
         }
-
     }
 
     public void sendChatMessage(ChatMessage chatMessage) {

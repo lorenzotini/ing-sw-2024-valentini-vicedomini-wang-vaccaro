@@ -35,6 +35,7 @@ public class Game implements Serializable {
     private ArrayList<PawnColour> availablePawns = new ArrayList<>(List.of(PawnColour.GREEN, PawnColour.YELLOW, PawnColour.BLUE, PawnColour.RED));
     private final Chat generalChat = new Chat();
     final private HashMap< Pair<Player, Player>, Chat> chatMap = new HashMap<>();
+    private int readyPlayers = 0;
 
 
     public Game() {
@@ -85,15 +86,12 @@ public class Game implements Serializable {
     public void setObjectiveDeck(ArrayList<ObjectiveCard> objectiveDeck) {
         this.objectiveDeck = objectiveDeck;
     }
-
     public Market getMarket() {
         return market;
     }
-
     public void setMarket(Market market) {
         this.market = market;
     }
-
     public synchronized ArrayList<PawnColour> getAvailablePawns() {
         return availablePawns;
     }
@@ -103,7 +101,6 @@ public class Game implements Serializable {
     public Board getBoard() {
         return board;
     }
-
     public void setBoard(Board board) {
         this.board = board;
     }
@@ -209,5 +206,10 @@ public class Game implements Serializable {
         return count >= players.size() - 1;
 
     }
-
+    public int ready(Player p) {
+        synchronized (board){
+            this.readyPlayers++;
+            return readyPlayers;
+        }
+    }
 }

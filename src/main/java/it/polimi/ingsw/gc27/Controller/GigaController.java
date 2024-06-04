@@ -131,11 +131,10 @@ public class GigaController {
                             try{
 
                                 boolean clientReconnected = tryReconnectPlayer(client, gc, disconnectedUsername);
-
                                 if (clientReconnected) {
                                     return;
                                 }
-                            }catch (RemoteException e){
+                            }catch (IOException e){
                                 System.out.println("Connection lost before reconnecting a game (123)");
                                 return;
                             }
@@ -222,7 +221,7 @@ public class GigaController {
         controller.executeCommands();
     }
 
-    private boolean tryReconnectPlayer(VirtualView client, GameController gc, String disconnectedUsername) throws RemoteException {
+    private boolean tryReconnectPlayer(VirtualView client, GameController gc, String disconnectedUsername) throws IOException {
 
         for (Player p : gc.getGame().getPlayers()) {
             if (p.getUsername().equals(disconnectedUsername) && p.isDisconnected()) {

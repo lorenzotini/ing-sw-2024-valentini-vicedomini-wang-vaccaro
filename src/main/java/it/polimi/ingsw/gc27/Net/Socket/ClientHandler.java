@@ -48,16 +48,20 @@ public class ClientHandler implements VirtualView {
             try {
                 String message = (String) input.readObject();
                 if (message.equals("welcomeplayer")) {
-                    try{
 
-                        console.welcomePlayer(this);
-                        verifyPing();
-                    }catch(IOException e){
-                        disconnected();
-                    }
+                    console.welcomePlayer(this);
+                    verifyPing();
+                    new Thread(() -> {
+                        try {
+                            pingFromServer();
+                        } catch (RemoteException e) {
+                            System.out.println("remote exception lol xd");
+                        }
+                    }).start();
+
                 }
             } catch (ClassNotFoundException | InterruptedException | IOException e) {
-                throw new RuntimeException(e);
+                disconnected();
             }
             while (true) {
                 try {
@@ -75,15 +79,8 @@ public class ClientHandler implements VirtualView {
                 }
             }
         }).start();
-        new Thread(() ->{
-            try{
-                pingFromServer();
-            }catch(RemoteException e){
-                System.out.println("remote exception lol xd");
-            }
-        }).start();
-    }
 
+    }
 
 
     @Override
@@ -115,15 +112,15 @@ public class ClientHandler implements VirtualView {
     }
 
     @Override
-    public void setUsername(String username) throws RemoteException {
+    public void setUsername(String username) throws IOException {
         player = console.getPlayer(username);
-        try {
-            output.writeObject(new SetUsernameMessage(username));
-            output.reset();
-            output.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+        output.writeObject(new SetUsernameMessage(username));
+        output.reset();
+        output.flush();
+
+
+
     }
 
     @Override
@@ -167,11 +164,11 @@ public class ClientHandler implements VirtualView {
 
     @Override
     public void pingFromServer() throws RemoteException {
-        while(!disconnected){
+        while (!disconnected) {
             update(new PingMessage(""));
-            try{
-                Thread.sleep(5000);
-            }catch(InterruptedException e){
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
 
             }
         }

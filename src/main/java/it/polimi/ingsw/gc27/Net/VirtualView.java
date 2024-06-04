@@ -15,7 +15,7 @@ public interface VirtualView extends Remote, Serializable {
 
     String read() throws IOException, InterruptedException;
 
-    void setUsername(String username) throws RemoteException;
+    void setUsername(String username) throws IOException;
 
     void runClient() throws IOException, InterruptedException;
 

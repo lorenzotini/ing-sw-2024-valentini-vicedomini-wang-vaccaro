@@ -25,7 +25,7 @@ public class SocketServerProxy implements VirtualServer {
     final VirtualView client;
     Socket serverSocket;
     ObjectInputStream input;
-    long lastPingFromServer = 0;
+    private long lastPingFromServer = 0;
     ObjectOutputStream output;
 
     public SocketServerProxy(VirtualView client, String ipAddress, int port) {
@@ -72,7 +72,7 @@ public class SocketServerProxy implements VirtualServer {
             }
 
         }).start();
-        new Thread(this::checkServerIsAlive).start();
+
     }
 
     private void checkServerIsAlive()  {
@@ -81,7 +81,7 @@ public class SocketServerProxy implements VirtualServer {
         }
         while(true){
             if((System.currentTimeMillis() - this.lastPingFromServer) >5000) {
-                System.out.println("The connection has been lost, please restart the game");
+                System.out.println("The connection has been lost, please restart the game"+ this.lastPingFromServer);
                 try {
                     client.close();
                 }catch(RemoteException e){
@@ -99,7 +99,7 @@ public class SocketServerProxy implements VirtualServer {
 
     private void runVirtualServer() throws InterruptedException {
         Message message;
-
+        new Thread(this::checkServerIsAlive).start();
         new Thread(() -> {
             while (true){
                 try {

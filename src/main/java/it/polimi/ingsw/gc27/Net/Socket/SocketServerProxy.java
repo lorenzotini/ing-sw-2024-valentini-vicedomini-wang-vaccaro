@@ -80,7 +80,7 @@ public class SocketServerProxy implements VirtualServer {
             this.lastPingFromServer = System.currentTimeMillis();
         }
         while(true){
-            if((System.currentTimeMillis() - this.lastPingFromServer) >5000) {
+            if((System.currentTimeMillis() - this.lastPingFromServer) >10000) {
                 System.out.println("The connection has been lost, please restart the game"+ this.lastPingFromServer);
                 try {
                     client.close();

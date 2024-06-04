@@ -16,6 +16,7 @@ public class UpdatePlayerStateMessage extends Message {
     public void reportUpdate(VirtualView client, View view) {
         try{
             client.getMiniModel().setPlayer(this.getMiniModel().getPlayer());
+            client.getMiniModel().setBoard(this.getMiniModel().getBoard());
             view.showString(this.string);
         }catch(RemoteException e){
 

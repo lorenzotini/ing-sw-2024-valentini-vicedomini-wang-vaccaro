@@ -132,23 +132,27 @@ public class Tui implements View {
                     if (!checkState(PlayingState.class)) {
                         break;
                     }
-                    out.println(showManuscript(client.getMiniModel().getManuscript()));
-                    out.println("\nWhich card do you want to add? (choose from 1, 2, 3)");
-                    int cardIndex = scan.nextInt() - 1;
-                    out.println("\nFront or back?");
-                    String face = scan.next();
-                    out.println("\nx = ");
-                    int x = scan.nextInt();
-                    out.println("\ny = ");
-                    int y = scan.nextInt();
-                    if (face.equalsIgnoreCase("front")) {
-                        Command comm = new AddCardCommand(client.getUsername(), cardIndex, true, x, y);
-                        client.sendCommand(comm);
-                    } else if (face.equalsIgnoreCase("back")) {
-                        Command comm = new AddCardCommand(client.getUsername(), cardIndex, false, x, y);
-                        client.sendCommand(comm);
-                    } else {
-                        out.println("\nInvalid face: abort");
+                    try {
+                        out.println(showManuscript(client.getMiniModel().getManuscript()));
+                        out.println("\nWhich card do you want to add? (choose from 1, 2, 3)");
+                        int cardIndex = scan.nextInt() - 1;
+                        out.println("\nFront or back?");
+                        String face = scan.next();
+                        out.println("\nx = ");
+                        int x = scan.nextInt();
+                        out.println("\ny = ");
+                        int y = scan.nextInt();
+                        if (face.equalsIgnoreCase("front")) {
+                            Command comm = new AddCardCommand(client.getUsername(), cardIndex, true, x, y);
+                            client.sendCommand(comm);
+                        } else if (face.equalsIgnoreCase("back")) {
+                            Command comm = new AddCardCommand(client.getUsername(), cardIndex, false, x, y);
+                            client.sendCommand(comm);
+                        } else {
+                            out.println("\nInvalid face: abort");
+                        }
+                    }catch(Exception e){
+
                     }
                     break;
 

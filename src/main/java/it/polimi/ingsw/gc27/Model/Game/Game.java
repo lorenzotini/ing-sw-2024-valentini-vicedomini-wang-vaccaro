@@ -168,9 +168,6 @@ public class Game implements Serializable {
         observers.removeIf(obs -> obs.getPlayerUsername().equals(username));
     }
 
-    public void removeObserver(Observer o) {
-        observers.remove(o);
-    }
 
     public void notifyObservers(Message message) {
         for (Observer o : observers) {

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
-
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="544.0" prefWidth="861.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.gc27.View.GUI.JoinGameSceneController">
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.text.Font?>
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" styleClass="backgroundpane" stylesheets="@../css/JoinGameScene.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.gc27.View.GUI.JoinGameSceneController">
    <children>
       <TextField fx:id="idTextField" layoutX="767.0" layoutY="321.0" prefHeight="50.0" prefWidth="210.0" />
@@ -16,7 +16,7 @@
             <Font name="Agency FB" size="30.0" />
          </font></TextArea>
       <Button fx:id="sendGameIdButton" layoutX="1003.0" layoutY="334.0" mnemonicParsing="false" onAction="#sendGameId" text="-&gt;" />
-      <Button fx:id="backButton" layoutX="65.0" layoutY="642.0" mnemonicParsing="false" onAction="#previousScene" text="BACK" />
+      <Button fx:id="backButton" layoutX="65.0" layoutY="642.0" mnemonicParsing="false" onAction="#previousScene" text="BACK" visible="false"/>
       <TextArea fx:id="errorGameID" layoutX="244.0" layoutY="259.0" prefHeight="104.0" prefWidth="286.0" text="THIS GAME ID DOES NOT EXIST ! ! !&#10;&#10;ASK YOUR FRIENDS AGAIN IF YOU WANT TO &#10;JOIN THEIR GAME" visible="false" />
       <ImageView fitHeight="332.0" fitWidth="478.0" layoutX="219.0" layoutY="99.0" pickOnBounds="true" preserveRatio="true" styleClass="customlabel" />
       <Label layoutX="484.0" layoutY="281.0" text="Let's Play">

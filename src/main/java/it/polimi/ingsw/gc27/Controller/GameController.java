@@ -126,7 +126,7 @@ public class GameController implements Serializable {
                 client.show("\nChoose your color: ");
                 for (PawnColour pawnColour : game.getAvailablePawns()) {
                     client.show(pawnColour.toString());
-                    client.update(new OkMessage(pawnColour.toString()));
+                    client.update(new OkMessage("Choose your color:"+pawnColour.toString()));
                     //client.update(new ColorMessage());
                 }
                 pawnColor = client.read();

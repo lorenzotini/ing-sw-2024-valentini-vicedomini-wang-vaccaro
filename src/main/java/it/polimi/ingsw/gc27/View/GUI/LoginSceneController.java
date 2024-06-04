@@ -5,9 +5,11 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
 import java.io.IOException;
+import java.text.NumberFormat;
 
 //fourth scene, sends information about player
 public class LoginSceneController implements GenericController {
@@ -26,7 +28,21 @@ public class LoginSceneController implements GenericController {
     public Button sendUsernameButton;
     @FXML
     public Button sendColourButton;
+    @FXML
     public TextField errorUsername;
+
+    @FXML
+    public TextArea gameIDCreated;//displays the ID of the game the player has just created
+
+
+    public TextArea getGameIDCreated() {
+        return gameIDCreated;
+    }
+    public TextField getErrorUsername() {return errorUsername;}
+    public void setGameIDCreated(TextArea gameIDCreated) {
+        this.gameIDCreated = gameIDCreated;
+    }
+
 
     @FXML
     public void initialize() {
@@ -40,12 +56,6 @@ public class LoginSceneController implements GenericController {
     @FXML
     public void sendUsername() { //does not check if username is valid
         Gui.getInstance().stringFromSceneController(UsernameInput.getText());
-//            blueButton.setDisable(false);
-//            greenButton.setDisable(false);
-//            yellowButton.setDisable(false);
-//            redButton.setDisable(false);
-//            sendColourButton.setDisable(false);
-        System.out.println("\nsent Username: " + UsernameInput.getText());
     }
 
     public void selectColour(ActionEvent event) {
@@ -69,17 +79,36 @@ public class LoginSceneController implements GenericController {
     public void receiveOk(String ackType) {
         //only shows available pawn colours
         Platform.runLater(() -> {
-            if (ackType.contains("BLUE"))
-                blueButton.setDisable(false);
-            if (ackType.contains("GREEN"))
-                greenButton.setDisable(false);
-            if (ackType.contains("YELLOW"))
-                yellowButton.setDisable(false);
-            if (ackType.contains("RED"))
-                redButton.setDisable(false);
-            sendColourButton.setDisable(false);
-            //if the player chooses the wrong username (already chosen) and then the right one, the message error is set to invisible
-            errorUsername.setVisible(false);
+            if(ackType.contains("Choose your color:")) {
+                if (ackType.contains("BLUE"))
+                    blueButton.setDisable(false);
+                if (ackType.contains("GREEN"))
+                    greenButton.setDisable(false);
+                if (ackType.contains("YELLOW"))
+                    yellowButton.setDisable(false);
+                if (ackType.contains("RED"))
+                    redButton.setDisable(false);
+                sendColourButton.setDisable(false);
+                //if the player chooses the wrong username (already chosen) and then the right one, the message error is set to invisible
+                errorUsername.setVisible(false);
+            }
+            if(ackType.contains("Game created with id")) {//receives game id, sets it into TextArea of LoginScene
+                gameIDCreated.setVisible(true);//forse da togliere(?)
+                gameIDCreated.setText(ackType);
+                //todo: non funziona più dopo a ver messo la resilienza
+            }
+            if(ackType.contains("playerReconnected")){
+                errorUsername.setText("Welcome back!!!");
+                errorUsername.setVisible(true);
+                Gui.getInstance().setReconnected(true);
+                try {
+                    Gui.getInstance().switchScene("/fxml/ManuscriptScene.fxml");
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+
+            }
+
 
         });
 
@@ -88,12 +117,8 @@ public class LoginSceneController implements GenericController {
 
     @Override
     public void receiveKo(String ackType) {
-        Platform.runLater(() -> { //TODO far aprire un popup con un messaggio passato
-//            try {
-//                Gui.getInstance().switchScene("/fxml/ErrorScene.fxml");
-//            } catch (IOException e) {
-//                throw new RuntimeException(e);
-//            }
+        Platform.runLater(() -> {
+            errorUsername.setText("Username not available");
             errorUsername.setVisible(true);
         });
 

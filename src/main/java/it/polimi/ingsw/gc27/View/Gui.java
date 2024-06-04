@@ -23,6 +23,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 
 public class Gui implements View {
+    private boolean isReconnected=false;
 
     private static Gui gui = null;
 
@@ -76,6 +77,9 @@ public class Gui implements View {
         this.client = client;
     }
     public BlockingQueue<String> getMessagesReceived() {return messagesReceived;}
+    public void setReconnected(boolean reconnected) {
+        isReconnected = reconnected;
+    }
     //end setters and getters
 
     //singleton pattern
@@ -107,23 +111,20 @@ public class Gui implements View {
 
         Platform.runLater(() -> {
             try {
-                 //set the starter cards
-                StarterCard starter = this.client.getMiniModel().getPlayer().getStarterCard();
-                PlaceStarterCardScene contr = (PlaceStarterCardScene) getControllerFromName(PLACESTARTER);
-                contr.changeImageFront(getClass().getResource(starter.getFront().getImagePath()).toExternalForm());
-                contr.changeImageBack(getClass().getResource(starter.getBack().getImagePath()).toExternalForm());
-                switchScene("/fxml/PlaceStarterCardScene.fxml");
+                if (!isReconnected) {
+                    //set the starter cards
+                    StarterCard starter = this.client.getMiniModel().getPlayer().getStarterCard();
+                    PlaceStarterCardScene contr = (PlaceStarterCardScene) getControllerFromName(PLACESTARTER);
+                    contr.changeImageFront(getClass().getResource(starter.getFront().getImagePath()).toExternalForm());
+                    contr.changeImageBack(getClass().getResource(starter.getBack().getImagePath()).toExternalForm());
+                    switchScene("/fxml/PlaceStarterCardScene.fxml");
 
-                ObjectiveCard objectiveCard1 = this.client.getMiniModel().getPlayer().getSecretObjectives().get(0);
-
-                ObjectiveCard objectiveCard2 = this.client.getMiniModel().getPlayer().getSecretObjectives().get(1);
-
-                ChooseObjectiveSceneController contr2 = (ChooseObjectiveSceneController) getControllerFromName(CHOOSEOBJ);
-
-                contr2.changeImageObj1(getClass().getResource(objectiveCard1.getFront().getImagePath()).toExternalForm());
-
-                contr2.changeImageObj2(getClass().getResource(objectiveCard2.getFront().getImagePath()).toExternalForm());
-
+                    ObjectiveCard objectiveCard1 = this.client.getMiniModel().getPlayer().getSecretObjectives().get(0);
+                    ObjectiveCard objectiveCard2 = this.client.getMiniModel().getPlayer().getSecretObjectives().get(1);
+                    ChooseObjectiveSceneController contr2 = (ChooseObjectiveSceneController) getControllerFromName(CHOOSEOBJ);
+                    contr2.changeImageObj1(getClass().getResource(objectiveCard1.getFront().getImagePath()).toExternalForm());
+                    contr2.changeImageObj2(getClass().getResource(objectiveCard2.getFront().getImagePath()).toExternalForm());
+                }
 
 
             } catch (IOException e) {
@@ -215,9 +216,6 @@ public class Gui implements View {
     @Override
     public void showString(String phrase) {
         messagesReceived.add(phrase);
-        System.out.println(phrase);
-
-
     }
 
     @Override
@@ -263,21 +261,16 @@ public class Gui implements View {
 
     @Override
     public void okAck(String string) {
+        System.out.println("\nOk " +currentController.toString() + string);
         currentController.receiveOk(string);
     }
 
     @Override
     public void koAck(String string) {
+        System.out.println("\nKo " +currentController.toString() + string);
         currentController.receiveKo(string);
         //error handler
     }
-
-
-
-
-
-
-
 
 
 

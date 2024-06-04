@@ -68,7 +68,7 @@ public class GigaController {
                     break;
                 } catch (NumberFormatException e) {
                     client.show("\nInvalid input. Please enter a valid game id or 'new' to start a new game");
-                    client.update(new KoMessage("invalidFormat"));
+                    client.update(new KoMessage("invalidFormatID"));
                 }
             }
         }
@@ -86,7 +86,7 @@ public class GigaController {
                 GameController gc = null;
                 synchronized (gameControllers){
                     for (var control : gameControllers) {
-                        if (control.getId() == gameId) {
+                        if (control.getId() == Integer.parseInt(game)) {
                             gc = control;
                         }
                     }
@@ -97,7 +97,8 @@ public class GigaController {
                 // TODO non so se è meglio togliere questa show
                 if(gc!= null) {
                     client.show("\nJoining game " + game + "...");
-                    client.update(new OkMessage("validID"));
+
+
                     synchronized (gc.getGame().getPlayers()) {
 
                         if (gc.getGame().getNumActualPlayers() < gc.getNumMaxPlayers()) { // game not full, can join
@@ -105,23 +106,26 @@ public class GigaController {
                             int a = gc.getGame().getNumActualPlayers();
                             gc.getGame().setNumActualPlayers(a + 1);
                             canEnter = true;
+                            client.update(new OkMessage("validID"));
 
                         } else if (gc.getGame().getNumActualPlayers() == gc.getNumMaxPlayers() &&      // game full, but a disconnected player can rejoin
                                 gc.getGame().getPlayers().stream().anyMatch(Player::isDisconnected)) {
 
                             client.show("\nThis game has a disconnected player. Are you him? If so, please enter your username.");
+                            client.update(new OkMessage("disconnectedPlayer"));
                             String disconnectedUsername = client.read();
 
                             // If the player is found, reconnect him, else null is returned
                             boolean clientReconnected = tryReconnectPlayer(client, gc, disconnectedUsername);
 
+
                             if (clientReconnected) {
+                                client.update(new OkMessage("playerReconnected"));
                                 return;
                             }
-
                         } else {
-
                             client.show("\nGame is full. Restarting...");
+                            client.update(new KoMessage("gameFull"));
                         }
                     }
 
@@ -135,15 +139,14 @@ public class GigaController {
                         return;
                     }
                 }
-                else {
-                    client.show("\nGame not found. Please enter a valid game id or 'new' to start a new game");
-                    client.update(new KoMessage("invalidID"));
-                    game = client.read();
 
-                    if (game.equalsIgnoreCase("new")) {
-                        createNewGame(client);
-                        return;
-                    }
+                client.show("\nGame not found. Please enter a valid game id or 'new' to start a new game");
+                client.update(new KoMessage("invalidID"));
+                game = client.read();
+
+                if (game.equalsIgnoreCase("new")) {
+                    createNewGame(client);
+                    return;
                 }
             } while (true);
 
@@ -177,6 +180,7 @@ public class GigaController {
         }
         // count the player who created the game
         controller.getGame().setNumActualPlayers(1);
+        client.update(new OkMessage("\nGame created with id " + controller.getId() + "\n" + "\nWaiting for players to join..."));
         client.show("\nGame created with id " + controller.getId() + "\n" + "\nWaiting for players to join...");
         controller.initializePlayer(client, this);
         controller.executeCommands();

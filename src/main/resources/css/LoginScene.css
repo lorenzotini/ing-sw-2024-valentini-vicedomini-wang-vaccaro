@@ -53,6 +53,12 @@
     -fx-background-size: cover;
     -fx-background-color: transparent;
 }
+#redButton:hover{
+    -fx-background-image: url('../Images/utility/pawn_red_selected.png');
+    -fx-background-size: cover;
+    -fx-background-color: transparent;
+}
+
 
 #greenButton{
     -fx-background-image: url('../Images/utility/pawn_green.png');
@@ -64,6 +70,12 @@
     -fx-background-size: cover;
     -fx-background-color: transparent;
 }
+#greenButton:hover{
+    -fx-background-image: url('../Images/utility/pawn_green_selected.png');
+    -fx-background-size: cover;
+    -fx-background-color: transparent;
+}
+
 
 #blueButton{
     -fx-background-image: url('../Images/utility/pawn_blue.png');
@@ -75,6 +87,12 @@
     -fx-background-size: cover;
     -fx-background-color: transparent;
 }
+#blueButton:hover{
+    -fx-background-image: url('../Images/utility/pawn_blue_selected.png');
+    -fx-background-size: cover;
+    -fx-background-color: transparent;
+}
+
 
 #yellowButton{
     -fx-background-image: url('../Images/utility/pawn_yellow.png');
@@ -85,4 +103,25 @@
     -fx-background-image: url('../Images/utility/pawn_yellow_selected.png');
     -fx-background-size: cover;
     -fx-background-color: transparent;
+}
+#yellowButton:hover{
+    -fx-background-image: url('../Images/utility/pawn_yellow_selected.png');
+    -fx-background-size: cover;
+    -fx-background-color: transparent;
+}
+
+
+.selectionbutton{
+    -fx-background-color: #e4dfb2;
+    -fx-border-width: 6px;
+    -fx-border-color: #c4a64d;
+    -fx-border-radius: 10;
+}
+
+.selectionbutton:hover{
+    -fx-effect: dropshadow(gaussian, rgba(255, 255, 255, 1.0), 20, 0.5, 0, 0);
+}
+.selectionbutton:pressed{
+    -fx-effect: innershadow(gaussian, rgba(255, 255, 255, 0.5), 10, 0.5, 0, 0);
+    -fx-translate-y: 2px;
 }

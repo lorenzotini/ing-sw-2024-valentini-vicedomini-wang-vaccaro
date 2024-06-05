@@ -96,8 +96,9 @@ public class ManuscriptSceneController implements GenericController {
 
                     // playable positions
                     if (miniModel.getPlayer().getManuscript().isValidPlacement(i, j)){
-                        imageView.setImage(new Image(getClass().getResource("/images/utility/validPlacement.png").toExternalForm()));
-                        handleDropEvent(imageView);
+                        imageView.setImage(new Image(getClass().getResource("/images/utility/pawn_blue.png").toExternalForm()));
+                        handleDropEventManuscript(imageView);
+                        imageView.toFront();
                     }
 
                     imageView.setFitHeight(100);
@@ -110,12 +111,13 @@ public class ManuscriptSceneController implements GenericController {
             }
         }
 
+
         // populate hand with cards
         for (int i = 0; i < 3; i++) {
             ImageView handCard = new ImageView(new Image(miniModel.getPlayer().getHand().get(i).getFront().getImagePath()));
             handCard.setFitHeight(100);
             handCard.setFitWidth(150);
-            handleDragDetected(handCard);
+            handleDragDetectedHand(handCard);
             zoomCardOnHover(handCard, 1.3);
             handCards.getChildren().add(handCard);
         }
@@ -127,14 +129,14 @@ public class ManuscriptSceneController implements GenericController {
                 ImageView marketResource = new ImageView(new Image(miniModel.getMarket().getResourceDeck().getLast().getBack().getImagePath()));
                 marketResource.setFitHeight(50);
                 marketResource.setFitWidth(75);
-                handleDragDetected(marketResource);
+                handleDragDetectedHand(marketResource);
                 zoomCardOnHover(marketResource, 2.5);
                 marketResources.getChildren().add(marketResource);
                 // golds
                 ImageView marketGold = new ImageView(new Image(miniModel.getMarket().getGoldDeck().getLast().getBack().getImagePath()));
                 marketGold.setFitHeight(50);
                 marketGold.setFitWidth(75);
-                handleDragDetected(marketGold);
+                handleDragDetectedHand(marketGold);
                 zoomCardOnHover(marketGold, 2.5);
                 marketGolds.getChildren().add(marketGold);
             } else {
@@ -142,14 +144,14 @@ public class ManuscriptSceneController implements GenericController {
                 ImageView marketResource = new ImageView(new Image(miniModel.getMarket().getFaceUp(false)[i-1].getFront().getImagePath()));
                 marketResource.setFitHeight(50);
                 marketResource.setFitWidth(75);
-                handleDragDetected(marketResource);
+                handleDragDetectedHand(marketResource);
                 zoomCardOnHover(marketResource, 2.5);
                 marketResources.getChildren().add(marketResource);
                 // golds
                 ImageView marketGold = new ImageView(new Image(miniModel.getMarket().getFaceUp(true)[i-1].getFront().getImagePath()));
                 marketGold.setFitHeight(50);
                 marketGold.setFitWidth(75);
-                handleDragDetected(marketGold);
+                handleDragDetectedHand(marketGold);
                 zoomCardOnHover(marketGold, 2.5);
                 marketGolds.getChildren().add(marketGold);
             }
@@ -192,7 +194,7 @@ public class ManuscriptSceneController implements GenericController {
 
     }
 
-    void handleDropEvent(ImageView imgView) {
+    void handleDropEventManuscript(ImageView imgView) {
 
         // DRAG OVER
         imgView.setOnDragOver(event -> {
@@ -208,6 +210,7 @@ public class ManuscriptSceneController implements GenericController {
             Dragboard db = event.getDragboard();
             if (db.hasImage()) {
                 imgView.setImage(db.getImage());
+                imgView.toFront();
                 event.setDropCompleted(true);
             }
             event.consume();
@@ -215,7 +218,7 @@ public class ManuscriptSceneController implements GenericController {
 
     }
 
-    void handleDragDetected(ImageView imgView) {
+    void handleDragDetectedHand(ImageView imgView) {
 
         // DRAG DETECTED
         imgView.setOnDragDetected(event -> {

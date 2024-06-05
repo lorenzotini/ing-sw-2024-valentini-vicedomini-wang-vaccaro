@@ -3,6 +3,10 @@ package it.polimi.ingsw.gc27.View.GUI;
 import it.polimi.ingsw.gc27.Model.Enumerations.CornerSymbol;
 import it.polimi.ingsw.gc27.Model.Game.Manuscript;
 import it.polimi.ingsw.gc27.Model.MiniModel;
+import it.polimi.ingsw.gc27.Net.Commands.AddCardCommand;
+import it.polimi.ingsw.gc27.Net.Commands.Command;
+import it.polimi.ingsw.gc27.View.GUI.UserData.HandCardData;
+import it.polimi.ingsw.gc27.View.GUI.UserData.ManuscriptCardData;
 import it.polimi.ingsw.gc27.View.Gui;
 import javafx.fxml.FXML;
 import javafx.scene.control.ScrollPane;
@@ -22,6 +26,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Scale;
 
+import java.io.IOException;
 import java.rmi.RemoteException;
 
 
@@ -41,8 +46,12 @@ public class ManuscriptSceneController implements GenericController {
     private VBox commonObjectives;
     @FXML
     private TabPane chat;
-//    @FXML
-//    private ImageView scoreboard;
+
+    // attributes to handle addCard invocation
+    private int handCardIndex;
+    private boolean isFront;
+    private int x;
+    private int y;
 
 
     public void init() {
@@ -89,6 +98,9 @@ public class ManuscriptSceneController implements GenericController {
 
                     ImageView imageView = new ImageView();
 
+                    ManuscriptCardData manuscriptCardData = new ManuscriptCardData(i, j);
+                    imageView.setUserData(manuscriptCardData);
+
                     // set image for the center starter card
                     if (i == Manuscript.FIELD_DIM / 2 && j == Manuscript.FIELD_DIM / 2) {
                         imageView.setImage(new Image(miniModel.getPlayer().getManuscript().getStarterFace().getImagePath()));
@@ -98,6 +110,7 @@ public class ManuscriptSceneController implements GenericController {
                     if (miniModel.getPlayer().getManuscript().isValidPlacement(i, j)){
                         imageView.setImage(new Image(getClass().getResource("/images/utility/pawn_blue.png").toExternalForm()));
                         handleDropEventManuscript(imageView);
+                        imageView.toFront();
                         imageView.toFront();
                     }
 
@@ -119,6 +132,8 @@ public class ManuscriptSceneController implements GenericController {
             handCard.setFitWidth(150);
             handleDragDetectedHand(handCard);
             zoomCardOnHover(handCard, 1.3);
+            HandCardData handCardData = new HandCardData(i, true);
+            handCard.setUserData(handCardData);
             handCards.getChildren().add(handCard);
         }
 
@@ -202,6 +217,7 @@ public class ManuscriptSceneController implements GenericController {
             if (db.hasImage() || db.hasFiles()) {
                 event.acceptTransferModes(TransferMode.MOVE);
             }
+            System.out.println("dragOver" + event);
             event.consume();
         });
 
@@ -211,8 +227,15 @@ public class ManuscriptSceneController implements GenericController {
             if (db.hasImage()) {
                 imgView.setImage(db.getImage());
                 imgView.toFront();
+                imgView.setOnDragDropped(null);  // disable further drops
+                imgView.setOnDragOver(null);
                 event.setDropCompleted(true);
+                ManuscriptCardData manuscriptCardData = (ManuscriptCardData) imgView.getUserData();
+                this.x = manuscriptCardData.x;
+                this.y = manuscriptCardData.y;
             }
+            addCard();
+            System.out.println("dragDropped" + event);
             event.consume();
         });
 
@@ -226,6 +249,7 @@ public class ManuscriptSceneController implements GenericController {
             ClipboardContent cb = new ClipboardContent();
             cb.putImage(imgView.getImage());
             db.setContent(cb);
+            System.out.println("dragDetected" + event);
             event.consume();
         });
 
@@ -234,6 +258,10 @@ public class ManuscriptSceneController implements GenericController {
             if (event.getTransferMode() == TransferMode.MOVE) {
                 imgView.setImage(null);
             }
+            System.out.println("dragDone" + event);
+            HandCardData handCardData = (HandCardData) imgView.getUserData();
+            this.handCardIndex = handCardData.handIndex;
+            this.isFront = handCardData.isFront;
             event.consume();
         });
 
@@ -254,6 +282,17 @@ public class ManuscriptSceneController implements GenericController {
             imgView.setFitWidth(originalWidth);
         });
 
+    }
+
+    private void addCard(){
+        String username;
+        try {
+            username = Gui.getInstance().getClient().getUsername();
+            Command command = new AddCardCommand(username, this.handCardIndex, isFront, this.x, this.y);
+            Gui.getInstance().getClient().sendCommand(command);
+        } catch (InterruptedException | IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

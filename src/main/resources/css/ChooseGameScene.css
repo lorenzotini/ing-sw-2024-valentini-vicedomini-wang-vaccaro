@@ -12,3 +12,17 @@
     -fx-image: url("../Images/utility/decoration2.png");
 
 }
+
+.button{
+    -fx-background-color: #e4dfb2;
+    -fx-border-width: 7px;
+    -fx-border-color: #c4a64d;
+    -fx-border-radius: 10;
+}
+.button:hover{
+    -fx-effect: dropshadow(gaussian, rgba(255, 255, 255, 1.0), 20, 0.5, 0, 0);
+}
+.button:pressed{
+    -fx-effect: innershadow(gaussian, rgba(255, 255, 255, 0.5), 10, 0.5, 0, 0);
+    -fx-translate-y: 2px;
+}

@@ -17,8 +17,14 @@
          <image>
             <Image url="@../Images/cards/card101_back.png" />
          </image></ImageView>
-      <Button fx:id="objButton1" layoutX="287.0" layoutY="636.0" mnemonicParsing="false" onAction="#sendObj" prefHeight="25.0" prefWidth="120.0" text="1" />
-      <Button fx:id="objButton2" layoutX="874.0" layoutY="636.0" mnemonicParsing="false" onAction="#sendObj" prefHeight="25.0" prefWidth="120.0" text="2" />
+      <Button fx:id="objButton1" layoutX="287.0" layoutY="620.0" mnemonicParsing="false" onAction="#sendObj" prefHeight="25.0" prefWidth="120.0" text="Select">
+         <font>
+            <Font name="Agency FB" size="24.0" />
+         </font></Button>
+      <Button fx:id="objButton2" layoutX="874.0" layoutY="620.0" mnemonicParsing="false" onAction="#sendObj" prefHeight="25.0" prefWidth="120.0" text="Select">
+         <font>
+            <Font name="Agency FB" size="24.0" />
+         </font></Button>
       <ImageView fitHeight="324.0" fitWidth="585.0" layoutX="398.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true" styleClass="customlabel" />
       <Label layoutX="670.0" layoutY="195.0" text="Choose your">
          <font>

@@ -185,7 +185,7 @@ public class ManuscriptSceneController implements GenericController {
         // counters
         for (CornerSymbol cs : CornerSymbol.valuesList()) {
             if(cs.equals(CornerSymbol.BLACK) || cs.equals(CornerSymbol.EMPTY)) continue;
-            TextField counter = new TextField(cs.toString() + miniModel.getManuscript().getCounter(cs));
+            TextField counter = new TextField(cs.toString() + " " + miniModel.getManuscript().getCounter(cs));
             counter.setEditable(false);
             counters.getChildren().add(counter);
         }

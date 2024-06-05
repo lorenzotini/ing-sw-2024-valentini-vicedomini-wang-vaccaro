@@ -132,6 +132,7 @@ public class Tui implements View {
                     }
 
                     out.println(showManuscript(client.getMiniModel().getManuscript()));
+                    out.println(showHand(client.getMiniModel().getHand()));
                     out.println("\nWhich card do you want to add? (choose from 1, 2, 3)");
                     int cardIndex = scan.nextInt() - 1;
                     out.println("\nFront or back?");

@@ -6,7 +6,6 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane prefHeight="720.0" prefWidth="1280.0" styleClass="anchorpane" stylesheets="@../css/EndingScene.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.gc27.View.GUI.EndingSceneController">
    <children>
       <ImageView fitHeight="410.0" fitWidth="312.0" layoutX="484.0" layoutY="364.0" pickOnBounds="true" preserveRatio="true" styleClass="gamemaster" />
@@ -15,7 +14,7 @@
             <Font name="Agency FB" size="96.0" />
          </font>
       </Label>
-      <StackPane layoutX="358.0" layoutY="231.0">
+      <StackPane layoutX="358.0" layoutY="252.0">
          <children>
             <Label text="Player's username">
                <font>
@@ -24,6 +23,38 @@
             </Label>
          </children>
       </StackPane>
-      <ImageView fitHeight="85.0" fitWidth="151.0" layoutX="569.0" layoutY="167.0" pickOnBounds="true" preserveRatio="true" styleClass="treedecoration" />
+      <ImageView fitHeight="85.0" fitWidth="151.0" layoutX="569.0" layoutY="172.0" pickOnBounds="true" preserveRatio="true" styleClass="crowndecoration" />
+      <Label layoutX="88.0" layoutY="545.0" text="Second Place">
+         <font>
+            <Font name="Agency FB" size="28.0" />
+         </font>
+      </Label>
+      <Label layoutX="88.0" layoutY="595.0" text="Third Place">
+         <font>
+            <Font name="Agency FB" size="28.0" />
+         </font>
+      </Label>
+      <Label layoutX="88.0" layoutY="645.0" text="Forth Place">
+         <font>
+            <Font name="Agency FB" size="28.0" />
+         </font>
+      </Label>
+      <Label layoutX="255.0" layoutY="545.0" text="Second Place Points">
+         <font>
+            <Font name="Agency FB" size="28.0" />
+         </font>
+      </Label>
+      <Label layoutX="255.0" layoutY="595.0" text="Third Place Points">
+         <font>
+            <Font name="Agency FB" size="28.0" />
+         </font>
+      </Label>
+      <Label layoutX="255.0" layoutY="645.0" text="Forth Place Points">
+         <font>
+            <Font name="Agency FB" size="28.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="816.0" layoutY="350.0" pickOnBounds="true" preserveRatio="true" rotate="60.0" styleClass="lighthand" />
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="368.0" layoutY="350.0" pickOnBounds="true" preserveRatio="true" rotate="-60.0" styleClass="darkhand" />
    </children>
 </AnchorPane>

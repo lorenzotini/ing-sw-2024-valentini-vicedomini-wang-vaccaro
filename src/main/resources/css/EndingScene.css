@@ -7,6 +7,17 @@
     -fx-image: url("../Images/utility/gamemaster.png");
 }
 
-.treedecoration{
+.crowndecoration{
     -fx-image: url("../Images/utility/crown.png");
+}
+
+.lighthand{
+    -fx-image: url("../Images/utility/lighthand.png");
+}
+.decoration1{
+    -fx-image: url("../Images/utility/decoration1.png");
+}
+
+.darkhand{
+    -fx-image: url("../Images/utility/darkhandrb.png");
 }

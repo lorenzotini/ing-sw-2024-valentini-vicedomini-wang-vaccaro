@@ -34,6 +34,7 @@ public interface View {
     String read();
 
     void okAck(String string);
+
     void koAck(String string);
 
 }

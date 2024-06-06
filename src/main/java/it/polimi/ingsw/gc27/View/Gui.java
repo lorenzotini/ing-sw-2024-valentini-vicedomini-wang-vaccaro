@@ -6,6 +6,7 @@ import it.polimi.ingsw.gc27.Model.Card.StarterCard;
 import it.polimi.ingsw.gc27.Model.Game.Board;
 import it.polimi.ingsw.gc27.Model.Game.Manuscript;
 import it.polimi.ingsw.gc27.Model.Game.Market;
+import it.polimi.ingsw.gc27.Model.MiniModel;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 import it.polimi.ingsw.gc27.View.GUI.*;
 import javafx.application.Platform;
@@ -15,6 +16,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.BlockingQueue;
@@ -197,12 +199,20 @@ public class Gui implements View {
 
     @Override
     public void showString(String phrase) {
+        System.out.println(phrase);
         messagesReceived.add(phrase);
     }
 
     @Override
     public void show(ArrayList<ResourceCard> hand) {
-
+        ManuscriptSceneController controller = (ManuscriptSceneController) Gui.getInstance().getCurrentController();
+        MiniModel miniModel;
+        try {
+            miniModel = client.getMiniModel();
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
+        controller.overwriteHand(miniModel);
     }
 
     @Override
@@ -212,7 +222,14 @@ public class Gui implements View {
 
     @Override
     public void show(Manuscript manuscript) {
-
+        if(Gui.getInstance().getCurrentController() instanceof ManuscriptSceneController) {
+            ManuscriptSceneController controller = (ManuscriptSceneController) Gui.getInstance().getCurrentController();
+            controller.manuscriptCard.setImage(controller.handCard.getImage());
+            controller.handCard.setImage(null);
+            controller.manuscriptCard.setOnDragDropped(null);  // disable further drops
+            controller.manuscriptCard.setOnDragOver(null);
+            controller.setNewAvailablePositions();
+        }
     }
 
     @Override
@@ -222,7 +239,14 @@ public class Gui implements View {
 
     @Override
     public void show(Market market) {
-
+        ManuscriptSceneController controller = (ManuscriptSceneController) Gui.getInstance().getCurrentController();
+        MiniModel miniModel;
+        try {
+            miniModel = client.getMiniModel();
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
+        controller.overwriteMarket(miniModel);
     }
 
     @Override

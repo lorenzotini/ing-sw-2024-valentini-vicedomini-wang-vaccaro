@@ -11,8 +11,6 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.*;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
 
 public class RmiServer implements VirtualServer {
 
@@ -52,7 +50,6 @@ public class RmiServer implements VirtualServer {
     }
 
     public void receiveCommand(Command command) {
-
         console.addCommandToGameController(command);
     }
 
@@ -63,7 +60,7 @@ public class RmiServer implements VirtualServer {
 
             synchronized (clients) {
                 Iterator<VirtualView> iterator = clients.iterator();
-                while(iterator.hasNext()) {
+                while (iterator.hasNext()) {
                     VirtualView client = iterator.next();
                     if (clientsPing.get(client) == 0) {
                         clientsPing.put(client, System.currentTimeMillis());

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="720.0" prefWidth="1280.0" styleClass="anchorpane" stylesheets="@../css/EndingScene.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.gc27.View.GUI.EndingSceneController">
+   <children>
+      <ImageView fitHeight="410.0" fitWidth="312.0" layoutX="484.0" layoutY="364.0" pickOnBounds="true" preserveRatio="true" styleClass="gamemaster" />
+      <Label layoutX="414.0" layoutY="25.0" text="The Winner is...">
+         <font>
+            <Font name="Agency FB" size="96.0" />
+         </font>
+      </Label>
+      <StackPane layoutX="358.0" layoutY="231.0">
+         <children>
+            <Label text="Player's username">
+               <font>
+                  <Font name="Agency FB" size="96.0" />
+               </font>
+            </Label>
+         </children>
+      </StackPane>
+      <ImageView fitHeight="85.0" fitWidth="151.0" layoutX="569.0" layoutY="167.0" pickOnBounds="true" preserveRatio="true" styleClass="treedecoration" />
+   </children>
+</AnchorPane>

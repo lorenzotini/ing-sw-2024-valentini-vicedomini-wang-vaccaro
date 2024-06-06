@@ -1,0 +1,12 @@
+.anchorpane{
+    -fx-background-image: url("../Images/utility/background2.png");
+    -fx-background-size: cover;
+}
+
+.gamemaster{
+    -fx-image: url("../Images/utility/gamemaster.png");
+}
+
+.treedecoration{
+    -fx-image: url("../Images/utility/crown.png");
+}

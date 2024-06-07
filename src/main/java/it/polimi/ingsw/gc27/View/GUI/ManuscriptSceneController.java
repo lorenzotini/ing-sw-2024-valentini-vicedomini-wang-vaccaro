@@ -105,6 +105,7 @@ public class ManuscriptSceneController implements GenericController {
             }
         });
 
+        // populate grid with imageViews
         boolean flag = true;
         for (int i = 1; i < Manuscript.FIELD_DIM-1; i++) {       // requires odd terminal value to work, especially for the j loop
             for (int j = 1; j < Manuscript.FIELD_DIM-1; j++) {
@@ -122,9 +123,8 @@ public class ManuscriptSceneController implements GenericController {
 
                     // playable positions
                     if (miniModel.getPlayer().getManuscript().isValidPlacement(i, j)){
-                        imageView.setImage(new Image(getClass().getResource("/images/utility/pawn_blue.png").toExternalForm()));
+                        imageView.setImage(new Image(getClass().getResource("/images/utility/validPlacement2.png").toExternalForm()));
                         handleDropEventManuscript(imageView);
-                        imageView.toFront();
                         imageView.toFront();
                     }
 
@@ -137,47 +137,6 @@ public class ManuscriptSceneController implements GenericController {
                 flag = !flag;
             }
         }
-
-        // populate grid with imageViews
-//        boolean flag = true;
-//        for (int i = 1; i < Manuscript.FIELD_DIM - 1; i++) {       // requires odd terminal value to work, especially for the j loop
-//            for (int j = 1; j < Manuscript.FIELD_DIM - 1; j++) {
-//
-//                ImageView imageView = new ImageView();
-//
-//                ManuscriptCardData manuscriptCardData = new ManuscriptCardData(i, j);
-//                imageView.setUserData(manuscriptCardData);
-//
-//                // set image for the center starter card
-//                if (i == Manuscript.FIELD_DIM / 2 && j == Manuscript.FIELD_DIM / 2) {
-//                    imageView.setImage(new Image(miniModel.getPlayer().getManuscript().getStarterFace().getImagePath()));
-//                }
-//
-//                // playable positions
-//                if (miniModel.getPlayer().getManuscript().isValidPlacement(i, j)){
-//                    imageView.setImage(new Image(getClass().getResource("/images/utility/pawn_blue.png").toExternalForm()));
-//                    handleDropEventManuscript(imageView);
-//                    imageView.toFront();
-//                }
-//
-//                imageView.setFitHeight(100);
-//                imageView.setFitWidth(150);
-//
-//                grid.add(imageView, i, j);
-//
-//            }
-//        }
-
-
-//        ImageView imageView = new ImageView();
-//        imageView.setImage(new Image(miniModel.getPlayer().getManuscript().getStarterFace().getImagePath()));
-//        ManuscriptCardData manuscriptCardData = new ManuscriptCardData(Manuscript.FIELD_DIM, Manuscript.FIELD_DIM);
-//        imageView.setUserData(manuscriptCardData);
-//        imageView.setFitHeight(100);
-//        imageView.setFitWidth(150);
-//
-//        grid.add(imageView, Manuscript.FIELD_DIM, Manuscript.FIELD_DIM);
-
 
         // populate hand with cards
         overwriteHand(miniModel);
@@ -213,12 +172,7 @@ public class ManuscriptSceneController implements GenericController {
         }
 
         // counters
-        for (CornerSymbol cs : CornerSymbol.valuesList()) {
-            if (cs.equals(CornerSymbol.BLACK) || cs.equals(CornerSymbol.EMPTY)) continue;
-            TextField counter = new TextField(cs.toString() + " " + miniModel.getManuscript().getCounter(cs));
-            counter.setEditable(false);
-            counters.getChildren().add(counter);
-        }
+        overwriteCounters(miniModel);
 
     }
 
@@ -394,6 +348,22 @@ public class ManuscriptSceneController implements GenericController {
 
     }
 
+    public void overwriteCounters(MiniModel miniModel){
+
+        Platform.runLater(() -> {
+
+            counters.getChildren().clear();
+            for (CornerSymbol cs : CornerSymbol.valuesList()) {
+                if (cs.equals(CornerSymbol.BLACK) || cs.equals(CornerSymbol.EMPTY)) continue;
+                TextField counter = new TextField(cs + " " + miniModel.getManuscript().getCounter(cs));
+                counter.setEditable(false);
+                counters.getChildren().add(counter);
+            }
+
+        });
+
+    }
+
     public void setNewAvailablePositions() {
 
         Platform.runLater(() -> {
@@ -407,7 +377,7 @@ public class ManuscriptSceneController implements GenericController {
                 for (int j = -1; j <= 1; j = j + 2) {
                     if (miniModel.getPlayer().getManuscript().isValidPlacement(x + i, y + j)) {
                         ImageView imageView = getImageViewFromGrid(grid, x + i, y + j);
-                        imageView.setImage(new Image(getClass().getResource("/images/utility/pawn_blue.png").toExternalForm()));
+                        imageView.setImage(new Image(getClass().getResource("/images/utility/validPlacement2.png").toExternalForm()));
                         handleDropEventManuscript(imageView);
                         imageView.toFront();
                     }

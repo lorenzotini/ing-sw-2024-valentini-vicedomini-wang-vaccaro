@@ -229,6 +229,15 @@ public class Gui implements View {
             controller.manuscriptCard.setOnDragDropped(null);  // disable further drops
             controller.manuscriptCard.setOnDragOver(null);
             controller.setNewAvailablePositions();
+
+            //update counters
+            MiniModel miniModel;
+            try {
+                miniModel = client.getMiniModel();
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
+            }
+            controller.overwriteCounters(miniModel);
         }
     }
 

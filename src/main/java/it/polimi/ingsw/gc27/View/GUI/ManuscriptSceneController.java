@@ -12,6 +12,7 @@ import it.polimi.ingsw.gc27.View.GUI.UserData.ManuscriptCardData;
 import it.polimi.ingsw.gc27.View.GUI.UserData.MarketCardData;
 import it.polimi.ingsw.gc27.View.Gui;
 import javafx.application.Platform;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
@@ -104,35 +105,79 @@ public class ManuscriptSceneController implements GenericController {
             }
         });
 
-        // populate grid with imageViews
         boolean flag = true;
-        for (int i = 1; i < Manuscript.FIELD_DIM - 1; i++) {       // requires odd terminal value to work, especially for the j loop
-            for (int j = 1; j < Manuscript.FIELD_DIM - 1; j++) {
+        for (int i = 1; i < Manuscript.FIELD_DIM-1; i++) {       // requires odd terminal value to work, especially for the j loop
+            for (int j = 1; j < Manuscript.FIELD_DIM-1; j++) {
+                if (flag) {
 
-                ImageView imageView = new ImageView();
+                    ImageView imageView = new ImageView();
 
-                ManuscriptCardData manuscriptCardData = new ManuscriptCardData(i, j);
-                imageView.setUserData(manuscriptCardData);
+                    ManuscriptCardData manuscriptCardData = new ManuscriptCardData(i, j);
+                    imageView.setUserData(manuscriptCardData);
 
-                // set image for the center starter card
-                if (i == Manuscript.FIELD_DIM / 2 && j == Manuscript.FIELD_DIM / 2) {
-                    imageView.setImage(new Image(miniModel.getPlayer().getManuscript().getStarterFace().getImagePath()));
+                    // set image for the center starter card
+                    if (i == Manuscript.FIELD_DIM / 2 && j == Manuscript.FIELD_DIM / 2) {
+                        imageView.setImage(new Image(miniModel.getPlayer().getManuscript().getStarterFace().getImagePath()));
+                    }
+
+                    // playable positions
+                    if (miniModel.getPlayer().getManuscript().isValidPlacement(i, j)){
+                        imageView.setImage(new Image(getClass().getResource("/images/utility/pawn_blue.png").toExternalForm()));
+                        handleDropEventManuscript(imageView);
+                        imageView.toFront();
+                        imageView.toFront();
+                    }
+
+                    imageView.setFitHeight(100);
+                    imageView.setFitWidth(150);
+
+                    grid.add(imageView, i, j);
+
                 }
-
-                // playable positions
-                if (miniModel.getPlayer().getManuscript().isValidPlacement(i, j)){
-                    imageView.setImage(new Image(getClass().getResource("/images/utility/pawn_blue.png").toExternalForm()));
-                    handleDropEventManuscript(imageView);
-                    imageView.toFront();
-                }
-
-                imageView.setFitHeight(100);
-                imageView.setFitWidth(150);
-
-                grid.add(imageView, i, j);
-
+                flag = !flag;
             }
         }
+
+        // populate grid with imageViews
+//        boolean flag = true;
+//        for (int i = 1; i < Manuscript.FIELD_DIM - 1; i++) {       // requires odd terminal value to work, especially for the j loop
+//            for (int j = 1; j < Manuscript.FIELD_DIM - 1; j++) {
+//
+//                ImageView imageView = new ImageView();
+//
+//                ManuscriptCardData manuscriptCardData = new ManuscriptCardData(i, j);
+//                imageView.setUserData(manuscriptCardData);
+//
+//                // set image for the center starter card
+//                if (i == Manuscript.FIELD_DIM / 2 && j == Manuscript.FIELD_DIM / 2) {
+//                    imageView.setImage(new Image(miniModel.getPlayer().getManuscript().getStarterFace().getImagePath()));
+//                }
+//
+//                // playable positions
+//                if (miniModel.getPlayer().getManuscript().isValidPlacement(i, j)){
+//                    imageView.setImage(new Image(getClass().getResource("/images/utility/pawn_blue.png").toExternalForm()));
+//                    handleDropEventManuscript(imageView);
+//                    imageView.toFront();
+//                }
+//
+//                imageView.setFitHeight(100);
+//                imageView.setFitWidth(150);
+//
+//                grid.add(imageView, i, j);
+//
+//            }
+//        }
+
+
+//        ImageView imageView = new ImageView();
+//        imageView.setImage(new Image(miniModel.getPlayer().getManuscript().getStarterFace().getImagePath()));
+//        ManuscriptCardData manuscriptCardData = new ManuscriptCardData(Manuscript.FIELD_DIM, Manuscript.FIELD_DIM);
+//        imageView.setUserData(manuscriptCardData);
+//        imageView.setFitHeight(100);
+//        imageView.setFitWidth(150);
+//
+//        grid.add(imageView, Manuscript.FIELD_DIM, Manuscript.FIELD_DIM);
+
 
         // populate hand with cards
         overwriteHand(miniModel);
@@ -212,16 +257,16 @@ public class ManuscriptSceneController implements GenericController {
             cb.putImage(imgView.getImage());
             db.setContent(cb);
             this.handCard = imgView;
+
+            HandCardData handCardData = (HandCardData) imgView.getUserData();
+            this.handCardIndex = handCardData.handIndex;
+            this.isFront = handCardData.isFront;
+
             event.consume();
         });
 
         // DRAG DONE
-        imgView.setOnDragDone(event -> {
-            HandCardData handCardData = (HandCardData) imgView.getUserData();
-            this.handCardIndex = handCardData.handIndex;
-            this.isFront = handCardData.isFront;
-            event.consume();
-        });
+        imgView.setOnDragDone(Event::consume);
 
     }
 
@@ -296,6 +341,7 @@ public class ManuscriptSceneController implements GenericController {
                 newHandCard.setFitWidth(150);
                 handleDragDetectedHand(newHandCard);
                 zoomCardOnHover(newHandCard, 1.3);
+                // TODO gestire cambio faccia prima di giocare la carta
                 HandCardData handCardData = new HandCardData(miniModel.getPlayer().getHand().indexOf(card), true);
                 newHandCard.setUserData(handCardData);
                 handCards.getChildren().add(newHandCard);
@@ -359,13 +405,11 @@ public class ManuscriptSceneController implements GenericController {
             }
             for (int i = -1; i <= 1; i = i + 2) {
                 for (int j = -1; j <= 1; j = j + 2) {
-                    if (miniModel.getPlayer().getManuscript().isValidPlacement(x+i, y+j)) {
-                        ImageView imageView = getImageViewFromGrid(grid, x+i, y+j);
+                    if (miniModel.getPlayer().getManuscript().isValidPlacement(x + i, y + j)) {
+                        ImageView imageView = getImageViewFromGrid(grid, x + i, y + j);
                         imageView.setImage(new Image(getClass().getResource("/images/utility/pawn_blue.png").toExternalForm()));
                         handleDropEventManuscript(imageView);
-                        //imageView.toFront();
-                        System.out.println("New available position at " + (x+i) + " " + (y+j));
-                        System.out.println("x = " + x + " y =  " + y);
+                        imageView.toFront();
                     }
                 }
             }

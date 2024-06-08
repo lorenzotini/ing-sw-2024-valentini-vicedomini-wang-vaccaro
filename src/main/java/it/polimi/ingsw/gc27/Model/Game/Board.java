@@ -8,7 +8,7 @@ public class Board implements Serializable {
     private int pointsYellowPlayer;
     private int pointsGreenPlayer;
     private int pointsBluePlayer;
-    public final static int END_GAME_THRESHOLD = 5;
+    public final static int END_GAME_THRESHOLD = 1;
     public final static int MAX_POINTS = 29;
 
     public int getPointsRedPlayer() {

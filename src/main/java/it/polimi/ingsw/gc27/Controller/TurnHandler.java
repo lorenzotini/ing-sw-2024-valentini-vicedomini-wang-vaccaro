@@ -1,6 +1,7 @@
 package it.polimi.ingsw.gc27.Controller;
 
 import it.polimi.ingsw.gc27.Messages.Message;
+import it.polimi.ingsw.gc27.Messages.StringMessage;
 import it.polimi.ingsw.gc27.Messages.UpdateObjectiveMessage;
 import it.polimi.ingsw.gc27.Messages.UpdatePlayerStateMessage;
 import it.polimi.ingsw.gc27.Model.Game.Board;
@@ -11,6 +12,7 @@ import it.polimi.ingsw.gc27.Model.MiniModel;
 import it.polimi.ingsw.gc27.Model.States.*;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class TurnHandler implements Serializable {
@@ -48,8 +50,6 @@ public class TurnHandler implements Serializable {
             int i = 0;
 
             do {
-
-
                 Player p = players.get(i);
                 if(!p.isDisconnected()) {
                     p.setPlayerState(new PlayingState(p, this));
@@ -65,6 +65,7 @@ public class TurnHandler implements Serializable {
     }
 
     public void notifyEndOfTurnState(Player player) {
+
 
         List<Player> players = game.getPlayers();
         Board board = game.getBoard();
@@ -84,7 +85,8 @@ public class TurnHandler implements Serializable {
         if (!lastRound) {
 
             // Set to waiting state the player that just finished his turn
-            player.setPlayerState(new WaitingState(player, this));
+            players.get(index).setPlayerState(new WaitingState(players.get(index), this));
+
             updatePlayerStateMessage = new UpdatePlayerStateMessage(new MiniModel(player, game.getBoard()));
             this.game.notifyObservers(updatePlayerStateMessage);
 
@@ -117,9 +119,11 @@ public class TurnHandler implements Serializable {
 
         } else {
 
-            player.setPlayerState(new EndingState(player, this));
+            players.get(index).setPlayerState(new EndingState(players.get(index), this));
             updatePlayerStateMessage = new UpdatePlayerStateMessage(new MiniModel(player,game.getBoard()));
             this.game.notifyObservers(updatePlayerStateMessage);
+
+            this.notifyCalculateObjectivePoints(players.get(index));
 
             if (getNextOf(index, players).isDisconnected()) { // the next player is disconnected --> find the next connected player
 
@@ -134,9 +138,11 @@ public class TurnHandler implements Serializable {
 
             } else { // the next player is connected
 
-                getNextOf(index, players).setPlayerState(new PlayingState(getNextOf(index, players), this));
-                updatePlayerStateMessage = new UpdatePlayerStateMessage(new MiniModel(getNextOf(index, players),game.getBoard()));
-                this.game.notifyObservers(updatePlayerStateMessage);
+                //TODO: è sbagliato rimandare il player in PlayingState ma si dovrebbe scegliere il vincitore
+                //TODO: da cancellare vvvvvvv
+//                getNextOf(index, players).setPlayerState(new PlayingState(getNextOf(index, players), this));
+//                updatePlayerStateMessage = new UpdatePlayerStateMessage(new MiniModel(getNextOf(index, players),game.getBoard()));
+//                this.game.notifyObservers(updatePlayerStateMessage);
 
             }
 
@@ -163,11 +169,30 @@ public class TurnHandler implements Serializable {
                 points = p.getSecretObjectives().getFirst().calculateObjectivePoints(player.getManuscript());
                 game.addPoints(player, points); // adding the points to the respective player
             }
+
+            // get the maximum points of the match
+            int max = getMaxPoints();
+
+            // get the winner's username
+            ArrayList<String> winnerUsername = getWinnersUsername(max);
+
+            //TODO terminare la partita e notificare i giocatori e il vincitore
+
+            if(winnerUsername.size() == 1){
+                StringMessage winner = new StringMessage("The winner is " + winnerUsername.getFirst() + "!");
+                this.game.notifyObservers(winner);
+            } else {
+                StringBuilder winners = new StringBuilder();
+                for(String s : winnerUsername){
+                    winners.append(" ").append(s);
+                }
+                StringMessage winner = new StringMessage("The winners are " + winners + "!");
+                this.game.notifyObservers(winner);
+            }
         }
-
-        //TODO terminare la partita e notificare i giocatori e il vincitore
-
     }
+
+
 
     public void handleDisconnection(Player player, GameController gc) {
 
@@ -223,6 +248,65 @@ public class TurnHandler implements Serializable {
             gc.suspendGame();
         }
 
+    }
+
+
+    public int getMaxPoints(){
+        int max = 0;
+        for(Player p : game.getPlayers()){
+            switch (p.getPawnColour()){
+                case RED:
+                    if(game.getBoard().getPointsRedPlayer() >= max){
+                        max = game.getBoard().getPointsRedPlayer();
+                    }
+                    break;
+                case BLUE:
+                    if(game.getBoard().getPointsBluePlayer() >= max){
+                        max = game.getBoard().getPointsBluePlayer();
+                    }
+                    break;
+                case GREEN:
+                    if(game.getBoard().getPointsGreenPlayer() >= max){
+                        max = game.getBoard().getPointsGreenPlayer();
+                    }
+                    break;
+                case YELLOW:
+                    if(game.getBoard().getPointsYellowPlayer() >= max){
+                        max = game.getBoard().getPointsYellowPlayer();
+                    }
+                    break;
+            }
+        }
+        return max;
+    }
+
+    public ArrayList<String> getWinnersUsername(int max){
+        ArrayList<String> winnerUsername = new ArrayList<String>();
+        for(Player p : game.getPlayers()){
+            switch (p.getPawnColour()){
+                case RED:
+                    if(game.getBoard().getPointsRedPlayer() == max){
+                        winnerUsername.add(p.getUsername());
+                    }
+                    break;
+                case BLUE:
+                    if(game.getBoard().getPointsBluePlayer() == max){
+                        winnerUsername.add(p.getUsername());
+                    }
+                    break;
+                case GREEN:
+                    if(game.getBoard().getPointsGreenPlayer() == max){
+                        winnerUsername.add(p.getUsername());
+                    }
+                    break;
+                case YELLOW:
+                    if(game.getBoard().getPointsYellowPlayer() == max){
+                        winnerUsername.add(p.getUsername());
+                    }
+                    break;
+            }
+        }
+        return winnerUsername;
     }
 
     /**

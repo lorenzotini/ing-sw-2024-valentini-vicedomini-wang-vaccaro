@@ -15,7 +15,6 @@ public class EndingState extends PlayerState  {
 
     public EndingState(Player player, TurnHandler turnHandler) {
         super(player, turnHandler);
-        turnHandler.notifyCalculateObjectivePoints(getPlayer());
     }
 
     @Override

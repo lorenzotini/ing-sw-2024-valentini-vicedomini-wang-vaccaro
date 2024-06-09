@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="720.0" prefWidth="1280.0" styleClass="anchorpane" stylesheets="@../css/ChooseObjectiveScene.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.gc27.View.GUI.ChooseObjectiveSceneController">
+   <children>
+      <ImageView fx:id="obj1" fitHeight="200.0" fitWidth="320.0" layoutX="198.0" layoutY="390.0" pickOnBounds="true" preserveRatio="true" styleClass="objectivecard1">
+         <image>
+            <Image url="@../Images/cards/card101_back.png" />
+         </image></ImageView>
+      <ImageView fx:id="obj2" fitHeight="200.0" fitWidth="320.0" layoutX="785.0" layoutY="390.0" pickOnBounds="true" preserveRatio="true" styleClass="objectivecard1">
+         <image>
+            <Image url="@../Images/cards/card101_back.png" />
+         </image></ImageView>
+      <Button fx:id="objButton1" layoutX="287.0" layoutY="620.0" mnemonicParsing="false" onAction="#sendObj" prefHeight="25.0" prefWidth="120.0" text="Select">
+         <font>
+            <Font name="Agency FB" size="24.0" />
+         </font></Button>
+      <Button fx:id="objButton2" layoutX="874.0" layoutY="620.0" mnemonicParsing="false" onAction="#sendObj" prefHeight="25.0" prefWidth="120.0" text="Select">
+         <font>
+            <Font name="Agency FB" size="24.0" />
+         </font></Button>
+      <ImageView fitHeight="324.0" fitWidth="585.0" layoutX="398.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true" styleClass="customlabel" />
+      <Label layoutX="670.0" layoutY="195.0" text="Choose your">
+         <font>
+            <Font name="Agency FB" size="32.0" />
+         </font>
+      </Label>
+      <Label layoutX="649.0" layoutY="232.0" text="Secret Objective">
+         <font>
+            <Font name="Agency FB" size="32.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="440.0" layoutY="613.0" pickOnBounds="true" preserveRatio="true" styleClass="decoration" />
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="640.0" layoutY="613.0" pickOnBounds="true" preserveRatio="true" styleClass="decoration2" />
+   </children>
+</AnchorPane>

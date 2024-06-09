@@ -1,9 +1,8 @@
 package it.polimi.ingsw.gc27.Controller;
 
 import it.polimi.ingsw.gc27.Messages.ClosedGameForNoOneLeftMessage;
-import it.polimi.ingsw.gc27.Messages.Message;
-import it.polimi.ingsw.gc27.Messages.UpdateStartOfGameMessage;
-import it.polimi.ingsw.gc27.Model.Game.Game;
+import it.polimi.ingsw.gc27.Messages.KoMessage;
+import it.polimi.ingsw.gc27.Messages.OkMessage;
 import it.polimi.ingsw.gc27.Model.Game.Player;
 import it.polimi.ingsw.gc27.Net.Commands.Command;
 import it.polimi.ingsw.gc27.Net.Commands.ReconnectPlayerCommand;
@@ -27,7 +26,7 @@ public class GigaController {
 
 
     public GameController userToGameController(String username) {
-        synchronized (gameControllers){
+        synchronized (gameControllers) {
             for (var c : gameControllers) {
                 if (c.getGame().getPlayers().stream().anyMatch(p -> p.getUsername().equals(username))) {
                     return c;
@@ -73,6 +72,7 @@ public class GigaController {
                         break;
                     } catch (NumberFormatException e) {
                         client.show("\nInvalid input. Please enter a valid game id or 'new' to start a new game");
+                        client.update(new KoMessage("invalidFormatID"));
                     }
                 }
             }
@@ -91,7 +91,7 @@ public class GigaController {
             // join an existing game
             do {
                 GameController gc = null;
-                synchronized (gameControllers){
+                synchronized (gameControllers) {
                     for (var control : gameControllers) {
                         if (control.getId() == Integer.parseInt(game)) {
                             gc = control;
@@ -116,12 +116,14 @@ public class GigaController {
                             int a = gc.getGame().getNumActualPlayers();
                             gc.getGame().setNumActualPlayers(a + 1);
                             canEnter = true;
+                            client.update(new OkMessage("validID"));
 
                         } else if (gc.getGame().getNumActualPlayers() == gc.getNumMaxPlayers() &&      // game full, but a disconnected player can rejoin
                                 gc.getGame().getPlayers().stream().anyMatch(Player::isDisconnected)) {
                             String disconnectedUsername ;
                             try {
                                 client.show("\nThis game has a disconnected player. Are you him? If so, please enter your username.");
+                                client.update(new OkMessage("disconnectedPlayer"));
                                 disconnectedUsername = client.read();
                             }catch(IOException e){
                                 System.out.println("Connection lost before reconnecting a game (123)");
@@ -132,6 +134,7 @@ public class GigaController {
 
                                 boolean clientReconnected = tryReconnectPlayer(client, gc, disconnectedUsername);
                                 if (clientReconnected) {
+                                    client.update(new OkMessage("playerReconnected"));
                                     return;
                                 }
                             }catch (IOException e){
@@ -139,10 +142,10 @@ public class GigaController {
                                 return;
                             }
 
-
                         } else {
                             try {
                                 client.show("\nGame is full. Restarting...");
+                                client.update(new KoMessage("gameFull"));
                             }catch (IOException e){
                                 System.out.println("Connection lost before entering game (131)");
                                 return;
@@ -162,6 +165,7 @@ public class GigaController {
                 }
                 try {
                     client.show("\nGame not found. Please enter a valid game id or 'new' to start a new game");
+                    client.update(new KoMessage("invalidID"));
                     game = client.read();
                 }catch(IOException e){
                     System.out.println("Connection lost before entering game (131)");
@@ -182,9 +186,7 @@ public class GigaController {
         int numMaxPlayers;
         try {
 
-
             client.show("\nHow many player? there will be? (2-4)");
-
 
             do {
                 try {
@@ -211,6 +213,7 @@ public class GigaController {
         // count the player who created the game
         controller.getGame().setNumActualPlayers(1);
         try{
+            client.update(new OkMessage("\nGame created with id " + controller.getId() + "\n" + "\nWaiting for players to join..."));
             client.show("\nGame created with id " + controller.getId() + "\n" + "\nWaiting for players to join...");
 
         }catch(IOException e){
@@ -226,7 +229,6 @@ public class GigaController {
         for (Player p : gc.getGame().getPlayers()) {
             if (p.getUsername().equals(disconnectedUsername) && p.isDisconnected()) {
                 //reconnectClient(client, p, gc);
-
                 client.setUsername(p.getUsername());
                 registeredUsernames.put(p.getUsername(), client);
                 gc.addCommand(new ReconnectPlayerCommand(client, p));

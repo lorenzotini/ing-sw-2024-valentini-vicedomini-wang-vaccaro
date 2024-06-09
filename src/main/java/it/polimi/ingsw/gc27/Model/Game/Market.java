@@ -1,38 +1,44 @@
 package it.polimi.ingsw.gc27.Model.Game;
 
 import it.polimi.ingsw.gc27.Model.Card.GoldCard;
+import it.polimi.ingsw.gc27.Model.Card.ObjectiveCard.ObjectiveCard;
 import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Market implements Serializable {
+
     private ResourceCard[] faceUpResources = new ResourceCard[2];
     private GoldCard[] faceUpGolds = new GoldCard[2];
     private ArrayList<ResourceCard> resourceDeck;
     private ArrayList<GoldCard> goldDeck;
-    public Market(){
+    private ArrayList<ObjectiveCard> commonObjectives = new ArrayList<>();
+
+    public Market() {
 
     }
-    public Market(ArrayList<ResourceCard> resourceDeck, ArrayList<GoldCard> goldDeck, ResourceCard[] faceUpResources, GoldCard[] faceUpGolds) {
+
+    public Market(ArrayList<ResourceCard> resourceDeck, ArrayList<GoldCard> goldDeck, ResourceCard[] faceUpResources, GoldCard[] faceUpGolds, ArrayList<ObjectiveCard> commonObjectives) {
         this.faceUpResources = faceUpResources;
         this.faceUpGolds = faceUpGolds;
         this.resourceDeck = resourceDeck;
         this.goldDeck = goldDeck;
+        this.commonObjectives = commonObjectives;
     }
 
     public ResourceCard[] getFaceUp(boolean isGold) {
-        if(isGold){
+        if (isGold) {
             return faceUpGolds;
-        }else{
+        } else {
             return faceUpResources;
         }
     }
 
     public void setFaceUp(ResourceCard card, int index) {
-        if(card instanceof GoldCard){
+        if (card instanceof GoldCard) {
             this.faceUpGolds[index] = (GoldCard) card;
-        }else{
+        } else {
             this.faceUpResources[index] = card;
         }
     }
@@ -51,6 +57,14 @@ public class Market implements Serializable {
 
     public void setGoldDeck(ArrayList<GoldCard> goldDeck) {
         this.goldDeck = goldDeck;
+    }
+
+    public ArrayList<ObjectiveCard> getCommonObjectives() {
+        return commonObjectives;
+    }
+
+    public void setCommonObjectives(ArrayList<ObjectiveCard> commonObjectives) {
+        this.commonObjectives = commonObjectives;
     }
 
 }

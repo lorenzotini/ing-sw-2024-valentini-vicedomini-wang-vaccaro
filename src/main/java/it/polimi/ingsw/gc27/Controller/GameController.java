@@ -2,6 +2,8 @@ package it.polimi.ingsw.gc27.Controller;
 
 import it.polimi.ingsw.gc27.Messages.SuspendedGameMessage;
 import it.polimi.ingsw.gc27.Messages.UpdateChatMessage;
+import it.polimi.ingsw.gc27.Messages.KoMessage;
+import it.polimi.ingsw.gc27.Messages.OkMessage;
 import it.polimi.ingsw.gc27.Messages.UpdateStartOfGameMessage;
 import it.polimi.ingsw.gc27.Model.Card.Face;
 import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
@@ -31,7 +33,8 @@ public class GameController implements Serializable {
     private final BlockingQueue<Command> commands = new LinkedBlockingQueue<>();
     private GigaController console;
     private boolean inMatch;
-    long time;
+    private long time;
+    private static int MAX_TIME_BEFORE_CLOSING_GAME = 60000; //in milliseconds
 
     public GameController(Game game) {
         this.game = game;
@@ -112,12 +115,15 @@ public class GameController implements Serializable {
         Manuscript manuscript = new Manuscript();
 
         // Ask for the username
-
+        boolean flag = false;
         try {
             do {
-
+                if(flag){
+                    client.update(new KoMessage("invalidUsername"));
+                }
                 client.show("\nChoose your username: ");
                 username = client.read();
+                flag = true;
             } while (!gigaChad.validUsername(username, client));
         }catch (IOException e){
             System.out.println("Disconnected player before choosing a username, he'll be removed");
@@ -133,6 +139,7 @@ public class GameController implements Serializable {
                     client.show("\nChoose your color: ");
                     for (PawnColour pawnColour : game.getAvailablePawns()) {
                         client.show(pawnColour.toString());
+                        client.update(new OkMessage("Choose your color:"+pawnColour.toString()));
                     }
                     pawnColor = client.read();
                 } while (!game.validPawn(pawnColor));
@@ -179,6 +186,7 @@ public class GameController implements Serializable {
                 player.setPlayerState(new InitializingState(player, this.turnHandler));
                 game.notifyObservers(new UpdateStartOfGameMessage(new MiniModel(player, game), ""));
             }
+            client.update(new OkMessage("thegamecanstart")); //for gui
         }
     }
 
@@ -209,7 +217,7 @@ public class GameController implements Serializable {
                     //TODO eventuale non so se va gestito
                 }
             }
-            System.out.println("E' stato chiuso questo thread");
+            System.out.println("This thread has been closed");
         }).start();
     }
 
@@ -227,7 +235,7 @@ public class GameController implements Serializable {
                 long timeConfront = System.currentTimeMillis();
                 synchronized (this) {
 
-                    if (timeConfront - time > 30000) {
+                    if (timeConfront - time > MAX_TIME_BEFORE_CLOSING_GAME) {
                         System.out.println("The game: " + id + " has been closed");
                         suspended = false;
                         inMatch = false;

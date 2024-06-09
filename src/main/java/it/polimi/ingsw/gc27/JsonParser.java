@@ -13,7 +13,6 @@ import org.json.simple.parser.ParseException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Serializable;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -32,10 +31,10 @@ public class JsonParser implements Serializable {
 
     public static HashMap<String, CornerSymbol> cornerSymbolHashMap = new HashMap<>();
     static {
-        cornerSymbolHashMap.put("PLANTKINGDOM", CornerSymbol.PLANTKINGDOM);
-        cornerSymbolHashMap.put("ANIMALKINGDOM", CornerSymbol.ANIMALKINGDOM);
-        cornerSymbolHashMap.put("INSECTKINGDOM", CornerSymbol.INSECTKINGDOM);
-        cornerSymbolHashMap.put("FUNGIKINGDOM", CornerSymbol.FUNGIKINGDOM);
+        cornerSymbolHashMap.put("PLANTKINGDOM", CornerSymbol.PLANT);
+        cornerSymbolHashMap.put("ANIMALKINGDOM", CornerSymbol.ANIMAL);
+        cornerSymbolHashMap.put("INSECTKINGDOM", CornerSymbol.INSECT);
+        cornerSymbolHashMap.put("FUNGIKINGDOM", CornerSymbol.FUNGI);
         cornerSymbolHashMap.put("QUILL", CornerSymbol.QUILL);
         cornerSymbolHashMap.put("INKWELL", CornerSymbol.INKWELL);
         cornerSymbolHashMap.put("MANUSCRIPT", CornerSymbol.MANUSCRIPT);
@@ -74,8 +73,8 @@ public class JsonParser implements Serializable {
         for(Object obj : jsonDeck){
             JSONObject jsonObject = (JSONObject) obj;
             int id = ((Long) jsonObject.get("id")).intValue();
-            Path frontImagePath = Path.of((String) jsonObject.get("frontImagePath"));
-            Path backImagePath = Path.of((String) jsonObject.get("backImagePath"));
+            String frontImagePath = (String) jsonObject.get("frontImagePath");
+            String backImagePath = (String) jsonObject.get("backImagePath");
 
             int cardPoints = ((Long) jsonObject.get("cardPoints")).intValue();
             Kingdom colour = kingdomHashMap.get((String) jsonObject.get("colour"));
@@ -116,8 +115,8 @@ public class JsonParser implements Serializable {
         for(Object obj : jsonDeck){
             JSONObject jsonObject = (JSONObject) obj;
             int id = ((Long) jsonObject.get("id")).intValue();
-            Path frontImagePath = Path.of((String) jsonObject.get("frontImagePath"));
-            Path backImagePath = Path.of((String) jsonObject.get("backImagePath"));
+            String frontImagePath = (String) jsonObject.get("frontImagePath");
+            String backImagePath = (String) jsonObject.get("backImagePath");
             int cardPoints = ((Long) jsonObject.get("cardPoints")).intValue();
             Kingdom colour = kingdomHashMap.get((String) jsonObject.get("colour"));
 
@@ -164,8 +163,8 @@ public class JsonParser implements Serializable {
             JSONObject jsonObject = (JSONObject) obj;
 
             int id = ((Long) jsonObject.get("id")).intValue();
-            Path frontImagePath = Path.of((String) jsonObject.get("frontImagePath"));
-            Path backImagePath = Path.of((String) jsonObject.get("backImagePath"));
+            String frontImagePath = (String) jsonObject.get("frontImagePath");
+            String backImagePath = (String) jsonObject.get("backImagePath");
             Kingdom colour = Kingdom.EMPTY;
 
             //FRONT
@@ -210,8 +209,8 @@ public class JsonParser implements Serializable {
         for(Object obj : jsonDeck) {
             JSONObject jsonObject = (JSONObject) obj;
             int id = ((Long) jsonObject.get("id")).intValue();
-            Path frontImagePath = Path.of((String) jsonObject.get("frontImagePath"));
-            Path backImagePath = Path.of((String) jsonObject.get("backImagePath"));
+            String frontImagePath = (String) jsonObject.get("frontImagePath");
+            String backImagePath = (String) jsonObject.get("backImagePath");
             FrontFace front = new FrontFace(frontImagePath, colour, c, c, c, c);
             BackFace back = new BackFace(backImagePath, colour, c, c, c, c, null);
 

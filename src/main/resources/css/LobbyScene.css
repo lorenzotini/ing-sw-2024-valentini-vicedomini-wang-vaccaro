@@ -1,0 +1,9 @@
+.progressindicator{
+    -fx-progress-color: grey;
+}
+
+.backgroundpane{
+
+    -fx-background-color: #d9d5aa;
+}
+

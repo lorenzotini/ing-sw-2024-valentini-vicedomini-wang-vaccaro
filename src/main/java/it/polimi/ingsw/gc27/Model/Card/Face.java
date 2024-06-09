@@ -3,12 +3,11 @@ package it.polimi.ingsw.gc27.Model.Card;
 import it.polimi.ingsw.gc27.Model.Enumerations.Kingdom;
 
 import java.io.Serializable;
-import java.nio.file.Path;
 import java.util.ArrayList;
 
 public abstract class Face implements Serializable {
 
-    private transient Path imagePath;
+    private String imagePath;
     private Kingdom colour;
     //UR = upper right, LL = lower left, etc...
     private Corner cornerUR;
@@ -16,7 +15,7 @@ public abstract class Face implements Serializable {
     private Corner cornerLR;
     private Corner cornerLL;
 
-    public Face(Path imagePath, Kingdom colour, Corner cornerUR, Corner cornerUL, Corner cornerLR, Corner cornerLL) {
+    public Face(String imagePath, Kingdom colour, Corner cornerUR, Corner cornerUL, Corner cornerLR, Corner cornerLL) {
         this.imagePath = imagePath;
         this.colour = colour;
         this.cornerUR = cornerUR;
@@ -68,11 +67,11 @@ public abstract class Face implements Serializable {
         }
     }
 
-    public Path getImagePath() {
+    public String getImagePath() {
         return imagePath;
     }
 
-    public void setImagePath(Path imagePath) {
+    public void setImagePath(String imagePath) {
         this.imagePath = imagePath;
     }
 

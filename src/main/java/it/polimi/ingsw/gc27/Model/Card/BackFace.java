@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class BackFace extends Face {
     private ArrayList<Kingdom> permanentResources;
 
-    public BackFace(Path imagePath, Kingdom colour, Corner cornerUR, Corner cornerUL, Corner cornerLR, Corner cornerLL, ArrayList<Kingdom> permanentResources) {
+    public BackFace(String imagePath, Kingdom colour, Corner cornerUR, Corner cornerUL, Corner cornerLR, Corner cornerLL, ArrayList<Kingdom> permanentResources) {
         super(imagePath, colour, cornerUR, cornerUL, cornerLR, cornerLL);
         this.permanentResources = permanentResources;
     }

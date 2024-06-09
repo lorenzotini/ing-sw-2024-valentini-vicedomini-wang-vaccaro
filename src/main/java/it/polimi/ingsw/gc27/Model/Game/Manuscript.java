@@ -108,6 +108,9 @@ public class Manuscript implements Serializable {
 
     public boolean isValidPlacement(int x, int y) {
         boolean isValid = false;
+        if (field[x][y] != null) {
+            return false;
+        }
         for (int i = -1; i <= 1; i = i + 2) {
             for (int j = -1; j <= 1; j = j + 2) {
                 if (field[x + i][y + j] != null && (field[x + i][y + j].getCorner(-i, j).isBlack() || field[x + i][y + j].getCorner(-i, j).isHidden())) {
@@ -119,6 +122,10 @@ public class Manuscript implements Serializable {
             }
         }
         return isValid;
+    }
+
+    public Face getStarterFace() {
+        return field[FIELD_DIM / 2][FIELD_DIM / 2];
     }
 
 
@@ -150,10 +157,10 @@ public class Manuscript implements Serializable {
     public int getCounter(CornerSymbol cs) {
         return switch (cs) {
             case EMPTY, BLACK -> 0;
-            case PLANTKINGDOM -> plantCounter;
-            case ANIMALKINGDOM -> animalCounter;
-            case INSECTKINGDOM -> insectCounter;
-            case FUNGIKINGDOM -> fungiCounter;
+            case PLANT -> plantCounter;
+            case ANIMAL -> animalCounter;
+            case INSECT -> insectCounter;
+            case FUNGI -> fungiCounter;
             case QUILL -> quillCounter;
             case INKWELL -> inkwellCounter;
             case MANUSCRIPT -> manuscriptCounter;
@@ -162,10 +169,10 @@ public class Manuscript implements Serializable {
 
     public void decreaseCounter(CornerSymbol cs) {
         switch (cs) {
-            case PLANTKINGDOM -> plantCounter--;
-            case ANIMALKINGDOM -> animalCounter--;
-            case FUNGIKINGDOM -> fungiCounter--;
-            case INSECTKINGDOM -> insectCounter--;
+            case PLANT -> plantCounter--;
+            case ANIMAL -> animalCounter--;
+            case FUNGI -> fungiCounter--;
+            case INSECT -> insectCounter--;
             case MANUSCRIPT -> manuscriptCounter--;
             case QUILL -> quillCounter--;
             case INKWELL -> inkwellCounter--;
@@ -177,10 +184,10 @@ public class Manuscript implements Serializable {
 
     public void increaseCounter(CornerSymbol cs) {
         switch (cs) {
-            case PLANTKINGDOM -> plantCounter++;
-            case ANIMALKINGDOM -> animalCounter++;
-            case FUNGIKINGDOM -> fungiCounter++;
-            case INSECTKINGDOM -> insectCounter++;
+            case PLANT -> plantCounter++;
+            case ANIMAL -> animalCounter++;
+            case FUNGI -> fungiCounter++;
+            case INSECT -> insectCounter++;
             case MANUSCRIPT -> manuscriptCounter++;
             case QUILL -> quillCounter++;
             case INKWELL -> inkwellCounter++;

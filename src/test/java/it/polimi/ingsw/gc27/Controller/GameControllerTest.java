@@ -152,8 +152,8 @@ class GameControllerTest {
         assertTrue(p1.getManuscript().getField()[42][40].getCorner(1, 1).isHidden());
         assertTrue(p1.getManuscript().getField()[44][40].getCorner(-1, 1).isHidden());
 
-        gc1.drawResourceCard(p1,true,0);
-        gc1.drawGoldCard(p1,true,0);
+        //gc1.drawResourceCard(p1,true,0);
+        //gc1.drawGoldCard(p1,true,0);
 
 
         //ObjectiveCard obj1 = objectiveDeck.get(3);

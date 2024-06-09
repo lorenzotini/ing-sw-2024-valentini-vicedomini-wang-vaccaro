@@ -131,6 +131,7 @@ public class Tui implements View {
                     }
                     try {
                         out.println(showManuscript(client.getMiniModel().getManuscript()));
+                        out.println(showHand(client.getMiniModel().getHand()));
                         out.println("\nWhich card do you want to add? (choose from 1, 2, 3)");
                         int cardIndex = scan.nextInt() - 1;
                         out.println("\nFront or back?");
@@ -148,7 +149,7 @@ public class Tui implements View {
                         } else {
                             out.println("\nInvalid face: abort");
                         }
-                    }catch(Exception e){
+                    } catch (Exception e) {
 
                     }
                     break;
@@ -164,7 +165,7 @@ public class Tui implements View {
                         String line = scan.nextLine();
                         String[] words = line.split(" ");
                         if (words.length == 3) {
-                            try{
+                            try {
                                 String cardType = words[0];
                                 boolean fromDeck = Boolean.parseBoolean(words[1]);
                                 int faceUpIndex = Integer.parseInt(words[2]);
@@ -172,11 +173,11 @@ public class Tui implements View {
                                 Command comm = new DrawCardCommand(client.getUsername(), isGold, fromDeck, faceUpIndex);
                                 client.sendCommand(comm);
                                 break;
-                            }catch(Exception e){
+                            } catch (Exception e) {
                                 out.println("Invalid format");
                             }
                         }
-                    }while(true);
+                    } while (true);
                     break;
 
                 case "man":
@@ -205,7 +206,7 @@ public class Tui implements View {
                             printChat(client.getMiniModel().getChat(person));
                             break;
                         }
-                    }while(true);
+                    } while (true);
                     break;
                 case "board":
                     out.println("\n" + showBoard(client.getMiniModel().getBoard()));
@@ -308,12 +309,12 @@ public class Tui implements View {
         return scan.nextLine();
     }
 
-    public void printChat(Chat chat){
+    public void printChat(Chat chat) {
         //out.println("sono in printChat con " + chat.getChatters().getFirst().getUsername()+" e " + chat.getChatters().getLast().getUsername());
         String username;
         username = chat.getChatters().stream()
                 .map(Player::getUsername)
-                .filter( user -> {
+                .filter(user -> {
                     try {
                         return !user.equals(client.getUsername());
                     } catch (IOException e) {
@@ -324,10 +325,19 @@ public class Tui implements View {
                 }).toList()
                 .getFirst();
         out.println("Chat con " + username);
-        for(ChatMessage c : chat.getChatMessages()){
-            out.println(c.getSender().getUsername() +":< "+c.getContent()+" >" );
+        for (ChatMessage c : chat.getChatMessages()) {
+            out.println(c.getSender().getUsername() + ":< " + c.getContent() + " >");
         }
     }
+
+    @Override
+    public void okAck(String string) {
+    }
+
+    @Override
+    public void koAck(String string) {
+    }
+
 
     private static Queue<String> fromFaceToCliCard(Face face) throws Exception {
 

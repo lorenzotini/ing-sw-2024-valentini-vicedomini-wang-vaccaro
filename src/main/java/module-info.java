@@ -5,6 +5,7 @@ module it.polimi.ingsw.gc27 {
     requires org.controlsfx.controls;
     requires json.simple;
     requires java.rmi;
+    requires java.desktop;
 
     opens it.polimi.ingsw.gc27 to javafx.fxml;
     exports it.polimi.ingsw.gc27.Model.Enumerations;
@@ -22,8 +23,14 @@ module it.polimi.ingsw.gc27 {
     opens it.polimi.ingsw.gc27.Model to javafx.fxml;
     exports  it.polimi.ingsw.gc27.Model;
     exports it.polimi.ingsw.gc27.Model.Listener to java.rmi;
+    exports it.polimi.ingsw.gc27.View; //added for GUI
     exports it.polimi.ingsw.gc27.View.GUI; //added for GUI
-    exports it.polimi.ingsw.gc27.View;
+
     exports  it.polimi.ingsw.gc27.Messages;
     exports  it.polimi.ingsw.gc27.Net.Commands;
+    opens it.polimi.ingsw.gc27.View;
+    opens it.polimi.ingsw.gc27.View.GUI;
+
+
+
 }

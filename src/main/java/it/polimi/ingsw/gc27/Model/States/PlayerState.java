@@ -1,8 +1,8 @@
 package it.polimi.ingsw.gc27.Model.States;
 
 import it.polimi.ingsw.gc27.Controller.TurnHandler;
+import it.polimi.ingsw.gc27.Messages.GenericErrorMessage;
 import it.polimi.ingsw.gc27.Messages.Message;
-import it.polimi.ingsw.gc27.Messages.NotYourTurnMessage;
 import it.polimi.ingsw.gc27.Model.Card.Face;
 import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
 import it.polimi.ingsw.gc27.Model.Card.StarterCard;
@@ -39,10 +39,18 @@ public abstract class PlayerState implements Serializable {
     public void sendError(String str, Player player, TurnHandler turnHandler) {
 
         MiniModel miniWithCurrentPlayer = new MiniModel(player);
-        Message errorMessage = new NotYourTurnMessage(str, miniWithCurrentPlayer);
+        Message errorMessage = new GenericErrorMessage(str, miniWithCurrentPlayer);
         turnHandler.getGame().notifyObservers(errorMessage);
 
     }
+
+//    public void sendState(String str, Player player, TurnHandler turnHandler) {
+//
+//        MiniModel miniWithCurrentPlayer = new MiniModel(player);
+//        Message errorMessage = new GenericErrorMessage(str, miniWithCurrentPlayer);
+//        turnHandler.getGame().notifyObservers(errorMessage);
+//
+//    }
 
     @Override
     public String toString() {

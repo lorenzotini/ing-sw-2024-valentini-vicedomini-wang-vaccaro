@@ -29,6 +29,13 @@ public class Initializer {
         Collections.shuffle(goldDeck);
         Collections.shuffle(objectiveDeck);
 
+        // set common objectives
+        ObjectiveCard commObj1 = objectiveDeck.removeLast();
+        ObjectiveCard commObj2 = objectiveDeck.removeLast();
+        ArrayList<ObjectiveCard> commonObjectives = new ArrayList<>();
+        commonObjectives.add(commObj1);
+        commonObjectives.add(commObj2);
+
         // populate market
         market.setFaceUp(resourceDeck.removeLast(), 0);
         market.setFaceUp(resourceDeck.removeLast(), 1);
@@ -36,10 +43,7 @@ public class Initializer {
         market.setFaceUp(goldDeck.removeLast(), 1);
         market.setResourceDeck(resourceDeck);
         market.setGoldDeck(goldDeck);
-
-        // set common objectives
-        ObjectiveCard commObj1 = objectiveDeck.removeLast();
-        ObjectiveCard commObj2 = objectiveDeck.removeLast();
+        market.setCommonObjectives(commonObjectives);
 
         return new Game(board, market, new ArrayList<>(), commObj1, commObj2, starterDeck, objectiveDeck);
 

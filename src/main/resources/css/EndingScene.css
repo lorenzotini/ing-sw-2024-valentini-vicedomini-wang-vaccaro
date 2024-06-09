@@ -1,0 +1,23 @@
+.anchorpane{
+    -fx-background-image: url("../Images/utility/background2.png");
+    -fx-background-size: cover;
+}
+
+.gamemaster{
+    -fx-image: url("../Images/utility/gamemaster.png");
+}
+
+.crowndecoration{
+    -fx-image: url("../Images/utility/crown.png");
+}
+
+.lighthand{
+    -fx-image: url("../Images/utility/lighthand.png");
+}
+.decoration1{
+    -fx-image: url("../Images/utility/decoration1.png");
+}
+
+.darkhand{
+    -fx-image: url("../Images/utility/darkhandrb.png");
+}

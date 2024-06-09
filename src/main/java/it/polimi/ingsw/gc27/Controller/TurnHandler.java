@@ -50,10 +50,11 @@ public class TurnHandler implements Serializable {
             int i = 0;
 
             do {
+
                 Player p = players.get(i);
                 if(!p.isDisconnected()) {
                     p.setPlayerState(new PlayingState(p, this));
-                    Message updatePlayerStateMessage = new UpdatePlayerStateMessage(new MiniModel(p,game.getBoard()));
+                    Message updatePlayerStateMessage = new UpdatePlayerStateMessage(new MiniModel(p,game.getBoard()), p.getPlayerState().toString());
                     this.game.notifyObservers(updatePlayerStateMessage);
                     break;
                 }else{
@@ -65,7 +66,6 @@ public class TurnHandler implements Serializable {
     }
 
     public void notifyEndOfTurnState(Player player) {
-
 
         List<Player> players = game.getPlayers();
         Board board = game.getBoard();
@@ -87,7 +87,7 @@ public class TurnHandler implements Serializable {
             // Set to waiting state the player that just finished his turn
             players.get(index).setPlayerState(new WaitingState(players.get(index), this));
 
-            updatePlayerStateMessage = new UpdatePlayerStateMessage(new MiniModel(player, game.getBoard()));
+            updatePlayerStateMessage = new UpdatePlayerStateMessage(new MiniModel(player, game.getBoard()), player.getPlayerState().toString());
             this.game.notifyObservers(updatePlayerStateMessage);
 
             if (getNextOf(index, players).isDisconnected()) {  // the next player is disconnected --> skip him
@@ -176,8 +176,6 @@ public class TurnHandler implements Serializable {
             // get the winner's username
             ArrayList<String> winnerUsername = getWinnersUsername(max);
 
-            //TODO terminare la partita e notificare i giocatori e il vincitore
-
             if(winnerUsername.size() == 1){
                 StringMessage winner = new StringMessage("The winner is " + winnerUsername.getFirst() + "!");
                 this.game.notifyObservers(winner);
@@ -191,8 +189,6 @@ public class TurnHandler implements Serializable {
             }
         }
     }
-
-
 
     public void handleDisconnection(Player player, GameController gc) {
 

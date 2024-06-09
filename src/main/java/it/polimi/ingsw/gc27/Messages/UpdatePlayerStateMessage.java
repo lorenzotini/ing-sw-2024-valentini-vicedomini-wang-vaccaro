@@ -12,12 +12,17 @@ public class UpdatePlayerStateMessage extends Message {
         super(miniModel, "You are now playing!");
     }
 
+    public UpdatePlayerStateMessage(MiniModel miniModel, String currentState) {
+        super(miniModel, currentState);
+    }
+
     @Override
     public void reportUpdate(VirtualView client, View view) {
         try{
             client.getMiniModel().setPlayer(this.getMiniModel().getPlayer());
             client.getMiniModel().setBoard(this.getMiniModel().getBoard());
             view.showString(this.string);
+            view.okAck(string);
         }catch(RemoteException e){
             System.out.println("Non si lancia il player");
         }

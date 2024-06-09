@@ -138,11 +138,9 @@ public class TurnHandler implements Serializable {
 
             } else { // the next player is connected
 
-                //TODO: è sbagliato rimandare il player in PlayingState ma si dovrebbe scegliere il vincitore
-                //TODO: da cancellare vvvvvvv
-//                getNextOf(index, players).setPlayerState(new PlayingState(getNextOf(index, players), this));
-//                updatePlayerStateMessage = new UpdatePlayerStateMessage(new MiniModel(getNextOf(index, players),game.getBoard()));
-//                this.game.notifyObservers(updatePlayerStateMessage);
+                getNextOf(index, players).setPlayerState(new PlayingState(getNextOf(index, players), this));
+                updatePlayerStateMessage = new UpdatePlayerStateMessage(new MiniModel(getNextOf(index, players),game.getBoard()));
+                this.game.notifyObservers(updatePlayerStateMessage);
 
             }
 

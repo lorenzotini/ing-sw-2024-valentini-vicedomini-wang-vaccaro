@@ -224,7 +224,13 @@ public class ManuscriptSceneController implements GenericController {
         imgView.setOnDragDetected(event -> {
             Dragboard db = imgView.startDragAndDrop(TransferMode.MOVE);
             ClipboardContent cb = new ClipboardContent();
-            cb.putImage(imgView.getImage());
+
+            // copy the selected image, fixing the gigantic zoom when dragging
+            Image toAdd = new Image(imgView.getImage().getUrl(), 128*1.5, 128, false,false);
+
+            //cb.putImage(imgView.getImage());
+
+            cb.putImage(toAdd);
             db.setContent(cb);
             event.consume();
         });

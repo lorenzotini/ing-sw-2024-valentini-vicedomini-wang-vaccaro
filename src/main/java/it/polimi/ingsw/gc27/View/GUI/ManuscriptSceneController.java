@@ -1,14 +1,21 @@
 package it.polimi.ingsw.gc27.View.GUI;
 
+import it.polimi.ingsw.gc27.Model.Card.Card;
 import it.polimi.ingsw.gc27.Model.Enumerations.CornerSymbol;
 import it.polimi.ingsw.gc27.Model.Game.Manuscript;
 import it.polimi.ingsw.gc27.Model.MiniModel;
+import it.polimi.ingsw.gc27.Net.Commands.AddCardCommand;
+import it.polimi.ingsw.gc27.Net.Commands.Command;
+import it.polimi.ingsw.gc27.Net.Commands.DrawCardCommand;
+import it.polimi.ingsw.gc27.View.GUI.UserData.HandCardData;
+import it.polimi.ingsw.gc27.View.GUI.UserData.ManuscriptCardData;
+import it.polimi.ingsw.gc27.View.GUI.UserData.MarketCardData;
 import it.polimi.ingsw.gc27.View.Gui;
+import javafx.application.Platform;
+import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
-import javafx.scene.control.TextField;
+import javafx.scene.Node;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.ClipboardContent;
@@ -22,11 +29,15 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Scale;
 
+import java.io.IOException;
 import java.rmi.RemoteException;
 
 
 public class ManuscriptSceneController implements GenericController {
 
+
+    @FXML
+    public TextField actionFeedback;
     @FXML
     private ScrollPane manuscriptScrollPane;
     @FXML
@@ -41,8 +52,24 @@ public class ManuscriptSceneController implements GenericController {
     private VBox commonObjectives;
     @FXML
     private TabPane chat;
-//    @FXML
-//    private ImageView scoreboard;
+
+    //TODO vedere se è meglio mettere gli attributi privati che ora sono pubblici
+
+    // attributes to handle addCard invocation
+    private int handCardIndex;
+    private boolean isFront;
+    private int x;
+    private int y;
+    public ImageView manuscriptCard;
+    public ImageView handCard;
+
+    // attributes to handle drawCard invocation
+    private ImageView marketCard;
+
+    private GridPane grid;
+    public TextField getActionFeedback() {
+        return actionFeedback;
+    }
 
 
     public void init() {
@@ -54,8 +81,8 @@ public class ManuscriptSceneController implements GenericController {
             throw new RuntimeException(e);
         }
 
-        GridPane grid = new GridPane();
-        grid.setGridLinesVisible(true);
+        grid = new GridPane();
+        grid.setGridLinesVisible(false);
         grid.setHgap(-35);
         grid.setVgap(-40);
 
@@ -89,6 +116,9 @@ public class ManuscriptSceneController implements GenericController {
 
                     ImageView imageView = new ImageView();
 
+                    ManuscriptCardData manuscriptCardData = new ManuscriptCardData(i, j);
+                    imageView.setUserData(manuscriptCardData);
+
                     // set image for the center starter card
                     if (i == Manuscript.FIELD_DIM / 2 && j == Manuscript.FIELD_DIM / 2) {
                         imageView.setImage(new Image(miniModel.getPlayer().getManuscript().getStarterFace().getImagePath()));
@@ -96,7 +126,7 @@ public class ManuscriptSceneController implements GenericController {
 
                     // playable positions
                     if (miniModel.getPlayer().getManuscript().isValidPlacement(i, j)){
-                        imageView.setImage(new Image(getClass().getResource("/images/utility/pawn_blue.png").toExternalForm()));
+                        imageView.setImage(new Image(getClass().getResource("/images/utility/validPlacement2.png").toExternalForm()));
                         handleDropEventManuscript(imageView);
                         imageView.toFront();
                     }
@@ -111,51 +141,11 @@ public class ManuscriptSceneController implements GenericController {
             }
         }
 
-
         // populate hand with cards
-        for (int i = 0; i < 3; i++) {
-            ImageView handCard = new ImageView(new Image(miniModel.getPlayer().getHand().get(i).getFront().getImagePath()));
-            handCard.setFitHeight(100);
-            handCard.setFitWidth(150);
-            handleDragDetectedHand(handCard);
-            zoomCardOnHover(handCard, 1.3);
-            handCards.getChildren().add(handCard);
-        }
+        overwriteHand(miniModel);
 
         // market
-        for (int i = 0; i < 3; i++) {
-            if (i == 0){
-                // resources
-                ImageView marketResource = new ImageView(new Image(miniModel.getMarket().getResourceDeck().getLast().getBack().getImagePath()));
-                marketResource.setFitHeight(50);
-                marketResource.setFitWidth(75);
-                handleDragDetectedHand(marketResource);
-                zoomCardOnHover(marketResource, 2.5);
-                marketResources.getChildren().add(marketResource);
-                // golds
-                ImageView marketGold = new ImageView(new Image(miniModel.getMarket().getGoldDeck().getLast().getBack().getImagePath()));
-                marketGold.setFitHeight(50);
-                marketGold.setFitWidth(75);
-                handleDragDetectedHand(marketGold);
-                zoomCardOnHover(marketGold, 2.5);
-                marketGolds.getChildren().add(marketGold);
-            } else {
-                // resources
-                ImageView marketResource = new ImageView(new Image(miniModel.getMarket().getFaceUp(false)[i-1].getFront().getImagePath()));
-                marketResource.setFitHeight(50);
-                marketResource.setFitWidth(75);
-                handleDragDetectedHand(marketResource);
-                zoomCardOnHover(marketResource, 2.5);
-                marketResources.getChildren().add(marketResource);
-                // golds
-                ImageView marketGold = new ImageView(new Image(miniModel.getMarket().getFaceUp(true)[i-1].getFront().getImagePath()));
-                marketGold.setFitHeight(50);
-                marketGold.setFitWidth(75);
-                handleDragDetectedHand(marketGold);
-                zoomCardOnHover(marketGold, 2.5);
-                marketGolds.getChildren().add(marketGold);
-            }
-        }
+        overwriteMarket(miniModel);
 
         // common objectives
         for (int i = 0; i < 2; i++) {
@@ -167,7 +157,7 @@ public class ManuscriptSceneController implements GenericController {
         }
 
         // chat
-        for(int i = 0; i < 5; i++){
+        for (int i = 0; i < 5; i++) {
             Tab chatTab = new Tab();
             ScrollPane chatContent = new ScrollPane();
             chatContent.setPrefHeight(Region.USE_COMPUTED_SIZE);
@@ -175,7 +165,7 @@ public class ManuscriptSceneController implements GenericController {
             chatContent.setFitToWidth(true);
             chatContent.setFitToHeight(true);
             VBox chatMessages = new VBox();
-            for(int j = 0; j < 20; j++){
+            for (int j = 0; j < 20; j++) {
                 chatMessages.getChildren().add(new Text("Messaggio di prova" + j));
             }
             chatContent.setContent(chatMessages);
@@ -185,12 +175,7 @@ public class ManuscriptSceneController implements GenericController {
         }
 
         // counters
-        for (CornerSymbol cs : CornerSymbol.valuesList()) {
-            if(cs.equals(CornerSymbol.BLACK) || cs.equals(CornerSymbol.EMPTY)) continue;
-            TextField counter = new TextField(cs.toString() + " " + miniModel.getManuscript().getCounter(cs));
-            counter.setEditable(false);
-            counters.getChildren().add(counter);
-        }
+        overwriteCounters(miniModel);
 
     }
 
@@ -209,9 +194,11 @@ public class ManuscriptSceneController implements GenericController {
         imgView.setOnDragDropped(event -> {
             Dragboard db = event.getDragboard();
             if (db.hasImage()) {
-                imgView.setImage(db.getImage());
-                imgView.toFront();
-                event.setDropCompleted(true);
+                ManuscriptCardData manuscriptCardData = (ManuscriptCardData) imgView.getUserData();
+                this.x = manuscriptCardData.x;
+                this.y = manuscriptCardData.y;
+                this.manuscriptCard = imgView;
+                sendAddCardCommand();
             }
             event.consume();
         });
@@ -232,27 +219,38 @@ public class ManuscriptSceneController implements GenericController {
 
             cb.putImage(toAdd);
             db.setContent(cb);
+            this.handCard = imgView;
+
+            HandCardData handCardData = (HandCardData) imgView.getUserData();
+            this.handCardIndex = handCardData.handIndex;
+            this.isFront = handCardData.isFront;
+
             event.consume();
         });
 
         // DRAG DONE
-        imgView.setOnDragDone(event -> {
-            if (event.getTransferMode() == TransferMode.MOVE) {
-                imgView.setImage(null);
-            }
-            event.consume();
+        imgView.setOnDragDone(Event::consume);
+
+    }
+
+    void handleClickDetectedMarket(ImageView imgView) {
+
+        // DRAG DETECTED
+        imgView.setOnMouseClicked(event -> {
+            this.marketCard = imgView;
+            sendDrawCardCommand();
         });
 
     }
 
-    void zoomCardOnHover(ImageView imgView, double factor){
+    void zoomCardOnHover(ImageView imgView, double factor) {
 
         double originalHeight = imgView.getFitHeight();
         double originalWidth = imgView.getFitWidth();
 
         imgView.setOnMouseEntered(event -> {
-            imgView.setFitHeight(originalHeight*factor);
-            imgView.setFitWidth(originalWidth*factor);
+            imgView.setFitHeight(originalHeight * factor);
+            imgView.setFitWidth(originalWidth * factor);
         });
 
         imgView.setOnMouseExited(event -> {
@@ -260,6 +258,29 @@ public class ManuscriptSceneController implements GenericController {
             imgView.setFitWidth(originalWidth);
         });
 
+    }
+
+    private void sendAddCardCommand() {
+        String username;
+        try {
+            username = Gui.getInstance().getClient().getUsername();
+            Command command = new AddCardCommand(username, this.handCardIndex, this.isFront, this.x, this.y);
+            Gui.getInstance().getClient().sendCommand(command);
+        } catch (InterruptedException | IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void sendDrawCardCommand() {
+        String username;
+        MarketCardData data = (MarketCardData) marketCard.getUserData();
+        try {
+            username = Gui.getInstance().getClient().getUsername();
+            Command command = new DrawCardCommand(username, data.isGold, data.fromDeck, data.faceUpCardIndex);
+            Gui.getInstance().getClient().sendCommand(command);
+        } catch (InterruptedException | IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -271,6 +292,126 @@ public class ManuscriptSceneController implements GenericController {
     public void receiveKo(String ackType) {
 
     }
+
+    public void overwriteHand(MiniModel miniModel) {
+
+        Platform.runLater(() -> {
+
+            handCards.getChildren().clear();
+            for (Card card : miniModel.getPlayer().getHand()) {
+                ImageView newHandCard = new ImageView(new Image(card.getFront().getImagePath()));
+                newHandCard.setFitHeight(100);
+                newHandCard.setFitWidth(150);
+                handleDragDetectedHand(newHandCard);
+                zoomCardOnHover(newHandCard, 1.3);
+                // TODO gestire cambio faccia prima di giocare la carta
+                HandCardData handCardData = new HandCardData(miniModel.getPlayer().getHand().indexOf(card), true);
+                newHandCard.setUserData(handCardData);
+                handCards.getChildren().add(newHandCard);
+            }
+
+        });
+
+    }
+
+    public void overwriteMarket(MiniModel miniModel) {
+
+        Platform.runLater(() -> {
+
+            HBox marketBox = this.marketResources;
+            boolean isGold = false;
+            boolean fromDeck;
+            Image deckImage = new Image(miniModel.getMarket().getResourceDeck().getLast().getBack().getImagePath());
+
+            marketResources.getChildren().clear();
+            marketGolds.getChildren().clear();
+
+            for (int j = 0; j < 2; j++) {
+                for (int i = 0; i < 3; i++) {
+                    if (i == 0) {
+                        fromDeck = true;
+                        ImageView marketRes = new ImageView(deckImage);
+                        marketRes.setFitHeight(50);
+                        marketRes.setFitWidth(75);
+                        marketRes.setUserData(new MarketCardData(isGold, fromDeck, 0));
+                        handleClickDetectedMarket(marketRes);
+                        zoomCardOnHover(marketRes, 2.5);
+                        marketBox.getChildren().add(marketRes);
+                    } else {
+                        fromDeck = false;
+                        ImageView marketRes = new ImageView(new Image(miniModel.getMarket().getFaceUp(isGold)[i - 1].getFront().getImagePath()));
+                        marketRes.setFitHeight(50);
+                        marketRes.setFitWidth(75);
+                        marketRes.setUserData(new MarketCardData(isGold, fromDeck, i - 1));
+                        handleClickDetectedMarket(marketRes);
+                        zoomCardOnHover(marketRes, 2.5);
+                        marketBox.getChildren().add(marketRes);
+                    }
+                }
+                marketBox = this.marketGolds;
+                isGold = true;
+                deckImage = new Image(miniModel.getMarket().getGoldDeck().getLast().getBack().getImagePath());
+            }
+
+        });
+
+    }
+
+    public void overwriteCounters(MiniModel miniModel){
+
+        Platform.runLater(() -> {
+
+            counters.getChildren().clear();
+            for (CornerSymbol cs : CornerSymbol.valuesList()) {
+                if (cs.equals(CornerSymbol.BLACK) || cs.equals(CornerSymbol.EMPTY)) continue;
+                TextField counter = new TextField(cs + " " + miniModel.getManuscript().getCounter(cs));
+                counter.setEditable(false);
+                counters.getChildren().add(counter);
+            }
+
+        });
+
+    }
+
+    public void setNewAvailablePositions() {
+
+        Platform.runLater(() -> {
+            MiniModel miniModel;
+            try {
+                miniModel = Gui.getInstance().getClient().getMiniModel();
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
+            }
+            for (int i = -1; i <= 1; i = i + 2) {
+                for (int j = -1; j <= 1; j = j + 2) {
+                    if (miniModel.getPlayer().getManuscript().isValidPlacement(x + i, y + j)) {
+                        ImageView imageView = getImageViewFromGrid(grid, x + i, y + j);
+                        imageView.setImage(new Image(getClass().getResource("/images/utility/validPlacement2.png").toExternalForm()));
+                        handleDropEventManuscript(imageView);
+                        imageView.toFront();
+                    }
+                }
+            }
+        });
+
+    }
+
+    private ImageView getImageViewFromGrid(GridPane gridPane, int col, int row) {
+        for (Node node : gridPane.getChildren()) {
+            Integer rowIndex = GridPane.getRowIndex(node);
+            Integer colIndex = GridPane.getColumnIndex(node);
+            // Treat null values as 0
+            if (rowIndex == null) {
+                rowIndex = 0;
+            }
+            if (colIndex == null) {
+                colIndex = 0;
+            }
+            if (rowIndex == row && colIndex == col && node instanceof ImageView) {
+                return (ImageView) node;
+            }
+        }
+        return null;
+    }
+
 }
-
-

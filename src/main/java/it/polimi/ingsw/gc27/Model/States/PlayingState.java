@@ -1,9 +1,7 @@
 package it.polimi.ingsw.gc27.Model.States;
 
 import it.polimi.ingsw.gc27.Controller.TurnHandler;
-import it.polimi.ingsw.gc27.Messages.Message;
-import it.polimi.ingsw.gc27.Messages.UpdateHandMessage;
-import it.polimi.ingsw.gc27.Messages.UpdateManuscriptMessage;
+import it.polimi.ingsw.gc27.Messages.*;
 import it.polimi.ingsw.gc27.Model.Card.*;
 import it.polimi.ingsw.gc27.Model.Game.Game;
 import it.polimi.ingsw.gc27.Model.Game.Player;
@@ -13,6 +11,7 @@ public class PlayingState extends PlayerState {
 
     public PlayingState(Player player, TurnHandler turnHandler) {
         super(player, turnHandler);
+//        super.sendState("It's your turn, place a card", getPlayer(),turnHandler);
     }
 
     @Override

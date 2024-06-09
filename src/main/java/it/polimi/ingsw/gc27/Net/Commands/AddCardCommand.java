@@ -1,12 +1,9 @@
 package it.polimi.ingsw.gc27.Net.Commands;
 
 import it.polimi.ingsw.gc27.Controller.GameController;
-import it.polimi.ingsw.gc27.Controller.GigaController;
 import it.polimi.ingsw.gc27.Model.Card.Face;
 import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
 import it.polimi.ingsw.gc27.Model.Game.Player;
-
-import java.io.IOException;
 
 public class AddCardCommand implements Command {
 
@@ -28,7 +25,6 @@ public class AddCardCommand implements Command {
         Player player = gc.getPlayer(playerName);
         ResourceCard card = player.getHand().get(handCardIndex);
         Face face = isFrontFace ? card.getFront() : card.getBack();
-        // TODO: gestire le eccezioni
         gc.addCard(player, card, face, x, y);
     }
 

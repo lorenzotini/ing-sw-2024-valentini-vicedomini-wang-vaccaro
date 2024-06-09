@@ -1,7 +1,8 @@
 package it.polimi.ingsw.gc27.Controller;
 
-import it.polimi.ingsw.gc27.Messages.*;
-import it.polimi.ingsw.gc27.Model.Game.Game;
+import it.polimi.ingsw.gc27.Messages.ClosedGameForNoOneLeftMessage;
+import it.polimi.ingsw.gc27.Messages.KoMessage;
+import it.polimi.ingsw.gc27.Messages.OkMessage;
 import it.polimi.ingsw.gc27.Model.Game.Player;
 import it.polimi.ingsw.gc27.Net.Commands.Command;
 import it.polimi.ingsw.gc27.Net.Commands.ReconnectPlayerCommand;
@@ -25,7 +26,7 @@ public class GigaController {
 
 
     public GameController userToGameController(String username) {
-        synchronized (gameControllers){
+        synchronized (gameControllers) {
             for (var c : gameControllers) {
                 if (c.getGame().getPlayers().stream().anyMatch(p -> p.getUsername().equals(username))) {
                     return c;
@@ -58,9 +59,9 @@ public class GigaController {
         // check if the input is a valid game id or 'new'
         String game;
         int gameId = 0;
-        while(true){
+        while (true) {
             game = client.read();
-            if(game.equalsIgnoreCase("new")){
+            if (game.equalsIgnoreCase("new")) {
                 break;
             } else {
                 try {
@@ -84,7 +85,7 @@ public class GigaController {
             // join an existing game
             do {
                 GameController gc = null;
-                synchronized (gameControllers){
+                synchronized (gameControllers) {
                     for (var control : gameControllers) {
                         if (control.getId() == Integer.parseInt(game)) {
                             gc = control;
@@ -95,7 +96,7 @@ public class GigaController {
                 // TODO controllare che game sia convertibile in int
 
                 // TODO non so se è meglio togliere questa show
-                if(gc!= null) {
+                if (gc != null) {
                     client.show("\nJoining game " + game + "...");
 
 
@@ -162,7 +163,7 @@ public class GigaController {
         do {
             try {
                 numMaxPlayers = Integer.parseInt(client.read());
-                if (numMaxPlayers <= 4 && numMaxPlayers >= 1){
+                if (numMaxPlayers <= 4 && numMaxPlayers >= 1) {
                     break;
                 }
             } catch (NumberFormatException e) {

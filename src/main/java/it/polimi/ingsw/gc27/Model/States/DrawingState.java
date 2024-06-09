@@ -20,6 +20,7 @@ public class DrawingState extends PlayerState {
 
     public DrawingState(Player player, TurnHandler turnHandler) {
         super(player, turnHandler);
+//        super.sendState("draw a card!", getPlayer(),turnHandler);
     }
 
     @Override

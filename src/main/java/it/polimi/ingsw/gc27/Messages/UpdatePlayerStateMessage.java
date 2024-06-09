@@ -9,11 +9,7 @@ import java.rmi.RemoteException;
 public class UpdatePlayerStateMessage extends Message {
 
     public UpdatePlayerStateMessage(MiniModel miniModel) {
-        super(miniModel, "You are now playing!");
-    }
-
-    public UpdatePlayerStateMessage(MiniModel miniModel, String currentState) {
-        super(miniModel, currentState);
+        super(miniModel, miniModel.getPlayer().getPlayerState().toString());
     }
 
     @Override
@@ -24,8 +20,7 @@ public class UpdatePlayerStateMessage extends Message {
             view.showString(this.string);
             view.okAck(string);
         }catch(RemoteException e){
-            System.out.println("Non si lancia il player");
+            System.out.println("it dasent trou de pleier");
         }
-
     }
 }

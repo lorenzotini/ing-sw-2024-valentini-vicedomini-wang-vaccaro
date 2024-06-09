@@ -1,10 +1,6 @@
 package it.polimi.ingsw.gc27.Controller;
 
-import it.polimi.ingsw.gc27.Messages.SuspendedGameMessage;
-import it.polimi.ingsw.gc27.Messages.UpdateChatMessage;
-import it.polimi.ingsw.gc27.Messages.KoMessage;
-import it.polimi.ingsw.gc27.Messages.OkMessage;
-import it.polimi.ingsw.gc27.Messages.UpdateStartOfGameMessage;
+import it.polimi.ingsw.gc27.Messages.*;
 import it.polimi.ingsw.gc27.Model.Card.Face;
 import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
 import it.polimi.ingsw.gc27.Model.Card.StarterCard;
@@ -18,8 +14,6 @@ import it.polimi.ingsw.gc27.Net.VirtualView;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.rmi.RemoteException;
-import java.util.Timer;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -186,7 +180,11 @@ public class GameController implements Serializable {
                 player.setPlayerState(new InitializingState(player, this.turnHandler));
                 game.notifyObservers(new UpdateStartOfGameMessage(new MiniModel(player, game), ""));
             }
-            client.update(new OkMessage("thegamecanstart")); //for gui
+//            try {
+//                client.update(new OkMessage("thegamecanstart")); //for gui
+//            } catch (RemoteException e) {
+//
+//            }
         }
     }
 

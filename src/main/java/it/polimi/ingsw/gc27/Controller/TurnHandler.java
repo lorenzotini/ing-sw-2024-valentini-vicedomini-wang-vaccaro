@@ -54,7 +54,7 @@ public class TurnHandler implements Serializable {
                 Player p = players.get(i);
                 if(!p.isDisconnected()) {
                     p.setPlayerState(new PlayingState(p, this));
-                    Message updatePlayerStateMessage = new UpdatePlayerStateMessage(new MiniModel(p,game.getBoard()), p.getPlayerState().toString());
+                    Message updatePlayerStateMessage = new UpdatePlayerStateMessage(new MiniModel(p,game.getBoard()));
                     this.game.notifyObservers(updatePlayerStateMessage);
                     break;
                 }else{
@@ -87,7 +87,7 @@ public class TurnHandler implements Serializable {
             // Set to waiting state the player that just finished his turn
             players.get(index).setPlayerState(new WaitingState(players.get(index), this));
 
-            updatePlayerStateMessage = new UpdatePlayerStateMessage(new MiniModel(player, game.getBoard()), player.getPlayerState().toString());
+            updatePlayerStateMessage = new UpdatePlayerStateMessage(new MiniModel(player, game.getBoard()));
             this.game.notifyObservers(updatePlayerStateMessage);
 
             if (getNextOf(index, players).isDisconnected()) {  // the next player is disconnected --> skip him

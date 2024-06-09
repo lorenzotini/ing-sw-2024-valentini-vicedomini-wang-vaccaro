@@ -104,7 +104,6 @@ public class GigaController {
                 // TODO non so se è meglio togliere questa show
                 if(gc!= null) {
                     try {
-
                         client.show("\nJoining game " + game + "...");
                     }catch (IOException e) {
                         System.out.println("Connection lost after trying to join a game (110)");
@@ -116,7 +115,11 @@ public class GigaController {
                             int a = gc.getGame().getNumActualPlayers();
                             gc.getGame().setNumActualPlayers(a + 1);
                             canEnter = true;
-                            client.update(new OkMessage("validID"));
+                            try {
+                                client.update(new OkMessage("validID"));
+                            } catch (RemoteException e) {
+                                throw new RuntimeException(e);
+                            }
 
                         } else if (gc.getGame().getNumActualPlayers() == gc.getNumMaxPlayers() &&      // game full, but a disconnected player can rejoin
                                 gc.getGame().getPlayers().stream().anyMatch(Player::isDisconnected)) {

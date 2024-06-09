@@ -9,7 +9,6 @@ import it.polimi.ingsw.gc27.Model.Game.Manuscript;
 import it.polimi.ingsw.gc27.Model.Game.Player;
 import it.polimi.ingsw.gc27.Model.MiniModel;
 import it.polimi.ingsw.gc27.Model.States.*;
-import it.polimi.ingsw.gc27.View.Gui;
 
 import java.io.Serializable;
 import java.util.List;
@@ -50,11 +49,10 @@ public class TurnHandler implements Serializable {
 
             do {
 
-
                 Player p = players.get(i);
                 if(!p.isDisconnected()) {
                     p.setPlayerState(new PlayingState(p, this));
-                    Message updatePlayerStateMessage = new UpdatePlayerStateMessage(new MiniModel(p));
+                    Message updatePlayerStateMessage = new UpdatePlayerStateMessage(new MiniModel(p), p.getPlayerState().toString());
                     this.game.notifyObservers(updatePlayerStateMessage);
                     break;
                 }else{
@@ -86,7 +84,7 @@ public class TurnHandler implements Serializable {
 
             // Set to waiting state the player that just finished his turn
             player.setPlayerState(new WaitingState(player, this));
-            updatePlayerStateMessage = new UpdatePlayerStateMessage(new MiniModel(player));
+            updatePlayerStateMessage = new UpdatePlayerStateMessage(new MiniModel(player), player.getPlayerState().toString());
             this.game.notifyObservers(updatePlayerStateMessage);
 
             if (getNextOf(index, players).isDisconnected()) {  // the next player is disconnected --> skip him
@@ -101,13 +99,13 @@ public class TurnHandler implements Serializable {
                 }
 
                 getNextOf(index + i, players).setPlayerState(new PlayingState(getNextOf(index + i, players), this));
-                updatePlayerStateMessage = new UpdatePlayerStateMessage(new MiniModel(getNextOf(index + i, players)));
+                updatePlayerStateMessage = new UpdatePlayerStateMessage(new MiniModel(getNextOf(index + i, players)), getNextOf(index + i, players).getPlayerState().toString());
                 this.game.notifyObservers(updatePlayerStateMessage);
 
             } else { // the next player is connected
 
                 getNextOf(index, players).setPlayerState(new PlayingState(getNextOf(index, players), this));
-                updatePlayerStateMessage = new UpdatePlayerStateMessage(new MiniModel(getNextOf(index, players)));
+                updatePlayerStateMessage = new UpdatePlayerStateMessage(new MiniModel(getNextOf(index, players)), getNextOf(index, players).getPlayerState().toString());
                 this.game.notifyObservers(updatePlayerStateMessage);
 
             }
@@ -119,7 +117,7 @@ public class TurnHandler implements Serializable {
         } else {
 
             player.setPlayerState(new EndingState(player, this));
-            updatePlayerStateMessage = new UpdatePlayerStateMessage(new MiniModel(player));
+            updatePlayerStateMessage = new UpdatePlayerStateMessage(new MiniModel(player), player.getPlayerState().toString());
             this.game.notifyObservers(updatePlayerStateMessage);
 
             if (getNextOf(index, players).isDisconnected()) { // the next player is disconnected --> find the next connected player
@@ -130,13 +128,13 @@ public class TurnHandler implements Serializable {
                 }
 
                 getNextOf(index + i, players).setPlayerState(new PlayingState(getNextOf(index + i, players), this));
-                updatePlayerStateMessage = new UpdatePlayerStateMessage(new MiniModel(getNextOf(index + i, players)));
+                updatePlayerStateMessage = new UpdatePlayerStateMessage(new MiniModel(getNextOf(index + i, players)), getNextOf(index + i, players).getPlayerState().toString());
                 this.game.notifyObservers(updatePlayerStateMessage);
 
             } else { // the next player is connected
 
                 getNextOf(index, players).setPlayerState(new PlayingState(getNextOf(index, players), this));
-                updatePlayerStateMessage = new UpdatePlayerStateMessage(new MiniModel(getNextOf(index, players)));
+                updatePlayerStateMessage = new UpdatePlayerStateMessage(new MiniModel(getNextOf(index, players)), getNextOf(index, players).getPlayerState().toString());
                 this.game.notifyObservers(updatePlayerStateMessage);
 
             }

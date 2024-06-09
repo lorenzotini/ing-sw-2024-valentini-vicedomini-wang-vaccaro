@@ -12,6 +12,10 @@ public class UpdatePlayerStateMessage extends Message {
         super(miniModel, "You are now playing!");
     }
 
+    public UpdatePlayerStateMessage(MiniModel miniModel, String currentState) {
+        super(miniModel, currentState);
+    }
+
     @Override
     public void reportUpdate(VirtualView client, View view) {
         try{

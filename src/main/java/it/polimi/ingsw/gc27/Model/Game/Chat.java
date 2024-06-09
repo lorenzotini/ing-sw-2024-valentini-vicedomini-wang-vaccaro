@@ -1,7 +1,6 @@
 package it.polimi.ingsw.gc27.Model.Game;
 
 import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -23,7 +22,7 @@ public class Chat implements Serializable {
     public void addPlayer(Player player){
         chatters.add(player);
     }
-    public void addChatMessage(ChatMessage chatMessage){
+    public synchronized void addChatMessage(ChatMessage chatMessage){
         //TODO don't forget to create a right notify
         chatMessages.add(chatMessage);
     }
@@ -31,7 +30,7 @@ public class Chat implements Serializable {
         return new ArrayList<>(chatters);
     }
 
-    public ArrayList<ChatMessage> getChat(){
+    public ArrayList<ChatMessage> getChatMessages(){
         return new ArrayList<>(this.chatMessages);
     }
     public boolean contains(String username){

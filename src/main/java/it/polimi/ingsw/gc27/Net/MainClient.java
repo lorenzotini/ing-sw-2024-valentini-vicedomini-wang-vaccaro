@@ -86,8 +86,13 @@ public class MainClient  {
 
         // Run the client
         if(connectionChoice == 0){
-            client = new RmiClient(ipAddress, VirtualServer.DEFAULT_PORT_NUMBER_RMI, view);
-        } else {
+            try {
+                client = new RmiClient(ipAddress, VirtualServer.DEFAULT_PORT_NUMBER_RMI, view);
+            }catch(IOException e){
+                return;
+            }
+        }
+            else {
             client = new SocketClient(ipAddress, VirtualServer.DEFAULT_PORT_NUMBER_SOCKET, view);
         }
         view.setClient(client);

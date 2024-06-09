@@ -27,6 +27,7 @@ public class SocketServerProxy implements VirtualServer {
     ObjectInputStream input;
     private long lastPingFromServer = 0;
     ObjectOutputStream output;
+    boolean flag = true;
 
     public SocketServerProxy(VirtualView client, String ipAddress, int port) {
         this.client = client;
@@ -46,7 +47,7 @@ public class SocketServerProxy implements VirtualServer {
             try {
                 listenFromRemoteServer();
             } catch (ClassNotFoundException e) {
-                throw new RuntimeException(e);
+                System.out.println("The call of listenFromRemoteServer in S.S. had a problem, check");
             }
         }).start();
 
@@ -68,7 +69,7 @@ public class SocketServerProxy implements VirtualServer {
 
                 runVirtualServer();
             } catch (InterruptedException | IOException e) {
-                throw new RuntimeException(e);
+                System.out.println("Error with the connection, probably the server is down");
             }
 
         }).start();
@@ -76,23 +77,33 @@ public class SocketServerProxy implements VirtualServer {
     }
 
     private void checkServerIsAlive()  {
-        if(this.lastPingFromServer == 0){
-            this.lastPingFromServer = System.currentTimeMillis();
-        }
-        while(true){
-            if((System.currentTimeMillis() - this.lastPingFromServer) >10000) {
-                System.out.println("The connection has been lost, please restart the game"+ this.lastPingFromServer);
+        int count = 0;
+        while (count < 5) {
+            if (flag) {
+                count = 0;
+                flag = false;
                 try {
-                    client.close();
-                }catch(RemoteException e){
-
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
                 }
-            }
+            } else {
+                System.out.println("ping non ricevuto " + count);
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                count++;
+                if (count == 5) {
+                    System.out.println("il server è caduto rilanciare il client");
 
-            try {
-                Thread.sleep(1000);
-            }catch(InterruptedException e){
-                //TODO find a thing to do
+                    try{
+                        client.close();
+                    }catch (RemoteException e){
+                        System.exit(0);
+                    }
+                }
             }
         }
     }
@@ -103,11 +114,12 @@ public class SocketServerProxy implements VirtualServer {
         new Thread(() -> {
             while (true){
                 try {
+                    Thread.sleep(1000);
                     output.writeObject(new PingCommand());
                     output.reset();
-                    Thread.sleep(1000);
                 } catch (IOException | InterruptedException e) {
-                    throw new RuntimeException(e);
+                    System.out.println("The server has been disconnected");
+                    break;
                 }
             }
         }).start();
@@ -173,7 +185,7 @@ public class SocketServerProxy implements VirtualServer {
                 continue;
             }
             if(mess instanceof PingMessage){
-                this.lastPingFromServer = System.currentTimeMillis();
+                flag = true;
             }
             else{
                 messages.add(mess);

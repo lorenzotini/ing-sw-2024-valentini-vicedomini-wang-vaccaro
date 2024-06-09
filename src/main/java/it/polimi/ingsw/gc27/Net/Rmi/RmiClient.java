@@ -25,9 +25,10 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
     private String username = "";
     private long lastPingFromServer = 0 ;
 
-    public RmiClient(String ipAddress, int port, View view) throws IOException, NotBoundException, InterruptedException {
+    public RmiClient(String ipAddress, int port, View view) throws IOException, NotBoundException {
         Registry registry = LocateRegistry.getRegistry(ipAddress, port);
         this.server = (VirtualServer) registry.lookup("VirtualServer");
+
         this.view = view;
         this.miniModel = new MiniModel();
     }
@@ -79,7 +80,8 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
                     Thread.sleep(1000);
                     pingToServer(server, this);
                 } catch (RemoteException | InterruptedException e) {
-                    throw new RuntimeException(e);
+                    System.out.println("Probably the server is down");
+
                 }
             }
         }).start();

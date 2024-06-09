@@ -9,34 +9,40 @@ import it.polimi.ingsw.gc27.View.View;
 
 import java.rmi.RemoteException;
 
-public class UpdateChatMessage extends Message{
+public class UpdateChatMessage extends Message {
 
-    public UpdateChatMessage(Chat chat){
+    public UpdateChatMessage(Chat chat) {
         super(new MiniModel(chat));
     }
-    public UpdateChatMessage(Chat chat, Player player, String receiver){
+
+    public UpdateChatMessage(Chat chat, Player player, String receiver) {
         super(new MiniModel(chat, player, receiver));
     }
 
     @Override
-    public void reportUpdate(VirtualView client, View view)  {
+    public void reportUpdate(VirtualView client, View view) {
 
-        try{
-        Chat chat2 = client.getMiniModel().getChat(this.getMiniModel().getChat().getFirst().getChatters());
+        try {
+            if (this.getMiniModel().getChats().getFirst().getChatters().size() > 2) {
+                client.getMiniModel().getChats().addFirst(this.getMiniModel().getChats().getFirst());
+                client.getMiniModel().getChats().remove(1);
+            } else {
+                Chat miniModelChat = this.getMiniModel().getChats().getFirst();
+                Chat chat2 = client.getMiniModel().getChat(miniModelChat.getChatters());
+                client.getMiniModel().getChats().remove(chat2);
+                client.getMiniModel().getChats().add(this.getMiniModel().getChats().getFirst());
+            }
 //        if(chat2 == null) {
 //            System.out.println("errore dei personaggi della chat");
 //        }else{
-
-        client.getMiniModel().getChat().remove(chat2);
-        client.getMiniModel().getChat().add(this.getMiniModel().getChat().getFirst());
 //        }
-//        for(ChatMessage mess : this.getMiniModel().getChat().getFirst().getChat()){
-//            System.out.println("Sender:"+mess.getSender() + "\n");
-//            System.out.println("Receiver:"+mess.getReceiver() + "\n");
-//            System.out.println(mess.getContent() + "\n");
-//        }
-          }catch(RemoteException e){
-
+            for (ChatMessage mess : client.getMiniModel().getChats().getLast().getChatMessages()){
+                System.out.println("Sender:" + mess.getSender().getUsername() + "\n");
+                System.out.println("Receiver:" + mess.getReceiver().getUsername() + "\n");
+                System.out.println(mess.getContent() + "\n");
+            }
+        } catch (RemoteException e) {
+            throw new RuntimeException();
         }
 
     }

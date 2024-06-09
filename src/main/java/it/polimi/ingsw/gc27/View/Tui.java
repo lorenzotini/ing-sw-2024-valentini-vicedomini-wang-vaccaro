@@ -3,10 +3,7 @@ package it.polimi.ingsw.gc27.View;
 import it.polimi.ingsw.gc27.Model.Card.*;
 import it.polimi.ingsw.gc27.Model.Card.ObjectiveCard.ObjectiveCard;
 import it.polimi.ingsw.gc27.Model.Enumerations.PointsMultiplier;
-import it.polimi.ingsw.gc27.Model.Game.Board;
-import it.polimi.ingsw.gc27.Model.Game.ChatMessage;
-import it.polimi.ingsw.gc27.Model.Game.Manuscript;
-import it.polimi.ingsw.gc27.Model.Game.Market;
+import it.polimi.ingsw.gc27.Model.Game.*;
 import it.polimi.ingsw.gc27.Model.States.*;
 import it.polimi.ingsw.gc27.Net.Commands.*;
 import it.polimi.ingsw.gc27.Net.VirtualView;
@@ -197,12 +194,24 @@ public class Tui implements View {
                 case "market":
                     out.println("\n" + showMarket(client.getMiniModel().getMarket()));
                     break;
-
+                case "showchat":
+                    do {
+                        out.println("wich?");
+                        String person = scan.nextLine();
+                        if (person.equals("global")) {
+                            printChat(client.getMiniModel().getChats().getFirst());
+                            break;
+                        } else if (client.getMiniModel().chekOtherUsername(person)) {
+                            printChat(client.getMiniModel().getChat(person));
+                            break;
+                        }
+                    }while(true);
+                    break;
                 case "board":
                     out.println("\n" + showBoard(client.getMiniModel().getBoard()));
                     break;
                 case "sendmessage":
-                    String receiver = scan.nextLine();
+                    String receiver;
                     boolean f = true;
                     do {
 
@@ -218,7 +227,7 @@ public class Tui implements View {
                         }
                         f = false;
 
-                        if (client.getMiniModel().chekOtherUsername(receiver)) {
+                        if (client.getMiniModel().chekOtherUsername(receiver) || receiver.equals("global")) {
                             f = true;
                         }
 
@@ -265,6 +274,7 @@ public class Tui implements View {
     @Override
     public void show(ArrayList<ResourceCard> hand) {
         out.println(showHand(hand));
+        out.println(">");
     }
 
     @Override
@@ -272,21 +282,25 @@ public class Tui implements View {
         ArrayList<ObjectiveCard> obj = new ArrayList<>();
         obj.add(secretObj);
         out.println(showObjectives(obj));
+        out.println(">");
     }
 
     @Override
     public void show(Manuscript manuscript) {
         out.println(showManuscript(manuscript));
+        out.println(">");
     }
 
     @Override
     public void show(Board board) {
         out.println(showBoard(board));
+        out.println(">");
     }
 
     @Override
     public void show(Market market) {
         out.println(showMarket(market));
+        out.println(">");
     }
 
     @Override
@@ -294,6 +308,26 @@ public class Tui implements View {
         return scan.nextLine();
     }
 
+    public void printChat(Chat chat){
+        //out.println("sono in printChat con " + chat.getChatters().getFirst().getUsername()+" e " + chat.getChatters().getLast().getUsername());
+        String username;
+        username = chat.getChatters().stream()
+                .map(Player::getUsername)
+                .filter( user -> {
+                    try {
+                        return !user.equals(client.getUsername());
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                }).toList()
+                .getFirst();
+        out.println("Chat con " + username);
+        for(ChatMessage c : chat.getChatMessages()){
+            out.println(c.getSender().getUsername() +":< "+c.getContent()+" >" );
+        }
+    }
 
     private static Queue<String> fromFaceToCliCard(Face face) throws Exception {
 

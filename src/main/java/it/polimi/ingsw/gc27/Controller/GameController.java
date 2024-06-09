@@ -193,7 +193,6 @@ public class GameController implements Serializable {
             chat.addChatMessage(chatMessage);
             game.notifyObservers(new UpdateChatMessage(chat, chatMessage.getSender(), chatMessage.getReceiver().getUsername()));
         }
-
     }
 
     public void addCommand(Command command) {

@@ -169,7 +169,6 @@ public class ClientHandler implements VirtualView {
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
-
             }
         }
     }
@@ -177,7 +176,7 @@ public class ClientHandler implements VirtualView {
     private void verifyPing() throws InterruptedException {
         new Thread(() -> {
             int count = 0;
-            while (count < 3) {
+            while (count < 5) {
                 if (flag) {
                     count = 0;
                     flag = false;
@@ -194,7 +193,7 @@ public class ClientHandler implements VirtualView {
                         throw new RuntimeException(e);
                     }
                     count++;
-                    if (count == 3) {
+                    if (count == 5) {
                         disconnected();
                         System.out.println("giocatore socket disconnesso");
                     }

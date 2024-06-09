@@ -19,7 +19,7 @@ public class UpdatePlayerStateMessage extends Message {
             client.getMiniModel().setBoard(this.getMiniModel().getBoard());
             view.showString(this.string);
         }catch(RemoteException e){
-
+            System.out.println("Non si lancia il player");
         }
 
     }

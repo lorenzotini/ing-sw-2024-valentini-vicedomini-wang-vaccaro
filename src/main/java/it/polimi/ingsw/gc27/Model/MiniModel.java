@@ -17,7 +17,7 @@ public class MiniModel implements Serializable {
     private ArrayList<ResourceCard> hand;
     public String currentPlayer;
     private ArrayList<String> otherPlayerUsername = new ArrayList<>();
-    final private ArrayList<Chat> chat = new ArrayList<>();
+    final private ArrayList<Chat> chats = new ArrayList<>();
 
     // used when update the players manuscript
     public MiniModel(Player player, Manuscript manuscript) {
@@ -123,7 +123,7 @@ public class MiniModel implements Serializable {
         this.player = player;
         this.hand = player.getHand();
         this.currentPlayer = null;
-        this.chat.addAll(chats);
+        this.chats.addAll(chats);
     }
 
     public MiniModel(Player player, Game game) {
@@ -133,7 +133,7 @@ public class MiniModel implements Serializable {
         this.player = player;
         this.hand = player.getHand();
         this.currentPlayer = player.getUsername();
-        this.chat.addAll(game.getChats(player));
+        this.chats.addAll(game.getChats(player));
         this.otherPlayerUsername.addAll(game.getPlayers().stream()
                 .map(Player::getUsername)
                 .filter(username -> !username.equals(player.getUsername()))
@@ -156,7 +156,7 @@ public class MiniModel implements Serializable {
         this.player = player;
         this.hand = null;
         this.currentPlayer = receiver;
-        this.chat.add(chat);
+        this.chats.add(chat);
     }
 
     public MiniModel(Chat chat) {
@@ -166,7 +166,7 @@ public class MiniModel implements Serializable {
         this.player = null;
         this.hand = null;
         this.currentPlayer = null;
-        this.chat.add(chat);
+        this.chats.add(chat);
     }
 
     public synchronized Player getPlayer() {
@@ -216,20 +216,22 @@ public class MiniModel implements Serializable {
         this.market = miniModel.market;
         this.player = miniModel.player;
         this.hand = miniModel.hand;
-        this.chat.addAll(miniModel.chat);
+        this.chats.addAll(miniModel.chats);
         this.otherPlayerUsername.addAll(miniModel.otherPlayerUsername);
 
     }
 
     public synchronized Chat getChat(ArrayList<Player> chatters) {
         boolean flag;
-        for (Chat chat : this.chat) {
-            if (chat.getChatters().size() > 2) {
-
+        if (chatters.size() > 2) {
+            return chats.getFirst();
+        }
+        for (Chat chat : this.chats) {
+            if(chat.getChatters().size() < 3){
                 flag = true;
                 for (Player p : chatters) {
                     String username = p.getUsername();
-                    if (!chat.contains(username)) {
+                    if (!(chat.contains(username))) {
                         flag = false;
                     }
                 }
@@ -252,8 +254,19 @@ public class MiniModel implements Serializable {
         }
         return false;
     }
-    public synchronized ArrayList<Chat> getChat() {
-        return chat;
+    public synchronized ArrayList<Chat> getChats() {
+        return this.chats;
+    }
+
+    public synchronized Chat getChat(String person){
+        if(person.equals("global"))
+            return chats.getFirst();
+        for(Chat c : chats){
+            if(chats.getFirst()!= c && c.getChatters().stream().map(Player::getUsername).toList().contains(person)){
+                return c;
+            }
+        }
+        return null;
     }
 }
 

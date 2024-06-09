@@ -15,10 +15,7 @@ import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.ClipboardContent;
@@ -38,6 +35,9 @@ import java.rmi.RemoteException;
 
 public class ManuscriptSceneController implements GenericController {
 
+
+    @FXML
+    public TextField actionFeedback;
     @FXML
     private ScrollPane manuscriptScrollPane;
     @FXML
@@ -67,6 +67,9 @@ public class ManuscriptSceneController implements GenericController {
     private ImageView marketCard;
 
     private GridPane grid;
+    public TextField getActionFeedback() {
+        return actionFeedback;
+    }
 
 
     public void init() {
@@ -79,7 +82,7 @@ public class ManuscriptSceneController implements GenericController {
         }
 
         grid = new GridPane();
-        grid.setGridLinesVisible(true);
+        grid.setGridLinesVisible(false);
         grid.setHgap(-35);
         grid.setVgap(-40);
 

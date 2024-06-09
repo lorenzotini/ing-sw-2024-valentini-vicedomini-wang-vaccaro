@@ -11,6 +11,7 @@ public class PlayingState extends PlayerState {
 
     public PlayingState(Player player, TurnHandler turnHandler) {
         super(player, turnHandler);
+//        super.sendState("It's your turn, place a card", getPlayer(),turnHandler);
     }
 
     @Override

@@ -9,11 +9,14 @@ import it.polimi.ingsw.gc27.Model.Game.Player;
 
 public class WaitingState extends PlayerState {
 
-    private final String waitText = "Patientiam forti est virtute, so please wait";
+    //private final String waitText = "Patientiam forti est virtute, so please wait";
+    private final String waitText = "Waiting State";
 
     // Use this state to wait for other players to choose starter and objective cards
     public WaitingState(Player player, TurnHandler turnHandler) {
         super(player, turnHandler);
+//        super.sendState("you are not the\n current player \nwait", getPlayer(),turnHandler);
+
     }
 
     @Override

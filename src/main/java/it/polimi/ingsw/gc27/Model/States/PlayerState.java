@@ -44,6 +44,14 @@ public abstract class PlayerState implements Serializable {
 
     }
 
+//    public void sendState(String str, Player player, TurnHandler turnHandler) {
+//
+//        MiniModel miniWithCurrentPlayer = new MiniModel(player);
+//        Message errorMessage = new GenericErrorMessage(str, miniWithCurrentPlayer);
+//        turnHandler.getGame().notifyObservers(errorMessage);
+//
+//    }
+
     @Override
     public String toString() {
         return this.getClass().getSimpleName();

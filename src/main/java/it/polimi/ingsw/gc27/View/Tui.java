@@ -52,19 +52,21 @@ public class Tui implements View {
             switch (command.toLowerCase()) {
 
                 case "help":
-                    out.println("\nCommands:");
-                    out.println("addstarter - add a starter card to your board");
-                    out.println("chooseobj - choose an objective card");
-                    out.println("addcard - add a card to your board");
-                    out.println("draw - draw a card from the market");
-                    out.println("Visualize:");
-                    out.println("man - print your manuscript");
-                    out.println("hand - print your hand");
-                    out.println("obj - print your secret objective");
-                    out.println("market - print the market");
-                    out.println("board - print the players' score board");
+                    out.println("╔═══ Commands ══════════════════════════════════╗");
+                    out.println("║ "+ColourControl.YELLOW_BOLD+"addstarter"+ColourControl.RESET+" - add a starter card to your board ║");
+                    out.println("║ "+ColourControl.YELLOW_BOLD+"chooseobj"+ColourControl.RESET+" - choose an objective card          ║");
+                    out.println("║ "+ColourControl.YELLOW_BOLD+"addcard"+ColourControl.RESET+" - add a card to your board            ║");
+                    out.println("║ "+ColourControl.YELLOW_BOLD+"draw"+ColourControl.RESET+" - draw a card from the market            ║");
+                    out.println("║ "+ColourControl.YELLOW_BOLD+"sendmessage"+ColourControl.RESET+" - send a message in chat          ║");
+                    out.println("╔═══ Visualize ═════════════════════════════════╗");
+                    out.println("║ "+ColourControl.YELLOW_BOLD+"man"+ColourControl.RESET+" - print your manuscript                   ║");
+                    out.println("║ "+ColourControl.YELLOW_BOLD+"hand"+ColourControl.RESET+" - print your hand                        ║");
+                    out.println("║ "+ColourControl.YELLOW_BOLD+"obj"+ColourControl.RESET+" - print your secret objective             ║");
+                    out.println("║ "+ColourControl.YELLOW_BOLD+"market"+ColourControl.RESET+" - print the market                     ║");
+                    out.println("║ "+ColourControl.YELLOW_BOLD+"board"+ColourControl.RESET+" - print the players' score board        ║");
+                    out.println("║ "+ColourControl.YELLOW_BOLD+"showchat"+ColourControl.RESET+" - show the global or private chat    ║");
+                    out.println("╚═══════════════════════════════════════════════╝");
                     break;
-
                 case "addstarter":
 
                     if (!checkState(InitializingState.class)) {
@@ -197,7 +199,7 @@ public class Tui implements View {
                     break;
                 case "showchat":
                     do {
-                        out.println("wich?");
+                        out.println("Which?");
                         String person = scan.nextLine();
                         if (person.equals("global")) {
                             printChat(client.getMiniModel().getChats().getFirst());
@@ -216,7 +218,7 @@ public class Tui implements View {
                     boolean f = true;
                     do {
 
-                        out.println("\nchat available with: \nglobal");
+                        out.println("\nChat available with: \nGlobal");
                         for (String u : client.getMiniModel().getOtherPlayerUsername()) {
                             out.println(u);
                         }
@@ -228,12 +230,12 @@ public class Tui implements View {
                         }
                         f = false;
 
-                        if (client.getMiniModel().chekOtherUsername(receiver) || receiver.equals("global")) {
+                        if (client.getMiniModel().chekOtherUsername(receiver) || receiver.equals("Global")) {
                             f = true;
                         }
 
                     } while (!f);
-                    out.println("\n" + "content:");
+                    out.println("\n" + "Content:");
                     String mess = scan.nextLine();
                     if (mess.equals("\n") || mess.equals("")) {
                         mess = scan.nextLine();
@@ -605,7 +607,7 @@ public class Tui implements View {
         }
 
         // Counters
-        sb.append("\nCounters: " + "\nAnimal     -> " + manuscript.getAnimalCounter() + "\nFungi      -> " + manuscript.getFungiCounter() + "\nInsect     -> " + manuscript.getInsectCounter() + "\nPlant      -> " + manuscript.getPlantCounter() + "\ninkwell    -> " + manuscript.getInkwellCounter() + "\nquill      -> " + manuscript.getQuillCounter() + "\nmanuscript -> " + manuscript.getManuscriptCounter() + "\n");
+        sb.append("\nCounters: " + "\nAnimal     -> " + manuscript.getAnimalCounter() + "\nFungi      -> " + manuscript.getFungiCounter() + "\nInsect     -> " + manuscript.getInsectCounter() + "\nPlant      -> " + manuscript.getPlantCounter() + "\nInkwell    -> " + manuscript.getInkwellCounter() + "\nQuill      -> " + manuscript.getQuillCounter() + "\nManuscript -> " + manuscript.getManuscriptCounter() + "\n");
 
         return sb.toString();
 
@@ -749,13 +751,13 @@ public class Tui implements View {
 
         int numLinesToPrint = resourceDeckTop.size();
 
-        printedMarket += "Resources:\n";
+        printedMarket += "Resource cards:\n";
 
         for (int i = 0; i < numLinesToPrint; i++) {
             printedMarket += resourceDeckTop.remove() + "   " + resourceOne.remove() + "  " + resourceTwo.remove() + "\n";
         }
 
-        printedMarket += "\nGolds:\n";
+        printedMarket += "\nGold cards:\n";
 
         for (int i = 0; i < numLinesToPrint; i++) {
             printedMarket += goldDeckTop.remove() + "   " + goldOne.remove() + "  " + goldTwo.remove() + "\n";
@@ -772,8 +774,8 @@ public class Tui implements View {
                 "██║     ██║   ██║██║  ██║█████╗   ╚███╔╝     ██╔██╗ ██║███████║   ██║   ██║   ██║██████╔╝███████║██║     ██║███████╗\n" +
                 "██║     ██║   ██║██║  ██║██╔══╝   ██╔██╗     ██║╚██╗██║██╔══██║   ██║   ██║   ██║██╔══██╗██╔══██║██║     ██║╚════██║\n" +
                 "╚██████╗╚██████╔╝██████╔╝███████╗██╔╝ ██╗    ██║ ╚████║██║  ██║   ██║   ╚██████╔╝██║  ██║██║  ██║███████╗██║███████║\n" +
-                " ╚═════╝ ╚═════╝ ╚═════╝ ╚══════╝╚═╝  ╚═╝    ╚═╝  ╚═══╝╚═╝  ╚═╝   ╚═╝    ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝╚═╝╚══════╝\n" +
-                "                                                                                                                    \n");
+                " ╚═════╝ ╚═════╝ ╚═════╝ ╚══════╝╚═╝  ╚═╝    ╚═╝  ╚═══╝╚═╝  ╚═╝   ╚═╝    ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝╚═╝╚══════╝\n"
+        );
     }
 
 }

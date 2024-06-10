@@ -222,23 +222,28 @@ public class Gui implements View {
 
     @Override
     public void show(Manuscript manuscript) {
-        if(Gui.getInstance().getCurrentController() instanceof ManuscriptSceneController) {
-            ManuscriptSceneController controller = (ManuscriptSceneController) Gui.getInstance().getCurrentController();
-            controller.manuscriptCard.setImage(controller.handCard.getImage());
-            controller.handCard.setImage(null);
-            controller.manuscriptCard.setOnDragDropped(null);  // disable further drops
-            controller.manuscriptCard.setOnDragOver(null);
-            controller.setNewAvailablePositions();
 
-            //update counters
-            MiniModel miniModel;
-            try {
-                miniModel = client.getMiniModel();
-            } catch (RemoteException e) {
-                throw new RuntimeException(e);
+        Platform.runLater(() -> {
+            if(Gui.getInstance().getCurrentController() instanceof ManuscriptSceneController) {
+                ManuscriptSceneController controller = (ManuscriptSceneController) Gui.getInstance().getCurrentController();
+                controller.manuscriptCard.setImage(controller.handCard.getImage());
+                controller.handCard.setImage(null);
+                controller.manuscriptCard.toFront();
+                controller.manuscriptCard.setOnDragDropped(null);  // disable further drops
+                controller.manuscriptCard.setOnDragOver(null);
+                controller.setNewAvailablePositions();
+
+                //update counters
+                MiniModel miniModel;
+                try {
+                    miniModel = client.getMiniModel();
+                } catch (RemoteException e) {
+                    throw new RuntimeException(e);
+                }
+                controller.overwriteCounters(miniModel);
             }
-            controller.overwriteCounters(miniModel);
-        }
+        });
+
     }
 
     @Override

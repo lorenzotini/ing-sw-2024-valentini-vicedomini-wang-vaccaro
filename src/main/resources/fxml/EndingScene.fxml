@@ -9,14 +9,14 @@
 <AnchorPane prefHeight="720.0" prefWidth="1280.0" styleClass="anchorpane" stylesheets="@../css/EndingScene.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.gc27.View.GUI.EndingSceneController">
    <children>
       <ImageView fitHeight="410.0" fitWidth="312.0" layoutX="484.0" layoutY="364.0" pickOnBounds="true" preserveRatio="true" styleClass="gamemaster" />
-      <Label layoutX="414.0" layoutY="25.0" text="The Winner is...">
+      <Label fx:id="winnerTitle" layoutX="414.0" layoutY="25.0" text="The Winner is...">
          <font>
             <Font name="Agency FB" size="96.0" />
          </font>
       </Label>
       <StackPane layoutX="358.0" layoutY="252.0">
          <children>
-            <Label text="Player's username">
+            <Label fx:id="winnerUsername" text="Player's username">
                <font>
                   <Font name="Agency FB" size="96.0" />
                </font>
@@ -24,32 +24,32 @@
          </children>
       </StackPane>
       <ImageView fitHeight="85.0" fitWidth="151.0" layoutX="569.0" layoutY="172.0" pickOnBounds="true" preserveRatio="true" styleClass="crowndecoration" />
-      <Label layoutX="88.0" layoutY="545.0" text="Second Place">
+      <Label fx:id="secondUsername" layoutX="88.0" layoutY="545.0" text="Second Place">
          <font>
             <Font name="Agency FB" size="28.0" />
          </font>
       </Label>
-      <Label layoutX="88.0" layoutY="595.0" text="Third Place">
+      <Label fx:id="thirdUsername" layoutX="88.0" layoutY="595.0" text="Third Place">
          <font>
             <Font name="Agency FB" size="28.0" />
          </font>
       </Label>
-      <Label layoutX="88.0" layoutY="645.0" text="Forth Place">
+      <Label fx:id="forthUsername" layoutX="88.0" layoutY="645.0" text="Forth Place">
          <font>
             <Font name="Agency FB" size="28.0" />
          </font>
       </Label>
-      <Label layoutX="255.0" layoutY="545.0" text="Second Place Points">
+      <Label fx:id="secondPoints" layoutX="255.0" layoutY="545.0" text="Second Place Points">
          <font>
             <Font name="Agency FB" size="28.0" />
          </font>
       </Label>
-      <Label layoutX="255.0" layoutY="595.0" text="Third Place Points">
+      <Label fx:id="thirdPoints" layoutX="255.0" layoutY="595.0" text="Third Place Points">
          <font>
             <Font name="Agency FB" size="28.0" />
          </font>
       </Label>
-      <Label layoutX="255.0" layoutY="645.0" text="Forth Place Points">
+      <Label fx:id="forthPoints" layoutX="255.0" layoutY="645.0" text="Forth Place Points">
          <font>
             <Font name="Agency FB" size="28.0" />
          </font>

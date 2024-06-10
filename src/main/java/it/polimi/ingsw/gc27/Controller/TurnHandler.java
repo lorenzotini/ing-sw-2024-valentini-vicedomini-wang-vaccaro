@@ -137,15 +137,13 @@ public class TurnHandler implements Serializable {
                 this.game.notifyObservers(updatePlayerStateMessage);
 
             } else { // the next player is connected
-
-                getNextOf(index, players).setPlayerState(new PlayingState(getNextOf(index, players), this));
-                updatePlayerStateMessage = new UpdatePlayerStateMessage(new MiniModel(getNextOf(index, players),game.getBoard()));
-                this.game.notifyObservers(updatePlayerStateMessage);
-
+                if(!(getNextOf(index, players).getPlayerState() instanceof EndingState)){
+                    getNextOf(index, players).setPlayerState(new PlayingState(getNextOf(index, players), this));
+                    updatePlayerStateMessage = new UpdatePlayerStateMessage(new MiniModel(getNextOf(index, players),game.getBoard()));
+                    this.game.notifyObservers(updatePlayerStateMessage);
+                }
             }
-
         }
-
     }
 
     public void notifyCalculateObjectivePoints(Player player) {

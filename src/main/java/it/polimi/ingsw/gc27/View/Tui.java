@@ -11,6 +11,7 @@ import it.polimi.ingsw.gc27.Net.VirtualView;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import static java.lang.System.in;
@@ -22,6 +23,7 @@ public class Tui implements View {
     private static final String sws = " "; // single white space
     private static final Queue<String> noCardPrint = new LinkedList<>();
     private Scanner scan = new Scanner(in);
+
 
     static {
         noCardPrint.add("╔═════════════════╗");
@@ -38,11 +40,12 @@ public class Tui implements View {
 
         out.println("\nThe game is starting!");
         //TODO svuotare il buffer, altrimenti printa tutti i comandi presi durante l'attesa dei giocatori
-
         while (true) {
 
+            TimeUnit.MILLISECONDS.sleep(400);
             out.print(client.getMiniModel().getPlayer().getPlayerState() + "\n> ");
 
+            // skip the \n char when entering an input
             scan.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
 
             String command = scan.nextLine();
@@ -277,7 +280,6 @@ public class Tui implements View {
     @Override
     public void show(ArrayList<ResourceCard> hand) {
         out.println(showHand(hand));
-        out.println(">");
     }
 
     @Override
@@ -285,25 +287,21 @@ public class Tui implements View {
         ArrayList<ObjectiveCard> obj = new ArrayList<>();
         obj.add(secretObj);
         out.println(showObjectives(obj));
-        out.println(">");
     }
 
     @Override
     public void show(Manuscript manuscript) {
         out.println(showManuscript(manuscript));
-        out.println(">");
     }
 
     @Override
     public void show(Board board) {
         out.println(showBoard(board));
-        out.println(">");
     }
 
     @Override
     public void show(Market market) {
         out.println(showMarket(market));
-        out.println(">");
     }
 
     @Override

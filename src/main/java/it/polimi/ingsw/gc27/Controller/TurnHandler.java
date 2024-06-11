@@ -4,6 +4,7 @@ import it.polimi.ingsw.gc27.Messages.Message;
 import it.polimi.ingsw.gc27.Messages.StringMessage;
 import it.polimi.ingsw.gc27.Messages.UpdateObjectiveMessage;
 import it.polimi.ingsw.gc27.Messages.UpdatePlayerStateMessage;
+import it.polimi.ingsw.gc27.Model.Card.ObjectiveCard.ObjectiveCard;
 import it.polimi.ingsw.gc27.Model.Game.Board;
 import it.polimi.ingsw.gc27.Model.Game.Game;
 import it.polimi.ingsw.gc27.Model.Game.Manuscript;
@@ -14,6 +15,7 @@ import it.polimi.ingsw.gc27.Model.States.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class TurnHandler implements Serializable {
 
@@ -65,7 +67,7 @@ public class TurnHandler implements Serializable {
         }
     }
 
-    public void notifyEndOfTurnState(Player player) {
+    public void notifyEndOfTurnState(Player player) throws InterruptedException {
 
         List<Player> players = game.getPlayers();
         Board board = game.getBoard();
@@ -146,7 +148,7 @@ public class TurnHandler implements Serializable {
         }
     }
 
-    public void notifyCalculateObjectivePoints(Player player) {
+    public void notifyCalculateObjectivePoints(Player player) throws InterruptedException { // this method calculates the objective points and announces the winner/winners
 
         // verify that every player is in the ending state
         int points;
@@ -161,9 +163,15 @@ public class TurnHandler implements Serializable {
 
         // if everyone in ending state then start the objective points calculation
         if (everyPlayerEndingState) {
+
             for (Player p : game.getPlayers()) {
                 points = p.getSecretObjectives().getFirst().calculateObjectivePoints(player.getManuscript());
-                game.addPoints(player, points); // adding the points to the respective player
+                game.addPoints(player, points); // adding secret obj points to the respective player
+            }
+            for (Player p: game.getPlayers()) {
+                points = ((ObjectiveCard) game.getCommonObjective1()).calculateObjectivePoints(p.getManuscript());
+                points += ((ObjectiveCard) game.getCommonObjective2()).calculateObjectivePoints(p.getManuscript());
+                game.addPoints(player, points); // adding common obj points to the respective player
             }
 
             // get the maximum points of the match
@@ -174,6 +182,7 @@ public class TurnHandler implements Serializable {
 
             if(winnerUsername.size() == 1){
                 StringMessage winner = new StringMessage("The winner is " + winnerUsername.getFirst() + "!");
+                TimeUnit.MILLISECONDS.sleep(500);
                 this.game.notifyObservers(winner);
             } else {
                 StringBuilder winners = new StringBuilder();
@@ -181,6 +190,7 @@ public class TurnHandler implements Serializable {
                     winners.append(" ").append(s);
                 }
                 StringMessage winner = new StringMessage("The winners are " + winners + "!");
+                TimeUnit.MILLISECONDS.sleep(500);
                 this.game.notifyObservers(winner);
             }
         }

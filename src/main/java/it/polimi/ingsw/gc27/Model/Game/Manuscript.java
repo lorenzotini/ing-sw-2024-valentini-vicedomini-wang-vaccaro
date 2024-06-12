@@ -24,6 +24,8 @@ public class Manuscript implements Serializable {
     private int inkwellCounter;
     private int quillCounter;
     private int manuscriptCounter;
+    private String lastPlacedCardPath;
+    private ArrayList<Placement> placements = new ArrayList<>(); // save the placement order
 
     public Manuscript() {
         this.field = new Face[FIELD_DIM][FIELD_DIM];
@@ -104,6 +106,14 @@ public class Manuscript implements Serializable {
         return manuscriptCounter;
     }
 
+    public String getLastPlacedCardPath() {
+        return lastPlacedCardPath;
+    }
+
+    public void setLastPlacedCardPath(String lastPlacedCardPath) {
+        this.lastPlacedCardPath = lastPlacedCardPath;
+    }
+
     // end getter e setter
 
     public boolean isValidPlacement(int x, int y) {
@@ -128,6 +138,9 @@ public class Manuscript implements Serializable {
         return field[FIELD_DIM / 2][FIELD_DIM / 2];
     }
 
+    public ArrayList<Placement> getPlacements() {
+        return placements;
+    }
 
     public boolean satisfiedRequirement(ResourceCard card) {
         if (card instanceof GoldCard) {

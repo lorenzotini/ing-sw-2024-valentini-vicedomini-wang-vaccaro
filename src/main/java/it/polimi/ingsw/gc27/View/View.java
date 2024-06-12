@@ -31,6 +31,8 @@ public interface View {
 
     void show(Market market);
 
+    void updateManuscriptOfOtherPlayer(Manuscript manuscript, String username);
+
     String read();
 
     void okAck(String string);

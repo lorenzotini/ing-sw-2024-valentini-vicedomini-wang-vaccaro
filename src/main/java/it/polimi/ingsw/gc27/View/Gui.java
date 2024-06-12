@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -224,26 +225,42 @@ public class Gui implements View {
     public void show(Manuscript manuscript) {
 
         Platform.runLater(() -> {
-            if(Gui.getInstance().getCurrentController() instanceof ManuscriptSceneController) {
-                ManuscriptSceneController controller = (ManuscriptSceneController) Gui.getInstance().getCurrentController();
-                controller.manuscriptCard.setImage(controller.handCard.getImage());
-                controller.handCard.setImage(null);
-                controller.manuscriptCard.toFront();
-                controller.manuscriptCard.setOnDragDropped(null);  // disable further drops
-                controller.manuscriptCard.setOnDragOver(null);
-                controller.setNewAvailablePositions();
-
-                //update counters
-                MiniModel miniModel;
+            if(Gui.getInstance().getCurrentController() instanceof ManuscriptSceneController controller) {
+//                controller.manuscriptCard.setImage(controller.handCard.getImage());
+//                controller.handCard.setImage(null);
+//                controller.manuscriptCard.toFront();
+//                controller.manuscriptCard.setOnDragDropped(null);  // disable further drops
+//                controller.manuscriptCard.setOnDragOver(null);
+//                controller.setNewAvailablePositions();
+//
                 try {
-                    miniModel = client.getMiniModel();
+
+                    MiniModel miniModel = client.getMiniModel();
+
+                    // update manuscripts
+                    for(Map.Entry<String, Manuscript> element :  miniModel.getManuscriptsMap().entrySet()){
+                        controller.overwriteManuscript(miniModel, element.getKey());
+                    }
+
+                    //update counters
+                    controller.overwriteCounters(miniModel);
+
                 } catch (RemoteException e) {
                     throw new RuntimeException(e);
                 }
-                controller.overwriteCounters(miniModel);
+
             }
         });
 
+    }
+
+    @Override
+    public void updateManuscriptOfOtherPlayer(Manuscript manuscript, String username) {
+////        Platform.runLater(() -> {
+//            if(Gui.getInstance().getCurrentController() instanceof ManuscriptSceneController controller) {
+//                controller.updatePlayerManuscript(username, manuscript.getLastPlacedCardPath());
+//            }
+////        });
     }
 
     @Override

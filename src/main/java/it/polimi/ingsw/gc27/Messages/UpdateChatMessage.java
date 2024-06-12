@@ -32,10 +32,6 @@ public class UpdateChatMessage extends Message {
                 client.getMiniModel().getChats().remove(chat2);
                 client.getMiniModel().getChats().add(this.getMiniModel().getChats().getFirst());
             }
-//        if(chat2 == null) {
-//            System.out.println("errore dei personaggi della chat");
-//        }else{
-//        }
             for (ChatMessage mess : client.getMiniModel().getChats().getLast().getChatMessages()){
                 System.out.println("Sender:" + mess.getSender().getUsername() + "\n");
                 System.out.println("Receiver:" + mess.getReceiver().getUsername() + "\n");

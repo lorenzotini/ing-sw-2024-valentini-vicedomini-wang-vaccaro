@@ -202,7 +202,7 @@ public class Tui implements View {
                         if (person.equals("global")) {
                             printChat(client.getMiniModel().getChats().getFirst());
                             break;
-                        } else if (client.getMiniModel().chekOtherUsername(person)) {
+                        } else if (client.getMiniModel().checkOtherUsername(person)) {
                             printChat(client.getMiniModel().getChat(person));
                             break;
                         }
@@ -217,7 +217,7 @@ public class Tui implements View {
                     do {
 
                         out.println("\nchat available with: \nglobal");
-                        for (String u : client.getMiniModel().getOtherPlayerUsername()) {
+                        for (String u : client.getMiniModel().getOtherPlayersUsernames()) {
                             out.println(u);
                         }
                         out.println("Choose one");
@@ -228,7 +228,7 @@ public class Tui implements View {
                         }
                         f = false;
 
-                        if (client.getMiniModel().chekOtherUsername(receiver) || receiver.equals("global")) {
+                        if (client.getMiniModel().checkOtherUsername(receiver) || receiver.equals("global")) {
                             f = true;
                         }
 
@@ -302,6 +302,11 @@ public class Tui implements View {
     public void show(Market market) {
         out.println(showMarket(market));
         out.println(">");
+    }
+
+    @Override
+    public void updateManuscriptOfOtherPlayer(Manuscript manuscript, String username) {
+
     }
 
     @Override

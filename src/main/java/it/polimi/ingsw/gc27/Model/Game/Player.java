@@ -102,6 +102,8 @@ public class Player implements Serializable {
     public void addCard(Game game, Card card, Face face, int x, int y) {
 
         Manuscript m = this.manuscript;
+        m.setLastPlacedCardPath(face.getImagePath());
+        m.getPlacements().add(new Placement(x, y));
 
         //update manuscript ends in order to show only the used part when displayed
         if (x > m.getxMax()) {

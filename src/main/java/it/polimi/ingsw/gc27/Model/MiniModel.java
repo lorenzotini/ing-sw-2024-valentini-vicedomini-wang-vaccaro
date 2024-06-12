@@ -1,11 +1,12 @@
 package it.polimi.ingsw.gc27.Model;
 
 import it.polimi.ingsw.gc27.Model.Card.ObjectiveCard.ObjectiveCard;
-import it.polimi.ingsw.gc27.Model.Card.*;
+import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
 import it.polimi.ingsw.gc27.Model.Game.*;
 
-import java.io.*;
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.stream.Collectors;
 
 public class MiniModel implements Serializable {
@@ -16,8 +17,14 @@ public class MiniModel implements Serializable {
     private Player player;
     private ArrayList<ResourceCard> hand;
     public String currentPlayer;
-    private ArrayList<String> otherPlayerUsername = new ArrayList<>();
+    private ArrayList<String> otherPlayersUsernames = new ArrayList<>();
     final private ArrayList<Chat> chats = new ArrayList<>();
+   // private ArrayList<Manuscript> manuscripts = new ArrayList<>();
+    private HashMap<String, Manuscript> manuscriptsMap = new HashMap<>();
+
+//    public MiniModel(ArrayList<Manuscript> manuscripts) {
+//        this.manuscripts = manuscripts;
+//    }
 
     // used when update the players manuscript
     public MiniModel(Player player, Manuscript manuscript) {
@@ -27,6 +34,7 @@ public class MiniModel implements Serializable {
         this.player = player;
         this.hand = null;
         this.currentPlayer = null;
+        this.manuscriptsMap.put(player.getUsername(), manuscript);
     }
 
     // used when update the players objectiveCard
@@ -68,7 +76,8 @@ public class MiniModel implements Serializable {
         this.hand = null;
         this.currentPlayer = null;
     }
-    public MiniModel(Player player, Board board){
+
+    public MiniModel(Player player, Board board) {
         this.manuscript = null;
         this.board = board;
         this.market = null;
@@ -134,10 +143,13 @@ public class MiniModel implements Serializable {
         this.hand = player.getHand();
         this.currentPlayer = player.getUsername();
         this.chats.addAll(game.getChats(player));
-        this.otherPlayerUsername.addAll(game.getPlayers().stream()
+        this.otherPlayersUsernames.addAll(game.getPlayers().stream()
                 .map(Player::getUsername)
                 .filter(username -> !username.equals(player.getUsername()))
                 .collect(Collectors.toCollection(ArrayList<String>::new)));
+        //this.manuscriptsMap.put(player.getUsername(), player.getManuscript());
+        this.manuscriptsMap.putAll(game.getPlayers().stream()
+                .collect(Collectors.toMap(Player::getUsername, Player::getManuscript)));
     }
 
     public MiniModel() {
@@ -167,6 +179,15 @@ public class MiniModel implements Serializable {
         this.hand = null;
         this.currentPlayer = null;
         this.chats.add(chat);
+    }
+
+
+    public synchronized HashMap<String, Manuscript> getManuscriptsMap() {
+        return manuscriptsMap;
+    }
+
+    public synchronized  void setManuscriptsMap(HashMap<String, Manuscript> manuscriptsMap) {
+        this.manuscriptsMap = manuscriptsMap;
     }
 
     public synchronized Player getPlayer() {
@@ -217,7 +238,8 @@ public class MiniModel implements Serializable {
         this.player = miniModel.player;
         this.hand = miniModel.hand;
         this.chats.addAll(miniModel.chats);
-        this.otherPlayerUsername.addAll(miniModel.otherPlayerUsername);
+        this.otherPlayersUsernames.addAll(miniModel.otherPlayersUsernames);
+        this.manuscriptsMap.putAll(miniModel.manuscriptsMap);
 
     }
 
@@ -227,7 +249,7 @@ public class MiniModel implements Serializable {
             return chats.getFirst();
         }
         for (Chat chat : this.chats) {
-            if(chat.getChatters().size() < 3){
+            if (chat.getChatters().size() < 3) {
                 flag = true;
                 for (Player p : chatters) {
                     String username = p.getUsername();
@@ -243,30 +265,27 @@ public class MiniModel implements Serializable {
         return null;
     }
 
-    public synchronized ArrayList<String> getOtherPlayerUsername() {
-        return otherPlayerUsername;
+    public synchronized ArrayList<String> getOtherPlayersUsernames() {
+        return otherPlayersUsernames;
     }
 
 
-    public synchronized boolean chekOtherUsername(String user) { //verifichi che la stringa passata sia l'username di un altro giocatore
-        if (otherPlayerUsername.contains(user)) {
-            return true;
-        }
-        return false;
+    public synchronized boolean checkOtherUsername(String user) { //verifichi che la stringa passata sia l'username di un altro giocatore
+        return otherPlayersUsernames.contains(user);
     }
+
     public synchronized ArrayList<Chat> getChats() {
         return this.chats;
     }
 
-    public synchronized Chat getChat(String person){
-        if(person.equals("global"))
+    public synchronized Chat getChat(String person) {
+        if (person.equals("global"))
             return chats.getFirst();
-        for(Chat c : chats){
-            if(chats.getFirst()!= c && c.getChatters().stream().map(Player::getUsername).toList().contains(person)){
+        for (Chat c : chats) {
+            if (chats.getFirst() != c && c.getChatters().stream().map(Player::getUsername).toList().contains(person)) {
                 return c;
             }
         }
         return null;
     }
 }
-

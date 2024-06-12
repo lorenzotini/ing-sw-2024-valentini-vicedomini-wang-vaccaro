@@ -21,27 +21,27 @@ public class InitializingState extends PlayerState {
 
     @Override
     public void chooseObjectiveCard(Game game, int objectiveCardIndex) {
-        super.sendError(wrongStateText, getPlayer(), turnHandler);
+        super.sendError(wrongStateText, this.player, turnHandler);
     }
 
     @Override
     public void drawCard(Player player, boolean isGold, boolean fromDeck, int faceUpCardIndex) {
-        super.sendError(wrongStateText, getPlayer(), turnHandler);
+        super.sendError(wrongStateText, this.player, turnHandler);
     }
 
     @Override
     public void addCard(Game game, ResourceCard resourceCard, Face face, int x, int y) {
-        super.sendError(wrongStateText, getPlayer(), turnHandler);
+        super.sendError(wrongStateText, this.player, turnHandler);
     }
 
     @Override
     public void addStarterCard(Game game, StarterCard starterCard, Face face) {
 
-        getPlayer().addCard(game, starterCard, face, Manuscript.FIELD_DIM / 2, Manuscript.FIELD_DIM / 2);
+        this.player.addCard(game, starterCard, face, Manuscript.FIELD_DIM / 2, Manuscript.FIELD_DIM / 2);
 
-        getPlayer().setPlayerState(new ChooseObjectiveState(getPlayer(), getTurnHandler()));
+        this.player.setPlayerState(new ChooseObjectiveState(this.player, getTurnHandler()));
 
-        Message updateManuscriptMessage = new UpdateManuscriptMessage(new MiniModel(getPlayer(), getPlayer().getManuscript()));
+        Message updateManuscriptMessage = new UpdateManuscriptMessage(new MiniModel(this.player, game));
 
         turnHandler.getGame().notifyObservers(updateManuscriptMessage);
 

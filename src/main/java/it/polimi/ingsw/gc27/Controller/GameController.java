@@ -80,7 +80,7 @@ public class GameController implements Serializable {
         player.getPlayerState().addCard(this.game, card, face, x, y);
     }
 
-    public void drawCard(Player player, boolean isGold, boolean fromDeck, int faceUpCardIndex) {
+    public void drawCard(Player player, boolean isGold, boolean fromDeck, int faceUpCardIndex) throws InterruptedException {
         player.getPlayerState().drawCard(player, isGold, fromDeck, faceUpCardIndex);
     }
 
@@ -97,6 +97,8 @@ public class GameController implements Serializable {
         try {
             turnHandler.handleDisconnection(player, this);
         }catch(NullPointerException e){
+
+        } catch (InterruptedException e) {
 
         }
     }
@@ -223,7 +225,7 @@ public class GameController implements Serializable {
         return getGame().getPlayer(username);
     }
 
-    public void suspendGame() {
+    public void suspendGame() throws InterruptedException {
         Command command = null;
         suspended = true;
 

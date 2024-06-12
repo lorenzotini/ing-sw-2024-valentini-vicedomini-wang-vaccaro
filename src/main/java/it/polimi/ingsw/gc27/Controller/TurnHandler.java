@@ -196,7 +196,7 @@ public class TurnHandler implements Serializable {
         }
     }
 
-    public void handleDisconnection(Player player, GameController gc) {
+    public void handleDisconnection(Player player, GameController gc) throws InterruptedException {
 
         String stateClassName = player.getPlayerState().getClass().getSimpleName();
         Message updateObjectiveMessage;

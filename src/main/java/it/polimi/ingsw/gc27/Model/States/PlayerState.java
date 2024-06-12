@@ -30,7 +30,7 @@ public abstract class PlayerState implements Serializable {
 
     public abstract void chooseObjectiveCard(Game game, int objectiveCardIndex);
 
-    public abstract void drawCard(Player player, boolean isGold, boolean fromDeck, int faceUpCardIndex);
+    public abstract void drawCard(Player player, boolean isGold, boolean fromDeck, int faceUpCardIndex) throws InterruptedException;
 
     public abstract void addCard(Game game, ResourceCard resourceCard, Face face, int x, int y);
 

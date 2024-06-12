@@ -29,7 +29,7 @@ public class DrawingState extends PlayerState {
     }
 
     @Override
-    public void drawCard(Player player, boolean isGold, boolean fromDeck, int faceUpCardIndex) {
+    public void drawCard(Player player, boolean isGold, boolean fromDeck, int faceUpCardIndex) throws InterruptedException {
 
         Market market = turnHandler.getGame().getMarket();
         ArrayList<? extends ResourceCard> deck;

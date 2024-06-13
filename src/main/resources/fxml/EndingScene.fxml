@@ -34,7 +34,7 @@
             <Font name="Agency FB" size="28.0" />
          </font>
       </Label>
-      <Label layoutX="88.0" layoutY="645.0" text="Forth Place">
+      <Label layoutX="88.0" layoutY="645.0" text="Fourth Place">
          <font>
             <Font name="Agency FB" size="28.0" />
          </font>
@@ -49,7 +49,7 @@
             <Font name="Agency FB" size="28.0" />
          </font>
       </Label>
-      <Label layoutX="255.0" layoutY="645.0" text="Forth Place Points">
+      <Label layoutX="255.0" layoutY="645.0" text="Fourth Place Points">
          <font>
             <Font name="Agency FB" size="28.0" />
          </font>

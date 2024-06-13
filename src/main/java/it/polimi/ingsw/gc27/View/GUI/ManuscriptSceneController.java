@@ -162,8 +162,8 @@ public class ManuscriptSceneController implements GenericController {
             TextField sendMessage = new TextField();
 
             VBox chatContainer = new VBox();
-
-            chatContent.setPrefHeight(Region.USE_COMPUTED_SIZE);
+            HBox messageBox = new HBox();
+            chatContent.setPrefHeight(400);
             chatContent.setPrefWidth(Region.USE_COMPUTED_SIZE);
             chatContent.setFitToWidth(true);
             chatContent.setFitToHeight(true);
@@ -172,7 +172,7 @@ public class ManuscriptSceneController implements GenericController {
 //                chatMessages.getChildren().add(new Text("Messaggio di prova" + j));
 //            }
 
-            HBox messageBox = new HBox();
+
             Button sendButton = new Button("Invia");
             sendMessage.setPromptText("Inserisci il tuo messaggio...");
 

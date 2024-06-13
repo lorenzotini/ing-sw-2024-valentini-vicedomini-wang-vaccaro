@@ -7,6 +7,7 @@ import it.polimi.ingsw.gc27.Model.MiniModel;
 import it.polimi.ingsw.gc27.Net.Commands.AddCardCommand;
 import it.polimi.ingsw.gc27.Net.Commands.Command;
 import it.polimi.ingsw.gc27.Net.Commands.DrawCardCommand;
+import it.polimi.ingsw.gc27.Net.Commands.SendMessageCommand;
 import it.polimi.ingsw.gc27.View.GUI.UserData.HandCardData;
 import it.polimi.ingsw.gc27.View.GUI.UserData.ManuscriptCardData;
 import it.polimi.ingsw.gc27.View.GUI.UserData.MarketCardData;
@@ -22,10 +23,7 @@ import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.input.TransferMode;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Region;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Scale;
 
@@ -37,7 +35,7 @@ public class ManuscriptSceneController implements GenericController {
 
 
     @FXML
-    public TextField actionFeedback;
+    public TextArea actionFeedback;
     @FXML
     private ScrollPane manuscriptScrollPane;
     @FXML
@@ -67,7 +65,8 @@ public class ManuscriptSceneController implements GenericController {
     private ImageView marketCard;
 
     private GridPane grid;
-    public TextField getActionFeedback() {
+
+    public TextArea getActionFeedback() {
         return actionFeedback;
     }
 
@@ -157,26 +156,68 @@ public class ManuscriptSceneController implements GenericController {
         }
 
         // chat
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < miniModel.getChats().size(); i++) {
             Tab chatTab = new Tab();
             ScrollPane chatContent = new ScrollPane();
+            TextField sendMessage = new TextField();
+
+            VBox chatContainer = new VBox();
+
             chatContent.setPrefHeight(Region.USE_COMPUTED_SIZE);
             chatContent.setPrefWidth(Region.USE_COMPUTED_SIZE);
             chatContent.setFitToWidth(true);
             chatContent.setFitToHeight(true);
             VBox chatMessages = new VBox();
-            for (int j = 0; j < 20; j++) {
-                chatMessages.getChildren().add(new Text("Messaggio di prova" + j));
-            }
+//            for (int j = 0; j < 20; j++) {
+//                chatMessages.getChildren().add(new Text("Messaggio di prova" + j));
+//            }
+
+            HBox messageBox = new HBox();
+            Button sendButton = new Button("Invia");
+            sendMessage.setPromptText("Inserisci il tuo messaggio...");
+
+            messageBox.getChildren().addAll(sendMessage, sendButton);
+            messageBox.setSpacing(20);
             chatContent.setContent(chatMessages);
+
+            sendButton.setOnAction(event -> {
+                String message = sendMessage.getText();
+                if (!message.isEmpty()) {
+                    //chatMessages.getChildren().add(new Text(message));
+                    sendChatMessage(miniModel.currentPlayer, message);
+                    sendMessage.clear();
+                }
+            });
+
+            // Set HBox growth for sendMessage
+            HBox.setHgrow(sendMessage, Priority.ALWAYS);
+            sendMessage.setMaxWidth(300);
+
+            // Create a spacer
+            Region spacer = new Region();
+            HBox.setHgrow(spacer, Priority.ALWAYS);
+
+            chatContainer.getChildren().addAll(chatContent, messageBox);
+
+
             chatTab.setText("Player " + i);
-            chatTab.setContent(chatContent);
+            //chatTab.setContent(chatContent);
+            chatTab.setContent(chatContainer);
             chat.getTabs().add(chatTab);
         }
 
         // counters
         overwriteCounters(miniModel);
 
+    }
+
+    void sendChatMessage(String receiver, String content){
+        try {
+            Command command = new SendMessageCommand(Gui.getInstance().getClient().getMiniModel().getPlayer(), receiver, content);
+            Gui.getInstance().getClient().sendCommand(command);
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     void handleDropEventManuscript(ImageView imgView) {

@@ -4,7 +4,6 @@ import it.polimi.ingsw.gc27.Controller.GigaController;
 import it.polimi.ingsw.gc27.Messages.*;
 import it.polimi.ingsw.gc27.Messages.SetUsernameMessage;
 import it.polimi.ingsw.gc27.Messages.StringMessage;
-import it.polimi.ingsw.gc27.Messages.UpdateManuscriptMessage;
 import it.polimi.ingsw.gc27.Model.Game.Player;
 import it.polimi.ingsw.gc27.Model.MiniModel;
 import it.polimi.ingsw.gc27.Net.Commands.Command;
@@ -15,11 +14,8 @@ import it.polimi.ingsw.gc27.Net.VirtualView;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.Serializable;
 import java.net.Socket;
 import java.rmi.RemoteException;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
 
 public class ClientHandler implements VirtualView {
 

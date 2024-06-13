@@ -2,7 +2,8 @@ package it.polimi.ingsw.gc27.Model.States;
 
 import it.polimi.ingsw.gc27.Controller.TurnHandler;
 import it.polimi.ingsw.gc27.Messages.Message;
-import it.polimi.ingsw.gc27.Messages.UpdateManuscriptMessage;
+import it.polimi.ingsw.gc27.Messages.UpdateMyManuscriptMessage;
+import it.polimi.ingsw.gc27.Messages.UpdateOtherManuscriptMessage;
 import it.polimi.ingsw.gc27.Model.Card.Face;
 import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
 import it.polimi.ingsw.gc27.Model.Card.StarterCard;
@@ -41,9 +42,11 @@ public class InitializingState extends PlayerState {
 
         this.player.setPlayerState(new ChooseObjectiveState(this.player, getTurnHandler()));
 
-        Message updateManuscriptMessage = new UpdateManuscriptMessage(new MiniModel(this.player, game));
+        Message updateMyManuscriptMessage = new UpdateMyManuscriptMessage(new MiniModel(this.player, game));
+        turnHandler.getGame().notifyObservers(updateMyManuscriptMessage);
 
-        turnHandler.getGame().notifyObservers(updateManuscriptMessage);
+        Message updateOtherManuscriptMessage = new UpdateOtherManuscriptMessage(new MiniModel(game));
+        turnHandler.getGame().notifyObservers(updateOtherManuscriptMessage);
 
     }
 

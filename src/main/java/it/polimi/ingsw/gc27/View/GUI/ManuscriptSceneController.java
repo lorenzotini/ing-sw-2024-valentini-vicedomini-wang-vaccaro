@@ -322,60 +322,34 @@ public class ManuscriptSceneController implements GenericController {
 
     public void overwriteManuscript(MiniModel miniModel, String username) {
 
-        boolean isMyManuscript = miniModel.getPlayer().getUsername().equals(username);
-
-        Manuscript manuscript = miniModel.getManuscriptsMap().get(username);
-
-        GridPane grid = new GridPane();
-
-        grid.getChildren().clear();
-
-        ColumnConstraints columnConstraints = new ColumnConstraints();
-        columnConstraints.setMaxWidth(150);
-        columnConstraints.setMinWidth(150);
-        RowConstraints rowConstraints = new RowConstraints();
-        rowConstraints.setMaxHeight(100);
-        rowConstraints.setMinHeight(100);
-
-        for(int i = 0; i < Manuscript.FIELD_DIM; i++){
-            grid.getColumnConstraints().add(columnConstraints);
-            grid.getRowConstraints().add(rowConstraints);
-        }
-
-        grid.setHgap(-35);
-        grid.setVgap(-40);
-
-        Optional<Tab> userTab = manuscriptTabPane.getTabs().stream().filter(tab -> tab.getText().equals(username)).findFirst();
-
-        if (userTab.isPresent()) {
-            ScrollPane scrollPane = (ScrollPane) userTab.get().getContent();
-            scrollPane.setContent(grid);
-            handleZoom(scrollPane, grid);
-        }
-
-//        ScrollPane newManuscriptScrollPane = new ScrollPane();
-//
-//        newManuscriptScrollPane.setContent(grid);
-//        newManuscriptScrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
-//        newManuscriptScrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
-//        newManuscriptScrollPane.setFitToWidth(true);
-//        newManuscriptScrollPane.setFitToHeight(true);
-//        newManuscriptScrollPane.setHvalue(0.5);
-//        newManuscriptScrollPane.setVvalue(0.5);
-
         Platform.runLater(() -> {
-//            // remove the old tab
-//            manuscriptTabPane.getTabs().stream().filter(tab -> tab.getText().equals(username)).findFirst().ifPresent(tab -> manuscriptTabPane.getTabs().remove(tab));
-//            // add the new tab
-//            manuscriptTabPane.getTabs().add(new Tab(username, newManuscriptScrollPane));
-//
-//            handleZoom(newManuscriptScrollPane, grid);
+
+            boolean isMyManuscript = miniModel.getPlayer().getUsername().equals(username);
+
+            Manuscript manuscript = miniModel.getManuscriptsMap().get(username);
+
+            GridPane grid = new GridPane();
+
+            ColumnConstraints columnConstraints = new ColumnConstraints();
+            columnConstraints.setMaxWidth(150);
+            columnConstraints.setMinWidth(150);
+            RowConstraints rowConstraints = new RowConstraints();
+            rowConstraints.setMaxHeight(100);
+            rowConstraints.setMinHeight(100);
+
+            for(int i = 0; i < Manuscript.FIELD_DIM; i++){
+                grid.getColumnConstraints().add(columnConstraints);
+                grid.getRowConstraints().add(rowConstraints);
+            }
+
+            grid.setHgap(-35);
+            grid.setVgap(-40);
+
+            Optional<Tab> userTab = manuscriptTabPane.getTabs().stream().filter(tab -> tab.getText().equals(username)).findFirst();
 
             // build manuscript
             if (isMyManuscript) {
-
                 for (Placement placement : manuscript.getPlacements()) {
-
                     Face face = miniModel.getManuscript().getField()[placement.getX()][placement.getY()];
 
                     ImageView imageView = new ImageView();
@@ -390,23 +364,24 @@ public class ManuscriptSceneController implements GenericController {
 
                     // playable positions
                     addValidPlacements(miniModel, placement, grid);
-
                 }
-
             } else {
-
                 for (Placement placement : manuscript.getPlacements()) {
                     ImageView imageView = new ImageView();
-                    Face face = miniModel.getManuscript().getField()[placement.getX()][placement.getY()];
+                    Face face = miniModel.getManuscriptsMap().get(username).getField()[placement.getX()][placement.getY()];
                     imageView.setImage(new Image(face.getImagePath()));
                     imageView.setFitHeight(100);
                     imageView.setFitWidth(150);
                     imageView.toFront();
                     grid.add(imageView, placement.getX(), placement.getY());
                 }
-
             }
 
+            if (userTab.isPresent()) {
+                ScrollPane scrollPane = (ScrollPane) userTab.get().getContent();
+                scrollPane.setContent(grid);
+                handleZoom(scrollPane, grid);
+            }
         });
 
     }

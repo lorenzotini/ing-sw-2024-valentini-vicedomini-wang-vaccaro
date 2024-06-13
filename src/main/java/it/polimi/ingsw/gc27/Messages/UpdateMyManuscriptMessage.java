@@ -6,11 +6,11 @@ import it.polimi.ingsw.gc27.View.View;
 
 import java.rmi.RemoteException;
 
-public class UpdateManuscriptMessage extends Message {
+public class UpdateMyManuscriptMessage extends Message {
     //this minimodel's class have player, manuscript and the string set,
     //player is the only one that has to receive the message
 
-    public UpdateManuscriptMessage(MiniModel miniModel) {
+    public UpdateMyManuscriptMessage(MiniModel miniModel) {
         super(miniModel, "Something changed in your manuscript!");
     }
 
@@ -23,12 +23,6 @@ public class UpdateManuscriptMessage extends Message {
             client.getMiniModel().setManuscriptsMap(miniModel.getManuscriptsMap());
             view.showString(string);
             view.show(client.getMiniModel().getPlayer().getManuscript());
-//            // update other players manuscripts in view
-//            for(String username : client.getMiniModel().getOtherPlayersUsernames()){
-//                if(client.getMiniModel().getManuscriptsMap().get(username) != null){
-//                    view.updateManuscriptOfOtherPlayer(client.getMiniModel().getManuscriptsMap().get(username), username);
-//                }
-//            }
         }catch(RemoteException e){
             e.printStackTrace();
         }

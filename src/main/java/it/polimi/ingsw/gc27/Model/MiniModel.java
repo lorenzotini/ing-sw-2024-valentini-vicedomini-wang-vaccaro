@@ -94,6 +94,8 @@ public class MiniModel implements Serializable {
         this.player = null;
         this.hand = null;
         this.currentPlayer = null;
+        this.manuscriptsMap.putAll(game.getPlayers().stream()
+                .collect(Collectors.toMap(Player::getUsername, Player::getManuscript)));
     }
 
     //used when you have to pass a message to a specific player

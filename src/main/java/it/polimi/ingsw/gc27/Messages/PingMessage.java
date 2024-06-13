@@ -1,5 +1,6 @@
 package it.polimi.ingsw.gc27.Messages;
 
+import it.polimi.ingsw.gc27.Net.Socket.SocketClient;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 import it.polimi.ingsw.gc27.View.View;
 
@@ -13,10 +14,6 @@ public class PingMessage extends Message{
 
     @Override
     public void reportUpdate(VirtualView client, View view) {
-        try{
-            client.pingFromServer();
-        }catch(RemoteException e){
 
-        }
     }
 }

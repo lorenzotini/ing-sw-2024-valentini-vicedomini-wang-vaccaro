@@ -142,11 +142,6 @@ public class ClientHandler implements VirtualView {
     }
 
     @Override
-    public void pingToServer(VirtualServer virtualServer, VirtualView client) throws RemoteException {
-
-    }
-
-    @Override
     public synchronized void update(Message message) {
         try {
             output.writeObject(message);
@@ -204,8 +199,6 @@ public class ClientHandler implements VirtualView {
     }
 
     public void disconnected() {
-        //console.disconnected(this.player);
-
         if (!disconnected) {
             server.disconnect(this); //rimuove questo handler dalla lista di handler
             disconnected = true;

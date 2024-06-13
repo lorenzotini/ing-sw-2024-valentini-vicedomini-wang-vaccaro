@@ -309,7 +309,9 @@ public class Gui implements View {
     public void koAck(String string) {
         System.out.println("\nKo " +currentController.toString() + string);
         currentController.receiveKo(string);
-
+        if(currentController instanceof ManuscriptSceneController){
+            ((ManuscriptSceneController) currentController).getActionFeedback().setText(string);
+        }
         //error handler
     }
 

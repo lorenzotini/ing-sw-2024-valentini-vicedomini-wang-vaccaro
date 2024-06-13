@@ -41,8 +41,6 @@ public class ManuscriptSceneController implements GenericController {
 
     @FXML
     private TextField actionFeedback;
-    //    @FXML
-//    private ScrollPane manuscriptScrollPane;
     @FXML
     private TabPane manuscriptTabPane;
     @FXML
@@ -71,11 +69,6 @@ public class ManuscriptSceneController implements GenericController {
     // attributes to handle drawCard invocation
     private ImageView marketCard;
 
-    //private GridPane grid = new GridPane();
-
-    // maps a player's username to its card view in its manuscript (read only)
-    //private HashMap<String, ImageView> manuscriptCards = new HashMap<>();
-
 
     public void init() {
 
@@ -87,10 +80,6 @@ public class ManuscriptSceneController implements GenericController {
                 throw new RuntimeException(e);
             }
         }while(miniModel.getMarket() == null);
-//        // initialize the map of manuscript cards
-//        miniModel.getOtherPlayersUsernames().forEach(username -> {
-//            manuscriptCards.put(username, new ImageView());
-//        });
 
         // initialize manuscripts' grid panes
         createManuscriptGrids(miniModel);
@@ -157,10 +146,12 @@ public class ManuscriptSceneController implements GenericController {
                 this.x = manuscriptCardData.x;
                 this.y = manuscriptCardData.y;
                 this.manuscriptCard = imgView;
+
                 sendAddCardCommand();
             }
             event.consume();
         });
+
 
     }
 
@@ -209,6 +200,8 @@ public class ManuscriptSceneController implements GenericController {
         imgView.setOnMouseClicked(event -> {
             this.marketCard = imgView;
             sendDrawCardCommand();
+            System.out.println("CLICK MARKET"+ event);
+            event.consume();
         });
 
     }
@@ -241,11 +234,13 @@ public class ManuscriptSceneController implements GenericController {
         imgView.setOnMouseEntered(event -> {
             imgView.setFitHeight(originalHeight * factor);
             imgView.setFitWidth(originalWidth * factor);
+            event.consume();
         });
 
         imgView.setOnMouseExited(event -> {
             imgView.setFitHeight(originalHeight);
             imgView.setFitWidth(originalWidth);
+            event.consume();
         });
 
     }
@@ -467,60 +462,6 @@ public class ManuscriptSceneController implements GenericController {
 
     }
 
-//    public void updatePlayerManuscript(String username, String newImagePath) {
-//
-//        if(newImagePath != null){
-//            for (Tab tab : manuscriptTabPane.getTabs()) {
-//                if (tab.getText().equals(username)) {
-//                    manuscriptCards.get(username).setImage(new Image(newImagePath));
-//                    break;
-//                }
-//            }
-//        }
-//
-//    }
-//
-//    public void setNewAvailablePositions() {
-//
-//        Platform.runLater(() -> {
-//            MiniModel miniModel;
-//            try {
-//                miniModel = Gui.getInstance().getClient().getMiniModel();
-//            } catch (RemoteException e) {
-//                throw new RuntimeException(e);
-//            }
-//            for (int i = -1; i <= 1; i = i + 2) {
-//                for (int j = -1; j <= 1; j = j + 2) {
-//                    if (miniModel.getPlayer().getManuscript().isValidPlacement(x + i, y + j)) {
-//                        ImageView imageView = getImageViewFromGrid(grid, x + i, y + j);
-//                        imageView.setImage(new Image(getClass().getResource("/images/utility/validPlacement2.png").toExternalForm()));
-//                        handleDropEventManuscript(imageView);
-//                        imageView.toFront();
-//                    }
-//                }
-//            }
-//        });
-//
-//    }
-//
-//    private ImageView getImageViewFromGrid(GridPane gridPane, int col, int row) {
-//        for (Node node : gridPane.getChildren()) {
-//            Integer rowIndex = GridPane.getRowIndex(node);
-//            Integer colIndex = GridPane.getColumnIndex(node);
-//            // Treat null values as 0
-//            if (rowIndex == null) {
-//                rowIndex = 0;
-//            }
-//            if (colIndex == null) {
-//                colIndex = 0;
-//            }
-//            if (rowIndex == row && colIndex == col && node instanceof ImageView) {
-//                return (ImageView) node;
-//            }
-//        }
-//        return null;
-//    }
-
     private void addValidPlacements(MiniModel miniModel, Placement placement, GridPane grid){
         for(int i = -1; i <= 1; i = i + 2){
             for(int j = -1; j <= 1; j = j + 2){
@@ -541,9 +482,5 @@ public class ManuscriptSceneController implements GenericController {
     public TextField getActionFeedback() {
         return actionFeedback;
     }
-
-//    public HashMap<String, ImageView> getManuscriptCards() {
-//        return manuscriptCards;
-//    }
 
 }

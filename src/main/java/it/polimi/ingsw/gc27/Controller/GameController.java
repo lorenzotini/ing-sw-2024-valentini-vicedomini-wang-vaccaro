@@ -249,7 +249,7 @@ public class GameController implements Serializable {
             try {
                 command = commands.take();
             } catch (InterruptedException e) {
-
+                //TODO eventuale non so se va gestito
             }
 
             synchronized (this) {

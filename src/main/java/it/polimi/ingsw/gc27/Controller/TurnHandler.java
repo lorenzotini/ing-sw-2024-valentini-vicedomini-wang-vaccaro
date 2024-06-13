@@ -182,7 +182,7 @@ public class TurnHandler implements Serializable {
 
             if(winnerUsername.size() == 1){
                 StringMessage winner = new StringMessage("The winner is " + winnerUsername.getFirst() + "!");
-                TimeUnit.MILLISECONDS.sleep(500);
+
                 this.game.notifyObservers(winner);
             } else {
                 StringBuilder winners = new StringBuilder();
@@ -190,7 +190,7 @@ public class TurnHandler implements Serializable {
                     winners.append(" ").append(s);
                 }
                 StringMessage winner = new StringMessage("The winners are " + winners + "!");
-                TimeUnit.MILLISECONDS.sleep(500);
+
                 this.game.notifyObservers(winner);
             }
         }

@@ -466,7 +466,7 @@ public class ManuscriptSceneController implements GenericController {
         for(int i = -1; i <= 1; i = i + 2){
             for(int j = -1; j <= 1; j = j + 2){
                 if(miniModel.getPlayer().getManuscript().isValidPlacement(placement.getX() + i, placement.getY() + j)){
-                    ImageView imageView = new ImageView(new Image(getClass().getResource("/images/utility/validPlacement2.png").toExternalForm()));
+                    ImageView imageView = new ImageView(new Image(getClass().getResource("/images/utility/validPlacement.png").toExternalForm()));
                     handleDropEventManuscript(imageView);
                     ManuscriptCardData manuscriptCardData = new ManuscriptCardData(placement.getX() + i, placement.getY() + j);
                     imageView.setUserData(manuscriptCardData);

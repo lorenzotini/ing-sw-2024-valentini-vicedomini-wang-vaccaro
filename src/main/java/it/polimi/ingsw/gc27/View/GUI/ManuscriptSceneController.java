@@ -80,12 +80,13 @@ public class ManuscriptSceneController implements GenericController {
     public void init() {
 
         MiniModel miniModel;
-        try {
-            miniModel = Gui.getInstance().getClient().getMiniModel();
-        } catch (RemoteException e) {
-            throw new RuntimeException(e);
-        }
-
+        do {
+            try {
+                miniModel = Gui.getInstance().getClient().getMiniModel();
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
+            }
+        }while(miniModel.getMarket() == null);
 //        // initialize the map of manuscript cards
 //        miniModel.getOtherPlayersUsernames().forEach(username -> {
 //            manuscriptCards.put(username, new ImageView());

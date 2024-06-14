@@ -345,6 +345,11 @@ public class Tui implements View {
     public void koAck(String string) {
     }
 
+    @Override
+    public void showWinners(){
+
+    }
+
 
     private static Queue<String> fromFaceToCliCard(Face face) throws Exception {
 

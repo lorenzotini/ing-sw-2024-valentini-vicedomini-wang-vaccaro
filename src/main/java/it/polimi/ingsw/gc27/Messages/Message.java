@@ -4,6 +4,7 @@ import it.polimi.ingsw.gc27.Model.ClientClass.MiniModel;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 import it.polimi.ingsw.gc27.View.View;
 
+import java.io.IOException;
 import java.io.Serializable;
 
 public abstract class Message implements Serializable {

@@ -15,7 +15,8 @@ public enum ScenePaths {
     PLACESTARTER ("/fxml/PlaceStarterCardScene.fxml"), //scene number 5
     CHOOSEOBJ ("/fxml/ChooseObjectiveScene.fxml"), //scene number 5
     ERROR ("/fxml/ErrorScene.fxml"),
-    MANUSCRIPT ("/fxml/ManuscriptScene.fxml");
+    MANUSCRIPT ("/fxml/ManuscriptScene.fxml"),
+    ENDING ("/fxml/EndingScene.fxml");
 
     private final String value;
 

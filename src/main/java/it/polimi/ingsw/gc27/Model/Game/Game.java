@@ -152,6 +152,22 @@ public class Game implements Serializable {
         generalChat.addPlayer(p);
 
         this.players.add(p);
+        switch (p.getPawnColour()){
+            case RED:
+                board.setRedPlayer(p.getUsername());
+                break;
+            case YELLOW:
+                board.setYellowPlayer(p.getUsername());
+                break;
+            case GREEN:
+                board.setGreenPlayer(p.getUsername());
+                break;
+            case BLUE:
+                board.setBluePlayer(p.getUsername());
+                break;
+            default:
+                break;
+        }
         //create a listener
         //he will listen the observable and decide if the message has to be sent to his player
         this.addObserver(new PlayerListener(client, p));

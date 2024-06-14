@@ -8,6 +8,7 @@ import it.polimi.ingsw.gc27.Model.ClientClass.ClientMarket;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 
 import java.io.IOException;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 public interface View {
@@ -38,5 +39,7 @@ public interface View {
     void okAck(String string);
 
     void koAck(String string);
+
+    void showWinners();
 
 }

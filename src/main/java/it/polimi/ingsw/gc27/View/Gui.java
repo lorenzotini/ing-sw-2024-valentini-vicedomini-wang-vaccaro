@@ -7,7 +7,8 @@ import it.polimi.ingsw.gc27.Model.ClientClass.ClientBoard;
 import it.polimi.ingsw.gc27.Model.ClientClass.ClientManuscript;
 import it.polimi.ingsw.gc27.Model.ClientClass.ClientMarket;
 import it.polimi.ingsw.gc27.Model.Game.Manuscript;
-import it.polimi.ingsw.gc27.Model.ClientClass.MiniModel;
+import it.polimi.ingsw.gc27.Model.Game.Market;
+import it.polimi.ingsw.gc27.Model.ClientClass.*;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 import it.polimi.ingsw.gc27.View.GUI.*;
 import javafx.application.Platform;
@@ -251,17 +252,8 @@ public class Gui implements View {
                 }
 
             }
+            //controller.overwriteCounters(miniModel);
         });
-
-    }
-
-    @Override
-    public void updateManuscriptOfOtherPlayer(ClientManuscript manuscript, String username) {
-////        Platform.runLater(() -> {
-//            if(Gui.getInstance().getCurrentController() instanceof ManuscriptSceneController controller) {
-//                controller.updatePlayerManuscript(username, manuscript.getLastPlacedCardPath());
-//            }
-////        });
     }
 
     @Override
@@ -279,6 +271,11 @@ public class Gui implements View {
             throw new RuntimeException(e);
         }
         controller.overwriteMarket(miniModel);
+    }
+
+    @Override
+    public void updateManuscriptOfOtherPlayer(ClientManuscript manuscript, String username) {
+
     }
 
     @Override
@@ -316,6 +313,24 @@ public class Gui implements View {
         //error handler
     }
 
+    @Override
+    public void showWinners() {
 
+        Platform.runLater(()->{
+            try {
+                if(currentController instanceof ManuscriptSceneController){
+                    switchScene(ScenePaths.ENDING.getValue());
+                }
+
+                if (currentController instanceof EndingSceneController){
+                    ((EndingSceneController) Gui.getInstance().getCurrentController()).changeWinnersLabel(client.getMiniModel().getBoard().getScoreBoard());
+                }
+
+            } catch (Exception e){
+
+            }
+        });
+
+    }
 
 }

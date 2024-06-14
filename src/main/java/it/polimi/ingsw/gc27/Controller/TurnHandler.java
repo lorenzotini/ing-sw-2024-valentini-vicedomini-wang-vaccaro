@@ -1,9 +1,6 @@
 package it.polimi.ingsw.gc27.Controller;
 
-import it.polimi.ingsw.gc27.Messages.Message;
-import it.polimi.ingsw.gc27.Messages.StringMessage;
-import it.polimi.ingsw.gc27.Messages.UpdateObjectiveMessage;
-import it.polimi.ingsw.gc27.Messages.UpdatePlayerStateMessage;
+import it.polimi.ingsw.gc27.Messages.*;
 import it.polimi.ingsw.gc27.Model.Card.ObjectiveCard.ObjectiveCard;
 import it.polimi.ingsw.gc27.Model.Game.Board;
 import it.polimi.ingsw.gc27.Model.Game.Game;
@@ -115,7 +112,7 @@ public class TurnHandler implements Serializable {
 
             }
 
-            if (twentyPointsReached) {
+            if (twentyPointsReached && game.getPlayers().getLast().equals(game.getPlayers().get(index))) {
                 lastRound = true; // once someone gets 20 points, only if the round is finished you can trigger the last round
             }
 
@@ -165,34 +162,17 @@ public class TurnHandler implements Serializable {
         if (everyPlayerEndingState) {
 
             for (Player p : game.getPlayers()) {
-                points = p.getSecretObjectives().getFirst().calculateObjectivePoints(player.getManuscript());
-                game.addPoints(player, points); // adding secret obj points to the respective player
+                points = p.getSecretObjectives().getFirst().calculateObjectivePoints(p.getManuscript());
+                game.addPoints(p, points); // adding secret obj points to the respective player
             }
             for (Player p: game.getPlayers()) {
                 points = ((ObjectiveCard) game.getCommonObjective1()).calculateObjectivePoints(p.getManuscript());
                 points += ((ObjectiveCard) game.getCommonObjective2()).calculateObjectivePoints(p.getManuscript());
-                game.addPoints(player, points); // adding common obj points to the respective player
+                game.addPoints(p, points); // adding common obj points to the respective player
             }
 
-            // get the maximum points of the match
-            int max = getMaxPoints();
-
-            // get the winner's username
-            ArrayList<String> winnerUsername = getWinnersUsername(max);
-
-            if(winnerUsername.size() == 1){
-                StringMessage winner = new StringMessage("The winner is " + winnerUsername.getFirst() + "!");
-
-                this.game.notifyObservers(winner);
-            } else {
-                StringBuilder winners = new StringBuilder();
-                for(String s : winnerUsername){
-                    winners.append(" ").append(s);
-                }
-                StringMessage winner = new StringMessage("The winners are " + winners + "!");
-
-                this.game.notifyObservers(winner);
-            }
+            sendWinnersToClient();
+            sendWinnersToClient();
         }
     }
 
@@ -253,62 +233,10 @@ public class TurnHandler implements Serializable {
     }
 
 
-    public int getMaxPoints(){
-        int max = 0;
-        for(Player p : game.getPlayers()){
-            switch (p.getPawnColour()){
-                case RED:
-                    if(game.getBoard().getPointsRedPlayer() >= max){
-                        max = game.getBoard().getPointsRedPlayer();
-                    }
-                    break;
-                case BLUE:
-                    if(game.getBoard().getPointsBluePlayer() >= max){
-                        max = game.getBoard().getPointsBluePlayer();
-                    }
-                    break;
-                case GREEN:
-                    if(game.getBoard().getPointsGreenPlayer() >= max){
-                        max = game.getBoard().getPointsGreenPlayer();
-                    }
-                    break;
-                case YELLOW:
-                    if(game.getBoard().getPointsYellowPlayer() >= max){
-                        max = game.getBoard().getPointsYellowPlayer();
-                    }
-                    break;
-            }
-        }
-        return max;
-    }
 
-    public ArrayList<String> getWinnersUsername(int max){
-        ArrayList<String> winnerUsername = new ArrayList<String>();
-        for(Player p : game.getPlayers()){
-            switch (p.getPawnColour()){
-                case RED:
-                    if(game.getBoard().getPointsRedPlayer() == max){
-                        winnerUsername.add(p.getUsername());
-                    }
-                    break;
-                case BLUE:
-                    if(game.getBoard().getPointsBluePlayer() == max){
-                        winnerUsername.add(p.getUsername());
-                    }
-                    break;
-                case GREEN:
-                    if(game.getBoard().getPointsGreenPlayer() == max){
-                        winnerUsername.add(p.getUsername());
-                    }
-                    break;
-                case YELLOW:
-                    if(game.getBoard().getPointsYellowPlayer() == max){
-                        winnerUsername.add(p.getUsername());
-                    }
-                    break;
-            }
-        }
-        return winnerUsername;
+    public void sendWinnersToClient(){
+        UpdateEndGame winnerMessage = new UpdateEndGame(new MiniModel(game.getBoard()));
+        this.game.notifyObservers(winnerMessage);
     }
 
     /**

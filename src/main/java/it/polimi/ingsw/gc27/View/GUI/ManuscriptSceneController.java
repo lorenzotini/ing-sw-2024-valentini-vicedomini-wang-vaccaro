@@ -19,18 +19,18 @@ import it.polimi.ingsw.gc27.View.Gui;
 import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.ClipboardContent;
-import javafx.scene.input.Dragboard;
-import javafx.scene.input.ScrollEvent;
-import javafx.scene.input.TransferMode;
+import javafx.scene.input.*;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 import javafx.scene.transform.Scale;
 
 import java.io.IOException;
+import java.io.PipedOutputStream;
 import java.rmi.RemoteException;
 import java.util.HashMap;
 import java.util.Map;
@@ -146,7 +146,8 @@ public class ManuscriptSceneController implements GenericController {
             Button sendButton = new Button("Send");
             messageBox.getChildren().addAll(sendMessage, sendButton);
             messageBox.setSpacing(20);
-            handleOnActionChat(sendButton);
+            handleOnActionChat(sendButton, sendMessage);
+            handleOnKeyPress(sendMessage);
 
             sendMessage.setPromptText("Write your message here...");
 
@@ -198,9 +199,20 @@ public class ManuscriptSceneController implements GenericController {
         }
     }
 
-    void handleOnActionChat(Button button){
+    void handleOnActionChat(Button button, TextField textField){
         button.setOnAction(event -> {
             sendChatMessage();
+            textField.clear();
+
+        });
+    }
+    private void handleOnKeyPress(TextField textField) {
+        textField.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                sendChatMessage();
+                textField.clear();
+                event.consume();
+            }
         });
     }
 
@@ -375,9 +387,20 @@ public class ManuscriptSceneController implements GenericController {
                         .filter(user -> !user.equals(miniModel.getPlayer().getUsername()))
                         .toList().getFirst();
                 Tab tab= chatTabHashMap.get(username);
-                VBox box= getChatMessagesVBox(tab);
+                VBox vbox= getChatMessagesVBox(tab);
 
-                box.getChildren().add(new Text(chat.getChatMessages().getLast().getContent()));
+                Text text = new Text();
+                TextFlow textFlow = new TextFlow(text);
+                textFlow.setPrefWidth(100);
+                HBox hbox = new HBox(textFlow);
+                if(chat.getChatMessages().getLast().getSender().equals(username)){
+                    hbox.setAlignment(Pos.CENTER_LEFT);
+                }else{ hbox.setAlignment(Pos.CENTER_RIGHT);}
+
+                text.setText(chat.getChatMessages().getLast().getContent());
+
+                vbox.getChildren().add(hbox);
+                //vbox.getChildren().add(new Text(chat.getChatMessages().getLast().getContent()));
                 //trovo altra chat
                 System.out.println("zio pera");
             }

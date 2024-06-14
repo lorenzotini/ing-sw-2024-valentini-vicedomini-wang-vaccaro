@@ -1,9 +1,10 @@
 package it.polimi.ingsw.gc27.Messages;
 
+import it.polimi.ingsw.gc27.Model.ClientClass.ClientChat;
 import it.polimi.ingsw.gc27.Model.Game.Chat;
 import it.polimi.ingsw.gc27.Model.Game.ChatMessage;
 import it.polimi.ingsw.gc27.Model.Game.Player;
-import it.polimi.ingsw.gc27.Model.MiniModel;
+import it.polimi.ingsw.gc27.Model.ClientClass.MiniModel;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 import it.polimi.ingsw.gc27.View.View;
 
@@ -27,8 +28,8 @@ public class UpdateChatMessage extends Message {
                 client.getMiniModel().getChats().addFirst(this.getMiniModel().getChats().getFirst());
                 client.getMiniModel().getChats().remove(1);
             } else {
-                Chat miniModelChat = this.getMiniModel().getChats().getFirst();
-                Chat chat2 = client.getMiniModel().getChat(miniModelChat.getChatters());
+                ClientChat miniModelChat = this.getMiniModel().getChats().getFirst();
+                ClientChat chat2 = client.getMiniModel().getChat(miniModelChat.getChatters());
                 client.getMiniModel().getChats().remove(chat2);
                 client.getMiniModel().getChats().add(this.getMiniModel().getChats().getFirst());
             }

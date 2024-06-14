@@ -2,6 +2,10 @@ package it.polimi.ingsw.gc27.View;
 
 import it.polimi.ingsw.gc27.Model.Card.*;
 import it.polimi.ingsw.gc27.Model.Card.ObjectiveCard.ObjectiveCard;
+import it.polimi.ingsw.gc27.Model.ClientClass.ClientBoard;
+import it.polimi.ingsw.gc27.Model.ClientClass.ClientChat;
+import it.polimi.ingsw.gc27.Model.ClientClass.ClientManuscript;
+import it.polimi.ingsw.gc27.Model.ClientClass.ClientMarket;
 import it.polimi.ingsw.gc27.Model.Enumerations.PointsMultiplier;
 import it.polimi.ingsw.gc27.Model.Game.*;
 import it.polimi.ingsw.gc27.Model.States.*;
@@ -287,25 +291,25 @@ public class Tui implements View {
     }
 
     @Override
-    public void show(Manuscript manuscript) {
+    public void show(ClientManuscript manuscript) {
         out.println(showManuscript(manuscript));
-        out.println(">");
+        out.print(">");
     }
 
     @Override
-    public void show(Board board) {
+    public void show(ClientBoard board) {
         out.println(showBoard(board));
-        out.println(">");
+        out.print(">");
     }
 
     @Override
-    public void show(Market market) {
+    public void show(ClientMarket market) {
         out.println(showMarket(market));
-        out.println(">");
+        out.print(">");
     }
 
     @Override
-    public void updateManuscriptOfOtherPlayer(Manuscript manuscript, String username) {
+    public void updateManuscriptOfOtherPlayer(ClientManuscript manuscript, String username) {
 
     }
 
@@ -314,7 +318,7 @@ public class Tui implements View {
         return scan.nextLine();
     }
 
-    public void printChat(Chat chat) {
+    public void printChat(ClientChat chat) {
         //out.println("sono in printChat con " + chat.getChatters().getFirst().getUsername()+" e " + chat.getChatters().getLast().getUsername());
         String username;
         username = chat.getChatters().stream()
@@ -531,7 +535,7 @@ public class Tui implements View {
         }
     }
 
-    private static String countWhiteSpaces(boolean first, boolean middle, Manuscript manuscript, int i, int j, int line) {
+    private static String countWhiteSpaces(boolean first, boolean middle, ClientManuscript manuscript, int i, int j, int line) {
         String ws_11 = sws.repeat(11);
         String ws_15 = sws.repeat(15);
 
@@ -547,7 +551,7 @@ public class Tui implements View {
         return first ? ws_11 : ws_15;
     }
 
-    public static String showManuscript(Manuscript manuscript) {
+    public static String showManuscript(ClientManuscript manuscript) {
 
         StringBuffer sb = new StringBuffer();
 
@@ -695,7 +699,7 @@ public class Tui implements View {
 
     }
 
-    public static String showBoard(Board board) {
+    public static String showBoard(ClientBoard board) {
         return ("\nRed: " + ColourControl.RED_BACKGROUND_BRIGHT + board.getPointsRedPlayer() + ColourControl.RESET +
                 "\nYellow: " + ColourControl.YELLOW_BACKGROUND_BRIGHT + board.getPointsYellowPlayer() + ColourControl.RESET +
                 "\nGreen: " + ColourControl.GREEN_BACKGROUND_BRIGHT + board.getPointsGreenPlayer() + ColourControl.RESET +
@@ -728,7 +732,7 @@ public class Tui implements View {
 
     }
 
-    public static String showMarket(Market market) {
+    public static String showMarket(ClientMarket market) {
 
         String printedMarket = "\n";
 

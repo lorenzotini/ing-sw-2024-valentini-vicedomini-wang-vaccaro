@@ -3,10 +3,11 @@ package it.polimi.ingsw.gc27.View;
 import it.polimi.ingsw.gc27.Model.Card.ObjectiveCard.ObjectiveCard;
 import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
 import it.polimi.ingsw.gc27.Model.Card.StarterCard;
-import it.polimi.ingsw.gc27.Model.Game.Board;
+import it.polimi.ingsw.gc27.Model.ClientClass.ClientBoard;
+import it.polimi.ingsw.gc27.Model.ClientClass.ClientManuscript;
+import it.polimi.ingsw.gc27.Model.ClientClass.ClientMarket;
 import it.polimi.ingsw.gc27.Model.Game.Manuscript;
-import it.polimi.ingsw.gc27.Model.Game.Market;
-import it.polimi.ingsw.gc27.Model.MiniModel;
+import it.polimi.ingsw.gc27.Model.ClientClass.MiniModel;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 import it.polimi.ingsw.gc27.View.GUI.*;
 import javafx.application.Platform;
@@ -222,7 +223,7 @@ public class Gui implements View {
     }
 
     @Override
-    public void show(Manuscript manuscript) {
+    public void show(ClientManuscript manuscript) {
 
         Platform.runLater(() -> {
             if(Gui.getInstance().getCurrentController() instanceof ManuscriptSceneController controller) {
@@ -238,7 +239,7 @@ public class Gui implements View {
                     MiniModel miniModel = client.getMiniModel();
 
                     // update manuscripts
-                    for(Map.Entry<String, Manuscript> element :  miniModel.getManuscriptsMap().entrySet()){
+                    for(Map.Entry<String, ClientManuscript> element :  miniModel.getManuscriptsMap().entrySet()){
                         controller.overwriteManuscript(miniModel, element.getKey());
                     }
 
@@ -255,7 +256,7 @@ public class Gui implements View {
     }
 
     @Override
-    public void updateManuscriptOfOtherPlayer(Manuscript manuscript, String username) {
+    public void updateManuscriptOfOtherPlayer(ClientManuscript manuscript, String username) {
 ////        Platform.runLater(() -> {
 //            if(Gui.getInstance().getCurrentController() instanceof ManuscriptSceneController controller) {
 //                controller.updatePlayerManuscript(username, manuscript.getLastPlacedCardPath());
@@ -264,12 +265,12 @@ public class Gui implements View {
     }
 
     @Override
-    public void show(Board board) {
+    public void show(ClientBoard board) {
 
     }
 
     @Override
-    public void show(Market market) {
+    public void show(ClientMarket market) {
         ManuscriptSceneController controller = (ManuscriptSceneController) Gui.getInstance().getCurrentController();
         MiniModel miniModel;
         try {

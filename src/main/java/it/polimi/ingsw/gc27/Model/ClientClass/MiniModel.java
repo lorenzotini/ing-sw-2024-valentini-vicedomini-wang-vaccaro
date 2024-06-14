@@ -1,4 +1,4 @@
-package it.polimi.ingsw.gc27.Model;
+package it.polimi.ingsw.gc27.Model.ClientClass;
 
 import it.polimi.ingsw.gc27.Model.Card.ObjectiveCard.ObjectiveCard;
 import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
@@ -11,16 +11,16 @@ import java.util.stream.Collectors;
 
 public class MiniModel implements Serializable {
 
-    private Manuscript manuscript;
-    private Board board;
-    private Market market;
-    private Player player;
+    private ClientManuscript manuscript;
+    private ClientBoard board;
+    private ClientMarket market;
+    private ClientPlayer player;
     private ArrayList<ResourceCard> hand;
     public String currentPlayer;
     private ArrayList<String> otherPlayersUsernames = new ArrayList<>();
-    final private ArrayList<Chat> chats = new ArrayList<>();
+    final private ArrayList<ClientChat> chats = new ArrayList<>();
    // private ArrayList<Manuscript> manuscripts = new ArrayList<>();
-    private HashMap<String, Manuscript> manuscriptsMap = new HashMap<>();
+    private HashMap<String, ClientManuscript> manuscriptsMap = new HashMap<>();
 
 //    public MiniModel(ArrayList<Manuscript> manuscripts) {
 //        this.manuscripts = manuscripts;
@@ -68,7 +68,7 @@ public class MiniModel implements Serializable {
     }
 
     //used when the market is being updated
-    public MiniModel(Market market) {
+    public MiniModel(ClientMarket market ) {
         this.manuscript = null;
         this.board = null;
         this.market = market;
@@ -86,7 +86,6 @@ public class MiniModel implements Serializable {
         this.currentPlayer = null;
     }
 
-    //
     public MiniModel(Game game) {
         this.manuscript = null;
         this.board = game.getBoard();
@@ -183,28 +182,27 @@ public class MiniModel implements Serializable {
         this.chats.add(chat);
     }
 
-
-    public synchronized HashMap<String, Manuscript> getManuscriptsMap() {
+    public synchronized HashMap<String, ClientManuscript> getManuscriptsMap() {
         return manuscriptsMap;
     }
 
-    public synchronized  void setManuscriptsMap(HashMap<String, Manuscript> manuscriptsMap) {
+    public synchronized  void setManuscriptsMap(HashMap<String, ClientManuscript> manuscriptsMap) {
         this.manuscriptsMap = manuscriptsMap;
     }
 
-    public synchronized Player getPlayer() {
+    public synchronized ClientPlayer getPlayer() {
         return player;
     }
 
-    public synchronized Market getMarket() {
+    public synchronized ClientMarket getMarket() {
         return market;
     }
 
-    public synchronized Board getBoard() {
+    public synchronized ClientBoard getBoard() {
         return board;
     }
 
-    public synchronized Manuscript getManuscript() {
+    public synchronized ClientManuscript getManuscript() {
         return manuscript;
     }
 
@@ -216,19 +214,19 @@ public class MiniModel implements Serializable {
         this.hand = hand;
     }
 
-    public synchronized void setManuscript(Manuscript manuscript) {
+    public synchronized void setManuscript(ClientManuscript manuscript) {
         this.manuscript = manuscript;
     }
 
-    public synchronized void setMarket(Market market) {
+    public synchronized void setMarket(ClientMarket market) {
         this.market = market;
     }
 
-    public synchronized void setBoard(Board board) {
+    public synchronized void setBoard(ClientBoard board) {
         this.board = board;
     }
 
-    public synchronized void setPlayer(Player player) {
+    public synchronized void setPlayer(ClientPlayer player) {
         this.player = player;
     }
 
@@ -245,12 +243,12 @@ public class MiniModel implements Serializable {
 
     }
 
-    public synchronized Chat getChat(ArrayList<Player> chatters) {
+    public synchronized ClientChat getChat(ArrayList<Player> chatters) {
         boolean flag;
         if (chatters.size() > 2) {
             return chats.getFirst();
         }
-        for (Chat chat : this.chats) {
+        for (ClientChat chat : this.chats) {
             if (chat.getChatters().size() < 3) {
                 flag = true;
                 for (Player p : chatters) {
@@ -276,14 +274,14 @@ public class MiniModel implements Serializable {
         return otherPlayersUsernames.contains(user);
     }
 
-    public synchronized ArrayList<Chat> getChats() {
+    public synchronized ArrayList<ClientChat> getChats() {
         return this.chats;
     }
 
-    public synchronized Chat getChat(String person) {
+    public synchronized ClientChat getChat(String person) {
         if (person.equals("global"))
             return chats.getFirst();
-        for (Chat c : chats) {
+        for (ClientChat c : chats) {
             if (chats.getFirst() != c && c.getChatters().stream().map(Player::getUsername).toList().contains(person)) {
                 return c;
             }

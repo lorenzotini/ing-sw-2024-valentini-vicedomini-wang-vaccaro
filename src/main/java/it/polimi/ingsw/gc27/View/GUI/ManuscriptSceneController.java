@@ -2,10 +2,11 @@ package it.polimi.ingsw.gc27.View.GUI;
 
 import it.polimi.ingsw.gc27.Model.Card.Card;
 import it.polimi.ingsw.gc27.Model.Card.Face;
+import it.polimi.ingsw.gc27.Model.ClientClass.ClientManuscript;
 import it.polimi.ingsw.gc27.Model.Enumerations.CornerSymbol;
 import it.polimi.ingsw.gc27.Model.Game.Manuscript;
 import it.polimi.ingsw.gc27.Model.Game.Placement;
-import it.polimi.ingsw.gc27.Model.MiniModel;
+import it.polimi.ingsw.gc27.Model.ClientClass.MiniModel;
 import it.polimi.ingsw.gc27.Net.Commands.AddCardCommand;
 import it.polimi.ingsw.gc27.Net.Commands.Command;
 import it.polimi.ingsw.gc27.Net.Commands.DrawCardCommand;
@@ -85,7 +86,7 @@ public class ManuscriptSceneController implements GenericController {
         createManuscriptGrids(miniModel);
 
         // populate manuscripts
-        for(Map.Entry<String, Manuscript> element :  miniModel.getManuscriptsMap().entrySet()){
+        for(Map.Entry<String, ClientManuscript> element :  miniModel.getManuscriptsMap().entrySet()){
             overwriteManuscript(miniModel, element.getKey());
         }
 
@@ -280,7 +281,7 @@ public class ManuscriptSceneController implements GenericController {
 
     private void createManuscriptGrids(MiniModel miniModel){
 
-        for(Map.Entry<String, Manuscript> element :  miniModel.getManuscriptsMap().entrySet()){
+        for(Map.Entry<String, ClientManuscript> element :  miniModel.getManuscriptsMap().entrySet()){
 
             GridPane grid = new GridPane();
 
@@ -322,7 +323,7 @@ public class ManuscriptSceneController implements GenericController {
 
             boolean isMyManuscript = miniModel.getPlayer().getUsername().equals(username);
 
-            Manuscript manuscript = miniModel.getManuscriptsMap().get(username);
+            ClientManuscript manuscript = miniModel.getManuscriptsMap().get(username);
 
             GridPane grid = new GridPane();
 

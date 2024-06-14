@@ -2,6 +2,7 @@ package it.polimi.ingsw.gc27.Model.Listener;
 
 import it.polimi.ingsw.gc27.Messages.Message;
 import it.polimi.ingsw.gc27.Model.Game.Player;
+import it.polimi.ingsw.gc27.Model.Observer;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 
 import java.io.Serializable;

@@ -69,7 +69,6 @@ class TurnHandlerTest {
         faceUpResources[1]= resourceDeck.get(1);
         faceUpGolds[0]=goldDeck.get(0);
         faceUpGolds[1]=goldDeck.get(1);
-        market=new Market(resourceDeck, goldDeck, faceUpResources,faceUpGolds );
         g1.setMarket(market);
 
         /*secretObjectives=new ArrayList<>();
@@ -117,7 +116,7 @@ class TurnHandlerTest {
         p4.setPlayerState(new EndingState(p4, turnHandler));
         secretObjectives=new ArrayList<>();
         secretObjectives.add(objectiveDeck.get(0));
-        p1.setSecretObjectives(secretObjectives);
+
         //turnHandler.notifyCalculateObjectivePoints(p1);
 
     }

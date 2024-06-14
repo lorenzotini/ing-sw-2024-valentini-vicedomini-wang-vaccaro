@@ -2,9 +2,9 @@ package it.polimi.ingsw.gc27.View;
 
 import it.polimi.ingsw.gc27.Model.Card.ObjectiveCard.ObjectiveCard;
 import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
-import it.polimi.ingsw.gc27.Model.Game.Board;
-import it.polimi.ingsw.gc27.Model.Game.Manuscript;
-import it.polimi.ingsw.gc27.Model.Game.Market;
+import it.polimi.ingsw.gc27.Model.ClientClass.ClientBoard;
+import it.polimi.ingsw.gc27.Model.ClientClass.ClientManuscript;
+import it.polimi.ingsw.gc27.Model.ClientClass.ClientMarket;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 
 import java.io.IOException;
@@ -25,13 +25,13 @@ public interface View {
 
     void show(ObjectiveCard objectiveCard);
 
-    void show(Manuscript manuscript);
+    void show(ClientManuscript manuscript);
 
-    void show(Board board);
+    void show(ClientBoard board);
 
-    void show(Market market);
+    void show(ClientMarket market);
 
-    void updateManuscriptOfOtherPlayer(Manuscript manuscript, String username);
+    void updateManuscriptOfOtherPlayer(ClientManuscript manuscript, String username);
 
     String read();
 

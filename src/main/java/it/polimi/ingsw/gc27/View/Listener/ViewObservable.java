@@ -1,7 +1,6 @@
 package it.polimi.ingsw.gc27.View.Listener;
 
 import it.polimi.ingsw.gc27.Messages.Message;
-import it.polimi.ingsw.gc27.Model.Listener.Observer;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;

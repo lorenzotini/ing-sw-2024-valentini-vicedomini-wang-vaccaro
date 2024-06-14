@@ -3,19 +3,20 @@ package it.polimi.ingsw.gc27.Net.Commands;
 import it.polimi.ingsw.gc27.Controller.GameController;
 import it.polimi.ingsw.gc27.Messages.Message;
 import it.polimi.ingsw.gc27.Messages.ReconnectedPlayerMessage;
+import it.polimi.ingsw.gc27.Model.ClientClass.ClientPlayer;
 import it.polimi.ingsw.gc27.Model.Game.Game;
 import it.polimi.ingsw.gc27.Model.Game.Player;
 import it.polimi.ingsw.gc27.Model.Listener.PlayerListener;
-import it.polimi.ingsw.gc27.Model.MiniModel;
+import it.polimi.ingsw.gc27.Model.ClientClass.MiniModel;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 
 public class ReconnectPlayerCommand implements Command{
     VirtualView client;
     Player player;
 
-    public ReconnectPlayerCommand(VirtualView client, Player player){
+    public ReconnectPlayerCommand(VirtualView client, ClientPlayer player){
         this.client=client;
-        this.player=player;
+        this.player=(Player) player;
     }
     @Override
     public void execute(GameController gc)  {

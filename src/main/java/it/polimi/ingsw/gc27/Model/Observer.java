@@ -1,4 +1,4 @@
-package it.polimi.ingsw.gc27.Model.Listener;
+package it.polimi.ingsw.gc27.Model;
 
 import it.polimi.ingsw.gc27.Messages.Message;
 

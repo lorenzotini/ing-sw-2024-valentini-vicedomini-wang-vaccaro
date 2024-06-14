@@ -25,6 +25,7 @@ public class SocketServerProxy implements VirtualServer {
     ObjectInputStream input;
     ObjectOutputStream output;
     boolean flag = true;
+    private int TIME_COUNT = 100;
 
     public SocketServerProxy(VirtualView client, String ipAddress, int port) {
         this.client = client;
@@ -103,7 +104,7 @@ public class SocketServerProxy implements VirtualServer {
                     throw new RuntimeException(e);
                 }
                 count++;
-                if (count == 5) {
+                if (count == TIME_COUNT) {
                     System.out.println("il server è caduto rilanciare il client");
 
                     try {

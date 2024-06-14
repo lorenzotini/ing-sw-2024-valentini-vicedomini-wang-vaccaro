@@ -7,13 +7,14 @@ public class ChatMessage implements Serializable {
     String receiver;
     String content;
 
-    public ChatMessage(Player sender, Player receiver, String content){
+    public ChatMessage(String sender, String receiver, String content){
 
-        this.sender = sender.getUsername();
-        this.receiver = receiver.getUsername();
+        this.sender = sender;
+        this.receiver = receiver;
         this.content = content;
 
     }
+
 
     public String getSender() {
         return sender;

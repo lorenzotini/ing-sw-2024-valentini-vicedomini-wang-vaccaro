@@ -24,6 +24,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
     private final BlockingQueue<Message> messages = new LinkedBlockingQueue<>();
     private String username = "";
     private long lastPingFromServer = 0 ;
+    private int TIME_COUNT = 1000000;
 
     public RmiClient(String ipAddress, int port, View view) throws RemoteException {
         do {
@@ -132,7 +133,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
             this.lastPingFromServer = System.currentTimeMillis();
         }
         while(true){
-            if((System.currentTimeMillis() - this.lastPingFromServer) >10000){
+            if((System.currentTimeMillis() - this.lastPingFromServer) > TIME_COUNT ){
                 System.out.println("The connection has been lost, please restart the game");
                 close();
             }

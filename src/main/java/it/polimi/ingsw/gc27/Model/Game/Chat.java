@@ -10,7 +10,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class Chat implements Serializable, ClientChat {
 
 
-    final BlockingQueue<Player> chatters = new LinkedBlockingQueue<>();
+    final BlockingQueue<String> chatters = new LinkedBlockingQueue<>();
     final BlockingQueue<ChatMessage> chatMessages = new LinkedBlockingQueue<>();
 
     public Chat(){
@@ -18,18 +18,18 @@ public class Chat implements Serializable, ClientChat {
     }
     public Chat(Player player1, Player player2){
         //creazione di una chat singola
-        chatters.add(player1);
-        chatters.add(player2);
+        chatters.add(player1.getUsername());
+        chatters.add(player2.getUsername());
     }
     public void addPlayer(Player player){
-        chatters.add(player);
+        chatters.add(player.getUsername());
     }
     public synchronized void addChatMessage(ChatMessage chatMessage){
         //TODO don't forget to create a right notify
         chatMessages.add(chatMessage);
     }
     @Override
-    public ArrayList<Player> getChatters() {
+    public ArrayList<String> getChatters() {
         return new ArrayList<>(chatters);
     }
     @Override
@@ -38,8 +38,8 @@ public class Chat implements Serializable, ClientChat {
     }
     @Override
     public boolean contains(String username){
-        for(Player p : getChatters()){
-            if(p.getUsername().equals(username)){
+        for(String p : getChatters()){
+            if(p.equals(username)){
                 return true;
             }
         }

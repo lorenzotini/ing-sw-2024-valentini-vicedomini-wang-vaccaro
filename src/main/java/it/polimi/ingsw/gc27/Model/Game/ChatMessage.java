@@ -3,32 +3,24 @@ package it.polimi.ingsw.gc27.Model.Game;
 import java.io.Serializable;
 
 public class ChatMessage implements Serializable {
-    Player sender;
-    Player receiver;
+    String sender;
+    String receiver;
     String content;
 
     public ChatMessage(Player sender, Player receiver, String content){
 
-        this.sender = sender;
-        this.receiver = receiver;
+        this.sender = sender.getUsername();
+        this.receiver = receiver.getUsername();
         this.content = content;
 
     }
 
-    public Player getSender() {
+    public String getSender() {
         return sender;
     }
 
-    public void setSender(Player sender) {
-        this.sender = sender;
-    }
-
-    public Player getReceiver() {
+    public String getReceiver() {
         return receiver;
-    }
-
-    public void setReceiver(Player receiver) {
-        this.receiver = receiver;
     }
 
     public String getContent() {
@@ -38,7 +30,5 @@ public class ChatMessage implements Serializable {
     public void setContent(String content) {
         this.content = content;
     }
-
-
 
 }

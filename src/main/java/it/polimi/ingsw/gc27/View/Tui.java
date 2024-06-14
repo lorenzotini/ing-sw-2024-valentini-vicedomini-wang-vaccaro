@@ -304,7 +304,7 @@ public class Tui implements View {
     }
 
     @Override
-    public void show(Chat chat) {
+    public void show(ClientChat chat) {
 
     }
 
@@ -327,7 +327,6 @@ public class Tui implements View {
         //out.println("sono in printChat con " + chat.getChatters().getFirst().getUsername()+" e " + chat.getChatters().getLast().getUsername());
         String username;
         username = chat.getChatters().stream()
-                .map(Player::getUsername)
                 .filter(user -> {
                     try {
                         return !user.equals(client.getUsername());
@@ -338,7 +337,7 @@ public class Tui implements View {
                 .getFirst();
         out.println("Chat con " + username);
         for (ChatMessage c : chat.getChatMessages()) {
-            out.println(c.getSender().getUsername() + ":< " + c.getContent() + " >");
+            out.println(c.getSender() + ":< " + c.getContent() + " >");
         }
     }
 

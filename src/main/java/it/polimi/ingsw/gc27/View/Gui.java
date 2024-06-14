@@ -3,11 +3,7 @@ package it.polimi.ingsw.gc27.View;
 import it.polimi.ingsw.gc27.Model.Card.ObjectiveCard.ObjectiveCard;
 import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
 import it.polimi.ingsw.gc27.Model.Card.StarterCard;
-import it.polimi.ingsw.gc27.Model.ClientClass.ClientBoard;
-import it.polimi.ingsw.gc27.Model.ClientClass.ClientManuscript;
-import it.polimi.ingsw.gc27.Model.ClientClass.ClientMarket;
-import it.polimi.ingsw.gc27.Model.Game.Manuscript;
-import it.polimi.ingsw.gc27.Model.ClientClass.MiniModel;
+import it.polimi.ingsw.gc27.Model.ClientClass.*;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 import it.polimi.ingsw.gc27.View.GUI.*;
 import javafx.application.Platform;
@@ -264,13 +260,14 @@ public class Gui implements View {
 ////        });
     }
 
+
     @Override
     public void show(ClientBoard board) {
 
     }
 
     @Override
-    public void show(Chat chat) {
+    public void show(ClientChat chat) {
         if(Gui.getInstance().getCurrentController() instanceof ManuscriptSceneController) {
             ManuscriptSceneController controller = (ManuscriptSceneController) Gui.getInstance().getCurrentController();
             MiniModel miniModel;
@@ -280,7 +277,9 @@ public class Gui implements View {
                 throw new RuntimeException(e);
             }
             controller.overwriteChat(chat, miniModel);
+
         }
+
     }
 
     @Override

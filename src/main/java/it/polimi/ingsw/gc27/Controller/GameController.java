@@ -199,7 +199,7 @@ public class GameController implements Serializable {
         } else {
             chat = game.getChat(chatMessage.getSender(), chatMessage.getReceiver());
             chat.addChatMessage(chatMessage);
-            game.notifyObservers(new UpdateChatMessage(chat, chatMessage.getSender(), chatMessage.getReceiver().getUsername()));
+            game.notifyObservers(new UpdateChatMessage(chat, game.getPlayer(chatMessage.getSender()), chatMessage.getReceiver()));
         }
     }
 

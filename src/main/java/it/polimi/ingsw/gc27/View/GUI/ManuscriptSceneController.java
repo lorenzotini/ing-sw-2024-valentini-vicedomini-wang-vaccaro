@@ -2,10 +2,9 @@ package it.polimi.ingsw.gc27.View.GUI;
 
 import it.polimi.ingsw.gc27.Model.Card.Card;
 import it.polimi.ingsw.gc27.Model.Card.Face;
+import it.polimi.ingsw.gc27.Model.ClientClass.ClientChat;
 import it.polimi.ingsw.gc27.Model.ClientClass.ClientManuscript;
 import it.polimi.ingsw.gc27.Model.Enumerations.CornerSymbol;
-import it.polimi.ingsw.gc27.Model.Game.Chat;
-import it.polimi.ingsw.gc27.Model.Game.Manuscript;
 import it.polimi.ingsw.gc27.Model.Game.Placement;
 import it.polimi.ingsw.gc27.Model.ClientClass.MiniModel;
 import it.polimi.ingsw.gc27.Net.Commands.AddCardCommand;
@@ -15,15 +14,12 @@ import it.polimi.ingsw.gc27.Net.Commands.SendMessageCommand;
 import it.polimi.ingsw.gc27.View.GUI.UserData.HandCardData;
 import it.polimi.ingsw.gc27.View.GUI.UserData.ManuscriptCardData;
 import it.polimi.ingsw.gc27.View.GUI.UserData.MarketCardData;
+import it.polimi.ingsw.gc27.Model.ClientClass.*;
 import it.polimi.ingsw.gc27.View.Gui;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.ClipboardContent;
@@ -76,9 +72,9 @@ public class ManuscriptSceneController implements GenericController {
     private ImageView marketCard;
 
     private GridPane grid;
-    private HashMap<Chat, Tab> chatTabHashMap= new HashMap<>();
+    private HashMap<String, Tab> chatTabHashMap= new HashMap<>();
 
-    public TextArea getActionFeedback() {
+    public TextField getActionFeedback() {
         return actionFeedback;
     }
 
@@ -120,15 +116,18 @@ public class ManuscriptSceneController implements GenericController {
         // chat
         for (int i = 0; i < miniModel.getChats().size(); i++) {
             Tab chatTab = new Tab(); //a tab for each chat
-            chatTabHashMap.put(miniModel.getChats().get(i), chatTab);
             if(i==0) {
                 chatTab.setText("Global");
+                chatTabHashMap.put("Global", chatTab);
             }
             else{
+                String myusername = miniModel.getPlayer().getUsername();
                 String username = miniModel.getChats().get(i).getChatters().stream()
-                                .map(Player::getUsername).filter(user -> !user.equals(miniModel.getPlayer().getUsername()))
+                                .filter(user -> !user.equals(myusername))
                                 .toList().getFirst();
                 chatTab.setText(username);
+
+                chatTabHashMap.put(username, chatTab);
             }
 
             VBox chatContainer = new VBox(); //contains che messages of a chat
@@ -359,19 +358,26 @@ public class ManuscriptSceneController implements GenericController {
 
     }
 
-    public void overwriteChat(Chat chat, MiniModel miniModel){
+    public void overwriteChat(ClientChat chat, MiniModel miniModel){
         Platform.runLater(()->{
-            if(chat.getChatters().size()>1 ){ //nella global
-                Chat global = miniModel.getChats().getFirst();
+            if(chat.getChatters().size()>2){ //nella global
+                ClientChat global = miniModel.getChats().getFirst();
                 //global.addChatMessage(chat.getChatMessages().getLast());
 
                 //ho la chat ,voglio la tab
-                Tab tab= chatTabHashMap.get(global);
+                Tab tab= chatTabHashMap.get("Global");
 
                 VBox a= getChatMessagesVBox(tab);
 
             }
             else{
+                String username= chat.getChatters().stream()
+                        .filter(user -> !user.equals(miniModel.getPlayer().getUsername()))
+                        .toList().getFirst();
+                Tab tab= chatTabHashMap.get(username);
+                VBox box= getChatMessagesVBox(tab);
+
+                box.getChildren().add(new Text(chat.getChatMessages().getLast().getContent()));
                 //trovo altra chat
                 System.out.println("zio pera");
             }
@@ -397,7 +403,7 @@ public class ManuscriptSceneController implements GenericController {
             rowConstraints.setMaxHeight(100);
             rowConstraints.setMinHeight(100);
 
-            for(int i = 0; i < Manuscript.FIELD_DIM; i++){
+            for(int i = 0; i < 85; i++){
                 grid.getColumnConstraints().add(columnConstraints);
                 grid.getRowConstraints().add(rowConstraints);
             }
@@ -439,7 +445,7 @@ public class ManuscriptSceneController implements GenericController {
             rowConstraints.setMaxHeight(100);
             rowConstraints.setMinHeight(100);
 
-            for(int i = 0; i < Manuscript.FIELD_DIM; i++){
+            for(int i = 0; i < 85; i++){
                 grid.getColumnConstraints().add(columnConstraints);
                 grid.getRowConstraints().add(rowConstraints);
             }
@@ -585,8 +591,8 @@ public class ManuscriptSceneController implements GenericController {
         }
     }
 
-    public TextField getActionFeedback() {
-        return actionFeedback;
-    }
+   // public TextField getActionFeedback() {
+      //  return actionFeedback;
+    //}
 
 }

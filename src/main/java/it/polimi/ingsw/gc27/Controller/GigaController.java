@@ -246,6 +246,8 @@ public class GigaController {
 
 
     public boolean validUsername(String u, VirtualView view) {
+        if(u.equalsIgnoreCase("global"))
+            return false;
         synchronized (registeredUsernames) {
             if (registeredUsernames.containsKey(u) || u.isEmpty()) { // username already taken or empty
                 return false;

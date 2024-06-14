@@ -33,11 +33,11 @@ public class UpdateChatMessage extends Message {
                 ClientChat chat2 = client.getMiniModel().getChat(miniModelChat.getChatters());
                 client.getMiniModel().getChats().remove(chat2);
                 client.getMiniModel().getChats().add(this.getMiniModel().getChats().getFirst());
-                view.show(client.getMiniModel().getChats().getFirst());
+                view.show(client.getMiniModel().getChats().getLast());
             }
             for (ChatMessage mess : client.getMiniModel().getChats().getLast().getChatMessages()){
-                System.out.println("Sender:" + mess.getSender().getUsername() + "\n");
-                System.out.println("Receiver:" + mess.getReceiver().getUsername() + "\n");
+                System.out.println("Sender:" + mess.getSender() + "\n");
+                System.out.println("Receiver:" + mess.getReceiver() + "\n");
                 System.out.println(mess.getContent() + "\n");
             }
         } catch (RemoteException e) {

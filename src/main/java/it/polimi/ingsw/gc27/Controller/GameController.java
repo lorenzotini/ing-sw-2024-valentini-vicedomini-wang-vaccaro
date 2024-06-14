@@ -6,7 +6,7 @@ import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
 import it.polimi.ingsw.gc27.Model.Card.StarterCard;
 import it.polimi.ingsw.gc27.Model.Enumerations.PawnColour;
 import it.polimi.ingsw.gc27.Model.Game.*;
-import it.polimi.ingsw.gc27.Model.MiniModel;
+import it.polimi.ingsw.gc27.Model.ClientClass.MiniModel;
 import it.polimi.ingsw.gc27.Model.States.InitializingState;
 import it.polimi.ingsw.gc27.Net.Commands.Command;
 import it.polimi.ingsw.gc27.Net.Commands.ReconnectPlayerCommand;
@@ -251,7 +251,7 @@ public class GameController implements Serializable {
             try {
                 command = commands.take();
             } catch (InterruptedException e) {
-
+                //TODO eventuale non so se va gestito
             }
 
             synchronized (this) {

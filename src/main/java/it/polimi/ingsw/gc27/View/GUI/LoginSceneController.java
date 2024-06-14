@@ -10,7 +10,6 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
 import java.io.IOException;
-import java.text.NumberFormat;
 
 //fourth scene, sends information about player
 public class LoginSceneController implements GenericController {
@@ -132,6 +131,8 @@ public class LoginSceneController implements GenericController {
                 errorUsername.setVisible(true);
                 Gui.getInstance().setReconnected(true);
                 try {
+                    ManuscriptSceneController manuscriptSceneController = (ManuscriptSceneController) Gui.getInstance().getControllerFromName(ScenePaths.MANUSCRIPT.getValue());
+                    manuscriptSceneController.init();
                     Gui.getInstance().switchScene("/fxml/ManuscriptScene.fxml");
                 } catch (IOException e) {
                     throw new RuntimeException(e);

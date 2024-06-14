@@ -5,52 +5,56 @@ import it.polimi.ingsw.gc27.Messages.*;
 import it.polimi.ingsw.gc27.Model.Card.*;
 import it.polimi.ingsw.gc27.Model.Game.Game;
 import it.polimi.ingsw.gc27.Model.Game.Player;
-import it.polimi.ingsw.gc27.Model.MiniModel;
+import it.polimi.ingsw.gc27.Model.ClientClass.MiniModel;
 
 public class PlayingState extends PlayerState {
 
     public PlayingState(Player player, TurnHandler turnHandler) {
         super(player, turnHandler);
-//        super.sendState("It's your turn, place a card", getPlayer(),turnHandler);
+//        super.sendState("It's your turn, place a card", player,turnHandler);
     }
 
     @Override
     public void chooseObjectiveCard(Game game, int objectiveCardIndex) {
-        super.sendError("Just play a ******* card!", getPlayer(), turnHandler);
+        super.sendError("Just play a ******* card!", player, turnHandler);
     }
 
     @Override
     public void drawCard(Player player, boolean isGold, boolean fromDeck, int faceUpCardIndex) {
-        super.sendError("you have to play a card first and then draw a card", getPlayer(), turnHandler);
+        super.sendError("you have to play a card first and then draw a card", player, turnHandler);
     }
 
     @Override
     public void addCard(Game game, ResourceCard card, Face face, int x, int y) {
 
-        if (getPlayer().getManuscript().isValidPlacement(x, y) && ((face instanceof FrontFace && getPlayer().getManuscript().satisfiedRequirement((ResourceCard) card)) || (face instanceof BackFace))) {
+        if (player.getManuscript().isValidPlacement(x, y) && ((face instanceof FrontFace && player.getManuscript().satisfiedRequirement((ResourceCard) card)) || (face instanceof BackFace))) {
 
-            getPlayer().addCard(game, card, face, x, y);
-            getPlayer().getHand().remove(card);
+            player.addCard(game, card, face, x, y);
+            player.getHand().remove(card);
+
             //shows on screen that a card was played successfully
             //...
-            getPlayer().setPlayerState(new DrawingState(getPlayer(), getTurnHandler()));
+            player.setPlayerState(new DrawingState(player, getTurnHandler()));
             //update message
-            Message updateHandMessage = new UpdateHandMessage(new MiniModel(getPlayer(), getPlayer().getHand()));
+            Message updateHandMessage = new UpdateHandMessage(new MiniModel(player, player.getHand()));
             turnHandler.getGame().notifyObservers(updateHandMessage);
 
-            Message updateManuscriptMessage = new UpdateManuscriptMessage(new MiniModel(getPlayer(), getPlayer().getManuscript()));
+            Message updateManuscriptMessage = new UpdateMyManuscriptMessage(new MiniModel(player, game));
             turnHandler.getGame().notifyObservers(updateManuscriptMessage);
 
-        } else if((face instanceof FrontFace) && !(getPlayer().getManuscript().satisfiedRequirement((ResourceCard) card))){
-            super.sendError("You don't have enough resource, change card or place it in the back.", getPlayer(), turnHandler);
+            Message updateOtherManuscriptMessage = new UpdateOtherManuscriptMessage(new MiniModel(game));
+            turnHandler.getGame().notifyObservers(updateOtherManuscriptMessage);
+
+        } else if((face instanceof FrontFace) && !(player.getManuscript().satisfiedRequirement((ResourceCard) card))){
+            super.sendError("You don't have enough resource, change card or place it in the back.", player, turnHandler);
         }else{
-            super.sendError("Invalid Placement, try again.", getPlayer(), turnHandler);
+            super.sendError("Invalid Placement, try again.", player, turnHandler);
         }
 
     }
 
     @Override
     public void addStarterCard(Game game, StarterCard starterCard, Face face) {
-        super.sendError("Just play a ******* card!", getPlayer(), turnHandler);
+        super.sendError("Just play a ******* card!", player, turnHandler);
     }
 }

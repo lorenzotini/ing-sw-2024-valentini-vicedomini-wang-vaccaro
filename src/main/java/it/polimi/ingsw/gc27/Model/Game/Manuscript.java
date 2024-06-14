@@ -3,13 +3,14 @@ package it.polimi.ingsw.gc27.Model.Game;
 import it.polimi.ingsw.gc27.Model.Card.Face;
 import it.polimi.ingsw.gc27.Model.Card.GoldCard;
 import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
+import it.polimi.ingsw.gc27.Model.ClientClass.ClientManuscript;
 import it.polimi.ingsw.gc27.Model.Enumerations.CornerSymbol;
 import it.polimi.ingsw.gc27.Model.Enumerations.Kingdom;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Manuscript implements Serializable {
+public class Manuscript implements Serializable, ClientManuscript {
 
     public static final int FIELD_DIM = 85;
     private Face[][] field;  // use a matrix to represent the whole manuscript/play field
@@ -24,6 +25,8 @@ public class Manuscript implements Serializable {
     private int inkwellCounter;
     private int quillCounter;
     private int manuscriptCounter;
+    private String lastPlacedCardPath;
+    private ArrayList<Placement> placements = new ArrayList<>(); // save the placement order
 
     public Manuscript() {
         this.field = new Face[FIELD_DIM][FIELD_DIM];
@@ -34,6 +37,7 @@ public class Manuscript implements Serializable {
     }
 
     // getter e setter
+
     public void setxMax(int x) {
         this.xMax = x;
     }
@@ -49,63 +53,69 @@ public class Manuscript implements Serializable {
     public void setyMin(int y) {
         this.yMin = y;
     }
-
+    @Override
     public int getxMax() {
         return xMax;
     }
-
+    @Override
     public int getyMax() {
         return yMax;
     }
-
+    @Override
     public int getxMin() {
         return xMin;
     }
-
+    @Override
     public int getyMin() {
         return yMin;
     }
-
+    @Override
     public Face[][] getField() {
         return field;
     }
-
+    @Override
     public int getAnimalCounter() {
         return animalCounter;
     }
-
-
+    @Override
     public int getFungiCounter() {
         return fungiCounter;
     }
-
-
+    @Override
     public int getInsectCounter() {
         return insectCounter;
     }
 
-
+    @Override
     public int getPlantCounter() {
         return plantCounter;
     }
 
-
+    @Override
     public int getInkwellCounter() {
         return inkwellCounter;
     }
 
-
+    @Override
     public int getQuillCounter() {
         return quillCounter;
     }
 
-
+    @Override
     public int getManuscriptCounter() {
         return manuscriptCounter;
     }
 
-    // end getter e setter
+    public String getLastPlacedCardPath() {
+        return lastPlacedCardPath;
+    }
 
+    public void setLastPlacedCardPath(String lastPlacedCardPath) {
+        this.lastPlacedCardPath = lastPlacedCardPath;
+    }
+
+    // end getter e setter
+    @Override
     public boolean isValidPlacement(int x, int y) {
         boolean isValid = false;
         if (field[x][y] != null) {
@@ -123,12 +133,11 @@ public class Manuscript implements Serializable {
         }
         return isValid;
     }
-
-    public Face getStarterFace() {
-        return field[FIELD_DIM / 2][FIELD_DIM / 2];
+    @Override
+    public ArrayList<Placement> getPlacements() {
+        return placements;
     }
-
-
+    @Override
     public boolean satisfiedRequirement(ResourceCard card) {
         if (card instanceof GoldCard) {
             ArrayList<Kingdom> toBeVerified = ((GoldCard) card).getRequirements();
@@ -153,7 +162,7 @@ public class Manuscript implements Serializable {
             return true;
         }
     }
-
+    @Override
     public int getCounter(CornerSymbol cs) {
         return switch (cs) {
             case EMPTY, BLACK -> 0;

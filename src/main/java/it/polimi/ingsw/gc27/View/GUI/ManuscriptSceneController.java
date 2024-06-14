@@ -1,9 +1,12 @@
 package it.polimi.ingsw.gc27.View.GUI;
 
 import it.polimi.ingsw.gc27.Model.Card.Card;
+import it.polimi.ingsw.gc27.Model.Card.Face;
+import it.polimi.ingsw.gc27.Model.ClientClass.ClientManuscript;
 import it.polimi.ingsw.gc27.Model.Enumerations.CornerSymbol;
 import it.polimi.ingsw.gc27.Model.Game.Manuscript;
-import it.polimi.ingsw.gc27.Model.MiniModel;
+import it.polimi.ingsw.gc27.Model.Game.Placement;
+import it.polimi.ingsw.gc27.Model.ClientClass.MiniModel;
 import it.polimi.ingsw.gc27.Net.Commands.AddCardCommand;
 import it.polimi.ingsw.gc27.Net.Commands.Command;
 import it.polimi.ingsw.gc27.Net.Commands.DrawCardCommand;
@@ -14,32 +17,33 @@ import it.polimi.ingsw.gc27.View.Gui;
 import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
-import javafx.scene.control.*;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.input.TransferMode;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Region;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Scale;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
+import java.util.Map;
+import java.util.Optional;
 
 
 public class ManuscriptSceneController implements GenericController {
 
 
     @FXML
-    public TextField actionFeedback;
+    private TextField actionFeedback;
     @FXML
-    private ScrollPane manuscriptScrollPane;
+    private TabPane manuscriptTabPane;
     @FXML
     private HBox handCards;
     @FXML
@@ -66,79 +70,24 @@ public class ManuscriptSceneController implements GenericController {
     // attributes to handle drawCard invocation
     private ImageView marketCard;
 
-    private GridPane grid;
-    public TextField getActionFeedback() {
-        return actionFeedback;
-    }
-
 
     public void init() {
 
         MiniModel miniModel;
-        try {
-            miniModel = Gui.getInstance().getClient().getMiniModel();
-        } catch (RemoteException e) {
-            throw new RuntimeException(e);
-        }
-
-        grid = new GridPane();
-        grid.setGridLinesVisible(false);
-        grid.setHgap(-35);
-        grid.setVgap(-40);
-
-        manuscriptScrollPane.setContent(grid);
-        manuscriptScrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
-        manuscriptScrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
-        manuscriptScrollPane.setFitToWidth(true);
-        manuscriptScrollPane.setFitToHeight(true);
-
-        // make the grid scalable
-        Scale scaleTransform = new Scale(1, 1, 0, 0);
-        grid.getTransforms().add(scaleTransform);
-        manuscriptScrollPane.addEventFilter(ScrollEvent.SCROLL, event -> {
-            if (event.isControlDown()) { // Use Ctrl+Scroll for zooming
-                double deltaY = event.getDeltaY();
-                double zoomFactor = 1.05;
-                if (deltaY < 0) {
-                    zoomFactor = 0.95;
-                }
-                scaleTransform.setX(scaleTransform.getX() * zoomFactor);
-                scaleTransform.setY(scaleTransform.getY() * zoomFactor);
-                event.consume();
+        do {
+            try {
+                miniModel = Gui.getInstance().getClient().getMiniModel();
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
             }
-        });
+        }while(miniModel.getMarket() == null);
 
-        // populate grid with imageViews
-        boolean flag = true;
-        for (int i = 1; i < Manuscript.FIELD_DIM-1; i++) {       // requires odd terminal value to work, especially for the j loop
-            for (int j = 1; j < Manuscript.FIELD_DIM-1; j++) {
-                if (flag) {
+        // initialize manuscripts' grid panes
+        createManuscriptGrids(miniModel);
 
-                    ImageView imageView = new ImageView();
-
-                    ManuscriptCardData manuscriptCardData = new ManuscriptCardData(i, j);
-                    imageView.setUserData(manuscriptCardData);
-
-                    // set image for the center starter card
-                    if (i == Manuscript.FIELD_DIM / 2 && j == Manuscript.FIELD_DIM / 2) {
-                        imageView.setImage(new Image(miniModel.getPlayer().getManuscript().getStarterFace().getImagePath()));
-                    }
-
-                    // playable positions
-                    if (miniModel.getPlayer().getManuscript().isValidPlacement(i, j)){
-                        imageView.setImage(new Image(getClass().getResource("/images/utility/validPlacement2.png").toExternalForm()));
-                        handleDropEventManuscript(imageView);
-                        imageView.toFront();
-                    }
-
-                    imageView.setFitHeight(100);
-                    imageView.setFitWidth(150);
-
-                    grid.add(imageView, i, j);
-
-                }
-                flag = !flag;
-            }
+        // populate manuscripts
+        for(Map.Entry<String, ClientManuscript> element :  miniModel.getManuscriptsMap().entrySet()){
+            overwriteManuscript(miniModel, element.getKey());
         }
 
         // populate hand with cards
@@ -198,10 +147,12 @@ public class ManuscriptSceneController implements GenericController {
                 this.x = manuscriptCardData.x;
                 this.y = manuscriptCardData.y;
                 this.manuscriptCard = imgView;
+
                 sendAddCardCommand();
             }
             event.consume();
         });
+
 
     }
 
@@ -213,17 +164,15 @@ public class ManuscriptSceneController implements GenericController {
             ClipboardContent cb = new ClipboardContent();
 
             // copy the selected image, fixing the gigantic zoom when dragging
-            Image toAdd = new Image(imgView.getImage().getUrl(), 128*1.5, 128, false,false);
-
-            //cb.putImage(imgView.getImage());
+            Image toAdd = new Image(imgView.getImage().getUrl(), 128 * 1.5, 128, false, false);
 
             cb.putImage(toAdd);
             db.setContent(cb);
             this.handCard = imgView;
 
             HandCardData handCardData = (HandCardData) imgView.getUserData();
-            this.handCardIndex = handCardData.handIndex;
-            this.isFront = handCardData.isFront;
+            this.handCardIndex = handCardData.getHandIndex();
+            this.isFront = handCardData.isFront();
 
             event.consume();
         });
@@ -233,12 +182,47 @@ public class ManuscriptSceneController implements GenericController {
 
     }
 
+    void handleOnClick(ImageView imgView){
+        imgView.setOnMouseClicked(event -> {
+            String oldUrl = imgView.getImage().getUrl();
+            if(((HandCardData) imgView.getUserData()).isFront()){
+                imgView.setImage(new Image(oldUrl.replace("front", "back")));
+            }else{
+                imgView.setImage(new Image(oldUrl.replace("back", "front")));
+            }
+            ((HandCardData) imgView.getUserData()).changeIsFront();
+            event.consume();
+        });
+    }
+
     void handleClickDetectedMarket(ImageView imgView) {
 
         // DRAG DETECTED
         imgView.setOnMouseClicked(event -> {
             this.marketCard = imgView;
             sendDrawCardCommand();
+            System.out.println("CLICK MARKET"+ event);
+            event.consume();
+        });
+
+    }
+
+    void handleZoom(ScrollPane scrollPane, GridPane grid) {
+
+        Scale scaleTransform = new Scale(1, 1, 0, 0);
+        grid.getTransforms().add(scaleTransform);
+
+        scrollPane.addEventFilter(ScrollEvent.SCROLL, event -> {
+            if (event.isControlDown()) { // Use Ctrl+Scroll for zooming
+                double deltaY = event.getDeltaY();
+                double zoomFactor = 1.05;
+                if (deltaY < 0) {
+                    zoomFactor = 0.95;
+                }
+                scaleTransform.setX(scaleTransform.getX() * zoomFactor);
+                scaleTransform.setY(scaleTransform.getY() * zoomFactor);
+                event.consume();
+            }
         });
 
     }
@@ -251,11 +235,13 @@ public class ManuscriptSceneController implements GenericController {
         imgView.setOnMouseEntered(event -> {
             imgView.setFitHeight(originalHeight * factor);
             imgView.setFitWidth(originalWidth * factor);
+            event.consume();
         });
 
         imgView.setOnMouseExited(event -> {
             imgView.setFitHeight(originalHeight);
             imgView.setFitWidth(originalWidth);
+            event.consume();
         });
 
     }
@@ -293,6 +279,110 @@ public class ManuscriptSceneController implements GenericController {
 
     }
 
+    private void createManuscriptGrids(MiniModel miniModel){
+
+        for(Map.Entry<String, ClientManuscript> element :  miniModel.getManuscriptsMap().entrySet()){
+
+            GridPane grid = new GridPane();
+
+            ColumnConstraints columnConstraints = new ColumnConstraints();
+            columnConstraints.setMaxWidth(150);
+            columnConstraints.setMinWidth(150);
+            RowConstraints rowConstraints = new RowConstraints();
+            rowConstraints.setMaxHeight(100);
+            rowConstraints.setMinHeight(100);
+
+            for(int i = 0; i < Manuscript.FIELD_DIM; i++){
+                grid.getColumnConstraints().add(columnConstraints);
+                grid.getRowConstraints().add(rowConstraints);
+            }
+
+            grid.setHgap(-35);
+            grid.setVgap(-40);
+
+            ScrollPane newManuscriptScrollPane = new ScrollPane();
+
+            newManuscriptScrollPane.setContent(grid);
+            newManuscriptScrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+            newManuscriptScrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+            newManuscriptScrollPane.setFitToWidth(true);
+            newManuscriptScrollPane.setFitToHeight(true);
+            newManuscriptScrollPane.setHvalue(0.5);
+            newManuscriptScrollPane.setVvalue(0.5);
+
+            handleZoom(newManuscriptScrollPane, grid);
+
+            manuscriptTabPane.getTabs().add(new Tab(element.getKey(), newManuscriptScrollPane));
+
+        }
+    }
+
+    public void overwriteManuscript(MiniModel miniModel, String username) {
+
+        Platform.runLater(() -> {
+
+            boolean isMyManuscript = miniModel.getPlayer().getUsername().equals(username);
+
+            ClientManuscript manuscript = miniModel.getManuscriptsMap().get(username);
+
+            GridPane grid = new GridPane();
+
+            ColumnConstraints columnConstraints = new ColumnConstraints();
+            columnConstraints.setMaxWidth(150);
+            columnConstraints.setMinWidth(150);
+            RowConstraints rowConstraints = new RowConstraints();
+            rowConstraints.setMaxHeight(100);
+            rowConstraints.setMinHeight(100);
+
+            for(int i = 0; i < Manuscript.FIELD_DIM; i++){
+                grid.getColumnConstraints().add(columnConstraints);
+                grid.getRowConstraints().add(rowConstraints);
+            }
+
+            grid.setHgap(-35);
+            grid.setVgap(-40);
+
+            Optional<Tab> userTab = manuscriptTabPane.getTabs().stream().filter(tab -> tab.getText().equals(username)).findFirst();
+
+            // build manuscript
+            if (isMyManuscript) {
+                for (Placement placement : manuscript.getPlacements()) {
+                    Face face = miniModel.getManuscript().getField()[placement.getX()][placement.getY()];
+
+                    ImageView imageView = new ImageView();
+                    imageView.setImage(new Image(face.getImagePath()));
+                    imageView.setFitHeight(100);
+                    imageView.setFitWidth(150);
+
+                    ManuscriptCardData manuscriptCardData = new ManuscriptCardData(placement.getX(), placement.getY());
+                    imageView.setUserData(manuscriptCardData);
+
+                    grid.add(imageView, placement.getX(), placement.getY());
+
+                    // playable positions
+                    addValidPlacements(miniModel, placement, grid);
+                }
+            } else {
+                for (Placement placement : manuscript.getPlacements()) {
+                    ImageView imageView = new ImageView();
+                    Face face = miniModel.getManuscriptsMap().get(username).getField()[placement.getX()][placement.getY()];
+                    imageView.setImage(new Image(face.getImagePath()));
+                    imageView.setFitHeight(100);
+                    imageView.setFitWidth(150);
+                    imageView.toFront();
+                    grid.add(imageView, placement.getX(), placement.getY());
+                }
+            }
+
+            if (userTab.isPresent()) {
+                ScrollPane scrollPane = (ScrollPane) userTab.get().getContent();
+                scrollPane.setContent(grid);
+                handleZoom(scrollPane, grid);
+            }
+        });
+
+    }
+
     public void overwriteHand(MiniModel miniModel) {
 
         Platform.runLater(() -> {
@@ -303,8 +393,8 @@ public class ManuscriptSceneController implements GenericController {
                 newHandCard.setFitHeight(100);
                 newHandCard.setFitWidth(150);
                 handleDragDetectedHand(newHandCard);
+                handleOnClick(newHandCard);
                 zoomCardOnHover(newHandCard, 1.3);
-                // TODO gestire cambio faccia prima di giocare la carta
                 HandCardData handCardData = new HandCardData(miniModel.getPlayer().getHand().indexOf(card), true);
                 newHandCard.setUserData(handCardData);
                 handCards.getChildren().add(newHandCard);
@@ -357,7 +447,7 @@ public class ManuscriptSceneController implements GenericController {
 
     }
 
-    public void overwriteCounters(MiniModel miniModel){
+    public void overwriteCounters(MiniModel miniModel) {
 
         Platform.runLater(() -> {
 
@@ -373,45 +463,25 @@ public class ManuscriptSceneController implements GenericController {
 
     }
 
-    public void setNewAvailablePositions() {
-
-        Platform.runLater(() -> {
-            MiniModel miniModel;
-            try {
-                miniModel = Gui.getInstance().getClient().getMiniModel();
-            } catch (RemoteException e) {
-                throw new RuntimeException(e);
-            }
-            for (int i = -1; i <= 1; i = i + 2) {
-                for (int j = -1; j <= 1; j = j + 2) {
-                    if (miniModel.getPlayer().getManuscript().isValidPlacement(x + i, y + j)) {
-                        ImageView imageView = getImageViewFromGrid(grid, x + i, y + j);
-                        imageView.setImage(new Image(getClass().getResource("/images/utility/validPlacement2.png").toExternalForm()));
-                        handleDropEventManuscript(imageView);
-                        imageView.toFront();
-                    }
+    private void addValidPlacements(MiniModel miniModel, Placement placement, GridPane grid){
+        for(int i = -1; i <= 1; i = i + 2){
+            for(int j = -1; j <= 1; j = j + 2){
+                if(miniModel.getPlayer().getManuscript().isValidPlacement(placement.getX() + i, placement.getY() + j)){
+                    ImageView imageView = new ImageView(new Image(getClass().getResource("/images/utility/validPlacement.png").toExternalForm()));
+                    handleDropEventManuscript(imageView);
+                    ManuscriptCardData manuscriptCardData = new ManuscriptCardData(placement.getX() + i, placement.getY() + j);
+                    imageView.setUserData(manuscriptCardData);
+                    imageView.toFront();
+                    imageView.setFitHeight(100);
+                    imageView.setFitWidth(150);
+                    grid.add(imageView, placement.getX() + i, placement.getY() + j);
                 }
             }
-        });
-
+        }
     }
 
-    private ImageView getImageViewFromGrid(GridPane gridPane, int col, int row) {
-        for (Node node : gridPane.getChildren()) {
-            Integer rowIndex = GridPane.getRowIndex(node);
-            Integer colIndex = GridPane.getColumnIndex(node);
-            // Treat null values as 0
-            if (rowIndex == null) {
-                rowIndex = 0;
-            }
-            if (colIndex == null) {
-                colIndex = 0;
-            }
-            if (rowIndex == row && colIndex == col && node instanceof ImageView) {
-                return (ImageView) node;
-            }
-        }
-        return null;
+    public TextField getActionFeedback() {
+        return actionFeedback;
     }
 
 }

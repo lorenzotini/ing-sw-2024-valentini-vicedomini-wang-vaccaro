@@ -1,15 +1,14 @@
 package it.polimi.ingsw.gc27.Messages;
 
-import it.polimi.ingsw.gc27.Model.MiniModel;
+import it.polimi.ingsw.gc27.Model.ClientClass.MiniModel;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 import it.polimi.ingsw.gc27.View.View;
 
 import java.io.Serializable;
-import java.rmi.RemoteException;
 
 public abstract class Message implements Serializable {
 
-    private final MiniModel miniModel;
+    protected final MiniModel miniModel;
     protected final String string;
 
     //every extension of this class will have different params of the minimodel set,

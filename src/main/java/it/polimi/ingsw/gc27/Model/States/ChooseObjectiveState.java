@@ -8,7 +8,7 @@ import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
 import it.polimi.ingsw.gc27.Model.Card.StarterCard;
 import it.polimi.ingsw.gc27.Model.Game.Game;
 import it.polimi.ingsw.gc27.Model.Game.Player;
-import it.polimi.ingsw.gc27.Model.MiniModel;
+import it.polimi.ingsw.gc27.Model.ClientClass.MiniModel;
 
 public class ChooseObjectiveState extends PlayerState {
 

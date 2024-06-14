@@ -40,3 +40,4 @@ build/
 /.idea/vcs.xml
 /.mvn/wrapper/maven-wrapper.jar
 /.idea/misc.xml
+/src/main/java/it/polimi/ingsw/gc27/Model/ClientClass/ClientPlayer.java

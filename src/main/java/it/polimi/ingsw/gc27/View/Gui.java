@@ -3,11 +3,11 @@ package it.polimi.ingsw.gc27.View;
 import it.polimi.ingsw.gc27.Model.Card.ObjectiveCard.ObjectiveCard;
 import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
 import it.polimi.ingsw.gc27.Model.Card.StarterCard;
-import it.polimi.ingsw.gc27.Model.Game.Board;
-import it.polimi.ingsw.gc27.Model.Game.Chat;
+import it.polimi.ingsw.gc27.Model.ClientClass.ClientBoard;
+import it.polimi.ingsw.gc27.Model.ClientClass.ClientManuscript;
+import it.polimi.ingsw.gc27.Model.ClientClass.ClientMarket;
 import it.polimi.ingsw.gc27.Model.Game.Manuscript;
-import it.polimi.ingsw.gc27.Model.Game.Market;
-import it.polimi.ingsw.gc27.Model.MiniModel;
+import it.polimi.ingsw.gc27.Model.ClientClass.MiniModel;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 import it.polimi.ingsw.gc27.View.GUI.*;
 import javafx.application.Platform;
@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -222,28 +223,49 @@ public class Gui implements View {
     }
 
     @Override
-    public void show(Manuscript manuscript) {
-        if(Gui.getInstance().getCurrentController() instanceof ManuscriptSceneController) {
-            ManuscriptSceneController controller = (ManuscriptSceneController) Gui.getInstance().getCurrentController();
-            controller.manuscriptCard.setImage(controller.handCard.getImage());
-            controller.handCard.setImage(null);
-            controller.manuscriptCard.setOnDragDropped(null);  // disable further drops
-            controller.manuscriptCard.setOnDragOver(null);
-            controller.setNewAvailablePositions();
+    public void show(ClientManuscript manuscript) {
 
-            //update counters
-            MiniModel miniModel;
-            try {
-                miniModel = client.getMiniModel();
-            } catch (RemoteException e) {
-                throw new RuntimeException(e);
+        Platform.runLater(() -> {
+            if(Gui.getInstance().getCurrentController() instanceof ManuscriptSceneController controller) {
+//                controller.manuscriptCard.setImage(controller.handCard.getImage());
+//                controller.handCard.setImage(null);
+//                controller.manuscriptCard.toFront();
+//                controller.manuscriptCard.setOnDragDropped(null);  // disable further drops
+//                controller.manuscriptCard.setOnDragOver(null);
+//                controller.setNewAvailablePositions();
+//
+                try {
+
+                    MiniModel miniModel = client.getMiniModel();
+
+                    // update manuscripts
+                    for(Map.Entry<String, ClientManuscript> element :  miniModel.getManuscriptsMap().entrySet()){
+                        controller.overwriteManuscript(miniModel, element.getKey());
+                    }
+
+                    //update counters
+                    controller.overwriteCounters(miniModel);
+
+                } catch (RemoteException e) {
+                    throw new RuntimeException(e);
+                }
+
             }
-            controller.overwriteCounters(miniModel);
-        }
+        });
+
     }
 
     @Override
-    public void show(Board board) {
+    public void updateManuscriptOfOtherPlayer(ClientManuscript manuscript, String username) {
+////        Platform.runLater(() -> {
+//            if(Gui.getInstance().getCurrentController() instanceof ManuscriptSceneController controller) {
+//                controller.updatePlayerManuscript(username, manuscript.getLastPlacedCardPath());
+//            }
+////        });
+    }
+
+    @Override
+    public void show(ClientBoard board) {
 
     }
 
@@ -262,7 +284,7 @@ public class Gui implements View {
     }
 
     @Override
-    public void show(Market market) {
+    public void show(ClientMarket market) {
         ManuscriptSceneController controller = (ManuscriptSceneController) Gui.getInstance().getCurrentController();
         MiniModel miniModel;
         try {
@@ -302,7 +324,9 @@ public class Gui implements View {
     public void koAck(String string) {
         System.out.println("\nKo " +currentController.toString() + string);
         currentController.receiveKo(string);
-
+        if(currentController instanceof ManuscriptSceneController){
+            ((ManuscriptSceneController) currentController).getActionFeedback().setText(string);
+        }
         //error handler
     }
 

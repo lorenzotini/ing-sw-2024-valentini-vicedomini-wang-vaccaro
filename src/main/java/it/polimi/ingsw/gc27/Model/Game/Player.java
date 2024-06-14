@@ -2,6 +2,7 @@ package it.polimi.ingsw.gc27.Model.Game;
 
 import it.polimi.ingsw.gc27.Model.Card.*;
 import it.polimi.ingsw.gc27.Model.Card.ObjectiveCard.ObjectiveCard;
+import it.polimi.ingsw.gc27.Model.ClientClass.ClientPlayer;
 import it.polimi.ingsw.gc27.Model.Enumerations.Kingdom;
 import it.polimi.ingsw.gc27.Model.Enumerations.PawnColour;
 import it.polimi.ingsw.gc27.Model.Enumerations.PointsMultiplier;
@@ -10,7 +11,7 @@ import it.polimi.ingsw.gc27.Model.States.PlayerState;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Player implements Serializable {
+public class Player implements Serializable, ClientPlayer {
 
     private final String username;
     private ArrayList<ResourceCard> hand;
@@ -32,6 +33,7 @@ public class Player implements Serializable {
 
 
 
+
     public boolean isDisconnected() {
         return isDisconnected;
     }
@@ -44,46 +46,48 @@ public class Player implements Serializable {
         this.playerState = playerState;
     }
 
-    public PlayerState getPlayerState() {
-        return playerState;
-    }
-
-    public PawnColour getPawnColour() {
-        return pawnColour;
-    }
-
     public void setPawnColour(PawnColour pawnColour) {
         this.pawnColour = pawnColour;
-    }
-
-    public Manuscript getManuscript() {
-        return manuscript;
-    }
-
-    public ArrayList<ObjectiveCard> getSecretObjectives() {
-        return secretObjectives;
-    }
-
-    public String getUsername() {
-        return username;
     }
 
     public void setManuscript(Manuscript manuscript) {
         this.manuscript = manuscript;
     }
 
-    public ArrayList<ResourceCard> getHand() {
-        return hand;
-    }
-
     public void setHand(ArrayList<ResourceCard> hand) {
         this.hand = hand;
     }
-
     public void setStarterCard(StarterCard starterCard) {
         this.starterCard = starterCard;
     }
 
+    @Override
+    public ArrayList<ObjectiveCard> getSecretObjectives() {
+        return secretObjectives;
+    }
+    @Override
+    public PlayerState getPlayerState() {
+        return playerState;
+    }
+    @Override
+    public PawnColour getPawnColour() {
+        return pawnColour;
+    }
+    @Override
+    public Manuscript getManuscript() {
+        return manuscript;
+    }
+
+    @Override
+    public String getUsername() {
+        return username;
+    }
+    @Override
+    public ArrayList<ResourceCard> getHand() {
+        return hand;
+    }
+
+    @Override
     public StarterCard getStarterCard() {
         return starterCard;
     }
@@ -102,6 +106,8 @@ public class Player implements Serializable {
     public void addCard(Game game, Card card, Face face, int x, int y) {
 
         Manuscript m = this.manuscript;
+        m.setLastPlacedCardPath(face.getImagePath());
+        m.getPlacements().add(new Placement(x, y));
 
         //update manuscript ends in order to show only the used part when displayed
         if (x > m.getxMax()) {

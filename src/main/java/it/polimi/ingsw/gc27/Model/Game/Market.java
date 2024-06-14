@@ -3,11 +3,12 @@ package it.polimi.ingsw.gc27.Model.Game;
 import it.polimi.ingsw.gc27.Model.Card.GoldCard;
 import it.polimi.ingsw.gc27.Model.Card.ObjectiveCard.ObjectiveCard;
 import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
+import it.polimi.ingsw.gc27.Model.ClientClass.ClientMarket;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Market implements Serializable {
+public class Market implements Serializable, ClientMarket {
 
     private ResourceCard[] faceUpResources = new ResourceCard[2];
     private GoldCard[] faceUpGolds = new GoldCard[2];

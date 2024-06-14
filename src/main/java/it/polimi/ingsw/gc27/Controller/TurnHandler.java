@@ -9,7 +9,7 @@ import it.polimi.ingsw.gc27.Model.Game.Board;
 import it.polimi.ingsw.gc27.Model.Game.Game;
 import it.polimi.ingsw.gc27.Model.Game.Manuscript;
 import it.polimi.ingsw.gc27.Model.Game.Player;
-import it.polimi.ingsw.gc27.Model.MiniModel;
+import it.polimi.ingsw.gc27.Model.ClientClass.MiniModel;
 import it.polimi.ingsw.gc27.Model.States.*;
 
 import java.io.Serializable;

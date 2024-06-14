@@ -18,19 +18,34 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 public class RmiClient extends UnicastRemoteObject implements VirtualView {
 
-    private final VirtualServer server;
+    private VirtualServer server;
     private final View view; //this will be or tui or gui, when  a gui is ready is to implement
     private final MiniModel miniModel;
     private final BlockingQueue<Message> messages = new LinkedBlockingQueue<>();
     private String username = "";
     private long lastPingFromServer = 0 ;
 
-    public RmiClient(String ipAddress, int port, View view) throws IOException, NotBoundException {
+    public RmiClient(String ipAddress, int port, View view) throws RemoteException {
+        do {
+            try{
+                locateRegistry(ipAddress, port);
+                break;
+            }catch(IOException | NotBoundException e){
+                System.out.println("Server not found, retrying...");
+                try{
+                    Thread.sleep(2000);
+                }catch(InterruptedException es){
+
+                }
+            }
+        } while (true);
+        this.view = view;
+        this.miniModel = new MiniModel();
+    }
+    public void locateRegistry(String ipAddress, int port) throws RemoteException, NotBoundException {
         Registry registry = LocateRegistry.getRegistry(ipAddress, port);
         this.server = (VirtualServer) registry.lookup("VirtualServer");
 
-        this.view = view;
-        this.miniModel = new MiniModel();
     }
 
     public void sendCommand(Command command) throws RemoteException {
@@ -41,12 +56,6 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
     public MiniModel getMiniModel() throws RemoteException {
         return this.miniModel;
     }
-
-    @Override
-    public void pingToServer(VirtualServer server, VirtualView client) throws RemoteException {
-        server.receivePing(client);
-    }
-
     @Override
     public void show(String message) throws RemoteException {
         System.out.println(message);
@@ -149,8 +158,11 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
     public void close(){
         System.exit(0);
     }
-    @Override
-    public void pingFromServer(){
+
+    public void pingFromServer() throws RemoteException{
         this.lastPingFromServer = System.currentTimeMillis();
+    }
+    public void pingToServer(VirtualServer server, VirtualView client) throws RemoteException {
+        server.receivePing(client);
     }
 }

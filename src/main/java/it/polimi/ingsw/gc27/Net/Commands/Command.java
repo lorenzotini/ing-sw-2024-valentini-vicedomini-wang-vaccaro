@@ -8,6 +8,6 @@ import java.io.Serializable;
 
 public interface Command extends Serializable {
 
-    void execute(GameController gc) ;
+    void execute(GameController gc) throws InterruptedException;
     String getPlayerName();
 }

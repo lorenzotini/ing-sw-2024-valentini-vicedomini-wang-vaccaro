@@ -19,7 +19,7 @@ public class DrawCardCommand implements  Command {
         this.faceUpCardIndex = faceUpCardIndex;
     }
     @Override
-    public void execute(GameController gc)  {
+    public void execute(GameController gc) throws InterruptedException {
         Player player = gc.getPlayer(playerName);
         // TODO: gestire le eccezioni
         gc.drawCard(player, isGold, fromDeck, faceUpCardIndex);

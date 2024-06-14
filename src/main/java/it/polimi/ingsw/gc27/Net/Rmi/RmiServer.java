@@ -34,7 +34,8 @@ public class RmiServer implements VirtualServer {
             registry = LocateRegistry.createRegistry(DEFAULT_PORT_NUMBER_RMI);
             registry.rebind(name, stub);
         } catch (RemoteException e) {
-            e.printStackTrace();
+            System.err.println("There is a problem locating the server, please restart");
+            System.exit(0);
         }
 
         // Start the thread that checks if the clients are alive
@@ -43,12 +44,11 @@ public class RmiServer implements VirtualServer {
 
         // Start the thread that executes the commands
     }
-
+    @Override
     public void receiveCommand(Command command) {
         console.addCommandToGameController(command);
     }
 
-    @Override
     public void areClientsAlive()  {
         while (true) {
             synchronized (clients) {
@@ -83,9 +83,8 @@ public class RmiServer implements VirtualServer {
 
     @Override
     public void receivePing(VirtualView client) throws RemoteException {
-        clientsPing.replace(client, System.currentTimeMillis());
+        clientsPing.replace((VirtualView) client, System.currentTimeMillis());
     }
-
     @Override
     public void connect(VirtualView client) throws RemoteException {
         synchronized (this.clients) {
@@ -93,11 +92,6 @@ public class RmiServer implements VirtualServer {
             this.clientsPing.put(client, System.currentTimeMillis());
         }
         System.out.println("Client connected - rmi - " + client.toString());
-    }
-
-    @Override
-    public void disconnect(VirtualView client) throws RemoteException {
-
     }
 
     @Override

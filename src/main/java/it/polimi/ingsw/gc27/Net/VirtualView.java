@@ -25,10 +25,9 @@ public interface VirtualView extends Remote, Serializable {
 
     MiniModel getMiniModel() throws RemoteException;
 
-    void pingToServer(VirtualServer virtualServer, VirtualView client) throws RemoteException;
-
     void update(Message message) throws RemoteException;
-    void close() throws RemoteException;
-    void pingFromServer() throws  RemoteException;
 
+    void close() throws RemoteException;
+
+    void pingFromServer() throws  RemoteException;
 }

@@ -58,24 +58,16 @@ public class SocketClient implements VirtualView {
 
 
     @Override
-    public void pingToServer(VirtualServer virtualServer, VirtualView client) throws RemoteException {
-
-    }
-
-    @Override
     public void show(String s) throws RemoteException {
-        System.out.println(s);
+        view.showString(s);
     }
     public void showUpdate(String mex) throws RemoteException {
         // TODO Attenzione! Questo può causare data race con il thread dell'interfaccia o un altro thread
-        System.out.println(mex);
+        view.showString(mex);
     }
     @Override
     public String read() throws RemoteException {
-        Scanner scan = new Scanner(System.in);
-        String string;
-        while((string = scan.nextLine()).equals("\n")){};
-        return string;
+        return view.read();
     }
 
     @Override
@@ -99,4 +91,5 @@ public class SocketClient implements VirtualView {
     public void pingFromServer() throws RemoteException {
 
     }
+
 }

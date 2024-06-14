@@ -3,6 +3,7 @@ package it.polimi.ingsw.gc27.View;
 import it.polimi.ingsw.gc27.Model.Card.ObjectiveCard.ObjectiveCard;
 import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
 import it.polimi.ingsw.gc27.Model.Game.Board;
+import it.polimi.ingsw.gc27.Model.Game.Chat;
 import it.polimi.ingsw.gc27.Model.Game.Manuscript;
 import it.polimi.ingsw.gc27.Model.Game.Market;
 import it.polimi.ingsw.gc27.Net.VirtualView;
@@ -28,6 +29,8 @@ public interface View {
     void show(Manuscript manuscript);
 
     void show(Board board);
+
+    void show(Chat chat);
 
     void show(Market market);
 

@@ -4,6 +4,7 @@ import it.polimi.ingsw.gc27.Model.Card.ObjectiveCard.ObjectiveCard;
 import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
 import it.polimi.ingsw.gc27.Model.Card.StarterCard;
 import it.polimi.ingsw.gc27.Model.Game.Board;
+import it.polimi.ingsw.gc27.Model.Game.Chat;
 import it.polimi.ingsw.gc27.Model.Game.Manuscript;
 import it.polimi.ingsw.gc27.Model.Game.Market;
 import it.polimi.ingsw.gc27.Model.MiniModel;
@@ -244,6 +245,20 @@ public class Gui implements View {
     @Override
     public void show(Board board) {
 
+    }
+
+    @Override
+    public void show(Chat chat) {
+        if(Gui.getInstance().getCurrentController() instanceof ManuscriptSceneController) {
+            ManuscriptSceneController controller = (ManuscriptSceneController) Gui.getInstance().getCurrentController();
+            MiniModel miniModel;
+            try {
+                miniModel = client.getMiniModel();
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
+            }
+            controller.overwriteChat(chat, miniModel);
+        }
     }
 
     @Override

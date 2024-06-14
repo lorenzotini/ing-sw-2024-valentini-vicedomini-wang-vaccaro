@@ -299,6 +299,11 @@ public class Tui implements View {
     }
 
     @Override
+    public void show(Chat chat) {
+
+    }
+
+    @Override
     public void show(Market market) {
         out.println(showMarket(market));
         out.println(">");

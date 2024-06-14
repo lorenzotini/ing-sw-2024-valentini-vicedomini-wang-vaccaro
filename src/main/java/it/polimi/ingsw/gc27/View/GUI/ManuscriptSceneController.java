@@ -2,7 +2,9 @@ package it.polimi.ingsw.gc27.View.GUI;
 
 import it.polimi.ingsw.gc27.Model.Card.Card;
 import it.polimi.ingsw.gc27.Model.Enumerations.CornerSymbol;
+import it.polimi.ingsw.gc27.Model.Game.Chat;
 import it.polimi.ingsw.gc27.Model.Game.Manuscript;
+import it.polimi.ingsw.gc27.Model.Game.Player;
 import it.polimi.ingsw.gc27.Model.MiniModel;
 import it.polimi.ingsw.gc27.Net.Commands.AddCardCommand;
 import it.polimi.ingsw.gc27.Net.Commands.Command;
@@ -13,6 +15,7 @@ import it.polimi.ingsw.gc27.View.GUI.UserData.ManuscriptCardData;
 import it.polimi.ingsw.gc27.View.GUI.UserData.MarketCardData;
 import it.polimi.ingsw.gc27.View.Gui;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -29,6 +32,7 @@ import javafx.scene.transform.Scale;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
+import java.util.HashMap;
 
 
 public class ManuscriptSceneController implements GenericController {
@@ -49,7 +53,8 @@ public class ManuscriptSceneController implements GenericController {
     @FXML
     private VBox commonObjectives;
     @FXML
-    private TabPane chat;
+    private TabPane chatTabPane;
+
 
     //TODO vedere se è meglio mettere gli attributi privati che ora sono pubblici
 
@@ -65,6 +70,7 @@ public class ManuscriptSceneController implements GenericController {
     private ImageView marketCard;
 
     private GridPane grid;
+    private HashMap<Chat, Tab> chatTabHashMap= new HashMap<>();
 
     public TextArea getActionFeedback() {
         return actionFeedback;
@@ -157,37 +163,37 @@ public class ManuscriptSceneController implements GenericController {
 
         // chat
         for (int i = 0; i < miniModel.getChats().size(); i++) {
-            Tab chatTab = new Tab();
-            ScrollPane chatContent = new ScrollPane();
-            TextField sendMessage = new TextField();
+            Tab chatTab = new Tab(); //a tab for each chat
+            chatTabHashMap.put(miniModel.getChats().get(i), chatTab);
+            if(i==0) {
+                chatTab.setText("Global");
+            }
+            else{
+                String username = miniModel.getChats().get(i).getChatters().stream()
+                                .map(Player::getUsername).filter(user -> !user.equals(miniModel.getPlayer().getUsername()))
+                                .toList().getFirst();
+                chatTab.setText(username);
+            }
 
-            VBox chatContainer = new VBox();
-            HBox messageBox = new HBox();
+            VBox chatContainer = new VBox(); //contains che messages of a chat
+            ScrollPane chatContent = new ScrollPane();
+            VBox chatMessages = new VBox();
+            chatContent.setContent(chatMessages); //scrollPane contains Vbox with messages
+
             chatContent.setPrefHeight(400);
             chatContent.setPrefWidth(Region.USE_COMPUTED_SIZE);
             chatContent.setFitToWidth(true);
             chatContent.setFitToHeight(true);
-            VBox chatMessages = new VBox();
-//            for (int j = 0; j < 20; j++) {
-//                chatMessages.getChildren().add(new Text("Messaggio di prova" + j));
-//            }
 
+            HBox messageBox = new HBox(); //used for the textField and the button on the bottom
+            TextField sendMessage = new TextField();
 
-            Button sendButton = new Button("Invia");
-            sendMessage.setPromptText("Inserisci il tuo messaggio...");
-
+            Button sendButton = new Button("Send");
             messageBox.getChildren().addAll(sendMessage, sendButton);
             messageBox.setSpacing(20);
-            chatContent.setContent(chatMessages);
+            handleOnActionChat(sendButton);
 
-            sendButton.setOnAction(event -> {
-                String message = sendMessage.getText();
-                if (!message.isEmpty()) {
-                    //chatMessages.getChildren().add(new Text(message));
-                    sendChatMessage(miniModel.currentPlayer, message);
-                    sendMessage.clear();
-                }
-            });
+            sendMessage.setPromptText("Write your message here...");
 
             // Set HBox growth for sendMessage
             HBox.setHgrow(sendMessage, Priority.ALWAYS);
@@ -200,10 +206,10 @@ public class ManuscriptSceneController implements GenericController {
             chatContainer.getChildren().addAll(chatContent, messageBox);
 
 
-            chatTab.setText("Player " + i);
+            //chatTab.setText("Player " + i);
             //chatTab.setContent(chatContent);
             chatTab.setContent(chatContainer);
-            chat.getTabs().add(chatTab);
+            chatTabPane.getTabs().add(chatTab);
         }
 
         // counters
@@ -211,14 +217,39 @@ public class ManuscriptSceneController implements GenericController {
 
     }
 
-    void sendChatMessage(String receiver, String content){
+    private  TextField getSendMessageFieldFromTab(Tab tab) {
+        if (tab.getContent() instanceof VBox) {
+            VBox chatContainer = (VBox) tab.getContent();
+            if (chatContainer.getChildren().size() > 1 && chatContainer.getChildren().get(1) instanceof HBox) {
+                HBox messageBox = (HBox) chatContainer.getChildren().get(1);
+                for (javafx.scene.Node node : messageBox.getChildren()) {
+                    if (node instanceof TextField) {
+                        return (TextField) node;
+                    }
+                }
+            }
+        }return null;
+    }
+    void sendChatMessage(){
         try {
+            Tab currentTab = chatTabPane.getSelectionModel().getSelectedItem();
+            String receiver = currentTab.getText();
+            String content = getSendMessageFieldFromTab(currentTab).getText();
             Command command = new SendMessageCommand(Gui.getInstance().getClient().getMiniModel().getPlayer(), receiver, content);
             Gui.getInstance().getClient().sendCommand(command);
+            System.out.println("\nmessaggio " +content+ " mandato a "+ receiver);
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }
     }
+
+    void handleOnActionChat(Button button){
+        button.setOnAction(event -> {
+            sendChatMessage();
+        });
+    }
+
+
 
     void handleDropEventManuscript(ImageView imgView) {
 
@@ -245,6 +276,7 @@ public class ManuscriptSceneController implements GenericController {
         });
 
     }
+
 
     void handleDragDetectedHand(ImageView imgView) {
 
@@ -332,6 +364,31 @@ public class ManuscriptSceneController implements GenericController {
     @Override
     public void receiveKo(String ackType) {
 
+    }
+
+    public void overwriteChat(Chat chat, MiniModel miniModel){
+        Platform.runLater(()->{
+            if(chat.getChatters().size()>1 ){ //nella global
+                Chat global = miniModel.getChats().getFirst();
+                //global.addChatMessage(chat.getChatMessages().getLast());
+
+                //ho la chat ,voglio la tab
+                Tab tab= chatTabHashMap.get(global);
+
+                VBox a= getChatMessagesVBox(tab);
+
+            }
+            else{
+                //trovo altra chat
+                System.out.println("zio pera");
+            }
+
+        });
+    }
+    private VBox getChatMessagesVBox(Tab chatTab) {
+        VBox chatContainer = (VBox) chatTab.getContent();
+        ScrollPane chatContent = (ScrollPane) chatContainer.getChildren().getFirst();
+        return (VBox) chatContent.getContent();
     }
 
     public void overwriteHand(MiniModel miniModel) {

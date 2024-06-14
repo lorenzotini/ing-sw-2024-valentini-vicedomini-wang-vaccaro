@@ -26,12 +26,15 @@ public class UpdateChatMessage extends Message {
             if (this.getMiniModel().getChats().getFirst().getChatters().size() > 2) {
                 client.getMiniModel().getChats().addFirst(this.getMiniModel().getChats().getFirst());
                 client.getMiniModel().getChats().remove(1);
+                view.show(client.getMiniModel().getChats().getFirst());
             } else {
                 Chat miniModelChat = this.getMiniModel().getChats().getFirst();
                 Chat chat2 = client.getMiniModel().getChat(miniModelChat.getChatters());
                 client.getMiniModel().getChats().remove(chat2);
                 client.getMiniModel().getChats().add(this.getMiniModel().getChats().getFirst());
+                view.show(client.getMiniModel().getChats().getFirst());
             }
+
 //        if(chat2 == null) {
 //            System.out.println("errore dei personaggi della chat");
 //        }else{

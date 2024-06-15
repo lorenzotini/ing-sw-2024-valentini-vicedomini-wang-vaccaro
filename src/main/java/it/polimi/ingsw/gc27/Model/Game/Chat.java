@@ -14,15 +14,12 @@ public class Chat implements Serializable, ClientChat {
     final BlockingQueue<ChatMessage> chatMessages = new LinkedBlockingQueue<>();
 
     public Chat(){
-
+        chatters.add("global");
     }
     public Chat(Player player1, Player player2){
         //creazione di una chat singola
         chatters.add(player1.getUsername());
         chatters.add(player2.getUsername());
-    }
-    public void addPlayer(Player player){
-        chatters.add(player.getUsername());
     }
     public synchronized void addChatMessage(ChatMessage chatMessage){
         //TODO don't forget to create a right notify

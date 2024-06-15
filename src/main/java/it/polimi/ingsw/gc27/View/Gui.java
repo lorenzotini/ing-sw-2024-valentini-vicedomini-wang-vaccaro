@@ -245,10 +245,8 @@ public class Gui implements View {
                 } catch (RemoteException e) {
                     throw new RuntimeException(e);
                 }
-
             }
         });
-
     }
 
     @Override

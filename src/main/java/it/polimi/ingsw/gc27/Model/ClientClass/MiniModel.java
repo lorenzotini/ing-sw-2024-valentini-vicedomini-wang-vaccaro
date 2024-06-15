@@ -168,7 +168,7 @@ public class MiniModel implements Serializable {
         this.market = null;
         this.player = player;
         this.hand = null;
-        this.currentPlayer = receiver;
+        this.currentPlayer= receiver;
         this.chats.add(chat);
     }
 

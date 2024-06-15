@@ -149,8 +149,6 @@ public class Game implements Serializable {
             chatMap.put(new Pair<String, String>(player.getUsername(), p.getUsername()),   chat);
             chatMap.put(new Pair<String, String>(p.getUsername(), player.getUsername()),   chat);
         }
-        generalChat.addPlayer(p);
-
         this.players.add(p);
         //create a listener
         //he will listen the observable and decide if the message has to be sent to his player

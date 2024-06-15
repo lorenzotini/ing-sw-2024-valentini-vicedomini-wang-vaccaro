@@ -222,7 +222,7 @@ public class Tui implements View {
                     break;
                 case "sendmessage":
                     String receiver;
-                    boolean f = true;
+                    boolean f ;
                     do {
 
                         out.println("\nChat available with: \nGlobal");
@@ -235,21 +235,18 @@ public class Tui implements View {
                             receiver = scan.nextLine();
                             break;
                         }
-                        f = false;
 
-                        if (client.getMiniModel().checkOtherUsername(receiver) || receiver.equals("global")) {
-                            f = true;
-                        }
+                        f = client.getMiniModel().checkOtherUsername(receiver) || receiver.equalsIgnoreCase("global");
 
                     } while (!f);
+                    if(receiver.equalsIgnoreCase("global")){
+                        receiver =receiver.toLowerCase();
+                    }
                     out.println("\n" + "Content:");
                     String mess = scan.nextLine();
-                    if (mess.equals("\n") || mess.isEmpty()) {
-                        mess = scan.nextLine();
-                        break;
-                    } else {
-                        client.sendCommand(new SendMessageCommand(client.getMiniModel().getPlayer(), receiver, mess));
-                    }
+
+                    client.sendCommand(new SendMessageCommand(client.getMiniModel().getPlayer(), receiver, mess));
+
                     break;
                 default:
                     out.println("\nInvalid command. Type 'help' for a list of commands.");

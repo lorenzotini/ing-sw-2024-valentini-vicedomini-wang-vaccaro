@@ -17,7 +17,7 @@ public class RmiServer implements VirtualServer {
     private final List<VirtualView> clients = Collections.synchronizedList(new ArrayList<>());    //clients of different games
     private final Map<VirtualView, Long> clientsPing = new HashMap<>();
     private final GigaController console;
-    private static final int MAX_PING_TIME = 5000;
+    private static final int MAX_PING_TIME = 500000;
 
     public RmiServer(GigaController controller) {
         this.console = controller;

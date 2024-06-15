@@ -118,27 +118,20 @@ public class ManuscriptSceneController implements GenericController {
             commonObjectives.getChildren().add(commonObjective);
         }
 
-        // chat
+         // chat
         for (int i = 0; i < miniModel.getChats().size(); i++) {
             Tab chatTab = new Tab(); //a tab for each chat
             if(i==0) {
                 chatTab.setText("Global");
                 chatTabHashMap.put("Global", chatTab);
             }
-            else{
+            else {
                 String myusername = miniModel.getPlayer().getUsername();
                 String username = miniModel.getChats().get(i).getChatters().stream()
-                                .filter(user -> !user.equals(myusername))
-                                .toList().getFirst();
+                        .filter(user -> !user.equals(myusername))
+                        .toList().getFirst();
                 chatTab.setText(username);
                 chatTabHashMap.put(username, chatTab);
-                //voglio sapere il colore corrispondente all'username
-
-                //PawnColour colour = miniModel.getBoard().getColourPlayermap().get(username);
-                //chatTab.setStyle("-fx-background-color: "+ colour);
-
-
-
             }
 
             VBox chatContainer = new VBox(); //contains che messages of a chat
@@ -178,6 +171,7 @@ public class ManuscriptSceneController implements GenericController {
             //chatTab.setContent(chatContent);
             chatTab.setContent(chatContainer);
             chatTabPane.getTabs().add(chatTab);
+            //overwriteChat(miniModel.getChats().get(i), miniModel);
         }
 
         // counters
@@ -424,6 +418,12 @@ public class ManuscriptSceneController implements GenericController {
                         .filter(user -> !user.equals(miniModel.getPlayer().getUsername()))
                         .toList().getFirst();
                 Tab tab= chatTabHashMap.get(username);
+
+                PawnColour colour = miniModel.getBoard().getColourPlayermap().get(username);
+
+
+                System.out.println(colour.toString());
+                tab.setStyle("-fx-background-color: "+ colour);
 
                 VBox vbox= getChatMessagesVBox(tab);
 

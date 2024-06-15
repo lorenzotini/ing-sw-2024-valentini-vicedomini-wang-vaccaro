@@ -224,6 +224,7 @@ public class GigaController {
             return;
         }
         controller.initializePlayer(client, this);
+        controller.getGame().getBoard().initBoard(controller.getGame().getPlayers());
         controller.executeCommands();
     }
 

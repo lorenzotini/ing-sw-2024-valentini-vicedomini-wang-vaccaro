@@ -10,6 +10,6 @@ public interface ClientBoard {
     int getPointsGreenPlayer();
     int getPointsRedPlayer();
     int getPointsBluePlayer();
-    //HashMap<String, PawnColour> getColourPlayermap();
+    HashMap<String, PawnColour> getColourPlayermap();
 
 }

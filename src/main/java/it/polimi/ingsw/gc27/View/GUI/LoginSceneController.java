@@ -58,7 +58,7 @@ public class LoginSceneController implements GenericController {
     }
 
     @FXML
-    public void sendUsername() { //does not check if username is valid
+    public void sendUsername() {
         Gui.getInstance().stringFromSceneController(UsernameInput.getText());
     }
 

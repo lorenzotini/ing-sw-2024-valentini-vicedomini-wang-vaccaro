@@ -19,18 +19,18 @@ public class Board implements Serializable, ClientBoard {
 
 
 
-//    public HashMap<String, PawnColour> colourPlayermap=new HashMap<>();
-//
-//    public Board(List<Player> players){
-//        for(Player p: players){
-//            switch(p.getPawnColour()){
-//                case PawnColour.RED -> colourPlayermap.put(p.getUsername(),PawnColour.RED);
-//                case PawnColour.BLUE -> colourPlayermap.put(p.getUsername(),PawnColour.BLUE);
-//                case PawnColour.GREEN -> colourPlayermap.put(p.getUsername(),PawnColour.GREEN);
-//                case PawnColour.YELLOW -> colourPlayermap.put(p.getUsername(),PawnColour.YELLOW);
-//            }
-//        }
-//    }
+    public HashMap<String, PawnColour> colourPlayermap=new HashMap<>();
+
+    public void initBoard(List<Player> players){
+        for(Player p: players){
+            switch(p.getPawnColour()){
+                case PawnColour.RED -> colourPlayermap.put(p.getUsername(),PawnColour.RED);
+                case PawnColour.BLUE -> colourPlayermap.put(p.getUsername(),PawnColour.BLUE);
+                case PawnColour.GREEN -> colourPlayermap.put(p.getUsername(),PawnColour.GREEN);
+                case PawnColour.YELLOW -> colourPlayermap.put(p.getUsername(),PawnColour.YELLOW);
+            }
+        }
+    }
 
     @Override
     public int getPointsRedPlayer() {
@@ -64,9 +64,9 @@ public class Board implements Serializable, ClientBoard {
     public void setPointsBluePlayer(int pointsBluePlayer) {
         this.pointsBluePlayer = pointsBluePlayer;
     }
-//    @Override
-//    public HashMap<String, PawnColour> getColourPlayermap() {
-//        return colourPlayermap;
-//    }
+    @Override
+    public HashMap<String, PawnColour> getColourPlayermap() {
+        return colourPlayermap;
+    }
 
 }

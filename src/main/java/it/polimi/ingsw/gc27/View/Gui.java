@@ -4,12 +4,23 @@ import it.polimi.ingsw.gc27.Model.Card.ObjectiveCard.ObjectiveCard;
 import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
 import it.polimi.ingsw.gc27.Model.Card.StarterCard;
 import it.polimi.ingsw.gc27.Model.ClientClass.*;
+import it.polimi.ingsw.gc27.Model.Enumerations.PawnColour;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 import it.polimi.ingsw.gc27.View.GUI.*;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
+import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -33,7 +44,7 @@ public class Gui implements View {
     final BlockingQueue<String> messagesReceived = new LinkedBlockingQueue<>();
     private final HashMap<String, Scene> pathSceneMap = new HashMap<>(); //maps path to scene
     private final HashMap<String, GenericController> pathContrMap = new HashMap<>(); //maps path to controller of the scene
-
+    public HashMap<String, Tab> chatTabHashMap= new HashMap<>();
     public GenericController getCurrentController() {
         return currentController;
     }
@@ -95,11 +106,13 @@ public class Gui implements View {
         Platform.runLater(() -> {
             try {
                 if (!isReconnected) {
+
                     //set the starter cards
                     StarterCard starter = this.client.getMiniModel().getPlayer().getStarterCard();
                     PlaceStarterCardScene contr = (PlaceStarterCardScene) getControllerFromName(ScenePaths.PLACESTARTER.getValue());
                     contr.changeImageFront(getClass().getResource(starter.getFront().getImagePath()).toExternalForm());
                     contr.changeImageBack(getClass().getResource(starter.getBack().getImagePath()).toExternalForm());
+                    contr.chatInit();
                     switchScene("/fxml/PlaceStarterCardScene.fxml");
 
                     ObjectiveCard objectiveCard1 = this.client.getMiniModel().getPlayer().getSecretObjectives().get(0);
@@ -266,18 +279,117 @@ public class Gui implements View {
 
     @Override
     public void show(ClientChat chat) {
+        MiniModel miniModel;
+        try {
+            miniModel = client.getMiniModel();
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
         if(Gui.getInstance().getCurrentController() instanceof ManuscriptSceneController) {
             ManuscriptSceneController controller = (ManuscriptSceneController) Gui.getInstance().getCurrentController();
-            MiniModel miniModel;
-            try {
-                miniModel = client.getMiniModel();
-            } catch (RemoteException e) {
-                throw new RuntimeException(e);
-            }
+
+
             controller.overwriteChat(chat, miniModel);
 
         }
+        this.overwriteChat(chat,miniModel);
 
+    }
+    public void overwriteChat(ClientChat chat, MiniModel miniModel){
+        Platform.runLater(()->{
+            if(chat.getChatters().size() == 1){
+
+                Tab tab= chatTabHashMap.get("Global");
+                VBox vbox= getChatMessagesVBox(tab);
+
+                Text textName=new Text(chat.getChatMessages().getLast().getSender());
+                HBox hBoxName=new HBox(textName);
+                hBoxName.setPadding(new Insets(0,3,0,3));
+                textName.getStyleClass().add("text-name");
+
+                Text text = new Text();
+                text.setText(chat.getChatMessages().getLast().getContent());
+                text.getStyleClass().add("text");
+                TextFlow textFlow = new TextFlow(text);
+                textFlow.setMaxWidth(240);
+
+                textFlow.setTextAlignment(TextAlignment.LEFT);
+                HBox hbox = new HBox(textFlow);
+
+                if(chat.getChatMessages().getLast().getSender().equals(miniModel.getPlayer().getUsername())){
+                    hbox.setAlignment(Pos.CENTER_RIGHT);
+                    hBoxName.setAlignment(Pos.CENTER_RIGHT);
+                    textFlow.getStyleClass().add("text-flow-sender");
+
+                }
+                //other players send the message
+                else{
+                    hbox.setAlignment(Pos.CENTER_LEFT);
+                    hBoxName.setAlignment(Pos.CENTER_LEFT);
+                    textFlow.getStyleClass().add("text-flow-receiver");
+                }
+
+                hbox.setPadding(new Insets(1,4,1,5));
+                vbox.getChildren().add(hBoxName);
+                vbox.getChildren().add(hbox);
+            }
+            else{
+                String username= chat.getChatters().stream()
+                        .filter(user -> !user.equals(miniModel.getPlayer().getUsername()))
+                        .toList().getFirst();
+                Tab tab= chatTabHashMap.get(username);
+
+                PawnColour colour = miniModel.getBoard().getColourPlayermap().get(username);
+
+
+                System.out.println(colour.toString());
+                tab.setStyle("-fx-background-color: "+ colour);
+
+                VBox vbox= getChatMessagesVBox(tab);
+
+                Text text = new Text();
+                text.setText(chat.getChatMessages().getLast().getContent());
+                text.getStyleClass().add("text");
+
+                TextFlow textFlow = new TextFlow(text);
+                textFlow.setMaxWidth(240);
+                textFlow.setTextAlignment(TextAlignment.LEFT);
+                HBox hbox = new HBox(textFlow);
+
+                if(chat.getChatMessages().getLast().getSender().equals(username)){
+                    hbox.setAlignment(Pos.CENTER_LEFT);
+                    textFlow.getStyleClass().add("text-flow-receiver");
+
+                }else{
+                    hbox.setAlignment(Pos.CENTER_RIGHT);
+                    textFlow.getStyleClass().add("text-flow-sender");
+                }
+                hbox.setPadding(new Insets(5,5,5,5));
+                vbox.getChildren().add(hbox);
+
+                //todo: fare scroll automatico
+            }
+
+        });
+    }
+    private VBox getChatMessagesVBox(Tab chatTab) {
+        VBox chatContainer = (VBox) chatTab.getContent();
+        ScrollPane chatContent = (ScrollPane) chatContainer.getChildren().getFirst();
+        chatContent.setVvalue(1.0); //non so se si mette qui
+        return (VBox) chatContent.getContent();
+    }
+    private TextField getSendMessageFieldFromTab(Tab tab) {
+        if (tab.getContent() instanceof VBox) {
+            VBox chatContainer = (VBox) tab.getContent();
+            if (chatContainer.getChildren().size() > 1 && chatContainer.getChildren().get(1) instanceof HBox) {
+                HBox messageBox = (HBox) chatContainer.getChildren().get(1);
+                for (javafx.scene.Node node : messageBox.getChildren()) {
+                    if (node instanceof TextField) {
+                        return (TextField) node;
+                    }
+                }
+            }
+        }return null;
     }
 
     @Override
@@ -326,6 +438,8 @@ public class Gui implements View {
         }
         //error handler
     }
+
+
 
 
 

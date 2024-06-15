@@ -5,8 +5,10 @@ import it.polimi.ingsw.gc27.Model.Card.Face;
 import it.polimi.ingsw.gc27.Model.ClientClass.ClientChat;
 import it.polimi.ingsw.gc27.Model.ClientClass.ClientManuscript;
 import it.polimi.ingsw.gc27.Model.Enumerations.CornerSymbol;
+import it.polimi.ingsw.gc27.Model.Enumerations.PawnColour;
 import it.polimi.ingsw.gc27.Model.Game.Placement;
 import it.polimi.ingsw.gc27.Model.ClientClass.MiniModel;
+import it.polimi.ingsw.gc27.Model.Game.Player;
 import it.polimi.ingsw.gc27.Net.Commands.AddCardCommand;
 import it.polimi.ingsw.gc27.Net.Commands.Command;
 import it.polimi.ingsw.gc27.Net.Commands.DrawCardCommand;
@@ -19,13 +21,16 @@ import it.polimi.ingsw.gc27.View.Gui;
 import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.*;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.scene.text.TextFlow;
 import javafx.scene.transform.Scale;
 
@@ -126,13 +131,20 @@ public class ManuscriptSceneController implements GenericController {
                                 .filter(user -> !user.equals(myusername))
                                 .toList().getFirst();
                 chatTab.setText(username);
-
                 chatTabHashMap.put(username, chatTab);
+                //voglio sapere il colore corrispondente all'username
+
+                //PawnColour colour = miniModel.getBoard().getColourPlayermap().get(username);
+                //chatTab.setStyle("-fx-background-color: "+ colour);
+
+
+
             }
 
             VBox chatContainer = new VBox(); //contains che messages of a chat
             ScrollPane chatContent = new ScrollPane();
             VBox chatMessages = new VBox();
+            chatMessages.setStyle("-fx-background-color: rgb(230, 230, 250)");
             chatContent.setContent(chatMessages); //scrollPane contains Vbox with messages
 
             chatContent.setPrefHeight(400);
@@ -372,37 +384,73 @@ public class ManuscriptSceneController implements GenericController {
 
     public void overwriteChat(ClientChat chat, MiniModel miniModel){
         Platform.runLater(()->{
-            if(chat.getChatters().size()>2){ //nella global
-                ClientChat global = miniModel.getChats().getFirst();
-                //global.addChatMessage(chat.getChatMessages().getLast());
-
-                //ho la chat ,voglio la tab
+            if(chat.getChatters().size() == 1){
                 Tab tab= chatTabHashMap.get("Global");
+                VBox vbox= getChatMessagesVBox(tab);
 
-                VBox a= getChatMessagesVBox(tab);
+                Text textName=new Text(chat.getChatMessages().getLast().getSender());
+                HBox hBoxName=new HBox(textName);
+                hBoxName.setPadding(new Insets(0,3,0,3));
+                textName.getStyleClass().add("text-name");
 
+                Text text = new Text();
+                text.setText(chat.getChatMessages().getLast().getContent());
+                text.getStyleClass().add("text");
+                TextFlow textFlow = new TextFlow(text);
+                textFlow.setMaxWidth(240);
+
+                textFlow.setTextAlignment(TextAlignment.LEFT);
+                HBox hbox = new HBox(textFlow);
+
+                if(chat.getChatMessages().getLast().getSender().equals(miniModel.getPlayer().getUsername())){
+                    hbox.setAlignment(Pos.CENTER_RIGHT);
+                    hBoxName.setAlignment(Pos.CENTER_RIGHT);
+                    textFlow.getStyleClass().add("text-flow-sender");
+
+                }
+                //other players send the message
+                else{
+                    hbox.setAlignment(Pos.CENTER_LEFT);
+                    hBoxName.setAlignment(Pos.CENTER_LEFT);
+                    textFlow.getStyleClass().add("text-flow-receiver");
+                }
+
+                hbox.setPadding(new Insets(1,4,1,5));
+                vbox.getChildren().add(hBoxName);
+                vbox.getChildren().add(hbox);
             }
             else{
                 String username= chat.getChatters().stream()
                         .filter(user -> !user.equals(miniModel.getPlayer().getUsername()))
                         .toList().getFirst();
                 Tab tab= chatTabHashMap.get(username);
+
                 VBox vbox= getChatMessagesVBox(tab);
 
                 Text text = new Text();
+                text.setText(chat.getChatMessages().getLast().getContent());
+                text.getStyleClass().add("text");
+
                 TextFlow textFlow = new TextFlow(text);
-                textFlow.setPrefWidth(100);
+                textFlow.setMaxWidth(240);
+                textFlow.setTextAlignment(TextAlignment.LEFT);
                 HBox hbox = new HBox(textFlow);
+
                 if(chat.getChatMessages().getLast().getSender().equals(username)){
                     hbox.setAlignment(Pos.CENTER_LEFT);
-                }else{ hbox.setAlignment(Pos.CENTER_RIGHT);}
+                    textFlow.getStyleClass().add("text-flow-receiver");
 
-                text.setText(chat.getChatMessages().getLast().getContent());
-
+                }else{
+                    hbox.setAlignment(Pos.CENTER_RIGHT);
+                    textFlow.getStyleClass().add("text-flow-sender");
+                }
+                hbox.setPadding(new Insets(5,5,5,5));
                 vbox.getChildren().add(hbox);
-                //vbox.getChildren().add(new Text(chat.getChatMessages().getLast().getContent()));
-                //trovo altra chat
-                System.out.println("zio pera");
+
+                //todo: fare scroll automatico
+
+
+
             }
 
         });
@@ -410,6 +458,7 @@ public class ManuscriptSceneController implements GenericController {
     private VBox getChatMessagesVBox(Tab chatTab) {
         VBox chatContainer = (VBox) chatTab.getContent();
         ScrollPane chatContent = (ScrollPane) chatContainer.getChildren().getFirst();
+        chatContent.setVvalue(1.0); //non so se si mette qui
         return (VBox) chatContent.getContent();
     }
 

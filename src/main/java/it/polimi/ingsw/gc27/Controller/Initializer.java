@@ -19,8 +19,8 @@ public class Initializer {
     private  ArrayList<GoldCard> goldDeck = JsonParser.getGoldDeck(JsonParser.cardsJsonObj);
     private  ArrayList<ObjectiveCard> objectiveDeck = JsonParser.getObjectiveDeck(JsonParser.cardsJsonObj);
     private  Market market = new Market();
+    //private  Board board = new Board(game.getPlayers());
     private  Board board = new Board();
-
     public  Game initialize(){
 
         // shuffle decks

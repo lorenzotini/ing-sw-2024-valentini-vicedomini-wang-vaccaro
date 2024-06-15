@@ -23,9 +23,11 @@ public class Game implements Serializable {
 
     private final transient BlockingQueue<Observer> observers = new LinkedBlockingQueue<>() {};
     private Integer numActualPlayers;
-    private Board board;
+
     private Market market;
     private List<Player> players;
+    private Board board;
+    //private Board board= new Board(players);
     private ObjectiveCard commonObjective1;
     private ObjectiveCard commonObjective2;
     private ArrayList<StarterCard> starterDeck;
@@ -45,6 +47,7 @@ public class Game implements Serializable {
     }
 
     public Game(Board board, Market market, List<Player> players, ObjectiveCard commonObjective1, ObjectiveCard commonObjective2, ArrayList<StarterCard> starterDeck, ArrayList<ObjectiveCard> objectiveDeck) {
+
         this.board = board;
         this.market = market;
         this.players = players;

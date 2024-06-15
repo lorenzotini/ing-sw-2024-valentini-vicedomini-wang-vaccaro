@@ -12,3 +12,26 @@
 .rettangolo{
 
 }
+
+/* styles.css */
+.text-name {
+    -fx-font-size: 10.7px;
+}
+.text{
+    -fx-font-size: 12px;
+}
+
+.text-flow-sender {
+    -fx-background-color: rgb(100,149,237);
+    -fx-background-radius: 10;
+    -fx-padding: 5;
+}
+.text-flow-receiver {
+    -fx-background-color: rgb(219,112,147);
+    -fx-background-radius: 10;
+    -fx-padding: 5;
+}
+
+.vbox-background {
+    -fx-background-color: rgb(230, 230, 250);
+}

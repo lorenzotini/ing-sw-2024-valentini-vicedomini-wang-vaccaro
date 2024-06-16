@@ -5,6 +5,8 @@ import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
 import it.polimi.ingsw.gc27.Model.Card.StarterCard;
 import it.polimi.ingsw.gc27.Model.ClientClass.*;
 import it.polimi.ingsw.gc27.Model.Enumerations.PawnColour;
+import it.polimi.ingsw.gc27.Model.Game.Chat;
+import it.polimi.ingsw.gc27.Model.Game.ChatMessage;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 import it.polimi.ingsw.gc27.View.GUI.*;
 import javafx.application.Platform;
@@ -44,7 +46,7 @@ public class Gui implements View {
     final BlockingQueue<String> messagesReceived = new LinkedBlockingQueue<>();
     private final HashMap<String, Scene> pathSceneMap = new HashMap<>(); //maps path to scene
     private final HashMap<String, GenericController> pathContrMap = new HashMap<>(); //maps path to controller of the scene
-    public HashMap<String, Tab> chatTabHashMap= new HashMap<>();
+    //public HashMap<String, Tab> chatTabHashMap= new HashMap<>();
     public GenericController getCurrentController() {
         return currentController;
     }
@@ -107,19 +109,25 @@ public class Gui implements View {
             try {
                 if (!isReconnected) {
 
-                    //set the starter cards
+                    // sets the starter cards and the chat in StarterCardScene
                     StarterCard starter = this.client.getMiniModel().getPlayer().getStarterCard();
                     PlaceStarterCardScene contr = (PlaceStarterCardScene) getControllerFromName(ScenePaths.PLACESTARTER.getValue());
                     contr.changeImageFront(getClass().getResource(starter.getFront().getImagePath()).toExternalForm());
                     contr.changeImageBack(getClass().getResource(starter.getBack().getImagePath()).toExternalForm());
-                    contr.chatInit();
+                    contr.chatInitStarter();
                     switchScene("/fxml/PlaceStarterCardScene.fxml");
 
+                    // sets the objective card and the chat in ObjectiveCardScene
                     ObjectiveCard objectiveCard1 = this.client.getMiniModel().getPlayer().getSecretObjectives().get(0);
                     ObjectiveCard objectiveCard2 = this.client.getMiniModel().getPlayer().getSecretObjectives().get(1);
                     ChooseObjectiveSceneController contr2 = (ChooseObjectiveSceneController) getControllerFromName(ScenePaths.CHOOSEOBJ.getValue());
                     contr2.changeImageObj1(getClass().getResource(objectiveCard1.getFront().getImagePath()).toExternalForm());
                     contr2.changeImageObj2(getClass().getResource(objectiveCard2.getFront().getImagePath()).toExternalForm());
+                    contr2.chatInitObjective();
+
+                    // sets the chat in manuscriptScene
+                    ManuscriptSceneController manuscriptSceneController = (ManuscriptSceneController) Gui.getInstance().getControllerFromName(ScenePaths.MANUSCRIPT.getValue());
+                    manuscriptSceneController.chatInitManuscript();
                 }
 
             } catch (IOException e) {
@@ -285,111 +293,15 @@ public class Gui implements View {
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }
-        if(Gui.getInstance().getCurrentController() instanceof ManuscriptSceneController) {
-            ManuscriptSceneController controller = (ManuscriptSceneController) Gui.getInstance().getCurrentController();
+        // when a message is added to the chat, it is updated in all the scenes the chat is displayed
+        PlaceStarterCardScene controller1 = (PlaceStarterCardScene) Gui.getInstance().getControllerFromName(ScenePaths.PLACESTARTER.getValue());
+        controller1.overwriteChat(chat, miniModel);
 
+        ChooseObjectiveSceneController controller2 = (ChooseObjectiveSceneController) Gui.getInstance().getControllerFromName(ScenePaths.CHOOSEOBJ.getValue());
+        controller2.overwriteChat(chat, miniModel);
 
-            controller.overwriteChat(chat, miniModel);
-
-        }
-        this.overwriteChat(chat,miniModel);
-
-    }
-    public void overwriteChat(ClientChat chat, MiniModel miniModel){
-        Platform.runLater(()->{
-            if(chat.getChatters().size() == 1){
-
-                Tab tab= chatTabHashMap.get("Global");
-                VBox vbox= getChatMessagesVBox(tab);
-
-                Text textName=new Text(chat.getChatMessages().getLast().getSender());
-                HBox hBoxName=new HBox(textName);
-                hBoxName.setPadding(new Insets(0,3,0,3));
-                textName.getStyleClass().add("text-name");
-
-                Text text = new Text();
-                text.setText(chat.getChatMessages().getLast().getContent());
-                text.getStyleClass().add("text");
-                TextFlow textFlow = new TextFlow(text);
-                textFlow.setMaxWidth(240);
-
-                textFlow.setTextAlignment(TextAlignment.LEFT);
-                HBox hbox = new HBox(textFlow);
-
-                if(chat.getChatMessages().getLast().getSender().equals(miniModel.getPlayer().getUsername())){
-                    hbox.setAlignment(Pos.CENTER_RIGHT);
-                    hBoxName.setAlignment(Pos.CENTER_RIGHT);
-                    textFlow.getStyleClass().add("text-flow-sender");
-
-                }
-                //other players send the message
-                else{
-                    hbox.setAlignment(Pos.CENTER_LEFT);
-                    hBoxName.setAlignment(Pos.CENTER_LEFT);
-                    textFlow.getStyleClass().add("text-flow-receiver");
-                }
-
-                hbox.setPadding(new Insets(1,4,1,5));
-                vbox.getChildren().add(hBoxName);
-                vbox.getChildren().add(hbox);
-            }
-            else{
-                String username= chat.getChatters().stream()
-                        .filter(user -> !user.equals(miniModel.getPlayer().getUsername()))
-                        .toList().getFirst();
-                Tab tab= chatTabHashMap.get(username);
-
-                PawnColour colour = miniModel.getBoard().getColourPlayermap().get(username);
-
-
-                System.out.println(colour.toString());
-                tab.setStyle("-fx-background-color: "+ colour);
-
-                VBox vbox= getChatMessagesVBox(tab);
-
-                Text text = new Text();
-                text.setText(chat.getChatMessages().getLast().getContent());
-                text.getStyleClass().add("text");
-
-                TextFlow textFlow = new TextFlow(text);
-                textFlow.setMaxWidth(240);
-                textFlow.setTextAlignment(TextAlignment.LEFT);
-                HBox hbox = new HBox(textFlow);
-
-                if(chat.getChatMessages().getLast().getSender().equals(username)){
-                    hbox.setAlignment(Pos.CENTER_LEFT);
-                    textFlow.getStyleClass().add("text-flow-receiver");
-
-                }else{
-                    hbox.setAlignment(Pos.CENTER_RIGHT);
-                    textFlow.getStyleClass().add("text-flow-sender");
-                }
-                hbox.setPadding(new Insets(5,5,5,5));
-                vbox.getChildren().add(hbox);
-
-                //todo: fare scroll automatico
-            }
-
-        });
-    }
-    private VBox getChatMessagesVBox(Tab chatTab) {
-        VBox chatContainer = (VBox) chatTab.getContent();
-        ScrollPane chatContent = (ScrollPane) chatContainer.getChildren().getFirst();
-        chatContent.setVvalue(1.0); //non so se si mette qui
-        return (VBox) chatContent.getContent();
-    }
-    private TextField getSendMessageFieldFromTab(Tab tab) {
-        if (tab.getContent() instanceof VBox) {
-            VBox chatContainer = (VBox) tab.getContent();
-            if (chatContainer.getChildren().size() > 1 && chatContainer.getChildren().get(1) instanceof HBox) {
-                HBox messageBox = (HBox) chatContainer.getChildren().get(1);
-                for (javafx.scene.Node node : messageBox.getChildren()) {
-                    if (node instanceof TextField) {
-                        return (TextField) node;
-                    }
-                }
-            }
-        }return null;
+        ManuscriptSceneController controller3= (ManuscriptSceneController) Gui.getInstance().getControllerFromName(ScenePaths.MANUSCRIPT.getValue());
+        controller3.overwriteChat(chat, miniModel);
     }
 
     @Override

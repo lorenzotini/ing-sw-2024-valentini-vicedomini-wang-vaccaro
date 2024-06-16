@@ -117,8 +117,21 @@ public class ManuscriptSceneController implements GenericController {
             zoomCardOnHover(commonObjective, 1.2);
             commonObjectives.getChildren().add(commonObjective);
         }
+        // counters
+        overwriteCounters(miniModel);
 
-         // chat
+    }
+
+    public void chatInitManuscript(){
+        MiniModel miniModel;
+        do {
+            try {
+                miniModel = Gui.getInstance().getClient().getMiniModel();
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
+            }
+        }while(miniModel.getMarket() == null);
+
         for (int i = 0; i < miniModel.getChats().size(); i++) {
             Tab chatTab = new Tab(); //a tab for each chat
             if(i==0) {
@@ -137,7 +150,7 @@ public class ManuscriptSceneController implements GenericController {
             VBox chatContainer = new VBox(); //contains che messages of a chat
             ScrollPane chatContent = new ScrollPane();
             VBox chatMessages = new VBox();
-            chatMessages.setStyle("-fx-background-color: rgb(230, 230, 250)");
+            chatMessages.getStyleClass().add("vbox-background");
             chatContent.setContent(chatMessages); //scrollPane contains Vbox with messages
 
             chatContent.setPrefHeight(400);
@@ -153,7 +166,6 @@ public class ManuscriptSceneController implements GenericController {
             messageBox.setSpacing(20);
             handleOnActionChat(sendButton, sendMessage);
             handleOnKeyPress(sendMessage);
-
             sendMessage.setPromptText("Write your message here...");
 
             // Set HBox growth for sendMessage
@@ -165,18 +177,9 @@ public class ManuscriptSceneController implements GenericController {
             HBox.setHgrow(spacer, Priority.ALWAYS);
 
             chatContainer.getChildren().addAll(chatContent, messageBox);
-
-
-            //chatTab.setText("Player " + i);
-            //chatTab.setContent(chatContent);
             chatTab.setContent(chatContainer);
             chatTabPane.getTabs().add(chatTab);
-            //overwriteChat(miniModel.getChats().get(i), miniModel);
         }
-
-        // counters
-        overwriteCounters(miniModel);
-
     }
 
     private  TextField getSendMessageFieldFromTab(Tab tab) {

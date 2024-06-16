@@ -26,6 +26,7 @@ import javafx.scene.text.TextFlow;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
+import java.util.HashMap;
 
 public class ChooseObjectiveSceneController implements GenericController{
     @FXML
@@ -38,9 +39,10 @@ public class ChooseObjectiveSceneController implements GenericController{
     public ImageView obj2;
     @FXML
     public TabPane chatTabPane;
+    private HashMap<String, Tab> chatTabHashMapC= new HashMap<>();
 
-
-    public void chatInit(){
+    //start chat methods
+    public void chatInitObjective(){
         MiniModel miniModel;
         do {
             try {
@@ -54,7 +56,7 @@ public class ChooseObjectiveSceneController implements GenericController{
             Tab chatTab = new Tab(); //a tab for each chat
             if(i==0) {
                 chatTab.setText("Global");
-                Gui.getInstance().chatTabHashMap.put("Global", chatTab);
+                chatTabHashMapC.put("Global", chatTab);
             }
             else {
                 String myusername = miniModel.getPlayer().getUsername();
@@ -62,12 +64,14 @@ public class ChooseObjectiveSceneController implements GenericController{
                         .filter(user -> !user.equals(myusername))
                         .toList().getFirst();
                 chatTab.setText(username);
-                Gui.getInstance().chatTabHashMap.put(username, chatTab);
+                chatTabHashMapC.put(username, chatTab);
+                PawnColour colour = miniModel.getBoard().getColourPlayermap().get(username);
+                chatTab.setStyle("-fx-background-color: "+ colour);
             }
             VBox chatContainer = new VBox(); //contains che messages of a chat
             ScrollPane chatContent = new ScrollPane();
             VBox chatMessages = new VBox();
-            chatMessages.setStyle("-fx-background-color: rgb(230, 230, 250)");
+            chatMessages.getStyleClass().add("vbox-background");
             chatContent.setContent(chatMessages); //scrollPane contains Vbox with messages
 
             chatContent.setPrefHeight(400);
@@ -95,13 +99,8 @@ public class ChooseObjectiveSceneController implements GenericController{
             HBox.setHgrow(spacer, Priority.ALWAYS);
 
             chatContainer.getChildren().addAll(chatContent, messageBox);
-
-
-            //chatTab.setText("Player " + i);
-            //chatTab.setContent(chatContent);
             chatTab.setContent(chatContainer);
             chatTabPane.getTabs().add(chatTab);
-            //overwriteChat(miniModel.getChats().get(i), miniModel);
         }
 
     }
@@ -136,7 +135,7 @@ public class ChooseObjectiveSceneController implements GenericController{
     public void overwriteChat(ClientChat chat, MiniModel miniModel){
         Platform.runLater(()->{
             if(chat.getChatters().size() == 1){
-                Tab tab= Gui.getInstance().chatTabHashMap.get("Global");
+                Tab tab= chatTabHashMapC.get("Global");
                 VBox vbox= getChatMessagesVBox(tab);
 
                 Text textName=new Text(chat.getChatMessages().getLast().getSender());
@@ -174,13 +173,7 @@ public class ChooseObjectiveSceneController implements GenericController{
                 String username= chat.getChatters().stream()
                         .filter(user -> !user.equals(miniModel.getPlayer().getUsername()))
                         .toList().getFirst();
-                Tab tab= Gui.getInstance().chatTabHashMap.get(username);
-
-                PawnColour colour = miniModel.getBoard().getColourPlayermap().get(username);
-
-
-                System.out.println(colour.toString());
-                tab.setStyle("-fx-background-color: "+ colour);
+                Tab tab= chatTabHashMapC.get(username);
 
                 VBox vbox= getChatMessagesVBox(tab);
 
@@ -228,6 +221,7 @@ public class ChooseObjectiveSceneController implements GenericController{
             }
         }return null;
     }
+    //end chat methods
 
 
     @FXML

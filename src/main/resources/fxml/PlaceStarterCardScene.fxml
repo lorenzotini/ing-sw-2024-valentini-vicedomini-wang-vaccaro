@@ -39,7 +39,7 @@
             <Font name="Agency FB" size="26.0" />
          </font>
       </Label>
-      <TabPane fx:id="chatTabPane" layoutX="932.0" layoutY="32.0" prefHeight="275.0" prefWidth="280.0" tabClosingPolicy="UNAVAILABLE" />
+      <TabPane fx:id="chatTabPaneStarter" layoutX="932.0" layoutY="32.0" prefHeight="275.0" prefWidth="280.0" tabClosingPolicy="UNAVAILABLE" />
    </children>
    <stylesheets>
       <URL value="@../css/PlaceStarterCardScene.css" />

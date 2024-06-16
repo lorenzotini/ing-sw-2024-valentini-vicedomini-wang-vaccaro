@@ -41,6 +41,7 @@ public class PlaceStarterCardScene implements GenericController{
     public Button backStarterButton;
     @FXML
     public TabPane chatTabPaneStarter;
+    //there is a private hashmap for all the scenes where the chat is displayed
     private HashMap<String, Tab> chatTabHashMapP= new HashMap<>();
 
     // start chat methods
@@ -93,6 +94,7 @@ public class PlaceStarterCardScene implements GenericController{
                 TextField sendMessage = new TextField();
 
                 Button sendButton = new Button("Send");
+                sendButton.getStyleClass().add("text-field-chat");
                 messageBox.getChildren().addAll(sendMessage, sendButton);
                 messageBox.setSpacing(20);
                 handleOnActionChat(sendButton, sendMessage);
@@ -135,9 +137,10 @@ public class PlaceStarterCardScene implements GenericController{
             Tab currentTab = chatTabPaneStarter.getSelectionModel().getSelectedItem();
             String receiver = currentTab.getText();
             String content = getSendMessageFieldFromTab(currentTab).getText();
-            Command command = new SendMessageCommand(Gui.getInstance().getClient().getMiniModel().getPlayer(), receiver, content);
-            Gui.getInstance().getClient().sendCommand(command);
-            System.out.println("\nmessaggio " +content+ " mandato a "+ receiver);
+            if(!content.trim().isEmpty()) {
+                Command command = new SendMessageCommand(Gui.getInstance().getClient().getMiniModel().getPlayer(), receiver, content);
+                Gui.getInstance().getClient().sendCommand(command);
+            }
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }

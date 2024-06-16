@@ -34,3 +34,16 @@
 .vbox-background {
     -fx-background-color: rgb(230, 230, 250);
 }
+
+.tab-colour-red{
+    -fx-background-color: rgb(205,92,92)
+}
+.tab-colour-green{
+    -fx-background-color: rgb(60,179,113)
+}
+.tab-colour-yellow{
+    -fx-background-color: rgb(240,230,140)
+}
+.tab-colour-blue{
+    -fx-background-color: rgb(100,149,237)
+}

@@ -77,6 +77,7 @@ public class ManuscriptSceneController implements GenericController {
     private ImageView marketCard;
 
     private GridPane grid;
+    //there is a private hashmap for all the scenes where the chat is displayed
     private HashMap<String, Tab> chatTabHashMap= new HashMap<>();
 
     public TextField getActionFeedback() {
@@ -145,6 +146,14 @@ public class ManuscriptSceneController implements GenericController {
                         .toList().getFirst();
                 chatTab.setText(username);
                 chatTabHashMap.put(username, chatTab);
+                PawnColour colour = miniModel.getBoard().getColourPlayermap().get(username);
+                switch (colour){
+
+                    case BLUE: chatTab.getStyleClass().add("tab-colour-blue");
+                    case YELLOW: chatTab.getStyleClass().add("tab-colour-yellow");
+                    case GREEN: chatTab.getStyleClass().add("tab-colour-green");
+                    case RED: chatTab.getStyleClass().add("tab-colour-red");
+                }
             }
 
             VBox chatContainer = new VBox(); //contains che messages of a chat
@@ -195,18 +204,7 @@ public class ManuscriptSceneController implements GenericController {
             }
         }return null;
     }
-    void sendChatMessage(){
-        try {
-            Tab currentTab = chatTabPane.getSelectionModel().getSelectedItem();
-            String receiver = currentTab.getText();
-            String content = getSendMessageFieldFromTab(currentTab).getText();
-            Command command = new SendMessageCommand(Gui.getInstance().getClient().getMiniModel().getPlayer(), receiver, content);
-            Gui.getInstance().getClient().sendCommand(command);
-            System.out.println("\nmessaggio " +content+ " mandato a "+ receiver);
-        } catch (RemoteException e) {
-            throw new RuntimeException(e);
-        }
-    }
+
 
     void handleOnActionChat(Button button, TextField textField){
         button.setOnAction(event -> {
@@ -345,6 +343,19 @@ public class ManuscriptSceneController implements GenericController {
         });
 
     }
+    void sendChatMessage(){
+        try {
+            Tab currentTab = chatTabPane.getSelectionModel().getSelectedItem();
+            String receiver = currentTab.getText();
+            String content = getSendMessageFieldFromTab(currentTab).getText();
+            if(!content.trim().isEmpty()) {
+                Command command = new SendMessageCommand(Gui.getInstance().getClient().getMiniModel().getPlayer(), receiver, content);
+                Gui.getInstance().getClient().sendCommand(command);
+            }
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     private void sendAddCardCommand() {
         String username;
@@ -423,9 +434,6 @@ public class ManuscriptSceneController implements GenericController {
                 Tab tab= chatTabHashMap.get(username);
 
                 PawnColour colour = miniModel.getBoard().getColourPlayermap().get(username);
-
-
-                System.out.println(colour.toString());
                 tab.setStyle("-fx-background-color: "+ colour);
 
                 VBox vbox= getChatMessagesVBox(tab);
@@ -451,9 +459,6 @@ public class ManuscriptSceneController implements GenericController {
                 vbox.getChildren().add(hbox);
 
                 //todo: fare scroll automatico
-
-
-
             }
 
         });

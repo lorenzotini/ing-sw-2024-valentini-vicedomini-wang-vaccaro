@@ -39,6 +39,7 @@ public class ChooseObjectiveSceneController implements GenericController{
     public ImageView obj2;
     @FXML
     public TabPane chatTabPane;
+    //there is a private hashmap for all the scenes where the chat is displayed
     private HashMap<String, Tab> chatTabHashMapC= new HashMap<>();
 
     //start chat methods
@@ -65,8 +66,15 @@ public class ChooseObjectiveSceneController implements GenericController{
                         .toList().getFirst();
                 chatTab.setText(username);
                 chatTabHashMapC.put(username, chatTab);
+
                 PawnColour colour = miniModel.getBoard().getColourPlayermap().get(username);
-                chatTab.setStyle("-fx-background-color: "+ colour);
+                switch (colour){
+
+                    case BLUE: chatTab.getStyleClass().add("tab-colour-blue");
+                    case YELLOW: chatTab.getStyleClass().add("tab-colour-yellow");
+                    case GREEN: chatTab.getStyleClass().add("tab-colour-green");
+                    case RED: chatTab.getStyleClass().add("tab-colour-red");
+                }
             }
             VBox chatContainer = new VBox(); //contains che messages of a chat
             ScrollPane chatContent = new ScrollPane();
@@ -125,9 +133,10 @@ public class ChooseObjectiveSceneController implements GenericController{
             Tab currentTab = chatTabPane.getSelectionModel().getSelectedItem();
             String receiver = currentTab.getText();
             String content = getSendMessageFieldFromTab(currentTab).getText();
-            Command command = new SendMessageCommand(Gui.getInstance().getClient().getMiniModel().getPlayer(), receiver, content);
-            Gui.getInstance().getClient().sendCommand(command);
-            System.out.println("\nmessaggio " +content+ " mandato a "+ receiver);
+            if(!content.trim().isEmpty()) {
+                Command command = new SendMessageCommand(Gui.getInstance().getClient().getMiniModel().getPlayer(), receiver, content);
+                Gui.getInstance().getClient().sendCommand(command);
+            }
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }

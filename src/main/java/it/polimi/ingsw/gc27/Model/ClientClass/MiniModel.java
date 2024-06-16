@@ -168,7 +168,7 @@ public class MiniModel implements Serializable {
         this.market = null;
         this.player = player;
         this.hand = null;
-        this.currentPlayer = receiver;
+        this.currentPlayer= receiver;
         this.chats.add(chat);
     }
 
@@ -243,7 +243,7 @@ public class MiniModel implements Serializable {
 
     }
 
-    public synchronized ClientChat getChat(ArrayList<Player> chatters) {
+    public synchronized ClientChat getChat(ArrayList<String> chatters) {
         boolean flag;
         if (chatters.size() > 2) {
             return chats.getFirst();
@@ -251,9 +251,8 @@ public class MiniModel implements Serializable {
         for (ClientChat chat : this.chats) {
             if (chat.getChatters().size() < 3) {
                 flag = true;
-                for (Player p : chatters) {
-                    String username = p.getUsername();
-                    if (!(chat.contains(username))) {
+                for (String p : chatters) {
+                    if (!(chat.contains(p))) {
                         flag = false;
                     }
                 }
@@ -279,10 +278,10 @@ public class MiniModel implements Serializable {
     }
 
     public synchronized ClientChat getChat(String person) {
-        if (person.equals("global"))
+        if (person.equalsIgnoreCase("global"))
             return chats.getFirst();
         for (ClientChat c : chats) {
-            if (chats.getFirst() != c && c.getChatters().stream().map(Player::getUsername).toList().contains(person)) {
+            if (chats.getFirst() != c && c.getChatters().stream().toList().contains(person)) {
                 return c;
             }
         }

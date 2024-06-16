@@ -5,6 +5,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 
 import java.io.IOException;
 
@@ -32,10 +34,47 @@ public class NewGameSceneController implements GenericController{
         Gui.getInstance().switchScene( "/fxml/LoginScene.fxml");
 
     }
+    private void handleOnKeyPress2(CheckBox checkBox2) {
+        checkBox2.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                try {
+                    sendNumberOfPlayers();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                event.consume();
+            }
+        });
+    }
+    private void handleOnKeyPress3(CheckBox checkBox3) {
+        checkBox3.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                try {
+                    sendNumberOfPlayers();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                event.consume();
+            }
+        });
+    }
+    private void handleOnKeyPress4(CheckBox checkBox4) {
+        checkBox4.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                try {
+                    sendNumberOfPlayers();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                event.consume();
+            }
+        });
+    }
     //TODO: fare in modo che i checkbox siano esclusivi (se viene selezionata un'opzione ora posso selezionarne
     //TODO: un'altra ma solo graficamente, il comando selezionato viene mandato correttamente)
     public void chooseNumber(ActionEvent event) {
         if(event.getSource().equals(checkBox2)){
+            handleOnKeyPress2(checkBox2);
             chosenButton="2";
             deselectOtherBoxes(checkBox2);
         }
@@ -44,11 +83,13 @@ public class NewGameSceneController implements GenericController{
             deselectOtherBoxes(checkBox1);
         }
         else if(event.getSource().equals(checkBox3)){
+            handleOnKeyPress3(checkBox3);
             chosenButton="3";
             deselectOtherBoxes(checkBox3);
         }
         else{
             deselectOtherBoxes(checkBox4);
+            handleOnKeyPress4(checkBox4);
             chosenButton="4";
         }
     }

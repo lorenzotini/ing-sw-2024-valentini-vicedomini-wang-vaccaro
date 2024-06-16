@@ -10,6 +10,7 @@ import javafx.application.Platform;
 import java.io.IOException;
 
 public class LobbyScene implements GenericController{
+
     @Override
     public void receiveOk(String ackType) {
 //        StarterCard starter = null;

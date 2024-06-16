@@ -8,6 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 
 import java.io.IOException;
 
@@ -55,10 +56,74 @@ public class LoginSceneController implements GenericController {
         yellowButton.setDisable(true);
         redButton.setDisable(true);
         sendColourButton.setDisable(true);
+        handleOnKeyPress(UsernameInput);
+        handleOnKeyPressRed(redButton);
+        handleOnKeyPressBlue(blueButton);
+        handleOnKeyPressGreeen(greenButton);
+        handleOnKeyPressYellow(yellowButton);
+    }
+
+    private void handleOnKeyPress(TextField textField) {
+        textField.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                sendUsername();
+                textField.clear();
+                event.consume();
+            }
+        });
+    }
+    // does not work at the moment (allows you to click the colour button and send it with "enter" on the keyboard)
+    private void handleOnKeyPressRed(Button redButton) {
+        redButton.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                try {
+                    sendToLobby();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                event.consume();
+            }
+        });
+    }
+    private void handleOnKeyPressBlue(Button blueButton) {
+        blueButton.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                try {
+                    sendToLobby();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                event.consume();
+            }
+        });
+    }
+    private void handleOnKeyPressYellow(Button yellowButton) {
+        yellowButton.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                try {
+                    sendToLobby();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                event.consume();
+            }
+        });
+    }
+    private void handleOnKeyPressGreeen(Button greenButton) {
+        greenButton.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                try {
+                    sendToLobby();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                event.consume();
+            }
+        });
     }
 
     @FXML
-    public void sendUsername() { //does not check if username is valid
+    public void sendUsername() {
         Gui.getInstance().stringFromSceneController(UsernameInput.getText());
     }
 
@@ -116,6 +181,8 @@ public class LoginSceneController implements GenericController {
                 if (ackType.contains("RED"))
                     redButton.setDisable(false);
                 sendColourButton.setDisable(false);
+                UsernameInput.setDisable(true);
+                sendUsernameButton.setDisable(true);
                 //if the player chooses the wrong username (already chosen) and then the right one, the message error is set to invisible
                 errorUsername.setVisible(false);
                 customlabel1.setText("Choose the");

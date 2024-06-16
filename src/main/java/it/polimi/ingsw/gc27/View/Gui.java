@@ -3,6 +3,10 @@ package it.polimi.ingsw.gc27.View;
 import it.polimi.ingsw.gc27.Model.Card.ObjectiveCard.ObjectiveCard;
 import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
 import it.polimi.ingsw.gc27.Model.Card.StarterCard;
+import it.polimi.ingsw.gc27.Model.ClientClass.*;
+import it.polimi.ingsw.gc27.Model.Enumerations.PawnColour;
+import it.polimi.ingsw.gc27.Model.Game.Chat;
+import it.polimi.ingsw.gc27.Model.Game.ChatMessage;
 import it.polimi.ingsw.gc27.Model.ClientClass.ClientBoard;
 import it.polimi.ingsw.gc27.Model.ClientClass.ClientManuscript;
 import it.polimi.ingsw.gc27.Model.ClientClass.ClientMarket;
@@ -13,8 +17,18 @@ import it.polimi.ingsw.gc27.Net.VirtualView;
 import it.polimi.ingsw.gc27.View.GUI.*;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
+import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -38,7 +52,7 @@ public class Gui implements View {
     final BlockingQueue<String> messagesReceived = new LinkedBlockingQueue<>();
     private final HashMap<String, Scene> pathSceneMap = new HashMap<>(); //maps path to scene
     private final HashMap<String, GenericController> pathContrMap = new HashMap<>(); //maps path to controller of the scene
-
+    //public HashMap<String, Tab> chatTabHashMap= new HashMap<>();
     public GenericController getCurrentController() {
         return currentController;
     }
@@ -100,18 +114,26 @@ public class Gui implements View {
         Platform.runLater(() -> {
             try {
                 if (!isReconnected) {
-                    //set the starter cards
+
+                    // sets the starter cards and the chat in StarterCardScene
                     StarterCard starter = this.client.getMiniModel().getPlayer().getStarterCard();
                     PlaceStarterCardScene contr = (PlaceStarterCardScene) getControllerFromName(ScenePaths.PLACESTARTER.getValue());
                     contr.changeImageFront(getClass().getResource(starter.getFront().getImagePath()).toExternalForm());
                     contr.changeImageBack(getClass().getResource(starter.getBack().getImagePath()).toExternalForm());
+                    contr.chatInitStarter();
                     switchScene("/fxml/PlaceStarterCardScene.fxml");
 
+                    // sets the objective card and the chat in ObjectiveCardScene
                     ObjectiveCard objectiveCard1 = this.client.getMiniModel().getPlayer().getSecretObjectives().get(0);
                     ObjectiveCard objectiveCard2 = this.client.getMiniModel().getPlayer().getSecretObjectives().get(1);
                     ChooseObjectiveSceneController contr2 = (ChooseObjectiveSceneController) getControllerFromName(ScenePaths.CHOOSEOBJ.getValue());
                     contr2.changeImageObj1(getClass().getResource(objectiveCard1.getFront().getImagePath()).toExternalForm());
                     contr2.changeImageObj2(getClass().getResource(objectiveCard2.getFront().getImagePath()).toExternalForm());
+                    contr2.chatInitObjective();
+
+                    // sets the chat in manuscriptScene
+                    ManuscriptSceneController manuscriptSceneController = (ManuscriptSceneController) Gui.getInstance().getControllerFromName(ScenePaths.MANUSCRIPT.getValue());
+                    manuscriptSceneController.chatInitManuscript();
                 }
 
             } catch (IOException e) {
@@ -250,15 +272,42 @@ public class Gui implements View {
                 } catch (RemoteException e) {
                     throw new RuntimeException(e);
                 }
-
             }
-            //controller.overwriteCounters(miniModel);
         });
+
+    }
+
+    @Override
+    public void updateManuscriptOfOtherPlayer(ClientManuscript manuscript, String username) {
+////        Platform.runLater(() -> {
+//            if(Gui.getInstance().getCurrentController() instanceof ManuscriptSceneController controller) {
+//                controller.updatePlayerManuscript(username, manuscript.getLastPlacedCardPath());
+//            }
+////        });
     }
 
     @Override
     public void show(ClientBoard board) {
 
+    }
+
+    @Override
+    public void show(ClientChat chat) {
+        MiniModel miniModel;
+        try {
+            miniModel = client.getMiniModel();
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
+        // when a message is added to the chat, it is updated in all the scenes the chat is displayed
+        PlaceStarterCardScene controller1 = (PlaceStarterCardScene) Gui.getInstance().getControllerFromName(ScenePaths.PLACESTARTER.getValue());
+        controller1.overwriteChat(chat, miniModel);
+
+        ChooseObjectiveSceneController controller2 = (ChooseObjectiveSceneController) Gui.getInstance().getControllerFromName(ScenePaths.CHOOSEOBJ.getValue());
+        controller2.overwriteChat(chat, miniModel);
+
+        ManuscriptSceneController controller3= (ManuscriptSceneController) Gui.getInstance().getControllerFromName(ScenePaths.MANUSCRIPT.getValue());
+        controller3.overwriteChat(chat, miniModel);
     }
 
     @Override
@@ -273,10 +322,10 @@ public class Gui implements View {
         controller.overwriteMarket(miniModel);
     }
 
-    @Override
-    public void updateManuscriptOfOtherPlayer(ClientManuscript manuscript, String username) {
-
-    }
+//    @Override
+//    public void updateManuscriptOfOtherPlayer(ClientManuscript manuscript, String username) {
+//
+//    }
 
     @Override
     public String read() {
@@ -332,5 +381,7 @@ public class Gui implements View {
         });
 
     }
+
+
 
 }

@@ -224,6 +224,7 @@ public class GigaController {
             return;
         }
         controller.initializePlayer(client, this);
+        controller.getGame().getBoard().initBoard(controller.getGame().getPlayers());
         controller.executeCommands();
     }
 
@@ -246,6 +247,8 @@ public class GigaController {
 
 
     public boolean validUsername(String u, VirtualView view) {
+        if(u.equalsIgnoreCase("global"))
+            return false;
         synchronized (registeredUsernames) {
             if (registeredUsernames.containsKey(u) || u.isEmpty()) { // username already taken or empty
                 return false;

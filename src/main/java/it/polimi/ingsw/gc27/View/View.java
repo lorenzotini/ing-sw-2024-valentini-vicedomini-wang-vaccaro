@@ -3,6 +3,7 @@ package it.polimi.ingsw.gc27.View;
 import it.polimi.ingsw.gc27.Model.Card.ObjectiveCard.ObjectiveCard;
 import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
 import it.polimi.ingsw.gc27.Model.ClientClass.ClientBoard;
+import it.polimi.ingsw.gc27.Model.ClientClass.ClientChat;
 import it.polimi.ingsw.gc27.Model.ClientClass.ClientManuscript;
 import it.polimi.ingsw.gc27.Model.ClientClass.ClientMarket;
 import it.polimi.ingsw.gc27.Net.VirtualView;
@@ -33,6 +34,9 @@ public interface View {
     void show(ClientMarket market);
 
     void updateManuscriptOfOtherPlayer(ClientManuscript manuscript, String username);
+    void show(ClientChat chat);
+
+
 
     String read();
 

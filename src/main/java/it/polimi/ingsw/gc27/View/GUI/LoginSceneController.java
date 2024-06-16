@@ -8,6 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 
 import java.io.IOException;
 
@@ -55,6 +56,17 @@ public class LoginSceneController implements GenericController {
         yellowButton.setDisable(true);
         redButton.setDisable(true);
         sendColourButton.setDisable(true);
+        handleOnKeyPress(UsernameInput);
+    }
+
+    private void handleOnKeyPress(TextField textField) {
+        textField.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                sendUsername();
+                textField.clear();
+                event.consume();
+            }
+        });
     }
 
     @FXML

@@ -27,6 +27,7 @@ public class Tui implements View {
     private static final String sws = " "; // single white space
     private static final Queue<String> noCardPrint = new LinkedList<>();
     private Scanner scan = new Scanner(in);
+    boolean alreadyPrintedWinners = false;
 
     static {
         noCardPrint.add("╔═════════════════╗");
@@ -357,82 +358,84 @@ public class Tui implements View {
     }
 
     public void showWinnersToEveryone(Map<String,Integer> scoreBoard){
-        List<Map.Entry<String, Integer>> entryList = new ArrayList<>(scoreBoard.entrySet());
+        if(!this.alreadyPrintedWinners) {
+            List<Map.Entry<String, Integer>> entryList = new ArrayList<>(scoreBoard.entrySet());
 
-        // Sort the entries by value in descending order
-        entryList.sort((entry1, entry2) -> entry2.getValue().compareTo(entry1.getValue()));
+            // Sort the entries by value in descending order
+            entryList.sort((entry1, entry2) -> entry2.getValue().compareTo(entry1.getValue()));
 
-        // Create a new LinkedHashMap to maintain the sorted order
-        Map<String, Integer> sortedScoreBoard = new LinkedHashMap<>();
-        for (Map.Entry<String, Integer> entry : entryList) {
-            sortedScoreBoard.put(entry.getKey(), entry.getValue());
-        }
-        int maxPoints = sortedScoreBoard.values().iterator().next();
-        StringBuilder sb = new StringBuilder();
-
-
-        Map.Entry<String,Integer> entry = sortedScoreBoard.entrySet().iterator().next();
-        sb.append(entry.getKey());
-
-        sortedScoreBoard.remove(entry.getKey(),entry.getValue());
+            // Create a new LinkedHashMap to maintain the sorted order
+            Map<String, Integer> sortedScoreBoard = new LinkedHashMap<>();
+            for (Map.Entry<String, Integer> entry : entryList) {
+                sortedScoreBoard.put(entry.getKey(), entry.getValue());
+            }
+            int maxPoints = sortedScoreBoard.values().iterator().next();
+            StringBuilder sb = new StringBuilder();
 
 
-        boolean moreThanOneWinner = false;
+            Map.Entry<String, Integer> entry = sortedScoreBoard.entrySet().iterator().next();
+            sb.append(entry.getKey());
+
+            sortedScoreBoard.remove(entry.getKey(), entry.getValue());
 
 
-        while(sortedScoreBoard.entrySet().iterator().hasNext()){
-            entry = sortedScoreBoard.entrySet().iterator().next();
-            if(entry.getValue().equals(maxPoints)){
-                sb.append(" and ").append(entry.getKey());
-                sortedScoreBoard.remove(entry.getKey(), entry.getValue());
-                moreThanOneWinner = true;
+            boolean moreThanOneWinner = false;
+
+
+            while (sortedScoreBoard.entrySet().iterator().hasNext()) {
+                entry = sortedScoreBoard.entrySet().iterator().next();
+                if (entry.getValue().equals(maxPoints)) {
+                    sb.append(" and ").append(entry.getKey());
+                    sortedScoreBoard.remove(entry.getKey(), entry.getValue());
+                    moreThanOneWinner = true;
+                } else {
+                    break;
+                }
+            }
+
+
+            if (moreThanOneWinner) {
+                out.println("The Winners are...");
             } else {
-                break;
+                out.println("The Winner is...");
             }
-        }
 
+            out.println("\uD83D\uDF32 \uD83D\uDF32 \uD83D\uDF32  " + sb + "  \uD83D\uDF32 \uD83D\uDF32 \uD83D\uDF32");
 
-        if (moreThanOneWinner){
-            out.println("The Winners are...");
-        } else {
-            out.println("The Winner is...");
-        }
+            out.println("Highest score: " + maxPoints + " pts");
 
-        out.println("\uD83D\uDF32 \uD83D\uDF32 \uD83D\uDF32  "+sb+ "  \uD83D\uDF32 \uD83D\uDF32 \uD83D\uDF32");
+            out.println("\nOther Scores:");
 
-        out.println("Highest score: " + maxPoints + " pts");
+            if (sortedScoreBoard.entrySet().iterator().hasNext()) {
+                entry = sortedScoreBoard.entrySet().iterator().next();
+                if (entry.getKey() != null) {
+                    out.print(entry.getKey() + ":");
 
-        out.println("\nOther Scores:");
+                    out.print(" " + entry.getValue().toString() + " pts" + "\n");
 
-        if(sortedScoreBoard.entrySet().iterator().hasNext()){
-            entry = sortedScoreBoard.entrySet().iterator().next();
-            if(entry.getKey() != null) {
-                out.print(entry.getKey() + ":");
-
-                out.print(" " + entry.getValue().toString() + " pts" + "\n");
-
+                }
+                sortedScoreBoard.remove(entry.getKey(), entry.getValue());
             }
-            sortedScoreBoard.remove(entry.getKey(), entry.getValue());
-        }
-        if(sortedScoreBoard.entrySet().iterator().hasNext()){
-            entry = sortedScoreBoard.entrySet().iterator().next();
-            if(entry.getKey() != null) {
-                out.print(entry.getKey() + ":");
+            if (sortedScoreBoard.entrySet().iterator().hasNext()) {
+                entry = sortedScoreBoard.entrySet().iterator().next();
+                if (entry.getKey() != null) {
+                    out.print(entry.getKey() + ":");
 
-                out.print(" " +entry.getValue().toString() + " pts"+ "\n");
+                    out.print(" " + entry.getValue().toString() + " pts" + "\n");
+                }
+                sortedScoreBoard.remove(entry.getKey(), entry.getValue());
             }
-            sortedScoreBoard.remove(entry.getKey(), entry.getValue());
-        }
-        if(sortedScoreBoard.entrySet().iterator().hasNext()){
-            entry = sortedScoreBoard.entrySet().iterator().next();
-            if(entry.getKey() != null) {
-                out.print(entry.getKey() + ":");
+            if (sortedScoreBoard.entrySet().iterator().hasNext()) {
+                entry = sortedScoreBoard.entrySet().iterator().next();
+                if (entry.getKey() != null) {
+                    out.print(entry.getKey() + ":");
 
-                out.print(" " +entry.getValue().toString() + " pts"+ "\n");
+                    out.print(" " + entry.getValue().toString() + " pts" + "\n");
+                }
+                sortedScoreBoard.remove(entry.getKey(), entry.getValue());
             }
-            sortedScoreBoard.remove(entry.getKey(), entry.getValue());
+            this.alreadyPrintedWinners = true;
         }
-
     }
 
 

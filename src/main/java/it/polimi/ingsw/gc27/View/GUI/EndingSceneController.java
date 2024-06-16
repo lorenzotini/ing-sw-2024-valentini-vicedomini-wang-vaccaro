@@ -6,6 +6,7 @@ import javafx.application.Platform;
 
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.*;
 
 
 public class EndingSceneController implements GenericController{
@@ -18,6 +19,7 @@ public class EndingSceneController implements GenericController{
     public Label secondPoints;
     public Label thirdPoints;
     public Label fourthPoints;
+    public Label highestScore;
 
     @FXML
     public void initialize(){
@@ -29,41 +31,41 @@ public class EndingSceneController implements GenericController{
         fourthUsername.setVisible(false);
     }
 
+
     public void changeWinnersLabel(Map<String,Integer> scoreBoard){
-        ArrayList<String> usernames = new ArrayList<>();
-        ArrayList<Integer> points = new ArrayList<>();
+        List<Map.Entry<String, Integer>> entryList = new ArrayList<>(scoreBoard.entrySet());
 
-        for(int i = 0; i<scoreBoard.size(); i++){
-            int max = 0;
-            String nameMax = null;
+        // Sort the entries by value in descending order
+        entryList.sort((entry1, entry2) -> entry2.getValue().compareTo(entry1.getValue()));
 
-            for(Map.Entry<String,Integer> entry : scoreBoard.entrySet()){
-                if(entry.getValue() >= max){
-                    max = entry.getValue();
-                    nameMax = entry.getKey();
-                }
-            }
-
-            points.add(max);
-            usernames.add(nameMax);
-
-            scoreBoard.remove(nameMax);
+        // Create a new LinkedHashMap to maintain the sorted order
+        Map<String, Integer> sortedScoreBoard = new LinkedHashMap<>();
+        for (Map.Entry<String, Integer> entry : entryList) {
+            sortedScoreBoard.put(entry.getKey(), entry.getValue());
         }
-
-        boolean moreThanOneWinner = false;
-        int maxPoints = points.getFirst();
+        int maxPoints = sortedScoreBoard.values().iterator().next();
         StringBuilder sb = new StringBuilder();
 
-        // First cycle outside the while loop
-        sb.append(usernames.getFirst());
-        usernames.removeFirst();
-        points.removeFirst();
 
-        while(points.getFirst().equals(maxPoints)){
-            sb.append(" and ").append(usernames.getFirst());
-            usernames.removeFirst();
-            points.removeFirst();
-            moreThanOneWinner = true;
+        Map.Entry<String,Integer> entry = sortedScoreBoard.entrySet().iterator().next();
+        sb.append(entry.getKey());
+
+        sortedScoreBoard.remove(entry.getKey(),entry.getValue());
+
+        highestScore.setText("Highest score: " + maxPoints + " pts");
+
+        boolean moreThanOneWinner = false;
+
+
+        while(sortedScoreBoard.entrySet().iterator().hasNext()){
+            entry = sortedScoreBoard.entrySet().iterator().next();
+            if(entry.getValue().equals(maxPoints)){
+                sb.append(" and ").append(entry.getKey());
+                sortedScoreBoard.remove(entry.getKey(), entry.getValue());
+                moreThanOneWinner = true;
+            } else {
+                break;
+            }
         }
 
         if (moreThanOneWinner){
@@ -71,33 +73,42 @@ public class EndingSceneController implements GenericController{
         }
         winnerUsername.setText(sb.toString());
 
-        if(!usernames.isEmpty()){
-            secondUsername.setText(usernames.getFirst());
-            secondUsername.setVisible(true);
-            usernames.removeFirst();
-            secondPoints.setText(points.getFirst().toString());
-            secondPoints.setVisible(true);
-            points.removeFirst();
-        }
-        if(!usernames.isEmpty()){
-            thirdUsername.setText(usernames.getFirst());
-            thirdUsername.setVisible(true);
-            usernames.removeFirst();
-            thirdPoints.setText(points.getFirst().toString());
-            thirdPoints.setVisible(true);
-            points.removeFirst();
-        }
-        if(!usernames.isEmpty()){
-            fourthUsername.setText(usernames.getFirst());
-            fourthUsername.setVisible(true);
-            usernames.removeFirst();
-            fourthPoints.setText(points.getFirst().toString());
-            fourthPoints.setVisible(true);
-            points.removeFirst();
-        }
+        if(sortedScoreBoard.entrySet().iterator().hasNext()){
+            entry = sortedScoreBoard.entrySet().iterator().next();
+            if(entry.getKey() != null) {
+                secondUsername.setText(entry.getKey() + ":");
+                secondUsername.setVisible(true);
 
+                secondPoints.setText(entry.getValue().toString() + " pts");
+                secondPoints.setVisible(true);
+            }
+            sortedScoreBoard.remove(entry.getKey(), entry.getValue());
+        }
+        if(sortedScoreBoard.entrySet().iterator().hasNext()){
+            entry = sortedScoreBoard.entrySet().iterator().next();
+            if(entry.getKey() != null) {
+                thirdUsername.setText(entry.getKey() + ":");
+                thirdUsername.setVisible(true);
+
+                thirdPoints.setText(entry.getValue().toString() + " pts");
+                thirdPoints.setVisible(true);
+            }
+            sortedScoreBoard.remove(entry.getKey(), entry.getValue());
+        }
+        if(sortedScoreBoard.entrySet().iterator().hasNext()){
+            entry = sortedScoreBoard.entrySet().iterator().next();
+            if(entry.getKey() != null) {
+                fourthUsername.setText(entry.getKey() + ":");
+                fourthUsername.setVisible(true);
+
+                fourthPoints.setText(entry.getValue().toString() + " pts");
+                fourthPoints.setVisible(true);
+            }
+            sortedScoreBoard.remove(entry.getKey(), entry.getValue());
+        }
 
     }
+
 
     @Override
     public void receiveOk(String ackType) {

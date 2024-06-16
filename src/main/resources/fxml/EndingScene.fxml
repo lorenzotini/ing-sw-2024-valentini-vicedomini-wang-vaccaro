@@ -60,5 +60,10 @@
       </Label>
       <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="816.0" layoutY="350.0" pickOnBounds="true" preserveRatio="true" rotate="60.0" styleClass="lighthand" />
       <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="368.0" layoutY="350.0" pickOnBounds="true" preserveRatio="true" rotate="-60.0" styleClass="darkhand" />
+      <Label fx:id="highestScore" layoutX="866.0" layoutY="567.0" text="Highest score">
+         <font>
+            <Font name="Agency FB" size="47.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

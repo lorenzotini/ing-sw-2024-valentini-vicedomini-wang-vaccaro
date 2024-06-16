@@ -23,16 +23,18 @@ public class Game implements Serializable {
 
     private final transient BlockingQueue<Observer> observers = new LinkedBlockingQueue<>() {};
     private Integer numActualPlayers;
-    private Board board;
+
     private Market market;
     private List<Player> players;
+    private Board board;
+    //private Board board= new Board(players);
     private ObjectiveCard commonObjective1;
     private ObjectiveCard commonObjective2;
     private ArrayList<StarterCard> starterDeck;
     private ArrayList<ObjectiveCard> objectiveDeck;
     private ArrayList<PawnColour> availablePawns = new ArrayList<>(List.of(PawnColour.GREEN, PawnColour.YELLOW, PawnColour.BLUE, PawnColour.RED));
     private final Chat generalChat = new Chat();
-    final private HashMap< Pair<Player, Player>, Chat> chatMap = new HashMap<>();
+    final private HashMap< Pair<String, String>, Chat> chatMap = new HashMap<>();
     private int readyPlayers = 0;
 
 
@@ -45,6 +47,7 @@ public class Game implements Serializable {
     }
 
     public Game(Board board, Market market, List<Player> players, ObjectiveCard commonObjective1, ObjectiveCard commonObjective2, ArrayList<StarterCard> starterDeck, ArrayList<ObjectiveCard> objectiveDeck) {
+
         this.board = board;
         this.market = market;
         this.players = players;
@@ -146,11 +149,9 @@ public class Game implements Serializable {
 
         for(Player player : players){
             Chat chat = new Chat(player, p);
-            chatMap.put(new Pair<Player, Player>(player, p),   chat);
-            chatMap.put(new Pair<Player, Player>(p, player),   chat);
+            chatMap.put(new Pair<String, String>(player.getUsername(), p.getUsername()),   chat);
+            chatMap.put(new Pair<String, String>(p.getUsername(), player.getUsername()),   chat);
         }
-        generalChat.addPlayer(p);
-
         this.players.add(p);
         switch (p.getPawnColour()){
             case RED:
@@ -191,15 +192,15 @@ public class Game implements Serializable {
     public Chat getGeneralChat(){
         return this.generalChat;
     }
-    public Chat getChat(Player p1, Player p2) {
-        return chatMap.get(new Pair<Player,Player>(p1, p2));
+    public Chat getChat(String p1, String p2) {
+        return chatMap.get(new Pair<String,String>(p1, p2));
     }
     public ArrayList<Chat> getChats(Player player){
         ArrayList<Chat> chats = new ArrayList<>();
         chats.add(this.generalChat);
         //System.out.println("aggiunta chat globale");
-        for(Pair<Player , Player> p : chatMap.keySet()){
-            if(p.getKey().getUsername().equals(player.getUsername())){
+        for(Pair<String , String> p : chatMap.keySet()){
+            if(p.getKey().equals(player.getUsername())){
                 chats.add(chatMap.get(p));
             //    System.out.println("aggiunta chat singola");
             }

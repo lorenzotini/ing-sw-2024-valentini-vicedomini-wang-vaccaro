@@ -15,7 +15,7 @@
       <HBox fx:id="marketResources" layoutX="250.0" layoutY="100.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="50.0" prefWidth="225.0" spacing="10.0" />
       <HBox fx:id="marketGolds" layoutX="250.0" layoutY="30.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="50.0" prefWidth="225.0" spacing="10.0" />
       <VBox fx:id="commonObjectives" alignment="TOP_CENTER" layoutX="50.0" layoutY="22.0" prefHeight="140.0" prefWidth="180.0" spacing="10.0" />
-      <TabPane fx:id="chat" layoutX="950.0" layoutY="500.0" prefHeight="200.0" prefWidth="317.0" tabClosingPolicy="UNAVAILABLE" />
+      <TabPane fx:id="chatTabPane" layoutX="950.0" layoutY="500.0" prefHeight="200.0" prefWidth="317.0" tabClosingPolicy="UNAVAILABLE" />
       <ImageView fx:id="scoreboard" fitHeight="475.0" fitWidth="240.0" layoutX="1015.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../Images/utility/plateau_score.jpg" />

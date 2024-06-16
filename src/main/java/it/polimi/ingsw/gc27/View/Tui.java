@@ -222,7 +222,7 @@ public class Tui implements View {
                     break;
                 case "sendmessage":
                     String receiver;
-                    boolean f = true;
+                    boolean f ;
                     do {
 
                         out.println("\nChat available with: \nGlobal");
@@ -235,21 +235,18 @@ public class Tui implements View {
                             receiver = scan.nextLine();
                             break;
                         }
-                        f = false;
 
-                        if (client.getMiniModel().checkOtherUsername(receiver) || receiver.equals("global")) {
-                            f = true;
-                        }
+                        f = client.getMiniModel().checkOtherUsername(receiver) || receiver.equalsIgnoreCase("global");
 
                     } while (!f);
+                    if(receiver.equalsIgnoreCase("global")){
+                        receiver =receiver.toLowerCase();
+                    }
                     out.println("\n" + "Content:");
                     String mess = scan.nextLine();
-                    if (mess.equals("\n") || mess.isEmpty()) {
-                        mess = scan.nextLine();
-                        break;
-                    } else {
-                        client.sendCommand(new SendMessageCommand(client.getMiniModel().getPlayer(), receiver, mess));
-                    }
+
+                    client.sendCommand(new SendMessageCommand(client.getMiniModel().getPlayer(), receiver, mess));
+
                     break;
                 default:
                     out.println("\nInvalid command. Type 'help' for a list of commands.");
@@ -304,6 +301,11 @@ public class Tui implements View {
     }
 
     @Override
+    public void show(ClientChat chat) {
+
+    }
+
+    @Override
     public void show(ClientMarket market) {
         out.println(showMarket(market));
     }
@@ -322,7 +324,6 @@ public class Tui implements View {
         //out.println("sono in printChat con " + chat.getChatters().getFirst().getUsername()+" e " + chat.getChatters().getLast().getUsername());
         String username;
         username = chat.getChatters().stream()
-                .map(Player::getUsername)
                 .filter(user -> {
                     try {
                         return !user.equals(client.getUsername());
@@ -333,7 +334,7 @@ public class Tui implements View {
                 .getFirst();
         out.println("Chat con " + username);
         for (ChatMessage c : chat.getChatMessages()) {
-            out.println(c.getSender().getUsername() + ":< " + c.getContent() + " >");
+            out.println(c.getSender() + ":< " + c.getContent() + " >");
         }
     }
 

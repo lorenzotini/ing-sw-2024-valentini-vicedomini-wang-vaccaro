@@ -24,19 +24,22 @@ public class UpdateChatMessage extends Message {
     public void reportUpdate(VirtualView client, View view) {
 
         try {
-            if (this.getMiniModel().getChats().getFirst().getChatters().size() > 2) {
+            if (this.getMiniModel().getChats().getFirst().getChatters().size() == 1) {
                 client.getMiniModel().getChats().addFirst(this.getMiniModel().getChats().getFirst());
                 client.getMiniModel().getChats().remove(1);
+                view.show(client.getMiniModel().getChats().getFirst());
             } else {
                 ClientChat miniModelChat = this.getMiniModel().getChats().getFirst();
                 ClientChat chat2 = client.getMiniModel().getChat(miniModelChat.getChatters());
                 client.getMiniModel().getChats().remove(chat2);
                 client.getMiniModel().getChats().add(this.getMiniModel().getChats().getFirst());
-            }
-            for (ChatMessage mess : client.getMiniModel().getChats().getLast().getChatMessages()){
-                System.out.println("Sender:" + mess.getSender().getUsername() + "\n");
-                System.out.println("Receiver:" + mess.getReceiver().getUsername() + "\n");
-                System.out.println(mess.getContent() + "\n");
+                view.show(client.getMiniModel().getChats().getLast());
+                //            for (ChatMessage mess : client.getMiniModel().getChats().getLast().getChatMessages()){
+//                System.out.println("Sender:" + mess.getSender() + "\n");
+//                System.out.println("Receiver:" + mess.getReceiver() + "\n");
+//                System.out.println(mess.getContent() + "\n");
+//            }
+
             }
         } catch (RemoteException e) {
             throw new RuntimeException();

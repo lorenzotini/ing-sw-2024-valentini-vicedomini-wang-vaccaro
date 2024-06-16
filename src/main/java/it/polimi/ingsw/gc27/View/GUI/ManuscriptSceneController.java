@@ -2,37 +2,42 @@ package it.polimi.ingsw.gc27.View.GUI;
 
 import it.polimi.ingsw.gc27.Model.Card.Card;
 import it.polimi.ingsw.gc27.Model.Card.Face;
+import it.polimi.ingsw.gc27.Model.ClientClass.ClientChat;
 import it.polimi.ingsw.gc27.Model.ClientClass.ClientManuscript;
 import it.polimi.ingsw.gc27.Model.Enumerations.CornerSymbol;
-import it.polimi.ingsw.gc27.Model.Game.Manuscript;
+import it.polimi.ingsw.gc27.Model.Enumerations.PawnColour;
 import it.polimi.ingsw.gc27.Model.Game.Placement;
 import it.polimi.ingsw.gc27.Model.ClientClass.MiniModel;
+import it.polimi.ingsw.gc27.Model.Game.Player;
 import it.polimi.ingsw.gc27.Net.Commands.AddCardCommand;
 import it.polimi.ingsw.gc27.Net.Commands.Command;
 import it.polimi.ingsw.gc27.Net.Commands.DrawCardCommand;
+import it.polimi.ingsw.gc27.Net.Commands.SendMessageCommand;
 import it.polimi.ingsw.gc27.View.GUI.UserData.HandCardData;
 import it.polimi.ingsw.gc27.View.GUI.UserData.ManuscriptCardData;
 import it.polimi.ingsw.gc27.View.GUI.UserData.MarketCardData;
+import it.polimi.ingsw.gc27.Model.ClientClass.*;
 import it.polimi.ingsw.gc27.View.Gui;
 import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
-import javafx.scene.control.TextField;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.ClipboardContent;
-import javafx.scene.input.Dragboard;
-import javafx.scene.input.ScrollEvent;
-import javafx.scene.input.TransferMode;
+import javafx.scene.input.*;
 import javafx.scene.layout.*;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
+import javafx.scene.text.TextFlow;
 import javafx.scene.transform.Scale;
 
 import java.io.IOException;
+import java.io.PipedOutputStream;
 import java.rmi.RemoteException;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
@@ -55,7 +60,8 @@ public class ManuscriptSceneController implements GenericController {
     @FXML
     private VBox commonObjectives;
     @FXML
-    private TabPane chat;
+    private TabPane chatTabPane;
+
 
     //TODO vedere se è meglio mettere gli attributi privati che ora sono pubblici
 
@@ -69,6 +75,14 @@ public class ManuscriptSceneController implements GenericController {
 
     // attributes to handle drawCard invocation
     private ImageView marketCard;
+
+    private GridPane grid;
+    //there is a private hashmap for all the scenes where the chat is displayed
+    private HashMap<String, Tab> chatTabHashMap= new HashMap<>();
+
+    public TextField getActionFeedback() {
+        return actionFeedback;
+    }
 
 
     public void init() {
@@ -104,29 +118,112 @@ public class ManuscriptSceneController implements GenericController {
             zoomCardOnHover(commonObjective, 1.2);
             commonObjectives.getChildren().add(commonObjective);
         }
-
-        // chat
-        for (int i = 0; i < 5; i++) {
-            Tab chatTab = new Tab();
-            ScrollPane chatContent = new ScrollPane();
-            chatContent.setPrefHeight(Region.USE_COMPUTED_SIZE);
-            chatContent.setPrefWidth(Region.USE_COMPUTED_SIZE);
-            chatContent.setFitToWidth(true);
-            chatContent.setFitToHeight(true);
-            VBox chatMessages = new VBox();
-            for (int j = 0; j < 20; j++) {
-                chatMessages.getChildren().add(new Text("Messaggio di prova" + j));
-            }
-            chatContent.setContent(chatMessages);
-            chatTab.setText("Player " + i);
-            chatTab.setContent(chatContent);
-            chat.getTabs().add(chatTab);
-        }
-
         // counters
         overwriteCounters(miniModel);
 
     }
+
+    public void chatInitManuscript(){
+        MiniModel miniModel;
+        do {
+            try {
+                miniModel = Gui.getInstance().getClient().getMiniModel();
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
+            }
+        }while(miniModel.getMarket() == null);
+
+        for (int i = 0; i < miniModel.getChats().size(); i++) {
+            Tab chatTab = new Tab(); //a tab for each chat
+            if(i==0) {
+                chatTab.setText("Global");
+                chatTabHashMap.put("Global", chatTab);
+            }
+            else {
+                String myusername = miniModel.getPlayer().getUsername();
+                String username = miniModel.getChats().get(i).getChatters().stream()
+                        .filter(user -> !user.equals(myusername))
+                        .toList().getFirst();
+                chatTab.setText(username);
+                chatTabHashMap.put(username, chatTab);
+                PawnColour colour = miniModel.getBoard().getColourPlayermap().get(username);
+                switch (colour){
+
+                    case BLUE: chatTab.getStyleClass().add("tab-colour-blue");
+                    case YELLOW: chatTab.getStyleClass().add("tab-colour-yellow");
+                    case GREEN: chatTab.getStyleClass().add("tab-colour-green");
+                    case RED: chatTab.getStyleClass().add("tab-colour-red");
+                }
+            }
+
+            VBox chatContainer = new VBox(); //contains che messages of a chat
+            ScrollPane chatContent = new ScrollPane();
+            VBox chatMessages = new VBox();
+            chatMessages.getStyleClass().add("vbox-background");
+            chatContent.setContent(chatMessages); //scrollPane contains Vbox with messages
+
+            chatContent.setPrefHeight(400);
+            chatContent.setPrefWidth(Region.USE_COMPUTED_SIZE);
+            chatContent.setFitToWidth(true);
+            chatContent.setFitToHeight(true);
+
+            HBox messageBox = new HBox(); //used for the textField and the button on the bottom
+            TextField sendMessage = new TextField();
+
+            Button sendButton = new Button("Send");
+            messageBox.getChildren().addAll(sendMessage, sendButton);
+            messageBox.setSpacing(20);
+            handleOnActionChat(sendButton, sendMessage);
+            handleOnKeyPress(sendMessage);
+            sendMessage.setPromptText("Write your message here...");
+
+            // Set HBox growth for sendMessage
+            HBox.setHgrow(sendMessage, Priority.ALWAYS);
+            sendMessage.setMaxWidth(300);
+
+            // Create a spacer
+            Region spacer = new Region();
+            HBox.setHgrow(spacer, Priority.ALWAYS);
+
+            chatContainer.getChildren().addAll(chatContent, messageBox);
+            chatTab.setContent(chatContainer);
+            chatTabPane.getTabs().add(chatTab);
+        }
+    }
+
+    private  TextField getSendMessageFieldFromTab(Tab tab) {
+        if (tab.getContent() instanceof VBox) {
+            VBox chatContainer = (VBox) tab.getContent();
+            if (chatContainer.getChildren().size() > 1 && chatContainer.getChildren().get(1) instanceof HBox) {
+                HBox messageBox = (HBox) chatContainer.getChildren().get(1);
+                for (javafx.scene.Node node : messageBox.getChildren()) {
+                    if (node instanceof TextField) {
+                        return (TextField) node;
+                    }
+                }
+            }
+        }return null;
+    }
+
+
+    void handleOnActionChat(Button button, TextField textField){
+        button.setOnAction(event -> {
+            sendChatMessage();
+            textField.clear();
+
+        });
+    }
+    private void handleOnKeyPress(TextField textField) {
+        textField.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                sendChatMessage();
+                textField.clear();
+                event.consume();
+            }
+        });
+    }
+
+
 
     void handleDropEventManuscript(ImageView imgView) {
 
@@ -155,6 +252,7 @@ public class ManuscriptSceneController implements GenericController {
 
 
     }
+
 
     void handleDragDetectedHand(ImageView imgView) {
 
@@ -245,6 +343,19 @@ public class ManuscriptSceneController implements GenericController {
         });
 
     }
+    void sendChatMessage(){
+        try {
+            Tab currentTab = chatTabPane.getSelectionModel().getSelectedItem();
+            String receiver = currentTab.getText();
+            String content = getSendMessageFieldFromTab(currentTab).getText();
+            if(!content.trim().isEmpty()) {
+                Command command = new SendMessageCommand(Gui.getInstance().getClient().getMiniModel().getPlayer(), receiver, content);
+                Gui.getInstance().getClient().sendCommand(command);
+            }
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     private void sendAddCardCommand() {
         String username;
@@ -279,6 +390,86 @@ public class ManuscriptSceneController implements GenericController {
 
     }
 
+    public void overwriteChat(ClientChat chat, MiniModel miniModel){
+        Platform.runLater(()->{
+            if(chat.getChatters().size() == 1){
+                Tab tab= chatTabHashMap.get("Global");
+                VBox vbox= getChatMessagesVBox(tab);
+
+                Text textName=new Text(chat.getChatMessages().getLast().getSender());
+                HBox hBoxName=new HBox(textName);
+                hBoxName.setPadding(new Insets(0,3,0,3));
+                textName.getStyleClass().add("text-name");
+
+                Text text = new Text();
+                text.setText(chat.getChatMessages().getLast().getContent());
+                text.getStyleClass().add("text");
+                TextFlow textFlow = new TextFlow(text);
+                textFlow.setMaxWidth(240);
+
+                textFlow.setTextAlignment(TextAlignment.LEFT);
+                HBox hbox = new HBox(textFlow);
+
+                if(chat.getChatMessages().getLast().getSender().equals(miniModel.getPlayer().getUsername())){
+                    hbox.setAlignment(Pos.CENTER_RIGHT);
+                    hBoxName.setAlignment(Pos.CENTER_RIGHT);
+                    textFlow.getStyleClass().add("text-flow-sender");
+
+                }
+                //other players send the message
+                else{
+                    hbox.setAlignment(Pos.CENTER_LEFT);
+                    hBoxName.setAlignment(Pos.CENTER_LEFT);
+                    textFlow.getStyleClass().add("text-flow-receiver");
+                }
+
+                hbox.setPadding(new Insets(1,4,1,5));
+                vbox.getChildren().add(hBoxName);
+                vbox.getChildren().add(hbox);
+            }
+            else{
+                String username= chat.getChatters().stream()
+                        .filter(user -> !user.equals(miniModel.getPlayer().getUsername()))
+                        .toList().getFirst();
+                Tab tab= chatTabHashMap.get(username);
+
+                PawnColour colour = miniModel.getBoard().getColourPlayermap().get(username);
+                tab.setStyle("-fx-background-color: "+ colour);
+
+                VBox vbox= getChatMessagesVBox(tab);
+
+                Text text = new Text();
+                text.setText(chat.getChatMessages().getLast().getContent());
+                text.getStyleClass().add("text");
+
+                TextFlow textFlow = new TextFlow(text);
+                textFlow.setMaxWidth(240);
+                textFlow.setTextAlignment(TextAlignment.LEFT);
+                HBox hbox = new HBox(textFlow);
+
+                if(chat.getChatMessages().getLast().getSender().equals(username)){
+                    hbox.setAlignment(Pos.CENTER_LEFT);
+                    textFlow.getStyleClass().add("text-flow-receiver");
+
+                }else{
+                    hbox.setAlignment(Pos.CENTER_RIGHT);
+                    textFlow.getStyleClass().add("text-flow-sender");
+                }
+                hbox.setPadding(new Insets(5,5,5,5));
+                vbox.getChildren().add(hbox);
+
+                //todo: fare scroll automatico
+            }
+
+        });
+    }
+    private VBox getChatMessagesVBox(Tab chatTab) {
+        VBox chatContainer = (VBox) chatTab.getContent();
+        ScrollPane chatContent = (ScrollPane) chatContainer.getChildren().getFirst();
+        chatContent.setVvalue(1.0); //non so se si mette qui
+        return (VBox) chatContent.getContent();
+    }
+
     private void createManuscriptGrids(MiniModel miniModel){
 
         for(Map.Entry<String, ClientManuscript> element :  miniModel.getManuscriptsMap().entrySet()){
@@ -292,7 +483,7 @@ public class ManuscriptSceneController implements GenericController {
             rowConstraints.setMaxHeight(100);
             rowConstraints.setMinHeight(100);
 
-            for(int i = 0; i < Manuscript.FIELD_DIM; i++){
+            for(int i = 0; i < 85; i++){
                 grid.getColumnConstraints().add(columnConstraints);
                 grid.getRowConstraints().add(rowConstraints);
             }
@@ -334,7 +525,7 @@ public class ManuscriptSceneController implements GenericController {
             rowConstraints.setMaxHeight(100);
             rowConstraints.setMinHeight(100);
 
-            for(int i = 0; i < Manuscript.FIELD_DIM; i++){
+            for(int i = 0; i < 85; i++){
                 grid.getColumnConstraints().add(columnConstraints);
                 grid.getRowConstraints().add(rowConstraints);
             }
@@ -480,8 +671,8 @@ public class ManuscriptSceneController implements GenericController {
         }
     }
 
-    public TextField getActionFeedback() {
-        return actionFeedback;
-    }
+   // public TextField getActionFeedback() {
+      //  return actionFeedback;
+    //}
 
 }

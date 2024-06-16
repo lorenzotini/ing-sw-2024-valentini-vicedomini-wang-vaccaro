@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 
 import java.io.IOException;
 
@@ -26,10 +27,20 @@ public class JoinGameSceneController implements GenericController{
     @FXML
     public void initialize(){
         backButton.setVisible(false);
+        handleOnKeyPress(idTextField);
     }
 
+    private void handleOnKeyPress(TextField textField) {
+        textField.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                sendGameId();
+                textField.clear();
+                event.consume();
+            }
+        });
+    }
 
-    public void sendGameId(ActionEvent event) throws IOException, InterruptedException {
+    public void sendGameId() {
         Gui.getInstance().stringFromSceneController(idTextField.getText());
     }
 

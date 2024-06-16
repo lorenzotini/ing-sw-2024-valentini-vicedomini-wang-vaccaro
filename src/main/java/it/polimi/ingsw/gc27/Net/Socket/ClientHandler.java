@@ -28,6 +28,7 @@ public class ClientHandler implements VirtualView {
     final SocketServer server;
     final Socket socketClient;
     private boolean disconnected = false;
+    private int TIME_COUNT = 100;
     // is for the command received
 
 
@@ -184,7 +185,7 @@ public class ClientHandler implements VirtualView {
                         throw new RuntimeException(e);
                     }
                     count++;
-                    if (count == 5) {
+                    if (count == TIME_COUNT) {
                         disconnected();
                         System.out.println("giocatore socket disconnesso");
                     }

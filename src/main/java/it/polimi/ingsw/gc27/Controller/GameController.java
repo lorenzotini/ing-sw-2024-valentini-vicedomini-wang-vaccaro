@@ -140,6 +140,7 @@ public class GameController implements Serializable {
                     pawnColor = client.read();
                 } while (!game.validPawn(pawnColor));
                 pawnColourSelected = PawnColour.fromStringToPawnColour(pawnColor);
+                game.getBoard().colourPlayermap.put(username, pawnColourSelected);
                 game.getAvailablePawns().remove(pawnColourSelected);
             }catch(IOException e){
                 System.out.println("Disconnected player before choosing a color");
@@ -192,14 +193,18 @@ public class GameController implements Serializable {
 
     public void sendChatMessage(ChatMessage chatMessage) {
         Chat chat;
-        if (chatMessage.getReceiver() == null) {
-            chat = game.getGeneralChat();
-            chat.addChatMessage(chatMessage);
+        if (chatMessage.getReceiver().equalsIgnoreCase("global")) {
+            synchronized (game.getGeneralChat()) {
+                chat = game.getGeneralChat();
+                chat.addChatMessage(chatMessage);
+            }
             game.notifyObservers(new UpdateChatMessage(chat));
         } else {
-            chat = game.getChat(chatMessage.getSender(), chatMessage.getReceiver());
-            chat.addChatMessage(chatMessage);
-            game.notifyObservers(new UpdateChatMessage(chat, chatMessage.getSender(), chatMessage.getReceiver().getUsername()));
+            synchronized (game.getGeneralChat()) {
+                chat = game.getChat(chatMessage.getSender(), chatMessage.getReceiver());
+                chat.addChatMessage(chatMessage);
+            }
+            game.notifyObservers(new UpdateChatMessage(chat, game.getPlayer(chatMessage.getSender()), chatMessage.getReceiver()));
         }
     }
 

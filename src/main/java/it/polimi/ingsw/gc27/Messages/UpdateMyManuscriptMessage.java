@@ -17,7 +17,6 @@ public class UpdateMyManuscriptMessage extends Message {
     @Override
     public void reportUpdate(VirtualView client, View view) {
         try{
-            System.out.println("reportUpdate called");
             client.getMiniModel().setPlayer(miniModel.getPlayer());
             client.getMiniModel().setManuscript(miniModel.getPlayer().getManuscript());
             client.getMiniModel().setManuscriptsMap(miniModel.getManuscriptsMap());

@@ -348,6 +348,90 @@ public class Tui implements View {
 
     @Override
     public void showWinners(){
+        try {
+            showWinnersToEveryone(client.getMiniModel().getBoard().getScoreBoard());
+        } catch (Exception e){
+
+        }
+
+    }
+
+    public void showWinnersToEveryone(Map<String,Integer> scoreBoard){
+        List<Map.Entry<String, Integer>> entryList = new ArrayList<>(scoreBoard.entrySet());
+
+        // Sort the entries by value in descending order
+        entryList.sort((entry1, entry2) -> entry2.getValue().compareTo(entry1.getValue()));
+
+        // Create a new LinkedHashMap to maintain the sorted order
+        Map<String, Integer> sortedScoreBoard = new LinkedHashMap<>();
+        for (Map.Entry<String, Integer> entry : entryList) {
+            sortedScoreBoard.put(entry.getKey(), entry.getValue());
+        }
+        int maxPoints = sortedScoreBoard.values().iterator().next();
+        StringBuilder sb = new StringBuilder();
+
+
+        Map.Entry<String,Integer> entry = sortedScoreBoard.entrySet().iterator().next();
+        sb.append(entry.getKey());
+
+        sortedScoreBoard.remove(entry.getKey(),entry.getValue());
+
+
+        boolean moreThanOneWinner = false;
+
+
+        while(sortedScoreBoard.entrySet().iterator().hasNext()){
+            entry = sortedScoreBoard.entrySet().iterator().next();
+            if(entry.getValue().equals(maxPoints)){
+                sb.append(" and ").append(entry.getKey());
+                sortedScoreBoard.remove(entry.getKey(), entry.getValue());
+                moreThanOneWinner = true;
+            } else {
+                break;
+            }
+        }
+
+
+        if (moreThanOneWinner){
+            out.println("The Winners are...");
+        } else {
+            out.println("The Winner is...");
+        }
+
+        out.println("\uD83D\uDF32 \uD83D\uDF32 \uD83D\uDF32  "+sb+ "  \uD83D\uDF32 \uD83D\uDF32 \uD83D\uDF32");
+
+        out.println("Highest score: " + maxPoints + " pts");
+
+        out.println("\nOther Scores:");
+
+        if(sortedScoreBoard.entrySet().iterator().hasNext()){
+            entry = sortedScoreBoard.entrySet().iterator().next();
+            if(entry.getKey() != null) {
+                out.print(entry.getKey() + ":");
+
+                out.print(" " + entry.getValue().toString() + " pts" + "\n");
+
+            }
+            sortedScoreBoard.remove(entry.getKey(), entry.getValue());
+        }
+        if(sortedScoreBoard.entrySet().iterator().hasNext()){
+            entry = sortedScoreBoard.entrySet().iterator().next();
+            if(entry.getKey() != null) {
+                out.print(entry.getKey() + ":");
+
+                out.print(" " +entry.getValue().toString() + " pts"+ "\n");
+            }
+            sortedScoreBoard.remove(entry.getKey(), entry.getValue());
+        }
+        if(sortedScoreBoard.entrySet().iterator().hasNext()){
+            entry = sortedScoreBoard.entrySet().iterator().next();
+            if(entry.getKey() != null) {
+                out.print(entry.getKey() + ":");
+
+                out.print(" " +entry.getValue().toString() + " pts"+ "\n");
+            }
+            sortedScoreBoard.remove(entry.getKey(), entry.getValue());
+        }
 
     }
 

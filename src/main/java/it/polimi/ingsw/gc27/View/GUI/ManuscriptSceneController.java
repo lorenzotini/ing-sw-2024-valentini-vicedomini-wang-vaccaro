@@ -50,6 +50,8 @@ public class ManuscriptSceneController implements GenericController {
     @FXML
     private VBox counters;
     @FXML
+    private Pane marketArea;
+    @FXML
     private HBox marketResources;
     @FXML
     private HBox marketGolds;
@@ -106,6 +108,7 @@ public class ManuscriptSceneController implements GenericController {
         overwriteHand(miniModel);
 
         // market
+        marketArea.toFront();
         overwriteMarket(miniModel);
 
         // common objectives
@@ -309,7 +312,7 @@ public class ManuscriptSceneController implements GenericController {
         imgView.setOnMouseClicked(event -> {
             this.marketCard = imgView;
             sendDrawCardCommand();
-            System.out.println("CLICK MARKET"+ event);
+            System.out.println("CLICK MARKET" + event);
             event.consume();
         });
 
@@ -341,6 +344,9 @@ public class ManuscriptSceneController implements GenericController {
         double originalWidth = imgView.getFitWidth();
 
         imgView.setOnMouseEntered(event -> {
+//            imgView.setScaleX(factor);
+//            imgView.setScaleY(factor);
+            //imgView.toFront();
             imgView.setFitHeight(originalHeight * factor);
             imgView.setFitWidth(originalWidth * factor);
             event.consume();
@@ -349,6 +355,8 @@ public class ManuscriptSceneController implements GenericController {
         imgView.setOnMouseExited(event -> {
             imgView.setFitHeight(originalHeight);
             imgView.setFitWidth(originalWidth);
+//            imgView.setScaleX(1);
+//            imgView.setScaleY(1);
             event.consume();
         });
 
@@ -622,20 +630,20 @@ public class ManuscriptSceneController implements GenericController {
                     if (i == 0) {
                         fromDeck = true;
                         ImageView marketRes = new ImageView(deckImage);
-                        marketRes.setFitHeight(50);
-                        marketRes.setFitWidth(75);
+                        marketRes.setFitHeight(marketBox.getPrefHeight());
+                        marketRes.setFitWidth(marketBox.getPrefWidth()/3);
                         marketRes.setUserData(new MarketCardData(isGold, fromDeck, 0));
                         handleClickDetectedMarket(marketRes);
-                        zoomCardOnHover(marketRes, 2.5);
+                        zoomCardOnHover(marketRes, 2);
                         marketBox.getChildren().add(marketRes);
                     } else {
                         fromDeck = false;
                         ImageView marketRes = new ImageView(new Image(miniModel.getMarket().getFaceUp(isGold)[i - 1].getFront().getImagePath()));
-                        marketRes.setFitHeight(50);
-                        marketRes.setFitWidth(75);
+                        marketRes.setFitHeight(marketBox.getPrefHeight());
+                        marketRes.setFitWidth(marketBox.getPrefWidth()/3);
                         marketRes.setUserData(new MarketCardData(isGold, fromDeck, i - 1));
                         handleClickDetectedMarket(marketRes);
-                        zoomCardOnHover(marketRes, 2.5);
+                        zoomCardOnHover(marketRes, 2);
                         marketBox.getChildren().add(marketRes);
                     }
                 }

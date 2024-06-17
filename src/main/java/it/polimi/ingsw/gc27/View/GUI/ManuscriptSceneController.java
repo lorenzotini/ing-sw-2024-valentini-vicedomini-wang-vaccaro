@@ -9,6 +9,7 @@ import it.polimi.ingsw.gc27.Model.Enumerations.CornerSymbol;
 import it.polimi.ingsw.gc27.Model.Enumerations.PawnColour;
 import it.polimi.ingsw.gc27.Model.Game.ChatMessage;
 import it.polimi.ingsw.gc27.Model.Game.Placement;
+import it.polimi.ingsw.gc27.Model.Game.Player;
 import it.polimi.ingsw.gc27.Net.Commands.AddCardCommand;
 import it.polimi.ingsw.gc27.Net.Commands.Command;
 import it.polimi.ingsw.gc27.Net.Commands.DrawCardCommand;
@@ -79,7 +80,7 @@ public class ManuscriptSceneController implements GenericController {
 
     private GridPane grid;
     //there is a private hashmap for all the scenes where the chat is displayed
-    private HashMap<String, Tab> chatTabHashMap= new HashMap<>();
+    private HashMap<String, Tab> chatTabHashMap = new HashMap<>();
 
     public TextField getActionFeedback() {
         return actionFeedback;
@@ -95,13 +96,13 @@ public class ManuscriptSceneController implements GenericController {
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
             }
-        }while(miniModel.getMarket() == null);
+        } while (miniModel.getMarket() == null);
 
         // initialize manuscripts' grid panes
         createManuscriptGrids(miniModel);
 
         // populate manuscripts
-        for(Map.Entry<String, ClientManuscript> element :  miniModel.getManuscriptsMap().entrySet()){
+        for (Map.Entry<String, ClientManuscript> element : miniModel.getManuscriptsMap().entrySet()) {
             overwriteManuscript(miniModel, element.getKey());
         }
 
@@ -130,26 +131,31 @@ public class ManuscriptSceneController implements GenericController {
         // counters
         overwriteCounters(miniModel);
 
-        try{
+        try {
             fullChatAllocate();
-        }catch (RemoteException e){
+        } catch (RemoteException e) {
             throw new RuntimeException();
         }
+
+        //create board grid
+        createBoardGrids(miniModel);
+
     }
 
     public void fullChatAllocate() throws RemoteException {
         MiniModel miniModel = Gui.getInstance().getClient().getMiniModel();
         String myUsername = miniModel.getPlayer().getUsername();
-        for (ClientChat chat : miniModel.getChats()){
+        for (ClientChat chat : miniModel.getChats()) {
             Tab tab = chatTabHashMap.get(chat.getChatters().stream()
                     .filter(user -> !user.equals(myUsername))
                     .toList().getFirst());
-            for (ChatMessage message : chat.getChatMessages() ){
+            for (ChatMessage message : chat.getChatMessages()) {
                 Gui.getInstance().addLastChatMessage(message, tab);
             }
         }
     }
-    public void chatInitManuscript(){
+
+    public void chatInitManuscript() {
         MiniModel miniModel;
         do {
             try {
@@ -157,15 +163,14 @@ public class ManuscriptSceneController implements GenericController {
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
             }
-        }while(miniModel.getMarket() == null);
+        } while (miniModel.getMarket() == null);
 
         for (int i = 0; i < miniModel.getChats().size(); i++) {
             Tab chatTab = new Tab(); //a tab for each chat
-            if(i==0) {
+            if (i == 0) {
                 chatTab.setText("Global");
                 chatTabHashMap.put("global", chatTab);
-            }
-            else {
+            } else {
                 String myusername = miniModel.getPlayer().getUsername();
                 String username = miniModel.getChats().get(i).getChatters().stream()
                         .filter(user -> !user.equals(myusername))
@@ -173,11 +178,15 @@ public class ManuscriptSceneController implements GenericController {
                 chatTab.setText(username);
                 chatTabHashMap.put(username, chatTab);
                 PawnColour colour = miniModel.getBoard().getColourPlayermap().get(username);
-                switch (colour){
-                    case BLUE: chatTab.getStyleClass().add("tab-colour-blue");
-                    case YELLOW: chatTab.getStyleClass().add("tab-colour-yellow");
-                    case GREEN: chatTab.getStyleClass().add("tab-colour-green");
-                    case RED: chatTab.getStyleClass().add("tab-colour-red");
+                switch (colour) {
+                    case BLUE:
+                        chatTab.getStyleClass().add("tab-colour-blue");
+                    case YELLOW:
+                        chatTab.getStyleClass().add("tab-colour-yellow");
+                    case GREEN:
+                        chatTab.getStyleClass().add("tab-colour-green");
+                    case RED:
+                        chatTab.getStyleClass().add("tab-colour-red");
                 }
             }
 
@@ -222,7 +231,7 @@ public class ManuscriptSceneController implements GenericController {
         }
     }
 
-    private  TextField getSendMessageFieldFromTab(Tab tab) {
+    private TextField getSendMessageFieldFromTab(Tab tab) {
         if (tab.getContent() instanceof VBox) {
             VBox chatContainer = (VBox) tab.getContent();
             if (chatContainer.getChildren().size() > 1 && chatContainer.getChildren().get(1) instanceof HBox) {
@@ -233,17 +242,19 @@ public class ManuscriptSceneController implements GenericController {
                     }
                 }
             }
-        }return null;
+        }
+        return null;
     }
 
 
-    void handleOnActionChat(Button button, TextField textField){
+    void handleOnActionChat(Button button, TextField textField) {
         button.setOnAction(event -> {
             sendChatMessage();
             textField.clear();
 
         });
     }
+
     private void handleOnKeyPress(TextField textField) {
         textField.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
@@ -253,7 +264,6 @@ public class ManuscriptSceneController implements GenericController {
             }
         });
     }
-
 
 
     void handleDropEventManuscript(ImageView imgView) {
@@ -311,12 +321,12 @@ public class ManuscriptSceneController implements GenericController {
 
     }
 
-    void handleOnClick(ImageView imgView){
+    void handleOnClick(ImageView imgView) {
         imgView.setOnMouseClicked(event -> {
             String oldUrl = imgView.getImage().getUrl();
-            if(((HandCardData) imgView.getUserData()).isFront()){
+            if (((HandCardData) imgView.getUserData()).isFront()) {
                 imgView.setImage(new Image(oldUrl.replace("front", "back")));
-            }else{
+            } else {
                 imgView.setImage(new Image(oldUrl.replace("back", "front")));
             }
             ((HandCardData) imgView.getUserData()).changeIsFront();
@@ -379,12 +389,13 @@ public class ManuscriptSceneController implements GenericController {
         });
 
     }
-    void sendChatMessage(){
+
+    void sendChatMessage() {
         try {
             Tab currentTab = chatTabPane.getSelectionModel().getSelectedItem();
             String receiver = currentTab.getText();
             String content = getSendMessageFieldFromTab(currentTab).getText();
-            if(!content.trim().isEmpty()) {
+            if (!content.trim().isEmpty()) {
                 Command command = new SendMessageCommand(Gui.getInstance().getClient().getMiniModel().getPlayer(), receiver, content);
                 Gui.getInstance().getClient().sendCommand(command);
             }
@@ -399,7 +410,7 @@ public class ManuscriptSceneController implements GenericController {
             username = Gui.getInstance().getClient().getUsername();
             Command command = new AddCardCommand(username, this.handCardIndex, this.isFront, this.x, this.y);
             Gui.getInstance().getClient().sendCommand(command);
-        } catch ( IOException e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
@@ -411,7 +422,7 @@ public class ManuscriptSceneController implements GenericController {
             username = Gui.getInstance().getClient().getUsername();
             Command command = new DrawCardCommand(username, data.isGold, data.fromDeck, data.faceUpCardIndex);
             Gui.getInstance().getClient().sendCommand(command);
-        } catch ( IOException e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
@@ -438,6 +449,7 @@ public class ManuscriptSceneController implements GenericController {
 
         });
     }
+
     private VBox getChatMessagesVBox(Tab chatTab) {
         VBox chatContainer = (VBox) chatTab.getContent();
         ScrollPane chatContent = (ScrollPane) chatContainer.getChildren().getFirst();
@@ -445,9 +457,9 @@ public class ManuscriptSceneController implements GenericController {
         return (VBox) chatContent.getContent();
     }
 
-    private void createManuscriptGrids(MiniModel miniModel){
+    private void createManuscriptGrids(MiniModel miniModel) {
 
-        for(Map.Entry<String, ClientManuscript> element :  miniModel.getManuscriptsMap().entrySet()){
+        for (Map.Entry<String, ClientManuscript> element : miniModel.getManuscriptsMap().entrySet()) {
 
             GridPane grid = new GridPane();
 
@@ -458,7 +470,7 @@ public class ManuscriptSceneController implements GenericController {
             rowConstraints.setMaxHeight(100);
             rowConstraints.setMinHeight(100);
 
-            for(int i = 0; i < 85; i++){
+            for (int i = 0; i < 85; i++) {
                 grid.getColumnConstraints().add(columnConstraints);
                 grid.getRowConstraints().add(rowConstraints);
             }
@@ -483,6 +495,32 @@ public class ManuscriptSceneController implements GenericController {
         }
     }
 
+    public void createBoardGrids(MiniModel miniModel) {
+        Platform.runLater(() -> {
+            GridPane grid = new GridPane();
+            grid.setStyle("-fx-background-color: #e4dfb2");
+            ColumnConstraints columnConstraints = new ColumnConstraints();
+            columnConstraints.setMaxWidth(3);
+            columnConstraints.setMinWidth(3);
+            RowConstraints rowConstraints = new RowConstraints();
+            rowConstraints.setMaxHeight(3);
+            rowConstraints.setMinHeight(3);
+
+            for (int i = 0; i < 29; i++) {
+                grid.getColumnConstraints().add(columnConstraints);
+                grid.getRowConstraints().add(rowConstraints);
+            }
+            ImageView imageView = new ImageView("/images/cards/card1_front.png");
+            grid.setLayoutX(1170);
+            grid.setLayoutY(76);
+
+            grid.add(imageView, 0, 0);
+            grid.toFront();
+        });
+
+
+    }
+
     public void overwriteManuscript(MiniModel miniModel, String username) {
 
         Platform.runLater(() -> {
@@ -500,7 +538,7 @@ public class ManuscriptSceneController implements GenericController {
             rowConstraints.setMaxHeight(100);
             rowConstraints.setMinHeight(100);
 
-            for(int i = 0; i < 85; i++){
+            for (int i = 0; i < 85; i++) {
                 grid.getColumnConstraints().add(columnConstraints);
                 grid.getRowConstraints().add(rowConstraints);
             }
@@ -588,7 +626,7 @@ public class ManuscriptSceneController implements GenericController {
                         fromDeck = true;
                         ImageView marketRes = new ImageView(deckImage);
                         marketRes.setFitHeight(marketBox.getPrefHeight());
-                        marketRes.setFitWidth(marketBox.getPrefWidth()/3);
+                        marketRes.setFitWidth(marketBox.getPrefWidth() / 3);
                         marketRes.setUserData(new MarketCardData(isGold, fromDeck, 0));
                         handleClickDetectedMarket(marketRes);
                         zoomCardOnHover(marketRes, 2);
@@ -597,7 +635,7 @@ public class ManuscriptSceneController implements GenericController {
                         fromDeck = false;
                         ImageView marketRes = new ImageView(new Image(miniModel.getMarket().getFaceUp(isGold)[i - 1].getFront().getImagePath()));
                         marketRes.setFitHeight(marketBox.getPrefHeight());
-                        marketRes.setFitWidth(marketBox.getPrefWidth()/3);
+                        marketRes.setFitWidth(marketBox.getPrefWidth() / 3);
                         marketRes.setUserData(new MarketCardData(isGold, fromDeck, i - 1));
                         handleClickDetectedMarket(marketRes);
                         zoomCardOnHover(marketRes, 2);
@@ -629,10 +667,10 @@ public class ManuscriptSceneController implements GenericController {
 
     }
 
-    private void addValidPlacements(MiniModel miniModel, Placement placement, GridPane grid){
-        for(int i = -1; i <= 1; i = i + 2){
-            for(int j = -1; j <= 1; j = j + 2){
-                if(miniModel.getPlayer().getManuscript().isValidPlacement(placement.getX() + i, placement.getY() + j)){
+    private void addValidPlacements(MiniModel miniModel, Placement placement, GridPane grid) {
+        for (int i = -1; i <= 1; i = i + 2) {
+            for (int j = -1; j <= 1; j = j + 2) {
+                if (miniModel.getPlayer().getManuscript().isValidPlacement(placement.getX() + i, placement.getY() + j)) {
                     ImageView imageView = new ImageView(new Image(getClass().getResource("/images/utility/validPlacement.png").toExternalForm()));
                     handleDropEventManuscript(imageView);
                     ManuscriptCardData manuscriptCardData = new ManuscriptCardData(placement.getX() + i, placement.getY() + j);
@@ -646,8 +684,8 @@ public class ManuscriptSceneController implements GenericController {
         }
     }
 
-   // public TextField getActionFeedback() {
-      //  return actionFeedback;
+    // public TextField getActionFeedback() {
+    //  return actionFeedback;
     //}
 
 }

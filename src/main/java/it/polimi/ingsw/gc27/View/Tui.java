@@ -191,7 +191,17 @@ public class Tui implements View {
                     break;
 
                 case "man":
-                    out.println("\n" + showManuscript(client.getMiniModel().getManuscript()));
+                    do {
+                        out.println("Which? "  + client.getMiniModel().getOtherPlayersUsernames());
+                        String person = scan.nextLine();
+                        if (person.equals("mine")) {
+                            out.println("\n" + showManuscript(client.getMiniModel().getManuscript()));
+                            break;
+                        } else if (client.getMiniModel().checkOtherUsername(person)) {
+                            out.println("\n" + showManuscript(client.getMiniModel().getManuscriptsMap().get(person)));
+                            break;
+                        }
+                    } while (true);
                     break;
 
                 case "hand":
@@ -207,7 +217,7 @@ public class Tui implements View {
                     break;
                 case "showchat":
                     do {
-                        out.println("Which?");
+                        out.println("Which? "  + client.getMiniModel().getOtherPlayersUsernames());
                         String person = scan.nextLine();
                         if (person.equals("global")) {
                             printChat(client.getMiniModel().getChats().getFirst());
@@ -437,8 +447,7 @@ public class Tui implements View {
         }
     }
 
-
-    private static Queue<String> fromFaceToCliCard(Face face) throws Exception {
+    private static Queue<String> fromFaceToCliCard(Face face) {
 
         Corner UR = face.getCornerUR();
         Corner UL = face.getCornerUL();

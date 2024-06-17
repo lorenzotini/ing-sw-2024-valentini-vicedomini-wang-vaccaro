@@ -4,11 +4,10 @@ import it.polimi.ingsw.gc27.Model.Card.Card;
 import it.polimi.ingsw.gc27.Model.Card.Face;
 import it.polimi.ingsw.gc27.Model.ClientClass.ClientChat;
 import it.polimi.ingsw.gc27.Model.ClientClass.ClientManuscript;
+import it.polimi.ingsw.gc27.Model.ClientClass.MiniModel;
 import it.polimi.ingsw.gc27.Model.Enumerations.CornerSymbol;
 import it.polimi.ingsw.gc27.Model.Enumerations.PawnColour;
 import it.polimi.ingsw.gc27.Model.Game.Placement;
-import it.polimi.ingsw.gc27.Model.ClientClass.MiniModel;
-import it.polimi.ingsw.gc27.Model.Game.Player;
 import it.polimi.ingsw.gc27.Net.Commands.AddCardCommand;
 import it.polimi.ingsw.gc27.Net.Commands.Command;
 import it.polimi.ingsw.gc27.Net.Commands.DrawCardCommand;
@@ -16,7 +15,6 @@ import it.polimi.ingsw.gc27.Net.Commands.SendMessageCommand;
 import it.polimi.ingsw.gc27.View.GUI.UserData.HandCardData;
 import it.polimi.ingsw.gc27.View.GUI.UserData.ManuscriptCardData;
 import it.polimi.ingsw.gc27.View.GUI.UserData.MarketCardData;
-import it.polimi.ingsw.gc27.Model.ClientClass.*;
 import it.polimi.ingsw.gc27.View.Gui;
 import javafx.application.Platform;
 import javafx.event.Event;
@@ -28,14 +26,12 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.*;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.text.TextFlow;
 import javafx.scene.transform.Scale;
 
 import java.io.IOException;
-import java.io.PipedOutputStream;
 import java.rmi.RemoteException;
 import java.util.HashMap;
 import java.util.Map;
@@ -148,7 +144,6 @@ public class ManuscriptSceneController implements GenericController {
                 chatTabHashMap.put(username, chatTab);
                 PawnColour colour = miniModel.getBoard().getColourPlayermap().get(username);
                 switch (colour){
-
                     case BLUE: chatTab.getStyleClass().add("tab-colour-blue");
                     case YELLOW: chatTab.getStyleClass().add("tab-colour-yellow");
                     case GREEN: chatTab.getStyleClass().add("tab-colour-green");
@@ -157,7 +152,9 @@ public class ManuscriptSceneController implements GenericController {
             }
 
             VBox chatContainer = new VBox(); //contains che messages of a chat
+            VBox.setVgrow(chatContainer, Priority.ALWAYS);
             ScrollPane chatContent = new ScrollPane();
+            chatContent.setFitToHeight(true);
             VBox chatMessages = new VBox();
             chatMessages.getStyleClass().add("vbox-background");
             chatContent.setContent(chatMessages); //scrollPane contains Vbox with messages
@@ -176,6 +173,10 @@ public class ManuscriptSceneController implements GenericController {
             handleOnActionChat(sendButton, sendMessage);
             handleOnKeyPress(sendMessage);
             sendMessage.setPromptText("Write your message here...");
+
+            // expand chatContent
+            VBox.setVgrow(chatContent, Priority.ALWAYS);
+            VBox.setVgrow(sendMessage, Priority.NEVER);
 
             // Set HBox growth for sendMessage
             HBox.setHgrow(sendMessage, Priority.ALWAYS);

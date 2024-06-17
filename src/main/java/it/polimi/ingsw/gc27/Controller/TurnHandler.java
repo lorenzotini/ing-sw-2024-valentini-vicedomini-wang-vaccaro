@@ -121,6 +121,8 @@ public class TurnHandler implements Serializable {
 
             if (twentyPointsReached && game.getPlayers().getLast().equals(game.getPlayers().get(index))) {
                 lastRound = true; // once someone gets 20 points, only if the round is finished you can trigger the last round
+                Message lastRoundMessage = new StringMessage("It's the last turn!");
+                this.game.notifyObservers(lastRoundMessage);
             }
 
         } else {

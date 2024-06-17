@@ -22,3 +22,7 @@
     -fx-effect: innershadow(gaussian, rgba(255, 255, 255, 0.5), 10, 0.5, 0, 0);
     -fx-translate-y: 2px;
 }
+
+.decoration{
+    -fx-image: url("../Images/utility/decoration1.png");
+}

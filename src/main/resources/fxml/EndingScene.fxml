@@ -6,10 +6,10 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="720.0" prefWidth="1280.0" styleClass="anchorpane" stylesheets="@../css/EndingScene.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.gc27.View.GUI.EndingSceneController">
+<AnchorPane prefHeight="780.0" prefWidth="1535.0" styleClass="anchorpane" stylesheets="@../css/EndingScene.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.gc27.View.GUI.EndingSceneController">
    <children>
-      <ImageView fitHeight="410.0" fitWidth="312.0" layoutX="484.0" layoutY="364.0" pickOnBounds="true" preserveRatio="true" styleClass="gamemaster" />
-      <StackPane layoutX="340.0" layoutY="28.0" prefWidth="600.0">
+      <ImageView fitHeight="411.0" fitWidth="377.0" layoutX="587.0" layoutY="374.0" pickOnBounds="true" preserveRatio="true" styleClass="gamemaster" />
+      <StackPane layoutX="468.0" layoutY="22.0" prefWidth="600.0">
          <children>
             <Label fx:id="winnerTitle" text="The Winner is..." StackPane.alignment="CENTER">
                <font>
@@ -18,7 +18,7 @@
             </Label>
          </children>
       </StackPane>
-      <StackPane layoutX="140.0" layoutY="257.0" prefWidth="1000.0">
+      <StackPane layoutX="268.0" layoutY="257.0" prefWidth="1000.0">
          <children>
             <Label fx:id="winnerUsername" text="Player's username" StackPane.alignment="CENTER">
                <font>
@@ -27,40 +27,40 @@
             </Label>
          </children>
       </StackPane>
-      <ImageView fitHeight="85.0" fitWidth="151.0" layoutX="569.0" layoutY="172.0" pickOnBounds="true" preserveRatio="true" styleClass="crowndecoration" />
-      <Label fx:id="secondUsername" layoutX="88.0" layoutY="545.0" text="Second Place">
+      <ImageView fitHeight="85.0" fitWidth="151.0" layoutX="697.0" layoutY="172.0" pickOnBounds="true" preserveRatio="true" styleClass="crowndecoration" />
+      <Label fx:id="secondUsername" layoutX="88.0" layoutY="590.0" text="Second Place">
          <font>
             <Font name="Agency FB" size="28.0" />
          </font>
       </Label>
-      <Label fx:id="thirdUsername" layoutX="88.0" layoutY="595.0" text="Third Place">
+      <Label fx:id="thirdUsername" layoutX="88.0" layoutY="640.0" text="Third Place">
          <font>
             <Font name="Agency FB" size="28.0" />
          </font>
       </Label>
-      <Label fx:id="fourthUsername" layoutX="88.0" layoutY="645.0" text="Forth Place">
+      <Label fx:id="fourthUsername" layoutX="88.0" layoutY="690.0" text="Forth Place">
          <font>
             <Font name="Agency FB" size="28.0" />
          </font>
       </Label>
-      <Label fx:id="secondPoints" layoutX="255.0" layoutY="545.0" text="Second Place Points">
+      <Label fx:id="secondPoints" layoutX="255.0" layoutY="590.0" text="Second Place Points">
          <font>
             <Font name="Agency FB" size="28.0" />
          </font>
       </Label>
-      <Label fx:id="thirdPoints" layoutX="255.0" layoutY="595.0" text="Third Place Points">
+      <Label fx:id="thirdPoints" layoutX="255.0" layoutY="640.0" text="Third Place Points">
          <font>
             <Font name="Agency FB" size="28.0" />
          </font>
       </Label>
-      <Label fx:id="fourthPoints" layoutX="255.0" layoutY="645.0" text="Forth Place Points">
+      <Label fx:id="fourthPoints" layoutX="255.0" layoutY="690.0" text="Forth Place Points">
          <font>
             <Font name="Agency FB" size="28.0" />
          </font>
       </Label>
-      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="816.0" layoutY="350.0" pickOnBounds="true" preserveRatio="true" rotate="60.0" styleClass="lighthand" />
-      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="368.0" layoutY="350.0" pickOnBounds="true" preserveRatio="true" rotate="-60.0" styleClass="darkhand" />
-      <Label fx:id="highestScore" layoutX="866.0" layoutY="567.0" text="Highest score">
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="988.0" layoutY="394.0" pickOnBounds="true" preserveRatio="true" rotate="60.0" styleClass="lighthand" />
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="450.0" layoutY="394.0" pickOnBounds="true" preserveRatio="true" rotate="-60.0" styleClass="darkhand" />
+      <Label fx:id="highestScore" layoutX="1128.0" layoutY="612.0" text="Highest score">
          <font>
             <Font name="Agency FB" size="47.0" />
          </font>

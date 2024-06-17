@@ -5,40 +5,47 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="720.0" prefWidth="1280.0" styleClass="anchorpane" stylesheets="@../css/NewGameScene.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.gc27.View.GUI.NewGameSceneController">
+<AnchorPane prefHeight="780.0" prefWidth="1535.0" styleClass="anchorpane" stylesheets="@../css/NewGameScene.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.gc27.View.GUI.NewGameSceneController">
    <children>
-      <ImageView fitHeight="600.0" fitWidth="600.0" layoutX="342.0" layoutY="-25.0" pickOnBounds="true" preserveRatio="true" styleClass="customlabel" />
-      <Label layoutX="529.0" layoutY="232.0" stylesheets="@../css/NewGameScene.css" text="Please Choose" textFill="#372113">
-         <font>
-            <Font name="Agency FB" size="50.0" />
-         </font></Label>
-      <CheckBox fx:id="checkBox2" layoutX="330.0" layoutY="575.0" mnemonicParsing="false" onAction="#chooseNumber" text="2" textFill="#372113">
+      <Pane layoutX="468.0" layoutY="-27.0">
+         <children>
+            <ImageView fitHeight="600.0" fitWidth="600.0" pickOnBounds="true" preserveRatio="true" styleClass="customlabel" />
+            <Label layoutX="187.0" layoutY="257.0" stylesheets="@../css/NewGameScene.css" text="Please Choose" textFill="#372113">
+               <font>
+                  <Font name="Agency FB" size="50.0" />
+               </font>
+            </Label>
+            <Label layoutX="175.0" layoutY="309.0" stylesheets="@../css/NewGameScene.css" text="the number of Players" textFill="#372113">
+               <font>
+                  <Font name="Agency FB" size="36.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <CheckBox fx:id="checkBox2" layoutX="450.0" layoutY="624.0" mnemonicParsing="false" onAction="#chooseNumber" text="2" textFill="#372113">
          <font>
             <Font name="Agency FB" size="36.0" />
          </font></CheckBox>
-      <CheckBox fx:id="checkBox4" layoutX="870.0" layoutY="575.0" mnemonicParsing="false" onAction="#chooseNumber" text="4" textFill="#372113">
+      <CheckBox fx:id="checkBox4" layoutX="1007.0" layoutY="624.0" mnemonicParsing="false" onAction="#chooseNumber" text="4" textFill="#372113">
          <font>
             <Font name="Agency FB" size="36.0" />
          </font></CheckBox>
-      <CheckBox fx:id="checkBox3" layoutX="600.0" layoutY="575.0" mnemonicParsing="false" onAction="#chooseNumber" text="3" textFill="#372113">
+      <CheckBox fx:id="checkBox3" layoutX="728.0" layoutY="624.0" mnemonicParsing="false" onAction="#chooseNumber" text="3" textFill="#372113">
          <font>
             <Font name="Agency FB" size="36.0" />
          </font></CheckBox>
-      <Button fx:id="go" layoutX="1076.0" layoutY="573.0" mnemonicParsing="false" onAction="#sendNumberOfPlayers" text="➜">
+      <Button fx:id="go" layoutX="1284.0" layoutY="623.0" mnemonicParsing="false" onAction="#sendNumberOfPlayers" text="➜">
          <font>
             <Font name="Agency FB" size="20.0" />
          </font></Button>
-      <Button fx:id="backButton" layoutX="131.0" layoutY="573.0" mnemonicParsing="false" onAction="#previousScene" text="Back">
+      <Button fx:id="backButton" layoutX="181.0" layoutY="623.0" mnemonicParsing="false" onAction="#previousScene" text="Back">
          <font>
             <Font name="Agency FB" size="20.0" />
          </font></Button>
-      <Label layoutX="517.0" layoutY="284.0" stylesheets="@../css/NewGameScene.css" text="the number of Players" textFill="#372113">
-         <font>
-            <Font name="Agency FB" size="36.0" />
-         </font></Label>
-      <CheckBox fx:id="checkBox1" layoutX="95.0" layoutY="318.0" mnemonicParsing="false" onAction="#chooseNumber" prefHeight="85.0" prefWidth="88.0" text="1">
+      <CheckBox fx:id="checkBox1" layoutX="31.0" layoutY="673.0" mnemonicParsing="false" onAction="#chooseNumber" prefHeight="85.0" prefWidth="88.0" text="1">
          <font>
             <Font size="46.0" />
          </font>

@@ -6,6 +6,7 @@ import it.polimi.ingsw.gc27.Model.ClientClass.ClientChat;
 import it.polimi.ingsw.gc27.Model.ClientClass.ClientManuscript;
 import it.polimi.ingsw.gc27.Model.Enumerations.CornerSymbol;
 import it.polimi.ingsw.gc27.Model.Enumerations.PawnColour;
+import it.polimi.ingsw.gc27.Model.Game.ChatMessage;
 import it.polimi.ingsw.gc27.Model.Game.Placement;
 import it.polimi.ingsw.gc27.Model.ClientClass.MiniModel;
 import it.polimi.ingsw.gc27.Model.Game.Player;
@@ -121,8 +122,25 @@ public class ManuscriptSceneController implements GenericController {
         // counters
         overwriteCounters(miniModel);
 
+        try{
+            fullChatAllocate();
+        }catch (RemoteException e){
+            throw new RuntimeException();
+        }
     }
 
+    public void fullChatAllocate() throws RemoteException {
+        MiniModel miniModel = Gui.getInstance().getClient().getMiniModel();
+        String myUsername = miniModel.getPlayer().getUsername();
+        for (ClientChat chat : miniModel.getChats()){
+            Tab tab = chatTabHashMap.get(chat.getChatters().stream()
+                    .filter(user -> !user.equals(myUsername))
+                    .toList().getFirst());
+            for (ChatMessage message : chat.getChatMessages() ){
+                Gui.getInstance().addLastChatMessage(message, tab);
+            }
+        }
+    }
     public void chatInitManuscript(){
         MiniModel miniModel;
         do {
@@ -137,7 +155,7 @@ public class ManuscriptSceneController implements GenericController {
             Tab chatTab = new Tab(); //a tab for each chat
             if(i==0) {
                 chatTab.setText("Global");
-                chatTabHashMap.put("Global", chatTab);
+                chatTabHashMap.put("global", chatTab);
             }
             else {
                 String myusername = miniModel.getPlayer().getUsername();
@@ -363,7 +381,7 @@ public class ManuscriptSceneController implements GenericController {
             username = Gui.getInstance().getClient().getUsername();
             Command command = new AddCardCommand(username, this.handCardIndex, this.isFront, this.x, this.y);
             Gui.getInstance().getClient().sendCommand(command);
-        } catch (InterruptedException | IOException e) {
+        } catch ( IOException e) {
             throw new RuntimeException(e);
         }
     }
@@ -375,7 +393,7 @@ public class ManuscriptSceneController implements GenericController {
             username = Gui.getInstance().getClient().getUsername();
             Command command = new DrawCardCommand(username, data.isGold, data.fromDeck, data.faceUpCardIndex);
             Gui.getInstance().getClient().sendCommand(command);
-        } catch (InterruptedException | IOException e) {
+        } catch ( IOException e) {
             throw new RuntimeException(e);
         }
     }

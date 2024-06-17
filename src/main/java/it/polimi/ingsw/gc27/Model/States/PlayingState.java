@@ -38,7 +38,7 @@ public class PlayingState extends PlayerState {
             Message updatePlayerStateMessage=new UpdatePlayerStateMessage(new MiniModel(getPlayer()));
             turnHandler.getGame().notifyObservers(updatePlayerStateMessage);
             //update message
-            Message updateHandMessage = new UpdateHandMessage(new MiniModel(player, player.getHand()));
+            Message updateHandMessage = new UpdateHandMessage(new MiniModel(player));
             turnHandler.getGame().notifyObservers(updateHandMessage);
 
             Message updateManuscriptMessage = new UpdateMyManuscriptMessage(new MiniModel(player, game));

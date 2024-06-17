@@ -35,44 +35,107 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
                 System.out.println("Server not found, retrying...");
                 try{
                     Thread.sleep(2000);
-                }catch(InterruptedException es){
-
+                }catch(InterruptedException ignored){
                 }
             }
         } while (true);
         this.view = view;
         this.miniModel = new MiniModel();
     }
+
+    /**
+     * * Establishes a connection to the RMI registry at the specified IP address and port.
+     *  * It then retrieves the remote object registered under the name "VirtualServer".
+     *
+     * @param ipAddress the IP address where the RMI registry is hosted.
+     * @param port the port number on which the RMI registry accepts connections.
+     * @throws RemoteException if there is an issue with network connectivity or
+     *         the registry is not available at the specified IP address and port.
+     * @throws NotBoundException if no binding for "VirtualServer" is found in the registry,
+     *         indicating that the remote object is not registered.
+     */
     public void locateRegistry(String ipAddress, int port) throws RemoteException, NotBoundException {
         Registry registry = LocateRegistry.getRegistry(ipAddress, port);
         this.server = (VirtualServer) registry.lookup("VirtualServer");
 
     }
 
+    /**
+     *Send the Command to the server to have it executed
+     * @param command the action the client want to do
+     * @throws RemoteException if there is any trouble with the connection
+     */
     public void sendCommand(Command command) throws RemoteException {
         this.server.receiveCommand(command);
     }
 
+    /**
+     * this.miniModel contains all the data the client need to describe the actual
+     * state of the game
+     * @return this client miniModel
+     * @throws RemoteException if there is any trouble with the connection
+     */
     @Override
     public MiniModel getMiniModel() throws RemoteException {
         return this.miniModel;
     }
+
+    /**
+     * called by the server or the messages for updates, act as an intermediary
+     * to connect with the vies
+     * @param message is the string wanted to be showed
+     * @throws RemoteException if there is any trouble with the connection
+     */
     @Override
     public void show(String message) throws RemoteException {
-        System.out.println(message);
-        //view.showString(message);
+
+        view.showString(message);
     }
 
+    /**
+     * take a String input from the view, usually called in situation with
+     * an expected result
+     * @return a String
+     * @throws RemoteException if there is any trouble with the connection
+     */
     @Override
     public String read() throws RemoteException {
         return view.read();
     }
 
+    /**
+     * modify this.username with the chosen username by the client
+     * @param username is going to be put in this.username
+     * @throws RemoteException if there is any trouble with the connection
+     */
     @Override
     public void setUsername(String username) throws RemoteException {
         this.username = username;
     }
 
+    /**
+     * Initiates and manages the client's connection and interaction with the remote server.
+     * This method handles several key operations:
+     * - Attempts to establish a connection with the server.
+     * - Starts a continuous ping to the server to ensure the connection remains alive.
+     * - Handles incoming messages and dispatches them for processing.
+     * - Manages the user interface and game flow after the initial connection.
+     *</ul>
+     *
+     * The method employs multiple threads to manage different aspects of client-server communication
+     * and user interaction:
+     *   A thread to continuously check if the server is alive by pinging it.
+     *   A thread to process incoming messages from the server.
+     *   The main thread handles initial connection setup and user interaction.
+     * </ul>
+     *
+     * If any part of the initial setup or ongoing communication fails, the client will attempt
+     * to close its connection
+     * and notify the user of the need to restart.
+     *
+     * @throws InterruptedException if any thread has interrupted the current thread. The
+     *         interrupted status of the current thread is cleared when this exception is thrown.
+     */
     @Override
     public void runClient() throws InterruptedException {
         try{
@@ -88,10 +151,9 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
             while (true) {
                 try {
                     Thread.sleep(1000);
-                    pingToServer(server, this);
+                    pingToServer( this);
                 } catch (RemoteException | InterruptedException e) {
                     System.out.println("Probably the server is down");
-
                 }
             }
         }).start();
@@ -128,6 +190,10 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
         }
     }
 
+    /**
+     * check if last ping received from server is too old, in that case the connection is considered lost
+     * and the process closed
+     */
     private void checkServerIsAlive()  {
         if(this.lastPingFromServer == 0){
             this.lastPingFromServer = System.currentTimeMillis();
@@ -141,29 +207,53 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
 
                 Thread.sleep(1000);
             }catch(InterruptedException e){
+
                 //TODO find a thing to do
             }
         }
     }
 
+    /**
+     * @return this.username, the username of the client
+     * @throws RemoteException if there is any trouble with the connection
+     */
     @Override
     public String getUsername() throws RemoteException {
         return this.getMiniModel().getPlayer().getUsername();
     }
 
+    /**
+     * add the messages received from the server in the queue messages
+     * @param message is the update received from the server
+     * @throws RemoteException if there is any trouble with the connection
+     */
     @Override
     public void update(Message message) throws RemoteException {
         messages.add(message);
     }
+
+    /**
+     * close the process
+     */
     @Override
     public void close(){
         System.exit(0);
     }
 
+    /**
+     * set the lastPingFromRemoteServer to the actual current in millis
+     * @throws RemoteException if there is any trouble with the connection
+     */
     public void pingFromServer() throws RemoteException{
         this.lastPingFromServer = System.currentTimeMillis();
     }
-    public void pingToServer(VirtualServer server, VirtualView client) throws RemoteException {
+
+    /**
+     * say to the server that connection is working
+     * @param client is this class
+     * @throws RemoteException if there is any trouble with the connection
+     */
+    public void pingToServer( VirtualView client) throws RemoteException {
         server.receivePing(client);
     }
 }

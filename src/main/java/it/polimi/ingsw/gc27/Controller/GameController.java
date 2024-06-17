@@ -179,6 +179,7 @@ public class GameController implements Serializable {
         // All players are ready
         if (game.ready(p) == numMaxPlayers) {
             this.turnHandler = new TurnHandler(this.game);
+            game.getBoard().initBoard(game.getPlayers());
             for (Player player : game.getPlayers()) {
                 player.setPlayerState(new InitializingState(player, this.turnHandler));
                 game.notifyObservers(new UpdateStartOfGameMessage(new MiniModel(player, game), ""));

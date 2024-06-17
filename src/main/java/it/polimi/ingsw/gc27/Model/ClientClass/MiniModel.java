@@ -38,12 +38,12 @@ public class MiniModel implements Serializable {
     }
 
     // used when update the players objectiveCard
-    public MiniModel(Player player, ObjectiveCard objectiveCard) {
+    public MiniModel(Player player) {
         this.manuscript = null;
         this.board = null;
         this.market = null;
         this.player = player;
-        this.hand = null;
+        this.hand = player.getHand();
         this.currentPlayer = null;
     }
 
@@ -54,16 +54,6 @@ public class MiniModel implements Serializable {
         this.market = null;
         this.player = null;
         this.hand = null;
-        this.currentPlayer = null;
-    }
-
-    //used when the player's hand updates
-    public MiniModel(Player player, ArrayList<ResourceCard> hand) {
-        this.manuscript = null;
-        this.board = null;
-        this.market = null;
-        this.player = player;
-        this.hand = hand;
         this.currentPlayer = null;
     }
 
@@ -97,45 +87,8 @@ public class MiniModel implements Serializable {
                 .collect(Collectors.toMap(Player::getUsername, Player::getManuscript)));
     }
 
-    //used when you have to pass a message to a specific player
-    public MiniModel(String currentPlayer) {
-        this.manuscript = null;
-        this.board = null;
-        this.market = null;
-        this.player = null;
-        this.hand = null;
-        this.currentPlayer = currentPlayer;
-    }
 
     // used to update player state
-    public MiniModel(Player player) {
-        this.manuscript = null;
-        this.board = null;
-        this.market = null;
-        this.player = player;
-        this.hand = null;
-        this.currentPlayer = null;
-    }
-
-    public MiniModel(Player player, Market market, Board board) {
-        this.manuscript = player.getManuscript();
-        this.board = board;
-        this.market = market;
-        this.player = player;
-        this.hand = player.getHand();
-        this.currentPlayer = null;
-    }
-
-    public MiniModel(Player player, Market market, Board board, ArrayList<Chat> chats) {
-        this.manuscript = player.getManuscript();
-        this.board = board;
-        this.market = market;
-        this.player = player;
-        this.hand = player.getHand();
-        this.currentPlayer = null;
-        this.chats.addAll(chats);
-    }
-
     public MiniModel(Player player, Game game) {
         this.manuscript = player.getManuscript();
         this.board = game.getBoard();

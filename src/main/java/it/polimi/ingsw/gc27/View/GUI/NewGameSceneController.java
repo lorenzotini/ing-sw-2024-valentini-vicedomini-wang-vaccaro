@@ -1,5 +1,7 @@
 package it.polimi.ingsw.gc27.View.GUI;
 
+import it.polimi.ingsw.gc27.Model.ClientClass.ClientChat;
+import it.polimi.ingsw.gc27.Model.ClientClass.MiniModel;
 import it.polimi.ingsw.gc27.View.Gui;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -119,6 +121,11 @@ public class NewGameSceneController implements GenericController{
         LoginSceneController log= (LoginSceneController) Gui.getInstance().getControllerFromName("/fxml/LoginScene.fxml");
         log.getGameIDCreated().setVisible(true);
         log.getGameIDCreated().setText(ackType);
+    }
+
+    @Override
+    public void overwriteChat(ClientChat chat, MiniModel minimodel) {
+
     }
 
     @Override

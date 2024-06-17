@@ -19,7 +19,7 @@ public interface VirtualView extends Remote, Serializable {
 
     void runClient() throws IOException, InterruptedException;
 
-    String getUsername() throws IOException, InterruptedException;
+    String getUsername() throws IOException;
 
     void sendCommand(Command command) throws RemoteException;
 

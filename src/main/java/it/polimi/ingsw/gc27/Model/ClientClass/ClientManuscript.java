@@ -27,4 +27,5 @@ public interface ClientManuscript {
     int getxMin();
 
     int getyMin();
+
 }

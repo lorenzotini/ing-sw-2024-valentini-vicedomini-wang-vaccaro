@@ -3,6 +3,7 @@ package it.polimi.ingsw.gc27.View.GUI;
 import it.polimi.ingsw.gc27.Model.ClientClass.ClientChat;
 import it.polimi.ingsw.gc27.Model.ClientClass.MiniModel;
 import it.polimi.ingsw.gc27.Model.Enumerations.PawnColour;
+import it.polimi.ingsw.gc27.Model.Game.ChatMessage;
 import it.polimi.ingsw.gc27.Net.Commands.ChooseObjectiveCommand;
 import it.polimi.ingsw.gc27.Net.Commands.Command;
 import it.polimi.ingsw.gc27.Net.Commands.SendMessageCommand;
@@ -28,7 +29,7 @@ import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.HashMap;
 
-public class ChooseObjectiveSceneController implements GenericController{
+public class ChooseObjectiveSceneController implements GenericController {
     @FXML
     public Button objButton1;
     @FXML
@@ -40,10 +41,10 @@ public class ChooseObjectiveSceneController implements GenericController{
     @FXML
     public TabPane chatTabPane;
     //there is a private hashmap for all the scenes where the chat is displayed
-    private HashMap<String, Tab> chatTabHashMapC= new HashMap<>();
+    private HashMap<String, Tab> chatTabHashMapC = new HashMap<>();
 
     //start chat methods
-    public void chatInitObjective(){
+    public void chatInitObjective() {
         MiniModel miniModel;
         do {
             try {
@@ -51,15 +52,14 @@ public class ChooseObjectiveSceneController implements GenericController{
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
             }
-        }while(miniModel.getMarket() == null);
+        } while (miniModel.getMarket() == null);
 
         for (int i = 0; i < miniModel.getChats().size(); i++) {
             Tab chatTab = new Tab(); //a tab for each chat
-            if(i==0) {
+            if (i == 0) {
                 chatTab.setText("Global");
-                chatTabHashMapC.put("Global", chatTab);
-            }
-            else {
+                chatTabHashMapC.put("global", chatTab);
+            } else {
                 String myusername = miniModel.getPlayer().getUsername();
                 String username = miniModel.getChats().get(i).getChatters().stream()
                         .filter(user -> !user.equals(myusername))
@@ -68,12 +68,16 @@ public class ChooseObjectiveSceneController implements GenericController{
                 chatTabHashMapC.put(username, chatTab);
 
                 PawnColour colour = miniModel.getBoard().getColourPlayermap().get(username);
-                switch (colour){
+                switch (colour) {
 
-                    case BLUE: chatTab.getStyleClass().add("tab-colour-blue");
-                    case YELLOW: chatTab.getStyleClass().add("tab-colour-yellow");
-                    case GREEN: chatTab.getStyleClass().add("tab-colour-green");
-                    case RED: chatTab.getStyleClass().add("tab-colour-red");
+                    case BLUE:
+                        chatTab.getStyleClass().add("tab-colour-blue");
+                    case YELLOW:
+                        chatTab.getStyleClass().add("tab-colour-yellow");
+                    case GREEN:
+                        chatTab.getStyleClass().add("tab-colour-green");
+                    case RED:
+                        chatTab.getStyleClass().add("tab-colour-red");
                 }
             }
             VBox chatContainer = new VBox(); //contains che messages of a chat
@@ -109,9 +113,11 @@ public class ChooseObjectiveSceneController implements GenericController{
             chatContainer.getChildren().addAll(chatContent, messageBox);
             chatTab.setContent(chatContainer);
             chatTabPane.getTabs().add(chatTab);
+
         }
 
     }
+
     private void handleOnKeyPress(TextField textField) {
         textField.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
@@ -121,19 +127,21 @@ public class ChooseObjectiveSceneController implements GenericController{
             }
         });
     }
-    void handleOnActionChat(Button button, TextField textField){
+
+    void handleOnActionChat(Button button, TextField textField) {
         button.setOnAction(event -> {
             sendChatMessage();
             textField.clear();
 
         });
     }
-    void sendChatMessage(){
+
+    void sendChatMessage() {
         try {
             Tab currentTab = chatTabPane.getSelectionModel().getSelectedItem();
             String receiver = currentTab.getText();
             String content = getSendMessageFieldFromTab(currentTab).getText();
-            if(!content.trim().isEmpty()) {
+            if (!content.trim().isEmpty()) {
                 Command command = new SendMessageCommand(Gui.getInstance().getClient().getMiniModel().getPlayer(), receiver, content);
                 Gui.getInstance().getClient().sendCommand(command);
             }
@@ -141,83 +149,25 @@ public class ChooseObjectiveSceneController implements GenericController{
             throw new RuntimeException(e);
         }
     }
-    public void overwriteChat(ClientChat chat, MiniModel miniModel){
-        Platform.runLater(()->{
-            if(chat.getChatters().size() == 1){
-                Tab tab= chatTabHashMapC.get("Global");
-                VBox vbox= getChatMessagesVBox(tab);
 
-                Text textName=new Text(chat.getChatMessages().getLast().getSender());
-                HBox hBoxName=new HBox(textName);
-                hBoxName.setPadding(new Insets(0,3,0,3));
-                textName.getStyleClass().add("text-name");
-
-                Text text = new Text();
-                text.setText(chat.getChatMessages().getLast().getContent());
-                text.getStyleClass().add("text");
-                TextFlow textFlow = new TextFlow(text);
-                textFlow.setMaxWidth(240);
-
-                textFlow.setTextAlignment(TextAlignment.LEFT);
-                HBox hbox = new HBox(textFlow);
-
-                if(chat.getChatMessages().getLast().getSender().equals(miniModel.getPlayer().getUsername())){
-                    hbox.setAlignment(Pos.CENTER_RIGHT);
-                    hBoxName.setAlignment(Pos.CENTER_RIGHT);
-                    textFlow.getStyleClass().add("text-flow-sender");
-
-                }
-                //other players send the message
-                else{
-                    hbox.setAlignment(Pos.CENTER_LEFT);
-                    hBoxName.setAlignment(Pos.CENTER_LEFT);
-                    textFlow.getStyleClass().add("text-flow-receiver");
-                }
-
-                hbox.setPadding(new Insets(1,4,1,5));
-                vbox.getChildren().add(hBoxName);
-                vbox.getChildren().add(hbox);
-            }
-            else{
-                String username= chat.getChatters().stream()
+    public void overwriteChat(ClientChat chat, MiniModel miniModel) {
+        Platform.runLater(() -> {
+            if (chat.getChatters().size() == 1) {
+                Tab tab = chatTabHashMapC.get("Global");
+                Gui.getInstance().addLastChatMessage(chat.getChatMessages().getLast(), tab);
+            } else {
+                String username = chat.getChatters().stream()
                         .filter(user -> !user.equals(miniModel.getPlayer().getUsername()))
                         .toList().getFirst();
-                Tab tab= chatTabHashMapC.get(username);
+                Tab tab = chatTabHashMapC.get(username);
 
-                VBox vbox= getChatMessagesVBox(tab);
-
-                Text text = new Text();
-                text.setText(chat.getChatMessages().getLast().getContent());
-                text.getStyleClass().add("text");
-
-                TextFlow textFlow = new TextFlow(text);
-                textFlow.setMaxWidth(240);
-                textFlow.setTextAlignment(TextAlignment.LEFT);
-                HBox hbox = new HBox(textFlow);
-
-                if(chat.getChatMessages().getLast().getSender().equals(username)){
-                    hbox.setAlignment(Pos.CENTER_LEFT);
-                    textFlow.getStyleClass().add("text-flow-receiver");
-
-                }else{
-                    hbox.setAlignment(Pos.CENTER_RIGHT);
-                    textFlow.getStyleClass().add("text-flow-sender");
-                }
-                hbox.setPadding(new Insets(5,5,5,5));
-                vbox.getChildren().add(hbox);
-
+                Gui.getInstance().addLastChatMessage(chat.getChatMessages().getLast(), tab);
                 //todo: fare scroll automatico
             }
-
         });
     }
-    private VBox getChatMessagesVBox(Tab chatTab) {
-        VBox chatContainer = (VBox) chatTab.getContent();
-        ScrollPane chatContent = (ScrollPane) chatContainer.getChildren().getFirst();
-        chatContent.setVvalue(1.0); //non so se si mette qui
-        return (VBox) chatContent.getContent();
-    }
-    private  TextField getSendMessageFieldFromTab(Tab tab) {
+
+    private TextField getSendMessageFieldFromTab(Tab tab) {
         if (tab.getContent() instanceof VBox) {
             VBox chatContainer = (VBox) tab.getContent();
             if (chatContainer.getChildren().size() > 1 && chatContainer.getChildren().get(1) instanceof HBox) {
@@ -228,21 +178,22 @@ public class ChooseObjectiveSceneController implements GenericController{
                     }
                 }
             }
-        }return null;
+        }
+        return null;
     }
     //end chat methods
 
 
     @FXML
     public void sendObj(ActionEvent event) throws IOException, InterruptedException {
-        if(event.getSource().equals(objButton1)){
+        if (event.getSource().equals(objButton1)) {
             Command comm = new ChooseObjectiveCommand(Gui.getInstance().getClient().getUsername(), 1);
             Gui.getInstance().getClient().sendCommand(comm);
         } else {
             Command comm = new ChooseObjectiveCommand(Gui.getInstance().getClient().getUsername(), 2);
             Gui.getInstance().getClient().sendCommand(comm);
         }
-        Platform.runLater(()->{
+        Platform.runLater(() -> {
             try {
                 ManuscriptSceneController manuscriptSceneController = (ManuscriptSceneController) Gui.getInstance().getControllerFromName(ScenePaths.MANUSCRIPT.getValue());
                 manuscriptSceneController.init();
@@ -257,6 +208,7 @@ public class ChooseObjectiveSceneController implements GenericController{
         Image image = new Image(imagePath);
         obj1.setImage(image);
     }
+
     public void changeImageObj2(String imagePath) {
         Image image = new Image(imagePath);
         obj2.setImage(image);
@@ -264,11 +216,23 @@ public class ChooseObjectiveSceneController implements GenericController{
 
     @Override
     public void receiveOk(String ackType) {
-
     }
 
     @Override
     public void receiveKo(String ackType) {
-
     }
+
+    public void fullChatAllocate() throws RemoteException {
+        MiniModel miniModel = Gui.getInstance().getClient().getMiniModel();
+        String myUsername = miniModel.getPlayer().getUsername();
+        for (ClientChat chat : miniModel.getChats()){
+            Tab tab = chatTabHashMapC.get(chat.getChatters().stream()
+                    .filter(user -> !user.equals(myUsername))
+                    .toList().getFirst());
+            for (ChatMessage message : chat.getChatMessages() ){
+                Gui.getInstance().addLastChatMessage(message, tab);
+            }
+        }
+    }
+
 }

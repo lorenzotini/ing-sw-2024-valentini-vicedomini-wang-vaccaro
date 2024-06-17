@@ -33,7 +33,7 @@ public interface View {
 
     void show(ClientMarket market);
 
-    void updateManuscriptOfOtherPlayer(ClientManuscript manuscript, String username);
+    void updateManuscriptOfOtherPlayer(ClientManuscript manuscript);
     void show(ClientChat chat);
 
 

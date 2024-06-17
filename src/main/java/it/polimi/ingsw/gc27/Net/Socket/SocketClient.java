@@ -25,6 +25,7 @@ public class SocketClient implements VirtualView {
         this.miniModel = new MiniModel();
     }
 
+
     public void runClient() {
         try {
             server.welcomePlayer(this);
@@ -38,9 +39,12 @@ public class SocketClient implements VirtualView {
             close();
             //throw new RuntimeException(e);
         }
-
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public String getUsername() {
         return this.username;
@@ -61,10 +65,7 @@ public class SocketClient implements VirtualView {
     public void show(String s) throws RemoteException {
         view.showString(s);
     }
-    public void showUpdate(String mex) throws RemoteException {
-        // TODO Attenzione! Questo può causare data race con il thread dell'interfaccia o un altro thread
-        view.showString(mex);
-    }
+
     @Override
     public String read() throws RemoteException {
         return view.read();
@@ -72,16 +73,15 @@ public class SocketClient implements VirtualView {
 
     @Override
     public void setUsername(String username) throws RemoteException {
-
         this.username = username;
         this.show("Welcome " + this.username + "!" + "\nWaiting for other players to join the game...");
     }
-
 
     @Override
     public void update(Message message) {
             message.reportUpdate(this, this.view);
     }
+
     @Override
     public void close(){
         System.exit(0);
@@ -89,7 +89,5 @@ public class SocketClient implements VirtualView {
 
     @Override
     public void pingFromServer() throws RemoteException {
-
     }
-
 }

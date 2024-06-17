@@ -22,19 +22,17 @@ public class Board implements Serializable, ClientBoard {
     private String bluePlayer;
     public final static int END_GAME_THRESHOLD = 2;
     public final static int MAX_POINTS = 29;
-
-
-
     public HashMap<String, PawnColour> colourPlayermap=new HashMap<>();
 
     public void initBoard(List<Player> players){
         for(Player p: players){
-            switch(p.getPawnColour()){
-                case PawnColour.RED -> colourPlayermap.put(p.getUsername(),PawnColour.RED);
-                case PawnColour.BLUE -> colourPlayermap.put(p.getUsername(),PawnColour.BLUE);
-                case PawnColour.GREEN -> colourPlayermap.put(p.getUsername(),PawnColour.GREEN);
-                case PawnColour.YELLOW -> colourPlayermap.put(p.getUsername(),PawnColour.YELLOW);
-            }
+//            switch(p.getPawnColour()){
+//                case PawnColour.RED -> colourPlayermap.put(p.getUsername(),PawnColour.RED);
+//                case PawnColour.BLUE -> colourPlayermap.put(p.getUsername(),PawnColour.BLUE);
+//                case PawnColour.GREEN -> colourPlayermap.put(p.getUsername(),PawnColour.GREEN);
+//                case PawnColour.YELLOW -> colourPlayermap.put(p.getUsername(),PawnColour.YELLOW);
+//            }
+            colourPlayermap.put(p.getUsername(), p.getPawnColour());
         }
     }
 

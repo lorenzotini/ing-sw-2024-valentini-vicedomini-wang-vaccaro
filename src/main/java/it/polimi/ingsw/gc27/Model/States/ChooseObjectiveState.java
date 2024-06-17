@@ -45,7 +45,7 @@ public class ChooseObjectiveState extends PlayerState {
 
         this.getPlayer().setPlayerState(new WaitingState(getPlayer(), getTurnHandler()));
 
-        Message updateObjectiveMessage = new UpdateObjectiveMessage(new MiniModel(getPlayer(), getPlayer().getSecretObjectives().getFirst()));
+        Message updateObjectiveMessage = new UpdateObjectiveMessage(new MiniModel(getPlayer()));
         turnHandler.getGame().notifyObservers(updateObjectiveMessage);
 
         this.getTurnHandler().notifyChooseObjectiveState();

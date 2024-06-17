@@ -1,5 +1,7 @@
 package it.polimi.ingsw.gc27.View.GUI;
 
+import it.polimi.ingsw.gc27.Model.ClientClass.ClientChat;
+import it.polimi.ingsw.gc27.Model.ClientClass.MiniModel;
 import it.polimi.ingsw.gc27.View.Gui;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -21,6 +23,11 @@ public class StarterSceneController implements GenericController{
 
     @Override
     public void receiveOk(String ackType) {
+
+    }
+
+    @Override
+    public void overwriteChat(ClientChat chat, MiniModel minimodel) {
 
     }
 

@@ -312,8 +312,7 @@ public class Tui implements View {
     }
 
     @Override
-    public void updateManuscriptOfOtherPlayer(ClientManuscript manuscript, String username) {
-
+    public void updateManuscriptOfOtherPlayer(ClientManuscript manuscript) {
     }
 
     @Override
@@ -328,7 +327,7 @@ public class Tui implements View {
                 .filter(user -> {
                     try {
                         return !user.equals(client.getUsername());
-                    } catch (IOException | InterruptedException e) {
+                    } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
                 }).toList()

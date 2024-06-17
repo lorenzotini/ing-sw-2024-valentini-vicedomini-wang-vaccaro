@@ -1,5 +1,7 @@
 package it.polimi.ingsw.gc27.View.GUI;
 
+import it.polimi.ingsw.gc27.Model.ClientClass.ClientChat;
+import it.polimi.ingsw.gc27.Model.ClientClass.MiniModel;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.application.Platform;
@@ -112,6 +114,11 @@ public class EndingSceneController implements GenericController{
 
     @Override
     public void receiveOk(String ackType) {
+
+    }
+
+    @Override
+    public void overwriteChat(ClientChat chat, MiniModel minimodel) {
 
     }
 

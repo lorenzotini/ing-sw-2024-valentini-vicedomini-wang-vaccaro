@@ -257,7 +257,10 @@ public class PlaceStarterCardScene implements GenericController{
         }
         Platform.runLater(()->{
             try {
+                ((ChooseObjectiveSceneController)Gui.getInstance()
+                        .getControllerFromName(ScenePaths.CHOOSEOBJ.getValue())).fullChatAllocate();
                 Gui.getInstance().switchScene("/fxml/ChooseObjectiveScene.fxml");
+
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

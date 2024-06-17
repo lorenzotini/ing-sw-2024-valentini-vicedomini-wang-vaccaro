@@ -277,14 +277,22 @@ public class Gui implements View {
 
     }
 
-    @Override
-    public void updateManuscriptOfOtherPlayer(ClientManuscript manuscript, String username) {
-////        Platform.runLater(() -> {
+//    @Override
+//    public void updateManuscriptOfOtherPlayer(ClientManuscript manuscript) {
+//        Platform.runLater(() -> {
 //            if(Gui.getInstance().getCurrentController() instanceof ManuscriptSceneController controller) {
-//                controller.updatePlayerManuscript(username, manuscript.getLastPlacedCardPath());
+//                MiniModel miniModel = null;
+//                try {
+//                    miniModel = client.getMiniModel();
+//                } catch (RemoteException e) {
+//                    throw new RuntimeException(e);
+//                }
+//                for(Map.Entry<String, ClientManuscript> element :  miniModel.getManuscriptsMap().entrySet()){
+//                    controller.overwriteManuscript(miniModel, element.getKey());
+//                }
 //            }
-////        });
-    }
+//       });
+//    }
 
     @Override
     public void show(ClientBoard board) {
@@ -300,14 +308,8 @@ public class Gui implements View {
             throw new RuntimeException(e);
         }
         // when a message is added to the chat, it is updated in all the scenes the chat is displayed
-        PlaceStarterCardScene controller1 = (PlaceStarterCardScene) Gui.getInstance().getControllerFromName(ScenePaths.PLACESTARTER.getValue());
-        controller1.overwriteChat(chat, miniModel);
-
-        ChooseObjectiveSceneController controller2 = (ChooseObjectiveSceneController) Gui.getInstance().getControllerFromName(ScenePaths.CHOOSEOBJ.getValue());
-        controller2.overwriteChat(chat, miniModel);
-
-        ManuscriptSceneController controller3= (ManuscriptSceneController) Gui.getInstance().getControllerFromName(ScenePaths.MANUSCRIPT.getValue());
-        controller3.overwriteChat(chat, miniModel);
+        GenericController controller = currentController;
+        controller.overwriteChat(chat, miniModel);
     }
 
     @Override
@@ -322,10 +324,10 @@ public class Gui implements View {
         controller.overwriteMarket(miniModel);
     }
 
-//    @Override
-//    public void updateManuscriptOfOtherPlayer(ClientManuscript manuscript, String username) {
-//
-//    }
+    @Override
+    public void updateManuscriptOfOtherPlayer(ClientManuscript manuscript) {
+        show(manuscript);
+    }
 
     @Override
     public String read() {
@@ -382,6 +384,57 @@ public class Gui implements View {
 
     }
 
+    public void addLastChatMessage(ChatMessage message, Tab chatTab) {
+        Platform.runLater(()-> {
+            VBox vbox = getChatMessagesVBox(chatTab);
+
+            Text text = new Text();
+            text.setText(message.getContent());
+            text.getStyleClass().add("text");
+            TextFlow textFlow = new TextFlow(text);
+            textFlow.setMaxWidth(240);
+            textFlow.setTextAlignment(TextAlignment.LEFT);
+            HBox hbox = new HBox(textFlow);
+
+            String username;
+            try {
+                username = Gui.getInstance().getClient().getUsername();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            Text textName;
+            HBox hBoxName = null;
+            if (message.getReceiver().equalsIgnoreCase("global")) {
+                textName = new Text(message.getSender());
+                hBoxName = new HBox(textName);
+                hBoxName.setPadding(new Insets(0, 3, 0, 3));
+                textName.getStyleClass().add("text-name");
+            }
+
+            if (message.getSender().equals(username)) {
+                hbox.setAlignment(Pos.CENTER_RIGHT);
+                textFlow.getStyleClass().add("text-flow-receiver");
+                if (hBoxName != null)
+                    hBoxName.setAlignment(Pos.CENTER_RIGHT);
+            } else {
+                hbox.setAlignment(Pos.CENTER_LEFT);
+                textFlow.getStyleClass().add("text-flow-sender");
+                if (hBoxName != null)
+                    hBoxName.setAlignment(Pos.CENTER_LEFT);
+            }
+            hbox.setPadding(new Insets(5, 5, 5, 5));
+            if (hBoxName != null) {
+                vbox.getChildren().add(hBoxName);
+            }
+            vbox.getChildren().add(hbox);
+        });
+    }
+    private VBox getChatMessagesVBox(Tab chatTab) {
+        VBox chatContainer = (VBox) chatTab.getContent();
+        ScrollPane chatContent = (ScrollPane) chatContainer.getChildren().getFirst();
+        chatContent.setVvalue(1.0); //non so se si mette qui
+        return (VBox) chatContent.getContent();
+    }
 
 
 }

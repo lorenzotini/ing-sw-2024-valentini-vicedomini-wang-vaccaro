@@ -15,11 +15,8 @@ public class UpdateOtherManuscriptMessage extends Message {
     @Override
     public void reportUpdate(VirtualView client, View view) {
         try{
-            //client.getMiniModel().setPlayer(miniModel.getPlayer());
-            //client.getMiniModel().setManuscript(miniModel.getPlayer().getManuscript());
             client.getMiniModel().setManuscriptsMap(miniModel.getManuscriptsMap());
-            //view.showString(string);
-            view.show(client.getMiniModel().getPlayer().getManuscript());
+            view.updateManuscriptOfOtherPlayer(client.getMiniModel().getPlayer().getManuscript());
         }catch(RemoteException e){
             e.printStackTrace();
         }

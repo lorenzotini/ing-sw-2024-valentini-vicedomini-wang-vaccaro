@@ -1,5 +1,7 @@
 package it.polimi.ingsw.gc27.View.GUI;
 
+import it.polimi.ingsw.gc27.Model.ClientClass.ClientChat;
+import it.polimi.ingsw.gc27.Model.ClientClass.MiniModel;
 import it.polimi.ingsw.gc27.View.Gui;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -76,6 +78,11 @@ public class JoinGameSceneController implements GenericController{
                    System.out.println("\nMESSAGGIO NON TROVATO\n");
                }
            });
+    }
+
+    @Override
+    public void overwriteChat(ClientChat chat, MiniModel minimodel) {
+
     }
 
     @Override

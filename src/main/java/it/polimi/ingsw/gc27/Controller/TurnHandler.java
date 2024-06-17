@@ -64,7 +64,7 @@ public class TurnHandler implements Serializable {
             }while(i < players.size());
             //TODO fai un check se bisogna fare qualcosa in caso in cui i sia uguale alla size o se deve esser gestito bene
         }
-        game.getBoard().initBoard(game.getPlayers());
+
     }
 
     public void notifyEndOfTurnState(Player player) throws InterruptedException {
@@ -216,7 +216,7 @@ public class TurnHandler implements Serializable {
                 // automatically choose the objective card for the player
                 player.getSecretObjectives().remove(1);
                 player.setPlayerState(new WaitingState(player, this));
-                updateObjectiveMessage = new UpdateObjectiveMessage(new MiniModel(player, player.getSecretObjectives().getFirst()));
+                updateObjectiveMessage = new UpdateObjectiveMessage(new MiniModel(player));
                 this.getGame().notifyObservers(updateObjectiveMessage);
                 this.notifyChooseObjectiveState();
                 break;

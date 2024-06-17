@@ -11,39 +11,39 @@
 
 <AnchorPane prefHeight="780.0" prefWidth="1535.0" styleClass="anchorpane" stylesheets="@../css/ChooseObjectiveScene.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.gc27.View.GUI.ChooseObjectiveSceneController">
    <children>
-      <ImageView fx:id="obj1" fitHeight="200.0" fitWidth="320.0" layoutX="217.0" layoutY="413.0" pickOnBounds="true" preserveRatio="true" styleClass="objectivecard1">
+      <ImageView fx:id="obj1" fitHeight="200.0" fitWidth="300.0" layoutX="217.0" layoutY="413.0" pickOnBounds="true" preserveRatio="true" styleClass="objectivecard1">
          <image>
             <Image url="@../Images/cards/card101_back.png" />
          </image></ImageView>
-      <ImageView fx:id="obj2" fitHeight="200.0" fitWidth="320.0" layoutX="1019.0" layoutY="413.0" pickOnBounds="true" preserveRatio="true" styleClass="objectivecard1">
+      <ImageView fx:id="obj2" fitHeight="200.0" fitWidth="300.0" layoutX="1019.0" layoutY="413.0" pickOnBounds="true" preserveRatio="true" styleClass="objectivecard1">
          <image>
             <Image url="@../Images/cards/card101_back.png" />
          </image></ImageView>
-      <Button fx:id="objButton1" layoutX="309.0" layoutY="663.0" mnemonicParsing="false" onAction="#sendObj" prefHeight="25.0" prefWidth="120.0" text="Select">
+      <Button fx:id="objButton1" layoutX="307.0" layoutY="635.0" mnemonicParsing="false" onAction="#sendObj" prefHeight="25.0" prefWidth="120.0" text="Select">
          <font>
             <Font name="Agency FB" size="24.0" />
          </font></Button>
-      <Button fx:id="objButton2" layoutX="1108.0" layoutY="660.0" mnemonicParsing="false" onAction="#sendObj" prefHeight="25.0" prefWidth="120.0" text="Select">
+      <Button fx:id="objButton2" layoutX="1109.0" layoutY="635.0" mnemonicParsing="false" onAction="#sendObj" prefHeight="25.0" prefWidth="120.0" text="Select">
          <font>
             <Font name="Agency FB" size="24.0" />
          </font></Button>
-      <Pane layoutX="525.0" layoutY="46.0">
+      <Pane layoutX="562.0" layoutY="54.0" prefHeight="275.0" prefWidth="415.0">
          <children>
-            <ImageView fitHeight="324.0" fitWidth="585.0" pickOnBounds="true" preserveRatio="true" styleClass="customlabel" />
-            <Label layoutX="272.0" layoutY="171.0" text="Choose your">
+            <ImageView fitHeight="275.0" fitWidth="415.0" pickOnBounds="true" preserveRatio="true" styleClass="customlabel" />
+            <Label layoutX="231.0" layoutY="147.0" prefHeight="33.0" prefWidth="110.0" text="Choose your">
                <font>
-                  <Font name="Agency FB" size="32.0" />
+                  <Font name="Agency FB" size="27.0" />
                </font>
             </Label>
-            <Label layoutX="251.0" layoutY="208.0" text="Secret Objective">
+            <Label layoutX="215.0" layoutY="179.0" text="Secret Objective">
                <font>
-                  <Font name="Agency FB" size="32.0" />
+                  <Font name="Agency FB" size="27.0" />
                </font>
             </Label>
          </children>
       </Pane>
-      <ImageView fitHeight="100.0" fitWidth="260.0" layoutX="508.0" layoutY="644.0" pickOnBounds="true" preserveRatio="true" styleClass="decoration" />
-      <ImageView fitHeight="100.0" fitWidth="260.0" layoutX="768.0" layoutY="644.0" pickOnBounds="true" preserveRatio="true" styleClass="decoration2" />
+      <ImageView fitHeight="100.0" fitWidth="260.0" layoutX="513.0" layoutY="644.0" pickOnBounds="true" preserveRatio="true" styleClass="decoration" />
+      <ImageView fitHeight="100.0" fitWidth="260.0" layoutX="773.0" layoutY="644.0" pickOnBounds="true" preserveRatio="true" styleClass="decoration2" />
       <TabPane fx:id="chatTabPane" layoutX="1143.0" layoutY="55.0" prefHeight="262.0" prefWidth="299.0" stylesheets="@../css/Chat.css" tabClosingPolicy="UNAVAILABLE" />
    </children>
 </AnchorPane>

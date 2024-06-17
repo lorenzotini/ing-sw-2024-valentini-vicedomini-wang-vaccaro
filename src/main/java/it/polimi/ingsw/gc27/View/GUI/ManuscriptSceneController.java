@@ -56,6 +56,8 @@ public class ManuscriptSceneController implements GenericController {
     @FXML
     private VBox commonObjectives;
     @FXML
+    private ImageView secretObjective;
+    @FXML
     private TabPane chatTabPane;
 
 
@@ -114,6 +116,13 @@ public class ManuscriptSceneController implements GenericController {
             zoomCardOnHover(commonObjective, 1.2);
             commonObjectives.getChildren().add(commonObjective);
         }
+
+        // secret Objective
+        secretObjective.setImage(new Image(miniModel.getPlayer().getSecretObjectives().getFirst().getFront().getImagePath()));
+//        newHandCard.setFitHeight(100);
+//        newHandCard.setFitWidth(150);
+        zoomCardOnHover(secretObjective, 1.3);
+
         // counters
         overwriteCounters(miniModel);
 

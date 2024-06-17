@@ -36,8 +36,6 @@ public interface View {
     void updateManuscriptOfOtherPlayer(ClientManuscript manuscript);
     void show(ClientChat chat);
 
-
-
     String read();
 
     void okAck(String string);

@@ -110,7 +110,6 @@ public class Gui implements View {
     //start of the game after initialization
     @Override
     public void run() throws IOException {
-
         Platform.runLater(() -> {
             try {
                 if (!isReconnected) {

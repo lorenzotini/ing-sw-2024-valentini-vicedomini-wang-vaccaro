@@ -145,83 +145,17 @@ public class PlaceStarterCardScene implements GenericController{
             throw new RuntimeException(e);
         }
     }
-    public void overwriteChat(ClientChat chat, MiniModel miniModel){
-            Platform.runLater(()-> {
-                if (chat.getChatters().size() == 1) {
-                    Tab tab = chatTabHashMapP.get("Global");
-                    VBox vbox = getChatMessagesVBox(tab);
+    public void overwriteChat(ClientChat chat, MiniModel miniModel) {
+        Platform.runLater(() -> {
+            String username = chat.getChatters().stream()
+                    .filter(user -> !user.equals(miniModel.getPlayer().getUsername()))
+                    .toList().getFirst();
+            Tab tab = chatTabHashMapP.get(username);
 
-                    Text textName = new Text(chat.getChatMessages().getLast().getSender());
-                    textName.getStyleClass().add("text-name");
-                    PawnColour colour = miniModel.getBoard().getColourPlayermap().get(chat.getChatMessages().getLast().getSender());
-                    switch (colour){ //does not work
-                        case BLUE: textName.getStyleClass().add("tab-colour-blue");
-                        case YELLOW: textName.getStyleClass().add("tab-colour-yellow");
-                        case GREEN: textName.getStyleClass().add("tab-colour-green");
-                        case RED: textName.getStyleClass().add("tab-colour-red");
-                    }
-                    HBox hBoxName = new HBox(textName);
-                    hBoxName.setPadding(new Insets(0, 3, 0, 3));
+            Gui.getInstance().addLastChatMessage(chat.getChatMessages().getLast(), tab);
+            //todo: fare scroll automatico
 
-
-                    Text text = new Text();
-                    text.setText(chat.getChatMessages().getLast().getContent());
-                    text.getStyleClass().add("text");
-                    TextFlow textFlow = new TextFlow(text);
-                    textFlow.setMaxWidth(240);
-
-                    textFlow.setTextAlignment(TextAlignment.LEFT);
-                    HBox hbox = new HBox(textFlow);
-
-                    if (chat.getChatMessages().getLast().getSender().equals(miniModel.getPlayer().getUsername())) {
-                        hbox.setAlignment(Pos.CENTER_RIGHT);
-                        hBoxName.setAlignment(Pos.CENTER_RIGHT);
-                        textFlow.getStyleClass().add("text-flow-sender");
-
-                    }
-                    //other players send the message
-                    else {
-                        hbox.setAlignment(Pos.CENTER_LEFT);
-                        hBoxName.setAlignment(Pos.CENTER_LEFT);
-                        textFlow.getStyleClass().add("text-flow-receiver");
-
-                    }
-
-                    hbox.setPadding(new Insets(1, 4, 1, 5));
-                    vbox.getChildren().add(hBoxName);
-                    vbox.getChildren().add(hbox);
-                } else {
-                    String username = chat.getChatters().stream()
-                            .filter(user -> !user.equals(miniModel.getPlayer().getUsername()))
-                            .toList().getFirst();
-                    Tab tab = chatTabHashMapP.get(username);
-
-                    VBox vbox = getChatMessagesVBox(tab);
-
-                    Text text = new Text();
-                    text.setText(chat.getChatMessages().getLast().getContent());
-                    text.getStyleClass().add("text");
-
-                    TextFlow textFlow = new TextFlow(text);
-                    textFlow.setMaxWidth(240);
-                    textFlow.setTextAlignment(TextAlignment.LEFT);
-                    HBox hbox = new HBox(textFlow);
-
-                    if (chat.getChatMessages().getLast().getSender().equals(username)) {
-                        hbox.setAlignment(Pos.CENTER_LEFT);
-                        textFlow.getStyleClass().add("text-flow-receiver");
-
-                    } else {
-                        hbox.setAlignment(Pos.CENTER_RIGHT);
-                        textFlow.getStyleClass().add("text-flow-sender");
-                    }
-                    hbox.setPadding(new Insets(5, 5, 5, 5));
-                    vbox.getChildren().add(hbox);
-
-                    //todo: fare scroll automatico
-                }
-
-            });
+        });
     }
     private VBox getChatMessagesVBox(Tab chatTab) {
         VBox chatContainer = (VBox) chatTab.getContent();

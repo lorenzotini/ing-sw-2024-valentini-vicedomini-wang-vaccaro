@@ -152,18 +152,14 @@ public class ChooseObjectiveSceneController implements GenericController {
 
     public void overwriteChat(ClientChat chat, MiniModel miniModel) {
         Platform.runLater(() -> {
-            if (chat.getChatters().size() == 1) {
-                Tab tab = chatTabHashMapC.get("Global");
-                Gui.getInstance().addLastChatMessage(chat.getChatMessages().getLast(), tab);
-            } else {
-                String username = chat.getChatters().stream()
-                        .filter(user -> !user.equals(miniModel.getPlayer().getUsername()))
-                        .toList().getFirst();
-                Tab tab = chatTabHashMapC.get(username);
+            String username = chat.getChatters().stream()
+                    .filter(user -> !user.equals(miniModel.getPlayer().getUsername()))
+                    .toList().getFirst();
+            Tab tab = chatTabHashMapC.get(username);
 
-                Gui.getInstance().addLastChatMessage(chat.getChatMessages().getLast(), tab);
-                //todo: fare scroll automatico
-            }
+            Gui.getInstance().addLastChatMessage(chat.getChatMessages().getLast(), tab);
+            //todo: fare scroll automatico
+
         });
     }
 
@@ -225,11 +221,11 @@ public class ChooseObjectiveSceneController implements GenericController {
     public void fullChatAllocate() throws RemoteException {
         MiniModel miniModel = Gui.getInstance().getClient().getMiniModel();
         String myUsername = miniModel.getPlayer().getUsername();
-        for (ClientChat chat : miniModel.getChats()){
+        for (ClientChat chat : miniModel.getChats()) {
             Tab tab = chatTabHashMapC.get(chat.getChatters().stream()
                     .filter(user -> !user.equals(myUsername))
                     .toList().getFirst());
-            for (ChatMessage message : chat.getChatMessages() ){
+            for (ChatMessage message : chat.getChatMessages()) {
                 Gui.getInstance().addLastChatMessage(message, tab);
             }
         }

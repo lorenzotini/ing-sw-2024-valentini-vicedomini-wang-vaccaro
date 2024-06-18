@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="780.0" prefWidth="1535.0" stylesheets="@../css/ManuscriptScene.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.gc27.View.GUI.ManuscriptSceneController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="780.0" prefWidth="1535.0" stylesheets="@../css/ManuscriptScene.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.gc27.View.GUI.ManuscriptSceneController">
    <children>
       <HBox fx:id="handCards" layoutX="292.0" layoutY="650.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="100.0" prefWidth="470.0" spacing="10.0" />
       <VBox fx:id="counters" layoutX="924.0" layoutY="183.0" prefHeight="452.0" prefWidth="218.0" />
@@ -45,19 +45,19 @@
             <VBox fx:id="commonObjectives" alignment="TOP_CENTER" layoutX="24.0" layoutY="31.0" prefHeight="140.0" prefWidth="180.0" spacing="10.0" />
          </children>
       </Pane>
-      <GridPane fx:id="scoreBoard" gridLinesVisible="true" layoutX="1184.0" layoutY="92.0" prefHeight="658.0" prefWidth="322.0" visible="false">
+      <GridPane fx:id="scoreBoard" gridLinesVisible="true" layoutX="1184.0" layoutY="92.0" prefHeight="659.0" prefWidth="322.0">
          <columnConstraints>
             <ColumnConstraints maxWidth="17.0" minWidth="0.0" prefWidth="13.0" />
             <ColumnConstraints maxWidth="100.0" minWidth="0.0" prefWidth="54.0" />
             <ColumnConstraints maxWidth="100.0" minWidth="0.0" prefWidth="5.0" />
             <ColumnConstraints minWidth="0.0" prefWidth="13.0" />
             <ColumnConstraints minWidth="0.0" prefWidth="4.0" />
-            <ColumnConstraints minWidth="10.0" prefWidth="59.0" />
-            <ColumnConstraints minWidth="0.0" prefWidth="24.0" />
+            <ColumnConstraints maxWidth="59.0" minWidth="10.0" prefWidth="58.199951171875" />
+            <ColumnConstraints maxWidth="53.60009765625" minWidth="0.0" prefWidth="24.800048828125" />
             <ColumnConstraints minWidth="10.0" prefWidth="53.0" />
             <ColumnConstraints minWidth="0.0" prefWidth="9.0" />
-            <ColumnConstraints minWidth="0.0" prefWidth="10.0" />
-            <ColumnConstraints minWidth="0.0" prefWidth="64.0" />
+            <ColumnConstraints maxWidth="34.800024414062534" minWidth="0.0" prefWidth="19.599951171875034" />
+            <ColumnConstraints maxWidth="49.2000732421875" minWidth="0.0" prefWidth="34.800048828125" />
          </columnConstraints>
          <rowConstraints>
             <RowConstraints minHeight="10.0" prefHeight="30.0" />
@@ -80,8 +80,8 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" />
-            <RowConstraints minHeight="10.0" prefHeight="22.0" />
-            <RowConstraints minHeight="10.0" prefHeight="23.0" />
+            <RowConstraints maxHeight="46.400000000000034" minHeight="10.0" prefHeight="20.80000000000001" />
+            <RowConstraints maxHeight="25.600000000000023" minHeight="0.0" prefHeight="25.600000000000023" />
          </rowConstraints></GridPane>
    </children>
 </AnchorPane>

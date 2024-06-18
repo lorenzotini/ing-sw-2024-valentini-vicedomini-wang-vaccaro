@@ -47,3 +47,33 @@
 .tab-colour-blue{
     -fx-background-color: rgb(100,149,237)
 }
+
+.plant{
+    -fx-image: url("../Images/utility/symbols/plant.png");
+}
+.animal{
+    -fx-image: url("../Images/utility/symbols/animal.png");
+}
+.insect{
+    -fx-image: url("../Images/utility/symbols/insect.png");
+}
+.fungus{
+    -fx-image: url("../Images/utility/symbols/fungus.png");
+}
+.quill{
+    -fx-image: url("../Images/utility/symbols/quill.png");
+}
+.inkwell{
+    -fx-image: url("../Images/utility/symbols/inkwell.png");
+}
+.parchment{
+    -fx-image: url("../Images/utility/symbols/parchment.png");
+}
+.counter-label{
+    -fx-font-family: "Agency FB";
+    -fx-font-size: 30px;
+}
+.label {
+    -fx-font-size: 30px;
+    -fx-font: 30 "Agency FB";
+}

@@ -27,6 +27,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.*;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.text.TextFlow;
@@ -618,16 +619,23 @@ public class ManuscriptSceneController implements GenericController {
         Platform.runLater(() -> {
 
             counters.getChildren().clear();
+
             for (CornerSymbol cs : CornerSymbol.valuesList()) {
                 if (cs.equals(CornerSymbol.BLACK) || cs.equals(CornerSymbol.EMPTY)) continue;
-                TextField counter = new TextField(cs + " " + miniModel.getManuscript().getCounter(cs));
-                counter.setEditable(false);
+                Label counter = new Label( "  -  " + miniModel.getManuscript().getCounter(cs));
+
+                //TextField counter = new TextField(cs + " " + miniModel.getManuscript().getCounter(cs));
+                counter.setPrefHeight(60);
+                counter.setFont(Font.font("Agency FB", 30));
+                counter.setFont(Font.font("Agency FB", 30));
+                //counter.setEditable(false);
                 counters.getChildren().add(counter);
             }
 
         });
 
     }
+
 
     private void addValidPlacements(MiniModel miniModel, Placement placement, GridPane grid){
         for(int i = -1; i <= 1; i = i + 2){

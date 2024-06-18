@@ -15,6 +15,15 @@ public abstract class Face implements Serializable {
     private Corner cornerLR;
     private Corner cornerLL;
 
+    /**
+     * constructor
+     * @param imagePath the path of the image converted to string
+     * @param colour the colour of the card
+     * @param cornerUR corner upper right
+     * @param cornerUL corner upper  left
+     * @param cornerLR corner lower right
+     * @param cornerLL corner lower left
+     */
     public Face(String imagePath, Kingdom colour, Corner cornerUR, Corner cornerUL, Corner cornerLR, Corner cornerLL) {
         this.imagePath = imagePath;
         this.colour = colour;
@@ -24,34 +33,13 @@ public abstract class Face implements Serializable {
         this.cornerLL = cornerLL;
     }
 
-    public Kingdom getColour() {
-        return colour;
-    }
-
-
-    public Corner getCornerUR() {
-        return cornerUR;
-    }
-
-
-    public Corner getCornerUL() {
-        return cornerUL;
-    }
-
-
-
-    public Corner getCornerLR() {
-        return cornerLR;
-    }
-
-
-    public Corner getCornerLL() {
-        return cornerLL;
-    }
-
-
-    //per il momento ritorna null se i parametri passati non sono validi
-    //Use indexes as cartesian coordinates ==> (1, 1) for UR, (-1, 1) for UL, (-1, -1) for LL, (1, -1) for LR
+    /**
+     * gets the needed corner
+     * it uses indexes as cartesian coordinates ==> (1, 1) for UR, (-1, 1) for UL, (-1, -1) for LL, (1, -1) for LR
+     * @param i index
+     * @param j index
+     * @return the corner needed
+     */
     public Corner getCorner(int i, int j) {
         if(i == 1 && j == 1){
             return cornerUR;
@@ -67,13 +55,33 @@ public abstract class Face implements Serializable {
         }
     }
 
+    /**
+     * getters
+     */
+    public Kingdom getColour() {
+        return colour;
+    }
+
+    public Corner getCornerUR() {
+        return cornerUR;
+    }
+
+    public Corner getCornerUL() {
+        return cornerUL;
+    }
+    public Corner getCornerLR() {
+        return cornerLR;
+    }
+    public Corner getCornerLL() {
+        return cornerLL;
+    }
     public String getImagePath() {
         return imagePath;
     }
 
-    public void setImagePath(String imagePath) {
-        this.imagePath = imagePath;
-    }
-
+    /**
+     * method overwritten by the concrete classes
+     * @return the permanent resource
+     */
     public abstract ArrayList<Kingdom> getPermanentResources();
 }

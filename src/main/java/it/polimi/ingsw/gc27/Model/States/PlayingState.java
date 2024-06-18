@@ -61,6 +61,6 @@ public class PlayingState extends PlayerState {
     }
     @Override
     public String toStringGUI(){
-        return "It's your turn to play!";
+        return "It's your turn to play!\n Place a card from your hand";
     }
 }

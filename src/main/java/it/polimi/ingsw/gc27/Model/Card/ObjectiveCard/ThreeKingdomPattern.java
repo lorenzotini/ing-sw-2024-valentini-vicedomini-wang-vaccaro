@@ -7,16 +7,27 @@ import it.polimi.ingsw.gc27.Model.Game.Manuscript;
 import it.polimi.ingsw.gc27.View.ColourControl;
 
 public class ThreeKingdomPattern extends ObjectiveCard {
-    //ATTENZIONE: IL PARSER NON PRENDE IL CORNERSYMBOL. MODIFICARE METODO O PARLA CON LORI
     public final int OBJECTIVE_POINTS = 2;
     private Kingdom kingdom;
 
+    /**
+     * constructor matching super {@link ObjectiveCard}
+     * @param id card's id
+     * @param front front face
+     * @param back back face
+     * @param kingdom symbol counted
+     */
     public ThreeKingdomPattern(int id, FrontFace front, BackFace back, Kingdom kingdom) {
         super(id, front, back);
         this.kingdom = kingdom;
     }
 
-    //ATTENZIONE: IL PARSER NON PRENDE IL CORNERSYMBOL. MODIFICARE METODO O PARLA CON LORI
+    /**
+     * this method returns the points scored according to the three kingdom (three of the same basic symbol) pattern objective card
+     * it iterates throughout all the player's manuscript and finds the given symbol of the objective card
+     * @param manuscript is the player's field
+     * @return int
+     */
     @Override
     public int calculateObjectivePoints(Manuscript manuscript) {
 
@@ -25,11 +36,20 @@ public class ThreeKingdomPattern extends ObjectiveCard {
         return OBJECTIVE_POINTS*(count/3);
     }
 
+    /**
+     * changes the colour of the string provided
+     * @param s initial string
+     * @return colored string
+     */
     @Override
     protected String paintString(String s) {
         return this.kingdom.toColourControl() + s + ColourControl.RESET;
     }
 
+    /**
+     * transforms the objective card to an equivalent string printable on the Tui terminal
+     * @return the card in string form
+     */
     @Override
     public String toCliCard(){
         String kingdom = this.kingdom.toCornerSymbol().toCliString();

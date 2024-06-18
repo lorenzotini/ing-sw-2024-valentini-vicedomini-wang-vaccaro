@@ -2,13 +2,22 @@ package it.polimi.ingsw.gc27.Model.Card;
 
 public class ResourceCard extends Card {
     private int cardPoints;
-    /*public ResourceCard(){
-        super();
-    }*/
+
+    /**
+     * constructor matching super {@link Card}
+     * @param id card's id
+     * @param cardPoints points scored if played
+     * @param front front face
+     * @param back back face
+     */
     public ResourceCard(int id, int cardPoints, FrontFace front, BackFace back) {
         super(id, front, back);
         this.cardPoints = cardPoints;
     }
+
+    /**
+     * getter
+     */
     public int getCardPoints() {
         return cardPoints;
     }

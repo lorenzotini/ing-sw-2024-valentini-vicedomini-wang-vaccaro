@@ -9,15 +9,28 @@ import it.polimi.ingsw.gc27.View.ColourControl;
 public class DifferentPattern extends ObjectiveCard {
 
     public final int OBJECTIVE_POINTS = 3;
+
+    /**
+     * constructor matching super {@link ObjectiveCard}
+     * @param id card's id
+     * @param front front face
+     * @param back back face
+     */
     public DifferentPattern(int id, FrontFace front, BackFace back) {
         super(id, front, back);
     }
 
+    /**
+     * this method returns the points scored according to the different (all three of the special symbol) pattern objective card
+     * it iterates throughout all the player's manuscript and finds the given symbols of the objective card
+     * @param manuscript is the player's field
+     * @return int
+     */
     @Override
     public int calculateObjectivePoints(Manuscript manuscript) {
         int count;
         int points;
-        int min = 9999;
+        int min = 9999; // arbitrary big number that prevents bugs
 
         count = manuscript.getCounter(CornerSymbol.QUILL);
         if(count<=min) {
@@ -35,11 +48,20 @@ public class DifferentPattern extends ObjectiveCard {
         return points;
     }
 
+    /**
+     * changes the colour of the string provided
+     * @param s initial string
+     * @return colored string
+     */
     @Override
     protected String paintString(String s) {
         return ColourControl.YELLOW + s + ColourControl.RESET;
     }
 
+    /**
+     * transforms the objective card to an equivalent string printable on the Tui terminal
+     * @return the card in string form
+     */
     @Override
     public String toCliCard(){
         String first = paintString("╔═════════════════╗");

@@ -253,7 +253,7 @@ public class Gui implements View {
 
                     // update manuscripts
                     for(Map.Entry<String, ClientManuscript> element :  miniModel.getManuscriptsMap().entrySet()){
-                        controller.overwriteManuscript(miniModel, element.getKey());
+                        controller.overwriteManuscript(miniModel, element.getKey(), false);
                     }
 
                     //update counters
@@ -339,19 +339,19 @@ public class Gui implements View {
     public void okAck(String string) {
         System.out.println("\nOk " +currentController.toString() + string);
         currentController.receiveOk(string);
-        if(currentController instanceof ManuscriptSceneController){
-
-            ((ManuscriptSceneController) currentController).getActionFeedback().setText(string);
-        }
+//        if(currentController instanceof ManuscriptSceneController){
+//
+//            ((ManuscriptSceneController) currentController).getActionFeedback().setText(string);
+//        }
     }
 
     @Override
     public void koAck(String string) {
         System.out.println("\nKo " +currentController.toString() + string);
         currentController.receiveKo(string);
-        if(currentController instanceof ManuscriptSceneController){
-            ((ManuscriptSceneController) currentController).getActionFeedback().setText(string);
-        }
+//        if(currentController instanceof ManuscriptSceneController){
+//            ((ManuscriptSceneController) currentController).getActionFeedback().setText(string);
+//        }
         //error handler
     }
 
@@ -426,6 +426,5 @@ public class Gui implements View {
         chatContent.setVvalue(1.0); //non so se si mette qui
         return (VBox) chatContent.getContent();
     }
-
 
 }

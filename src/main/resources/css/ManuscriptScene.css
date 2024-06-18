@@ -1,18 +1,21 @@
-.manuscriptCard {
-    /*-fx-image: url("../Images/cards/card1_back.png");*/
 
-    /*-fx-border-radius: 25px;*/
-}
-
-.gridpane{
-    -fx-background-color: #000000;
+/*.gridpane{
+    -fx-background-color: rgb(100, 100, 200);
     -fx-alignment: centre;
 }
 
-.rettangolo{
-
+.marketArea{
+    -fx-background-color: rgb(100, 230, 250);
 }
 
+.commonObjectives{
+    -fx-background-color: rgb(100, 50, 250);
+}
+
+.marketGolds{
+    -fx-background-color: rgb(255, 0, 250);
+}
+*/
 .text-name {
     -fx-font-size: 10.7px;
 }
@@ -46,4 +49,34 @@
 }
 .tab-colour-blue{
     -fx-background-color: rgb(100,149,237)
+}
+
+.plant{
+    -fx-image: url("../Images/utility/symbols/plant.png");
+}
+.animal{
+    -fx-image: url("../Images/utility/symbols/animal.png");
+}
+.insect{
+    -fx-image: url("../Images/utility/symbols/insect.png");
+}
+.fungus{
+    -fx-image: url("../Images/utility/symbols/fungus.png");
+}
+.quill{
+    -fx-image: url("../Images/utility/symbols/quill.png");
+}
+.inkwell{
+    -fx-image: url("../Images/utility/symbols/inkwell.png");
+}
+.parchment{
+    -fx-image: url("../Images/utility/symbols/parchment.png");
+}
+.counter-label{
+    -fx-font-family: "Agency FB";
+    -fx-font-size: 30px;
+}
+.label {
+    -fx-font-size: 30px;
+    -fx-font: 30 "Agency FB";
 }

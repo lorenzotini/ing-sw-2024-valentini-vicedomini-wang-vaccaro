@@ -10,6 +10,11 @@ public class Corner implements Serializable {
     private boolean black;
     private CornerSymbol symbol;
 
+    /**
+     * constructor
+     * @param black indicates if the corner is
+     * @param symbol the symbol
+     */
     public Corner(boolean black, CornerSymbol symbol) {
         this.hidden = false;
         this.black = black;

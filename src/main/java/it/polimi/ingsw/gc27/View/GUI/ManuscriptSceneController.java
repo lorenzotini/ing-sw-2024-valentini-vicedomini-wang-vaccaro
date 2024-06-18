@@ -97,7 +97,7 @@ public class ManuscriptSceneController implements GenericController {
 
         // populate manuscripts
         for(Map.Entry<String, ClientManuscript> element :  miniModel.getManuscriptsMap().entrySet()){
-            overwriteManuscript(miniModel, element.getKey());
+            overwriteManuscript(miniModel, element.getKey(), true);
         }
 
         // populate hand with cards
@@ -476,7 +476,7 @@ public class ManuscriptSceneController implements GenericController {
         }
     }
 
-    public void overwriteManuscript(MiniModel miniModel, String username) {
+    public void overwriteManuscript(MiniModel miniModel, String username, boolean newScene) {
 
         Platform.runLater(() -> {
 
@@ -538,6 +538,12 @@ public class ManuscriptSceneController implements GenericController {
                 scrollPane.setContent(grid);
                 handleZoom(scrollPane, grid);
             }
+
+            // make the player's manuscript as first tab visualized
+            if(newScene){
+                manuscriptTabPane.getSelectionModel().select(manuscriptTabPane.getTabs().stream().filter(tab -> tab.getText().equals(miniModel.getPlayer().getUsername())).findFirst().get());
+            }
+
         });
 
     }

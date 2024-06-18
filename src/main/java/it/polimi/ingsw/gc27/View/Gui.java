@@ -253,7 +253,7 @@ public class Gui implements View {
 
                     // update manuscripts
                     for(Map.Entry<String, ClientManuscript> element :  miniModel.getManuscriptsMap().entrySet()){
-                        controller.overwriteManuscript(miniModel, element.getKey());
+                        controller.overwriteManuscript(miniModel, element.getKey(), false);
                     }
 
                     //update counters

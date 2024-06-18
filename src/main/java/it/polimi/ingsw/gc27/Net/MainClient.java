@@ -12,10 +12,24 @@ import javafx.application.Application;
 import java.io.IOException;
 import java.rmi.NotBoundException;
 
+/**
+ * The MainClient class represents the main client application.
+ * It initializes and runs the RMI or Socket client based on the provided arguments, and connects to the server.
+ * It also contains a VirtualView instance for handling client view.
+ */
 public class MainClient {
 
+    /**
+     * The main method that starts the client application.
+     *
+     * @param args The command-line arguments.
+     * @throws IOException If an I/O error occurs.
+     * @throws NotBoundException If the RMI object is not found.
+     * @throws InterruptedException If the operation is interrupted.
+     */
     public static void main(String[] args) throws IOException, NotBoundException, InterruptedException {
 
+        // TODO rimuovere le eccezioni dalla firma del main
         // Default values
         String ipAddress = "localhost";
         View view = new Tui();

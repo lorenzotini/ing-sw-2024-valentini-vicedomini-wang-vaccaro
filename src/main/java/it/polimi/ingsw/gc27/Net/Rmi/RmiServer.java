@@ -12,17 +12,49 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.*;
 
+/**
+ * The RmiServer class implements the VirtualServer interface and represents the server in the RMI network.
+ * It manages the connections of the clients, receives commands from them, and checks if the clients are alive.
+ * It also contains a GigaController instance for handling game logic.
+ */
 public class RmiServer implements VirtualServer {
 
+    /**
+     * List of connected clients.
+     */
     private final List<VirtualView> clients = Collections.synchronizedList(new ArrayList<>());    //clients of different games
+
+    /**
+     * Map of clients and their last ping time.
+     */
     private final Map<VirtualView, Long> clientsPing = new HashMap<>();
+
+    /**
+     * The GigaController instance for handling game logic.
+     */
     private final GigaController console;
+
+    /**
+     * Maximum time in milliseconds a client can be inactive before being considered disconnected.
+     */
     private static final int MAX_PING_TIME = 500000;
 
+
+    /**
+     * Constructs a new RmiServer with the given GigaController.
+     *
+     * @param controller The GigaController for handling game logic.
+     */
     public RmiServer(GigaController controller) {
         this.console = controller;
     }
 
+    /**
+     * Starts the RMI server and begins listening for client connections.
+     *
+     * @throws IOException          If an I/O error occurs.
+     * @throws InterruptedException If the operation is interrupted.
+     */
     public void runServer() throws IOException, InterruptedException {
 
         String name = "VirtualServer";
@@ -44,12 +76,21 @@ public class RmiServer implements VirtualServer {
 
         // Start the thread that executes the commands
     }
+
+    /**
+     * Receives a command from a client and adds it to the GigaController.
+     *
+     * @param command The command to receive.
+     */
     @Override
     public void receiveCommand(Command command) {
         console.addCommandToGameController(command);
     }
 
-    public void areClientsAlive()  {
+    /**
+     * Checks if the clients are alive by pinging them and removes any clients that have not responded within the maximum ping time.
+     */
+    public void areClientsAlive() {
         while (true) {
             synchronized (clients) {
                 Iterator<VirtualView> iterator = clients.iterator();
@@ -63,9 +104,9 @@ public class RmiServer implements VirtualServer {
                         iterator.remove();
                         console.removeReferences(client);
                     }
-                    try{
+                    try {
                         client.pingFromServer();
-                    }catch (RemoteException e){
+                    } catch (RemoteException e) {
                         iterator.remove();
                         console.removeReferences(client);
                     }
@@ -81,10 +122,23 @@ public class RmiServer implements VirtualServer {
         }
     }
 
+    /**
+     * Receives a ping from a client and updates the client's last ping time.
+     *
+     * @param client The client sending the ping.
+     * @throws RemoteException If a remote access error occurs.
+     */
     @Override
     public void receivePing(VirtualView client) throws RemoteException {
         clientsPing.replace((VirtualView) client, System.currentTimeMillis());
     }
+
+    /**
+     * Connects a client to the server and adds it to the list of clients.
+     *
+     * @param client The client to connect.
+     * @throws RemoteException If a remote access error occurs.
+     */
     @Override
     public void connect(VirtualView client) throws RemoteException {
         synchronized (this.clients) {
@@ -94,8 +148,14 @@ public class RmiServer implements VirtualServer {
         System.out.println("Client connected - rmi - " + client.toString());
     }
 
+    /**
+     * Welcomes a player to the server by adding them to the GigaController.
+     *
+     * @param client The client representing the player.
+     * @throws InterruptedException If the operation is interrupted.
+     */
     @Override
-    public void welcomePlayer(VirtualView client) throws IOException, InterruptedException {
+    public void welcomePlayer(VirtualView client) throws InterruptedException {
         this.console.welcomePlayer(client);
     }
 

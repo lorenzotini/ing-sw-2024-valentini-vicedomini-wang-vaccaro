@@ -11,10 +11,28 @@ import java.net.Inet4Address;
 public class ServerApp {
 
     // TODO maybe make serverApp singleton
+    /**
+     * The GigaController instance for handling game logic.
+     */
     private final GigaController console = new GigaController();
+
+    /**
+     * The SocketServer instance for handling socket connections.
+     */
     private SocketServer socketServer;
+
+    /**
+     * The RmiServer instance for handling RMI connections.
+     */
     private RmiServer rmiServer;
 
+    /**
+     * The main method that starts the server application.
+     *
+     * @param args The command-line arguments.
+     * @throws IOException If an I/O error occurs.
+     * @throws InterruptedException If the operation is interrupted.
+     */
     public static void main(String[] args) throws IOException, InterruptedException {
 
         ServerApp serverApp = new ServerApp();

@@ -19,11 +19,11 @@
          <image>
             <Image url="@../Images/cards/card101_back.png" />
          </image></ImageView>
-      <Button fx:id="objButton1" layoutX="307.0" layoutY="635.0" mnemonicParsing="false" onAction="#sendObj" prefHeight="25.0" prefWidth="120.0" text="Select">
+      <Button fx:id="objButton1" layoutX="307.0" layoutY="635.0" mnemonicParsing="false" onMouseClicked="#sendObj" prefHeight="25.0" prefWidth="120.0" text="Select">
          <font>
             <Font name="Agency FB" size="24.0" />
          </font></Button>
-      <Button fx:id="objButton2" layoutX="1109.0" layoutY="635.0" mnemonicParsing="false" onAction="#sendObj" prefHeight="25.0" prefWidth="120.0" text="Select">
+      <Button fx:id="objButton2" layoutX="1109.0" layoutY="635.0" mnemonicParsing="false" onMouseClicked="#sendObj" prefHeight="25.0" prefWidth="120.0" text="Select">
          <font>
             <Font name="Agency FB" size="24.0" />
          </font></Button>

@@ -340,6 +340,7 @@ public class Gui implements View {
         System.out.println("\nOk " +currentController.toString() + string);
         currentController.receiveOk(string);
         if(currentController instanceof ManuscriptSceneController){
+
             ((ManuscriptSceneController) currentController).getActionFeedback().setText(string);
         }
     }

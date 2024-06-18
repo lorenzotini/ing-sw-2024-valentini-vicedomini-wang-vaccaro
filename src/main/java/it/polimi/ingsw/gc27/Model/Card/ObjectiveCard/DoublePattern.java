@@ -11,10 +11,24 @@ public class DoublePattern extends ObjectiveCard {
     public final int OBJECTIVE_POINTS = 2;
     private CornerSymbol cornerSymbol;
 
+    /**
+     * constructor matching super {@link ObjectiveCard}
+     * @param id card's id
+     * @param front front face
+     * @param back back face
+     * @param cornerSymbol the objective symbol counted
+     */
     public DoublePattern(int id, FrontFace front, BackFace back, CornerSymbol cornerSymbol) {
         super(id, front, back);
         this.cornerSymbol = cornerSymbol;
     }
+
+    /**
+     * this method returns the points scored according to the double symbol pattern objective card
+     * it iterates throughout all the player's manuscript and finds the given symbol of the objective card
+     * @param manuscript is the player's field
+     * @return int
+     */
     @Override
     public int calculateObjectivePoints(Manuscript manuscript) {
         int count;
@@ -24,11 +38,20 @@ public class DoublePattern extends ObjectiveCard {
         return OBJECTIVE_POINTS*(count/2);
     }
 
+    /**
+     * changes the colour of the string provided
+     * @param s initial string
+     * @return colored string
+     */
     @Override
     protected String paintString(String s) {
         return ColourControl.YELLOW + s + ColourControl.RESET;
     }
 
+    /**
+     * transforms the objective card to an equivalent string printable on the Tui terminal
+     * @return the card in string form
+     */
     @Override
     public String toCliCard(){
         String first = paintString("╔═════════════════╗");

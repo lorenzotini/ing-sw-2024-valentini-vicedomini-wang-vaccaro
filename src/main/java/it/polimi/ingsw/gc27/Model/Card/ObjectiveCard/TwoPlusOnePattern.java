@@ -14,10 +14,19 @@ public class TwoPlusOnePattern extends ObjectiveCard {
     private final int x;
     private final int y;
 
-
-    // first colour is the first colour looking from top to bottom the patter chosen (the top colour)
-    // second colour is the second colour looking from top to bottom the patter chosen (the bottom colour)
-    // x and y are the indexes in which the minority card is placed ex. x=1 && y=1 the minority card is placed on top right
+    /**
+     * constructor matching super {@link ObjectiveCard}
+     * first colour is the first colour looking from top to bottom the patter chosen (the top colour)
+     * second colour is the second colour looking from top to bottom the patter chosen (the bottom colour)
+     * x and y are the indexes in which the minority card is placed ex. x=1 && y=1 the minority card is placed on top right
+     * @param id card's id
+     * @param front front face
+     * @param back back face
+     * @param firstColour first colour looking from top to bottom
+     * @param secondColour second colour looking from top to bottom
+     * @param x index
+     * @param y index
+     */
     public TwoPlusOnePattern(int id, FrontFace front, BackFace back, Kingdom firstColour, Kingdom secondColour, int x, int y) {
         super(id, front, back);
         this.firstColour = firstColour;
@@ -26,6 +35,12 @@ public class TwoPlusOnePattern extends ObjectiveCard {
         this.y = y;
     }
 
+    /**
+     * this method returns the points scored according to the two plus one pattern (L shaped) objective card
+     * it iterates throughout all the player's manuscript and finds the given pattern of the objective card
+     * @param manuscript is the player's field
+     * @return int
+     */
     @Override
     public int calculateObjectivePoints(Manuscript manuscript) {
         int field_dim = Manuscript.FIELD_DIM;
@@ -94,15 +109,28 @@ public class TwoPlusOnePattern extends ObjectiveCard {
 
     }
 
+
+    /**
+     * changes the colour of the string provided
+     * @param s initial string
+     * @return colored string
+     */
     @Override
     protected String paintString(String s) {
         return this.firstColour.toColourControl() + s + ColourControl.RESET;
     }
 
+    /**
+     * @return miniaturized image on the card
+     */
     private String miniImg(String colour){
         return colour + "███" + ColourControl.RESET;
     }
 
+    /**
+     * transforms the objective card to an equivalent string printable on the Tui terminal
+     * @return the card in string form
+     */
     @Override
     public String toCliCard(){
 

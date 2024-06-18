@@ -14,30 +14,6 @@
     -fx-background-size: cover;
     -fx-background-color: transparent;
 }
-/*
-.pawn_red {
-    -fx-background-image: url('../Images/utility/pawn_red.png');
-    -fx-background-size: cover;
-    -fx-background-color: transparent;
-}
-
-.pawn_blue{
-    -fx-background-image: url('../Images/utility/pawn_blue.png');
-    -fx-background-size: cover;
-    -fx-background-color: transparent;
-}
-
-.pawn_green {
-    -fx-background-image: url('../Images/utility/pawn_green.png');
-    -fx-background-size: cover;
-    -fx-background-color: transparent;
-}
-
-.pawn_yellow {
-    -fx-background-image: url('../Images/utility/pawn_yellow.png');
-    -fx-background-size: cover;
-    -fx-background-color: transparent;
-}*/
 
 .imageview{
     -fx-image: url('../Images/utility/gamemastercard3.png');

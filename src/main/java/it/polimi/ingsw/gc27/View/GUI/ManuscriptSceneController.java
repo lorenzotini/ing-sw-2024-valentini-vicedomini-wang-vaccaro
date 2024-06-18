@@ -728,8 +728,8 @@ public class ManuscriptSceneController implements GenericController {
     }
     public void setBoard(MiniModel miniModel){
         ImageView img = new ImageView(new Image(miniModel.getPlayer().getPawnColour().getPathImage()));
-        img.setFitWidth(20);
-        img.setFitHeight(20);
+        img.setFitWidth(40);
+        img.setFitHeight(40);
         Point score = position.get(0);
         scoreBoard.add(img, score.getx(),score.gety());
         score.incrementCount();
@@ -739,8 +739,8 @@ public class ManuscriptSceneController implements GenericController {
         for(String username : miniModel.getOtherPlayersUsernames()){
             ClientBoard board = miniModel.getBoard();
             img = new ImageView(new Image(board.getColourPlayermap().get(username).getPathImage()));
-            img.setFitWidth(20);
-            img.setFitHeight(20);
+            img.setFitWidth(40);
+            img.setFitHeight(40);
             pawnColourIntegerHashMap.put(board.getColourPlayermap().get(username), 0);
             scoreBoard.add(img, score.getx(), score.gety() - score.getCount());
             pawnColourImageViewHashMap.put(board.getColourPlayermap().get(username), img);
@@ -769,8 +769,8 @@ public class ManuscriptSceneController implements GenericController {
 
             ImageView imgview = pawnColourImageViewHashMap.get(colour);
             ImageView newImage = new ImageView(new Image(colour.getPathImage()));
-            newImage.setFitWidth(20);
-            newImage.setFitHeight(20);
+            newImage.setFitWidth(40);
+            newImage.setFitHeight(40);
             pawnColourImageViewHashMap.remove(colour);
             pawnColourImageViewHashMap.put(colour, newImage);
             imgview.setImage(null);

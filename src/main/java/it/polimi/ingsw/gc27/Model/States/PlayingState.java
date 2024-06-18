@@ -59,4 +59,8 @@ public class PlayingState extends PlayerState {
     public void addStarterCard(Game game, StarterCard starterCard, Face face) {
         super.sendError("Just play a ******* card!", player, turnHandler);
     }
+    @Override
+    public String toStringGUI(){
+        return "It's your turn to play!";
+    }
 }

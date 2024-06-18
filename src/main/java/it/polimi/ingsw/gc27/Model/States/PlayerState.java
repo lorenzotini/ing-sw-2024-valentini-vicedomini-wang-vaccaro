@@ -66,4 +66,8 @@ public abstract class PlayerState implements Serializable {
         return turnHandler;
     }
 
+    public String toStringGUI(){
+        return "Player State";
+    }
+
 }

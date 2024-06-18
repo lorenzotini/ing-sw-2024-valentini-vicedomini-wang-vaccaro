@@ -4,12 +4,12 @@ import it.polimi.ingsw.gc27.Model.ClientClass.ClientChat;
 import it.polimi.ingsw.gc27.Model.ClientClass.MiniModel;
 import it.polimi.ingsw.gc27.View.Gui;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseEvent;
 
 import java.io.IOException;
 
@@ -47,7 +47,7 @@ public class JoinGameSceneController implements GenericController{
     }
 
     //players can change their minds and go back to chooseGameScene
-    public void previousScene(ActionEvent event) throws IOException {
+    public void previousScene(MouseEvent event) throws IOException {
         Gui.getInstance().switchScene("/fxml/ChooseGameScene.fxml");
     }//TODO: DOES NOT WORK PROPERLY, LOOK AT NOTE IN newGameSceneController TO KNOW WHY
 

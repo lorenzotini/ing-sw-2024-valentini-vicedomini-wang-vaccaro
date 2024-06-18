@@ -4,13 +4,13 @@ import it.polimi.ingsw.gc27.Model.ClientClass.ClientChat;
 import it.polimi.ingsw.gc27.Model.ClientClass.MiniModel;
 import it.polimi.ingsw.gc27.View.Gui;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseEvent;
 
 import java.io.IOException;
 
@@ -40,6 +40,8 @@ public class LoginSceneController implements GenericController {
     public Label customlabel1;
     @FXML
     public Label customlabel2;
+    private String selectedColour;
+
 
 
     public TextArea getGameIDCreated() {
@@ -59,10 +61,6 @@ public class LoginSceneController implements GenericController {
         redButton.setDisable(true);
         sendColourButton.setDisable(true);
         handleOnKeyPress(UsernameInput);
-        handleOnKeyPressRed(redButton);
-        handleOnKeyPressBlue(blueButton);
-        handleOnKeyPressGreeen(greenButton);
-        handleOnKeyPressYellow(yellowButton);
     }
 
     private void handleOnKeyPress(TextField textField) {
@@ -74,82 +72,39 @@ public class LoginSceneController implements GenericController {
             }
         });
     }
+
     // does not work at the moment (allows you to click the colour button and send it with "enter" on the keyboard)
-    private void handleOnKeyPressRed(Button redButton) {
-        redButton.setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.ENTER) {
-                try {
-                    sendToLobby();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-                event.consume();
-            }
-        });
-    }
-    private void handleOnKeyPressBlue(Button blueButton) {
-        blueButton.setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.ENTER) {
-                try {
-                    sendToLobby();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-                event.consume();
-            }
-        });
-    }
-    private void handleOnKeyPressYellow(Button yellowButton) {
-        yellowButton.setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.ENTER) {
-                try {
-                    sendToLobby();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-                event.consume();
-            }
-        });
-    }
-    private void handleOnKeyPressGreeen(Button greenButton) {
-        greenButton.setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.ENTER) {
-                try {
-                    sendToLobby();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-                event.consume();
-            }
-        });
-    }
+
 
     @FXML
     public void sendUsername() {
         Gui.getInstance().stringFromSceneController(UsernameInput.getText());
     }
 
-    public void selectColour(ActionEvent event) {
+    public void selectColour(MouseEvent event) {
         if (event.getSource().equals(blueButton)) {
-            Gui.getInstance().stringFromSceneController("blue");
+            selectedColour="blue";
             blueButton.getStyleClass().add("pressed");
             disableOtherButtons(blueButton);
         } else if (event.getSource().equals(redButton)) {
-            Gui.getInstance().stringFromSceneController("red");
+            selectedColour="red";
             redButton.getStyleClass().add("pressed");
             disableOtherButtons(redButton);
         } else if (event.getSource().equals(yellowButton)) {
-            Gui.getInstance().stringFromSceneController("yellow");
+            selectedColour="yellow";
             yellowButton.getStyleClass().add("pressed");
             disableOtherButtons(yellowButton);
-        } else {
-            Gui.getInstance().stringFromSceneController("green");
+        } else if(event.getSource().equals(greenButton)){
+            selectedColour="green";
             greenButton.getStyleClass().add("pressed");
             disableOtherButtons(greenButton);
         }
+
     }
 
     public void sendToLobby() throws IOException {
+        Gui.getInstance().stringFromSceneController(selectedColour);
+        //vedi che manda solo se ha preso il colore
         Gui.getInstance().switchScene("/fxml/LobbyScene.fxml");
     }
 

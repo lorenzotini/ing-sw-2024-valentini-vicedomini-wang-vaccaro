@@ -22,7 +22,7 @@
          <font>
             <Font size="20.0" />
          </font></Button>
-      <Button fx:id="backButton" layoutX="65.0" layoutY="642.0" mnemonicParsing="false" onAction="#previousScene" styleClass="selectionbutton" text="BACK" visible="false">
+      <Button fx:id="backButton" layoutX="65.0" layoutY="642.0" mnemonicParsing="false" onMouseClicked="#previousScene" styleClass="selectionbutton" text="BACK" visible="false">
          <font>
             <Font name="Agency FB" size="18.0" />
          </font></Button>

@@ -253,7 +253,7 @@ public class Gui implements View {
 
                     // update manuscripts
                     for(Map.Entry<String, ClientManuscript> element :  miniModel.getManuscriptsMap().entrySet()){
-                        controller.overwriteManuscript(miniModel, element.getKey());
+                        controller.overwriteManuscript(miniModel, element.getKey(), false);
                     }
 
                     //update counters
@@ -425,6 +425,5 @@ public class Gui implements View {
         chatContent.setVvalue(1.0); //non so se si mette qui
         return (VBox) chatContent.getContent();
     }
-
 
 }

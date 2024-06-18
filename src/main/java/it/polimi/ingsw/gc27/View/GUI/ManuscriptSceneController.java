@@ -20,16 +20,11 @@ import it.polimi.ingsw.gc27.View.Gui;
 import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.*;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
-import javafx.scene.text.TextFlow;
 import javafx.scene.transform.Scale;
 
 import java.io.IOException;
@@ -102,7 +97,7 @@ public class ManuscriptSceneController implements GenericController {
 
         // populate manuscripts
         for(Map.Entry<String, ClientManuscript> element :  miniModel.getManuscriptsMap().entrySet()){
-            overwriteManuscript(miniModel, element.getKey());
+            overwriteManuscript(miniModel, element.getKey(), true);
         }
 
         // populate hand with cards
@@ -117,14 +112,12 @@ public class ManuscriptSceneController implements GenericController {
             ImageView commonObjective = new ImageView(new Image(miniModel.getMarket().getCommonObjectives().get(i).getFront().getImagePath()));
             commonObjective.setFitHeight(70);
             commonObjective.setFitWidth(105);
-            zoomCardOnHover(commonObjective, 1.2);
+            zoomCardOnHover(commonObjective, 1.4);
             commonObjectives.getChildren().add(commonObjective);
         }
 
         // secret Objective
         secretObjective.setImage(new Image(miniModel.getPlayer().getSecretObjectives().getFirst().getFront().getImagePath()));
-//        newHandCard.setFitHeight(100);
-//        newHandCard.setFitWidth(150);
         zoomCardOnHover(secretObjective, 1.3);
 
         // counters
@@ -483,7 +476,7 @@ public class ManuscriptSceneController implements GenericController {
         }
     }
 
-    public void overwriteManuscript(MiniModel miniModel, String username) {
+    public void overwriteManuscript(MiniModel miniModel, String username, boolean newScene) {
 
         Platform.runLater(() -> {
 
@@ -545,6 +538,12 @@ public class ManuscriptSceneController implements GenericController {
                 scrollPane.setContent(grid);
                 handleZoom(scrollPane, grid);
             }
+
+            // make the player's manuscript as first tab visualized
+            if(newScene){
+                manuscriptTabPane.getSelectionModel().select(manuscriptTabPane.getTabs().stream().filter(tab -> tab.getText().equals(miniModel.getPlayer().getUsername())).findFirst().get());
+            }
+
         });
 
     }

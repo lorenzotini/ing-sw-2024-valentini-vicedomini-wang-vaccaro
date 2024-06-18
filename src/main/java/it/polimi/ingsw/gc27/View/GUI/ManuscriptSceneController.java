@@ -430,7 +430,18 @@ public class ManuscriptSceneController implements GenericController {
 
     @Override
     public void receiveOk(String ackType) {
+        MiniModel miniModel;
 
+        try {
+            miniModel=Gui.getInstance().getClient().getMiniModel();
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
+        Platform.runLater(()->{
+            String feedback;
+            feedback= miniModel.getPlayer().getPlayerState().toStringGUI();
+            actionFeedback.setText(feedback);
+        });
     }
 
     @Override

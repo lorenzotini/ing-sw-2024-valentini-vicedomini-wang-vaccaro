@@ -8,6 +8,7 @@ import it.polimi.ingsw.gc27.Model.Game.Game;
 import it.polimi.ingsw.gc27.Model.Game.Player;
 
 public class WaitingState extends PlayerState {
+    private Player currentPlayer;
 
     //private final String waitText = "Patientiam forti est virtute, so please wait";
     private final String waitText = "Waiting State";
@@ -37,6 +38,13 @@ public class WaitingState extends PlayerState {
     @Override
     public void addStarterCard(Game game, StarterCard starterCard, Face face) {
         super.sendError(waitText, getPlayer(),turnHandler);
+    }
+    @Override
+    public String toStringGUI(){
+        return "It's "+currentPlayer.getUsername()+"'s turn\n to play!";
+    }
+    public void setCurrentPlayer(Player currentPlayer) {
+        this.currentPlayer = currentPlayer;
     }
 
 }

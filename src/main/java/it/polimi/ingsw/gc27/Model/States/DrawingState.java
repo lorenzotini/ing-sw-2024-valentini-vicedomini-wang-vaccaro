@@ -68,4 +68,9 @@ public class DrawingState extends PlayerState {
     public void addStarterCard(Game game, StarterCard starterCard, Face face) {
         super.sendError(wrongStateText, getPlayer(), turnHandler);
     }
+
+    @Override
+    public String toStringGUI(){
+        return "Draw a card!";
+    }
 }

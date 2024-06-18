@@ -87,7 +87,9 @@ public class TurnHandler implements Serializable {
         if (!lastRound) {
 
             // Set to waiting state the player that just finished his turn
-            players.get(index).setPlayerState(new WaitingState(players.get(index), this));
+            WaitingState waitingState=new WaitingState(players.get(index), this);
+            waitingState.setCurrentPlayer(getNextOf(index, players));
+            players.get(index).setPlayerState(waitingState);
 
             updatePlayerStateMessage = new UpdatePlayerStateMessage(new MiniModel(player, game.getBoard()));
             this.game.notifyObservers(updatePlayerStateMessage);
@@ -109,6 +111,24 @@ public class TurnHandler implements Serializable {
                 Message yourTurnToPlayMessage = new YourTurnMessage(new MiniModel(getNextOf(index+i, players)), "");
                 this.game.notifyObservers(yourTurnToPlayMessage);
 
+                for(Player p: players){
+                    if( !p.equals(player)){
+//                        WaitingState waitingStateOthers=new WaitingState(p, this);
+//                        waitingStateOthers.setCurrentPlayer(getNextOf(index, players));
+//                        players.get(index).setPlayerState(waitingState);
+//
+//                        updatePlayerStateMessage = new UpdatePlayerStateMessage(new MiniModel(player, game.getBoard()));
+//                        this.game.notifyObservers(updatePlayerStateMessage);
+                        String state = p.getPlayerState().toString();
+                        if(state.equalsIgnoreCase("Waiting State")){
+                            WaitingState playerState = (WaitingState) p.getPlayerState();
+                            playerState.setCurrentPlayer(player);
+                            OkMessage ok=new OkMessage("Waiting State");
+                            this.game.notifyObservers(ok);
+                        }
+                    }
+                }
+
             } else { // the next player is connected
 
                 getNextOf(index, players).setPlayerState(new PlayingState(getNextOf(index, players), this));
@@ -116,6 +136,7 @@ public class TurnHandler implements Serializable {
                 this.game.notifyObservers(updatePlayerStateMessage);
                 Message yourTurnToPlayMessage = new YourTurnMessage(new MiniModel(getNextOf(index,players)), "");
                 this.game.notifyObservers(yourTurnToPlayMessage);
+
 
             }
 
@@ -145,6 +166,7 @@ public class TurnHandler implements Serializable {
                 this.game.notifyObservers(updatePlayerStateMessage);
                 Message yourTurnToPlayMessage = new YourTurnMessage(new MiniModel(getNextOf(index+i, players)), "");
                 this.game.notifyObservers(yourTurnToPlayMessage);
+
 
             } else { // the next player is connected
                 if(!(getNextOf(index, players).getPlayerState() instanceof EndingState)){

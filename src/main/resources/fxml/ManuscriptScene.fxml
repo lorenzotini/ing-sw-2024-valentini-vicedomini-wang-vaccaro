@@ -23,7 +23,7 @@
             <Image url="@../Images/utility/plateau_score.jpg" />
          </image>
       </ImageView>
-      <TextField fx:id="actionFeedback" layoutX="831.0" layoutY="50.0" prefHeight="100.0" prefWidth="148.0">
+      <TextField fx:id="actionFeedback" editable="false" layoutX="734.0" layoutY="25.0" prefHeight="125.0" prefWidth="369.0">
          <font>
             <Font name="Agency FB" size="20.0" />
          </font></TextField>

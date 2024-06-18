@@ -76,7 +76,6 @@ public class Tui implements View {
                     break;
 
                 case "addstarter":
-
                     if (!checkState(InitializingState.class)) {
                         break;
                     }
@@ -88,10 +87,12 @@ public class Tui implements View {
                         if (side.equalsIgnoreCase("front")) {
                             Command comm = new AddStarterCommand(client.getUsername(), true);
                             client.sendCommand(comm);
+
                             break;
                         } else if (side.equalsIgnoreCase("back")) {
                             Command comm = new AddStarterCommand(client.getUsername(), false);
                             client.sendCommand(comm);
+
                             break;
                         } else {
                             out.println("\nInvalid face: insert front or back");
@@ -245,16 +246,12 @@ public class Tui implements View {
                     }
                     out.println("\n" + "Content:");
                     String mess = scan.nextLine();
-
                     client.sendCommand(new SendMessageCommand(client.getMiniModel().getPlayer(), receiver, mess));
-
                     break;
                 default:
                     out.println("\nInvalid command. Type 'help' for a list of commands.");
                     break;
-
             }
-
         }
 
     }
@@ -303,7 +300,6 @@ public class Tui implements View {
 
     @Override
     public void show(ClientChat chat) {
-
     }
 
     @Override
@@ -348,6 +344,7 @@ public class Tui implements View {
 
     @Override
     public void showWinners(){
+
         try {
             showWinnersToEveryone(client.getMiniModel().getBoard().getScoreBoard());
         } catch (Exception e){

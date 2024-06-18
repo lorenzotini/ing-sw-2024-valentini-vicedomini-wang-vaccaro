@@ -21,6 +21,7 @@ import it.polimi.ingsw.gc27.View.Gui;
 import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -43,6 +44,8 @@ import java.util.Optional;
 public class ManuscriptSceneController implements GenericController {
 
 
+    public GridPane scoreBoard;
+    //private HashMap<Integer, Point> position = new HashMap<Integer, Point>();
     @FXML
     private TextField actionFeedback;
     @FXML
@@ -64,7 +67,6 @@ public class ManuscriptSceneController implements GenericController {
     @FXML
     private TabPane chatTabPane;
 
-
     //TODO vedere se è meglio mettere gli attributi privati che ora sono pubblici
 
     // attributes to handle addCard invocation
@@ -78,7 +80,6 @@ public class ManuscriptSceneController implements GenericController {
     // attributes to handle drawCard invocation
     private ImageView marketCard;
 
-    private GridPane grid;
     //there is a private hashmap for all the scenes where the chat is displayed
     private HashMap<String, Tab> chatTabHashMap = new HashMap<>();
 
@@ -497,25 +498,29 @@ public class ManuscriptSceneController implements GenericController {
 
     public void createBoardGrids(MiniModel miniModel) {
         Platform.runLater(() -> {
-            GridPane grid = new GridPane();
-            grid.setStyle("-fx-background-color: #e4dfb2");
-            ColumnConstraints columnConstraints = new ColumnConstraints();
-            columnConstraints.setMaxWidth(3);
-            columnConstraints.setMinWidth(3);
-            RowConstraints rowConstraints = new RowConstraints();
-            rowConstraints.setMaxHeight(3);
-            rowConstraints.setMinHeight(3);
 
-            for (int i = 0; i < 29; i++) {
-                grid.getColumnConstraints().add(columnConstraints);
-                grid.getRowConstraints().add(rowConstraints);
-            }
-            ImageView imageView = new ImageView("/images/cards/card1_front.png");
-            grid.setLayoutX(1170);
-            grid.setLayoutY(76);
+            ImageView imageView = new ImageView(new Image("/images/utility/pawn_yellow.png"));
+            scoreBoard.add(imageView,1 ,16 );
+            imageView.toFront();
+            //for(int i = 0; i < 10; i++ ){
+//                for(int j = 1; j<50; j++){
+//                    ImageView imageView = new ImageView("/images/utility/pawn_yellow.png");
+//                    imageView.setFitHeight(30);
+//                    imageView.setFitWidth(30);
+//                    scoreBoard.add(imageView, i, j);
+//                    imageView.toFront();
+//                }
+//            }
+//            ImageView imageVie = new ImageView("/images/cards/card1_front.png");
+//            imageView.setFitHeight(5);
+//            imageView.setFitWidth(5);
+//
+////          scoreBoard.setLayoutX(1170);
+////          scoreBoard.setLayoutY(76);
+//            scoreBoard.add(imageView, 0, 0);
+//            imageView.toFront();
 
-            grid.add(imageView, 0, 0);
-            grid.toFront();
+
         });
 
 

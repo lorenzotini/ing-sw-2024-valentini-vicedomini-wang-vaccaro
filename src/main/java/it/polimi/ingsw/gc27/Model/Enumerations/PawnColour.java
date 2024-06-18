@@ -6,8 +6,8 @@ public enum PawnColour implements Serializable {
     BLUE,
     YELLOW,
     GREEN,
-    RED,
-    BLACK;
+    RED;
+
     public static PawnColour fromStringToPawnColour(String s){
         return switch (s.toLowerCase()) {
             case "blue" -> PawnColour.BLUE;
@@ -17,4 +17,15 @@ public enum PawnColour implements Serializable {
             default -> throw new IllegalArgumentException("Invalid color: " + s);
         };
     }
+
+    public String getPathImage(){
+        return switch (this){
+            case BLUE -> "images/utility/blue_pawn.png";
+            case RED -> "images/utility/red_pawn.png";
+            case GREEN -> "images/utility/green_pawn.png";
+            case YELLOW -> "images/utility/yellow_pawn.png";
+            default -> throw new IllegalArgumentException("Invalid color: ");
+        };
+    }
+
 }

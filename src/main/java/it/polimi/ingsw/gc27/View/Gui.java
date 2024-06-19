@@ -286,7 +286,8 @@ public class Gui implements View {
 
     @Override
     public void show(ClientBoard board) {
-        ((ManuscriptSceneController)currentController).updateBoard(board);
+        if(currentController instanceof ManuscriptSceneController)
+            ((ManuscriptSceneController)currentController).updateBoard(board);
     }
 
     @Override

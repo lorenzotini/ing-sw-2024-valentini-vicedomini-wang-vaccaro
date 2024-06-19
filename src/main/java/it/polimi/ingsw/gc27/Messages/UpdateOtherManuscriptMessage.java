@@ -17,6 +17,8 @@ public class UpdateOtherManuscriptMessage extends Message {
         try{
             client.getMiniModel().setManuscriptsMap(miniModel.getManuscriptsMap());
             view.updateManuscriptOfOtherPlayer(client.getMiniModel().getPlayer().getManuscript());
+            client.getMiniModel().setBoard(miniModel.getBoard());
+            view.show(client.getMiniModel().getBoard());
         }catch(RemoteException e){
             e.printStackTrace();
         }

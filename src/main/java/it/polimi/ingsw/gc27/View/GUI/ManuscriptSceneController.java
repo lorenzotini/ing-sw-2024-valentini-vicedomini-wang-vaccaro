@@ -41,9 +41,8 @@ import java.util.Optional;
 
 public class ManuscriptSceneController implements GenericController {
 
-
-    public GridPane scoreBoard;
-    private final HashMap<Integer, Point> position = new HashMap<Integer, Point>();
+    @FXML
+    private GridPane scoreBoard;
     @FXML
     private TextField actionFeedback;
     @FXML
@@ -64,7 +63,9 @@ public class ManuscriptSceneController implements GenericController {
     private ImageView secretObjective;
     @FXML
     private TabPane chatTabPane;
-
+    @FXML
+    private TitledPane chatTitledPane;
+    private final HashMap<Integer, Point> position = new HashMap<Integer, Point>();
     //TODO vedere se è meglio mettere gli attributi privati che ora sono pubblici
 
     // attributes to handle addCard invocation
@@ -82,6 +83,7 @@ public class ManuscriptSceneController implements GenericController {
     private final HashMap<String, Tab> chatTabHashMap = new HashMap<>();
     private final HashMap<PawnColour, Integer> pawnColourIntegerHashMap = new HashMap<>();
     private final HashMap<PawnColour, ImageView> pawnColourImageViewHashMap = new HashMap<>();
+    private final int PAWN_DIM = 50;
 
     public TextField getActionFeedback() {
         return actionFeedback;
@@ -101,7 +103,7 @@ public class ManuscriptSceneController implements GenericController {
 
         // initialize manuscripts' grid panes
         createManuscriptGrids(miniModel);
-
+        createBoardGrids(miniModel);
         // populate manuscripts
         for(Map.Entry<String, ClientManuscript> element :  miniModel.getManuscriptsMap().entrySet()){
             overwriteManuscript(miniModel, element.getKey(), true);
@@ -135,9 +137,6 @@ public class ManuscriptSceneController implements GenericController {
         } catch (RemoteException e) {
             throw new RuntimeException();
         }
-
-        //create board grid
-        createBoardGrids(miniModel);
 
     }
 
@@ -187,6 +186,7 @@ public class ManuscriptSceneController implements GenericController {
                     case RED:
                         chatTab.getStyleClass().add("tab-colour-red");
                 }
+
             }
 
             VBox chatContainer = new VBox(); //contains che messages of a chat
@@ -227,7 +227,13 @@ public class ManuscriptSceneController implements GenericController {
             chatContainer.getChildren().addAll(chatContent, messageBox);
             chatTab.setContent(chatContainer);
             chatTabPane.getTabs().add(chatTab);
+
         }
+        chatTitledPane.setOnMouseClicked(event->{
+            Platform.runLater(()->{
+                chatTitledPane.toFront();
+            });
+        });
     }
 
     private TextField getSendMessageFieldFromTab(Tab tab) {
@@ -512,7 +518,6 @@ public class ManuscriptSceneController implements GenericController {
             setBoard(miniModel);
         });
 
-
     }
 
     public void overwriteManuscript(MiniModel miniModel, String username, boolean newScene) {
@@ -584,7 +589,6 @@ public class ManuscriptSceneController implements GenericController {
             }
 
         });
-
     }
 
     public void overwriteHand(MiniModel miniModel) {
@@ -728,10 +732,11 @@ public class ManuscriptSceneController implements GenericController {
     }
     public void setBoard(MiniModel miniModel){
         ImageView img = new ImageView(new Image(miniModel.getPlayer().getPawnColour().getPathImage()));
-        img.setFitWidth(40);
-        img.setFitHeight(40);
+        img.setFitWidth(PAWN_DIM);
+        img.setFitHeight(PAWN_DIM);
         Point score = position.get(0);
         scoreBoard.add(img, score.getx(),score.gety());
+
         score.incrementCount();
         pawnColourIntegerHashMap.put(miniModel.getPlayer().getPawnColour(), 0);
         pawnColourImageViewHashMap.put(miniModel.getPlayer().getPawnColour(), img);
@@ -739,10 +744,11 @@ public class ManuscriptSceneController implements GenericController {
         for(String username : miniModel.getOtherPlayersUsernames()){
             ClientBoard board = miniModel.getBoard();
             img = new ImageView(new Image(board.getColourPlayermap().get(username).getPathImage()));
-            img.setFitWidth(40);
-            img.setFitHeight(40);
+            img.setFitWidth(PAWN_DIM);
+            img.setFitHeight(PAWN_DIM);
             pawnColourIntegerHashMap.put(board.getColourPlayermap().get(username), 0);
             scoreBoard.add(img, score.getx(), score.gety() - score.getCount());
+
             pawnColourImageViewHashMap.put(board.getColourPlayermap().get(username), img);
         }
     }
@@ -756,10 +762,12 @@ public class ManuscriptSceneController implements GenericController {
         updatePawn(miniModel.getPlayer().getUsername(), miniModel);
         for(String user : miniModel.getOtherPlayersUsernames()){
             updatePawn(user, miniModel);
+
         }
     }
 
     public void updatePawn(String username, MiniModel miniModel){
+
         PawnColour colour = miniModel.getBoard().getColourPlayermap().get(username);
         int actualScore = miniModel.getBoard().getScoreBoard().get(username);
         int oldScore = pawnColourIntegerHashMap.get(colour);
@@ -767,15 +775,19 @@ public class ManuscriptSceneController implements GenericController {
             Point oldPoint = position.get(oldScore);
             Point newPoint = position.get(actualScore);
 
-            ImageView imgview = pawnColourImageViewHashMap.get(colour);
+            ImageView imgView = pawnColourImageViewHashMap.get(colour);
             ImageView newImage = new ImageView(new Image(colour.getPathImage()));
-            newImage.setFitWidth(40);
-            newImage.setFitHeight(40);
+            newImage.setFitWidth(PAWN_DIM);
+            newImage.setFitHeight(PAWN_DIM);
             pawnColourImageViewHashMap.remove(colour);
             pawnColourImageViewHashMap.put(colour, newImage);
-            imgview.setImage(null);
+            imgView.setImage(null);
 
-            scoreBoard.add(newImage, newPoint.getx(), newPoint.gety() - newPoint.getCount());
+            Platform.runLater(()->{
+                scoreBoard.add(newImage, newPoint.getx(), newPoint.gety() - newPoint.getCount());
+
+            });
+
             newPoint.incrementCount();
             pawnColourIntegerHashMap.remove(colour);
             pawnColourIntegerHashMap.put(colour, actualScore);

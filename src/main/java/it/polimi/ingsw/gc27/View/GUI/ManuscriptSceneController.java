@@ -137,7 +137,6 @@ public class ManuscriptSceneController implements GenericController {
         } catch (RemoteException e) {
             throw new RuntimeException();
         }
-
     }
 
     public void fullChatAllocate() throws RemoteException {
@@ -451,6 +450,10 @@ public class ManuscriptSceneController implements GenericController {
 
     @Override
     public void receiveKo(String ackType) {
+        Platform.runLater(()->{
+            ;
+            actionFeedback.setText(ackType);
+        });
 
     }
 

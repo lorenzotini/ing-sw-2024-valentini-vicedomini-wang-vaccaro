@@ -41,7 +41,11 @@ public class WaitingState extends PlayerState {
     }
     @Override
     public String toStringGUI(){
-        return "It's "+currentPlayer.getUsername()+"'s turn\n to play!";
+        if(currentPlayer != null)
+            return "It's "+currentPlayer.getUsername()+"'s turn\n to play!";
+        else{
+            return "Current player not set";
+        }
     }
     public void setCurrentPlayer(Player currentPlayer) {
         this.currentPlayer = currentPlayer;

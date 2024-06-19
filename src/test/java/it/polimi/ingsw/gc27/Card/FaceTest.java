@@ -1,6 +1,6 @@
 package it.polimi.ingsw.gc27.Card;
 
-import it.polimi.ingsw.gc27.JsonParser;
+import it.polimi.ingsw.gc27.Model.JsonParser;
 import it.polimi.ingsw.gc27.Model.Card.Corner;
 import it.polimi.ingsw.gc27.Model.Card.Face;
 import it.polimi.ingsw.gc27.Model.Card.ResourceCard;

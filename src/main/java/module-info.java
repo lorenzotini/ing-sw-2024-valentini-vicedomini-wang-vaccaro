@@ -31,7 +31,7 @@ module it.polimi.ingsw.gc27 {
     opens it.polimi.ingsw.gc27.View.GUI;
     exports it.polimi.ingsw.gc27.Model.ClientClass;
     opens it.polimi.ingsw.gc27.Model.ClientClass to javafx.fxml;
-    exports it.polimi.ingsw.gc27.Model to java.rmi;
+    exports it.polimi.ingsw.gc27.Model;
 
 
 }

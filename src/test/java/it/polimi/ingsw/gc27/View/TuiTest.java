@@ -4,7 +4,7 @@ import it.polimi.ingsw.gc27.Model.Card.GoldCard;
 import it.polimi.ingsw.gc27.Model.Card.ObjectiveCard.ObjectiveCard;
 import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
 import it.polimi.ingsw.gc27.Model.Card.StarterCard;
-import it.polimi.ingsw.gc27.JsonParser;
+import it.polimi.ingsw.gc27.Model.JsonParser;
 import it.polimi.ingsw.gc27.Model.Game.Board;
 import it.polimi.ingsw.gc27.Model.Game.Manuscript;
 import it.polimi.ingsw.gc27.Model.Game.Market;

@@ -305,14 +305,17 @@ public class Gui implements View {
 
     @Override
     public void show(ClientMarket market) {
-        ManuscriptSceneController controller = (ManuscriptSceneController) Gui.getInstance().getCurrentController();
-        MiniModel miniModel;
-        try {
-            miniModel = client.getMiniModel();
-        } catch (RemoteException e) {
-            throw new RuntimeException(e);
+        if(currentController instanceof ManuscriptSceneController) {
+            ManuscriptSceneController controller = (ManuscriptSceneController) Gui.getInstance().getCurrentController();
+
+            MiniModel miniModel;
+            try {
+                miniModel = client.getMiniModel();
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
+            }
+            controller.overwriteMarket(miniModel);
         }
-        controller.overwriteMarket(miniModel);
     }
 
     @Override

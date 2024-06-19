@@ -20,7 +20,7 @@ public class Board implements Serializable, ClientBoard {
     private String yellowPlayer;
     private String greenPlayer;
     private String bluePlayer;
-    public final static int END_GAME_THRESHOLD = 2;
+    public final static int END_GAME_THRESHOLD = 20;
     public final static int MAX_POINTS = 29;
     public HashMap<String, PawnColour> colourPlayermap=new HashMap<>();
 

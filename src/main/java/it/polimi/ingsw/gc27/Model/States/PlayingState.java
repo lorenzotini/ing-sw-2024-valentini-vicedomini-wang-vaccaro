@@ -36,16 +36,17 @@ public class PlayingState extends PlayerState {
             //...
             getPlayer().setPlayerState(new DrawingState(getPlayer(), getTurnHandler()));
             Message updatePlayerStateMessage=new UpdatePlayerStateMessage(new MiniModel(getPlayer()));
-            turnHandler.getGame().notifyObservers(updatePlayerStateMessage);
             //update message
             Message updateHandMessage = new UpdateHandMessage(new MiniModel(player));
-            turnHandler.getGame().notifyObservers(updateHandMessage);
 
             Message updateManuscriptMessage = new UpdateMyManuscriptMessage(new MiniModel(player, game));
-            turnHandler.getGame().notifyObservers(updateManuscriptMessage);
 
             Message updateOtherManuscriptMessage = new UpdateOtherManuscriptMessage(new MiniModel(game));
+            turnHandler.getGame().notifyObservers(updatePlayerStateMessage);
+            turnHandler.getGame().notifyObservers(updateHandMessage);
+            turnHandler.getGame().notifyObservers(updateManuscriptMessage);
             turnHandler.getGame().notifyObservers(updateOtherManuscriptMessage);
+
 
         } else if((face instanceof FrontFace) && !(player.getManuscript().satisfiedRequirement((ResourceCard) card))){
             super.sendError("You don't have enough resource, change card or place it in the back.", player, turnHandler);

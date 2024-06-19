@@ -28,6 +28,7 @@ public class Tui implements View {
     private static final Queue<String> noCardPrint = new LinkedList<>();
     private Scanner scan = new Scanner(in);
     boolean alreadyPrintedWinners = false;
+    boolean isEndingState = false;
 
     static {
         noCardPrint.add("╔═════════════════╗");
@@ -48,6 +49,7 @@ public class Tui implements View {
 
             TimeUnit.MILLISECONDS.sleep(400);
             out.print(client.getMiniModel().getPlayer().getPlayerState() + "\n> ");
+
 
             // skip the \n char when entering an input
             scan.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
@@ -291,24 +293,32 @@ public class Tui implements View {
 
     @Override
     public void show(ArrayList<ResourceCard> hand) {
-        out.println(showHand(hand));
+        if(!isEndingState) {
+            out.println(showHand(hand));
+        }
     }
 
     @Override
     public void show(ObjectiveCard secretObj) {
-        ArrayList<ObjectiveCard> obj = new ArrayList<>();
-        obj.add(secretObj);
-        out.println(showObjectives(obj));
+        if(!isEndingState){
+            ArrayList<ObjectiveCard> obj = new ArrayList<>();
+            obj.add(secretObj);
+            out.println(showObjectives(obj));
+        }
     }
 
     @Override
     public void show(ClientManuscript manuscript) {
-        out.println(showManuscript(manuscript));
+        if(!isEndingState) {
+            out.println(showManuscript(manuscript));
+        }
     }
 
     @Override
     public void show(ClientBoard board) {
-        out.println(showBoard(board));
+        if(!isEndingState) {
+            out.println(showBoard(board));
+        }
     }
 
     @Override
@@ -318,7 +328,10 @@ public class Tui implements View {
 
     @Override
     public void show(ClientMarket market) {
-        out.println(showMarket(market));
+        if(!isEndingState){
+            out.println(showMarket(market));
+        }
+
     }
 
     @Override
@@ -360,6 +373,9 @@ public class Tui implements View {
     public void showWinners(){
         try {
             showWinnersToEveryone(client.getMiniModel().getBoard().getScoreBoard());
+            if(client.getMiniModel().getPlayer().getPlayerState() instanceof EndingState){
+                isEndingState = true;
+            }
         } catch (Exception e){
 
         }

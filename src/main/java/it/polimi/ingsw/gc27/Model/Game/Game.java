@@ -7,7 +7,6 @@ import it.polimi.ingsw.gc27.Model.Card.Card;
 import it.polimi.ingsw.gc27.Model.Card.ObjectiveCard.ObjectiveCard;
 import it.polimi.ingsw.gc27.Model.Card.StarterCard;
 import it.polimi.ingsw.gc27.Model.Enumerations.PawnColour;
-import it.polimi.ingsw.gc27.Model.Observer;
 import it.polimi.ingsw.gc27.Model.Listener.PlayerListener;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 import javafx.util.Pair;
@@ -21,7 +20,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 public class Game implements Serializable {
 
-    private final transient BlockingQueue<Observer> observers = new LinkedBlockingQueue<>() {};
+    private final transient BlockingQueue<PlayerListener> observers = new LinkedBlockingQueue<>() {};
     private Integer numActualPlayers;
 
     private Market market;
@@ -175,8 +174,8 @@ public class Game implements Serializable {
         this.notifyObservers(new PlayerJoinedMessage(p.getUsername()));
     }
 
-    public void addObserver(Observer o) {
-        observers.add(o);
+    public void addObserver(PlayerListener pl) {
+        observers.add(pl);
     }
 
     public void removeObserver(String username) {
@@ -185,7 +184,7 @@ public class Game implements Serializable {
 
 
     public void notifyObservers(Message message) {
-        for (Observer o : observers) {
+        for (PlayerListener o : observers) {
             o.update(message);
         }
     }

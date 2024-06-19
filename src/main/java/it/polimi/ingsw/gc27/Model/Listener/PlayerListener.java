@@ -2,13 +2,12 @@ package it.polimi.ingsw.gc27.Model.Listener;
 
 import it.polimi.ingsw.gc27.Messages.Message;
 import it.polimi.ingsw.gc27.Model.Game.Player;
-import it.polimi.ingsw.gc27.Model.Observer;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 
 import java.io.Serializable;
 import java.rmi.RemoteException;
 
-public class PlayerListener implements Observer, Serializable {
+public class PlayerListener implements Serializable {
 
     VirtualView client;
     String playerUsername;
@@ -23,7 +22,6 @@ public class PlayerListener implements Observer, Serializable {
      * @param message doesn't  modify message, but decide if it has to be sent or not to that client
      * @throws RemoteException print details
      */
-    @Override
     public void update(Message message) {
         try {
             if (message.getMiniModel() == null ||
@@ -40,7 +38,6 @@ public class PlayerListener implements Observer, Serializable {
         }
     }
 
-    @Override
     public String getPlayerUsername() {
         return playerUsername;
     }

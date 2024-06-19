@@ -26,9 +26,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
-import javafx.scene.text.TextFlow;
 import javafx.scene.transform.Scale;
 
 import java.io.IOException;
@@ -61,7 +58,9 @@ public class ManuscriptSceneController implements GenericController {
     private ImageView secretObjective;
     @FXML
     private TabPane chatTabPane;
-
+    
+    private final int CARD_WIDTH = 150;
+    private final int CARD_HEIGHT = 100;
 
     //TODO vedere se è meglio mettere gli attributi privati che ora sono pubblici
 
@@ -449,11 +448,11 @@ public class ManuscriptSceneController implements GenericController {
             GridPane grid = new GridPane();
 
             ColumnConstraints columnConstraints = new ColumnConstraints();
-            columnConstraints.setMaxWidth(150);
-            columnConstraints.setMinWidth(150);
+            columnConstraints.setMaxWidth(CARD_WIDTH);
+            columnConstraints.setMinWidth(CARD_WIDTH);
             RowConstraints rowConstraints = new RowConstraints();
-            rowConstraints.setMaxHeight(100);
-            rowConstraints.setMinHeight(100);
+            rowConstraints.setMaxHeight(CARD_HEIGHT);
+            rowConstraints.setMinHeight(CARD_HEIGHT);
 
             for(int i = 0; i < 85; i++){
                 grid.getColumnConstraints().add(columnConstraints);
@@ -491,11 +490,11 @@ public class ManuscriptSceneController implements GenericController {
             GridPane grid = new GridPane();
 
             ColumnConstraints columnConstraints = new ColumnConstraints();
-            columnConstraints.setMaxWidth(150);
-            columnConstraints.setMinWidth(150);
+            columnConstraints.setMaxWidth(CARD_WIDTH);
+            columnConstraints.setMinWidth(CARD_WIDTH);
             RowConstraints rowConstraints = new RowConstraints();
-            rowConstraints.setMaxHeight(100);
-            rowConstraints.setMinHeight(100);
+            rowConstraints.setMaxHeight(CARD_HEIGHT);
+            rowConstraints.setMinHeight(CARD_HEIGHT);
 
             for(int i = 0; i < 85; i++){
                 grid.getColumnConstraints().add(columnConstraints);
@@ -514,8 +513,8 @@ public class ManuscriptSceneController implements GenericController {
 
                     ImageView imageView = new ImageView();
                     imageView.setImage(new Image(face.getImagePath()));
-                    imageView.setFitHeight(100);
-                    imageView.setFitWidth(150);
+                    imageView.setFitHeight(CARD_HEIGHT);
+                    imageView.setFitWidth(CARD_WIDTH);
 
                     ManuscriptCardData manuscriptCardData = new ManuscriptCardData(placement.getX(), placement.getY());
                     imageView.setUserData(manuscriptCardData);
@@ -530,8 +529,8 @@ public class ManuscriptSceneController implements GenericController {
                     ImageView imageView = new ImageView();
                     Face face = miniModel.getManuscriptsMap().get(username).getField()[placement.getX()][placement.getY()];
                     imageView.setImage(new Image(face.getImagePath()));
-                    imageView.setFitHeight(100);
-                    imageView.setFitWidth(150);
+                    imageView.setFitHeight(CARD_HEIGHT);
+                    imageView.setFitWidth(CARD_WIDTH);
                     imageView.toFront();
                     grid.add(imageView, placement.getX(), placement.getY());
                 }
@@ -559,8 +558,8 @@ public class ManuscriptSceneController implements GenericController {
             handCards.getChildren().clear();
             for (Card card : miniModel.getPlayer().getHand()) {
                 ImageView newHandCard = new ImageView(new Image(card.getFront().getImagePath()));
-                newHandCard.setFitHeight(100);
-                newHandCard.setFitWidth(150);
+                newHandCard.setFitHeight(CARD_HEIGHT);
+                newHandCard.setFitWidth(CARD_WIDTH);
                 handleDragDetectedHand(newHandCard);
                 handleOnClick(newHandCard);
                 zoomCardOnHover(newHandCard, 1.3);
@@ -645,8 +644,8 @@ public class ManuscriptSceneController implements GenericController {
                     ManuscriptCardData manuscriptCardData = new ManuscriptCardData(placement.getX() + i, placement.getY() + j);
                     imageView.setUserData(manuscriptCardData);
                     imageView.toFront();
-                    imageView.setFitHeight(100);
-                    imageView.setFitWidth(150);
+                    imageView.setFitHeight(CARD_HEIGHT);
+                    imageView.setFitWidth(CARD_WIDTH);
                     grid.add(imageView, placement.getX() + i, placement.getY() + j);
                 }
             }

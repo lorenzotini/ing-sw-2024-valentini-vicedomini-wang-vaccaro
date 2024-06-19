@@ -183,6 +183,7 @@ public class ChooseObjectiveSceneController implements GenericController {
         } else {
             Command comm = new ChooseObjectiveCommand(Gui.getInstance().getClient().getUsername(), 2);
             Gui.getInstance().getClient().sendCommand(comm);
+
         }
         Platform.runLater(() -> {
             try {

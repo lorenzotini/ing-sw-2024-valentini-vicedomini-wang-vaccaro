@@ -220,16 +220,18 @@ public class Gui implements View {
 
     @Override
     public void show(ArrayList<ResourceCard> hand) {
-        ManuscriptSceneController controller = (ManuscriptSceneController) Gui.getInstance().getCurrentController();
-        MiniModel miniModel;
-        try {
-            miniModel = client.getMiniModel();
-        } catch (RemoteException e) {
-            throw new RuntimeException(e);
-        }
-        controller.overwriteHand(miniModel);
-    }
+        if(currentController instanceof ManuscriptSceneController) {
+            ManuscriptSceneController controller = (ManuscriptSceneController) Gui.getInstance().getCurrentController();
+            MiniModel miniModel;
+            try {
+                miniModel = client.getMiniModel();
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
+            }
+            controller.overwriteHand(miniModel);
 
+        }
+    }
     @Override
     public void show(ObjectiveCard objectiveCard) {
 

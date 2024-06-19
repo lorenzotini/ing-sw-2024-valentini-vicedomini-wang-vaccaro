@@ -6,7 +6,7 @@ import it.polimi.ingsw.gc27.Model.Card.ObjectiveCard.ObjectiveCard;
 import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
 import it.polimi.ingsw.gc27.Model.Card.StarterCard;
 import it.polimi.ingsw.gc27.Controller.GameController;
-import it.polimi.ingsw.gc27.Controller.JsonParser;
+import it.polimi.ingsw.gc27.JsonParser;
 import it.polimi.ingsw.gc27.Model.Enumerations.PawnColour;
 import it.polimi.ingsw.gc27.Model.Game.*;
 import org.junit.jupiter.api.Test;
@@ -69,7 +69,7 @@ class DifferentPatternTest {
         faceUpResources[1]= resourceDeck.get(1);
         faceUpGolds[0]=goldDeck.get(0);
         faceUpGolds[1]=goldDeck.get(1);
-        market=new Market(resourceDeck, goldDeck, faceUpResources,faceUpGolds );
+        market=new Market(resourceDeck, goldDeck, faceUpResources,faceUpGolds, objectiveDeck );
         g1.setMarket(market);
 
 

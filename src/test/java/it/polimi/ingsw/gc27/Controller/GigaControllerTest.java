@@ -69,7 +69,7 @@ class GigaControllerTest {
         faceUpResources[1]= resourceDeck.get(1);
         faceUpGolds[0]=goldDeck.get(0);
         faceUpGolds[1]=goldDeck.get(1);
-        market=new Market(resourceDeck, goldDeck, faceUpResources,faceUpGolds );
+        market=new Market(resourceDeck, goldDeck, faceUpResources,faceUpGolds, objectiveDeck );
         g1.setMarket(market);
         gameControllers.add(gc1);
 
@@ -89,16 +89,15 @@ class GigaControllerTest {
     void userToGameController() {
         initializeGame();
         GigaController gigaC=new GigaController();
-        gigaC.setGameControllers(gameControllers);
         gigaC.userToGameController("Giocatore 1");
 
     }
 
     @Test
     void welcomePlayer() {
-        initializeGame();initializeGame();
+        initializeGame();
         GigaController gigaC=new GigaController();
-        gigaC.setGameControllers(gameControllers);
+
         //welcomePlayer(new VirtualView());
     }
 

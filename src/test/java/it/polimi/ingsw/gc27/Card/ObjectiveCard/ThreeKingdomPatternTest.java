@@ -6,12 +6,12 @@ import it.polimi.ingsw.gc27.Model.Card.ObjectiveCard.ThreeKingdomPattern;
 import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
 import it.polimi.ingsw.gc27.Model.Card.StarterCard;
 import it.polimi.ingsw.gc27.Controller.GameController;
-import it.polimi.ingsw.gc27.Controller.JsonParser;
+import it.polimi.ingsw.gc27.JsonParser;
 import it.polimi.ingsw.gc27.Model.Enumerations.Kingdom;
 import it.polimi.ingsw.gc27.Model.Enumerations.PawnColour;
 import it.polimi.ingsw.gc27.Game.*;
 import it.polimi.ingsw.gc27.Model.Game.*;
-import it.polimi.ingsw.gc27.View.MyCli;
+import it.polimi.ingsw.gc27.View.*;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -70,7 +70,7 @@ class ThreeKingdomPatternTest {
         faceUpResources[1]= resourceDeck.get(1);
         faceUpGolds[0]=goldDeck.get(0);
         faceUpGolds[1]=goldDeck.get(1);
-        market=new Market(resourceDeck, goldDeck, faceUpResources,faceUpGolds );
+        market=new Market(resourceDeck, goldDeck, faceUpResources,faceUpGolds, objectiveDeck );
         g1.setMarket(market);
 
 
@@ -136,8 +136,8 @@ class ThreeKingdomPatternTest {
         //ViewCli view8=new ViewCli();
         //view8.showManuscript(p1.getManuscript());
 
-        MyCli view=new MyCli();
-        view.printManuscript(p1.getManuscript());
+        View view=new Tui();
+        view.show(p1.getManuscript());
 
         //three fungi
         assertEquals(2, objectiveDeck.get(8).calculateObjectivePoints(p1.getManuscript()));

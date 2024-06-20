@@ -20,18 +20,20 @@ public class TurnHandler implements Serializable {
     private boolean twentyPointsReached;
     private boolean lastRound;
 
-    //constructor
+    /**
+     * constructor of the players' turn handler
+     * @param game which game
+     */
     public TurnHandler(Game game) {
         this.game = game;
         this.twentyPointsReached = false;
         this.lastRound = false;
     }
 
-    public Game getGame() {
-        return game;
-    }
-
-
+    /**
+     * every player chooses the personal secret objective, then each notifies the turn handler using this method,
+     * the last player to do so will set the first player to playing state and start the match
+     */
     public void notifyChooseObjectiveState() {
 
         boolean everyoneReady = true;
@@ -81,6 +83,12 @@ public class TurnHandler implements Serializable {
 
     }
 
+    /**
+     * this method will be executed at the end of a player's turn, it will check the end game points threshold,
+     * handle the last turn and handle the turn passing
+     * @param player which player ended the turn
+     * @throws InterruptedException exception
+     */
     public void notifyEndOfTurnState(Player player) throws InterruptedException {
 
         List<Player> players = game.getPlayers();
@@ -201,6 +209,13 @@ public class TurnHandler implements Serializable {
         }
     }
 
+    /**
+     * this method is executed when every player is in EndingState
+     * this method will calculate and add the points scored by Objective cards
+     * then finally, will display to the user the winner/winners of this game
+     * @param player which player
+     * @throws InterruptedException exception
+     */
     public void notifyCalculateObjectivePoints(Player player) throws InterruptedException { // this method calculates the objective points and announces the winner/winners
 
         // verify that every player is in the ending state
@@ -288,17 +303,19 @@ public class TurnHandler implements Serializable {
 
     }
 
-
-
+    /**
+     * displays the winner/winners to the users, and the general scoreboard
+     */
     public void sendWinnersToClient(){
         UpdateEndGame winnerMessage = new UpdateEndGame(new MiniModel(game.getBoard()));
         this.game.notifyObservers(winnerMessage);
     }
 
     /**
-     * @param index
-     * @param players
-     * @return
+     * get the next player from the list of players
+     * @param index index of the current player
+     * @param players the list of players
+     * @return the next player in line
      * @requires index < players.size()
      */
     private Player getNextOf(int index, List<Player> players) {
@@ -309,4 +326,11 @@ public class TurnHandler implements Serializable {
         }
     }
 
+    /**
+     * getter
+     * @return game
+     */
+    public Game getGame() {
+        return game;
+    }
 }

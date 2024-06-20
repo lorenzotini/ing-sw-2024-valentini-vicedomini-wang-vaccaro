@@ -33,6 +33,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
                 break;
             }catch(IOException | NotBoundException e){
                 System.out.println("Server not found, retrying...");
+                //todo: gui
                 try{
                     Thread.sleep(2000);
                 }catch(InterruptedException ignored){

@@ -5,6 +5,7 @@ import it.polimi.ingsw.gc27.Model.ClientClass.MiniModel;
 import it.polimi.ingsw.gc27.View.Gui;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.layout.Pane;
 
 import java.io.IOException;
 //second scene, displays "joinGameButton" and "newGameButton"
@@ -14,6 +15,8 @@ public class ChooseGameSceneController implements GenericController{
     public Button joinGameButton;
     @FXML
     public Button newGameButton;
+    @FXML
+    public Pane serverDownPane;
 
 
     @FXML

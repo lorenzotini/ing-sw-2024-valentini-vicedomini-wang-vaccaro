@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="780.0" prefWidth="1535.0" styleClass="anchorpane" stylesheets="@../css/ChooseGameScene.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.gc27.View.GUI.ChooseGameSceneController">
@@ -18,5 +20,10 @@
          </font></Button>
       <ImageView fitHeight="100.0" fitWidth="250.0" layoutX="418.0" layoutY="420.0" pickOnBounds="true" preserveRatio="true" styleClass="decoration" />
       <ImageView fitHeight="100.0" fitWidth="250.0" layoutX="868.0" layoutY="420.0" pickOnBounds="true" preserveRatio="true" styleClass="decoration2" />
+      <Pane fx:id="serverDownPane" layoutX="465.0" layoutY="183.0" prefHeight="393.0" prefWidth="605.0" style="-fx-background-color: white;">
+         <children>
+            <Label layoutX="47.0" layoutY="59.0" prefHeight="191.0" prefWidth="511.0" text="SERVER NOT FOUND. RETRYING..." />
+         </children>
+      </Pane>
    </children>
 </AnchorPane>

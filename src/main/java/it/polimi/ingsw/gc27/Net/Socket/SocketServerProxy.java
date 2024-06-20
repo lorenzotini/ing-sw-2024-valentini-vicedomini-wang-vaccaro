@@ -41,6 +41,7 @@ public class SocketServerProxy implements VirtualServer {
                 System.out.println("Couldn't get I/O for the connection to " + port);
             }
             System.out.println("Retrying...");
+            //todo: gui
             try{
                 Thread.sleep(2000);
             }catch(InterruptedException es){

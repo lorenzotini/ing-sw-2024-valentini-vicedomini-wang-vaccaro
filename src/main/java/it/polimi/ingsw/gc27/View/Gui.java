@@ -4,6 +4,7 @@ import it.polimi.ingsw.gc27.Model.Card.ObjectiveCard.ObjectiveCard;
 import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
 import it.polimi.ingsw.gc27.Model.Card.StarterCard;
 import it.polimi.ingsw.gc27.Model.ClientClass.*;
+import it.polimi.ingsw.gc27.Model.Enumerations.PawnColour;
 import it.polimi.ingsw.gc27.Model.Game.ChatMessage;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 import it.polimi.ingsw.gc27.View.GUI.*;
@@ -340,20 +341,12 @@ public class Gui implements View {
     public void okAck(String string) {
         System.out.println("\nOk " +currentController.toString() + string);
         currentController.receiveOk(string);
-//        if(currentController instanceof ManuscriptSceneController){
-//
-//            ((ManuscriptSceneController) currentController).getActionFeedback().setText(string);
-//        }
     }
 
     @Override
     public void koAck(String string) {
         System.out.println("\nKo " +currentController.toString() + string);
         currentController.receiveKo(string);
-//        if(currentController instanceof ManuscriptSceneController){
-//            ((ManuscriptSceneController) currentController).getActionFeedback().setText(string);
-//        }
-        //error handler
     }
 
     @Override
@@ -378,6 +371,13 @@ public class Gui implements View {
 
     public void addLastChatMessage(ChatMessage message, Tab chatTab) {
         Platform.runLater(()-> {
+            MiniModel miniModel;
+            try {
+                miniModel=Gui.getInstance().getClient().getMiniModel();
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
+            }
+
             VBox vbox = getChatMessagesVBox(chatTab);
 
             Text text = new Text();
@@ -400,6 +400,8 @@ public class Gui implements View {
                 textName = new Text(message.getSender());
                 hBoxName = new HBox(textName);
                 hBoxName.setPadding(new Insets(0, 3, 0, 3));
+
+
                 textName.getStyleClass().add("text-name");
             }
 

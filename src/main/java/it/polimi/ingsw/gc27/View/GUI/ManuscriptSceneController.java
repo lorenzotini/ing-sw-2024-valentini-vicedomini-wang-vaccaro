@@ -10,6 +10,7 @@ import it.polimi.ingsw.gc27.Model.Enumerations.CornerSymbol;
 import it.polimi.ingsw.gc27.Model.Enumerations.PawnColour;
 import it.polimi.ingsw.gc27.Model.Game.ChatMessage;
 import it.polimi.ingsw.gc27.Model.Game.Placement;
+import it.polimi.ingsw.gc27.Model.Game.Player;
 import it.polimi.ingsw.gc27.Net.Commands.AddCardCommand;
 import it.polimi.ingsw.gc27.Net.Commands.Command;
 import it.polimi.ingsw.gc27.Net.Commands.DrawCardCommand;
@@ -26,6 +27,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.*;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
@@ -40,11 +42,20 @@ import java.util.Optional;
 
 
 public class ManuscriptSceneController implements GenericController {
-
+    @FXML
+    public Pane feedbackPane;
+    @FXML
+    public TextFlow feedbackTextFlow;
+    @FXML
+    public Text actionFeedback;
+    @FXML
+    public TextFlow errorPane;
+    @FXML
+    public Text errorText;
+    @FXML
+    public Circle circleChat;
     @FXML
     private GridPane scoreBoard;
-    @FXML
-    private TextField actionFeedback;
     @FXML
     private TabPane manuscriptTabPane;
     @FXML
@@ -85,12 +96,10 @@ public class ManuscriptSceneController implements GenericController {
     private final HashMap<PawnColour, ImageView> pawnColourImageViewHashMap = new HashMap<>();
     private final int PAWN_DIM = 50;
 
-    public TextField getActionFeedback() {
-        return actionFeedback;
-    }
 
 
     public void init() {
+        circleChat.setVisible(false);
 
         MiniModel miniModel;
         do {
@@ -104,6 +113,9 @@ public class ManuscriptSceneController implements GenericController {
         // initialize manuscripts' grid panes
         createManuscriptGrids(miniModel);
         createBoardGrids(miniModel);
+        createActionFeedback();
+        creareErrorPane();
+
         // populate manuscripts
         for(Map.Entry<String, ClientManuscript> element :  miniModel.getManuscriptsMap().entrySet()){
             overwriteManuscript(miniModel, element.getKey(), true);
@@ -137,8 +149,28 @@ public class ManuscriptSceneController implements GenericController {
         } catch (RemoteException e) {
             throw new RuntimeException();
         }
+
+
+    }
+    public void creareErrorPane(){
+        Platform.runLater(()->{
+            errorPane.setMaxWidth(200);
+            errorPane.setTextAlignment(TextAlignment.RIGHT);
+            errorPane.toFront();
+
+        });
     }
 
+    public void createActionFeedback(){
+        Platform.runLater(()->{
+            actionFeedback.setText("so fast");
+            actionFeedback.getStyleClass().add("labelActionFeedback");
+            feedbackTextFlow.setMaxWidth(400);
+            feedbackTextFlow.setTextAlignment(TextAlignment.RIGHT);
+            feedbackTextFlow.toFront();
+
+        });
+    }
     public void fullChatAllocate() throws RemoteException {
         MiniModel miniModel = Gui.getInstance().getClient().getMiniModel();
         String myUsername = miniModel.getPlayer().getUsername();
@@ -228,11 +260,20 @@ public class ManuscriptSceneController implements GenericController {
             chatTabPane.getTabs().add(chatTab);
 
         }
+
         chatTitledPane.setOnMouseClicked(event->{
             Platform.runLater(()->{
                 chatTitledPane.toFront();
+                circleChat.setVisible(false);
             });
         });
+
+//        chatTitledPane.setOnMouseClicked(event->{
+//            Platform.runLater(()->{
+//
+//            });
+//        });
+
     }
 
     private TextField getSendMessageFieldFromTab(Tab tab) {
@@ -445,14 +486,17 @@ public class ManuscriptSceneController implements GenericController {
             String feedback;
             feedback= miniModel.getPlayer().getPlayerState().toStringGUI();
             actionFeedback.setText(feedback);
+            feedbackTextFlow.setTextAlignment(TextAlignment.RIGHT);
+
         });
     }
 
     @Override
     public void receiveKo(String ackType) {
-        Platform.runLater(()->{
-            ;
-            actionFeedback.setText(ackType);
+        Platform.runLater(()->{;
+            errorPane.setTextAlignment(TextAlignment.RIGHT);
+            errorText.getStyleClass().add("labelError");
+            errorText.setText(ackType);
         });
 
     }
@@ -463,6 +507,9 @@ public class ManuscriptSceneController implements GenericController {
                     .filter(user -> !user.equals(miniModel.getPlayer().getUsername()))
                     .toList().getFirst();
             Tab tab = chatTabHashMap.get(username);
+            if(!chat.getChatMessages().getLast().getSender().equals(miniModel.getPlayer().getUsername())){
+                circleChat.setVisible(true);
+            }
 
             Gui.getInstance().addLastChatMessage(chat.getChatMessages().getLast(), tab);
             //todo: fare scroll automatico

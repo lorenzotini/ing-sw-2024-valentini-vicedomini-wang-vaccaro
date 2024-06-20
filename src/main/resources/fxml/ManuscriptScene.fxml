@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.TabPane?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -12,9 +11,12 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.TextFlow?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="780.0" prefWidth="1535.0" stylesheets="@../css/ManuscriptScene.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.gc27.View.GUI.ManuscriptSceneController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="780.0" prefWidth="1535.0" stylesheets="@../css/ManuscriptScene.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.gc27.View.GUI.ManuscriptSceneController">
    <children>
       <HBox fx:id="handCards" layoutX="292.0" layoutY="648.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="100.0" prefWidth="470.0" spacing="10.0" />
       <VBox fx:id="counters" layoutX="1094.0" layoutY="183.0" prefHeight="452.0" prefWidth="63.0" />
@@ -23,11 +25,7 @@
             <Image url="@../Images/utility/plateau_score.jpg" />
          </image>
       </ImageView>
-      <TextField fx:id="actionFeedback" editable="false" layoutX="734.0" layoutY="25.0" prefHeight="125.0" prefWidth="369.0">
-         <font>
-            <Font name="Agency FB" size="20.0" />
-         </font></TextField>
-      <TabPane fx:id="manuscriptTabPane" layoutX="32.0" layoutY="183.0" prefHeight="452.0" prefWidth="983.0" styleClass="gridpane" tabClosingPolicy="UNAVAILABLE" />
+      <TabPane fx:id="manuscriptTabPane" layoutX="35.0" layoutY="194.0" prefHeight="452.0" prefWidth="983.0" styleClass="gridpane" tabClosingPolicy="UNAVAILABLE" />
       <TitledPane fx:id="chatTitledPane" expanded="false" layoutX="1169.0" layoutY="46.0" prefHeight="717.0" prefWidth="354.0" text="Chat">
 
          <content>
@@ -55,19 +53,19 @@
       <ImageView fitHeight="55.0" fitWidth="55.0" layoutX="1033.0" layoutY="550.0" pickOnBounds="true" preserveRatio="true" styleClass="parchment" />
       <GridPane fx:id="scoreBoard" layoutX="1184.0" layoutY="92.0" prefHeight="659.0" prefWidth="322.0">
       <columnConstraints>
-         <ColumnConstraints maxWidth="17.0" minWidth="0.0" prefWidth="13.0" halignment="CENTER"/>
-         <ColumnConstraints  maxWidth="100.0" minWidth="0.0" prefWidth="54.0" halignment="CENTER"/>
-         <ColumnConstraints  maxWidth="100.0" minWidth="0.0" prefWidth="5.0" halignment="CENTER"/>
-         <ColumnConstraints  minWidth="0.0" prefWidth="14.0" halignment="CENTER"/>
-         <ColumnConstraints  minWidth="0.0" prefWidth="2.0" halignment="CENTER"/>
-            <ColumnConstraints  maxWidth="59.0" minWidth="0.0" prefWidth="5.0" halignment="CENTER"/>
-         <ColumnConstraints  maxWidth="59.0" minWidth="10.0" prefWidth="51.0" halignment="CENTER"/>
-         <ColumnConstraints  maxWidth="59.0" minWidth="10.0" prefWidth="28.0" halignment="CENTER"/>
-         <ColumnConstraints  maxWidth="53.6" minWidth="0.0" prefWidth="51.0" halignment="CENTER"/>
-         <ColumnConstraints  minWidth="0.0" prefWidth="8.0" halignment="CENTER"/>
-         <ColumnConstraints  minWidth="0.0" prefWidth="10.0" halignment="CENTER"/>
-         <ColumnConstraints  maxWidth="100.0" minWidth="0.0" prefWidth="8.0" halignment="CENTER"/>
-         <ColumnConstraints  maxWidth="100.0" minWidth="0.0" prefWidth="54.0" halignment="CENTER"/>
+         <ColumnConstraints halignment="CENTER" maxWidth="17.0" minWidth="0.0" prefWidth="13.0" />
+         <ColumnConstraints halignment="CENTER" maxWidth="100.0" minWidth="0.0" prefWidth="54.0" />
+         <ColumnConstraints halignment="CENTER" maxWidth="100.0" minWidth="0.0" prefWidth="5.0" />
+         <ColumnConstraints halignment="CENTER" minWidth="0.0" prefWidth="14.0" />
+         <ColumnConstraints halignment="CENTER" minWidth="0.0" prefWidth="2.0" />
+            <ColumnConstraints halignment="CENTER" maxWidth="59.0" minWidth="0.0" prefWidth="5.0" />
+         <ColumnConstraints halignment="CENTER" maxWidth="59.0" minWidth="10.0" prefWidth="51.0" />
+         <ColumnConstraints halignment="CENTER" maxWidth="59.0" minWidth="10.0" prefWidth="28.0" />
+         <ColumnConstraints halignment="CENTER" maxWidth="53.6" minWidth="0.0" prefWidth="51.0" />
+         <ColumnConstraints halignment="CENTER" minWidth="0.0" prefWidth="8.0" />
+         <ColumnConstraints halignment="CENTER" minWidth="0.0" prefWidth="10.0" />
+         <ColumnConstraints halignment="CENTER" maxWidth="100.0" minWidth="0.0" prefWidth="8.0" />
+         <ColumnConstraints halignment="CENTER" maxWidth="100.0" minWidth="0.0" prefWidth="54.0" />
       </columnConstraints>
       <rowConstraints>
          <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" />
@@ -132,5 +130,27 @@
          <RowConstraints maxHeight="100.0" minHeight="0.0" prefHeight="4.0" valignment="CENTER" />
          <RowConstraints maxHeight="100.0" minHeight="0.0" prefHeight="4.0" valignment="CENTER" />
       </rowConstraints></GridPane>
+      <Pane fx:id="feedbackPane" layoutX="1028.0" layoutY="14.0" prefHeight="26.0" prefWidth="494.0">
+         <children>
+            <TextFlow fx:id="feedbackTextFlow" lineSpacing="4.0" prefHeight="26.0" prefWidth="494.0" textAlignment="RIGHT">
+               <children>
+                  <Text fx:id="actionFeedback" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="RIGHT" wrappingWidth="196.2261962890625">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Text>
+               </children></TextFlow>
+         </children></Pane>
+      <TextFlow fx:id="errorPane" layoutX="828.0" layoutY="660.0" prefHeight="86.0" prefWidth="211.0" textAlignment="CENTER">
+         <children>
+            <Text fx:id="errorText" strokeType="OUTSIDE" strokeWidth="0.0">
+               <font>
+                  <Font name="Agency FB" size="21.0" />
+               </font>
+            </Text>
+         </children>
+      </TextFlow>
+      <Circle fx:id="circleChat" fill="#ff1f1f" layoutX="1148.0" layoutY="59.0" radius="12.0" stroke="BLACK" strokeType="INSIDE" />
+
    </children>
 </AnchorPane>

@@ -70,12 +70,11 @@ class ChooseObjectiveStateTest {
         faceUpResources[1]= resourceDeck.get(1);
         faceUpGolds[0]=goldDeck.get(0);
         faceUpGolds[1]=goldDeck.get(1);
-        market=new Market(resourceDeck, goldDeck, faceUpResources,faceUpGolds );
+        market=new Market(resourceDeck, goldDeck, faceUpResources,faceUpGolds, objectiveDeck );
         g1.setMarket(market);
         secretObjectives=new ArrayList<>();
         secretObjectives.add(objectiveDeck.get(0));
         secretObjectives.add(objectiveDeck.get(1));
-        p1.setSecretObjectives(secretObjectives);
 
 
         turnHandler=new TurnHandler(g1);

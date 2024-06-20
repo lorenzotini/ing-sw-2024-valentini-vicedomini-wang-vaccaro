@@ -70,11 +70,11 @@ public class GameController implements Serializable {
      * This method changes the player's manuscript, adding the selected card on it and possibly adding
      * points on the board and then removes the card from the player's hand.
      *
-     * @param player
-     * @param card
-     * @param face
-     * @param x
-     * @param y
+     * @param player which player performed the action
+     * @param card which card is played
+     * @param face face up or face down
+     * @param x position index
+     * @param y position index
      */
     public void addCard(Player player, ResourceCard card, Face face, int x, int y) {
         player.getPlayerState().addCard(this.game, card, face, x, y);

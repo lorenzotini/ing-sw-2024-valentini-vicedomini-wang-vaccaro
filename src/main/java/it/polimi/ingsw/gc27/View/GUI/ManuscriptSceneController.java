@@ -10,7 +10,6 @@ import it.polimi.ingsw.gc27.Model.Enumerations.CornerSymbol;
 import it.polimi.ingsw.gc27.Model.Enumerations.PawnColour;
 import it.polimi.ingsw.gc27.Model.Game.ChatMessage;
 import it.polimi.ingsw.gc27.Model.Game.Placement;
-import it.polimi.ingsw.gc27.Model.Game.Player;
 import it.polimi.ingsw.gc27.Net.Commands.AddCardCommand;
 import it.polimi.ingsw.gc27.Net.Commands.Command;
 import it.polimi.ingsw.gc27.Net.Commands.DrawCardCommand;
@@ -130,7 +129,7 @@ public class ManuscriptSceneController implements GenericController {
 
         // common objectives
         for (int i = 0; i < 2; i++) {
-            ImageView commonObjective = new ImageView(new Image(miniModel.getMarket().getCommonObjectives().get(i).getFront().getImagePath()));
+            ImageView commonObjective = new ImageView(new Image(getClass().getResource(miniModel.getMarket().getCommonObjectives().get(i).getFront().getImagePath()).toExternalForm()));
             commonObjective.setFitHeight(70);
             commonObjective.setFitWidth(105);
             zoomCardOnHover(commonObjective, 1.4);
@@ -138,7 +137,7 @@ public class ManuscriptSceneController implements GenericController {
         }
 
         // secret Objective
-        secretObjective.setImage(new Image(miniModel.getPlayer().getSecretObjectives().getFirst().getFront().getImagePath()));
+        secretObjective.setImage(new Image(getClass().getResource(miniModel.getPlayer().getSecretObjectives().getFirst().getFront().getImagePath()).toExternalForm()));
         zoomCardOnHover(secretObjective, 1.3);
 
         // counters
@@ -268,12 +267,6 @@ public class ManuscriptSceneController implements GenericController {
             });
         });
 
-//        chatTitledPane.setOnMouseClicked(event->{
-//            Platform.runLater(()->{
-//
-//            });
-//        });
-
     }
 
     private TextField getSendMessageFieldFromTab(Tab tab) {
@@ -350,7 +343,6 @@ public class ManuscriptSceneController implements GenericController {
 
             // copy the selected image, fixing the gigantic zoom when dragging
             Image toAdd = new Image(imgView.getImage().getUrl(), 128 * 1.5, 128, false, false);
-
             cb.putImage(toAdd);
             db.setContent(cb);
             this.handCard = imgView;
@@ -418,9 +410,6 @@ public class ManuscriptSceneController implements GenericController {
         double originalWidth = imgView.getFitWidth();
 
         imgView.setOnMouseEntered(event -> {
-//            imgView.setScaleX(factor);
-//            imgView.setScaleY(factor);
-            //imgView.toFront();
             imgView.setFitHeight(originalHeight * factor);
             imgView.setFitWidth(originalWidth * factor);
             event.consume();
@@ -429,8 +418,6 @@ public class ManuscriptSceneController implements GenericController {
         imgView.setOnMouseExited(event -> {
             imgView.setFitHeight(originalHeight);
             imgView.setFitWidth(originalWidth);
-//            imgView.setScaleX(1);
-//            imgView.setScaleY(1);
             event.consume();
         });
 
@@ -604,7 +591,7 @@ public class ManuscriptSceneController implements GenericController {
                     Face face = miniModel.getManuscript().getField()[placement.getX()][placement.getY()];
 
                     ImageView imageView = new ImageView();
-                    imageView.setImage(new Image(face.getImagePath()));
+                    imageView.setImage(new Image(getClass().getResource(face.getImagePath()).toExternalForm()));
                     imageView.setFitHeight(100);
                     imageView.setFitWidth(150);
 
@@ -620,7 +607,7 @@ public class ManuscriptSceneController implements GenericController {
                 for (Placement placement : manuscript.getPlacements()) {
                     ImageView imageView = new ImageView();
                     Face face = miniModel.getManuscriptsMap().get(username).getField()[placement.getX()][placement.getY()];
-                    imageView.setImage(new Image(face.getImagePath()));
+                    imageView.setImage(new Image(getClass().getResource(face.getImagePath()).toExternalForm()));
                     imageView.setFitHeight(100);
                     imageView.setFitWidth(150);
                     imageView.toFront();
@@ -648,7 +635,7 @@ public class ManuscriptSceneController implements GenericController {
 
             handCards.getChildren().clear();
             for (Card card : miniModel.getPlayer().getHand()) {
-                ImageView newHandCard = new ImageView(new Image(card.getFront().getImagePath()));
+                ImageView newHandCard = new ImageView(new Image(getClass().getResource(card.getFront().getImagePath()).toExternalForm()));
                 newHandCard.setFitHeight(100);
                 newHandCard.setFitWidth(150);
                 handleDragDetectedHand(newHandCard);
@@ -670,7 +657,7 @@ public class ManuscriptSceneController implements GenericController {
             HBox marketBox = this.marketResources;
             boolean isGold = false;
             boolean fromDeck;
-            Image deckImage = new Image(miniModel.getMarket().getResourceDeck().getLast().getBack().getImagePath());
+            Image deckImage = new Image(getClass().getResource(miniModel.getMarket().getResourceDeck().getLast().getBack().getImagePath()).toExternalForm());
 
             marketResources.getChildren().clear();
             marketGolds.getChildren().clear();
@@ -688,7 +675,7 @@ public class ManuscriptSceneController implements GenericController {
                         marketBox.getChildren().add(marketRes);
                     } else {
                         fromDeck = false;
-                        ImageView marketRes = new ImageView(new Image(miniModel.getMarket().getFaceUp(isGold)[i - 1].getFront().getImagePath()));
+                        ImageView marketRes = new ImageView(new Image(getClass().getResource(miniModel.getMarket().getFaceUp(isGold)[i - 1].getFront().getImagePath()).toExternalForm()));
                         marketRes.setFitHeight(marketBox.getPrefHeight());
                         marketRes.setFitWidth(marketBox.getPrefWidth() / 3);
                         marketRes.setUserData(new MarketCardData(isGold, fromDeck, i - 1));
@@ -699,7 +686,7 @@ public class ManuscriptSceneController implements GenericController {
                 }
                 marketBox = this.marketGolds;
                 isGold = true;
-                deckImage = new Image(miniModel.getMarket().getGoldDeck().getLast().getBack().getImagePath());
+                deckImage = new Image(getClass().getResource(miniModel.getMarket().getGoldDeck().getLast().getBack().getImagePath()).toExternalForm());
             }
 
         });
@@ -729,7 +716,7 @@ public class ManuscriptSceneController implements GenericController {
         for (int i = -1; i <= 1; i = i + 2) {
             for (int j = -1; j <= 1; j = j + 2) {
                 if (miniModel.getPlayer().getManuscript().isValidPlacement(placement.getX() + i, placement.getY() + j)) {
-                    ImageView imageView = new ImageView(new Image(getClass().getResource("/images/utility/validPlacement.png").toExternalForm()));
+                    ImageView imageView = new ImageView(new Image(getClass().getResource("/Images/utility/validPlacement.png").toExternalForm()));
                     handleDropEventManuscript(imageView);
                     ManuscriptCardData manuscriptCardData = new ManuscriptCardData(placement.getX() + i, placement.getY() + j);
                     imageView.setUserData(manuscriptCardData);
@@ -783,6 +770,7 @@ public class ManuscriptSceneController implements GenericController {
     }
     public void setBoard(MiniModel miniModel){
         ImageView img = new ImageView(new Image(miniModel.getPlayer().getPawnColour().getPathImage()));
+
         img.setFitWidth(PAWN_DIM);
         img.setFitHeight(PAWN_DIM);
         Point score = position.get(0);
@@ -823,7 +811,6 @@ public class ManuscriptSceneController implements GenericController {
         int actualScore = miniModel.getBoard().getScoreBoard().get(username);
         int oldScore = pawnColourIntegerHashMap.get(colour);
         if(actualScore != oldScore){
-            Point oldPoint = position.get(oldScore);
             Point newPoint = position.get(actualScore);
 
             ImageView imgView = pawnColourImageViewHashMap.get(colour);

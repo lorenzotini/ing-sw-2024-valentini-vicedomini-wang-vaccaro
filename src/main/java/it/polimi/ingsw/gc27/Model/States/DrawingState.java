@@ -16,18 +16,27 @@ import java.util.ArrayList;
 
 public class DrawingState extends PlayerState {
 
-    private String wrongStateText = "It's time to draw a card!";
+    private final String wrongStateText = "It's time to draw a card!";
 
+    /**
+     * State in which a player draws a card from the market
+     * constructor matching super {@link PlayerState}
+     */
     public DrawingState(Player player, TurnHandler turnHandler) {
         super(player, turnHandler);
-//        super.sendState("draw a card!", getPlayer(),turnHandler);
     }
 
+    /**
+     * method implemented from {@link PlayerState}, according to the State Pattern principle
+     */
     @Override
     public void chooseObjectiveCard(Game game, int objectiveCardIndex) {
         super.sendError(wrongStateText, getPlayer(), turnHandler);
     }
 
+    /**
+     * method implemented from {@link PlayerState}, according to the State Pattern principle
+     */
     @Override
     public void drawCard(Player player, boolean isGold, boolean fromDeck, int faceUpCardIndex) throws InterruptedException {
 
@@ -58,16 +67,25 @@ public class DrawingState extends PlayerState {
         turnHandler.getGame().notifyObservers(updateMarketMessage);
     }
 
+    /**
+     * method implemented from {@link PlayerState}, according to the State Pattern principle
+     */
     @Override
     public void addCard(Game game, ResourceCard resourceCard, Face face, int x, int y) {
         super.sendError(wrongStateText, getPlayer(), turnHandler);
     }
 
+    /**
+     * method implemented from {@link PlayerState}, according to the State Pattern principle
+     */
     @Override
     public void addStarterCard(Game game, StarterCard starterCard, Face face) {
         super.sendError(wrongStateText, getPlayer(), turnHandler);
     }
 
+    /**
+     * method implemented from {@link PlayerState}, according to the State Pattern principle
+     */
     @Override
     public String toStringGUI(){
         return "Draw a card!";

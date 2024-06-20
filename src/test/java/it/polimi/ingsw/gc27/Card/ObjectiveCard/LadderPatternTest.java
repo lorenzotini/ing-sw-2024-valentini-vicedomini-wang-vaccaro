@@ -7,14 +7,13 @@ import it.polimi.ingsw.gc27.Model.Card.ObjectiveCard.ObjectiveCard;
 import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
 import it.polimi.ingsw.gc27.Model.Card.StarterCard;
 import it.polimi.ingsw.gc27.Controller.GameController;
-import it.polimi.ingsw.gc27.Controller.JsonParser;
+import it.polimi.ingsw.gc27.JsonParser;
 import it.polimi.ingsw.gc27.Model.Enumerations.Kingdom;
 import it.polimi.ingsw.gc27.Model.Enumerations.PawnColour;
 import it.polimi.ingsw.gc27.Game.*;
 import it.polimi.ingsw.gc27.Model.Game.*;
 import it.polimi.ingsw.gc27.Model.States.InitializingState;
 import it.polimi.ingsw.gc27.Model.States.PlayingState;
-import it.polimi.ingsw.gc27.View.ViewCli;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -73,7 +72,7 @@ class LadderPatternTest {
         faceUpResources[1]= resourceDeck.get(1);
         faceUpGolds[0]=goldDeck.get(0);
         faceUpGolds[1]=goldDeck.get(1);
-        market=new Market(resourceDeck, goldDeck, faceUpResources,faceUpGolds );
+        market=new Market(resourceDeck, goldDeck, faceUpResources,faceUpGolds ,objectiveDeck);
         g1.setMarket(market);
 
 
@@ -130,8 +129,7 @@ class LadderPatternTest {
         assertTrue(p3.getManuscript().getField()[44][42].getCorner(1, -1).isHidden());
 
         p3.addCard(g1, resourceDeck.get(16), resourceDeck.get(16).getFront(), 41, 43);
-        ViewCli view2 = new ViewCli();
-        view2.showManuscript(p3.getManuscript());
+
 
         assertEquals(2, objectiveDeck.get(1).calculateObjectivePoints(p3.getManuscript()));
 

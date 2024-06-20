@@ -12,28 +12,45 @@ import it.polimi.ingsw.gc27.Model.ClientClass.MiniModel;
 
 public class ChooseObjectiveState extends PlayerState {
 
-    private String wrongStateText = "You have to choose an objective card first";
-    private String starterText = "You already have a Starter Card";
+    private final String wrongStateText = "You have to choose an objective card first";
 
+    /**
+     * State in which the player chooses the personal secret objective
+     * constructor matching super {@link PlayerState}
+     */
     public ChooseObjectiveState(Player player, TurnHandler turnHandler) {
         super(player, turnHandler);
     }
 
+
+    /**
+     * method implemented from {@link PlayerState}, according to the State Pattern principle
+     */
     @Override
     public void drawCard(Player player, boolean isGold, boolean fromDeck, int faceUpCardIndex) {
         super.sendError(wrongStateText, getPlayer(), turnHandler);
     }
 
+    /**
+     * method implemented from {@link PlayerState}, according to the State Pattern principle
+     */
     @Override
     public void addCard(Game game, ResourceCard resourceCard, Face face, int x, int y) {
         super.sendError(wrongStateText, getPlayer(), turnHandler);
     }
 
+    /**
+     * method implemented from {@link PlayerState}, according to the State Pattern principle
+     */
     @Override
     public void addStarterCard(Game game, StarterCard starterCard, Face face) {
+        String starterText = "You already have a Starter Card";
         super.sendError(starterText, getPlayer(), turnHandler);
     }
 
+    /**
+     * method implemented from {@link PlayerState}, according to the State Pattern principle
+     */
     @Override
     public void chooseObjectiveCard(Game game, int objectiveCardIndex) {
 
@@ -51,5 +68,4 @@ public class ChooseObjectiveState extends PlayerState {
         this.getTurnHandler().notifyChooseObjectiveState();
 
     }
-
 }

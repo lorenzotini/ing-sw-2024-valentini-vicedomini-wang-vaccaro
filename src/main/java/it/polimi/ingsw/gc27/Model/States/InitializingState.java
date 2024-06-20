@@ -14,27 +14,43 @@ import it.polimi.ingsw.gc27.Model.ClientClass.MiniModel;
 
 public class InitializingState extends PlayerState {
 
-    private String wrongStateText = "place your starter card first and only then you can start playing";
+    private final String wrongStateText = "place your starter card first and only then you can start playing";
+
+    /**
+     * State in which a player adds the starter card to their manuscript
+     * constructor matching super {@link PlayerState}
+     */
 
     public InitializingState(Player player, TurnHandler turnHandler) {
         super(player, turnHandler);
     }
-
+    /**
+     * method implemented from {@link PlayerState}, according to the State Pattern principle
+     */
     @Override
     public void chooseObjectiveCard(Game game, int objectiveCardIndex) {
         super.sendError(wrongStateText, this.player, turnHandler);
     }
 
+    /**
+     * method implemented from {@link PlayerState}, according to the State Pattern principle
+     */
     @Override
     public void drawCard(Player player, boolean isGold, boolean fromDeck, int faceUpCardIndex) {
         super.sendError(wrongStateText, this.player, turnHandler);
     }
 
+    /**
+     * method implemented from {@link PlayerState}, according to the State Pattern principle
+     */
     @Override
     public void addCard(Game game, ResourceCard resourceCard, Face face, int x, int y) {
         super.sendError(wrongStateText, this.player, turnHandler);
     }
 
+    /**
+     * method implemented from {@link PlayerState}, according to the State Pattern principle
+     */
     @Override
     public void addStarterCard(Game game, StarterCard starterCard, Face face) {
 
@@ -49,6 +65,5 @@ public class InitializingState extends PlayerState {
         turnHandler.getGame().notifyObservers(updateOtherManuscriptMessage);
 
     }
-
 
 }

@@ -412,7 +412,7 @@ class TuiTest {
         faceUpGolds[0] = goldDeck.get(0);
         faceUpGolds[1] = goldDeck.get(1);
 
-        Market market = new Market(resourceDeck, goldDeck, faceUpResources, faceUpGolds);
+        Market market = new Market(resourceDeck, goldDeck, faceUpResources, faceUpGolds, objectiveDeck);
 
         out.println(showMarket(market));
 

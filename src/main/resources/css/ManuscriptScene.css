@@ -16,6 +16,8 @@
     -fx-background-color: rgb(255, 0, 250);
 }
 */
+
+/*chat*/
 .text-name {
     -fx-font-size: 10.7px;
 }
@@ -79,4 +81,13 @@
 .label {
     -fx-font-size: 30px;
     -fx-font: 30 "Agency FB";
+}
+.labelActionFeedback {
+    -fx-font-size: 18px;
+    -fx-font: 18 "Agency FB";
+}
+
+.labelError {
+    -fx-font-size: 20px;
+    -fx-font: 20 "Agency FB";
 }

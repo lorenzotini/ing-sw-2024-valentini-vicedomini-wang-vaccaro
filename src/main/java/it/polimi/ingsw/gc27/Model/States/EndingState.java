@@ -37,5 +37,8 @@ public class EndingState extends PlayerState  {
     public void addStarterCard(Game game, StarterCard starterCard, Face face) {
         super.sendError(textMessage, getPlayer(), turnHandler);
     }
+    public String toStringGUI(){
+        return "This is the last turn!";
+    }
 
 }

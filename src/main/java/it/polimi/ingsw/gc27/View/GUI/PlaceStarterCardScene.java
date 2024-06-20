@@ -7,22 +7,17 @@ import it.polimi.ingsw.gc27.Net.Commands.AddStarterCommand;
 import it.polimi.ingsw.gc27.Net.Commands.Command;
 import it.polimi.ingsw.gc27.Net.Commands.SendMessageCommand;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import  it.polimi.ingsw.gc27.View.Gui;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
-import javafx.scene.text.TextFlow;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
@@ -59,7 +54,7 @@ public class PlaceStarterCardScene implements GenericController{
                 Tab chatTab = new Tab(); //a tab for each chat
                 if(i==0) {
                     chatTab.setText("Global");
-                    chatTabHashMapP.put("Global", chatTab);
+                    chatTabHashMapP.put("global", chatTab);
                 }
                 else {
                     String myusername = miniModel.getPlayer().getUsername();
@@ -179,7 +174,7 @@ public class PlaceStarterCardScene implements GenericController{
     //end chat methods
 
     @FXML
-    public void sendStarter(ActionEvent event) throws IOException, InterruptedException {
+    public void sendStarter(MouseEvent event) throws IOException, InterruptedException {
         if(event.getSource().equals(frontStarterButton)){
             //Gui.getInstance().stringFromSceneController("front");
             Command comm = new AddStarterCommand(Gui.getInstance().getClient().getUsername(), true);

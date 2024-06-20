@@ -20,8 +20,10 @@ public class UpdateMyManuscriptMessage extends Message {
             client.getMiniModel().setPlayer(miniModel.getPlayer());
             client.getMiniModel().setManuscript(miniModel.getPlayer().getManuscript());
             client.getMiniModel().setManuscriptsMap(miniModel.getManuscriptsMap());
+            client.getMiniModel().setBoard(miniModel.getBoard());
             view.showString(string);
             view.show(client.getMiniModel().getPlayer().getManuscript());
+            view.show(client.getMiniModel().getBoard());
         }catch(RemoteException e){
             e.printStackTrace();
         }

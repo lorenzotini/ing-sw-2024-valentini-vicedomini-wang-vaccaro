@@ -2,6 +2,7 @@ package it.polimi.ingsw.gc27.View.GUI;
 
 import it.polimi.ingsw.gc27.Model.Card.Card;
 import it.polimi.ingsw.gc27.Model.Card.Face;
+import it.polimi.ingsw.gc27.Model.ClientClass.ClientBoard;
 import it.polimi.ingsw.gc27.Model.ClientClass.ClientChat;
 import it.polimi.ingsw.gc27.Model.ClientClass.ClientManuscript;
 import it.polimi.ingsw.gc27.Model.ClientClass.MiniModel;
@@ -9,6 +10,7 @@ import it.polimi.ingsw.gc27.Model.Enumerations.CornerSymbol;
 import it.polimi.ingsw.gc27.Model.Enumerations.PawnColour;
 import it.polimi.ingsw.gc27.Model.Game.ChatMessage;
 import it.polimi.ingsw.gc27.Model.Game.Placement;
+import it.polimi.ingsw.gc27.Model.Game.Player;
 import it.polimi.ingsw.gc27.Net.Commands.AddCardCommand;
 import it.polimi.ingsw.gc27.Net.Commands.Command;
 import it.polimi.ingsw.gc27.Net.Commands.DrawCardCommand;
@@ -25,6 +27,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.*;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
@@ -39,10 +42,20 @@ import java.util.Optional;
 
 
 public class ManuscriptSceneController implements GenericController {
-
-
     @FXML
-    private TextField actionFeedback;
+    public Pane feedbackPane;
+    @FXML
+    public TextFlow feedbackTextFlow;
+    @FXML
+    public Text actionFeedback;
+    @FXML
+    public TextFlow errorPane;
+    @FXML
+    public Text errorText;
+    @FXML
+    public Circle circleChat;
+    @FXML
+    private GridPane scoreBoard;
     @FXML
     private TabPane manuscriptTabPane;
     @FXML
@@ -61,8 +74,9 @@ public class ManuscriptSceneController implements GenericController {
     private ImageView secretObjective;
     @FXML
     private TabPane chatTabPane;
-
-
+    @FXML
+    private TitledPane chatTitledPane;
+    private final HashMap<Integer, Point> position = new HashMap<Integer, Point>();
     //TODO vedere se è meglio mettere gli attributi privati che ora sono pubblici
 
     // attributes to handle addCard invocation
@@ -76,16 +90,16 @@ public class ManuscriptSceneController implements GenericController {
     // attributes to handle drawCard invocation
     private ImageView marketCard;
 
-    private GridPane grid;
     //there is a private hashmap for all the scenes where the chat is displayed
-    private HashMap<String, Tab> chatTabHashMap= new HashMap<>();
+    private final HashMap<String, Tab> chatTabHashMap = new HashMap<>();
+    private final HashMap<PawnColour, Integer> pawnColourIntegerHashMap = new HashMap<>();
+    private final HashMap<PawnColour, ImageView> pawnColourImageViewHashMap = new HashMap<>();
+    private final int PAWN_DIM = 50;
 
-    public TextField getActionFeedback() {
-        return actionFeedback;
-    }
 
 
     public void init() {
+        circleChat.setVisible(false);
 
         MiniModel miniModel;
         do {
@@ -94,10 +108,13 @@ public class ManuscriptSceneController implements GenericController {
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
             }
-        }while(miniModel.getMarket() == null);
+        } while (miniModel.getMarket() == null);
 
         // initialize manuscripts' grid panes
         createManuscriptGrids(miniModel);
+        createBoardGrids(miniModel);
+        createActionFeedback();
+        creareErrorPane();
 
         // populate manuscripts
         for(Map.Entry<String, ClientManuscript> element :  miniModel.getManuscriptsMap().entrySet()){
@@ -127,26 +144,47 @@ public class ManuscriptSceneController implements GenericController {
         // counters
         overwriteCounters(miniModel);
 
-        try{
+        try {
             fullChatAllocate();
-        }catch (RemoteException e){
+        } catch (RemoteException e) {
             throw new RuntimeException();
         }
+
+
+    }
+    public void creareErrorPane(){
+        Platform.runLater(()->{
+            errorPane.setMaxWidth(200);
+            errorPane.setTextAlignment(TextAlignment.RIGHT);
+            errorPane.toFront();
+
+        });
     }
 
+    public void createActionFeedback(){
+        Platform.runLater(()->{
+            actionFeedback.setText("so fast!");
+            actionFeedback.getStyleClass().add("labelActionFeedback");
+            feedbackTextFlow.setMaxWidth(400);
+            feedbackTextFlow.setTextAlignment(TextAlignment.RIGHT);
+            feedbackTextFlow.toFront();
+
+        });
+    }
     public void fullChatAllocate() throws RemoteException {
         MiniModel miniModel = Gui.getInstance().getClient().getMiniModel();
         String myUsername = miniModel.getPlayer().getUsername();
-        for (ClientChat chat : miniModel.getChats()){
+        for (ClientChat chat : miniModel.getChats()) {
             Tab tab = chatTabHashMap.get(chat.getChatters().stream()
                     .filter(user -> !user.equals(myUsername))
                     .toList().getFirst());
-            for (ChatMessage message : chat.getChatMessages() ){
+            for (ChatMessage message : chat.getChatMessages()) {
                 Gui.getInstance().addLastChatMessage(message, tab);
             }
         }
     }
-    public void chatInitManuscript(){
+
+    public void chatInitManuscript() {
         MiniModel miniModel;
         do {
             try {
@@ -154,15 +192,14 @@ public class ManuscriptSceneController implements GenericController {
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
             }
-        }while(miniModel.getMarket() == null);
+        } while (miniModel.getMarket() == null);
 
         for (int i = 0; i < miniModel.getChats().size(); i++) {
             Tab chatTab = new Tab(); //a tab for each chat
-            if(i==0) {
+            if (i == 0) {
                 chatTab.setText("Global");
                 chatTabHashMap.put("global", chatTab);
-            }
-            else {
+            } else {
                 String myusername = miniModel.getPlayer().getUsername();
                 String username = miniModel.getChats().get(i).getChatters().stream()
                         .filter(user -> !user.equals(myusername))
@@ -170,12 +207,17 @@ public class ManuscriptSceneController implements GenericController {
                 chatTab.setText(username);
                 chatTabHashMap.put(username, chatTab);
                 PawnColour colour = miniModel.getBoard().getColourPlayermap().get(username);
-                switch (colour){
-                    case BLUE: chatTab.getStyleClass().add("tab-colour-blue");
-                    case YELLOW: chatTab.getStyleClass().add("tab-colour-yellow");
-                    case GREEN: chatTab.getStyleClass().add("tab-colour-green");
-                    case RED: chatTab.getStyleClass().add("tab-colour-red");
+                switch (colour) {
+                    case BLUE:
+                        chatTab.getStyleClass().add("tab-colour-blue");
+                    case YELLOW:
+                        chatTab.getStyleClass().add("tab-colour-yellow");
+                    case GREEN:
+                        chatTab.getStyleClass().add("tab-colour-green");
+                    case RED:
+                        chatTab.getStyleClass().add("tab-colour-red");
                 }
+
             }
 
             VBox chatContainer = new VBox(); //contains che messages of a chat
@@ -216,10 +258,25 @@ public class ManuscriptSceneController implements GenericController {
             chatContainer.getChildren().addAll(chatContent, messageBox);
             chatTab.setContent(chatContainer);
             chatTabPane.getTabs().add(chatTab);
+
         }
+
+        chatTitledPane.setOnMouseClicked(event->{
+            Platform.runLater(()->{
+                chatTitledPane.toFront();
+                circleChat.setVisible(false);
+            });
+        });
+
+//        chatTitledPane.setOnMouseClicked(event->{
+//            Platform.runLater(()->{
+//
+//            });
+//        });
+
     }
 
-    private  TextField getSendMessageFieldFromTab(Tab tab) {
+    private TextField getSendMessageFieldFromTab(Tab tab) {
         if (tab.getContent() instanceof VBox) {
             VBox chatContainer = (VBox) tab.getContent();
             if (chatContainer.getChildren().size() > 1 && chatContainer.getChildren().get(1) instanceof HBox) {
@@ -230,17 +287,19 @@ public class ManuscriptSceneController implements GenericController {
                     }
                 }
             }
-        }return null;
+        }
+        return null;
     }
 
 
-    void handleOnActionChat(Button button, TextField textField){
+    void handleOnActionChat(Button button, TextField textField) {
         button.setOnAction(event -> {
             sendChatMessage();
             textField.clear();
 
         });
     }
+
     private void handleOnKeyPress(TextField textField) {
         textField.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
@@ -308,12 +367,12 @@ public class ManuscriptSceneController implements GenericController {
 
     }
 
-    void handleOnClick(ImageView imgView){
+    void handleOnClick(ImageView imgView) {
         imgView.setOnMouseClicked(event -> {
             String oldUrl = imgView.getImage().getUrl();
-            if(((HandCardData) imgView.getUserData()).isFront()){
+            if (((HandCardData) imgView.getUserData()).isFront()) {
                 imgView.setImage(new Image(oldUrl.replace("front", "back")));
-            }else{
+            } else {
                 imgView.setImage(new Image(oldUrl.replace("back", "front")));
             }
             ((HandCardData) imgView.getUserData()).changeIsFront();
@@ -376,12 +435,13 @@ public class ManuscriptSceneController implements GenericController {
         });
 
     }
-    void sendChatMessage(){
+
+    void sendChatMessage() {
         try {
             Tab currentTab = chatTabPane.getSelectionModel().getSelectedItem();
             String receiver = currentTab.getText();
             String content = getSendMessageFieldFromTab(currentTab).getText();
-            if(!content.trim().isEmpty()) {
+            if (!content.trim().isEmpty()) {
                 Command command = new SendMessageCommand(Gui.getInstance().getClient().getMiniModel().getPlayer(), receiver, content);
                 Gui.getInstance().getClient().sendCommand(command);
             }
@@ -396,7 +456,7 @@ public class ManuscriptSceneController implements GenericController {
             username = Gui.getInstance().getClient().getUsername();
             Command command = new AddCardCommand(username, this.handCardIndex, this.isFront, this.x, this.y);
             Gui.getInstance().getClient().sendCommand(command);
-        } catch ( IOException e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
@@ -408,18 +468,37 @@ public class ManuscriptSceneController implements GenericController {
             username = Gui.getInstance().getClient().getUsername();
             Command command = new DrawCardCommand(username, data.isGold, data.fromDeck, data.faceUpCardIndex);
             Gui.getInstance().getClient().sendCommand(command);
-        } catch ( IOException e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
     @Override
     public void receiveOk(String ackType) {
+        MiniModel miniModel;
 
+        try {
+            miniModel=Gui.getInstance().getClient().getMiniModel();
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
+        Platform.runLater(()->{
+            String feedback;
+            feedback= miniModel.getPlayer().getPlayerState().toStringGUI();
+            System.out.println("\nFEEDBACK "+feedback);
+            actionFeedback.setText(feedback);
+            feedbackTextFlow.setTextAlignment(TextAlignment.RIGHT);
+
+        });
     }
 
     @Override
     public void receiveKo(String ackType) {
+        Platform.runLater(()->{;
+            errorPane.setTextAlignment(TextAlignment.CENTER);
+            errorText.getStyleClass().add("labelError");
+            errorText.setText(ackType);
+        });
 
     }
 
@@ -429,12 +508,16 @@ public class ManuscriptSceneController implements GenericController {
                     .filter(user -> !user.equals(miniModel.getPlayer().getUsername()))
                     .toList().getFirst();
             Tab tab = chatTabHashMap.get(username);
+            if(!chat.getChatMessages().getLast().getSender().equals(miniModel.getPlayer().getUsername())){
+                circleChat.setVisible(true);
+            }
 
             Gui.getInstance().addLastChatMessage(chat.getChatMessages().getLast(), tab);
             //todo: fare scroll automatico
 
         });
     }
+
     private VBox getChatMessagesVBox(Tab chatTab) {
         VBox chatContainer = (VBox) chatTab.getContent();
         ScrollPane chatContent = (ScrollPane) chatContainer.getChildren().getFirst();
@@ -442,9 +525,9 @@ public class ManuscriptSceneController implements GenericController {
         return (VBox) chatContent.getContent();
     }
 
-    private void createManuscriptGrids(MiniModel miniModel){
+    private void createManuscriptGrids(MiniModel miniModel) {
 
-        for(Map.Entry<String, ClientManuscript> element :  miniModel.getManuscriptsMap().entrySet()){
+        for (Map.Entry<String, ClientManuscript> element : miniModel.getManuscriptsMap().entrySet()) {
 
             GridPane grid = new GridPane();
 
@@ -455,7 +538,7 @@ public class ManuscriptSceneController implements GenericController {
             rowConstraints.setMaxHeight(100);
             rowConstraints.setMinHeight(100);
 
-            for(int i = 0; i < 85; i++){
+            for (int i = 0; i < 85; i++) {
                 grid.getColumnConstraints().add(columnConstraints);
                 grid.getRowConstraints().add(rowConstraints);
             }
@@ -480,6 +563,14 @@ public class ManuscriptSceneController implements GenericController {
         }
     }
 
+    public void createBoardGrids(MiniModel miniModel) {
+        Platform.runLater(() -> {
+            initializePoints();
+            setBoard(miniModel);
+        });
+
+    }
+
     public void overwriteManuscript(MiniModel miniModel, String username, boolean newScene) {
 
         Platform.runLater(() -> {
@@ -497,7 +588,7 @@ public class ManuscriptSceneController implements GenericController {
             rowConstraints.setMaxHeight(100);
             rowConstraints.setMinHeight(100);
 
-            for(int i = 0; i < 85; i++){
+            for (int i = 0; i < 85; i++) {
                 grid.getColumnConstraints().add(columnConstraints);
                 grid.getRowConstraints().add(rowConstraints);
             }
@@ -549,7 +640,6 @@ public class ManuscriptSceneController implements GenericController {
             }
 
         });
-
     }
 
     public void overwriteHand(MiniModel miniModel) {
@@ -591,7 +681,7 @@ public class ManuscriptSceneController implements GenericController {
                         fromDeck = true;
                         ImageView marketRes = new ImageView(deckImage);
                         marketRes.setFitHeight(marketBox.getPrefHeight());
-                        marketRes.setFitWidth(marketBox.getPrefWidth()/3);
+                        marketRes.setFitWidth(marketBox.getPrefWidth() / 3);
                         marketRes.setUserData(new MarketCardData(isGold, fromDeck, 0));
                         handleClickDetectedMarket(marketRes);
                         zoomCardOnHover(marketRes, 2);
@@ -600,7 +690,7 @@ public class ManuscriptSceneController implements GenericController {
                         fromDeck = false;
                         ImageView marketRes = new ImageView(new Image(miniModel.getMarket().getFaceUp(isGold)[i - 1].getFront().getImagePath()));
                         marketRes.setFitHeight(marketBox.getPrefHeight());
-                        marketRes.setFitWidth(marketBox.getPrefWidth()/3);
+                        marketRes.setFitWidth(marketBox.getPrefWidth() / 3);
                         marketRes.setUserData(new MarketCardData(isGold, fromDeck, i - 1));
                         handleClickDetectedMarket(marketRes);
                         zoomCardOnHover(marketRes, 2);
@@ -635,11 +725,10 @@ public class ManuscriptSceneController implements GenericController {
 
     }
 
-
-    private void addValidPlacements(MiniModel miniModel, Placement placement, GridPane grid){
-        for(int i = -1; i <= 1; i = i + 2){
-            for(int j = -1; j <= 1; j = j + 2){
-                if(miniModel.getPlayer().getManuscript().isValidPlacement(placement.getX() + i, placement.getY() + j)){
+    private void addValidPlacements(MiniModel miniModel, Placement placement, GridPane grid) {
+        for (int i = -1; i <= 1; i = i + 2) {
+            for (int j = -1; j <= 1; j = j + 2) {
+                if (miniModel.getPlayer().getManuscript().isValidPlacement(placement.getX() + i, placement.getY() + j)) {
                     ImageView imageView = new ImageView(new Image(getClass().getResource("/images/utility/validPlacement.png").toExternalForm()));
                     handleDropEventManuscript(imageView);
                     ManuscriptCardData manuscriptCardData = new ManuscriptCardData(placement.getX() + i, placement.getY() + j);
@@ -653,8 +742,109 @@ public class ManuscriptSceneController implements GenericController {
         }
     }
 
-   // public TextField getActionFeedback() {
-      //  return actionFeedback;
-    //}
+    public void initializePoints(){
+        position.put(0, new Point(3,60));
+        position.put(1, new Point(7,60));
+        position.put(2, new Point(10,60));
+
+        position.put(6, new Point(1,54));
+        position.put(5, new Point(6,54));
+        position.put(4, new Point(8,54));
+        position.put(3, new Point(12,54));
+
+        position.put(7, new Point(1,48));
+        position.put(8, new Point(6,48));
+        position.put(9, new Point(8,48));
+        position.put(10, new Point(12,48));
+
+        position.put(14, new Point(1,42));
+        position.put(13, new Point(6,42));
+        position.put(12, new Point(8,42));
+        position.put(11, new Point(12,42));
+
+        position.put(15, new Point(1,36));
+        position.put(16, new Point(6,36));
+        position.put(17, new Point(8,36));
+        position.put(18, new Point(12,36));
+
+        position.put(19, new Point(12,30));
+        position.put(20, new Point(7,25));
+        position.put(21, new Point(1,30));
+        position.put(22, new Point(1,20));
+
+        position.put(23, new Point(1,11));
+        position.put(24, new Point(4,6));
+        position.put(25, new Point(4,5));
+        position.put(26, new Point(9,6));
+        position.put(27, new Point(12,11));
+        position.put(28, new Point(12,20));
+        position.put(29, new Point(7,15));
+
+    }
+    public void setBoard(MiniModel miniModel){
+        ImageView img = new ImageView(new Image(miniModel.getPlayer().getPawnColour().getPathImage()));
+        img.setFitWidth(PAWN_DIM);
+        img.setFitHeight(PAWN_DIM);
+        Point score = position.get(0);
+        scoreBoard.add(img, score.getx(),score.gety());
+
+        score.incrementCount();
+        pawnColourIntegerHashMap.put(miniModel.getPlayer().getPawnColour(), 0);
+        pawnColourImageViewHashMap.put(miniModel.getPlayer().getPawnColour(), img);
+
+        for(String username : miniModel.getOtherPlayersUsernames()){
+            ClientBoard board = miniModel.getBoard();
+            img = new ImageView(new Image(board.getColourPlayermap().get(username).getPathImage()));
+            img.setFitWidth(PAWN_DIM);
+            img.setFitHeight(PAWN_DIM);
+            pawnColourIntegerHashMap.put(board.getColourPlayermap().get(username), 0);
+            scoreBoard.add(img, score.getx(), score.gety() - score.getCount());
+
+            pawnColourImageViewHashMap.put(board.getColourPlayermap().get(username), img);
+        }
+    }
+    public void updateBoard(ClientBoard board){
+        MiniModel miniModel;
+        try {
+            miniModel = Gui.getInstance().getClient().getMiniModel();
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
+        updatePawn(miniModel.getPlayer().getUsername(), miniModel);
+        for(String user : miniModel.getOtherPlayersUsernames()){
+            updatePawn(user, miniModel);
+
+        }
+    }
+
+    public void updatePawn(String username, MiniModel miniModel){
+
+        PawnColour colour = miniModel.getBoard().getColourPlayermap().get(username);
+        int actualScore = miniModel.getBoard().getScoreBoard().get(username);
+        int oldScore = pawnColourIntegerHashMap.get(colour);
+        if(actualScore != oldScore){
+            Point oldPoint = position.get(oldScore);
+            Point newPoint = position.get(actualScore);
+
+            ImageView imgView = pawnColourImageViewHashMap.get(colour);
+            ImageView newImage = new ImageView(new Image(colour.getPathImage()));
+            newImage.setFitWidth(PAWN_DIM);
+            newImage.setFitHeight(PAWN_DIM);
+            pawnColourImageViewHashMap.remove(colour);
+            pawnColourImageViewHashMap.put(colour, newImage);
+            imgView.setImage(null);
+
+            Platform.runLater(()->{
+                scoreBoard.add(newImage, newPoint.getx(), newPoint.gety() - newPoint.getCount());
+
+            });
+
+            newPoint.incrementCount();
+            pawnColourIntegerHashMap.remove(colour);
+            pawnColourIntegerHashMap.put(colour, actualScore);
+
+        }
+
+    }
 
 }

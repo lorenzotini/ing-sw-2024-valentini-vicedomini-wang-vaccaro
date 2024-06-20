@@ -4,6 +4,7 @@ import it.polimi.ingsw.gc27.Model.Card.ObjectiveCard.ObjectiveCard;
 import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
 import it.polimi.ingsw.gc27.Model.Card.StarterCard;
 import it.polimi.ingsw.gc27.Model.ClientClass.*;
+import it.polimi.ingsw.gc27.Model.Enumerations.PawnColour;
 import it.polimi.ingsw.gc27.Model.Game.ChatMessage;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 import it.polimi.ingsw.gc27.View.GUI.*;
@@ -17,6 +18,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.text.TextFlow;
@@ -29,6 +31,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
+
+import static javafx.scene.paint.Color.BLUE;
 
 
 public class Gui implements View {
@@ -220,16 +224,18 @@ public class Gui implements View {
 
     @Override
     public void show(ArrayList<ResourceCard> hand) {
-        ManuscriptSceneController controller = (ManuscriptSceneController) Gui.getInstance().getCurrentController();
-        MiniModel miniModel;
-        try {
-            miniModel = client.getMiniModel();
-        } catch (RemoteException e) {
-            throw new RuntimeException(e);
-        }
-        controller.overwriteHand(miniModel);
-    }
+        if(currentController instanceof ManuscriptSceneController) {
+            ManuscriptSceneController controller = (ManuscriptSceneController) Gui.getInstance().getCurrentController();
+            MiniModel miniModel;
+            try {
+                miniModel = client.getMiniModel();
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
+            }
+            controller.overwriteHand(miniModel);
 
+        }
+    }
     @Override
     public void show(ObjectiveCard objectiveCard) {
 
@@ -286,7 +292,8 @@ public class Gui implements View {
 
     @Override
     public void show(ClientBoard board) {
-
+        if(currentController instanceof ManuscriptSceneController)
+            ((ManuscriptSceneController)currentController).updateBoard(board);
     }
 
     @Override
@@ -304,14 +311,17 @@ public class Gui implements View {
 
     @Override
     public void show(ClientMarket market) {
-        ManuscriptSceneController controller = (ManuscriptSceneController) Gui.getInstance().getCurrentController();
-        MiniModel miniModel;
-        try {
-            miniModel = client.getMiniModel();
-        } catch (RemoteException e) {
-            throw new RuntimeException(e);
+        if(currentController instanceof ManuscriptSceneController) {
+            ManuscriptSceneController controller = (ManuscriptSceneController) Gui.getInstance().getCurrentController();
+
+            MiniModel miniModel;
+            try {
+                miniModel = client.getMiniModel();
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
+            }
+            controller.overwriteMarket(miniModel);
         }
-        controller.overwriteMarket(miniModel);
     }
 
     @Override
@@ -339,19 +349,12 @@ public class Gui implements View {
     public void okAck(String string) {
         System.out.println("\nOk " +currentController.toString() + string);
         currentController.receiveOk(string);
-        if(currentController instanceof ManuscriptSceneController){
-            ((ManuscriptSceneController) currentController).getActionFeedback().setText(string);
-        }
     }
 
     @Override
     public void koAck(String string) {
         System.out.println("\nKo " +currentController.toString() + string);
         currentController.receiveKo(string);
-        if(currentController instanceof ManuscriptSceneController){
-            ((ManuscriptSceneController) currentController).getActionFeedback().setText(string);
-        }
-        //error handler
     }
 
     @Override
@@ -376,6 +379,13 @@ public class Gui implements View {
 
     public void addLastChatMessage(ChatMessage message, Tab chatTab) {
         Platform.runLater(()-> {
+            MiniModel miniModel;
+            try {
+                miniModel=Gui.getInstance().getClient().getMiniModel();
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
+            }
+
             VBox vbox = getChatMessagesVBox(chatTab);
 
             Text text = new Text();
@@ -398,7 +408,25 @@ public class Gui implements View {
                 textName = new Text(message.getSender());
                 hBoxName = new HBox(textName);
                 hBoxName.setPadding(new Insets(0, 3, 0, 3));
-                textName.getStyleClass().add("text-name");
+
+//                PawnColour colour = miniModel.getBoard().getColourPlayermap().get(username);
+//                switch (colour) {
+//                    case BLUE:
+//                        textName.getStyleClass().add("text-name");
+//                        textName.setFill(Color.WHITE);
+//                    case YELLOW:
+//                        textName.getStyleClass().add("text-name");
+//                        textName.setFill(Color.WHITE);
+//                    case GREEN:
+//                        textName.getStyleClass().add("text-name");
+//                        textName.setFill(Color.WHITE);
+//                    case RED:
+//                        textName.getStyleClass().add("text-name");
+//                        textName.setFill(Color.WHITE);
+//                }
+//                System.out.println("\n"+ message.getSender() + colour);
+
+
             }
 
             if (message.getSender().equals(username)) {

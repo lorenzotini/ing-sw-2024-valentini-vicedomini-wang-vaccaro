@@ -58,6 +58,7 @@ public class GigaController {
 
             // check if the input is a valid game id or 'new'
 
+            // TODO gameId non viene utilizzato
             int gameId = 0;
 
             while (true) {

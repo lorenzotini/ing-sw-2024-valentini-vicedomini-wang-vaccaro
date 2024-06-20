@@ -20,11 +20,10 @@ public enum PawnColour implements Serializable {
 
     public String getPathImage(){
         return switch (this){
-            case BLUE -> "images/utility/blue_pawn.png";
-            case RED -> "images/utility/red_pawn.png";
-            case GREEN -> "images/utility/green_pawn.png";
-            case YELLOW -> "images/utility/yellow_pawn.png";
-            default -> throw new IllegalArgumentException("Invalid color: ");
+            case BLUE -> "Images/utility/blue_pawn.png";
+            case RED -> "Images/utility/red_pawn.png";
+            case GREEN -> "Images/utility/green_pawn.png";
+            case YELLOW -> "Images/utility/yellow_pawn.png";
         };
     }
 

@@ -10,9 +10,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.Serializable;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -52,13 +50,21 @@ public class JsonParser implements Serializable {
     }
 
     public static final ArrayList<String> XX = new ArrayList<>(Arrays.asList("UR", "UL", "LR", "LL"));
-    public static final String filePath = "src/main/resources/Json/codex_cards_collection.json";
     public static JSONParser jsonParser = new JSONParser();
     public static JSONObject cardsJsonObj;
 
     static {
         try {
-            cardsJsonObj = (JSONObject) jsonParser.parse(new FileReader(filePath));
+
+            InputStream inputStream = JsonParser.class.getClassLoader().getResourceAsStream("Json/codex_cards_collection.json");
+            if (inputStream == null) {
+                throw new FileNotFoundException("File not found: Json/codex_cards_collection.json");
+            }
+
+            InputStreamReader reader = new InputStreamReader(inputStream);
+            BufferedReader bufferedReader = new BufferedReader(reader);
+            cardsJsonObj = (JSONObject) jsonParser.parse(bufferedReader);
+
         } catch (IOException | ParseException e) {
             throw new RuntimeException(e);
         }

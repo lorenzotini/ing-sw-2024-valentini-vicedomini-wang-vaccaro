@@ -9,21 +9,33 @@ import it.polimi.ingsw.gc27.Model.ClientClass.MiniModel;
 
 public class PlayingState extends PlayerState {
 
+    /**
+     * State in which a player can play a card
+     * constructor matching super {@link PlayerState}
+     */
     public PlayingState(Player player, TurnHandler turnHandler) {
         super(player, turnHandler);
-//        super.sendState("It's your turn, place a card", player,turnHandler);
     }
 
+    /**
+     * method implemented from {@link PlayerState}, according to the State Pattern principle
+     */
     @Override
     public void chooseObjectiveCard(Game game, int objectiveCardIndex) {
         super.sendError("Just play a ******* card!", player, turnHandler);
     }
 
+    /**
+     * method implemented from {@link PlayerState}, according to the State Pattern principle
+     */
     @Override
     public void drawCard(Player player, boolean isGold, boolean fromDeck, int faceUpCardIndex) {
         super.sendError("you have to play a card first and then draw a card", player, turnHandler);
     }
 
+    /**
+     * method implemented from {@link PlayerState}, according to the State Pattern principle
+     */
     @Override
     public void addCard(Game game, ResourceCard card, Face face, int x, int y) {
 
@@ -56,10 +68,17 @@ public class PlayingState extends PlayerState {
 
     }
 
+    /**
+     * method implemented from {@link PlayerState}, according to the State Pattern principle
+     */
+
     @Override
     public void addStarterCard(Game game, StarterCard starterCard, Face face) {
         super.sendError("Just play a ******* card!", player, turnHandler);
     }
+    /**
+     * method implemented from {@link PlayerState}, according to the State Pattern principle
+     */
     @Override
     public String toStringGUI(){
         return "It's your turn to play!";

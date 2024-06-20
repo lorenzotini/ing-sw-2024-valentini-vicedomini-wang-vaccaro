@@ -134,83 +134,15 @@ public class Gui implements View {
 
     public void switchScene(String scenePath) throws IOException {
         Platform.runLater(()->{
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(scenePath));
-            Parent root= null;
-            try {
-                root = loader.load();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
             stage.setScene(pathSceneMap.get(scenePath));
             stage.show();
             currentController = getControllerFromName(scenePath);
-
         });
     }
 
     public GenericController getControllerFromName(String path) {
         return pathContrMap.get(path);
     }
-
-
-
-
-    public void welcomePlayer(VirtualView client) throws InterruptedException {
-        // the message received when the game id is not found
-        String gameNotFound = "\nGame not found. Please enter a valid game id or 'new' to start a new game";
-
-        // the message received when the number of players is not valid
-        String invalidNumOfPlayers = "\nInvalid number of players, insert a value between 2-4";
-
-        // the message received when creating a new game, next step is to choose the number of players
-        String newGameChosen = "\nHow many player? there will be? (2-4)";
-
-        // the message received when joining an already existing game
-        String joiningGame = "\nJoining game";
-
-        // the message when a game is created, the id is specified
-        String gameCreated = "\nGame created with id";
-
-        // the message received when the game is full
-        String gameIsFull = "\nGame is full. Restarting...";
-
-        //nella scena 2 on clickButton mi dice se manderò "new" oppure "id"
-        ChooseGameSceneController controller = new ChooseGameSceneController();
-        //controller.init();
-        //controller.setGui(this);
-
-         // 2 possible input "new" or id
-        String m = messagesReceived.take();
-
-        if (m.equals(newGameChosen)) { // if the input is "new", therefore created a new game
-
-            m = messagesReceived.take();
-
-            while (m.equals(invalidNumOfPlayers)) { // invalid num of players, ask again
-
-                m = messagesReceived.take();
-            }
-
-            if (m.contains(gameCreated)) {
-                // change the scene to LobbyScene, where the player waits for the other players to join
-
-            }
-
-        } else { // if the input is a game id, therefore joining an already existing game
-            while (m.equals(gameNotFound)) { // continue the loop until a valid game id
-
-                m = messagesReceived.take();
-            }
-            if (m.contains(joiningGame)) {
-                // change the scene to LobbyScene, where the player waits for the other players to join
-            } else if (m.equals(gameIsFull)) {
-                welcomePlayer(this.client); // if the game is full restart the process
-            }
-        }
-
-    }
-
-
 
     @Override
     public void showString(String phrase) {

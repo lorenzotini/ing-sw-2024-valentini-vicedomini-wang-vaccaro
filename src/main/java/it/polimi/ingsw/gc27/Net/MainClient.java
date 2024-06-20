@@ -100,9 +100,10 @@ public class MainClient {
         } else {
             client = new SocketClient(ipAddress, VirtualServer.DEFAULT_PORT_NUMBER_SOCKET, view);
         }
-        view.setClient(client);
-        client.runClient();
 
+        view.setClient(client);
+
+        client.runClient();
     }
 
 }

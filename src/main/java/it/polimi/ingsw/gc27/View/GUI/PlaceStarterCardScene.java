@@ -54,7 +54,7 @@ public class PlaceStarterCardScene implements GenericController{
                 Tab chatTab = new Tab(); //a tab for each chat
                 if(i==0) {
                     chatTab.setText("Global");
-                    chatTabHashMapP.put("Global", chatTab);
+                    chatTabHashMapP.put("global", chatTab);
                 }
                 else {
                     String myusername = miniModel.getPlayer().getUsername();

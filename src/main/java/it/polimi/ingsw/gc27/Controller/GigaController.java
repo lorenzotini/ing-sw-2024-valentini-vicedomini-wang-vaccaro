@@ -37,11 +37,10 @@ public class GigaController {
     }
 
 
-    // Remove refs and set player state to disconnected
+      // Remove refs and set player state to disconnected
     public void removeReferences(VirtualView client) {
 
         try {
-
             String username = getUsername(client);
             userToGameController(username).addCommand(new SuspendPlayerCommand(username));
             registeredUsernames.remove(username);
@@ -49,7 +48,6 @@ public class GigaController {
             System.out.println("Client hadn't choose an username yet");
             System.out.println("NullPointerException caught while suspending player: " + e.getMessage());
         }
-
     }
 
     public void welcomePlayer(VirtualView client) throws  InterruptedException {

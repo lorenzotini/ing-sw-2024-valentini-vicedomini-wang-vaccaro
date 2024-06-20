@@ -19,6 +19,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.TextAlignment;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
@@ -208,6 +209,25 @@ public class ChooseObjectiveSceneController implements GenericController {
 
     @Override
     public void receiveOk(String ackType) {
+        MiniModel miniModel;
+        GenericController controller;
+
+        try {
+            miniModel=Gui.getInstance().getClient().getMiniModel();
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
+        Platform.runLater(()->{
+            String feedback;
+            feedback= miniModel.getPlayer().getPlayerState().toStringGUI();
+            System.out.println("\nFEEDBACK "+feedback);
+
+                ManuscriptSceneController manuscriptSceneController = (ManuscriptSceneController) Gui.getInstance().getControllerFromName(ScenePaths.MANUSCRIPT.getValue());
+                manuscriptSceneController.actionFeedback.setText(feedback);
+                manuscriptSceneController.feedbackTextFlow.setTextAlignment(TextAlignment.RIGHT);
+
+
+        });
     }
 
     @Override

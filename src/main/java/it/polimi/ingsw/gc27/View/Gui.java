@@ -18,6 +18,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.text.TextFlow;
@@ -30,6 +31,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
+
+import static javafx.scene.paint.Color.BLUE;
 
 
 public class Gui implements View {
@@ -406,8 +409,24 @@ public class Gui implements View {
                 hBoxName = new HBox(textName);
                 hBoxName.setPadding(new Insets(0, 3, 0, 3));
 
+//                PawnColour colour = miniModel.getBoard().getColourPlayermap().get(username);
+//                switch (colour) {
+//                    case BLUE:
+//                        textName.getStyleClass().add("text-name");
+//                        textName.setFill(Color.WHITE);
+//                    case YELLOW:
+//                        textName.getStyleClass().add("text-name");
+//                        textName.setFill(Color.WHITE);
+//                    case GREEN:
+//                        textName.getStyleClass().add("text-name");
+//                        textName.setFill(Color.WHITE);
+//                    case RED:
+//                        textName.getStyleClass().add("text-name");
+//                        textName.setFill(Color.WHITE);
+//                }
+//                System.out.println("\n"+ message.getSender() + colour);
 
-                textName.getStyleClass().add("text-name");
+
             }
 
             if (message.getSender().equals(username)) {

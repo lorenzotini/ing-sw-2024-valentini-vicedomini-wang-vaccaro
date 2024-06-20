@@ -163,7 +163,7 @@ public class ManuscriptSceneController implements GenericController {
 
     public void createActionFeedback(){
         Platform.runLater(()->{
-            actionFeedback.setText("so fast");
+            actionFeedback.setText("so fast!");
             actionFeedback.getStyleClass().add("labelActionFeedback");
             feedbackTextFlow.setMaxWidth(400);
             feedbackTextFlow.setTextAlignment(TextAlignment.RIGHT);
@@ -485,6 +485,7 @@ public class ManuscriptSceneController implements GenericController {
         Platform.runLater(()->{
             String feedback;
             feedback= miniModel.getPlayer().getPlayerState().toStringGUI();
+            System.out.println("\nFEEDBACK "+feedback);
             actionFeedback.setText(feedback);
             feedbackTextFlow.setTextAlignment(TextAlignment.RIGHT);
 
@@ -494,7 +495,7 @@ public class ManuscriptSceneController implements GenericController {
     @Override
     public void receiveKo(String ackType) {
         Platform.runLater(()->{;
-            errorPane.setTextAlignment(TextAlignment.RIGHT);
+            errorPane.setTextAlignment(TextAlignment.CENTER);
             errorText.getStyleClass().add("labelError");
             errorText.setText(ackType);
         });

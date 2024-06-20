@@ -103,9 +103,13 @@ public class LoginSceneController implements GenericController {
     }
 
     public void sendToLobby() throws IOException {
-        Gui.getInstance().stringFromSceneController(selectedColour);
+        if (selectedColour != null) {
+            Gui.getInstance().stringFromSceneController(selectedColour);
+            Gui.getInstance().switchScene("/fxml/LobbyScene.fxml");
+        }
+        //todo: da gestire selected colour ==null
         //vedi che manda solo se ha preso il colore
-        Gui.getInstance().switchScene("/fxml/LobbyScene.fxml");
+
     }
 
     public void disableOtherButtons(Button button){

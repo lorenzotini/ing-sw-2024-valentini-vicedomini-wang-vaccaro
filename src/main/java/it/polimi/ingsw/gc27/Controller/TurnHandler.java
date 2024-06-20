@@ -55,15 +55,17 @@ public class TurnHandler implements Serializable {
                     p.setPlayerState(new PlayingState(p, this));
                     Message updatePlayerStateMessage = new UpdatePlayerStateMessage(new MiniModel(p,game.getBoard()));
                     this.game.notifyObservers(updatePlayerStateMessage);
+
                     Message yourTurnToPlayMessage = new YourTurnMessage(new MiniModel(p), "");
                     this.game.notifyObservers(yourTurnToPlayMessage);
-                    for(Player otherPlayers: players) {
-                        if( !otherPlayers.equals(p)){
-                            String state = otherPlayers.getPlayerState().toString();
+
+                    for(Player otherPlayer: players) {
+                        if( !otherPlayer.equals(p)){
+                            String state = otherPlayer.getPlayerState().toString();
                             if(state.equalsIgnoreCase("WaitingState")){
-                                WaitingState playerState = (WaitingState) otherPlayers.getPlayerState();
+                                WaitingState playerState = (WaitingState) otherPlayer.getPlayerState();
                                 playerState.setCurrentPlayer(p);
-                                UpdatePlayerStateMessage ok=new UpdatePlayerStateMessage(new MiniModel(otherPlayers));
+                                UpdatePlayerStateMessage ok=new UpdatePlayerStateMessage(new MiniModel(otherPlayer));
                                 this.game.notifyObservers(ok);
                             }
                         }

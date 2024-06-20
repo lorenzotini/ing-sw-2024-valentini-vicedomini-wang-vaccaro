@@ -104,7 +104,11 @@ class TurnHandlerTest {
     void notifyEndOfTurnStateTest() throws RemoteException {
         initializeGame();
         g1.getBoard().setPointsBluePlayer(20);
-        turnHandler.notifyEndOfTurnState(p1);
+        try {
+            turnHandler.notifyEndOfTurnState(p1);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Test

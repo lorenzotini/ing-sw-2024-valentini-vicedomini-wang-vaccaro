@@ -94,12 +94,7 @@ class GigaControllerTest {
 
     }
 
-    @Test
-    void welcomePlayer() {
-        initializeGame();initializeGame();
-        GigaController gigaC=new GigaController();
-        //welcomePlayer(new VirtualView());
-    }
+
 
     @Test
     void createNewGame() {

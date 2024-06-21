@@ -9,40 +9,50 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The SocketServer class manage the connection with the client when they want to create a connection
+ * Then create a personal ClientHandler for each client.
+ */
 public class SocketServer {
 
 
-    final ServerSocket listenSocket;
-    final List<ClientHandler> clients = new ArrayList<>();
-    final GigaController console;
+    private final ServerSocket listenSocket;
+    private final List<ClientHandler> clients = new ArrayList<>();
+    private final GigaController console;
 
+    /**
+     * Constructs a new SocketServer that listens on the default port and uses the specified GigaController.
+     * @param console the GigaController to be used for handling client connections and interaction
+     * @throws IOException if an I/O error occurs when opening the socket
+     */
     public SocketServer(GigaController console) throws IOException {
         this.listenSocket = new ServerSocket(VirtualServer.DEFAULT_PORT_NUMBER_SOCKET);
         this.console = console;
     }
 
-    public void runServer() throws IOException, InterruptedException {
+    /**
+     * Starts the server to listen for client connections. When a client connects, a new ClientHandler is created
+     * to manage the communication with that client.
+     *
+     * @throws IOException if an I/O error occurs when waiting for a connection
+     * */
+    public void runServer() throws IOException {
 
         Socket clientSocket;
-
         while ((clientSocket = this.listenSocket.accept()) != null) {
-
             ClientHandler handler = new ClientHandler(console, this, clientSocket);
             synchronized (this.clients) {
                 clients.add(handler);
                 System.out.println("Client connected - socket - " + clientSocket.getInetAddress().getHostAddress());
             }
-            //this is gonna be deleted, if you find this and is after the 5 june, delete this
-//            new Thread(() -> {
-//                try {
-//                    handler.runVirtualView();
-//                } catch (IOException | InterruptedException e) {
-//                    throw new RuntimeException(e);
-//                }
-//            }).start();
-
         }
     }
+
+    /**
+     * Disconnects the specified client handler, removing it from the list of active clients.
+     *
+     * @param handler the ClientHandler to be disconnected
+     */
     public void disconnect(ClientHandler handler){
         synchronized (this.clients) {
             clients.remove(handler);

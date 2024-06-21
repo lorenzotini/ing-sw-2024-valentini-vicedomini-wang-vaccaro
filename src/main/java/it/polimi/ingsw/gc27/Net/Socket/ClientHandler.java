@@ -17,25 +17,37 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.rmi.RemoteException;
 
+/**
+ * The ClientHandler class handles client connections as server for the client and as the VirtualView for the model.
+ * It handles communication with the client (SocketServer) and the controller,
+ * handling the reception of commands, sending updates, and maintaining connection status through periodic pings.
+ */
 public class ClientHandler implements VirtualView {
 
 
-    final ObjectInputStream input;
-    final ObjectOutputStream output;
-    boolean flag;
+    private final ObjectInputStream input;
+    private final ObjectOutputStream output;
+    private boolean flag;
     private Player player;
-    final GigaController console;
-    final SocketServer server;
-    final Socket socketClient;
+    private final GigaController console;
+    private final SocketServer server;
     private boolean disconnected = false;
     private int TIME_COUNT = 100;
     // is for the command received
 
-
+    /**
+     * Constructs a ClientHandler for managing a client connection. Read the input from the Proxy server, makes the
+     * console start the set-up process and from the input takes the command from the client and give it to the GigaController
+     *
+     * @param console      the GigaController to be used for handling client interactions
+     * @param server       the SocketServer managing this handler
+     * @param socketClient the socket connected to the client
+     * @throws IOException if an I/O error occurs when creating the input or output streams
+     */
     public ClientHandler(GigaController console, SocketServer server, Socket socketClient) throws IOException {
         this.console = console;
         this.server = server;
-        this.socketClient = socketClient;
+
 
         this.output = new ObjectOutputStream(socketClient.getOutputStream());
         this.input = new ObjectInputStream(socketClient.getInputStream());
@@ -55,7 +67,6 @@ public class ClientHandler implements VirtualView {
                             System.out.println("remote exception lol xd");
                         }
                     }).start();
-
                 }
             } catch (ClassNotFoundException | InterruptedException | IOException e) {
                 disconnected();
@@ -80,6 +91,11 @@ public class ClientHandler implements VirtualView {
     }
 
 
+    /**
+     * Sends a message to the client.
+     *
+     * @param s the message to be sent
+     */
     @Override
     public void show(String s) {
         try {
@@ -93,6 +109,12 @@ public class ClientHandler implements VirtualView {
         }
     }
 
+    /**
+     * Sends a read request to the client and waits for a response.
+     *
+     * @return the string response from the client
+     * @throws IOException if an I/O error occurs
+     */
     @Override
     public String read() throws IOException {
         String mex = null;
@@ -108,22 +130,31 @@ public class ClientHandler implements VirtualView {
         return mex;
     }
 
+
+    /**
+     * Sets the username for the player and sends a SetUsernameMessage to the client.
+     * @param username the username to set
+     * @throws IOException if an I/O error occurs
+     */
     @Override
     public void setUsername(String username) throws IOException {
         player = console.getPlayer(username);
-
         output.writeObject(new SetUsernameMessage(username));
         output.reset();
         output.flush();
 
-
-
     }
 
     @Override
-    public void runClient() throws IOException, InterruptedException {
+    public void runClient() {
+
     }
 
+    /**
+     * Returns the username of the player.
+     *
+     * @return the player's username
+     */
     @Override
     public String getUsername() {
         return this.player.getUsername();
@@ -138,6 +169,11 @@ public class ClientHandler implements VirtualView {
         return null;
     }
 
+    /**
+     * Sends an update message to the client.
+     *
+     * @param message the message to be sent
+     */
     @Override
     public synchronized void update(Message message) {
         try {
@@ -154,6 +190,11 @@ public class ClientHandler implements VirtualView {
 
     }
 
+    /**
+     * Continuously sends ping messages to the client to verify connectivity.
+     *
+     * @throws RemoteException if a remote communication error occurs
+     */
     @Override
     public void pingFromServer() throws RemoteException {
         while (!disconnected) {
@@ -165,6 +206,13 @@ public class ClientHandler implements VirtualView {
         }
     }
 
+    /**
+     * Verifies the reception of ping messages from the client.
+     * If for the defined Timeout time doesn't receive the ping, consider the connection lost,
+     * disconnect the client.
+     *
+     * @throws InterruptedException if the thread is interrupted
+     */
     private void verifyPing() throws InterruptedException {
         new Thread(() -> {
             int count = 0;
@@ -195,6 +243,9 @@ public class ClientHandler implements VirtualView {
         }).start();
     }
 
+    /**
+     * Handles client disconnection, removing the client handler from the server's list and cleaning up resources.
+     */
     public void disconnected() {
         if (!disconnected) {
             server.disconnect(this); //rimuove questo handler dalla lista di handler

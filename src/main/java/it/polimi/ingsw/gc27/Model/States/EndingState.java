@@ -11,7 +11,7 @@ public class EndingState extends PlayerState  {
     private final String textMessage = "the game is ending... it's too late man";
 
     /**
-     * This state is reached when the player has finished his last turn, when every player have reached this state,
+     * This state is reached when the player has finished his last turn, when every player has reached this state,
      * the Objective Cards points calculation will start
      * constructor matching super {@link PlayerState}
      */

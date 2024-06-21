@@ -1,6 +1,11 @@
 package it.polimi.ingsw.gc27.Controller;
 
 public class IpChecker {
+    /**
+     * check the incoming ip address
+     * @param ip ip address (string)
+     * @return boolean indicating the validity
+     */
     public static boolean checkIp(String ip) {
         String[] parts = ip.split("\\.");
         if (parts.length != 4) {

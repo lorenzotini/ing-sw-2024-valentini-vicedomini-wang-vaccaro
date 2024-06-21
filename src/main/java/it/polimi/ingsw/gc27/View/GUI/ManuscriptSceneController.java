@@ -284,7 +284,11 @@ public class ManuscriptSceneController implements GenericController {
         return null;
     }
 
-
+    /**
+     * allows to send the message in the chat by clicking the "send" button
+     * @param button
+     * @param textField
+     */
     void handleOnActionChat(Button button, TextField textField) {
         button.setOnAction(event -> {
             sendChatMessage();
@@ -292,6 +296,10 @@ public class ManuscriptSceneController implements GenericController {
 
         });
     }
+    /**
+     * allows to send the message in the chat by clicking the "enter" button on the keyboard
+     * @param textField
+     */
 
     private void handleOnKeyPress(TextField textField) {
         textField.setOnKeyPressed(event -> {
@@ -423,6 +431,10 @@ public class ManuscriptSceneController implements GenericController {
 
     }
 
+    /**
+     * collects information about the chat, the sender and the receiver of the message from the tab
+     * and sends the SendMessageCommand
+     */
     void sendChatMessage() {
         try {
             Tab currentTab = chatTabPane.getSelectionModel().getSelectedItem();
@@ -489,6 +501,12 @@ public class ManuscriptSceneController implements GenericController {
 
     }
 
+    /**
+     * method implemented from {@link GenericController},
+     * invoked by Gui when a message is sent by a player in the chat
+     * @param chat
+     * @param miniModel
+     */
     public void overwriteChat(ClientChat chat, MiniModel miniModel) {
         Platform.runLater(() -> {
             String username = chat.getChatters().stream()

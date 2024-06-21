@@ -62,7 +62,10 @@ public class LoginSceneController implements GenericController {
         sendColourButton.setDisable(true);
         handleOnKeyPress(UsernameInput);
     }
-
+    /**
+     * allows to send the message in the chat by clicking the "enter" button on the keyboard
+     * @param textField
+     */
     private void handleOnKeyPress(TextField textField) {
         textField.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
@@ -169,6 +172,11 @@ public class LoginSceneController implements GenericController {
         });
     }
 
+    /**
+     * method implemented from {@link GenericController},
+     * @param chat
+     * @param minimodel
+     */
     @Override
     public void overwriteChat(ClientChat chat, MiniModel minimodel) {
 

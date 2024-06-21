@@ -111,6 +111,11 @@ public class PlaceStarterCardScene implements GenericController{
             }
 
     }
+
+    /**
+     * allows to send the message in the chat by clicking the "enter" button on the keyboard
+     * @param textField
+     */
     private void handleOnKeyPress(TextField textField) {
         textField.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
@@ -120,6 +125,12 @@ public class PlaceStarterCardScene implements GenericController{
             }
         });
     }
+
+    /**
+     * allows to send the message in the chat by clicking the "send" button
+     * @param button
+     * @param textField
+     */
     void handleOnActionChat(Button button, TextField textField){
         button.setOnAction(event -> {
             sendChatMessage();
@@ -127,6 +138,11 @@ public class PlaceStarterCardScene implements GenericController{
 
         });
     }
+
+    /**
+     * collects information about the chat, the sender and the receiver of the message from the tab
+     * and sends the SendMessageCommand
+     */
     void sendChatMessage(){
         try {
             Tab currentTab = chatTabPaneStarter.getSelectionModel().getSelectedItem();
@@ -140,6 +156,13 @@ public class PlaceStarterCardScene implements GenericController{
             throw new RuntimeException(e);
         }
     }
+
+    /**
+     * method implemented from {@link GenericController},
+     * invoked by Gui when a message is sent by a player in the chat
+     * @param chat
+     * @param miniModel
+     */
     public void overwriteChat(ClientChat chat, MiniModel miniModel) {
         Platform.runLater(() -> {
             String username = chat.getChatters().stream()
@@ -207,12 +230,22 @@ public class PlaceStarterCardScene implements GenericController{
         backStarter.setImage(image);
     }
 
+    /**
+     * method implemented from {@link GenericController}, invoked by Gui in order to send a string to a scene controller
+     * the string is generally a positive feedback
+     * @param ackType
+     */
     @Override
     public void receiveOk(String ackType) {
 
 
     }
 
+    /**
+     * method implemented from {@link GenericController}, invoked by Gui in order to send a string to a generic scene controller,
+     * the string is generally a negative feedback, such as an error
+     * @param ackType
+     */
     @Override
     public void receiveKo(String ackType) {
 

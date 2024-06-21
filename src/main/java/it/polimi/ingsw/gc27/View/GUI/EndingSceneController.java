@@ -111,17 +111,31 @@ public class EndingSceneController implements GenericController{
 
     }
 
-
+    /**
+     * method implemented from {@link GenericController}, invoked by Gui in order to send a string to a scene controller
+     * the string is generally a positive feedback
+     * @param ackType
+     */
     @Override
     public void receiveOk(String ackType) {
 
     }
 
+    /**
+     * method implemented from {@link GenericController},
+     * @param chat
+     * @param minimodel
+     */
     @Override
     public void overwriteChat(ClientChat chat, MiniModel minimodel) {
 
     }
 
+    /**
+     * method implemented from {@link GenericController}, invoked by Gui in order to send a string to a generic scene controller,
+     * the string is generally a negative feedback, such as an error
+     * @param ackType
+     */
     @Override
     public void receiveKo(String ackType) {
 

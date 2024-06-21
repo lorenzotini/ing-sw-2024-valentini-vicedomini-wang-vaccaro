@@ -24,21 +24,41 @@ import javafx.scene.text.TextAlignment;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.HashMap;
-
+/**
+ * third scene of initialization, players can choose their secret objective card from the two objective cards displayed
+ */
 public class ChooseObjectiveSceneController implements GenericController {
+    /** button used to select the first objective card */
     @FXML
     public Button objButton1;
+
+    /** button used to select the second objective card */
     @FXML
     public Button objButton2;
+
+    /** shows the image of the first objective card */
     @FXML
     public ImageView obj1;
+
+    /** shows the image of the second objective card */
     @FXML
     public ImageView obj2;
+
+    /** pane that contains all the chats of the player */
     @FXML
     public TabPane chatTabPane;
     //there is a private hashmap for all the scenes where the chat is displayed
+
+    /** maps the username of the other player  of the chat and the correspondent tab
+     *  if the chat is global the string mapped to the tab is "global"
+     */
     private HashMap<String, Tab> chatTabHashMapC = new HashMap<>();
 
+    /**
+     * invoked by Gui, it builds the chat in the ChooseObjectiveScene
+     * creates a tab for each chat and adds them to chatTabPane,
+     * maps the tab and the chat
+     */
     //start chat methods
     public void chatInitObjective() {
         MiniModel miniModel;
@@ -114,6 +134,10 @@ public class ChooseObjectiveSceneController implements GenericController {
 
     }
 
+    /**
+     * allows to send the message in the chat by clicking the "enter" button on the keyboard
+     * @param textField
+     */
     private void handleOnKeyPress(TextField textField) {
         textField.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
@@ -124,6 +148,11 @@ public class ChooseObjectiveSceneController implements GenericController {
         });
     }
 
+    /**
+     * allows to send the message in the chat by clicking the "send" button
+     * @param button
+     * @param textField
+     */
     void handleOnActionChat(Button button, TextField textField) {
         button.setOnAction(event -> {
             sendChatMessage();
@@ -132,6 +161,10 @@ public class ChooseObjectiveSceneController implements GenericController {
         });
     }
 
+    /**
+     * collects information about the chat, the sender and the receiver of the message from the tab
+     * and sends the SendMessageCommand
+     */
     void sendChatMessage() {
         try {
             Tab currentTab = chatTabPane.getSelectionModel().getSelectedItem();
@@ -146,6 +179,12 @@ public class ChooseObjectiveSceneController implements GenericController {
         }
     }
 
+    /**
+     * method implemented from {@link GenericController},
+     * invoked by Gui when a message is sent by a player in the chat
+     * @param chat
+     * @param miniModel
+     */
     public void overwriteChat(ClientChat chat, MiniModel miniModel) {
         Platform.runLater(() -> {
             String username = chat.getChatters().stream()
@@ -159,6 +198,11 @@ public class ChooseObjectiveSceneController implements GenericController {
         });
     }
 
+    /**
+     * used to extract the textfield from the tab the chat using nodes system of javaFX
+     * @param tab
+     * @returns the textfield associated with the chat
+     */
     private TextField getSendMessageFieldFromTab(Tab tab) {
         if (tab.getContent() instanceof VBox) {
             VBox chatContainer = (VBox) tab.getContent();
@@ -175,7 +219,14 @@ public class ChooseObjectiveSceneController implements GenericController {
     }
     //end chat methods
 
-
+    /**
+     * created and sends ChooseObjectiveCommand according which of the two buttons is pressed
+     * invokes the method init() of ManuscriptSceneController to initialize the graphic of the scene
+     * invokes Gui method to switch scene to ManuscriptScene
+     * @param event
+     * @throws IOException
+     * @throws InterruptedException
+     */
     @FXML
     public void sendObj(MouseEvent event) throws IOException, InterruptedException {
         if (event.getSource().equals(objButton1)) {
@@ -197,20 +248,33 @@ public class ChooseObjectiveSceneController implements GenericController {
         });
     }
 
+    /**
+     * invoked by Gui, it sets the image of the first objective card from the image path given as a parameter
+     * @param imagePath
+     */
     public void changeImageObj1(String imagePath) {
         Image image = new Image(imagePath);
         obj1.setImage(image);
     }
 
+    /**
+     * invoked by Gui, it sets the image of the second objective card from the image path given as a parameter
+     * @param imagePath
+     */
     public void changeImageObj2(String imagePath) {
         Image image = new Image(imagePath);
         obj2.setImage(image);
     }
 
+    /**
+     * invoked by Gui in order to send a string to this scene controller,
+     * sets what is showed in the actionFeedback label displayed in ManuscriptSceneController
+     * before the stage changes scene from this one to the manuscript scene
+     * @param ackType
+     */
     @Override
     public void receiveOk(String ackType) {
         MiniModel miniModel;
-        GenericController controller;
 
         try {
             miniModel=Gui.getInstance().getClient().getMiniModel();
@@ -220,20 +284,25 @@ public class ChooseObjectiveSceneController implements GenericController {
         Platform.runLater(()->{
             String feedback;
             feedback= miniModel.getPlayer().getPlayerState().toStringGUI();
-            System.out.println("\nFEEDBACK "+feedback);
-
-                ManuscriptSceneController manuscriptSceneController = (ManuscriptSceneController) Gui.getInstance().getControllerFromName(ScenePaths.MANUSCRIPT.getValue());
-                manuscriptSceneController.actionFeedback.setText(feedback);
-                manuscriptSceneController.feedbackTextFlow.setTextAlignment(TextAlignment.RIGHT);
-
-
+            ManuscriptSceneController manuscriptSceneController = (ManuscriptSceneController) Gui.getInstance().getControllerFromName(ScenePaths.MANUSCRIPT.getValue());
+            manuscriptSceneController.actionFeedback.setText(feedback);
+            manuscriptSceneController.feedbackTextFlow.setTextAlignment(TextAlignment.RIGHT);
         });
     }
 
+    /**
+     * method implemented from {@link GenericController}, invoked by Gui in order to send a string to a generic scene controller,
+     * the string is generally a negative feedback, such as an error
+     * @param ackType
+     */
     @Override
     public void receiveKo(String ackType) {
     }
 
+    /**
+     * allocates all the messages of all the chats of a player
+     * @throws RemoteException
+     */
     public void fullChatAllocate() throws RemoteException {
         MiniModel miniModel = Gui.getInstance().getClient().getMiniModel();
         String myUsername = miniModel.getPlayer().getUsername();

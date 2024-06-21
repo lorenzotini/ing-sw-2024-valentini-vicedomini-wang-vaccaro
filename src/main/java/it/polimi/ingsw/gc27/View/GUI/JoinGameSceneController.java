@@ -32,6 +32,10 @@ public class JoinGameSceneController implements GenericController{
         handleOnKeyPress(idTextField);
     }
 
+    /**
+     * allows to send the message in the chat by clicking the "enter" button on the keyboard
+     * @param textField
+     */
     private void handleOnKeyPress(TextField textField) {
         textField.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {

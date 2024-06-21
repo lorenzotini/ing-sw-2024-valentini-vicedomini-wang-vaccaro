@@ -139,6 +139,12 @@ public class GigaController {
                                     client.update(new OkMessage("playerReconnected"));
                                     return;
                                 }
+                                else{
+                                    client.show("invalid username");
+                                    client.update(new OkMessage("notReconnected"));
+                                    welcomePlayer(client);
+                                    return;
+                                }
                             }catch (IOException e){
                                 System.out.println("Connection lost before reconnecting a game (123)");
                                 return;

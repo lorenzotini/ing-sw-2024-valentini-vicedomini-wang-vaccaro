@@ -39,8 +39,8 @@ class ChooseObjectiveStateTest {
     public  void initializeGame() {
 
         players1 = new ArrayList<>();
-        g1 = new Game(1, new Board(), players1);
-        gc1 = new GameController(g1);
+
+
 
 
         // generate decks
@@ -64,6 +64,8 @@ class ChooseObjectiveStateTest {
         players1.add(p3);
         players1.add(p4);
 
+        g1 = new Game(1, new Board(), players1);
+        gc1 = new GameController(g1);
         faceUpResources = new ResourceCard[2];
         faceUpGolds= new GoldCard[2];
         faceUpResources[0]= resourceDeck.get(0);

@@ -33,7 +33,9 @@ public class Player implements Serializable, ClientPlayer {
 
 
 
-
+    public void setSecretObjectives(ArrayList<ObjectiveCard> card){
+        this.secretObjectives = card;
+    }
     public boolean isDisconnected() {
         return isDisconnected;
     }
@@ -44,10 +46,6 @@ public class Player implements Serializable, ClientPlayer {
 
     public void setPlayerState(PlayerState playerState) {
         this.playerState = playerState;
-    }
-
-    public void setPawnColour(PawnColour pawnColour) {
-        this.pawnColour = pawnColour;
     }
 
     public void setManuscript(Manuscript manuscript) {

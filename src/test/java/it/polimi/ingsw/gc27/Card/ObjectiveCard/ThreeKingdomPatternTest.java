@@ -11,6 +11,7 @@ import it.polimi.ingsw.gc27.Model.Enumerations.Kingdom;
 import it.polimi.ingsw.gc27.Model.Enumerations.PawnColour;
 import it.polimi.ingsw.gc27.Game.*;
 import it.polimi.ingsw.gc27.Model.Game.*;
+import it.polimi.ingsw.gc27.View.*;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -135,6 +136,8 @@ class ThreeKingdomPatternTest {
         //ViewCli view8=new ViewCli();
         //view8.showManuscript(p1.getManuscript());
 
+        View view=new Tui();
+        view.show(p1.getManuscript());
 
         //three fungi
         assertEquals(2, objectiveDeck.get(8).calculateObjectivePoints(p1.getManuscript()));

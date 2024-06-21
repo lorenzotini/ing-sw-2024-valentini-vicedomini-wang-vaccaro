@@ -55,6 +55,9 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.11.0</version>
         <configuration>
+          <excludes>
+            <exclude>**/test/**/*.class</exclude>  <!-- Exclude all test classes -->
+          </excludes>
           <source>21</source>
           <target>21</target>
         </configuration>

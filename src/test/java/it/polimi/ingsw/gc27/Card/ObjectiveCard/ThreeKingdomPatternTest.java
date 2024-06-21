@@ -1,24 +1,22 @@
 package it.polimi.ingsw.gc27.Card.ObjectiveCard;
 
+import it.polimi.ingsw.gc27.Controller.GameController;
 import it.polimi.ingsw.gc27.Model.Card.GoldCard;
 import it.polimi.ingsw.gc27.Model.Card.ObjectiveCard.ObjectiveCard;
-import it.polimi.ingsw.gc27.Model.Card.ObjectiveCard.ThreeKingdomPattern;
 import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
 import it.polimi.ingsw.gc27.Model.Card.StarterCard;
-import it.polimi.ingsw.gc27.Controller.GameController;
-import it.polimi.ingsw.gc27.JsonParser;
-import it.polimi.ingsw.gc27.Model.Enumerations.Kingdom;
 import it.polimi.ingsw.gc27.Model.Enumerations.PawnColour;
-import it.polimi.ingsw.gc27.Game.*;
 import it.polimi.ingsw.gc27.Model.Game.*;
-import it.polimi.ingsw.gc27.View.*;
+import it.polimi.ingsw.gc27.Utils.JsonParser;
+import it.polimi.ingsw.gc27.View.Tui.Tui;
+import it.polimi.ingsw.gc27.View.View;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class ThreeKingdomPatternTest {
     private static GameController gc1;
@@ -46,10 +44,11 @@ class ThreeKingdomPatternTest {
 
 
         // generate decks
-        starterDeck = JsonParser.getStarterDeck(JsonParser.cardsJsonObj);
-        resourceDeck = JsonParser.getResourceDeck(JsonParser.cardsJsonObj);
-        objectiveDeck = JsonParser.getObjectiveDeck(JsonParser.cardsJsonObj);
-        goldDeck = JsonParser.getGoldDeck(JsonParser.cardsJsonObj);
+        JsonParser jsonParser = new JsonParser("codex_cards_collection.json");
+        starterDeck = jsonParser.getStarterDeck();
+        resourceDeck = jsonParser.getResourceDeck();
+        goldDeck = jsonParser.getGoldDeck();
+        objectiveDeck = jsonParser.getObjectiveDeck();
 
         // create players and add them to the game.
         p1 = new Player("Giocatore 1", new Manuscript(), PawnColour.RED);

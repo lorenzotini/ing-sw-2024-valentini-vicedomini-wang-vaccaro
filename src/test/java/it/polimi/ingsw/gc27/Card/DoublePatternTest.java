@@ -2,8 +2,8 @@ package it.polimi.ingsw.gc27.Card;
 
 import it.polimi.ingsw.gc27.Model.Card.*;
 import it.polimi.ingsw.gc27.Model.Card.ObjectiveCard.ObjectiveCard;
-import it.polimi.ingsw.gc27.Model.JsonParser;
 import it.polimi.ingsw.gc27.Model.Game.Manuscript;
+import it.polimi.ingsw.gc27.Utils.JsonParser;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -12,9 +12,10 @@ class DoublePatternTest {
 
     @Test
     void calculateObjectivePointsTest() {
-        ArrayList<StarterCard> starterDeck = JsonParser.getStarterDeck(JsonParser.cardsJsonObj);
-        ArrayList<ObjectiveCard> objectiveDeck = JsonParser.getObjectiveDeck(JsonParser.cardsJsonObj);
-        ArrayList<ResourceCard> resourceDeck = JsonParser.getResourceDeck(JsonParser.cardsJsonObj);
+        JsonParser jsonParser = new JsonParser("codex_cards_collection.json");
+        ArrayList<StarterCard> starterDeck = jsonParser.getStarterDeck();
+        ArrayList<ObjectiveCard> objectiveDeck = jsonParser.getObjectiveDeck();
+        ArrayList<ResourceCard> resourceDeck = jsonParser.getResourceDeck();
 
         ResourceCard resourceCard1= resourceDeck.get(0);
         ResourceCard resourceCard2= resourceDeck.get(4);

@@ -6,7 +6,7 @@ import it.polimi.ingsw.gc27.Messages.ReconnectedPlayerMessage;
 import it.polimi.ingsw.gc27.Model.ClientClass.ClientPlayer;
 import it.polimi.ingsw.gc27.Model.Game.Game;
 import it.polimi.ingsw.gc27.Model.Game.Player;
-import it.polimi.ingsw.gc27.Model.Listener.PlayerListener;
+import it.polimi.ingsw.gc27.Model.PlayerListener;
 import it.polimi.ingsw.gc27.Model.ClientClass.MiniModel;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 

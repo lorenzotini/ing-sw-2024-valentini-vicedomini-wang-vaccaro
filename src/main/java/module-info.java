@@ -21,17 +21,21 @@ module it.polimi.ingsw.gc27 {
     exports it.polimi.ingsw.gc27.Net;
     exports it.polimi.ingsw.gc27.Net.Rmi;
     opens it.polimi.ingsw.gc27.Model to javafx.fxml;
-    exports it.polimi.ingsw.gc27.Model.Listener to java.rmi;
-    exports it.polimi.ingsw.gc27.View; //added for GUI
-    exports it.polimi.ingsw.gc27.View.GUI; //added for GUI
+    exports it.polimi.ingsw.gc27.View; //added for Gui
+    exports it.polimi.ingsw.gc27.View.Gui; //added for Gui
 
     exports  it.polimi.ingsw.gc27.Messages;
     exports  it.polimi.ingsw.gc27.Net.Commands;
     opens it.polimi.ingsw.gc27.View;
-    opens it.polimi.ingsw.gc27.View.GUI;
+    opens it.polimi.ingsw.gc27.View.Gui;
     exports it.polimi.ingsw.gc27.Model.ClientClass;
     opens it.polimi.ingsw.gc27.Model.ClientClass to javafx.fxml;
-    exports it.polimi.ingsw.gc27.Model;
-
+    exports it.polimi.ingsw.gc27.Model to java.rmi;
+    exports it.polimi.ingsw.gc27.Utils;
+    opens it.polimi.ingsw.gc27.Utils to javafx.fxml;
+    exports it.polimi.ingsw.gc27.View.Gui.SceneController;
+    opens it.polimi.ingsw.gc27.View.Gui.SceneController;
+    exports it.polimi.ingsw.gc27.View.Tui;
+    opens it.polimi.ingsw.gc27.View.Tui;
 
 }

@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="780.0" prefWidth="1535.0" styleClass="anchorpane" stylesheets="@../css/PlaceStarterCardScene.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.gc27.View.GUI.PlaceStarterCardScene">
+<AnchorPane prefHeight="780.0" prefWidth="1535.0" styleClass="anchorpane" stylesheets="@../css/PlaceStarterCardScene.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.gc27.View.Gui.SceneController.PlaceStarterCardSceneController">
    <children>
       <ImageView fitHeight="419.0" fitWidth="368.0" layoutX="584.0" layoutY="361.0" pickOnBounds="true" preserveRatio="true" styleClass="imagetest" />
       <ImageView fx:id="frontStarter" fitHeight="200.0" fitWidth="300.0" layoutX="217.0" layoutY="413.0" pickOnBounds="true" preserveRatio="true">

@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="780.0" prefWidth="1535.0" styleClass="anchorpane" stylesheets="@../css/EndingScene.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.gc27.View.GUI.EndingSceneController">
+<AnchorPane prefHeight="780.0" prefWidth="1535.0" styleClass="anchorpane" stylesheets="@../css/EndingScene.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.gc27.View.Gui.SceneController.EndingSceneController">
    <children>
       <ImageView fitHeight="411.0" fitWidth="377.0" layoutX="587.0" layoutY="374.0" pickOnBounds="true" preserveRatio="true" styleClass="gamemaster" />
       <StackPane layoutX="468.0" layoutY="22.0" prefWidth="600.0">

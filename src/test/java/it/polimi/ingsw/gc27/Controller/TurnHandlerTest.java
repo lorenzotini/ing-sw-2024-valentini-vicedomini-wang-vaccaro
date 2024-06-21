@@ -1,6 +1,5 @@
 package it.polimi.ingsw.gc27.Controller;
 
-import it.polimi.ingsw.gc27.Model.JsonParser;
 import it.polimi.ingsw.gc27.Model.Card.GoldCard;
 import it.polimi.ingsw.gc27.Model.Card.ObjectiveCard.ObjectiveCard;
 import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
@@ -9,6 +8,7 @@ import it.polimi.ingsw.gc27.Model.Enumerations.PawnColour;
 import it.polimi.ingsw.gc27.Model.Game.*;
 import it.polimi.ingsw.gc27.Model.States.ChooseObjectiveState;
 import it.polimi.ingsw.gc27.Model.States.EndingState;
+import it.polimi.ingsw.gc27.Utils.JsonParser;
 import org.junit.jupiter.api.Test;
 
 import java.rmi.RemoteException;
@@ -43,10 +43,11 @@ class TurnHandlerTest {
 
 
         // generate decks
-        starterDeck = JsonParser.getStarterDeck(JsonParser.cardsJsonObj);
-        resourceDeck = JsonParser.getResourceDeck(JsonParser.cardsJsonObj);
-        objectiveDeck = JsonParser.getObjectiveDeck(JsonParser.cardsJsonObj);
-        goldDeck = JsonParser.getGoldDeck(JsonParser.cardsJsonObj);
+        JsonParser jsonParser = new JsonParser("codex_cards_collection.json");
+        starterDeck = jsonParser.getStarterDeck();
+        resourceDeck = jsonParser.getResourceDeck();
+        goldDeck = jsonParser.getGoldDeck();
+        objectiveDeck = jsonParser.getObjectiveDeck();
 
         // create players and add them to the game.
         p1 = new Player("Giocatore 1", new Manuscript(), PawnColour.RED);

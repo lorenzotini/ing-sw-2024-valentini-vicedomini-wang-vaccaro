@@ -7,7 +7,7 @@ import it.polimi.ingsw.gc27.Model.Card.Card;
 import it.polimi.ingsw.gc27.Model.Card.ObjectiveCard.ObjectiveCard;
 import it.polimi.ingsw.gc27.Model.Card.StarterCard;
 import it.polimi.ingsw.gc27.Model.Enumerations.PawnColour;
-import it.polimi.ingsw.gc27.Model.Listener.PlayerListener;
+import it.polimi.ingsw.gc27.Model.PlayerListener;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 import javafx.util.Pair;
 

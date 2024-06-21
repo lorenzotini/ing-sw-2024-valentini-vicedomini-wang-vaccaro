@@ -4,10 +4,11 @@ import it.polimi.ingsw.gc27.Model.Card.GoldCard;
 import it.polimi.ingsw.gc27.Model.Card.ObjectiveCard.ObjectiveCard;
 import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
 import it.polimi.ingsw.gc27.Model.Card.StarterCard;
-import it.polimi.ingsw.gc27.Model.JsonParser;
 import it.polimi.ingsw.gc27.Model.Game.Board;
 import it.polimi.ingsw.gc27.Model.Game.Manuscript;
 import it.polimi.ingsw.gc27.Model.Game.Market;
+import it.polimi.ingsw.gc27.Utils.JsonParser;
+import it.polimi.ingsw.gc27.View.Tui.Tui;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -16,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.stream.Collectors;
 
-import static it.polimi.ingsw.gc27.View.Tui.*;
+import static it.polimi.ingsw.gc27.View.Tui.Tui.*;
 import static java.lang.System.out;
 
 class TuiTest {
@@ -27,10 +28,11 @@ class TuiTest {
 
     @BeforeEach
     void setUp() {
-        resourceDeck = JsonParser.getResourceDeck(JsonParser.cardsJsonObj);
-        starterDeck = JsonParser.getStarterDeck(JsonParser.cardsJsonObj);
-        goldDeck = JsonParser.getGoldDeck(JsonParser.cardsJsonObj);
-        objectiveDeck = JsonParser.getObjectiveDeck(JsonParser.cardsJsonObj);
+        JsonParser jsonParser = new JsonParser("codex_cards_collection.json");
+        starterDeck = jsonParser.getStarterDeck();
+        resourceDeck = jsonParser.getResourceDeck();
+        goldDeck = jsonParser.getGoldDeck();
+        objectiveDeck = jsonParser.getObjectiveDeck();
     }
 
     @Test

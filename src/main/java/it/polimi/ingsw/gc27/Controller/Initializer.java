@@ -1,6 +1,6 @@
 package it.polimi.ingsw.gc27.Controller;
 
-import it.polimi.ingsw.gc27.JsonParser;
+import it.polimi.ingsw.gc27.Utils.JsonParser;
 import it.polimi.ingsw.gc27.Model.Card.GoldCard;
 import it.polimi.ingsw.gc27.Model.Card.ObjectiveCard.ObjectiveCard;
 import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
@@ -13,14 +13,24 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class Initializer {
-    private  Game game;
-    private  ArrayList<StarterCard> starterDeck = JsonParser.getStarterDeck(JsonParser.cardsJsonObj);
-    private  ArrayList<ResourceCard> resourceDeck = JsonParser.getResourceDeck(JsonParser.cardsJsonObj);
-    private  ArrayList<GoldCard> goldDeck = JsonParser.getGoldDeck(JsonParser.cardsJsonObj);
-    private  ArrayList<ObjectiveCard> objectiveDeck = JsonParser.getObjectiveDeck(JsonParser.cardsJsonObj);
-    private  Market market = new Market();
-    //private  Board board = new Board(game.getPlayers());
-    private  Board board = new Board();
+
+    private  ArrayList<StarterCard> starterDeck;
+    private  ArrayList<ResourceCard> resourceDeck;
+    private  ArrayList<GoldCard> goldDeck;
+    private  ArrayList<ObjectiveCard> objectiveDeck;
+    private  Market market;
+    private  Board board;
+
+    public Initializer () {
+        JsonParser jsonParser = new JsonParser("codex_cards_collection.json");
+        starterDeck = jsonParser.getStarterDeck();
+        resourceDeck = jsonParser.getResourceDeck();
+        goldDeck = jsonParser.getGoldDeck();
+        objectiveDeck = jsonParser.getObjectiveDeck();
+        market = new Market();
+        board = new Board();
+    }
+
     public  Game initialize(){
 
         // shuffle decks

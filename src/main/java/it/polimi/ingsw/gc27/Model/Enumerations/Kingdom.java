@@ -1,6 +1,6 @@
 package it.polimi.ingsw.gc27.Model.Enumerations;
 
-import it.polimi.ingsw.gc27.View.ColourControl;
+import it.polimi.ingsw.gc27.View.Tui.ColourControl;
 
 import java.io.Serializable;
 

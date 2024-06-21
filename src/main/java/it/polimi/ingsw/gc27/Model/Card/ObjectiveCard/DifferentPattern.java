@@ -4,7 +4,7 @@ import it.polimi.ingsw.gc27.Model.Card.BackFace;
 import it.polimi.ingsw.gc27.Model.Card.FrontFace;
 import it.polimi.ingsw.gc27.Model.Enumerations.CornerSymbol;
 import it.polimi.ingsw.gc27.Model.Game.Manuscript;
-import it.polimi.ingsw.gc27.View.ColourControl;
+import it.polimi.ingsw.gc27.View.Tui.ColourControl;
 
 public class DifferentPattern extends ObjectiveCard {
 

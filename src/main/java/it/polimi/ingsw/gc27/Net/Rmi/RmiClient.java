@@ -16,16 +16,57 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
+/**
+ * The RmiClient class implements the VirtualView interface and represents the client in the RMI network.
+ * It manages the connection to the server, sends commands to it, and checks if the server is alive.
+ * It also contains a View instance for handling client view and a MiniModel instance for storing the game state.
+ */
 public class RmiClient extends UnicastRemoteObject implements VirtualView {
 
+    /**
+     * The VirtualServer instance representing the server.
+     */
     private VirtualServer server;
+
+    /**
+     * The View instance for handling client view.
+     */
     private final View view; //this will be or tui or gui, when  a gui is ready is to implement
+
+    /**
+     * The MiniModel instance for storing the game state.
+     */
     private final MiniModel miniModel;
+
+    /**
+     * The queue of messages received from the server.
+     */
     private final BlockingQueue<Message> messages = new LinkedBlockingQueue<>();
+
+    /**
+     * The username of the client.
+     */
     private String username = "";
+
+    /**
+     * The last time a ping was received from the server.
+     */
     private long lastPingFromServer = 0 ;
+
+    // TODO IMPORTANTISSIMO: REIMPOSTARE I TEMPI DI PING A ROBA NORMALE CHE SE NO ZIO PERA è LA FINE
+    /**
+     * The maximum time in milliseconds a server can be inactive before being considered disconnected.
+     */
     private int TIME_COUNT = 1000000;
 
+    /**
+     * Constructs a new RmiClient with the given IP address, port, and View.
+     *
+     * @param ipAddress The IP address of the server.
+     * @param port The port number of the server.
+     * @param view The View instance for handling client view.
+     * @throws RemoteException If a remote access error occurs.
+     */
     public RmiClient(String ipAddress, int port, View view) throws RemoteException {
         do {
             try{
@@ -257,4 +298,5 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
     public void pingToServer( VirtualView client) throws RemoteException {
         server.receivePing(client);
     }
+
 }

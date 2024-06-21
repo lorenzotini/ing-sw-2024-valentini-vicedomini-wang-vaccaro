@@ -10,14 +10,22 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import java.io.*;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.stream.Collectors;
 
+/**
+ * The JsonParser class is used to retrieve all the information to correctly build card objects, parsing a .json file at runtime.
+ */
 public class JsonParser implements Serializable {
 
+    /**
+     * Map of string representation of a Kingdom and its enumeration object.
+     */
     public static HashMap<String, Kingdom> kingdomHashMap = new HashMap<>();
     static {
         kingdomHashMap.put("PLANTKINGDOM", Kingdom.PLANTKINGDOM);
@@ -27,6 +35,9 @@ public class JsonParser implements Serializable {
         kingdomHashMap.put("EMPTY", Kingdom.EMPTY);
     }
 
+    /**
+     * Map of string representation of a CornerSymbol and its enumeration object.
+     */
     public static HashMap<String, CornerSymbol> cornerSymbolHashMap = new HashMap<>();
     static {
         cornerSymbolHashMap.put("PLANTKINGDOM", CornerSymbol.PLANT);
@@ -40,6 +51,9 @@ public class JsonParser implements Serializable {
         cornerSymbolHashMap.put("BLACK", CornerSymbol.BLACK);
     }
 
+    /**
+     * Map of string representation of a PointsMultiplier and its enumeration object.
+     */
     public static HashMap<String, PointsMultiplier> pointsMultiplierHashMapHashMap = new HashMap<>();
     static {
         pointsMultiplierHashMapHashMap.put("CORNER", PointsMultiplier.CORNER);
@@ -49,27 +63,39 @@ public class JsonParser implements Serializable {
         pointsMultiplierHashMapHashMap.put("EMPTY", PointsMultiplier.EMPTY);
     }
 
-    public static final ArrayList<String> XX = new ArrayList<>(Arrays.asList("UR", "UL", "LR", "LL"));
+    /**
+     * List of corner acronyms used to iterate over them.
+     */
+    public static final ArrayList<String> cornersAcronyms = new ArrayList<>(Arrays.asList("UR", "UL", "LR", "LL"));
+
+    /**
+     * Relative path to the json file to parse.
+     */
+    public static final String filePath = "src/main/resources/Json/codex_cards_collection.json";
+
+    /**
+     * A JSONParser object is used to parse a .json file.
+     */
     public static JSONParser jsonParser = new JSONParser();
+
+    /**
+     * A JSONObject is an unordered collection of name/value pairs.
+     */
     public static JSONObject cardsJsonObj;
 
     static {
         try {
-
-            InputStream inputStream = JsonParser.class.getClassLoader().getResourceAsStream("Json/codex_cards_collection.json");
-            if (inputStream == null) {
-                throw new FileNotFoundException("File not found: Json/codex_cards_collection.json");
-            }
-
-            InputStreamReader reader = new InputStreamReader(inputStream);
-            BufferedReader bufferedReader = new BufferedReader(reader);
-            cardsJsonObj = (JSONObject) jsonParser.parse(bufferedReader);
-
+            cardsJsonObj = (JSONObject) jsonParser.parse(new FileReader(filePath));
         } catch (IOException | ParseException e) {
             throw new RuntimeException(e);
         }
     }
 
+    /**
+     * Retrieves the resource deck from the .json file.
+     * @param cardsJsonObj
+     * @return an ArrayList of ResourceCard objects.
+     */
     public static ArrayList<ResourceCard> getResourceDeck(JSONObject cardsJsonObj){
 
         ArrayList<ResourceCard> myDeck = new ArrayList<>();
@@ -88,7 +114,7 @@ public class JsonParser implements Serializable {
             //FRONT
             JSONObject f = (JSONObject) jsonObject.get("frontFace");
             ArrayList<Corner> frontCorners = new ArrayList<>();
-            for(String xx : XX){
+            for(String xx : cornersAcronyms){
                 JSONObject cornerXX = (JSONObject) f.get("corner" + xx);
                 boolean black = (boolean) cornerXX.get("black");
                 CornerSymbol symbol = cornerSymbolHashMap.get((String) cornerXX.get("symbol"));
@@ -113,6 +139,11 @@ public class JsonParser implements Serializable {
         return myDeck;
     }
 
+    /**
+     * Retrieves the gold deck from the .json file.
+     * @param cardsJsonObj
+     * @return an ArrayList of GoldCard objects.
+     */
     public static ArrayList<GoldCard> getGoldDeck(JSONObject cardsJsonObj){
         ArrayList<GoldCard> myDeck = new ArrayList<>();
         JSONArray jsonDeck = (JSONArray) cardsJsonObj.get("goldDeck");
@@ -134,7 +165,7 @@ public class JsonParser implements Serializable {
             //FRONT
             JSONObject f = (JSONObject) jsonObject.get("frontFace");
             ArrayList<Corner> frontCorners = new ArrayList<>();
-            for(String xx : XX){
+            for(String xx : cornersAcronyms){
                 JSONObject cornerXX = (JSONObject) f.get("corner" + xx);
                 boolean black = (boolean) cornerXX.get("black");
                 CornerSymbol symbol = cornerSymbolHashMap.get((String) cornerXX.get("symbol"));
@@ -159,6 +190,11 @@ public class JsonParser implements Serializable {
         return myDeck;
     }
 
+    /**
+     * Retrieves the starter deck from the .json file.
+     * @param cardsJsonObj
+     * @return an ArrayList of StarterCard objects.
+     */
     // WARNING: STARTER CARDS' FRONT AND BACK ARE INVERTED IN THE GRAPHIC RESOURCES. REFER TO THE RULEBOOK.
     public static ArrayList<StarterCard> getStarterDeck(JSONObject cardsJsonObj){
         ArrayList<StarterCard> myDeck = new ArrayList<>();
@@ -176,7 +212,7 @@ public class JsonParser implements Serializable {
             //FRONT
             JSONObject f = (JSONObject) jsonObject.get("frontFace");
             ArrayList<Corner> frontCorners = new ArrayList<>();
-            for(String xx : XX){
+            for(String xx : cornersAcronyms){
                 JSONObject cornerXX = (JSONObject) f.get("corner" + xx);
                 CornerSymbol symbol = cornerSymbolHashMap.get((String) cornerXX.get("symbol"));
                 Corner c = new Corner(false, symbol);
@@ -190,7 +226,7 @@ public class JsonParser implements Serializable {
             ArrayList<String> tmp = (ArrayList<String>) jsonObject.get("permanentResources");
             ArrayList<Kingdom> permanentResources = new ArrayList<>();
             permanentResources = tmp.stream().map(kingdomHashMap::get).collect(Collectors.toCollection(ArrayList::new));
-            for(String xx : XX){
+            for(String xx : cornersAcronyms){
                 JSONObject cornerXX = (JSONObject) b.get("corner" + xx);
                 boolean black = (boolean) cornerXX.get("black");
                 CornerSymbol symbol = cornerSymbolHashMap.get((String) cornerXX.get("symbol"));
@@ -204,6 +240,12 @@ public class JsonParser implements Serializable {
         }
         return myDeck;
     }
+
+    /**
+     * Retrieves the objective deck from the .json file.
+     * @param cardsJsonObj
+     * @return an ArrayList of ObjectiveCard objects.
+     */
     public static ArrayList<ObjectiveCard> getObjectiveDeck(JSONObject cardsJsonObj){
         ArrayList<ObjectiveCard> myDeck = new ArrayList<>();
         JSONArray jsonDeck = (JSONArray) cardsJsonObj.get("objectiveDeck");
@@ -251,9 +293,3 @@ public class JsonParser implements Serializable {
     }
 
 }
-
-
-//ArrayList<ResourceCard> resourceDeck = JsonParser.getResourceDeck(JsonParser.cardsJsonObj);
-//ArrayList<GoldCard> goldDeck = JsonParser.getGoldDeck(JsonParser.cardsJsonObj);
-//ArrayList<StarterCard> starterDeck = JsonParser.getStarterDeck(JsonParser.cardsJsonObj);
-//ArrayList<ObjectiveCard> objectiveDeck = JsonParser.getObjectiveDeck(JsonParser.cardsJsonObj);

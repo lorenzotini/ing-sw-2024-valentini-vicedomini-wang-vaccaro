@@ -1,4 +1,4 @@
-package it.polimi.ingsw.gc27;
+package it.polimi.ingsw.gc27.Net;
 
 
 import it.polimi.ingsw.gc27.Controller.GigaController;

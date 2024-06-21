@@ -1,4 +1,4 @@
-package it.polimi.ingsw.gc27.Model;
+package it.polimi.ingsw.gc27;
 
 import it.polimi.ingsw.gc27.Model.Card.*;
 import it.polimi.ingsw.gc27.Model.Card.ObjectiveCard.*;

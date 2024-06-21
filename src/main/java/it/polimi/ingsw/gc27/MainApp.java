@@ -1,4 +1,4 @@
-package it.polimi.ingsw.gc27.View.GUI;
+package it.polimi.ingsw.gc27;
 
 import it.polimi.ingsw.gc27.View.Gui;
 import javafx.application.Application;

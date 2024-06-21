@@ -10,9 +10,7 @@ import it.polimi.ingsw.gc27.Model.ClientClass.MiniModel;
 import it.polimi.ingsw.gc27.Model.States.*;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class TurnHandler implements Serializable {
 
@@ -307,7 +305,7 @@ public class TurnHandler implements Serializable {
      * displays the winner/winners to the users, and the general scoreboard
      */
     public void sendWinnersToClient(){
-        UpdateEndGame winnerMessage = new UpdateEndGame(new MiniModel(game.getBoard()));
+        UpdateEndGameMessage winnerMessage = new UpdateEndGameMessage(new MiniModel(game.getBoard()));
         this.game.notifyObservers(winnerMessage);
     }
 

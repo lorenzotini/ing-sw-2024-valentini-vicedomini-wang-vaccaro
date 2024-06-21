@@ -19,10 +19,16 @@ public class Initializer {
     private  ArrayList<GoldCard> goldDeck = JsonParser.getGoldDeck(JsonParser.cardsJsonObj);
     private  ArrayList<ObjectiveCard> objectiveDeck = JsonParser.getObjectiveDeck(JsonParser.cardsJsonObj);
     private  Market market = new Market();
-    //private  Board board = new Board(game.getPlayers());
     private  Board board = new Board();
-    public  Game initialize(){
 
+    /**
+     * creates and initializes the required components in order to play a game successfully
+     * shuffles the decks
+     * sets common objectives
+     * populates the market
+     * @return the initialized game
+     */
+    public  Game initialize(){
         // shuffle decks
         Collections.shuffle(starterDeck);
         Collections.shuffle(resourceDeck);
@@ -46,6 +52,5 @@ public class Initializer {
         market.setCommonObjectives(commonObjectives);
 
         return new Game(board, market, new ArrayList<>(), commObj1, commObj2, starterDeck, objectiveDeck);
-
     }
 }

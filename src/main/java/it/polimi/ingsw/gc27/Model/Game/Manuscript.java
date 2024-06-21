@@ -11,7 +11,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Manuscript implements Serializable, ClientManuscript {
-
     public static final int FIELD_DIM = 85;
     private Face[][] field;  // use a matrix to represent the whole manuscript/play field
     private int xMax;
@@ -28,6 +27,11 @@ public class Manuscript implements Serializable, ClientManuscript {
     private String lastPlacedCardPath;
     private ArrayList<Placement> placements = new ArrayList<>(); // save the placement order
 
+    /**
+     * constructor for the manuscript/playing field
+     * it sets the dimension of the matrix and the indexes that show
+     * the max extension of the matrix
+     */
     public Manuscript() {
         this.field = new Face[FIELD_DIM][FIELD_DIM];
         this.xMax = FIELD_DIM / 2;
@@ -36,8 +40,131 @@ public class Manuscript implements Serializable, ClientManuscript {
         this.yMin = FIELD_DIM / 2;
     }
 
-    // getter e setter
+    /**
+     * checks if the placement of a specific card is valid or not
+     * @param x position index
+     * @param y position index
+     * @return boolean
+     */
+    @Override
+    public boolean isValidPlacement(int x, int y) {
+        boolean isValid = false;
+        if (field[x][y] != null) {
+            return false;
+        }
+        for (int i = -1; i <= 1; i = i + 2) {
+            for (int j = -1; j <= 1; j = j + 2) {
+                if (field[x + i][y + j] != null && (field[x + i][y + j].getCorner(-i, j).isBlack() || field[x + i][y + j].getCorner(-i, j).isHidden())) {
+                    return false;
+                }
+                if (field[x + i][y + j] != null) {
+                    isValid = true;
+                }
+            }
+        }
+        return isValid;
+    }
 
+    /**
+     * getter for playable placements
+     * @return arraylist of placement
+     */
+    @Override
+    public ArrayList<Placement> getPlacements() {
+        return placements;
+    }
+
+    /**
+     * indicates if a card meets the requirements to be played and placed
+     * @param card the specific card
+     * @return boolean
+     */
+    @Override
+    public boolean satisfiedRequirement(ResourceCard card) {
+        if (card instanceof GoldCard) {
+            ArrayList<Kingdom> toBeVerified = ((GoldCard) card).getRequirements();
+            Kingdom tracciato;
+            while (!toBeVerified.isEmpty()) {
+                tracciato = toBeVerified.getFirst();
+                toBeVerified.removeFirst();
+                int count = 1;
+
+                for (Kingdom kin : toBeVerified) {
+                    if (tracciato.equals(kin)) {
+                        count++;
+                    }
+                }
+                int counted = getCounter(tracciato.toCornerSymbol());
+                if (counted < count)
+                    return false;
+            }
+            return true;
+        } else {
+            //if dynamic type is ResourceCard, then it has no requirements.
+            return true;
+        }
+    }
+
+    /**
+     * getter that returns the amount of symbols present in the manuscript
+     * @param cs corner symbol
+     * @return the number of symbol in the manuscript
+     */
+    @Override
+    public int getCounter(CornerSymbol cs) {
+        return switch (cs) {
+            case EMPTY, BLACK -> 0;
+            case PLANT -> plantCounter;
+            case ANIMAL -> animalCounter;
+            case INSECT -> insectCounter;
+            case FUNGI -> fungiCounter;
+            case QUILL -> quillCounter;
+            case INKWELL -> inkwellCounter;
+            case MANUSCRIPT -> manuscriptCounter;
+        };
+    }
+
+    /**
+     * decreases the amount of symbols present in the manuscript
+     * @param cs corner symbol
+     */
+    public void decreaseCounter(CornerSymbol cs) {
+        switch (cs) {
+            case PLANT -> plantCounter--;
+            case ANIMAL -> animalCounter--;
+            case FUNGI -> fungiCounter--;
+            case INSECT -> insectCounter--;
+            case MANUSCRIPT -> manuscriptCounter--;
+            case QUILL -> quillCounter--;
+            case INKWELL -> inkwellCounter--;
+            case EMPTY -> {
+            }   // do nothing
+            case null, default -> throw new NullPointerException();
+        }
+    }
+
+    /**
+     * increases the amount of symbols present in the manuscript
+     * @param cs corner symbol
+     */
+    public void increaseCounter(CornerSymbol cs) {
+        switch (cs) {
+            case PLANT -> plantCounter++;
+            case ANIMAL -> animalCounter++;
+            case FUNGI -> fungiCounter++;
+            case INSECT -> insectCounter++;
+            case MANUSCRIPT -> manuscriptCounter++;
+            case QUILL -> quillCounter++;
+            case INKWELL -> inkwellCounter++;
+            case EMPTY, BLACK -> {
+            }   // do nothing
+            case null, default -> throw new NullPointerException();
+        }
+    }
+
+    /**
+     * getters and setters
+     */
     public void setxMax(int x) {
         this.xMax = x;
     }
@@ -49,7 +176,6 @@ public class Manuscript implements Serializable, ClientManuscript {
     public void setxMin(int x) {
         this.xMin = x;
     }
-
     public void setyMin(int y) {
         this.yMin = y;
     }
@@ -81,6 +207,7 @@ public class Manuscript implements Serializable, ClientManuscript {
     public int getFungiCounter() {
         return fungiCounter;
     }
+
     @Override
     public int getInsectCounter() {
         return insectCounter;
@@ -113,97 +240,6 @@ public class Manuscript implements Serializable, ClientManuscript {
     public void setLastPlacedCardPath(String lastPlacedCardPath) {
         this.lastPlacedCardPath = lastPlacedCardPath;
     }
-
     // end getter e setter
-    @Override
-    public boolean isValidPlacement(int x, int y) {
-        boolean isValid = false;
-        if (field[x][y] != null) {
-            return false;
-        }
-        for (int i = -1; i <= 1; i = i + 2) {
-            for (int j = -1; j <= 1; j = j + 2) {
-                if (field[x + i][y + j] != null && (field[x + i][y + j].getCorner(-i, j).isBlack() || field[x + i][y + j].getCorner(-i, j).isHidden())) {
-                    return false;
-                }
-                if (field[x + i][y + j] != null) {
-                    isValid = true;
-                }
-            }
-        }
-        return isValid;
-    }
-    @Override
-    public ArrayList<Placement> getPlacements() {
-        return placements;
-    }
-    @Override
-    public boolean satisfiedRequirement(ResourceCard card) {
-        if (card instanceof GoldCard) {
-            ArrayList<Kingdom> toBeVerified = ((GoldCard) card).getRequirements();
-            Kingdom tracciato;
-            while (!toBeVerified.isEmpty()) {
-                tracciato = toBeVerified.getFirst();
-                toBeVerified.removeFirst();
-                int count = 1;
-
-                for (Kingdom kin : toBeVerified) {
-                    if (tracciato.equals(kin)) {
-                        count++;
-                    }
-                }
-                int counted = getCounter(tracciato.toCornerSymbol());
-                if (counted < count)
-                    return false;
-            }
-            return true;
-        } else {
-            //if dynamic type is ResourceCard, then it has no requirements.
-            return true;
-        }
-    }
-    @Override
-    public int getCounter(CornerSymbol cs) {
-        return switch (cs) {
-            case EMPTY, BLACK -> 0;
-            case PLANT -> plantCounter;
-            case ANIMAL -> animalCounter;
-            case INSECT -> insectCounter;
-            case FUNGI -> fungiCounter;
-            case QUILL -> quillCounter;
-            case INKWELL -> inkwellCounter;
-            case MANUSCRIPT -> manuscriptCounter;
-        };
-    }
-
-    public void decreaseCounter(CornerSymbol cs) {
-        switch (cs) {
-            case PLANT -> plantCounter--;
-            case ANIMAL -> animalCounter--;
-            case FUNGI -> fungiCounter--;
-            case INSECT -> insectCounter--;
-            case MANUSCRIPT -> manuscriptCounter--;
-            case QUILL -> quillCounter--;
-            case INKWELL -> inkwellCounter--;
-            case EMPTY -> {
-            }   // do nothing
-            case null, default -> throw new NullPointerException();
-        }
-    }
-
-    public void increaseCounter(CornerSymbol cs) {
-        switch (cs) {
-            case PLANT -> plantCounter++;
-            case ANIMAL -> animalCounter++;
-            case FUNGI -> fungiCounter++;
-            case INSECT -> insectCounter++;
-            case MANUSCRIPT -> manuscriptCounter++;
-            case QUILL -> quillCounter++;
-            case INKWELL -> inkwellCounter++;
-            case EMPTY, BLACK -> {
-            }   // do nothing
-            case null, default -> throw new NullPointerException();
-        }
-    }
 
 }

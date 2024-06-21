@@ -22,6 +22,12 @@ public class Player implements Serializable, ClientPlayer {
     private PlayerState playerState;
     private boolean isDisconnected = false;
 
+    /**
+     * constructor for the player entity
+     * @param username player's username
+     * @param manuscript player's personal manuscript
+     * @param pawnColour player's pawn colour
+     */
     public Player(String username, Manuscript manuscript, PawnColour pawnColour) {
         this.username = username;
         this.hand = new ArrayList<>();
@@ -31,9 +37,9 @@ public class Player implements Serializable, ClientPlayer {
         // TODO this.playerState = new InitializingState();
     }
 
-
-
-
+    /**
+     * getters and setters
+     */
     public boolean isDisconnected() {
         return isDisconnected;
     }
@@ -139,23 +145,18 @@ public class Player implements Serializable, ClientPlayer {
                         m.increaseCounter(resource.toCornerSymbol());
                     }
                 }
-
                 //increase counter of the corners of the starter card
                 for (int i = -1; i <= 1; i = i + 2) {
                     for (int j = -1; j <= 1; j = j + 2) {
                         m.increaseCounter(m.getField()[x][y].getCorner(i, -j).getSymbol());
                     }
                 }
-
                 return;
 
             } else {
-
                 System.err.println("The starter card already exists");
                 return;
-
             }
-
         }
 
         m.getField()[x][y] = face;
@@ -183,9 +184,7 @@ public class Player implements Serializable, ClientPlayer {
         int points;
 
         if (face instanceof FrontFace) {
-
             if (card instanceof GoldCard) {
-
                 if (((GoldCard) card).getPointsMultiplier().equals(PointsMultiplier.EMPTY)) {
                     points = ((GoldCard) card).getCardPoints();
                 } else if (((GoldCard) card).getPointsMultiplier().equals(PointsMultiplier.CORNER)) {
@@ -199,9 +198,7 @@ public class Player implements Serializable, ClientPlayer {
             }
 
             game.addPoints(this, points);
-
         }
-
     }
 
 }

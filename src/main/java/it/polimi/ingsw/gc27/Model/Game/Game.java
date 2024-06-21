@@ -41,11 +41,27 @@ public class Game implements Serializable {
     public Game() {
     }
 
+    /**
+     * constructor of the game
+     * @param gameID game id
+     * @param board the board/scoreboard
+     * @param players players participating in the game
+     */
     public Game(int gameID, Board board, List<Player> players) {
         this.board = board;
         this.players = players;
     }
 
+    /**
+     * constructor of the game
+     * @param board the board/scoreboard
+     * @param market the common market
+     * @param players list of players
+     * @param commonObjective1 common objective card
+     * @param commonObjective2 common objective card
+     * @param starterDeck the deck containing starter cards
+     * @param objectiveDeck the deck containing objective cards
+     */
     public Game(Board board, Market market, List<Player> players, ObjectiveCard commonObjective1, ObjectiveCard commonObjective2, ArrayList<StarterCard> starterDeck, ArrayList<ObjectiveCard> objectiveDeck) {
 
         this.board = board;
@@ -58,14 +74,149 @@ public class Game implements Serializable {
 
     }
 
+    /**
+     * Updates player's points, as a result of a played card or objectives points
+     * @param player which player receives the points
+     * @param points amount of points
+     */
+    public void addPoints(Player player, int points) {
+        PawnColour pawncolour = player.getPawnColour();
+        switch (pawncolour) {
+            case BLUE -> board.setPointsBluePlayer(board.getPointsBluePlayer() + points);
+            case RED -> board.setPointsRedPlayer(board.getPointsRedPlayer() + points);
+            case GREEN -> board.setPointsGreenPlayer(board.getPointsGreenPlayer() + points);
+            case YELLOW -> board.setPointsYellowPlayer(board.getPointsYellowPlayer() + points);
+        }
+    }
+
+    /**
+     * this method returns a boolean indicating if a pawn colour is mapped to an actual player
+     * @param pawn pawn colour
+     * @return boolean
+     */
+    public boolean validPawn(String pawn) {
+        for (var available : availablePawns) {
+            if (available.toString().equalsIgnoreCase(pawn)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * adds a player to the game
+     * @param p player
+     * @param client player's client
+     */
+    public void addPlayer(Player p, VirtualView client) {
+
+        for(Player player : players){
+            Chat chat = new Chat(player, p);
+            chatMap.put(new Pair<String, String>(player.getUsername(), p.getUsername()),   chat);
+            chatMap.put(new Pair<String, String>(p.getUsername(), player.getUsername()),   chat);
+        }
+        this.players.add(p);
+        switch (p.getPawnColour()){
+            case RED:
+                board.setRedPlayer(p.getUsername());
+                break;
+            case YELLOW:
+                board.setYellowPlayer(p.getUsername());
+                break;
+            case GREEN:
+                board.setGreenPlayer(p.getUsername());
+                break;
+            case BLUE:
+                board.setBluePlayer(p.getUsername());
+                break;
+            default:
+                break;
+        }
+        //create a listener
+        //he will listen the observable and decide if the message has to be sent to his player
+        this.addObserver(new PlayerListener(client, p));
+        this.notifyObservers(new PlayerJoinedMessage(p.getUsername()));
+    }
+
+    /**
+     * adds observer to the observers list
+     * @param o observer
+     */
+    public void addObserver(Observer o) {
+        observers.add(o);
+    }
+
+    /**
+     * removes observer from the observers list
+     * @param username player's username
+     */
+    public void removeObserver(String username) {
+        observers.removeIf(obs -> obs.getPlayerUsername().equals(username));
+    }
+
+    /**
+     * notifies all the observers, sending them a specific message
+     * @param message message
+     */
+    public void notifyObservers(Message message) {
+        for (Observer o : observers) {
+            o.update(message);
+        }
+    }
+
+    /**
+     * @return if the game is suspended
+     */
+    public boolean isSuspended() {
+        int count = 0;
+        for(Player p: players){
+            if(p.isDisconnected()){
+                count++;
+            }
+        }
+        return count >= players.size() - 1;
+    }
+
+    /**
+     * changes the state of a player to ready
+     * @param p player
+     * @return the number of players that are ready
+     */
+    public int ready(Player p) {
+        synchronized (board){
+            this.readyPlayers++;
+            return readyPlayers;
+        }
+    }
+
+    /**
+     * getters and setters
+     */
+    public Chat getGeneralChat(){
+        return this.generalChat;
+    }
+    public Chat getChat(String p1, String p2) {
+        return chatMap.get(new Pair<String,String>(p1, p2));
+    }
+    public ArrayList<Chat> getChats(Player player){
+        ArrayList<Chat> chats = new ArrayList<>();
+        chats.add(this.generalChat);
+        //System.out.println("aggiunta chat globale");
+        for(Pair<String , String> p : chatMap.keySet()){
+            if(p.getKey().equals(player.getUsername())){
+                chats.add(chatMap.get(p));
+                //    System.out.println("aggiunta chat singola");
+            }
+        }
+        return chats;
+    }
+
     public Integer getNumActualPlayers() {
         return numActualPlayers;
     }
-
     public void setNumActualPlayers(Integer numActualPlayers) {
         this.numActualPlayers = numActualPlayers;
     }
-
     public Player getPlayer(String playerName) {
         for (Player p : players) {
             if (p.getUsername().equals(playerName)) {
@@ -74,7 +225,6 @@ public class Game implements Serializable {
         }
         return null;
     }
-
     public ArrayList<StarterCard> getStarterDeck() {
         return starterDeck;
     }
@@ -114,114 +264,7 @@ public class Game implements Serializable {
     public List<Player> getPlayers() {
         return players;
     }
-
     public void setPlayers(List<Player> players) {
         this.players = players;
-    }
-
-
-    /**
-     * Updates player's points, as a result of a played card or objectives points
-     *
-     * @param player
-     * @param points
-     */
-    public void addPoints(Player player, int points) {
-        PawnColour pawncolour = player.getPawnColour();
-        switch (pawncolour) {
-            case BLUE -> board.setPointsBluePlayer(board.getPointsBluePlayer() + points);
-            case RED -> board.setPointsRedPlayer(board.getPointsRedPlayer() + points);
-            case GREEN -> board.setPointsGreenPlayer(board.getPointsGreenPlayer() + points);
-            case YELLOW -> board.setPointsYellowPlayer(board.getPointsYellowPlayer() + points);
-        }
-    }
-
-    public boolean validPawn(String pawn) {
-        for (var available : availablePawns) {
-            if (available.toString().equalsIgnoreCase(pawn)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public void addPlayer(Player p, VirtualView client) {
-
-        for(Player player : players){
-            Chat chat = new Chat(player, p);
-            chatMap.put(new Pair<String, String>(player.getUsername(), p.getUsername()),   chat);
-            chatMap.put(new Pair<String, String>(p.getUsername(), player.getUsername()),   chat);
-        }
-        this.players.add(p);
-        switch (p.getPawnColour()){
-            case RED:
-                board.setRedPlayer(p.getUsername());
-                break;
-            case YELLOW:
-                board.setYellowPlayer(p.getUsername());
-                break;
-            case GREEN:
-                board.setGreenPlayer(p.getUsername());
-                break;
-            case BLUE:
-                board.setBluePlayer(p.getUsername());
-                break;
-            default:
-                break;
-        }
-        //create a listener
-        //he will listen the observable and decide if the message has to be sent to his player
-        this.addObserver(new PlayerListener(client, p));
-        this.notifyObservers(new PlayerJoinedMessage(p.getUsername()));
-    }
-
-    public void addObserver(Observer o) {
-        observers.add(o);
-    }
-
-    public void removeObserver(String username) {
-        observers.removeIf(obs -> obs.getPlayerUsername().equals(username));
-    }
-
-
-    public void notifyObservers(Message message) {
-        for (Observer o : observers) {
-            o.update(message);
-        }
-    }
-    public Chat getGeneralChat(){
-        return this.generalChat;
-    }
-    public Chat getChat(String p1, String p2) {
-        return chatMap.get(new Pair<String,String>(p1, p2));
-    }
-    public ArrayList<Chat> getChats(Player player){
-        ArrayList<Chat> chats = new ArrayList<>();
-        chats.add(this.generalChat);
-        //System.out.println("aggiunta chat globale");
-        for(Pair<String , String> p : chatMap.keySet()){
-            if(p.getKey().equals(player.getUsername())){
-                chats.add(chatMap.get(p));
-            //    System.out.println("aggiunta chat singola");
-            }
-        }
-        return chats;
-    }
-
-    public boolean isSuspended() {
-        int count = 0;
-        for(Player p: players){
-            if(p.isDisconnected()){
-                count++;
-            }
-        }
-        return count >= players.size() - 1;
-
-    }
-    public int ready(Player p) {
-        synchronized (board){
-            this.readyPlayers++;
-            return readyPlayers;
-        }
     }
 }

@@ -17,7 +17,7 @@ import java.io.IOException;
 //fourth scene, sends information about player
 public class LoginSceneController implements GenericController {
     @FXML
-    public TextField UsernameInput;
+    public TextField usernameInput;
     @FXML
     public Button blueButton;
 
@@ -60,7 +60,7 @@ public class LoginSceneController implements GenericController {
         yellowButton.setDisable(true);
         redButton.setDisable(true);
         sendColourButton.setDisable(true);
-        handleOnKeyPress(UsernameInput);
+        handleOnKeyPress(usernameInput);
     }
     /**
      * allows to send the message in the chat by clicking the "enter" button on the keyboard
@@ -81,7 +81,7 @@ public class LoginSceneController implements GenericController {
 
     @FXML
     public void sendUsername() {
-        Gui.getInstance().stringFromSceneController(UsernameInput.getText());
+        Gui.getInstance().stringFromSceneController(usernameInput.getText());
     }
 
     public void selectColour(MouseEvent event) {
@@ -145,7 +145,7 @@ public class LoginSceneController implements GenericController {
                 if (ackType.contains("RED"))
                     redButton.setDisable(false);
                 sendColourButton.setDisable(false);
-                UsernameInput.setDisable(true);
+                usernameInput.setDisable(true);
                 sendUsernameButton.setDisable(true);
                 //if the player chooses the wrong username (already chosen) and then the right one, the message error is set to invisible
                 errorUsername.setVisible(false);

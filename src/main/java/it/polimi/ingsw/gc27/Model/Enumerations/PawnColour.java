@@ -57,6 +57,7 @@ public enum PawnColour implements Serializable {
             case RED -> "Images/utility/red_pawn.png";
             case GREEN -> "Images/utility/green_pawn.png";
             case YELLOW -> "Images/utility/yellow_pawn.png";
+            case BLACK -> null;
         };
     }
 

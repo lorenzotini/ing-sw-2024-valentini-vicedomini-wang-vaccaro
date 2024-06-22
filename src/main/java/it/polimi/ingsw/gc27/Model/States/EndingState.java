@@ -7,6 +7,11 @@ import it.polimi.ingsw.gc27.Model.Card.StarterCard;
 import it.polimi.ingsw.gc27.Model.Game.Game;
 import it.polimi.ingsw.gc27.Model.Game.Player;
 
+/**
+ * Represents the ending state of a player in the game
+ * This state is reached when the player has finished their last turn
+ * When every player has reached this state, the Objective Cards points calculation will start
+ */
 public class EndingState extends PlayerState  {
     private final String textMessage = "the game is ending... it's too late man";
 

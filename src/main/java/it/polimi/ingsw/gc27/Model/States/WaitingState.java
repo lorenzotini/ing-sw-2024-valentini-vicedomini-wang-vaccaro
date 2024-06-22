@@ -7,6 +7,10 @@ import it.polimi.ingsw.gc27.Model.Card.StarterCard;
 import it.polimi.ingsw.gc27.Model.Game.Game;
 import it.polimi.ingsw.gc27.Model.Game.Player;
 
+/**
+ * Represents the waiting state of a player in the game
+ * State in which players wait for other players to add a starter card, choose an objective or play their turn
+ */
 public class WaitingState extends PlayerState {
     private Player currentPlayer;
     private final String waitText = "Waiting State";

@@ -12,6 +12,10 @@ import it.polimi.ingsw.gc27.Model.Game.Manuscript;
 import it.polimi.ingsw.gc27.Model.Game.Player;
 import it.polimi.ingsw.gc27.Model.ClientClass.MiniModel;
 
+/**
+ * Represents the initializing state of a player in the game
+ * State in which a player adds the starter card to their manuscript
+ */
 public class InitializingState extends PlayerState {
 
     private final String wrongStateText = "place your starter card first and only then you can start playing";

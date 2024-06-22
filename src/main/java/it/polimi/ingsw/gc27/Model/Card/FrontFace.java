@@ -5,6 +5,9 @@ import it.polimi.ingsw.gc27.Model.Enumerations.Kingdom;
 import java.nio.file.Path;
 import java.util.ArrayList;
 
+/**
+ * The FrontFace class represents the front face of a card
+ */
 public class FrontFace extends Face {
     /**
      * constructor matching super {@link Face}

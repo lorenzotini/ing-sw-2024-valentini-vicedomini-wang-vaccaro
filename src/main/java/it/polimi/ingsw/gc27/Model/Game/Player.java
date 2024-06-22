@@ -11,6 +11,9 @@ import it.polimi.ingsw.gc27.Model.States.PlayerState;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/**
+ * This class represents a player in the game
+ */
 public class Player implements Serializable, ClientPlayer {
 
     private final String username;
@@ -35,65 +38,6 @@ public class Player implements Serializable, ClientPlayer {
         this.pawnColour = pawnColour;
         this.secretObjectives = new ArrayList<>();
 
-    }
-
-
-
-    public void setSecretObjectives(ArrayList<ObjectiveCard> card){
-        this.secretObjectives = card;
-    }
-    public boolean isDisconnected() {
-        return isDisconnected;
-    }
-
-    public void setDisconnected(boolean disconnected) {
-        isDisconnected = disconnected;
-    }
-
-    public void setPlayerState(PlayerState playerState) {
-        this.playerState = playerState;
-    }
-
-    public void setManuscript(Manuscript manuscript) {
-        this.manuscript = manuscript;
-    }
-
-    public void setHand(ArrayList<ResourceCard> hand) {
-        this.hand = hand;
-    }
-    public void setStarterCard(StarterCard starterCard) {
-        this.starterCard = starterCard;
-    }
-
-    @Override
-    public ArrayList<ObjectiveCard> getSecretObjectives() {
-        return secretObjectives;
-    }
-    @Override
-    public PlayerState getPlayerState() {
-        return playerState;
-    }
-    @Override
-    public PawnColour getPawnColour() {
-        return pawnColour;
-    }
-    @Override
-    public Manuscript getManuscript() {
-        return manuscript;
-    }
-
-    @Override
-    public String getUsername() {
-        return username;
-    }
-    @Override
-    public ArrayList<ResourceCard> getHand() {
-        return hand;
-    }
-
-    @Override
-    public StarterCard getStarterCard() {
-        return starterCard;
     }
 
     /**
@@ -206,6 +150,125 @@ public class Player implements Serializable, ClientPlayer {
 
         }
 
+    }
+
+    /**
+     * Sets the secret objectives of the player
+     * @param card The secret objectives to set
+     */
+    public void setSecretObjectives(ArrayList<ObjectiveCard> card) {
+        this.secretObjectives = card;
+    }
+
+    /**
+     * Checks if the player is disconnected
+     * @return true if the player is disconnected, false otherwise
+     */
+    public boolean isDisconnected() {
+        return isDisconnected;
+    }
+
+    /**
+     * Sets the player's disconnected status
+     * @param disconnected true to set the player as disconnected, false otherwise
+     */
+    public void setDisconnected(boolean disconnected) {
+        isDisconnected = disconnected;
+    }
+
+    /**
+     * Sets the player's current state in the game
+     * @param playerState The player's state to set
+     */
+    public void setPlayerState(PlayerState playerState) {
+        this.playerState = playerState;
+    }
+
+    /**
+     * Sets the player's manuscript
+     * @param manuscript The manuscript to set for the player
+     */
+    public void setManuscript(Manuscript manuscript) {
+        this.manuscript = manuscript;
+    }
+
+    /**
+     * Sets the player's current hand of resource cards
+     * @param hand The list of resource cards to set as the player's hand
+     */
+    public void setHand(ArrayList<ResourceCard> hand) {
+        this.hand = hand;
+    }
+
+    /**
+     * Sets the player's starter card
+     * @param starterCard The starter card to set for the player
+     */
+    public void setStarterCard(StarterCard starterCard) {
+        this.starterCard = starterCard;
+    }
+
+    /**
+     * gets the secret objectives chosen by the player
+     * @return The secret objectives
+     */
+    @Override
+    public ArrayList<ObjectiveCard> getSecretObjectives() {
+        return secretObjectives;
+    }
+
+    /**
+     * Gets the current state of the player
+     * @return The current state of the player
+     */
+    @Override
+    public PlayerState getPlayerState() {
+        return playerState;
+    }
+
+    /**
+     * Gets the pawn color chosen by the player
+     * @return The pawn color
+     */
+    @Override
+    public PawnColour getPawnColour() {
+        return pawnColour;
+    }
+
+    /**
+     * Gets the manuscript of the player
+     * @return The manuscript
+     */
+    @Override
+    public Manuscript getManuscript() {
+        return manuscript;
+    }
+
+    /**
+     * Gets the username of the player
+     * @return The username of the player
+     */
+    @Override
+    public String getUsername() {
+        return username;
+    }
+
+    /**
+     * Gets the current hand of resource cards held by the player
+     * @return The current hand of resource cards held by the player
+     */
+    @Override
+    public ArrayList<ResourceCard> getHand() {
+        return hand;
+    }
+
+    /**
+     * Gets the starter card chosen by the player
+     * @return The starter card
+     */
+    @Override
+    public StarterCard getStarterCard() {
+        return starterCard;
     }
 
 }

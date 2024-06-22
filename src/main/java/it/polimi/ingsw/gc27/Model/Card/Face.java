@@ -5,6 +5,10 @@ import it.polimi.ingsw.gc27.Model.Enumerations.Kingdom;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/**
+ * The Face class represents a face of a card in the game
+ * It implements the Serializable interface to allow for object serialization
+ */
 public abstract class Face implements Serializable {
 
     private String imagePath;
@@ -56,31 +60,55 @@ public abstract class Face implements Serializable {
     }
 
     /**
-     * getters
+     * Gets the colour of the card
+     * @return the colour
      */
     public Kingdom getColour() {
         return colour;
     }
 
+    /**
+     * Gets the upper right corner of the card
+     * @return the upper right corner
+     */
     public Corner getCornerUR() {
         return cornerUR;
     }
 
+    /**
+     * Gets the upper left corner of the card
+     * @return the upper left corner
+     */
     public Corner getCornerUL() {
         return cornerUL;
     }
+
+    /**
+     * Gets the lower right corner of the card
+     * @return the lower right corner
+     */
     public Corner getCornerLR() {
         return cornerLR;
     }
+
+    /**
+     * Gets the lower left corner of the card
+     * @return the lower left corner
+     */
     public Corner getCornerLL() {
         return cornerLL;
     }
+
+    /**
+     * Gets the image path of the card
+     * @return the image path
+     */
     public String getImagePath() {
         return imagePath;
     }
 
     /**
-     * method overwritten by the concrete classes
+     * Method overridden by the concrete classes
      * @return the permanent resource
      */
     public abstract ArrayList<Kingdom> getPermanentResources();

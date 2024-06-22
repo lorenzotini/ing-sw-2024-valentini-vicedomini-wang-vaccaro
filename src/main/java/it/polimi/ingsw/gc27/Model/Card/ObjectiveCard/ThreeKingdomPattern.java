@@ -6,6 +6,10 @@ import it.polimi.ingsw.gc27.Model.Enumerations.Kingdom;
 import it.polimi.ingsw.gc27.Model.Game.Manuscript;
 import it.polimi.ingsw.gc27.View.Tui.ColourControl;
 
+/**
+ * The ThreeKingdomPattern class represents a specific type of objective card
+ * This class is used to check for and score a "ThreeKingdomPattern" objective in the game
+ */
 public class ThreeKingdomPattern extends ObjectiveCard {
     public final int OBJECTIVE_POINTS = 2;
     private Kingdom kingdom;

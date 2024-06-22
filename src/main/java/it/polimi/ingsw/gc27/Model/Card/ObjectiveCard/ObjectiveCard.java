@@ -8,6 +8,10 @@ import it.polimi.ingsw.gc27.Model.Game.Manuscript;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * objective cards are non-playable cards essential for the game,
+ * they give points to the player at the end of the match if all the criteria are met
+ */
 public abstract class ObjectiveCard extends Card {
 
 
@@ -26,7 +30,6 @@ public abstract class ObjectiveCard extends Card {
      * @param front the card's front face
      * @param back the card's back face
      */
-
     public ObjectiveCard(int id, FrontFace front, BackFace back) {
         super(id, front, back);
     }
@@ -40,12 +43,26 @@ public abstract class ObjectiveCard extends Card {
     }
 
     /**
-     * methods implemented and overwritten by a concrete class
+     * method to be implemented and overridden by a concrete class,
+     * which returns a coloured string based on the input
+     * @param s the input string to be processed
+     * @return coloured string
      */
     protected abstract String paintString(String s);
 
+    /**
+     * method to be implemented and overridden by a concrete class,
+     * which converts the card details to a string suitable for Tui interface display
+     * @return a string representation of the card
+     */
     public abstract String toCliCard();
 
+    /**
+     * method to be implemented and overridden by a concrete class,
+     * which calculates the points earned by achieving the objective, based on the given manuscript
+     * @param manuscript the manuscript used to evaluate the objective
+     * @return the points scored for achieving the objective
+     */
     public abstract int calculateObjectivePoints(Manuscript manuscript);
 
 }

@@ -10,12 +10,16 @@ import it.polimi.ingsw.gc27.Model.Game.Game;
 import it.polimi.ingsw.gc27.Model.Game.Player;
 import it.polimi.ingsw.gc27.Model.ClientClass.MiniModel;
 
+/**
+ * Represents the state where a player chooses their personal secret objective card
+ * This state allows the player to select an objective card that will contribute to their final score
+ */
 public class ChooseObjectiveState extends PlayerState {
 
     private final String wrongStateText = "You have to choose an objective card first";
 
     /**
-     * State in which the player chooses the personal secret objective
+     * State in which the player chooses the personal secret objective card
      * constructor matching super {@link PlayerState}
      */
     public ChooseObjectiveState(Player player, TurnHandler turnHandler) {

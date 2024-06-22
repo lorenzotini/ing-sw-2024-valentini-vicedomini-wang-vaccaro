@@ -12,6 +12,10 @@ import it.polimi.ingsw.gc27.Model.States.*;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * The TurnHandler class manages the flow and continuity of turns in the game.
+ * It implements Serializable to allow for object serialization.
+ */
 public class TurnHandler implements Serializable {
 
     private final Game game;
@@ -322,8 +326,8 @@ public class TurnHandler implements Serializable {
     }
 
     /**
-     * getter
-     * @return game
+     * Gets the game which turns are handled by the TurnHandler
+     * @return the game
      */
     public Game getGame() {
         return game;

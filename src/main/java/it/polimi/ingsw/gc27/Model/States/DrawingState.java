@@ -14,6 +14,10 @@ import it.polimi.ingsw.gc27.Model.ClientClass.MiniModel;
 
 import java.util.ArrayList;
 
+/**
+ * Represents the state where a player draws a card from the market
+ * This state allows the player to draw either a gold card or a resource card from the market
+ */
 public class DrawingState extends PlayerState {
 
     private final String wrongStateText = "It's time to draw a card!";

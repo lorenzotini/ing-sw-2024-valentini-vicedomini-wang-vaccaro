@@ -6,8 +6,11 @@ import it.polimi.ingsw.gc27.Model.Enumerations.CornerSymbol;
 import it.polimi.ingsw.gc27.Model.Game.Manuscript;
 import it.polimi.ingsw.gc27.View.Tui.ColourControl;
 
+/**
+ * The DoublePattern class represents a specific type of objective card
+ * This class is used to check for and score a "DoublePattern" objective in the game
+ */
 public class DoublePattern extends ObjectiveCard {
-    //  NOTA: DEVE CONTENERE INKWELL, MANUSCRIPT O QUILL
     public final int OBJECTIVE_POINTS = 2;
     private CornerSymbol cornerSymbol;
 

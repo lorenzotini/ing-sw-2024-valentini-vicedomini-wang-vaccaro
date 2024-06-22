@@ -7,6 +7,9 @@ import it.polimi.ingsw.gc27.Model.Card.StarterCard;
 import it.polimi.ingsw.gc27.Model.Game.Game;
 import it.polimi.ingsw.gc27.Model.Game.Player;
 
+/**
+ * Represents the end of a turn state of a player in the game
+ */
 public class EndOfTurnState extends PlayerState {
     private final String waitText = "It's not your turn, wait for the other player.";
 

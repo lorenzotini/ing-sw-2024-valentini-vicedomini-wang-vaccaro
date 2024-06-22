@@ -18,6 +18,9 @@ import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
+/**
+ * Represents the game where players participate and play against each other
+ */
 public class Game implements Serializable {
 
     private final transient BlockingQueue<PlayerListener> observers = new LinkedBlockingQueue<>() {};
@@ -26,7 +29,6 @@ public class Game implements Serializable {
     private Market market;
     private List<Player> players;
     private Board board;
-    //private Board board= new Board(players);
     private ObjectiveCard commonObjective1;
     private ObjectiveCard commonObjective2;
     private ArrayList<StarterCard> starterDeck;
@@ -163,9 +165,6 @@ public class Game implements Serializable {
         }
     }
 
-    public Chat getGeneralChat(){
-        return this.generalChat;
-    }
     /**
      * @return if the game is suspended
      */
@@ -192,32 +191,60 @@ public class Game implements Serializable {
     }
 
     /**
-     * getters and setters
+     * Gets the general chat instance associated with the game
+     * @return The general Chat instance
      */
-    public Chat getChat(String p1, String p2) {
-        return chatMap.get(new Pair<String,String>(p1, p2));
+    public Chat getGeneralChat(){
+        return this.generalChat;
     }
 
+    /**
+     * Gets the chat between two specific players
+     * @param p1 Username of the first player
+     * @param p2 Username of the second player
+     * @return The Chat instance representing the chat between the two players
+     */
+    public Chat getChat(String p1, String p2) {
+        return chatMap.get(new Pair<>(p1, p2));
+    }
+
+    /**
+     * Gets all chats associated with a specific player
+     * @param player The player
+     * @return List of Chat instances including the general chat and chats with other players
+     */
     public ArrayList<Chat> getChats(Player player){
         ArrayList<Chat> chats = new ArrayList<>();
         chats.add(this.generalChat);
-        //System.out.println("aggiunta chat globale");
         for(Pair<String , String> p : chatMap.keySet()){
             if(p.getKey().equals(player.getUsername())){
                 chats.add(chatMap.get(p));
-                //    System.out.println("aggiunta chat singola");
             }
         }
         return chats;
     }
+
+    /**
+     * Gets the number of actual players in the game
+     * @return The number of actual players
+     */
     public Integer getNumActualPlayers() {
         return numActualPlayers;
     }
 
+    /**
+     * Sets the number of actual players in the game
+     * @param numActualPlayers The number of actual players to set
+     */
     public void setNumActualPlayers(Integer numActualPlayers) {
         this.numActualPlayers = numActualPlayers;
     }
 
+    /**
+     * Gets a player by their username
+     * @param playerName The username of the player
+     * @return The Player instance corresponding to the given username, or null if not found
+     */
     public Player getPlayer(String playerName) {
         for (Player p : players) {
             if (p.getUsername().equals(playerName)) {
@@ -227,46 +254,114 @@ public class Game implements Serializable {
         return null;
     }
 
+    /**
+     * Gets the deck containing starter cards
+     * @return The ArrayList of StarterCard instances representing the starter deck
+     */
     public ArrayList<StarterCard> getStarterDeck() {
         return starterDeck;
     }
+
+    /**
+     * Sets the deck containing starter cards
+     * @param starterDeck The ArrayList of StarterCard instances to set as the starter deck
+     */
     public void setStarterDeck(ArrayList<StarterCard> starterDeck) {
         this.starterDeck = starterDeck;
     }
+
+    /**
+     * Gets the deck containing objective cards
+     * @return The ArrayList of ObjectiveCard instances representing the objective deck
+     */
     public ArrayList<ObjectiveCard> getObjectiveDeck() {
         return objectiveDeck;
     }
+
+    /**
+     * Sets the deck containing objective cards
+     * @param objectiveDeck The ArrayList of ObjectiveCard instances to set as the objective deck
+     */
     public void setObjectiveDeck(ArrayList<ObjectiveCard> objectiveDeck) {
         this.objectiveDeck = objectiveDeck;
     }
+
+    /**
+     * Gets the market
+     * @return The Market instance representing the game's market
+     */
     public Market getMarket() {
         return market;
     }
+
+    /**
+     * Sets the market
+     * @param market The Market instance to set as the game's market
+     */
     public void setMarket(Market market) {
         this.market = market;
     }
+
+    /**
+     * Gets the full list of available pawn colors
+     * @return The ArrayList available pawn colors
+     */
     public synchronized ArrayList<PawnColour> getAvailablePawns() {
         return availablePawns;
     }
+
+    /**
+     * Sets the list of available pawn colors
+     * @param availablePawns The ArrayList of available pawn colors
+     */
     public void setAvailablePawns(ArrayList<PawnColour> availablePawns) {
         this.availablePawns = availablePawns;
     }
+
+    /**
+     * Gets the board
+     * @return the game's board
+     */
     public Board getBoard() {
         return board;
     }
+
+    /**
+     * Sets the board
+     * @param board The Board instance to set as the game's board
+     */
     public void setBoard(Board board) {
         this.board = board;
     }
-    public Card getCommonObjective1() {
+
+    /**
+     * Gets the first common objective card
+     * @return the first common objective card
+     */
+    public ObjectiveCard getCommonObjective1() {
         return commonObjective1;
     }
-    public Card getCommonObjective2() {
+
+    /**
+     * Gets the second common objective card
+     * @return the second common objective card
+     */
+    public ObjectiveCard getCommonObjective2() {
         return commonObjective2;
     }
+
+    /**
+     * Gets the list of players participating in the game
+     * @return The List of Player instances representing the players in the game
+     */
     public List<Player> getPlayers() {
         return players;
     }
 
+    /**
+     * Sets the list of players participating in the game
+     * @param players The List of Player instances to set as the players in the game
+     */
     public void setPlayers(List<Player> players) {
         this.players = players;
     }

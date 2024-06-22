@@ -5,6 +5,9 @@ import it.polimi.ingsw.gc27.Model.Enumerations.Kingdom;
 import java.nio.file.Path;
 import java.util.ArrayList;
 
+/**
+ * The BackFace class represents the back face of a card
+ */
 public class BackFace extends Face {
     private ArrayList<Kingdom> permanentResources;
 

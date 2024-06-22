@@ -6,6 +6,10 @@ import it.polimi.ingsw.gc27.Model.Enumerations.CornerSymbol;
 import it.polimi.ingsw.gc27.Model.Game.Manuscript;
 import it.polimi.ingsw.gc27.View.Tui.ColourControl;
 
+/**
+ * The DifferentPattern class represents a specific type of objective card
+ * This class is used to check for and score a "DifferentPattern" objective in the game
+ */
 public class DifferentPattern extends ObjectiveCard {
 
     public final int OBJECTIVE_POINTS = 3;

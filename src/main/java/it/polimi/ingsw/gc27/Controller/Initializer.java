@@ -12,6 +12,10 @@ import it.polimi.ingsw.gc27.Model.Game.Market;
 import java.util.ArrayList;
 import java.util.Collections;
 
+/**
+ * The Initializer class sets up and initializes components required to start a game.
+ * It prepares decks, shuffles them, sets common objectives, and populates the game market.
+ */
 public class Initializer {
 
     private  ArrayList<StarterCard> starterDeck;

@@ -7,6 +7,10 @@ import it.polimi.ingsw.gc27.Model.Enumerations.Kingdom;
 import it.polimi.ingsw.gc27.Model.Game.Manuscript;
 import it.polimi.ingsw.gc27.View.Tui.ColourControl;
 
+/**
+ * The LadderPattern class represents a specific type of objective card
+ * This class is used to check for and score a "Ladder Pattern" objective in the game
+ */
 public class LadderPattern extends ObjectiveCard {
     public final int OBJECTIVE_POINTS = 2;
     private final Kingdom kingdom;
@@ -73,6 +77,16 @@ public class LadderPattern extends ObjectiveCard {
         return points;
     }
 
+    /**
+     * calculates the points for this specific pattern
+     * @param checked matrix of already checked card in the manuscript
+     * @param points number of points
+     * @param up indicates id the ladder pattern goes up or down
+     * @param field the game field
+     * @param i position index
+     * @param j position index
+     * @return the amount of points scored
+     */
     private int getPoints(int[][] checked, int points, int up, Face[][] field, int i, int j) {
         if(field[i + (1 * up)][j + 1] != null && field[i + (2 * up)][j + 2] != null) {
             if (field[i + (1 * up)][j + 1].getColour().equals(this.kingdom) && field[i + (2 * up)][j + 2].getColour().equals(this.kingdom)) {

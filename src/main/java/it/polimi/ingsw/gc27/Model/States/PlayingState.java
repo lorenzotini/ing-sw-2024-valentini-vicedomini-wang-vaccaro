@@ -7,6 +7,10 @@ import it.polimi.ingsw.gc27.Model.Game.Game;
 import it.polimi.ingsw.gc27.Model.Game.Player;
 import it.polimi.ingsw.gc27.Model.ClientClass.MiniModel;
 
+/**
+ * Represents the playing state of a player in the game
+ * This state allows the player to add cards to their personal manuscript
+ */
 public class PlayingState extends PlayerState {
 
     /**

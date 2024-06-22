@@ -12,6 +12,10 @@ import it.polimi.ingsw.gc27.Model.ClientClass.MiniModel;
 
 import java.io.Serializable;
 
+/**
+ * The PlayerState class represents the state of a player in the game's state pattern
+ * It manages actions that a player can perform based on their current state
+ */
 public abstract class PlayerState implements Serializable {
 
     protected Player player;
@@ -89,11 +93,17 @@ public abstract class PlayerState implements Serializable {
     }
 
     /**
-     * getters and setters
+     * Gets the associated player
+     * @return The player associated with this state
      */
     public Player getPlayer() {
         return player;
     }
+
+    /**
+     * Gets the TurnHandler instance
+     * @return The TurnHandler associated with this state
+     */
     public TurnHandler getTurnHandler() {
         return turnHandler;
     }

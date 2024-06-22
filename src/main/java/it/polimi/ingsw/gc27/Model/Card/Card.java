@@ -2,6 +2,10 @@ package it.polimi.ingsw.gc27.Model.Card;
 
 import java.io.Serializable;
 
+/**
+ * The Card class represents a basic card in the game
+ * It implements the Serializable interface to allow for object serialization
+ */
 public abstract class Card implements Serializable {
 
     private int cardID;
@@ -21,11 +25,17 @@ public abstract class Card implements Serializable {
     }
 
     /**
-     * getters
+     * Gets the front face of the card
+     * @return the front face
      */
     public FrontFace getFront() {
         return front;
     }
+
+    /**
+     * Gets the back face of the card
+     * @return the back face
+     */
     public BackFace getBack() {
         return back;
     }

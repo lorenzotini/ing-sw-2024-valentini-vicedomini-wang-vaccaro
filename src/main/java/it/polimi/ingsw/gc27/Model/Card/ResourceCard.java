@@ -1,5 +1,8 @@
 package it.polimi.ingsw.gc27.Model.Card;
 
+/**
+ * The ResourceCard class represents a card that provides resources and occasionally points in the game
+ */
 public class ResourceCard extends Card {
     private int cardPoints;
 
@@ -16,11 +19,11 @@ public class ResourceCard extends Card {
     }
 
     /**
-     * getter
+     * Gets the card points
+     * @return the points
      */
     public int getCardPoints() {
         return cardPoints;
     }
-
 
 }

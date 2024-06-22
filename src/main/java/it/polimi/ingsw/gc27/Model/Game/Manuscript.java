@@ -10,6 +10,9 @@ import it.polimi.ingsw.gc27.Model.Enumerations.Kingdom;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/**
+ * This class represents the manuscript or playing field of a player in the game.
+ */
 public class Manuscript implements Serializable, ClientManuscript {
     public static final int FIELD_DIM = 85;
     private Face[][] field;  // use a matrix to represent the whole manuscript/play field
@@ -163,83 +166,160 @@ public class Manuscript implements Serializable, ClientManuscript {
     }
 
     /**
-     * getters and setters
+     * Gets the maximum X coordinate of the manuscript
+     * @return The maximum X coordinate
+     */
+    @Override
+    public int getxMax() {
+        return xMax;
+    }
+
+    /**
+     * Sets the maximum X coordinate of the manuscript
+     * @param x The maximum X coordinate to set
      */
     public void setxMax(int x) {
         this.xMax = x;
     }
 
-    public void setyMax(int y) {
-        this.yMax = y;
-    }
-
-    public void setxMin(int x) {
-        this.xMin = x;
-    }
-    public void setyMin(int y) {
-        this.yMin = y;
-    }
-    @Override
-    public int getxMax() {
-        return xMax;
-    }
+    /**
+     * Gets the maximum Y coordinate of the manuscript
+     * @return The maximum Y coordinate
+     */
     @Override
     public int getyMax() {
         return yMax;
     }
+
+    /**
+     * Sets the maximum Y coordinate of the manuscript
+     * @param y The maximum Y coordinate to set
+     */
+    public void setyMax(int y) {
+        this.yMax = y;
+    }
+
+    /**
+     * Gets the minimum X coordinate of the manuscript
+     * @return The minimum X coordinate
+     */
     @Override
     public int getxMin() {
         return xMin;
     }
+
+    /**
+     * Sets the minimum X coordinate of the manuscript
+     * @param x The minimum X coordinate to set
+     */
+    public void setxMin(int x) {
+        this.xMin = x;
+    }
+
+    /**
+     * Gets the minimum Y coordinate of the manuscript
+     * @return The minimum Y coordinate
+     */
     @Override
     public int getyMin() {
         return yMin;
     }
+
+    /**
+     * Sets the minimum Y coordinate of the manuscript
+     * @param y The minimum Y coordinate to set
+     */
+    public void setyMin(int y) {
+        this.yMin = y;
+    }
+
+    /**
+     * Gets the matrix representing the manuscript
+     *
+     * @return The manuscript
+     */
     @Override
     public Face[][] getField() {
         return field;
     }
+
+    /**
+     * Gets the counter for the number of animal symbols in the manuscript
+     * @return The count of animal symbols
+     */
     @Override
     public int getAnimalCounter() {
         return animalCounter;
     }
+
+    /**
+     * Gets the counter for the number of fungi symbols in the manuscript
+     * @return The count of fungi symbols
+     */
     @Override
     public int getFungiCounter() {
         return fungiCounter;
     }
 
+    /**
+     * Gets the counter for the number of insect symbols in the manuscript
+     * @return The count of insect symbols
+     */
     @Override
     public int getInsectCounter() {
         return insectCounter;
     }
 
+    /**
+     * Gets the counter for the number of plant symbols in the manuscript
+     * @return The count of plant symbols
+     */
     @Override
     public int getPlantCounter() {
         return plantCounter;
     }
 
+    /**
+     * Gets the counter for the number of inkwell symbols in the manuscript
+     * @return The count of inkwell symbols
+     */
     @Override
     public int getInkwellCounter() {
         return inkwellCounter;
     }
 
+    /**
+     * Gets the counter for the number of quill symbols in the manuscript
+     * @return The count of quill symbols
+     */
     @Override
     public int getQuillCounter() {
         return quillCounter;
     }
 
+    /**
+     * Gets the counter for the number of manuscript symbols in the manuscript
+     * @return The count of manuscript symbols
+     */
     @Override
     public int getManuscriptCounter() {
         return manuscriptCounter;
     }
 
+    /**
+     * Gets the path of the last placed card on the manuscript
+     * @return The path of the last placed card
+     */
     public String getLastPlacedCardPath() {
         return lastPlacedCardPath;
     }
 
+    /**
+     * Sets the path of the last placed card on the manuscript
+     * @param lastPlacedCardPath The path of the last placed card to set
+     */
     public void setLastPlacedCardPath(String lastPlacedCardPath) {
         this.lastPlacedCardPath = lastPlacedCardPath;
     }
-    // end getter e setter
 
 }

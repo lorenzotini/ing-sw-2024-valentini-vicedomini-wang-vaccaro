@@ -32,7 +32,7 @@ public interface VirtualView extends Remote, Serializable {
      * @throws IOException If an I/O error occurs.
      * @throws InterruptedException If the operation is interrupted.
      */
-    String read() throws IOException, InterruptedException;
+    String read() throws IOException ;
 
     /**
      * Sets the username of the client.
@@ -45,10 +45,9 @@ public interface VirtualView extends Remote, Serializable {
     /**
      * Runs the client.
      *
-     * @throws IOException If an I/O error occurs.
-     * @throws InterruptedException If the operation is interrupted.
+     * @throws RemoteException If a net Exception occurs.
      */
-    void runClient() throws IOException, InterruptedException;
+    void runClient() throws RemoteException ;
 
     /**
      * Gets the username of the client.

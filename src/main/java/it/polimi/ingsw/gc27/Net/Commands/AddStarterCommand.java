@@ -19,11 +19,15 @@ public class AddStarterCommand implements Command {
 
     @Override
     public void execute(GameController gc) {
-        Player player = gc.getPlayer(playerName);
-        StarterCard starter = player.getStarterCard();
-        Face face = isFront ? starter.getFront() : starter.getBack();
-        // TODO: gestire le eccezioni
-        gc.addStarterCard(player, starter, face);
+        try {
+            Player player = gc.getPlayer(playerName);
+            StarterCard starter = player.getStarterCard();
+            Face face = isFront ? starter.getFront() : starter.getBack();
+            gc.addStarterCard(player, starter, face);
+        }catch(Exception e){
+            System.out.println("incredible exceptione find me if you can ");
+        }
+
     }
     @Override
     public String getPlayerName() {

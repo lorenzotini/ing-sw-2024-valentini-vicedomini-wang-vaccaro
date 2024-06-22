@@ -51,7 +51,7 @@ public class GigaController {
         }
     }
 
-    public void welcomePlayer(VirtualView client) throws  InterruptedException {
+    public void welcomePlayer(VirtualView client) {
         String game;
         try {
             client.show("\nWelcome to Codex Naturalis\n" + "\nDo you want to start a new game or join an existing one? (enter 'new' or the gameId)");
@@ -82,9 +82,19 @@ public class GigaController {
             createNewGame(client);
         } else {
 
-
             // join an existing game
             do {
+                try{
+                    Integer.parseInt(game);
+                }catch(NumberFormatException e) {
+                    try {
+                        client.show("\nInvalid input. Please enter a valid game id or 'new' to start a new game");
+                        client.update(new KoMessage("invalidFormatID"));
+                    }catch(IOException es){
+                        System.out.println("Connection lost after trying to join a game (110)");
+                    }
+                    continue;
+                }
                 GameController gc = null;
                 synchronized (gameControllers) {
                     for (var control : gameControllers) {
@@ -183,7 +193,7 @@ public class GigaController {
 
     }
 
-    public void createNewGame(VirtualView client) throws InterruptedException {
+    public void createNewGame(VirtualView client) {
         int numMaxPlayers;
         try {
 

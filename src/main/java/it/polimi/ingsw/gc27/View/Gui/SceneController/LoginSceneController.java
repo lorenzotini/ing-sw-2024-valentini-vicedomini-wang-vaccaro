@@ -111,8 +111,6 @@ public class LoginSceneController implements GenericController {
             Gui.getInstance().stringFromSceneController(selectedColour);
             Gui.getInstance().switchScene("/fxml/LobbyScene.fxml");
         }
-        //todo: da gestire selected colour ==null
-        //vedi che manda solo se ha preso il colore
 
     }
 

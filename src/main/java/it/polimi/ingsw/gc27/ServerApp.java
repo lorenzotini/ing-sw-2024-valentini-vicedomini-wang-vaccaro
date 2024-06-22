@@ -10,7 +10,6 @@ import java.net.Inet4Address;
 
 public class ServerApp {
 
-    // TODO maybe make serverApp singleton
     /**
      * The GigaController instance for handling game logic.
      */

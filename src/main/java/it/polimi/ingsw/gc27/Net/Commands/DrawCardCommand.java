@@ -20,6 +20,7 @@ public class DrawCardCommand implements  Command {
     }
     @Override
     public void execute(GameController gc) throws InterruptedException {
+
         Player player = gc.getPlayer(playerName);
         // TODO: gestire le eccezioni
         gc.drawCard(player, isGold, fromDeck, faceUpCardIndex);

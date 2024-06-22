@@ -36,9 +36,8 @@ public interface VirtualServer extends Remote {
      *
      * @param client The client representing the player.
      * @throws IOException If an I/O error occurs.
-     * @throws InterruptedException If the operation is interrupted.
      */
-    void welcomePlayer(VirtualView client) throws IOException, InterruptedException;
+    void welcomePlayer(VirtualView client) throws IOException ;
 
     /**
      * Receives a command from a client.

@@ -71,8 +71,7 @@ public class NewGameSceneController implements GenericController{
             }
         });
     }
-    //TODO: fare in modo che i checkbox siano esclusivi (se viene selezionata un'opzione ora posso selezionarne
-    //TODO: un'altra ma solo graficamente, il comando selezionato viene mandato correttamente)
+
     public void chooseNumber(ActionEvent event) {
         if(event.getSource().equals(checkBox2)){
             handleOnKeyPress2(checkBox2);

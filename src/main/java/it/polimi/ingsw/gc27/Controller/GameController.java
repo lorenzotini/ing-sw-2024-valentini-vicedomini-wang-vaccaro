@@ -96,15 +96,13 @@ public class GameController implements Serializable {
         player.setDisconnected(true);
         try {
             turnHandler.handleDisconnection(player, this);
-        }catch(NullPointerException e){
-
-        } catch (InterruptedException e) {
+        }catch(NullPointerException | InterruptedException e){
 
         }
     }
 
     // Create a player from command line, but hand, secret objective and starter are not instantiated
-    public void initializePlayer(VirtualView client, GigaController gigaChad) throws  InterruptedException {
+    public void initializePlayer(VirtualView client, GigaController gigaChad) {
         String username;
         String pawnColor;
         PawnColour pawnColourSelected;

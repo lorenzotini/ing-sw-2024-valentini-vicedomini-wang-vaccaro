@@ -40,30 +40,14 @@ public class Gui implements View {
 
     private Stage stage;
 
-    private static GenericController currentController;
+    private GenericController currentController;
 
 
     private VirtualView client;
     final BlockingQueue<String> messages = new LinkedBlockingQueue<>();
     final BlockingQueue<String> messagesReceived = new LinkedBlockingQueue<>();
-    private static final HashMap<String, Scene> pathSceneMap = new HashMap<>(); //maps path to scene
-    private static final HashMap<String, GenericController> pathContrMap = new HashMap<>(); //maps path to controller of the scene
-
-//    static{
-//        for (String path : ScenePaths.valuesList()) {
-//            FXMLLoader loader = new FXMLLoader(Gui.class.getResource(path));
-//            Parent root;
-//            try {
-//                root = loader.load();
-//            } catch (IOException e) {
-//                throw new RuntimeException(e);
-//            }
-//            pathSceneMap.put(path, new Scene(root));
-//            GenericController contr = loader.getController();
-//            pathContrMap.put(path, contr);
-//        }
-//        currentController=getControllerFromName(ScenePaths.STARTER.getValue());
-//    }
+    private final HashMap<String, Scene> pathSceneMap = new HashMap<>(); //maps path to scene
+    private final HashMap<String, GenericController> pathContrMap = new HashMap<>(); //maps path to controller of the scene
 
 
     //setters and getters
@@ -150,7 +134,7 @@ public class Gui implements View {
         });
     }
 
-    public static GenericController getControllerFromName(String path) {
+    public GenericController getControllerFromName(String path) {
         return pathContrMap.get(path);
     }
 

@@ -3,6 +3,7 @@ package it.polimi.ingsw.gc27.View.Gui.SceneController;
 import it.polimi.ingsw.gc27.Model.ClientClass.ClientChat;
 import it.polimi.ingsw.gc27.Model.ClientClass.MiniModel;
 import it.polimi.ingsw.gc27.View.Gui.Gui;
+import it.polimi.ingsw.gc27.View.Gui.ScenePaths;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -36,6 +37,28 @@ public class StarterSceneController implements GenericController{
      */
     @Override
     public void receiveOk(String ackType) {
+
+        Platform.runLater(() -> {
+
+            ((ChooseGameSceneController) Gui.getInstance().getControllerFromName(ScenePaths.CHOSEGAME.getValue())).getServerDownLabel().setVisible(false);
+
+            ((ChooseGameSceneController) Gui.getInstance().getControllerFromName(ScenePaths.CHOSEGAME.getValue())).getNewGameButton().setOnMouseClicked(event -> {
+                try {
+                    ((ChooseGameSceneController) Gui.getInstance().getControllerFromName(ScenePaths.CHOSEGAME.getValue())).sendNewGame();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
+
+            ((ChooseGameSceneController) Gui.getInstance().getControllerFromName(ScenePaths.CHOSEGAME.getValue())).getJoinGameButton().setOnMouseClicked(event -> {
+                try {
+                    ((ChooseGameSceneController) Gui.getInstance().getControllerFromName(ScenePaths.CHOSEGAME.getValue())).sendJoinGame();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
+
+        });
 
     }
 

@@ -12,7 +12,7 @@ import java.io.IOException;
 /** first scene of the game as the GUI is launched
  *  displays logo and "Play" button
  */
-public class StarterSceneController implements GenericController{
+public class StarterSceneController extends GenericController{
     /** used to start the game */
     @FXML
     public Button startGameButton;
@@ -27,34 +27,5 @@ public class StarterSceneController implements GenericController{
         Gui.getInstance().switchScene("/fxml/ChooseGameScene.fxml");
     }
 
-    /**
-     * method implemented from {@link GenericController}, invoked by Gui in order to send a string to a scene controller
-     * the string is generally a positive feedback
-     * @param ackType
-     */
-    @Override
-    public void receiveOk(String ackType) {
-
-    }
-
-    /**
-     * method implemented from {@link GenericController},
-     * @param chat
-     * @param minimodel
-     */
-    @Override
-    public void overwriteChat(ClientChat chat, MiniModel minimodel) {
-
-    }
-
-    /**
-     * method implemented from {@link GenericController}, invoked by Gui in order to send a string to a generic scene controller,
-     * the string is generally a negative feedback, such as an error
-     * @param ackType
-     */
-    @Override
-    public void receiveKo(String ackType) {
-
-    }
 }
 

@@ -28,7 +28,7 @@ import java.util.HashMap;
 /**
  * third scene of initialization, players can choose their secret objective card from the two objective cards displayed
  */
-public class ChooseObjectiveSceneController implements GenericController {
+public class ChooseObjectiveSceneController extends GenericController {
     /** button used to select the first objective card */
     @FXML
     public Button objButton1;
@@ -289,15 +289,6 @@ public class ChooseObjectiveSceneController implements GenericController {
             manuscriptSceneController.actionFeedback.setText(feedback);
             manuscriptSceneController.feedbackTextFlow.setTextAlignment(TextAlignment.RIGHT);
         });
-    }
-
-    /**
-     * method implemented from {@link GenericController}, invoked by Gui in order to send a string to a generic scene controller,
-     * the string is generally a negative feedback, such as an error
-     * @param ackType
-     */
-    @Override
-    public void receiveKo(String ackType) {
     }
 
     /**

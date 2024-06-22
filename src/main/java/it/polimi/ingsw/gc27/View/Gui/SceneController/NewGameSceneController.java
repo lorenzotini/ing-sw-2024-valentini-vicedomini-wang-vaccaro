@@ -13,7 +13,7 @@ import java.io.IOException;
 
 //third.1 scene, will open after button "new game" (in ChooseGameNetScene) clicked,
 //and number of players will be asked
-public class NewGameSceneController implements GenericController{
+public class NewGameSceneController extends GenericController{
     @FXML
     public CheckBox checkBox2;
     @FXML
@@ -121,23 +121,5 @@ public class NewGameSceneController implements GenericController{
         log.getGameIDCreated().setText(ackType);
     }
 
-    /**
-     * method implemented from {@link GenericController},
-     * @param chat
-     * @param minimodel
-     */
-    @Override
-    public void overwriteChat(ClientChat chat, MiniModel minimodel) {
 
-    }
-
-    /**
-     * method implemented from {@link GenericController}, invoked by Gui in order to send a string to a generic scene controller,
-     * the string is generally a negative feedback, such as an error
-     * @param ackType
-     */
-    @Override
-    public void receiveKo(String ackType) {
-
-    }
 }

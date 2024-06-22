@@ -16,7 +16,7 @@ import java.io.IOException;
 //third.2 scene, will open after button "join game" (in ChooseGameNetScene) clicked,
 //and gameID will be asked
 
-public class JoinGameSceneController implements GenericController{
+public class JoinGameSceneController extends GenericController{
     @FXML
     public TextArea errorGameID;
     @FXML
@@ -81,11 +81,6 @@ public class JoinGameSceneController implements GenericController{
                    System.out.println("\nMESSAGGIO NON TROVATO\n");
                }
            });
-    }
-
-    @Override
-    public void overwriteChat(ClientChat chat, MiniModel minimodel) {
-
     }
 
     @Override

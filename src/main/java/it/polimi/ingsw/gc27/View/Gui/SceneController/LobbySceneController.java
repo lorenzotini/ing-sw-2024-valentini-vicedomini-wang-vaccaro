@@ -6,36 +6,10 @@ import it.polimi.ingsw.gc27.Model.ClientClass.ClientChat;
 import it.polimi.ingsw.gc27.Model.ClientClass.MiniModel;
 
 /** fifth scene of initialization,
- * will be displayed when player is  waiting for other players to join the game
+ * will be displayed when player is  waiting for other players to join the game,
+ * do nothing, only wait from the server when all the player are connected
  * */
-public class LobbySceneController implements GenericController{
-    /**
-     * method implemented from {@link GenericController}, invoked by Gui in order to send a string to a scene controller
-     * the string is generally a positive feedback
-     * @param ackType
-     */
-    @Override
-    public void receiveOk(String ackType) {
+public class LobbySceneController extends GenericController{
 
-    }
 
-    /**
-     * method implemented from {@link GenericController},
-     * @param chat
-     * @param minimodel
-     */
-    @Override
-    public void overwriteChat(ClientChat chat, MiniModel minimodel) {
-
-    }
-
-    /**
-     * method implemented from {@link GenericController}, invoked by Gui in order to send a string to a generic scene controller,
-     * the string is generally a negative feedback, such as an error
-     * @param ackType
-     */
-    @Override
-    public void receiveKo(String ackType) {
-
-    }
 }

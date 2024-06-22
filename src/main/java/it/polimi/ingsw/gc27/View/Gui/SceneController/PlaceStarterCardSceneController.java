@@ -25,7 +25,7 @@ import java.rmi.RemoteException;
 import java.util.HashMap;
 
 //sixth scene, allows the player to choose front or back of starterCard
-public class PlaceStarterCardSceneController implements GenericController{
+public class PlaceStarterCardSceneController extends GenericController{
 
     @FXML
     public ImageView frontStarter;
@@ -231,24 +231,7 @@ public class PlaceStarterCardSceneController implements GenericController{
         backStarter.setImage(image);
     }
 
-    /**
-     * method implemented from {@link GenericController}, invoked by Gui in order to send a string to a scene controller
-     * the string is generally a positive feedback
-     * @param ackType
-     */
-    @Override
-    public void receiveOk(String ackType) {
 
 
-    }
 
-    /**
-     * method implemented from {@link GenericController}, invoked by Gui in order to send a string to a generic scene controller,
-     * the string is generally a negative feedback, such as an error
-     * @param ackType
-     */
-    @Override
-    public void receiveKo(String ackType) {
-
-    }
 }

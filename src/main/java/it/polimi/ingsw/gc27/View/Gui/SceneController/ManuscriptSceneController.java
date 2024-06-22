@@ -41,7 +41,7 @@ import java.util.Map;
 import java.util.Optional;
 
 
-public class ManuscriptSceneController implements GenericController {
+public class ManuscriptSceneController extends GenericController {
 
     @FXML
     public Pane feedbackPane;
@@ -529,13 +529,6 @@ public class ManuscriptSceneController implements GenericController {
         });
     }
 
-    private VBox getChatMessagesVBox(Tab chatTab) {
-        VBox chatContainer = (VBox) chatTab.getContent();
-        ScrollPane chatContent = (ScrollPane) chatContainer.getChildren().getFirst();
-        chatContent.setVvalue(1.0); //non so se si mette qui
-        return (VBox) chatContent.getContent();
-    }
-
     private void createManuscriptGrids(MiniModel miniModel) {
 
         for (Map.Entry<String, ClientManuscript> element : miniModel.getManuscriptsMap().entrySet()) {
@@ -829,7 +822,6 @@ public class ManuscriptSceneController implements GenericController {
 
         }
     }
-
     public void updatePawn(String username, MiniModel miniModel){
 
         PawnColour colour = miniModel.getBoard().getColourPlayermap().get(username);

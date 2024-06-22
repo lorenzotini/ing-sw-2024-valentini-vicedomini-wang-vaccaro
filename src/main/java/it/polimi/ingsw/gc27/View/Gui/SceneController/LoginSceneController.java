@@ -16,7 +16,7 @@ import javafx.scene.input.MouseEvent;
 import java.io.IOException;
 
 //fourth scene, sends information about player
-public class LoginSceneController implements GenericController {
+public class LoginSceneController extends GenericController {
     @FXML
     public TextField usernameInput;
     @FXML
@@ -129,7 +129,6 @@ public class LoginSceneController implements GenericController {
         }
     }
 
-
     @Override
     public void receiveOk(String ackType) {
         //only shows available pawn colours
@@ -171,15 +170,7 @@ public class LoginSceneController implements GenericController {
         });
     }
 
-    /**
-     * method implemented from {@link GenericController},
-     * @param chat
-     * @param minimodel
-     */
-    @Override
-    public void overwriteChat(ClientChat chat, MiniModel minimodel) {
 
-    }
 
     @Override
     public void receiveKo(String ackType) {

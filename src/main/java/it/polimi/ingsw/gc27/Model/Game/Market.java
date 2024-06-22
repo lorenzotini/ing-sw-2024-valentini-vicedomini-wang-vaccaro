@@ -20,6 +20,15 @@ public class Market implements Serializable, ClientMarket {
 
     }
 
+    /**
+     * constructor of the market, this the common area where players can draw cards
+     * either from the decks or the exposed cards
+     * @param resourceDeck deck of resource cards
+     * @param goldDeck deck of gold cards
+     * @param faceUpResources exposed resource cards
+     * @param faceUpGolds exposed gold cards
+     * @param commonObjectives common objectives
+     */
     public Market(ArrayList<ResourceCard> resourceDeck, ArrayList<GoldCard> goldDeck, ResourceCard[] faceUpResources, GoldCard[] faceUpGolds, ArrayList<ObjectiveCard> commonObjectives) {
         this.faceUpResources = faceUpResources;
         this.faceUpGolds = faceUpGolds;
@@ -28,6 +37,9 @@ public class Market implements Serializable, ClientMarket {
         this.commonObjectives = commonObjectives;
     }
 
+    /**
+     * getters and setters
+     */
     public ResourceCard[] getFaceUp(boolean isGold) {
         if (isGold) {
             return faceUpGolds;

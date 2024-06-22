@@ -22,6 +22,12 @@ public class Player implements Serializable, ClientPlayer {
     private PlayerState playerState;
     private boolean isDisconnected = false;
 
+    /**
+     * constructor for the player entity
+     * @param username player's username
+     * @param manuscript player's personal manuscript
+     * @param pawnColour player's pawn colour
+     */
     public Player(String username, Manuscript manuscript, PawnColour pawnColour) {
         this.username = username;
         this.hand = new ArrayList<>();
@@ -95,9 +101,11 @@ public class Player implements Serializable, ClientPlayer {
      * Updates the manuscript's counters.
      * Then, calculate the points earned and add them to the board.
      *
-     * @param game
-     * @param card
-     * @param face
+     * @param game game
+     * @param card which card
+     * @param face face up or face down
+     * @requires x
+     * @requires y
      */
     public void addCard(Game game, Card card, Face face, int x, int y) {
 

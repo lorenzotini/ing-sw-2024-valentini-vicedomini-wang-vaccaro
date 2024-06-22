@@ -21,6 +21,9 @@ public class Initializer {
     private  Market market;
     private  Board board;
 
+    /**
+     * constructor
+     */
     public Initializer () {
         JsonParser jsonParser = new JsonParser("codex_cards_collection.json");
         starterDeck = jsonParser.getStarterDeck();
@@ -31,6 +34,13 @@ public class Initializer {
         board = new Board();
     }
 
+    /**
+     * creates and initializes the required components in order to play a game successfully
+     * shuffles the decks
+     * sets common objectives
+     * populates the market
+     * @return the initialized game
+     */
     public  Game initialize(){
 
         // shuffle decks

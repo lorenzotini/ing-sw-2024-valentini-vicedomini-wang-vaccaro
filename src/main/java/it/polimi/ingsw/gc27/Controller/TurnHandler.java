@@ -80,7 +80,6 @@ public class TurnHandler implements Serializable {
             }while(i < players.size());
             //TODO fai un check se bisogna fare qualcosa in caso in cui i sia uguale alla size o se deve esser gestito bene
         }
-
     }
 
     /**

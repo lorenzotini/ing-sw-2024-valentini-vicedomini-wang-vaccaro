@@ -246,11 +246,9 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
                 close();
             }
             try {
-
                 Thread.sleep(1000);
             }catch(InterruptedException e){
-
-                //TODO find a thing to do
+                throw new RuntimeException("Explosion of thread sleep");
             }
         }
     }

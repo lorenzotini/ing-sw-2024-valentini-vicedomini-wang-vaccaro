@@ -220,7 +220,7 @@ public class GameController implements Serializable {
                 try {
                     commands.take().execute(this);
                 } catch (InterruptedException e) {
-                    //TODO eventuale non so se va gestito
+                    throw new RuntimeException(e);
                 }
             }
             System.out.println("This thread has been closed");
@@ -257,7 +257,7 @@ public class GameController implements Serializable {
             try {
                 command = commands.take();
             } catch (InterruptedException e) {
-                //TODO eventuale non so se va gestito
+                throw new RuntimeException("System exception, taking from the commands queue");
             }
 
             synchronized (this) {

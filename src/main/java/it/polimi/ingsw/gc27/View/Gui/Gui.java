@@ -34,6 +34,8 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 public class Gui implements View {
 
+    private boolean serverIsUp = false;
+
     private boolean isReconnected=false;
 
     private static Gui gui = null;
@@ -269,7 +271,12 @@ public class Gui implements View {
 
     @Override
     public void okAck(String string) {
-        System.out.println("\nOk " +currentController.toString() + string);
+        // if a OkMessage arrives when the currentController is null, it means that the server is up but gui is not ready yet
+        if(currentController == null){
+            serverIsUp = true;
+            return;
+        }
+        System.out.println("\nOk " + currentController.toString() + string);
         currentController.receiveOk(string);
     }
 
@@ -371,11 +378,16 @@ public class Gui implements View {
             vbox.getChildren().add(hbox);
         });
     }
+
     private VBox getChatMessagesVBox(Tab chatTab) {
         VBox chatContainer = (VBox) chatTab.getContent();
         ScrollPane chatContent = (ScrollPane) chatContainer.getChildren().getFirst();
         chatContent.setVvalue(1.0); //non so se si mette qui
         return (VBox) chatContent.getContent();
+    }
+
+    public boolean isServerIsUp() {
+        return serverIsUp;
     }
 
 }

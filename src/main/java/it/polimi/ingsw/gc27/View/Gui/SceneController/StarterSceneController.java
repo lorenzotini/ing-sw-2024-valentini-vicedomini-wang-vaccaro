@@ -37,29 +37,8 @@ public class StarterSceneController implements GenericController{
      */
     @Override
     public void receiveOk(String ackType) {
-
-        Platform.runLater(() -> {
-
-            ((ChooseGameSceneController) Gui.getInstance().getControllerFromName(ScenePaths.CHOSEGAME.getValue())).getServerDownLabel().setVisible(false);
-
-            ((ChooseGameSceneController) Gui.getInstance().getControllerFromName(ScenePaths.CHOSEGAME.getValue())).getNewGameButton().setOnMouseClicked(event -> {
-                try {
-                    ((ChooseGameSceneController) Gui.getInstance().getControllerFromName(ScenePaths.CHOSEGAME.getValue())).sendNewGame();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            });
-
-            ((ChooseGameSceneController) Gui.getInstance().getControllerFromName(ScenePaths.CHOSEGAME.getValue())).getJoinGameButton().setOnMouseClicked(event -> {
-                try {
-                    ((ChooseGameSceneController) Gui.getInstance().getControllerFromName(ScenePaths.CHOSEGAME.getValue())).sendJoinGame();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            });
-
-        });
-
+        ChooseGameSceneController controller = (ChooseGameSceneController) Gui.getInstance().getControllerFromName(ScenePaths.CHOSEGAME.getValue());
+        controller.enableNextScene();
     }
 
     /**
@@ -78,8 +57,9 @@ public class StarterSceneController implements GenericController{
      * @throws IOException
      */
     public void switchToChooseGameScene(ActionEvent event) throws IOException {
+        ChooseGameSceneController chooseGameSceneController = (ChooseGameSceneController) Gui.getInstance().getControllerFromName(ScenePaths.CHOSEGAME.getValue());
+        chooseGameSceneController.init();
         Gui.getInstance().switchScene("/fxml/ChooseGameScene.fxml");
     }
 
 }
-

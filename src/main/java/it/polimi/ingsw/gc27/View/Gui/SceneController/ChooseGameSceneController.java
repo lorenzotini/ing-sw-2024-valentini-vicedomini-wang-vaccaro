@@ -3,11 +3,11 @@ package it.polimi.ingsw.gc27.View.Gui.SceneController;
 import it.polimi.ingsw.gc27.Model.ClientClass.ClientChat;
 import it.polimi.ingsw.gc27.Model.ClientClass.MiniModel;
 import it.polimi.ingsw.gc27.View.Gui.Gui;
+import it.polimi.ingsw.gc27.View.Gui.ScenePaths;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
 import java.io.IOException;
 
 /**
@@ -15,16 +15,17 @@ import java.io.IOException;
  */
 public class ChooseGameSceneController implements GenericController{
 
+    /** used to show that the client didn't reach connection with the server */
     @FXML
     private Label serverDownLabel;
 
     /** used to join and existing game */
     @FXML
     public Button joinGameButton;
+
     /** used to create a new game */
     @FXML
     public Button newGameButton;
-    /** used to show that the client didn't reach connection with the server */
 
     /**
      * if newGameButton is clicked, the stage switches scene to the NewGameScene
@@ -50,24 +51,9 @@ public class ChooseGameSceneController implements GenericController{
     @Override
     public void receiveOk(String ackType) {
         System.out.println(ackType + "start scene");
-        Platform.runLater(() -> {
-            serverDownLabel.setVisible(false);
-            newGameButton.setOnMouseClicked(event -> {
-                try {
-                    sendNewGame();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            });
-            joinGameButton.setOnMouseClicked(event -> {
-                try {
-                    sendJoinGame();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            });
-        });
+        enableNextScene();
     }
+
     /**
      * method implemented from {@link GenericController},
      * invoked by Gui when a message is sent by a player in the chat
@@ -89,16 +75,30 @@ public class ChooseGameSceneController implements GenericController{
 
     }
 
-    public Label getServerDownLabel() {
-        return serverDownLabel;
+    public void enableNextScene() {
+        Platform.runLater(() -> {
+            serverDownLabel.setVisible(false);
+            newGameButton.setOnMouseClicked(event -> {
+                try {
+                    sendNewGame();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
+            joinGameButton.setOnMouseClicked(event -> {
+                try {
+                    sendJoinGame();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
+        });
     }
 
-    public Button getNewGameButton() {
-        return newGameButton;
-    }
-
-    public Button getJoinGameButton() {
-        return joinGameButton;
+    public void init(){
+        if(Gui.getInstance().isServerIsUp()){
+            enableNextScene();
+        }
     }
 
 }

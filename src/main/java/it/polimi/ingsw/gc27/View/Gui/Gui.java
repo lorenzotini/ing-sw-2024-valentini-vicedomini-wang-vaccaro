@@ -33,35 +33,45 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 
 public class Gui implements View {
+
     private boolean isReconnected=false;
 
     private static Gui gui = null;
 
     private Stage stage;
 
+    private static GenericController currentController;
+
+
     private VirtualView client;
     final BlockingQueue<String> messages = new LinkedBlockingQueue<>();
     final BlockingQueue<String> messagesReceived = new LinkedBlockingQueue<>();
-    private final HashMap<String, Scene> pathSceneMap = new HashMap<>(); //maps path to scene
-    private final HashMap<String, GenericController> pathContrMap = new HashMap<>(); //maps path to controller of the scene
-    //public HashMap<String, Tab> chatTabHashMap= new HashMap<>();
-    public GenericController getCurrentController() {
-        return currentController;
-    }
+    private static final HashMap<String, Scene> pathSceneMap = new HashMap<>(); //maps path to scene
+    private static final HashMap<String, GenericController> pathContrMap = new HashMap<>(); //maps path to controller of the scene
 
-    public void setCurrentController(GenericController currentController) {
-        this.currentController = currentController;
-    }
+//    static{
+//        for (String path : ScenePaths.valuesList()) {
+//            FXMLLoader loader = new FXMLLoader(Gui.class.getResource(path));
+//            Parent root;
+//            try {
+//                root = loader.load();
+//            } catch (IOException e) {
+//                throw new RuntimeException(e);
+//            }
+//            pathSceneMap.put(path, new Scene(root));
+//            GenericController contr = loader.getController();
+//            pathContrMap.put(path, contr);
+//        }
+//        currentController=getControllerFromName(ScenePaths.STARTER.getValue());
+//    }
 
-    private GenericController currentController;
 
     //setters and getters
-    public Stage getStage() {
-        return stage;
-    }
-
     public void setStage(Stage stage) {
         this.stage = stage;
+    }
+    public GenericController getCurrentController() {
+        return currentController;
     }
     public VirtualView getClient() {
         return client;
@@ -70,7 +80,6 @@ public class Gui implements View {
     public void setClient(VirtualView client) {
         this.client = client;
     }
-    public BlockingQueue<String> getMessagesReceived() {return messagesReceived;}
     public void setReconnected(boolean reconnected) {
         isReconnected = reconnected;
     }
@@ -101,7 +110,7 @@ public class Gui implements View {
 
     //start of the game after initialization
     @Override
-    public void run() throws IOException {
+    public void run() {
         Platform.runLater(() -> {
             try {
                 if (!isReconnected) {
@@ -141,7 +150,7 @@ public class Gui implements View {
         });
     }
 
-    public GenericController getControllerFromName(String path) {
+    public static GenericController getControllerFromName(String path) {
         return pathContrMap.get(path);
     }
 
@@ -264,7 +273,7 @@ public class Gui implements View {
         try {
             mess = messages.take();
         } catch (InterruptedException e) {
-
+            e.printStackTrace();
         }
         return mess;
     }
@@ -282,8 +291,10 @@ public class Gui implements View {
 
     @Override
     public void koAck(String string) {
-        System.out.println("\nKo " +currentController.toString() + string);
-        currentController.receiveKo(string);
+        if(currentController != null){
+            System.out.println("\nKo " + currentController.toString() + string);
+            currentController.receiveKo(string);
+        }
     }
 
     @Override
@@ -300,7 +311,7 @@ public class Gui implements View {
                 }
 
             } catch (Exception e){
-
+                e.printStackTrace();
             }
         });
 

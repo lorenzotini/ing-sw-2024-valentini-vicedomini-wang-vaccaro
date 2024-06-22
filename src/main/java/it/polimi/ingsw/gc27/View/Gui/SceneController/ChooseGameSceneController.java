@@ -3,8 +3,10 @@ package it.polimi.ingsw.gc27.View.Gui.SceneController;
 import it.polimi.ingsw.gc27.Model.ClientClass.ClientChat;
 import it.polimi.ingsw.gc27.Model.ClientClass.MiniModel;
 import it.polimi.ingsw.gc27.View.Gui.Gui;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.Pane;
 import java.io.IOException;
 
@@ -13,6 +15,9 @@ import java.io.IOException;
  */
 public class ChooseGameSceneController implements GenericController{
 
+    @FXML
+    private TextArea serverDownLabel;
+
     /** used to join and existing game */
     @FXML
     public Button joinGameButton;
@@ -20,8 +25,6 @@ public class ChooseGameSceneController implements GenericController{
     @FXML
     public Button newGameButton;
     /** used to show that the client didn't reach connection with the server */
-    @FXML
-    public Pane serverDownPane;
 
     /**
      * if newGameButton is clicked, the stage switches scene to the NewGameScene
@@ -47,7 +50,10 @@ public class ChooseGameSceneController implements GenericController{
      */
     @Override
     public void receiveOk(String ackType) {
-
+        System.out.println(ackType + "start scene");
+        Platform.runLater(() -> {
+            serverDownLabel.setVisible(false);
+        });
     }
     /**
      * method implemented from {@link GenericController},

@@ -68,21 +68,25 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
      * @throws RemoteException If a remote access error occurs.
      */
     public RmiClient(String ipAddress, int port, View view) throws RemoteException {
+
+        this.view = view;
+        this.miniModel = new MiniModel();
+
         do {
             try{
                 locateRegistry(ipAddress, port);
                 break;
             }catch(IOException | NotBoundException e){
-                System.out.println("Server not found, retrying...");
                 //todo: gui
+                view.koAck("Server not found, retrying...");
                 try{
-                    Thread.sleep(2000);
+                    Thread.sleep(1000);
                 }catch(InterruptedException ignored){
+
                 }
             }
         } while (true);
-        this.view = view;
-        this.miniModel = new MiniModel();
+
     }
 
     /**
@@ -174,14 +178,16 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
      */
     @Override
     public void runClient() {
-        try{
 
+        try{
             this.server.connect(this);
         }catch(RemoteException e){
             System.out.println("There is a problem with the connection, please retry");
             close();
         }
+
         new Thread(this :: checkServerIsAlive).start();
+
         //keep the client alive
         new Thread(() -> {
             while (true) {
@@ -204,6 +210,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
                 }
             }
         }).start();
+
         try{
 
             this.server.welcomePlayer(this);
@@ -212,6 +219,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
             System.out.println("The connection has been lost while setting the player, please try to reconnect ");
             close();
         }
+
         //wait for the other players to join the game
         while (miniModel.getPlayer() == null) {
             try {
@@ -220,14 +228,15 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
                 throw new RuntimeException("Thread problem");
             }
         }
+
         //start the game
         try{
-
             view.run();
         }catch(IOException e){
             System.out.println("There has been a problem with the UI, plese restart ");
             close();
         }
+
     }
 
     /**

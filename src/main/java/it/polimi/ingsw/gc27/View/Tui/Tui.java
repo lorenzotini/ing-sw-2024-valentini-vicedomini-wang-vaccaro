@@ -362,10 +362,12 @@ public class Tui implements View {
 
     @Override
     public void okAck(String string) {
+        out.println("Connected to the server");
     }
 
     @Override
     public void koAck(String string) {
+        out.println("Server not found, retrying...");
     }
 
     @Override

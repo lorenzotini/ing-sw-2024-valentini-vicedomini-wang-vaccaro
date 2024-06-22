@@ -98,8 +98,6 @@ public class Player implements Serializable, ClientPlayer {
      * @param game
      * @param card
      * @param face
-     * @requires x
-     * @requires y
      */
     public void addCard(Game game, Card card, Face face, int x, int y) {
 

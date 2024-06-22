@@ -18,7 +18,7 @@ public class TwoPlusOnePattern extends ObjectiveCard {
      * constructor matching super {@link ObjectiveCard}
      * first colour is the first colour looking from top to bottom the patter chosen (the top colour)
      * second colour is the second colour looking from top to bottom the patter chosen (the bottom colour)
-     * x and y are the indexes in which the minority card is placed ex. x=1 && y=1 the minority card is placed on top right
+     * x and y are the indexes in which the minority card is placed ex. x=1 and y=1 the minority card is placed on top right
      * @param id card's id
      * @param front front face
      * @param back back face

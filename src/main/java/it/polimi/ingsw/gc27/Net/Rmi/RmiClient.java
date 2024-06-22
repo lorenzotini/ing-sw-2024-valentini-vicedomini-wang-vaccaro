@@ -162,14 +162,11 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
      * - Starts a continuous ping to the server to ensure the connection remains alive.
      * - Handles incoming messages and dispatches them for processing.
      * - Manages the user interface and game flow after the initial connection.
-     *</ul>
-     *
      * The method employs multiple threads to manage different aspects of client-server communication
      * and user interaction:
      *   A thread to continuously check if the server is alive by pinging it.
      *   A thread to process incoming messages from the server.
      *   The main thread handles initial connection setup and user interaction.
-     * </ul>
      *
      * If any part of the initial setup or ongoing communication fails, the client will attempt
      * to close its connection

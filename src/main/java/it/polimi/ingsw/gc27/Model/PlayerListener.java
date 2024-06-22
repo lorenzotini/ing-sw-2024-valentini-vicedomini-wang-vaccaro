@@ -20,7 +20,6 @@ public class PlayerListener implements Serializable {
 
     /**
      * @param message doesn't  modify message, but decide if it has to be sent or not to that client
-     * @throws RemoteException print details
      */
     public void update(Message message) {
         try {

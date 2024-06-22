@@ -53,7 +53,10 @@ public class GigaController {
 
     public void welcomePlayer(VirtualView client) {
         String game;
+
         try {
+
+            client.update(new OkMessage("Connected to the server!"));
             client.show("\nWelcome to Codex Naturalis\n" + "\nDo you want to start a new game or join an existing one? (enter 'new' or the gameId)");
 
             // check if the input is a valid game id or 'new'

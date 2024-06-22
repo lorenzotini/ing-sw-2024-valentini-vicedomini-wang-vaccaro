@@ -3,9 +3,14 @@ package it.polimi.ingsw.gc27.View.Gui.SceneController;
 import it.polimi.ingsw.gc27.Model.ClientClass.ClientChat;
 import it.polimi.ingsw.gc27.Model.ClientClass.MiniModel;
 import it.polimi.ingsw.gc27.View.Gui.Gui;
+import it.polimi.ingsw.gc27.View.Gui.ScenePaths;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.text.TextFlow;
 
 import java.io.IOException;
 
@@ -13,19 +18,48 @@ import java.io.IOException;
  *  displays logo and "Play" button
  */
 public class StarterSceneController extends GenericController{
-    /** used to start the game */
-    @FXML
-    public Button startGameButton;
+
+
+    /**
+     * method implemented from {@link GenericController},
+     * @param chat
+     * @param minimodel
+     */
+    @Override
+    public void overwriteChat(ClientChat chat, MiniModel minimodel) {
+
+    }
+
+    /**
+     * method implemented from {@link GenericController}, invoked by Gui in order to send a string to a scene controller
+     * the string is generally a positive feedback
+     * @param ackType
+     */
+    @Override
+    public void receiveOk(String ackType) {
+        ChooseGameSceneController controller = (ChooseGameSceneController) Gui.getInstance().getControllerFromName(ScenePaths.CHOSEGAME.getValue());
+        controller.enableNextScene();
+    }
+
+    /**
+     * method implemented from {@link GenericController}, invoked by Gui in order to send a string to a generic scene controller,
+     * the string is generally a negative feedback, such as an error
+     * @param ackType
+     */
+    @Override
+    public void receiveKo(String ackType) {
+
+    }
 
     /**
      * if startGameButton is clicked, the stage switches scene to the ChooseGameScene
      * @param event
      * @throws IOException
      */
-    @FXML
     public void switchToChooseGameScene(ActionEvent event) throws IOException {
+        ChooseGameSceneController chooseGameSceneController = (ChooseGameSceneController) Gui.getInstance().getControllerFromName(ScenePaths.CHOSEGAME.getValue());
+        chooseGameSceneController.init();
         Gui.getInstance().switchScene("/fxml/ChooseGameScene.fxml");
     }
 
 }
-

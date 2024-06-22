@@ -33,35 +33,31 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 
 public class Gui implements View {
+
+    private boolean serverIsUp = false;
+
     private boolean isReconnected=false;
 
     private static Gui gui = null;
 
     private Stage stage;
 
+    private GenericController currentController;
+
+
     private VirtualView client;
     final BlockingQueue<String> messages = new LinkedBlockingQueue<>();
     final BlockingQueue<String> messagesReceived = new LinkedBlockingQueue<>();
     private final HashMap<String, Scene> pathSceneMap = new HashMap<>(); //maps path to scene
     private final HashMap<String, GenericController> pathContrMap = new HashMap<>(); //maps path to controller of the scene
-    //public HashMap<String, Tab> chatTabHashMap= new HashMap<>();
-    public GenericController getCurrentController() {
-        return currentController;
-    }
 
-    public void setCurrentController(GenericController currentController) {
-        this.currentController = currentController;
-    }
-
-    private GenericController currentController;
 
     //setters and getters
-    public Stage getStage() {
-        return stage;
-    }
-
     public void setStage(Stage stage) {
         this.stage = stage;
+    }
+    public GenericController getCurrentController() {
+        return currentController;
     }
     public VirtualView getClient() {
         return client;
@@ -70,7 +66,6 @@ public class Gui implements View {
     public void setClient(VirtualView client) {
         this.client = client;
     }
-    public BlockingQueue<String> getMessagesReceived() {return messagesReceived;}
     public void setReconnected(boolean reconnected) {
         isReconnected = reconnected;
     }
@@ -101,7 +96,7 @@ public class Gui implements View {
 
     //start of the game after initialization
     @Override
-    public void run() throws IOException {
+    public void run() {
         Platform.runLater(() -> {
             try {
                 if (!isReconnected) {
@@ -264,7 +259,7 @@ public class Gui implements View {
         try {
             mess = messages.take();
         } catch (InterruptedException e) {
-
+            e.printStackTrace();
         }
         return mess;
     }
@@ -276,14 +271,21 @@ public class Gui implements View {
 
     @Override
     public void okAck(String string) {
-        System.out.println("\nOk " +currentController.toString() + string);
+        // if a OkMessage arrives when the currentController is null, it means that the server is up but gui is not ready yet
+        if(currentController == null){
+            serverIsUp = true;
+            return;
+        }
+        System.out.println("\nOk " + currentController.toString() + string);
         currentController.receiveOk(string);
     }
 
     @Override
     public void koAck(String string) {
-        System.out.println("\nKo " +currentController.toString() + string);
-        currentController.receiveKo(string);
+        if(currentController != null){
+            System.out.println("\nKo " + currentController.toString() + string);
+            currentController.receiveKo(string);
+        }
     }
 
     @Override
@@ -300,7 +302,7 @@ public class Gui implements View {
                 }
 
             } catch (Exception e){
-
+                e.printStackTrace();
             }
         });
 
@@ -376,11 +378,16 @@ public class Gui implements View {
             vbox.getChildren().add(hbox);
         });
     }
+
     private VBox getChatMessagesVBox(Tab chatTab) {
         VBox chatContainer = (VBox) chatTab.getContent();
         ScrollPane chatContent = (ScrollPane) chatContainer.getChildren().getFirst();
         chatContent.setVvalue(1.0); //non so se si mette qui
         return (VBox) chatContent.getContent();
+    }
+
+    public boolean isServerIsUp() {
+        return serverIsUp;
     }
 
 }

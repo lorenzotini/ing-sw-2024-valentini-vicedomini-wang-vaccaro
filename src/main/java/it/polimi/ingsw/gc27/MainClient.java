@@ -34,7 +34,7 @@ public class MainClient {
         View view = new Tui();
 
         int connectionChoice = 0;
-        VirtualView client;
+        VirtualView client = null;
 
         // If no arguments, then use default values
         if (args.length == 0) {
@@ -108,7 +108,8 @@ public class MainClient {
             try {
                 client = new RmiClient(ipAddress, VirtualServer.DEFAULT_PORT_NUMBER_RMI, view);
             } catch (IOException e) {
-                return;
+                System.out.println("Problem with connection");
+                System.exit(0);
             }
         } else {
             client = new SocketClient(ipAddress, VirtualServer.DEFAULT_PORT_NUMBER_SOCKET, view);
@@ -122,6 +123,7 @@ public class MainClient {
             System.out.println("Problem with connection");
             System.exit(0);
         }
+
     }
 
 }

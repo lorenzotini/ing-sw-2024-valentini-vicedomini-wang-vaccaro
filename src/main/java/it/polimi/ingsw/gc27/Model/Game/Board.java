@@ -22,7 +22,7 @@ public class Board implements Serializable, ClientBoard {
     private String bluePlayer;
     public final static int END_GAME_THRESHOLD = 20;
     public final static int MAX_POINTS = 29;
-    public HashMap<String, PawnColour> colourPlayerMap = new HashMap<>();
+    public HashMap<String, PawnColour> colourPlayermap = new HashMap<>();
 
     /**
      * populates the Hashmap colourPlayerMap
@@ -30,7 +30,7 @@ public class Board implements Serializable, ClientBoard {
      */
     public void initBoard(List<Player> players){
         for(Player p: players){
-            colourPlayerMap.put(p.getUsername(), p.getPawnColour());
+            colourPlayermap.put(p.getUsername(), p.getPawnColour());
         }
     }
 
@@ -85,7 +85,7 @@ public class Board implements Serializable, ClientBoard {
 
     @Override
     public HashMap<String, PawnColour> getColourPlayermap() {
-        return colourPlayerMap;
+        return colourPlayermap;
     }
 
     public String getRedPlayer() {

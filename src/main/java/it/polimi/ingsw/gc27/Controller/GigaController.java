@@ -33,6 +33,7 @@ public class GigaController {
                 }
             }
         }
+
         return null;//TODO sarebbe bene tornare un eccezione
     }
 
@@ -50,24 +51,19 @@ public class GigaController {
         }
     }
 
-    public void welcomePlayer(VirtualView client) throws  InterruptedException {
+    public void welcomePlayer(VirtualView client) {
         String game;
         try {
             client.show("\nWelcome to Codex Naturalis\n" + "\nDo you want to start a new game or join an existing one? (enter 'new' or the gameId)");
 
-
             // check if the input is a valid game id or 'new'
-
-            // TODO gameId non viene utilizzato
-            int gameId = 0;
-
             while (true) {
                 game = client.read();
                 if (game.equalsIgnoreCase("new")) {
                     break;
                 } else {
                     try {
-                        gameId = Integer.parseInt(game);
+                        Integer.parseInt(game);
                         break;
                     } catch (NumberFormatException e) {
                         client.show("\nInvalid input. Please enter a valid game id or 'new' to start a new game");
@@ -77,7 +73,7 @@ public class GigaController {
             }
         }catch(IOException e){
             return;
-        };
+        }
 
         boolean canEnter = false;
 
@@ -86,9 +82,19 @@ public class GigaController {
             createNewGame(client);
         } else {
 
-
             // join an existing game
             do {
+                try{
+                    Integer.parseInt(game);
+                }catch(NumberFormatException e) {
+                    try {
+                        client.show("\nInvalid input. Please enter a valid game id or 'new' to start a new game");
+                        client.update(new KoMessage("invalidFormatID"));
+                    }catch(IOException es){
+                        System.out.println("Connection lost after trying to join a game (110)");
+                    }
+                    continue;
+                }
                 GameController gc = null;
                 synchronized (gameControllers) {
                     for (var control : gameControllers) {
@@ -98,9 +104,6 @@ public class GigaController {
                     }
                 }
 
-                // TODO controllare che game sia convertibile in int
-
-                // TODO non so se è meglio togliere questa show
                 if(gc!= null) {
                     try {
                         client.show("\nJoining game " + game + "...");
@@ -190,7 +193,7 @@ public class GigaController {
 
     }
 
-    public void createNewGame(VirtualView client) throws InterruptedException {
+    public void createNewGame(VirtualView client) {
         int numMaxPlayers;
         try {
 
@@ -285,7 +288,13 @@ public class GigaController {
 
     public void addCommandToGameController(Command command) {
         String player = command.getPlayerName();
-        userToGameController(player).addCommand(command);
+        try{
+
+            userToGameController(player).addCommand(command);
+        }catch(NullPointerException e){
+            //this happens only if the player is not created yet, and the server want to give the SuspendPlayerCommand,
+            //but it's not required because the player doesn't exit
+        }
     }
 
     public void closeGame(GameController controller) {

@@ -2,7 +2,6 @@ package it.polimi.ingsw.gc27.View.Tui;
 
 public class ColourControl {
 
-    // TODO : penso abbia senso renderla una enum al posto di una classe
     //how to use ---> ex. type : "ColourControl.RED"
     // Reset
     public static final String RESET = "\033[0m";  // Text Reset

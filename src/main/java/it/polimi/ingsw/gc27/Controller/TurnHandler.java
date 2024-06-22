@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
 
 public class TurnHandler implements Serializable {
 
-    private Game game;
+    private final Game game;
     private boolean twentyPointsReached;
     private boolean lastRound;
 
@@ -78,9 +78,7 @@ public class TurnHandler implements Serializable {
                     i++;
                 }
             }while(i < players.size());
-            //TODO fai un check se bisogna fare qualcosa in caso in cui i sia uguale alla size o se deve esser gestito bene
         }
-
     }
 
     /**
@@ -214,9 +212,8 @@ public class TurnHandler implements Serializable {
      * this method will calculate and add the points scored by Objective cards
      * then finally, will display to the user the winner/winners of this game
      * @param player which player
-     * @throws InterruptedException exception
      */
-    public void notifyCalculateObjectivePoints(Player player) throws InterruptedException { // this method calculates the objective points and announces the winner/winners
+    public void notifyCalculateObjectivePoints(Player player)  { // this method calculates the objective points and announces the winner/winners
 
         // verify that every player is in the ending state
         int points;

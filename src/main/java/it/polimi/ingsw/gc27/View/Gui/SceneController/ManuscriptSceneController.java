@@ -42,6 +42,7 @@ import java.util.Optional;
 
 
 public class ManuscriptSceneController implements GenericController {
+
     @FXML
     public Pane feedbackPane;
     @FXML
@@ -49,11 +50,11 @@ public class ManuscriptSceneController implements GenericController {
     @FXML
     public Text actionFeedback;
     @FXML
-    public TextFlow errorPane;
+    private TextFlow errorPane;
     @FXML
-    public Text errorText;
+    private Text errorText;
     @FXML
-    public Circle circleChat;
+    private Circle circleChat;
     @FXML
     private GridPane scoreBoard;
     @FXML
@@ -88,8 +89,8 @@ public class ManuscriptSceneController implements GenericController {
     private boolean isFront;
     private int x;
     private int y;
-    public ImageView manuscriptCard;
-    public ImageView handCard;
+    private ImageView manuscriptCard;
+    private ImageView handCard;
 
     // attributes to handle drawCard invocation
     private ImageView marketCard;

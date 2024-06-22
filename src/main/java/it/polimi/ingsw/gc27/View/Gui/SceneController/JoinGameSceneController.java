@@ -53,8 +53,7 @@ public class JoinGameSceneController implements GenericController{
     //players can change their minds and go back to chooseGameScene
     public void previousScene(MouseEvent event) throws IOException {
         Gui.getInstance().switchScene("/fxml/ChooseGameScene.fxml");
-    }//TODO: DOES NOT WORK PROPERLY, LOOK AT NOTE IN newGameSceneController TO KNOW WHY
-
+    }
 
     @Override
     public void receiveOk(String ackType) {

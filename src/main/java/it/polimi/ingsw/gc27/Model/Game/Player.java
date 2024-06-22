@@ -16,7 +16,7 @@ public class Player implements Serializable, ClientPlayer {
     private final String username;
     private ArrayList<ResourceCard> hand;
     private Manuscript manuscript;
-    private PawnColour pawnColour;
+    private final PawnColour pawnColour;
     private ArrayList<ObjectiveCard> secretObjectives;
     private StarterCard starterCard;
     private PlayerState playerState;
@@ -28,7 +28,7 @@ public class Player implements Serializable, ClientPlayer {
         this.manuscript = manuscript;
         this.pawnColour = pawnColour;
         this.secretObjectives = new ArrayList<>();
-        // TODO this.playerState = new InitializingState();
+
     }
 
 

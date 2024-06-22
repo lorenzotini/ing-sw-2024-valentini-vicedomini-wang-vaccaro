@@ -22,7 +22,6 @@ public class Chat implements Serializable, ClientChat {
         chatters.add(player2.getUsername());
     }
     public synchronized void addChatMessage(ChatMessage chatMessage){
-        //TODO don't forget to create a right notify
         chatMessages.add(chatMessage);
     }
     @Override

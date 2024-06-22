@@ -13,7 +13,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 public interface View {
-    void run() throws IOException, InterruptedException;
+    void run() throws IOException ;
 
     void setClient(VirtualView client);
 

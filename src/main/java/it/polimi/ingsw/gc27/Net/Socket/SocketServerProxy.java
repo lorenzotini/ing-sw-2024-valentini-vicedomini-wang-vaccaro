@@ -15,18 +15,31 @@ import java.rmi.RemoteException;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
+/**
+ * Proxy server that manages the connection between the client and the remote server using sockets.
+ * It implements the VirtualServer interface and provides methods to communicate with the server.
+ * It checks if the connection works.
+ * */
 public class SocketServerProxy implements VirtualServer {
 
     //in case same RemoteException would being called they'd be ignored because the ping system is going to do what
     // the catch of them would do
-    final BlockingQueue<Message> messages = new LinkedBlockingQueue<>();
-    final VirtualView client;
-    Socket serverSocket;
-    ObjectInputStream input;
-    ObjectOutputStream output;
-    boolean flag = true;
+    private final BlockingQueue<Message> messages = new LinkedBlockingQueue<>();
+    private final VirtualView client;
+    private Socket serverSocket;
+    private ObjectInputStream input;
+    private ObjectOutputStream output;
+    private boolean flag = true;
     private int TIME_COUNT = 100;
 
+    /**
+     * Constructs a SocketServerProxy and establishes a connection to the server.
+     * Here starts the threads that listen from server and send the update to the client.
+     *
+     * @param client    the VirtualView client to communicate with
+     * @param ipAddress the IP address of the server
+     * @param port      the port number of the server
+     */
     public SocketServerProxy(VirtualView client, String ipAddress, int port) {
         this.client = client;
         do {
@@ -86,6 +99,10 @@ public class SocketServerProxy implements VirtualServer {
 
     }
 
+    /**
+     * Checks if the server is alive by monitoring ping responses.
+     * If the server is not responsive for a specified number of attempts, the client is closed.
+     */
     private void checkServerIsAlive() {
         int count = 0;
         while (count < 5) {
@@ -118,6 +135,11 @@ public class SocketServerProxy implements VirtualServer {
         }
     }
 
+    /**
+     * Runs the virtual server by continuously listening for messages and sending ping commands.
+     *
+     * @throws InterruptedException if the thread is interrupted while waiting for messages
+     */
     private void runVirtualServer() throws InterruptedException {
         Message message;
         new Thread(this::checkServerIsAlive).start();
@@ -145,6 +167,10 @@ public class SocketServerProxy implements VirtualServer {
         }
     }
 
+    /**
+     * This method is required by the {@link VirtualServer} interface,
+     * but it is not used in this implementation.
+     */
     @Override
     public void connect(VirtualView client) throws RemoteException {
 
@@ -198,10 +224,6 @@ public class SocketServerProxy implements VirtualServer {
      * The messages are processed in a loop:
      * - If a PingMessage is received, a flag is set to true indicating the server is alive.
      * - All other messages are added to a messages queue for further processing.
-     *
-     * <p>This method should be run in a separate thread, as it enters an infinite loop,
-     * listening for messages until the thread is interrupted or an error occurs or the clients is
-     * closed, due to the end of the game.</p>
      *
      * @throws ClassNotFoundException if the class of a serialized object cannot be found.
      */

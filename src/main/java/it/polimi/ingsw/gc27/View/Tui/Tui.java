@@ -27,7 +27,7 @@ public class Tui implements View {
     private VirtualView client;
     private static final String sws = " "; // single white space
     private static final Queue<String> noCardPrint = new LinkedList<>();
-    private Scanner scan = new Scanner(in);
+    private final Scanner scan = new Scanner(in);
     boolean alreadyPrintedWinners = false;
     boolean isEndingState = false;
 
@@ -40,7 +40,7 @@ public class Tui implements View {
     }
 
     @Override
-    public void run() throws IOException, InterruptedException {
+    public void run() throws IOException {
 
         showTitle();
 
@@ -48,7 +48,11 @@ public class Tui implements View {
         //TODO svuotare il buffer, altrimenti printa tutti i comandi presi durante l'attesa dei giocatori
         while (true) {
 
-            TimeUnit.MILLISECONDS.sleep(400);
+            try {
+                TimeUnit.MILLISECONDS.sleep(400);
+            }catch(InterruptedException e) {
+                throw  new RuntimeException("Thread Problem");
+            }
             out.print(client.getMiniModel().getPlayer().getPlayerState() + "\n> ");
 
 
@@ -112,8 +116,6 @@ public class Tui implements View {
                     if (!checkState(ChooseObjectiveState.class)) {
                         break;
                     }
-
-                    // TODO fatto così chiede quale vuole come se fosse la prima volta anche se l'ha già fatto
                     out.println(showObjectives(client.getMiniModel().getPlayer().getSecretObjectives()));
                     int obj;
                     out.println("\nWhich objective do you want to achieve? (1 or 2)");
@@ -374,8 +376,8 @@ public class Tui implements View {
             if(client.getMiniModel().getPlayer().getPlayerState() instanceof EndingState){
                 isEndingState = true;
             }
-        } catch (Exception e){
-
+        } catch (RemoteException e){
+            throw new RuntimeException("Problem with the net");
         }
 
     }

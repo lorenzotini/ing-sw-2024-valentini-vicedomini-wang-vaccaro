@@ -151,11 +151,10 @@ public class RmiServer implements VirtualServer {
     /**
      * Welcomes a player to the server by adding them to the GigaController.
      *
-     * @param client The client representing the player.
-     * @throws InterruptedException If the operation is interrupted.
+     * @param client The client representing the player
      */
     @Override
-    public void welcomePlayer(VirtualView client) throws InterruptedException {
+    public void welcomePlayer(VirtualView client)  {
         this.console.welcomePlayer(client);
     }
 

@@ -171,12 +171,9 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
      * If any part of the initial setup or ongoing communication fails, the client will attempt
      * to close its connection
      * and notify the user of the need to restart.
-     *
-     * @throws InterruptedException if any thread has interrupted the current thread. The
-     *         interrupted status of the current thread is cleared when this exception is thrown.
      */
     @Override
-    public void runClient() throws InterruptedException {
+    public void runClient() {
         try{
 
             this.server.connect(this);
@@ -217,7 +214,11 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
         }
         //wait for the other players to join the game
         while (miniModel.getPlayer() == null) {
-            Thread.sleep(1000);
+            try {
+                Thread.sleep(1000);
+            }catch(InterruptedException e){
+                throw new RuntimeException("Thread problem");
+            }
         }
         //start the game
         try{
@@ -243,11 +244,9 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
                 close();
             }
             try {
-
                 Thread.sleep(1000);
             }catch(InterruptedException e){
-
-                //TODO find a thing to do
+                throw new RuntimeException("Explosion of thread sleep");
             }
         }
     }

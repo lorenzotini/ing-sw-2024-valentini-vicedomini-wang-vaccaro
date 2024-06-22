@@ -13,6 +13,7 @@ import javafx.application.Application;
 
 import java.io.IOException;
 import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 
 /**
  * The MainClient class represents the main client application.
@@ -25,13 +26,9 @@ public class MainClient {
      * The main method that starts the client application.
      *
      * @param args The command-line arguments.
-     * @throws IOException If an I/O error occurs.
-     * @throws NotBoundException If the RMI object is not found.
-     * @throws InterruptedException If the operation is interrupted.
      */
-    public static void main(String[] args) throws IOException, NotBoundException, InterruptedException {
+    public static void main(String[] args)  {
 
-        // TODO rimuovere le eccezioni dalla firma del main
         // Default values
         String ipAddress = "localhost";
         View view = new Tui();
@@ -119,8 +116,12 @@ public class MainClient {
 
         view.setClient(client);
 
-        client.runClient();
-
+        try {
+            client.runClient();
+        }catch(RemoteException e){
+            System.out.println("Problem with connection");
+            System.exit(0);
+        }
     }
 
 }

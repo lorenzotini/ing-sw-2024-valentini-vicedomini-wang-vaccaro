@@ -96,15 +96,13 @@ public class GameController implements Serializable {
         player.setDisconnected(true);
         try {
             turnHandler.handleDisconnection(player, this);
-        }catch(NullPointerException e){
-
-        } catch (InterruptedException e) {
+        }catch(NullPointerException | InterruptedException e){
 
         }
     }
 
     // Create a player from command line, but hand, secret objective and starter are not instantiated
-    public void initializePlayer(VirtualView client, GigaController gigaChad) throws  InterruptedException {
+    public void initializePlayer(VirtualView client, GigaController gigaChad) {
         String username;
         String pawnColor;
         PawnColour pawnColourSelected;
@@ -220,7 +218,7 @@ public class GameController implements Serializable {
                 try {
                     commands.take().execute(this);
                 } catch (InterruptedException e) {
-                    //TODO eventuale non so se va gestito
+                    throw new RuntimeException(e);
                 }
             }
             System.out.println("This thread has been closed");
@@ -257,7 +255,7 @@ public class GameController implements Serializable {
             try {
                 command = commands.take();
             } catch (InterruptedException e) {
-                //TODO eventuale non so se va gestito
+                throw new RuntimeException("System exception, taking from the commands queue");
             }
 
             synchronized (this) {

@@ -40,11 +40,6 @@ public class Game implements Serializable {
     public Game() {
     }
 
-    public Game(int gameID, Board board, List<Player> players) {
-        this.board = board;
-        this.players = players;
-    }
-
     public Game(Board board, Market market, List<Player> players, ObjectiveCard commonObjective1, ObjectiveCard commonObjective2, ArrayList<StarterCard> starterDeck, ArrayList<ObjectiveCard> objectiveDeck) {
 
         this.board = board;
@@ -146,29 +141,24 @@ public class Game implements Serializable {
 
     public void addPlayer(Player p, VirtualView client) {
 
+        // Draw the initial cards
+        p.getHand().add(getMarket().getResourceDeck().removeFirst());
+        p.getHand().add(getMarket().getResourceDeck().removeFirst());
+        p.getHand().add(getMarket().getGoldDeck().removeFirst());
+
+        // Get the secret objectives (Two cards are drawn at the beginning of the game)
+        p.getSecretObjectives().add(getObjectiveDeck().removeFirst());
+        p.getSecretObjectives().add(getObjectiveDeck().removeFirst());
+
         for(Player player : players){
             Chat chat = new Chat(player, p);
             chatMap.put(new Pair<String, String>(player.getUsername(), p.getUsername()),   chat);
             chatMap.put(new Pair<String, String>(p.getUsername(), player.getUsername()),   chat);
         }
         this.players.add(p);
-        switch (p.getPawnColour()){
-            case RED:
-                board.setRedPlayer(p.getUsername());
-                break;
-            case YELLOW:
-                board.setYellowPlayer(p.getUsername());
-                break;
-            case GREEN:
-                board.setGreenPlayer(p.getUsername());
-                break;
-            case BLUE:
-                board.setBluePlayer(p.getUsername());
-                break;
-            default:
-                break;
-        }
-        //create a listener
+        board.setColourPlayer(p);
+
+//        //create a listener
         //he will listen the observable and decide if the message has to be sent to his player
         this.addObserver(new PlayerListener(client, p));
         this.notifyObservers(new PlayerJoinedMessage(p.getUsername()));
@@ -179,7 +169,8 @@ public class Game implements Serializable {
     }
 
     public void removeObserver(String username) {
-        observers.removeIf(obs -> obs.getPlayerUsername().equals(username));
+        PlayerListener toBeRemoved = observers.stream().filter(u -> u.getPlayerUsername().equals(username)).toList().getFirst();
+        observers.remove(toBeRemoved);
     }
 
 

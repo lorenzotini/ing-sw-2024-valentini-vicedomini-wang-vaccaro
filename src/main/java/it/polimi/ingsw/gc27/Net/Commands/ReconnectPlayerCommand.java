@@ -11,8 +11,8 @@ import it.polimi.ingsw.gc27.Model.ClientClass.MiniModel;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 
 public class ReconnectPlayerCommand implements Command{
-    VirtualView client;
-    Player player;
+    private VirtualView client;
+    private Player player;
 
     public ReconnectPlayerCommand(VirtualView client, ClientPlayer player){
         this.client=client;
@@ -21,13 +21,17 @@ public class ReconnectPlayerCommand implements Command{
     @Override
     public void execute(GameController gc)  {
         Game game = gc.getGame();
+
+
         game.addObserver(new PlayerListener(client, player));
         player.setDisconnected(false);
+
 
         // Update the client's miniModel with the player's data
         MiniModel miniModel = new MiniModel(player, game);
         Message message = new ReconnectedPlayerMessage(miniModel, "Welcome back!!");
         game.notifyObservers(message);
+        gc.getTurnHandler().handleReconnection(player);
     }
 
     @Override

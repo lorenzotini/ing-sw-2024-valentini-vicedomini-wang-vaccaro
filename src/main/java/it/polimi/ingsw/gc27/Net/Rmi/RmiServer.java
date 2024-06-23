@@ -37,7 +37,7 @@ public class RmiServer implements VirtualServer {
     /**
      * Maximum time in milliseconds a client can be inactive before being considered disconnected.
      */
-    private static final int MAX_PING_TIME = 500000;
+    private static final int MAX_PING_TIME = 5000;
 
 
     /**
@@ -107,8 +107,8 @@ public class RmiServer implements VirtualServer {
                     try {
                         client.pingFromServer();
                     } catch (RemoteException e) {
-                        iterator.remove();
-                        console.removeReferences(client);
+//                        iterator.remove();
+//                        console.removeReferences(client);
                     }
                 }
             }

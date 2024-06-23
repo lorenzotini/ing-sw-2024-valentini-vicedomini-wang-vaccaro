@@ -10,9 +10,7 @@ import it.polimi.ingsw.gc27.Model.ClientClass.MiniModel;
 import it.polimi.ingsw.gc27.Model.States.*;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class TurnHandler implements Serializable {
 
@@ -55,7 +53,7 @@ public class TurnHandler implements Serializable {
                 Player p = players.get(i);
                 if(!p.isDisconnected()) {
                     p.setPlayerState(new PlayingState(p, this));
-                    Message updatePlayerStateMessage = new UpdatePlayerStateMessage(new MiniModel(p,game.getBoard()));
+                    Message updatePlayerStateMessage = new UpdatePlayerStateMessage(new MiniModel(p,game));
                     this.game.notifyObservers(updatePlayerStateMessage);
 
                     Message yourTurnToPlayMessage = new YourTurnMessage(new MiniModel(p), "");
@@ -101,6 +99,7 @@ public class TurnHandler implements Serializable {
             this.twentyPointsReached = true;
         }
 
+
         // what happens if it's the last round or not
         int index = players.indexOf(player); // index of the player
 
@@ -110,7 +109,7 @@ public class TurnHandler implements Serializable {
             WaitingState waitingState=new WaitingState(players.get(index), this);
             players.get(index).setPlayerState(waitingState);
 
-            updatePlayerStateMessage = new UpdatePlayerStateMessage(new MiniModel(player, game.getBoard()));
+            updatePlayerStateMessage = new UpdatePlayerStateMessage(new MiniModel(player, game));
             this.game.notifyObservers(updatePlayerStateMessage);
 
             if (getNextOf(index, players).isDisconnected()) {  // the next player is disconnected --> skip him
@@ -167,7 +166,7 @@ public class TurnHandler implements Serializable {
 
             if (twentyPointsReached && game.getPlayers().getLast().equals(game.getPlayers().get(index))) {
                 lastRound = true; // once someone gets 20 points, only if the round is finished you can trigger the last round
-                Message lastRoundMessage = new StringMessage("It's the last turn!");
+                Message lastRoundMessage = new LastRoundMessage(new MiniModel(game),"It's the last turn!");
                 this.game.notifyObservers(lastRoundMessage);
             }
 
@@ -240,14 +239,13 @@ public class TurnHandler implements Serializable {
             }
 
             sendWinnersToClient();
-            sendWinnersToClient();
+//            sendWinnersToClient();
         }
     }
 
     public void handleDisconnection(Player player, GameController gc) throws InterruptedException {
 
         String stateClassName = player.getPlayerState().getClass().getSimpleName();
-        Message updateObjectiveMessage;
 
         switch(stateClassName){
 
@@ -255,36 +253,30 @@ public class TurnHandler implements Serializable {
                 // automatically choose the starter card for the player
                 player.addCard(game, player.getStarterCard(), player.getStarterCard().getFront(), Manuscript.FIELD_DIM / 2, Manuscript.FIELD_DIM / 2);
                 player.setPlayerState(new ChooseObjectiveState(player, this));
-//                Message updateManuscriptMessage = new UpdateManuscriptMessage(new MiniModel(player, player.getManuscript()));
-//                this.getGame().notifyObservers(updateManuscriptMessage);
 
-                // automatically choose the objective card for the player
                 player.getSecretObjectives().remove(1);
                 player.setPlayerState(new WaitingState(player, this));
-//              updateObjectiveMessage = new UpdateObjectiveMessage(new MiniModel(player, player.getSecretObjectives().getFirst()));
-//              this.getGame().notifyObservers(updateObjectiveMessage);
                 this.notifyChooseObjectiveState();
-
                 break;
 
             case "ChooseObjectiveState":
                 // automatically choose the objective card for the player
                 player.getSecretObjectives().remove(1);
                 player.setPlayerState(new WaitingState(player, this));
-                updateObjectiveMessage = new UpdateObjectiveMessage(new MiniModel(player));
-                this.getGame().notifyObservers(updateObjectiveMessage);
                 this.notifyChooseObjectiveState();
                 break;
 
             case "PlayingState":
                 // set the player to end of turn state
                 player.setPlayerState(new EndOfTurnState(player, this));
+                notifyEndOfTurnState(player);
                 break;
 
             case "DrawingState":
                 // automatically draw a card for the player
                 gc.drawCard(player, true, true, 0);
                 player.setPlayerState(new EndOfTurnState(player, this));
+                notifyEndOfTurnState(player);
                 break;
 
             case "WaitingState":
@@ -304,7 +296,7 @@ public class TurnHandler implements Serializable {
      * displays the winner/winners to the users, and the general scoreboard
      */
     public void sendWinnersToClient(){
-        UpdateEndGame winnerMessage = new UpdateEndGame(new MiniModel(game.getBoard()));
+        UpdateEndGame winnerMessage = new UpdateEndGame(new MiniModel(game));
         this.game.notifyObservers(winnerMessage);
     }
 
@@ -329,5 +321,18 @@ public class TurnHandler implements Serializable {
      */
     public Game getGame() {
         return game;
+    }
+
+    public void handleReconnection(Player player) {
+        boolean flag = true;
+        for(Player p : game.getPlayers()){
+            if(!p.getPlayerState().toString().equals("WaitingState")){
+                flag = false;
+            }
+        }
+        if(flag){
+            player.setPlayerState(new PlayingState(player, this));
+            game.notifyObservers(new UpdatePlayerStateMessage(new MiniModel(player, game)));
+        }
     }
 }

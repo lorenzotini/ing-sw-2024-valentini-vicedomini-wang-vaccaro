@@ -9,7 +9,6 @@ import it.polimi.ingsw.gc27.Model.ClientClass.ClientMarket;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 
 import java.io.IOException;
-import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 public interface View {
@@ -17,6 +16,8 @@ public interface View {
 
     void setClient(VirtualView client);
 
+    void suspendedGame(String string);
+    void resumeTheMatch();
     //the idea is that every object will be showed in his own way,
     //and when the Gui will be implemented will be the same
     //I decided to use more method and not only one that takes the miniModel (which include everything)

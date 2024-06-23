@@ -21,18 +21,11 @@ public class Board implements Serializable, ClientBoard {
     private String greenPlayer;
     private String bluePlayer;
     public final static int END_GAME_THRESHOLD = 20;
-    public final static int MAX_POINTS = 29;
-    public HashMap<String, PawnColour> colourPlayermap=new HashMap<>();
+    public HashMap<String, PawnColour> colourPlayerMap=new HashMap<>();
 
     public void initBoard(List<Player> players){
         for(Player p: players){
-//            switch(p.getPawnColour()){
-//                case PawnColour.RED -> colourPlayermap.put(p.getUsername(),PawnColour.RED);
-//                case PawnColour.BLUE -> colourPlayermap.put(p.getUsername(),PawnColour.BLUE);
-//                case PawnColour.GREEN -> colourPlayermap.put(p.getUsername(),PawnColour.GREEN);
-//                case PawnColour.YELLOW -> colourPlayermap.put(p.getUsername(),PawnColour.YELLOW);
-//            }
-            colourPlayermap.put(p.getUsername(), p.getPawnColour());
+            colourPlayerMap.put(p.getUsername(), p.getPawnColour());
         }
     }
 
@@ -69,40 +62,8 @@ public class Board implements Serializable, ClientBoard {
         this.pointsBluePlayer = pointsBluePlayer;
     }
     @Override
-    public HashMap<String, PawnColour> getColourPlayermap() {
-        return colourPlayermap;
-    }
-
-    public String getRedPlayer() {
-        return redPlayer;
-    }
-
-    public void setRedPlayer(String redPlayer) {
-        this.redPlayer = redPlayer;
-    }
-
-    public String getYellowPlayer() {
-        return yellowPlayer;
-    }
-
-    public void setYellowPlayer(String yellowPlayer) {
-        this.yellowPlayer = yellowPlayer;
-    }
-
-    public String getGreenPlayer() {
-        return greenPlayer;
-    }
-
-    public void setGreenPlayer(String greenPlayer) {
-        this.greenPlayer = greenPlayer;
-    }
-
-    public String getBluePlayer() {
-        return bluePlayer;
-    }
-
-    public void setBluePlayer(String bluePlayer) {
-        this.bluePlayer = bluePlayer;
+    public HashMap<String, PawnColour> getColourPlayerMap() {
+        return colourPlayerMap;
     }
 
     public Map<String, Integer> getScoreBoard(){
@@ -113,5 +74,23 @@ public class Board implements Serializable, ClientBoard {
         scoreBoard.put(this.bluePlayer, pointsBluePlayer);
 
         return scoreBoard;
+    }
+    public void setColourPlayer(Player p){
+        switch (p.getPawnColour()){
+            case RED:
+                redPlayer = p.getUsername();
+                break;
+            case YELLOW:
+                yellowPlayer = p.getUsername();
+                break;
+            case GREEN:
+                greenPlayer = p.getUsername();
+                break;
+            case BLUE:
+                bluePlayer = p.getUsername();
+                break;
+            default:
+                break;
+        }
     }
 }

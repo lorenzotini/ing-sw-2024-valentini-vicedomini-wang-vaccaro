@@ -120,6 +120,7 @@ public class ManuscriptSceneController extends GenericController {
         createBoardGrids(miniModel);
         createActionFeedback();
         creareErrorPane();
+        chatInitManuscript();
 
         // populate manuscripts
         for(Map.Entry<String, ClientManuscript> element :  miniModel.getManuscriptsMap().entrySet()){
@@ -211,7 +212,7 @@ public class ManuscriptSceneController extends GenericController {
                         .toList().getFirst();
                 chatTab.setText(username);
                 chatTabHashMap.put(username, chatTab);
-                PawnColour colour = miniModel.getBoard().getColourPlayermap().get(username);
+                PawnColour colour = miniModel.getBoard().getColourPlayerMap().get(username);
                 switch (colour) {
                     case BLUE:
                         chatTab.getStyleClass().add("tab-colour-blue");
@@ -338,7 +339,7 @@ public class ManuscriptSceneController extends GenericController {
                 this.x = manuscriptCardData.x;
                 this.y = manuscriptCardData.y;
                 this.manuscriptCard = imgView;
-
+                System.out.println("send addcard command");
                 sendAddCardCommand();
             }
             event.consume();
@@ -480,6 +481,7 @@ public class ManuscriptSceneController extends GenericController {
 
     @Override
     public void receiveOk(String ackType) {
+
         MiniModel miniModel;
 
         try {
@@ -488,6 +490,7 @@ public class ManuscriptSceneController extends GenericController {
             throw new RuntimeException(e);
         }
         Platform.runLater(()->{
+            errorPane.setVisible(false);
             String feedback;
             feedback= miniModel.getPlayer().getPlayerState().toStringGUI();
             System.out.println("\nFEEDBACK "+feedback);
@@ -499,10 +502,11 @@ public class ManuscriptSceneController extends GenericController {
 
     @Override
     public void receiveKo(String ackType) {
-        Platform.runLater(()->{;
+        Platform.runLater(()->{
             errorPane.setTextAlignment(TextAlignment.CENTER);
             errorText.getStyleClass().add("labelError");
             errorText.setText(ackType);
+            errorPane.setVisible(true);
         });
 
     }
@@ -786,6 +790,7 @@ public class ManuscriptSceneController extends GenericController {
         position.put(29, new Point(7,15));
 
     }
+
     public void setBoard(MiniModel miniModel){
         ImageView img = new ImageView(new Image(getClass().getResource(miniModel.getPlayer().getPawnColour().getPathImage()).toExternalForm()));
 
@@ -800,13 +805,13 @@ public class ManuscriptSceneController extends GenericController {
 
         for(String username : miniModel.getOtherPlayersUsernames()){
             ClientBoard board = miniModel.getBoard();
-            img = new ImageView(new Image(getClass().getResource(board.getColourPlayermap().get(username).getPathImage()).toExternalForm()));
+            img = new ImageView(new Image(getClass().getResource(board.getColourPlayerMap().get(username).getPathImage()).toExternalForm()));
             img.setFitWidth(PAWN_DIM);
             img.setFitHeight(PAWN_DIM);
-            pawnColourIntegerHashMap.put(board.getColourPlayermap().get(username), 0);
+            pawnColourIntegerHashMap.put(board.getColourPlayerMap().get(username), 0);
             scoreBoard.add(img, score.getx(), score.gety() - score.getCount());
 
-            pawnColourImageViewHashMap.put(board.getColourPlayermap().get(username), img);
+            pawnColourImageViewHashMap.put(board.getColourPlayerMap().get(username), img);
         }
     }
     public void updateBoard(ClientBoard board){
@@ -824,7 +829,7 @@ public class ManuscriptSceneController extends GenericController {
     }
     public void updatePawn(String username, MiniModel miniModel){
 
-        PawnColour colour = miniModel.getBoard().getColourPlayermap().get(username);
+        PawnColour colour = miniModel.getBoard().getColourPlayerMap().get(username);
         int actualScore = miniModel.getBoard().getScoreBoard().get(username);
         int oldScore = pawnColourIntegerHashMap.get(colour);
         if(actualScore != oldScore){
@@ -851,4 +856,12 @@ public class ManuscriptSceneController extends GenericController {
 
     }
 
+    @Override
+    public void reconnectPlayer(){
+        errorText.setText("The game can resume");
+    }
+    @Override
+    public void suspendeGame(){
+            errorText.setText("The game has been suspended, you're the last one playing");
+    }
 }

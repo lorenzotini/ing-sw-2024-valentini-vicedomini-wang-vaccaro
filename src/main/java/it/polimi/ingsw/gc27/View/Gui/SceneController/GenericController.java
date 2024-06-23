@@ -21,10 +21,13 @@ public abstract class GenericController {
      */
     public void overwriteChat(ClientChat chat, MiniModel minimodel){}
 
+    public void reconnectPlayer(){};
     /**
      * invoked by Gui in order to send a string to a generic scene controller,
      * the string is generally a negative feedback, such as an error
      * @param ackType
      */
     public void receiveKo(String ackType){}
+
+    public void suspendeGame(){}
 }

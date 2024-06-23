@@ -48,6 +48,8 @@ public class ChooseObjectiveSceneController extends GenericController {
     /** pane that contains all the chats of the player */
     @FXML
     public TabPane chatTabPane;
+    @FXML
+    public Label gameSuspendedLabel;
     //there is a private hashmap for all the scenes where the chat is displayed
 
     /** maps the username of the other player  of the chat and the correspondent tab
@@ -84,7 +86,7 @@ public class ChooseObjectiveSceneController extends GenericController {
                 chatTab.setText(username);
                 chatTabHashMapC.put(username, chatTab);
 
-                PawnColour colour = miniModel.getBoard().getColourPlayermap().get(username);
+                PawnColour colour = miniModel.getBoard().getColourPlayerMap().get(username);
                 switch (colour) {
 
                     case BLUE:
@@ -238,15 +240,24 @@ public class ChooseObjectiveSceneController extends GenericController {
             Gui.getInstance().getClient().sendCommand(comm);
 
         }
-        Platform.runLater(() -> {
-            try {
-                ManuscriptSceneController manuscriptSceneController = (ManuscriptSceneController) Gui.getInstance().getControllerFromName(ScenePaths.MANUSCRIPT.getValue());
-                manuscriptSceneController.init();
-                Gui.getInstance().switchScene("/fxml/ManuscriptScene.fxml");
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        });
+        if(Gui.getInstance().isGameOn()) {
+
+            Platform.runLater(() -> {
+                try {
+                    ManuscriptSceneController manuscriptSceneController = (ManuscriptSceneController) Gui.getInstance().getControllerFromName(ScenePaths.MANUSCRIPT.getValue());
+                    manuscriptSceneController.init();
+                    Gui.getInstance().switchScene("/fxml/ManuscriptScene.fxml");
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+        }else{
+            gameSuspendedLabel.setVisible(true);
+        }
+    }
+    @Override
+    public void reconnectPlayer(){
+        gameSuspendedLabel.setVisible(false);
     }
 
     /**

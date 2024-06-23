@@ -19,6 +19,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
@@ -37,6 +39,9 @@ public class PlaceStarterCardSceneController extends GenericController{
     public Button backStarterButton;
     @FXML
     public TabPane chatTabPaneStarter;
+    @FXML
+    public Label gameSuspendedLabel;
+
     //there is a private hashmap for all the scenes where the chat is displayed
     private HashMap<String, Tab> chatTabHashMapP= new HashMap<>();
 
@@ -65,7 +70,7 @@ public class PlaceStarterCardSceneController extends GenericController{
                     chatTab.setText(username);
                     chatTabHashMapP.put(username, chatTab);
 
-                    PawnColour colour = miniModel.getBoard().getColourPlayermap().get(username);
+                    PawnColour colour = miniModel.getBoard().getColourPlayerMap().get(username);
                     switch (colour){
 
                         case BLUE: chatTab.getStyleClass().add("tab-colour-blue");
@@ -208,17 +213,26 @@ public class PlaceStarterCardSceneController extends GenericController{
             Gui.getInstance().getClient().sendCommand(comm);
             //Gui.getInstance().stringFromSceneController("back");
         }
-        Platform.runLater(()->{
-            try {
-                ((ChooseObjectiveSceneController)Gui.getInstance()
-                        .getControllerFromName(ScenePaths.CHOOSEOBJ.getValue())).fullChatAllocate();
-                Gui.getInstance().switchScene("/fxml/ChooseObjectiveScene.fxml");
+        if(Gui.getInstance().isGameOn()) {
+            Platform.runLater(() -> {
+                try {
+                    ((ChooseObjectiveSceneController) Gui.getInstance()
+                            .getControllerFromName(ScenePaths.CHOOSEOBJ.getValue())).fullChatAllocate();
+                    Gui.getInstance().switchScene("/fxml/ChooseObjectiveScene.fxml");
 
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        });
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+        }else{
+            gameSuspendedLabel.setVisible(true);
+        }
 
+    }
+
+    @Override
+    public void reconnectPlayer(){
+        gameSuspendedLabel.setVisible(false);
     }
 
     public void changeImageFront(String imagePath) {

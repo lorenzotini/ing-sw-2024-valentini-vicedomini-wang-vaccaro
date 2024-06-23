@@ -4,21 +4,16 @@ import it.polimi.ingsw.gc27.Model.ClientClass.MiniModel;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 import it.polimi.ingsw.gc27.View.View;
 
-import java.rmi.RemoteException;
+public class LastRoundMessage extends Message{
 
-public class ReconnectedPlayerMessage extends Message {
-    public ReconnectedPlayerMessage(MiniModel miniModel, String string) {
+
+    public LastRoundMessage(MiniModel miniModel, String string) {
         super(miniModel, string);
     }
 
     @Override
     public void reportUpdate(VirtualView client, View view) {
-
-        try {
-            client.getMiniModel().copy(this.getMiniModel());
-        }catch (RemoteException e){
-
-        }
+        view.koAck(string);
         view.showString(string);
     }
 }

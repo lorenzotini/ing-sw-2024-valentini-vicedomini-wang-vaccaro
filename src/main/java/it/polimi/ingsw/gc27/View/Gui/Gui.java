@@ -37,6 +37,11 @@ public class Gui implements View {
 
     private static Gui gui = null;
 
+    public boolean isGameOn() {
+        return isGameOn;
+    }
+
+    private boolean isGameOn = true;
     private Stage stage;
 
     private VirtualView client;
@@ -101,7 +106,7 @@ public class Gui implements View {
 
     //start of the game after initialization
     @Override
-    public void run() throws IOException {
+    public void run() {
         Platform.runLater(() -> {
             try {
                 if (!isReconnected) {
@@ -123,8 +128,8 @@ public class Gui implements View {
                     contr2.chatInitObjective();
 
                     // sets the chat in manuscriptScene
-                    ManuscriptSceneController manuscriptSceneController = (ManuscriptSceneController) Gui.getInstance().getControllerFromName(ScenePaths.MANUSCRIPT.getValue());
-                    manuscriptSceneController.chatInitManuscript();
+//                    ManuscriptSceneController manuscriptSceneController = (ManuscriptSceneController) Gui.getInstance().getControllerFromName(ScenePaths.MANUSCRIPT.getValue());
+//                    manuscriptSceneController.chatInitManuscript();
                 }
 
             } catch (IOException e) {
@@ -151,6 +156,17 @@ public class Gui implements View {
         messagesReceived.add(phrase);
     }
 
+    public void suspendedGame(String string){
+        currentController.suspendeGame();
+        isGameOn = false;
+    }
+
+    @Override
+    public void resumeTheMatch() {
+        isGameOn = true;
+        currentController.reconnectPlayer();
+    }
+
     @Override
     public void show(ArrayList<ResourceCard> hand) {
         if(currentController instanceof ManuscriptSceneController) {
@@ -175,13 +191,6 @@ public class Gui implements View {
 
         Platform.runLater(() -> {
             if(Gui.getInstance().getCurrentController() instanceof ManuscriptSceneController controller) {
-//                controller.manuscriptCard.setImage(controller.handCard.getImage());
-//                controller.handCard.setImage(null);
-//                controller.manuscriptCard.toFront();
-//                controller.manuscriptCard.setOnDragDropped(null);  // disable further drops
-//                controller.manuscriptCard.setOnDragOver(null);
-//                controller.setNewAvailablePositions();
-//
                 try {
 
                     MiniModel miniModel = client.getMiniModel();
@@ -201,23 +210,6 @@ public class Gui implements View {
         });
 
     }
-
-//    @Override
-//    public void updateManuscriptOfOtherPlayer(ClientManuscript manuscript) {
-//        Platform.runLater(() -> {
-//            if(Gui.getInstance().getCurrentController() instanceof ManuscriptSceneController controller) {
-//                MiniModel miniModel = null;
-//                try {
-//                    miniModel = client.getMiniModel();
-//                } catch (RemoteException e) {
-//                    throw new RuntimeException(e);
-//                }
-//                for(Map.Entry<String, ClientManuscript> element :  miniModel.getManuscriptsMap().entrySet()){
-//                    controller.overwriteManuscript(miniModel, element.getKey());
-//                }
-//            }
-//       });
-//    }
 
     @Override
     public void show(ClientBoard board) {
@@ -291,13 +283,16 @@ public class Gui implements View {
 
         Platform.runLater(()->{
             try {
+                ((EndingSceneController)Gui.getInstance().getControllerFromName(ScenePaths.ENDING.getValue()))
+                        .changeWinnersLabel(client.getMiniModel().getBoard().getScoreBoard());
                 if(currentController instanceof ManuscriptSceneController){
                     switchScene(ScenePaths.ENDING.getValue());
+
                 }
 
-                if (currentController instanceof EndingSceneController){
-                    ((EndingSceneController) Gui.getInstance().getCurrentController()).changeWinnersLabel(client.getMiniModel().getBoard().getScoreBoard());
-                }
+//                if (currentController instanceof EndingSceneController){
+//                    ((EndingSceneController) Gui.getInstance().getCurrentController()).changeWinnersLabel(client.getMiniModel().getBoard().getScoreBoard());
+//                }
 
             } catch (Exception e){
 

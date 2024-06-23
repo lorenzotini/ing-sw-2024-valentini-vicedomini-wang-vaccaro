@@ -138,7 +138,6 @@ public class GameController implements Serializable {
                     pawnColor = client.read();
                 } while (!game.validPawn(pawnColor));
                 pawnColourSelected = PawnColour.fromStringToPawnColour(pawnColor);
-                game.getBoard().colourPlayermap.put(username, pawnColourSelected);
                 game.getAvailablePawns().remove(pawnColourSelected);
             }catch(IOException e){
                 System.out.println("Disconnected player before choosing a color");
@@ -159,14 +158,6 @@ public class GameController implements Serializable {
         // Add the player to the game
         game.addPlayer(p, client);
 
-        // Draw the initial cards
-        p.getHand().add(this.getGame().getMarket().getResourceDeck().removeFirst());
-        p.getHand().add(this.getGame().getMarket().getResourceDeck().removeFirst());
-        p.getHand().add(this.getGame().getMarket().getGoldDeck().removeFirst());
-
-        // Get the secret objectives (Two cards are drawn at the beginning of the game)
-        p.getSecretObjectives().add(this.getGame().getObjectiveDeck().removeFirst());
-        p.getSecretObjectives().add(this.getGame().getObjectiveDeck().removeFirst());
 
         try {
             client.setUsername(username);
@@ -182,11 +173,6 @@ public class GameController implements Serializable {
                 player.setPlayerState(new InitializingState(player, this.turnHandler));
                 game.notifyObservers(new UpdateStartOfGameMessage(new MiniModel(player, game), ""));
             }
-//            try {
-//                client.update(new OkMessage("thegamecanstart")); //for gui
-//            } catch (RemoteException e) {
-//
-//            }
         }
     }
 
@@ -262,7 +248,9 @@ public class GameController implements Serializable {
                 if (command instanceof ReconnectPlayerCommand) {
                     command.execute(this);
                     if (!game.isSuspended()) {
+                        game.notifyObservers(new ContinueGameMessage(new MiniModel(game)));
                         suspended = false;
+                        System.out.println("The game has been restored");
                     }
 
                 } else {

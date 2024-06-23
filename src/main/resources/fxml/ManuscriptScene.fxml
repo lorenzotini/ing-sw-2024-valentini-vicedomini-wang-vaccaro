@@ -143,7 +143,7 @@
          </children></Pane>
       <TextFlow fx:id="errorPane" layoutX="828.0" layoutY="660.0" prefHeight="86.0" prefWidth="211.0" textAlignment="CENTER">
          <children>
-            <Text fx:id="errorText" strokeType="OUTSIDE" strokeWidth="0.0">
+            <Text fx:id="errorText" strokeType="OUTSIDE" strokeWidth="0.0" >
                <font>
                   <Font name="Agency FB" size="21.0" />
                </font>

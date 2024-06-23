@@ -381,7 +381,7 @@ public class Tui implements View {
 
     @Override
     public void koAck(String string) {
-
+        out.println(string);
     }
 
     @Override

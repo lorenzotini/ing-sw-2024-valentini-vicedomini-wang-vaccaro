@@ -77,8 +77,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
                 locateRegistry(ipAddress, port);
                 break;
             }catch(IOException | NotBoundException e){
-                //todo: gui
-                view.koAck("Server not found, retrying...");
+                show("Server not found, retrying...");
                 try{
                     Thread.sleep(1000);
                 }catch(InterruptedException ignored){
@@ -134,7 +133,6 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
      */
     @Override
     public void show(String message) throws RemoteException {
-
         view.showString(message);
     }
 

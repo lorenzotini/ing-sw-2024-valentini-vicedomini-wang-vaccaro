@@ -13,7 +13,8 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 public interface View {
-    void run() throws IOException ;
+
+    void run() throws IOException;
 
     void setClient(VirtualView client);
 
@@ -34,6 +35,7 @@ public interface View {
     void show(ClientMarket market);
 
     void updateManuscriptOfOtherPlayer(ClientManuscript manuscript);
+
     void show(ClientChat chat);
 
     String read();

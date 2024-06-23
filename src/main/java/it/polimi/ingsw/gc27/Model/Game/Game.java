@@ -5,6 +5,7 @@ import it.polimi.ingsw.gc27.Messages.Message;
 import it.polimi.ingsw.gc27.Messages.PlayerJoinedMessage;
 import it.polimi.ingsw.gc27.Model.Card.Card;
 import it.polimi.ingsw.gc27.Model.Card.ObjectiveCard.ObjectiveCard;
+import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
 import it.polimi.ingsw.gc27.Model.Card.StarterCard;
 import it.polimi.ingsw.gc27.Model.Enumerations.PawnColour;
 import it.polimi.ingsw.gc27.Model.PlayerListener;
@@ -343,5 +344,25 @@ public class Game implements Serializable {
      */
     public void setPlayers(List<Player> players) {
         this.players = players;
+    }
+
+    public boolean isMarketEmpty(){
+        if(market.getGoldDeck().isEmpty() &&
+                market.getResourceDeck().isEmpty() &&
+                checkIfNoMoreFaceUp(market.getFaceUp(true)) &&
+                checkIfNoMoreFaceUp(market.getFaceUp(false)))
+        {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean checkIfNoMoreFaceUp(ResourceCard[] faceUps){
+        for(int i = 0; i < faceUps.length; i++){
+            if(faceUps[i] != null){
+                return false;
+            }
+        }
+        return true;
     }
 }

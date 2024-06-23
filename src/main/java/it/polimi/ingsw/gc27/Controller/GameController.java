@@ -101,23 +101,10 @@ public class GameController implements Serializable {
 
     private void checkIfEndOfGameNoMoreCards(){
         // check if there are no more cards in decks and face up cards in market
-        if(game.getMarket().getGoldDeck().isEmpty() &&
-                game.getMarket().getResourceDeck().isEmpty() &&
-                checkIfNoMoreFaceUp(game.getMarket().getFaceUp(true)) &&
-                checkIfNoMoreFaceUp(game.getMarket().getFaceUp(false)))
-        {
+        if(game.isMarketEmpty()){
             // TODO adesso chiude e basta la partita, ma dovrebbe essere come quando si arriva a 20 punti quindi fare un turno e decretare il vincitore
             console.closeGame(this, true);
         }
-    }
-
-    private boolean checkIfNoMoreFaceUp(ResourceCard[] faceUps){
-        for(int i = 0; i < faceUps.length; i++){
-            if(faceUps[i] != null){
-                return false;
-            }
-        }
-        return true;
     }
 
     // Create a player from command line, but hand, secret objective and starter are not instantiated

@@ -654,9 +654,7 @@ public class ManuscriptSceneController extends GenericController {
     }
 
     public void overwriteHand(MiniModel miniModel) {
-
         Platform.runLater(() -> {
-
             handCards.getChildren().clear();
             for (Card card : miniModel.getPlayer().getHand()) {
                 ImageView newHandCard = new ImageView(new Image(getClass().getResource(card.getFront().getImagePath()).toExternalForm()));
@@ -669,9 +667,7 @@ public class ManuscriptSceneController extends GenericController {
                 newHandCard.setUserData(handCardData);
                 handCards.getChildren().add(newHandCard);
             }
-
         });
-
     }
 
     public void overwriteMarket(MiniModel miniModel) {
@@ -747,11 +743,8 @@ public class ManuscriptSceneController extends GenericController {
     }
 
     public void overwriteCounters(MiniModel miniModel) {
-
         Platform.runLater(() -> {
-
             counters.getChildren().clear();
-
             for (CornerSymbol cs : CornerSymbol.valuesList()) {
                 if (cs.equals(CornerSymbol.BLACK) || cs.equals(CornerSymbol.EMPTY)) continue;
                 Label counter = new Label("  -  " + miniModel.getManuscript().getCounter(cs));
@@ -760,9 +753,7 @@ public class ManuscriptSceneController extends GenericController {
                 counter.setFont(Font.font("Agency FB", 30));
                 counters.getChildren().add(counter);
             }
-
         });
-
     }
 
     private void addValidPlacements(MiniModel miniModel, Placement placement, GridPane grid) {

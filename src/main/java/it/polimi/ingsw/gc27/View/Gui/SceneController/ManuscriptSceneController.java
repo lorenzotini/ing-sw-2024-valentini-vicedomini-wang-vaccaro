@@ -136,6 +136,7 @@ public class ManuscriptSceneController extends GenericController {
         // common objectives
         for (int i = 0; i < 2; i++) {
             ImageView commonObjective = new ImageView(new Image(getClass().getResource(miniModel.getMarket().getCommonObjectives().get(i).getFront().getImagePath()).toExternalForm()));
+            commonObjective.getStyleClass().add("image-card");
             commonObjective.setFitHeight(70);
             commonObjective.setFitWidth(105);
             zoomCardOnHover(commonObjective, 1.4);
@@ -144,6 +145,7 @@ public class ManuscriptSceneController extends GenericController {
 
         // secret Objective
         secretObjective.setImage(new Image(getClass().getResource(miniModel.getPlayer().getSecretObjectives().getFirst().getFront().getImagePath()).toExternalForm()));
+        secretObjective.getStyleClass().add("image-card");
         zoomCardOnHover(secretObjective, 1.2);
 
         // counters
@@ -659,6 +661,7 @@ public class ManuscriptSceneController extends GenericController {
             handCards.getChildren().clear();
             for (Card card : miniModel.getPlayer().getHand()) {
                 ImageView newHandCard = new ImageView(new Image(getClass().getResource(card.getFront().getImagePath()).toExternalForm()));
+                newHandCard.getStyleClass().add("image-card");
                 newHandCard.setFitHeight(CARD_HEIGHT);
                 newHandCard.setFitWidth(CARD_WIDTH);
                 handleDragDetectedHand(newHandCard);
@@ -690,6 +693,7 @@ public class ManuscriptSceneController extends GenericController {
                     if (i == 0) {
                         fromDeck = true;
                         ImageView marketRes = new ImageView(deckImage);
+                        marketRes.getStyleClass().add("image-card");
                         marketRes.setFitHeight(marketBox.getPrefHeight());
                         marketRes.setFitWidth(marketBox.getPrefWidth() / 3);
                         marketRes.setUserData(new MarketCardData(isGold, fromDeck, 0));
@@ -699,6 +703,7 @@ public class ManuscriptSceneController extends GenericController {
                     } else {
                         fromDeck = false;
                         ImageView marketRes = new ImageView(new Image(getClass().getResource(miniModel.getMarket().getFaceUp(isGold)[i - 1].getFront().getImagePath()).toExternalForm()));
+                        marketRes.getStyleClass().add("image-card");
                         marketRes.setFitHeight(marketBox.getPrefHeight());
                         marketRes.setFitWidth(marketBox.getPrefWidth() / 3);
                         marketRes.setUserData(new MarketCardData(isGold, fromDeck, i - 1));

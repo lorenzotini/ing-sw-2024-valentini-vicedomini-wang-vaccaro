@@ -71,10 +71,10 @@ public class GameController implements Serializable {
      * points on the board and then removes the card from the player's hand.
      *
      * @param player which player performed the action
-     * @param card which card is played
-     * @param face face up or face down
-     * @param x position index
-     * @param y position index
+     * @param card   which card is played
+     * @param face   face up or face down
+     * @param x      position index
+     * @param y      position index
      */
     public void addCard(Player player, ResourceCard card, Face face, int x, int y) {
         player.getPlayerState().addCard(this.game, card, face, x, y);
@@ -96,7 +96,7 @@ public class GameController implements Serializable {
         player.setDisconnected(true);
         try {
             turnHandler.handleDisconnection(player, this);
-        }catch(NullPointerException | InterruptedException e){
+        } catch (NullPointerException | InterruptedException e) {
 
         }
     }
@@ -112,17 +112,17 @@ public class GameController implements Serializable {
         boolean flag = false;
         try {
             do {
-                if(flag){
+                if (flag) {
                     client.update(new KoMessage("invalidUsername"));
                 }
                 client.show("\nChoose your username: ");
                 username = client.read();
                 flag = true;
             } while (!gigaChad.validUsername(username, client));
-        }catch (IOException e){
+        } catch (IOException e) {
             System.out.println("Disconnected player before choosing a username, he'll be removed");
-            synchronized (game.getPlayers()){
-                game.setNumActualPlayers(game.getNumActualPlayers()-1);
+            synchronized (game.getPlayers()) {
+                game.setNumActualPlayers(game.getNumActualPlayers() - 1);
             }
             return;
         }
@@ -133,17 +133,17 @@ public class GameController implements Serializable {
                     client.show("\nChoose your color: ");
                     for (PawnColour pawnColour : game.getAvailablePawns()) {
                         client.show(pawnColour.toString());
-                        client.update(new OkMessage("Choose your color:"+pawnColour.toString()));
+                        client.update(new OkMessage("Choose your color:" + pawnColour.toString()));
                     }
                     pawnColor = client.read();
                 } while (!game.validPawn(pawnColor));
                 pawnColourSelected = PawnColour.fromStringToPawnColour(pawnColor);
                 game.getBoard().colourPlayerMap.put(username, pawnColourSelected);
                 game.getAvailablePawns().remove(pawnColourSelected);
-            }catch(IOException e){
+            } catch (IOException e) {
                 System.out.println("Disconnected player before choosing a color");
-                synchronized (game.getPlayers()){
-                    game.setNumActualPlayers(game.getNumActualPlayers()-1);
+                synchronized (game.getPlayers()) {
+                    game.setNumActualPlayers(game.getNumActualPlayers() - 1);
                 }
                 return;
             }
@@ -170,7 +170,7 @@ public class GameController implements Serializable {
 
         try {
             client.setUsername(username);
-        }catch(IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
@@ -186,19 +186,25 @@ public class GameController implements Serializable {
     }
 
     public void sendChatMessage(ChatMessage chatMessage) {
-        Chat chat;
-        if (chatMessage.getReceiver().equalsIgnoreCase("global")) {
-            synchronized (game.getGeneralChat()) {
-                chat = game.getGeneralChat();
-                chat.addChatMessage(chatMessage);
+        try {
+            Chat chat;
+            if (chatMessage.getReceiver().equalsIgnoreCase("global")) {
+                synchronized (game.getGeneralChat()) {
+                    chat = game.getGeneralChat();
+                    chat.addChatMessage(chatMessage);
+                }
+                game.notifyObservers(new UpdateChatMessage(chat));
+            } else {
+                synchronized (game.getGeneralChat()) {
+
+                    chat = game.getChat(chatMessage.getSender(), chatMessage.getReceiver());
+                    chat.addChatMessage(chatMessage);
+
+                }
+                game.notifyObservers(new UpdateChatMessage(chat, game.getPlayer(chatMessage.getSender()), chatMessage.getReceiver()));
             }
-            game.notifyObservers(new UpdateChatMessage(chat));
-        } else {
-            synchronized (game.getGeneralChat()) {
-                chat = game.getChat(chatMessage.getSender(), chatMessage.getReceiver());
-                chat.addChatMessage(chatMessage);
-            }
-            game.notifyObservers(new UpdateChatMessage(chat, game.getPlayer(chatMessage.getSender()), chatMessage.getReceiver()));
+        } catch (NullPointerException e) {
+            game.notifyObservers(new GenericErrorMessage("There is no one with that name",new MiniModel(getPlayer(chatMessage.getSender()))));
         }
     }
 

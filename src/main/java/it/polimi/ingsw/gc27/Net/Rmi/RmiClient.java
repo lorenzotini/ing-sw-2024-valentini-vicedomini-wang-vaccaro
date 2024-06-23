@@ -57,7 +57,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
     /**
      * The maximum time in milliseconds a server can be inactive before being considered disconnected.
      */
-    private int TIME_COUNT = 1000000;
+    private int TIME_COUNT = 5000;
 
     /**
      * Constructs a new RmiClient with the given IP address, port, and View.

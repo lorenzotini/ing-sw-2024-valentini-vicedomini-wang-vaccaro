@@ -13,6 +13,7 @@ public class ClosedGameForNoOneLeftMessage extends Message{
     @Override
     public void reportUpdate(VirtualView client, View view) {
 
+        view.koAck(this.string);
         view.showString(this.string);
         try {
             client.close();

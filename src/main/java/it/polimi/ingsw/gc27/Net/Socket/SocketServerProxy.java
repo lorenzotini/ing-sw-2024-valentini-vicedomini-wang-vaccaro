@@ -30,7 +30,7 @@ public class SocketServerProxy implements VirtualServer {
     private ObjectInputStream input;
     private ObjectOutputStream output;
     private boolean flag = true;
-    private int TIME_COUNT = 100;
+    private int TIME_COUNT = 5;
 
     /**
      * Constructs a SocketServerProxy and establishes a connection to the server.

@@ -117,23 +117,9 @@ public class Game implements Serializable {
             chatMap.put(new Pair<String, String>(p.getUsername(), player.getUsername()),   chat);
         }
         this.players.add(p);
-        switch (p.getPawnColour()){
-            case RED:
-                board.setRedPlayer(p.getUsername());
-                break;
-            case YELLOW:
-                board.setYellowPlayer(p.getUsername());
-                break;
-            case GREEN:
-                board.setGreenPlayer(p.getUsername());
-                break;
-            case BLUE:
-                board.setBluePlayer(p.getUsername());
-                break;
-            default:
-                break;
-        }
-        //create a listener
+        board.setColourPlayer(p);
+
+//        //create a listener
         //he will listen the observable and decide if the message has to be sent to his player
         this.addObserver(new PlayerListener(client, p));
         this.notifyObservers(new PlayerJoinedMessage(p.getUsername()));
@@ -152,7 +138,8 @@ public class Game implements Serializable {
      * @param username player's username
      */
     public void removeObserver(String username) {
-        observers.removeIf(obs -> obs.getPlayerUsername().equals(username));
+        PlayerListener toBeRemoved = observers.stream().filter(u -> u.getPlayerUsername().equals(username)).toList().getFirst();
+        observers.remove(toBeRemoved);
     }
 
     /**
@@ -224,6 +211,7 @@ public class Game implements Serializable {
         return chats;
     }
 
+
     /**
      * Gets the number of actual players in the game
      * @return The number of actual players
@@ -261,7 +249,6 @@ public class Game implements Serializable {
     public ArrayList<StarterCard> getStarterDeck() {
         return starterDeck;
     }
-
     /**
      * Sets the deck containing starter cards
      * @param starterDeck The ArrayList of StarterCard instances to set as the starter deck
@@ -269,7 +256,6 @@ public class Game implements Serializable {
     public void setStarterDeck(ArrayList<StarterCard> starterDeck) {
         this.starterDeck = starterDeck;
     }
-
     /**
      * Gets the deck containing objective cards
      * @return The ArrayList of ObjectiveCard instances representing the objective deck
@@ -285,7 +271,6 @@ public class Game implements Serializable {
     public void setObjectiveDeck(ArrayList<ObjectiveCard> objectiveDeck) {
         this.objectiveDeck = objectiveDeck;
     }
-
     /**
      * Gets the market
      * @return The Market instance representing the game's market

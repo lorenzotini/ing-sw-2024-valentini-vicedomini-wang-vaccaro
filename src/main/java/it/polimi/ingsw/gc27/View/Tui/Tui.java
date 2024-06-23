@@ -287,6 +287,17 @@ public class Tui implements View {
     }
 
     @Override
+    public void suspendedGame(String string) {
+        out.println(string);
+    }
+
+    @Override
+    public void resumeTheMatch() {
+
+        out.println("The game can resume, play");
+    }
+
+    @Override
     public void showString(String phrase) {
         out.println(phrase);
     }

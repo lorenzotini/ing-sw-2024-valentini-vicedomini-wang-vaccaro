@@ -45,5 +45,11 @@
       <ImageView fitHeight="100.0" fitWidth="260.0" layoutX="513.0" layoutY="644.0" pickOnBounds="true" preserveRatio="true" styleClass="decoration" />
       <ImageView fitHeight="100.0" fitWidth="260.0" layoutX="773.0" layoutY="644.0" pickOnBounds="true" preserveRatio="true" styleClass="decoration2" />
       <TabPane fx:id="chatTabPane" layoutX="1143.0" layoutY="55.0" prefHeight="262.0" prefWidth="299.0" stylesheets="@../css/Chat.css" tabClosingPolicy="UNAVAILABLE" />
+      <Label fx:id="gameSuspendedLabel" alignment="TOP_CENTER" layoutX="581.0" layoutY="353.0" prefHeight="18.0" prefWidth="368.0" text="The game has been suspended" textFill="#f40404" visible="false">
+         <font>
+            <Font name="Agency FB" size="33.0" />
+         </font>
+      </Label>
+
    </children>
 </AnchorPane>

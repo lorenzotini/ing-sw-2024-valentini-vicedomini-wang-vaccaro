@@ -24,8 +24,7 @@ public class Board implements Serializable, ClientBoard {
     private String greenPlayer;
     private String bluePlayer;
     public final static int END_GAME_THRESHOLD = 20;
-    public final static int MAX_POINTS = 29;
-    public HashMap<String, PawnColour> colourPlayermap = new HashMap<>();
+    public HashMap<String, PawnColour> colourPlayerMap=new HashMap<>();
 
     /**
      * populates the Hashmap colourPlayerMap with players and their pawn colours
@@ -33,7 +32,7 @@ public class Board implements Serializable, ClientBoard {
      */
     public void initBoard(List<Player> players){
         for(Player p: players){
-            colourPlayermap.put(p.getUsername(), p.getPawnColour());
+            colourPlayerMap.put(p.getUsername(), p.getPawnColour());
         }
     }
 
@@ -124,71 +123,27 @@ public class Board implements Serializable, ClientBoard {
      * @return The HashMap colourPlayermap
      */
     @Override
-    public HashMap<String, PawnColour> getColourPlayermap() {
-        return colourPlayermap;
+    public HashMap<String, PawnColour> getColourPlayerMap() {
+        return colourPlayerMap;
     }
 
-    /**
-     * Gets the username of the red player.
-     * @return The username of the red player.
-     */
-    public String getRedPlayer() {
-        return redPlayer;
-    }
 
-    /**
-     * Sets the username of the red player.
-     * @param redPlayer The username to set for the red player.
-     */
-    public void setRedPlayer(String redPlayer) {
-        this.redPlayer = redPlayer;
-    }
-
-    /**
-     * Gets the username of the yellow player.
-     * @return The username of the yellow player.
-     */
-    public String getYellowPlayer() {
-        return yellowPlayer;
-    }
-
-    /**
-     * Sets the username of the yellow player.
-     * @param yellowPlayer The username to set for the yellow player.
-     */
-    public void setYellowPlayer(String yellowPlayer) {
-        this.yellowPlayer = yellowPlayer;
-    }
-
-    /**
-     * Gets the username of the green player.
-     * @return The username of the green player.
-     */
-    public String getGreenPlayer() {
-        return greenPlayer;
-    }
-
-    /**
-     * Sets the username of the green player.
-     * @param greenPlayer The username to set for the green player.
-     */
-    public void setGreenPlayer(String greenPlayer) {
-        this.greenPlayer = greenPlayer;
-    }
-
-    /**
-     * Gets the username of the blue player.
-     * @return The username of the blue player.
-     */
-    public String getBluePlayer() {
-        return bluePlayer;
-    }
-
-    /**
-     * Sets the username of the blue player.
-     * @param bluePlayer The username to set for the blue player.
-     */
-    public void setBluePlayer(String bluePlayer) {
-        this.bluePlayer = bluePlayer;
+    public void setColourPlayer(Player p){
+        switch (p.getPawnColour()){
+            case RED:
+                redPlayer = p.getUsername();
+                break;
+            case YELLOW:
+                yellowPlayer = p.getUsername();
+                break;
+            case GREEN:
+                greenPlayer = p.getUsername();
+                break;
+            case BLUE:
+                bluePlayer = p.getUsername();
+                break;
+            default:
+                break;
+        }
     }
 }

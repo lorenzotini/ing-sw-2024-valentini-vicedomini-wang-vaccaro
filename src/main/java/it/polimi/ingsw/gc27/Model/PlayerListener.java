@@ -22,19 +22,18 @@ public class PlayerListener implements Serializable {
      * @param message doesn't  modify message, but decide if it has to be sent or not to that client
      */
     public void update(Message message) {
-        try {
+
             if (message.getMiniModel() == null ||
                     (message.getMiniModel().currentPlayer == null && message.getMiniModel().getPlayer() == null) ||
                     (message.getMiniModel().currentPlayer != null && message.getMiniModel().currentPlayer.equals(playerUsername)) ||
                     (message.getMiniModel().getPlayer() != null && message.getMiniModel().getPlayer().getUsername().equals(playerUsername))) {
                 //the condition check that the client of this listener has to receive the update
 
-                client.update(message);
-
+                    try{
+                        client.update(message);
+                    }catch(RemoteException e){
+                    }
             }
-        } catch (RemoteException e) {
-            System.out.println(e.detail);
-        }
     }
 
     public String getPlayerUsername() {

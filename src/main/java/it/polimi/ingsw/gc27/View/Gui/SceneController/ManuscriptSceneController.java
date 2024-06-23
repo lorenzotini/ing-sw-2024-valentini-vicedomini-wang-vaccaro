@@ -102,7 +102,6 @@ public class ManuscriptSceneController extends GenericController {
     private final int PAWN_DIM = 50;
 
 
-
     public void init() {
         circleChat.setVisible(false);
 
@@ -119,11 +118,11 @@ public class ManuscriptSceneController extends GenericController {
         createManuscriptGrids(miniModel);
         createBoardGrids(miniModel);
         createActionFeedback();
-        creareErrorPane();
+        createErrorPane();
         chatInitManuscript();
 
         // populate manuscripts
-        for(Map.Entry<String, ClientManuscript> element :  miniModel.getManuscriptsMap().entrySet()){
+        for (Map.Entry<String, ClientManuscript> element : miniModel.getManuscriptsMap().entrySet()) {
             overwriteManuscript(miniModel, element.getKey(), true);
         }
 
@@ -145,7 +144,7 @@ public class ManuscriptSceneController extends GenericController {
 
         // secret Objective
         secretObjective.setImage(new Image(getClass().getResource(miniModel.getPlayer().getSecretObjectives().getFirst().getFront().getImagePath()).toExternalForm()));
-        zoomCardOnHover(secretObjective, 1.3);
+        zoomCardOnHover(secretObjective, 1.2);
 
         // counters
         overwriteCounters(miniModel);
@@ -156,27 +155,26 @@ public class ManuscriptSceneController extends GenericController {
             throw new RuntimeException();
         }
 
-
     }
-    public void creareErrorPane(){
-        Platform.runLater(()->{
+
+    public void createErrorPane() {
+        Platform.runLater(() -> {
             errorPane.setMaxWidth(200);
             errorPane.setTextAlignment(TextAlignment.RIGHT);
             errorPane.toFront();
-
         });
     }
 
-    public void createActionFeedback(){
-        Platform.runLater(()->{
+    public void createActionFeedback() {
+        Platform.runLater(() -> {
             actionFeedback.setText("so fast!");
             actionFeedback.getStyleClass().add("labelActionFeedback");
             feedbackTextFlow.setMaxWidth(400);
             feedbackTextFlow.setTextAlignment(TextAlignment.RIGHT);
             feedbackTextFlow.toFront();
-
         });
     }
+
     public void fullChatAllocate() throws RemoteException {
         MiniModel miniModel = Gui.getInstance().getClient().getMiniModel();
         String myUsername = miniModel.getPlayer().getUsername();
@@ -267,8 +265,8 @@ public class ManuscriptSceneController extends GenericController {
 
         }
 
-        chatTitledPane.setOnMouseClicked(event->{
-            Platform.runLater(()->{
+        chatTitledPane.setOnMouseClicked(event -> {
+            Platform.runLater(() -> {
                 chatTitledPane.toFront();
                 circleChat.setVisible(false);
             });
@@ -293,6 +291,7 @@ public class ManuscriptSceneController extends GenericController {
 
     /**
      * allows to send the message in the chat by clicking the "send" button
+     *
      * @param button
      * @param textField
      */
@@ -303,8 +302,10 @@ public class ManuscriptSceneController extends GenericController {
 
         });
     }
+
     /**
      * allows to send the message in the chat by clicking the "enter" button on the keyboard
+     *
      * @param textField
      */
 
@@ -317,7 +318,6 @@ public class ManuscriptSceneController extends GenericController {
             }
         });
     }
-
 
 
     void handleDropEventManuscript(ImageView imgView) {
@@ -485,15 +485,15 @@ public class ManuscriptSceneController extends GenericController {
         MiniModel miniModel;
 
         try {
-            miniModel=Gui.getInstance().getClient().getMiniModel();
+            miniModel = Gui.getInstance().getClient().getMiniModel();
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }
-        Platform.runLater(()->{
+        Platform.runLater(() -> {
             errorPane.setVisible(false);
             String feedback;
-            feedback= miniModel.getPlayer().getPlayerState().toStringGUI();
-            System.out.println("\nFEEDBACK "+feedback);
+            feedback = miniModel.getPlayer().getPlayerState().toStringGUI();
+            System.out.println("\nFEEDBACK " + feedback);
             actionFeedback.setText(feedback);
             feedbackTextFlow.setTextAlignment(TextAlignment.RIGHT);
 
@@ -502,7 +502,7 @@ public class ManuscriptSceneController extends GenericController {
 
     @Override
     public void receiveKo(String ackType) {
-        Platform.runLater(()->{
+        Platform.runLater(() -> {
             errorPane.setTextAlignment(TextAlignment.CENTER);
             errorText.getStyleClass().add("labelError");
             errorText.setText(ackType);
@@ -514,6 +514,7 @@ public class ManuscriptSceneController extends GenericController {
     /**
      * method implemented from {@link GenericController},
      * invoked by Gui when a message is sent by a player in the chat
+     *
      * @param chat
      * @param miniModel
      */
@@ -523,7 +524,7 @@ public class ManuscriptSceneController extends GenericController {
                     .filter(user -> !user.equals(miniModel.getPlayer().getUsername()))
                     .toList().getFirst();
             Tab tab = chatTabHashMap.get(username);
-            if(!chat.getChatMessages().getLast().getSender().equals(miniModel.getPlayer().getUsername())){
+            if (!chat.getChatMessages().getLast().getSender().equals(miniModel.getPlayer().getUsername())) {
                 circleChat.setVisible(true);
             }
 
@@ -643,7 +644,7 @@ public class ManuscriptSceneController extends GenericController {
             }
 
             // make the player's manuscript as first tab visualized
-            if(newScene){
+            if (newScene) {
                 manuscriptTabPane.getSelectionModel().select(manuscriptTabPane.getTabs().stream().filter(tab -> tab.getText().equals(miniModel.getPlayer().getUsername())).findFirst().get());
             }
 
@@ -662,7 +663,7 @@ public class ManuscriptSceneController extends GenericController {
                 newHandCard.setFitWidth(CARD_WIDTH);
                 handleDragDetectedHand(newHandCard);
                 handleOnClick(newHandCard);
-                zoomCardOnHover(newHandCard, 1.3);
+                zoomCardOnHover(newHandCard, 1.2);
                 HandCardData handCardData = new HandCardData(miniModel.getPlayer().getHand().indexOf(card), true);
                 newHandCard.setUserData(handCardData);
                 handCards.getChildren().add(newHandCard);
@@ -723,7 +724,7 @@ public class ManuscriptSceneController extends GenericController {
 
             for (CornerSymbol cs : CornerSymbol.valuesList()) {
                 if (cs.equals(CornerSymbol.BLACK) || cs.equals(CornerSymbol.EMPTY)) continue;
-                Label counter = new Label( "  -  " + miniModel.getManuscript().getCounter(cs));
+                Label counter = new Label("  -  " + miniModel.getManuscript().getCounter(cs));
                 counter.setPrefHeight(60);
                 counter.setFont(Font.font("Agency FB", 30));
                 counter.setFont(Font.font("Agency FB", 30));
@@ -751,59 +752,59 @@ public class ManuscriptSceneController extends GenericController {
         }
     }
 
-    public void initializePoints(){
-        position.put(0, new Point(3,60));
-        position.put(1, new Point(7,60));
-        position.put(2, new Point(10,60));
+    public void initializePoints() {
+        position.put(0, new Point(3, 60));
+        position.put(1, new Point(7, 60));
+        position.put(2, new Point(10, 60));
 
-        position.put(6, new Point(1,54));
-        position.put(5, new Point(6,54));
-        position.put(4, new Point(8,54));
-        position.put(3, new Point(12,54));
+        position.put(6, new Point(1, 54));
+        position.put(5, new Point(6, 54));
+        position.put(4, new Point(8, 54));
+        position.put(3, new Point(12, 54));
 
-        position.put(7, new Point(1,48));
-        position.put(8, new Point(6,48));
-        position.put(9, new Point(8,48));
-        position.put(10, new Point(12,48));
+        position.put(7, new Point(1, 48));
+        position.put(8, new Point(6, 48));
+        position.put(9, new Point(8, 48));
+        position.put(10, new Point(12, 48));
 
-        position.put(14, new Point(1,42));
-        position.put(13, new Point(6,42));
-        position.put(12, new Point(8,42));
-        position.put(11, new Point(12,42));
+        position.put(14, new Point(1, 42));
+        position.put(13, new Point(6, 42));
+        position.put(12, new Point(8, 42));
+        position.put(11, new Point(12, 42));
 
-        position.put(15, new Point(1,36));
-        position.put(16, new Point(6,36));
-        position.put(17, new Point(8,36));
-        position.put(18, new Point(12,36));
+        position.put(15, new Point(1, 36));
+        position.put(16, new Point(6, 36));
+        position.put(17, new Point(8, 36));
+        position.put(18, new Point(12, 36));
 
-        position.put(19, new Point(12,30));
-        position.put(20, new Point(7,25));
-        position.put(21, new Point(1,30));
-        position.put(22, new Point(1,20));
+        position.put(19, new Point(12, 30));
+        position.put(20, new Point(7, 25));
+        position.put(21, new Point(1, 30));
+        position.put(22, new Point(1, 20));
 
-        position.put(23, new Point(1,11));
-        position.put(24, new Point(4,6));
-        position.put(25, new Point(4,5));
-        position.put(26, new Point(9,6));
-        position.put(27, new Point(12,11));
-        position.put(28, new Point(12,20));
-        position.put(29, new Point(7,15));
+        position.put(23, new Point(1, 11));
+        position.put(24, new Point(4, 6));
+        position.put(25, new Point(4, 5));
+        position.put(26, new Point(9, 6));
+        position.put(27, new Point(12, 11));
+        position.put(28, new Point(12, 20));
+        position.put(29, new Point(7, 15));
 
     }
 
-    public void setBoard(MiniModel miniModel){
+    public void setBoard(MiniModel miniModel) {
         ImageView img = new ImageView(new Image(getClass().getResource(miniModel.getPlayer().getPawnColour().getPathImage()).toExternalForm()));
 
         img.setFitWidth(PAWN_DIM);
         img.setFitHeight(PAWN_DIM);
         Point score = position.get(0);
-        scoreBoard.add(img, score.getx(),score.gety());
+        scoreBoard.add(img, score.getx(), score.gety());
 
         score.incrementCount();
         pawnColourIntegerHashMap.put(miniModel.getPlayer().getPawnColour(), 0);
         pawnColourImageViewHashMap.put(miniModel.getPlayer().getPawnColour(), img);
 
-        for(String username : miniModel.getOtherPlayersUsernames()){
+        for (String username : miniModel.getOtherPlayersUsernames()) {
             ClientBoard board = miniModel.getBoard();
             img = new ImageView(new Image(getClass().getResource(board.getColourPlayerMap().get(username).getPathImage()).toExternalForm()));
             img.setFitWidth(PAWN_DIM);
@@ -814,7 +815,8 @@ public class ManuscriptSceneController extends GenericController {
             pawnColourImageViewHashMap.put(board.getColourPlayerMap().get(username), img);
         }
     }
-    public void updateBoard(ClientBoard board){
+
+    public void updateBoard(ClientBoard board) {
         MiniModel miniModel;
         try {
             miniModel = Gui.getInstance().getClient().getMiniModel();
@@ -822,17 +824,18 @@ public class ManuscriptSceneController extends GenericController {
             throw new RuntimeException(e);
         }
         updatePawn(miniModel.getPlayer().getUsername(), miniModel);
-        for(String user : miniModel.getOtherPlayersUsernames()){
+        for (String user : miniModel.getOtherPlayersUsernames()) {
             updatePawn(user, miniModel);
 
         }
     }
-    public void updatePawn(String username, MiniModel miniModel){
+
+    public void updatePawn(String username, MiniModel miniModel) {
 
         PawnColour colour = miniModel.getBoard().getColourPlayerMap().get(username);
         int actualScore = miniModel.getBoard().getScoreBoard().get(username);
         int oldScore = pawnColourIntegerHashMap.get(colour);
-        if(actualScore != oldScore){
+        if (actualScore != oldScore) {
             Point newPoint = position.get(actualScore);
 
             ImageView imgView = pawnColourImageViewHashMap.get(colour);
@@ -843,7 +846,7 @@ public class ManuscriptSceneController extends GenericController {
             pawnColourImageViewHashMap.put(colour, newImage);
             imgView.setImage(null);
 
-            Platform.runLater(()->{
+            Platform.runLater(() -> {
                 scoreBoard.add(newImage, newPoint.getx(), newPoint.gety() - newPoint.getCount());
 
             });
@@ -857,11 +860,12 @@ public class ManuscriptSceneController extends GenericController {
     }
 
     @Override
-    public void reconnectPlayer(){
+    public void reconnectPlayer() {
         errorText.setText("The game can resume");
     }
+
     @Override
-    public void suspendeGame(){
-            errorText.setText("The game has been suspended, you're the last one playing");
+    public void suspendeGame() {
+        errorText.setText("The game has been suspended, you're the last one playing");
     }
 }

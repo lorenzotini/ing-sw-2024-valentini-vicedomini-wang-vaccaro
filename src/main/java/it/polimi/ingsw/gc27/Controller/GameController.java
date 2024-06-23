@@ -102,8 +102,7 @@ public class GameController implements Serializable {
     private void checkIfEndOfGameNoMoreCards(){
         // check if there are no more cards in decks and face up cards in market
         if(game.isMarketEmpty()){
-            // TODO adesso chiude e basta la partita, ma dovrebbe essere come quando si arriva a 20 punti quindi fare un turno e decretare il vincitore
-            console.closeGame(this, true);
+            turnHandler.triggerEndingGameDueToNoMoreCards();
         }
     }
 
@@ -250,7 +249,7 @@ public class GameController implements Serializable {
                         System.out.println("The game: " + id + " has been closed");
                         suspended = false;
                         inMatch = false;
-                        console.closeGame(this, false);
+                        console.closeGame(this);
                     }
                 }
             }

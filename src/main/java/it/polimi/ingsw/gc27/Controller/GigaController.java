@@ -299,10 +299,9 @@ public class GigaController {
         }
     }
 
-    public void closeGame(GameController controller,  boolean becauseOfNoMoreCards) {
-        String text = becauseOfNoMoreCards ? "No more cards to draw, the game is over" : "The game has been closed because it's been suspended for too long";
+    public void closeGame(GameController controller) {
         synchronized (gameControllers) {
-            controller.getGame().notifyObservers(new ClosingGameMessage(text));
+            controller.getGame().notifyObservers(new ClosingGameMessage("The game has been closed because it's been suspended for too long"));
             gameControllers.remove(controller);
         }
     }

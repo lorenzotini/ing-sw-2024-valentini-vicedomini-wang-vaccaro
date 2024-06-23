@@ -346,11 +346,12 @@ public class Game implements Serializable {
         this.players = players;
     }
 
+    // check only decks, so that when they are empty there are 4 more cards to draw in the last round triggered by this method
     public boolean isMarketEmpty(){
         if(market.getGoldDeck().isEmpty() &&
-                market.getResourceDeck().isEmpty() &&
-                checkIfNoMoreFaceUp(market.getFaceUp(true)) &&
-                checkIfNoMoreFaceUp(market.getFaceUp(false)))
+                market.getResourceDeck().isEmpty())
+//                checkIfNoMoreFaceUp(market.getFaceUp(true)) &&
+//                checkIfNoMoreFaceUp(market.getFaceUp(false)))
         {
             return true;
         }

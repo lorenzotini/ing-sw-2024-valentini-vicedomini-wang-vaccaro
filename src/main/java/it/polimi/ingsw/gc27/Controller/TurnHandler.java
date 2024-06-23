@@ -245,6 +245,12 @@ public class TurnHandler implements Serializable {
         }
     }
 
+    public void triggerEndingGameDueToNoMoreCards(){
+        lastRound = true;
+        Message lastRoundMessage = new LastRoundMessage(new MiniModel(game),"It's the last turn!");
+        this.game.notifyObservers(lastRoundMessage);
+    }
+
     public void handleDisconnection(Player player, GameController gc) throws InterruptedException {
 
         String stateClassName = player.getPlayerState().getClass().getSimpleName();

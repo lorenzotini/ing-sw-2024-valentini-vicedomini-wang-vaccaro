@@ -55,6 +55,11 @@ public class Initializer {
         Collections.shuffle(goldDeck);
         Collections.shuffle(objectiveDeck);
 
+        for(int i=0 ; i<32; i++){
+            resourceDeck.removeFirst();
+            goldDeck.removeFirst();
+        }
+
         // set common objectives
         ObjectiveCard commObj1 = objectiveDeck.removeLast();
         ObjectiveCard commObj2 = objectiveDeck.removeLast();

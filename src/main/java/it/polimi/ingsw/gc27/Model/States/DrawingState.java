@@ -47,7 +47,7 @@ public class DrawingState extends PlayerState {
 
         Market market = turnHandler.getGame().getMarket();
         ArrayList<? extends ResourceCard> deck;
-        ResourceCard card;
+        ResourceCard card = null;
 
         deck = isGold ? market.getGoldDeck() : market.getResourceDeck();
 
@@ -56,8 +56,9 @@ public class DrawingState extends PlayerState {
             if (fromDeck) { // player drawn card from a deck
                 card = deck.removeLast();
             } else { // player drawn a face up card from the market
-                card = market.getFaceUp(isGold)[faceUpCardIndex];
-                market.setFaceUp(deck.removeLast(), faceUpCardIndex);
+                card = market.getFaceUp(isGold)[faceUpCardIndex]; // pick the card
+                market.getFaceUp(isGold)[faceUpCardIndex] = null; // delete it from the market
+                market.setFaceUp(deck.removeLast(), faceUpCardIndex); // eventually, replace it with a deck card
             }
 
             player.getHand().add(card);
@@ -72,8 +73,22 @@ public class DrawingState extends PlayerState {
             turnHandler.getGame().notifyObservers(updateHandMessage);
             turnHandler.getGame().notifyObservers(updateMarketMessage);
         } catch (NoSuchElementException e){
-            super.sendError("No more cards to draw!", getPlayer(), turnHandler);
+            if(!fromDeck){
+               // card = market.getFaceUp(isGold)[faceUpCardIndex];
+                player.getHand().add(card);
 
+                player.setPlayerState(new EndOfTurnState(player, getTurnHandler()));
+                getTurnHandler().notifyEndOfTurnState(getPlayer());
+
+                //send messages, one for the updated hand and the other for the updated market
+                Message updateHandMessage = new UpdateHandMessage(new MiniModel(player));
+
+                Message updateMarketMessage = new UpdateMarketMessage(new MiniModel(market));
+                turnHandler.getGame().notifyObservers(updateHandMessage);
+                turnHandler.getGame().notifyObservers(updateMarketMessage);
+            } else {
+                super.sendError("No more cards to draw!", getPlayer(), turnHandler);
+            }
         }
 
     }

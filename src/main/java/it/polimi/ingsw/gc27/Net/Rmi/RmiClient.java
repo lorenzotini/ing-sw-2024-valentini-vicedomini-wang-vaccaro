@@ -246,7 +246,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
         }
         while(true){
             if((System.currentTimeMillis() - this.lastPingFromServer) > TIME_COUNT ){
-                System.out.println("The connection has been lost, please restart the game");
+                System.out.println("Connection to the server was dropped");
                 close();
             }
             try {

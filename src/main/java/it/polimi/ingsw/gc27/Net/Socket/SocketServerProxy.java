@@ -123,8 +123,7 @@ public class SocketServerProxy implements VirtualServer {
                 }
                 count++;
                 if (count == TIME_COUNT) {
-                    System.out.println("il server è caduto rilanciare il client");
-
+                    System.out.println("Connection to the server was dropped");
                     try {
                         client.close();
                     } catch (RemoteException e) {

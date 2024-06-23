@@ -84,7 +84,7 @@ public class ChooseObjectiveSceneController extends GenericController {
                 chatTab.setText(username);
                 chatTabHashMapC.put(username, chatTab);
 
-                PawnColour colour = miniModel.getBoard().getColourPlayermap().get(username);
+                PawnColour colour = miniModel.getBoard().getColourPlayerMap().get(username);
                 switch (colour) {
 
                     case BLUE:

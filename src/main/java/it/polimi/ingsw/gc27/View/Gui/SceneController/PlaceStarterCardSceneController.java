@@ -65,7 +65,7 @@ public class PlaceStarterCardSceneController extends GenericController{
                     chatTab.setText(username);
                     chatTabHashMapP.put(username, chatTab);
 
-                    PawnColour colour = miniModel.getBoard().getColourPlayermap().get(username);
+                    PawnColour colour = miniModel.getBoard().getColourPlayerMap().get(username);
                     switch (colour){
 
                         case BLUE: chatTab.getStyleClass().add("tab-colour-blue");

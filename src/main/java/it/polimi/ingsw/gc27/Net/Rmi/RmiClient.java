@@ -212,7 +212,6 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
         }).start();
 
         try{
-
             this.server.welcomePlayer(this);
             this.show("Welcome " + this.username + "!" + "\nWaiting for other players to join the game...");
         }catch(IOException e){
@@ -233,7 +232,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
         try{
             view.run();
         }catch(IOException e){
-            System.out.println("There has been a problem with the UI, plese restart ");
+            System.out.println("There has been a problem with the UI, please restart ");
             close();
         }
 

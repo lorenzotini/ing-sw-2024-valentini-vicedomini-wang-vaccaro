@@ -13,6 +13,6 @@ public interface ClientBoard {
     int getPointsRedPlayer();
     int getPointsBluePlayer();
     Map<String, Integer> getScoreBoard();
-    HashMap<String, PawnColour> getColourPlayermap();
-
+    HashMap<String, PawnColour> getColourPlayerMap();
+    int getPointsOf(PawnColour value);
 }

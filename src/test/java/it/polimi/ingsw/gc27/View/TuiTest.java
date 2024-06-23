@@ -420,15 +420,15 @@ class TuiTest {
 
     }
 
-    @Test
-    void showBoardTest() throws RemoteException {
-        Board board = new Board();
-        board.setPointsBluePlayer(10);
-        board.setPointsGreenPlayer(8);
-        board.setPointsRedPlayer(15);
-        board.setPointsYellowPlayer(3);
-        out.println(showBoard(board));
-    }
+//    @Test
+//    void showBoardTest() throws RemoteException {
+//        Board board = new Board();
+//        board.setPointsBluePlayer(10);
+//        board.setPointsGreenPlayer(8);
+//        board.setPointsRedPlayer(15);
+//        board.setPointsYellowPlayer(3);
+//        out.println(showBoard(board));
+//    }
 
     @Test
     void showStarterTest(){

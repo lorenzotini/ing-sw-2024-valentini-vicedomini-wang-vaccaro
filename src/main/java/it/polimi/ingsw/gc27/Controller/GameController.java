@@ -138,7 +138,7 @@ public class GameController implements Serializable {
                     pawnColor = client.read();
                 } while (!game.validPawn(pawnColor));
                 pawnColourSelected = PawnColour.fromStringToPawnColour(pawnColor);
-                game.getBoard().colourPlayermap.put(username, pawnColourSelected);
+                game.getBoard().colourPlayerMap.put(username, pawnColourSelected);
                 game.getAvailablePawns().remove(pawnColourSelected);
             }catch(IOException e){
                 System.out.println("Disconnected player before choosing a color");

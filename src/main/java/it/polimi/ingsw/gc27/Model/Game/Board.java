@@ -6,8 +6,6 @@ import it.polimi.ingsw.gc27.Model.Enumerations.PawnColour;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -25,7 +23,7 @@ public class Board implements Serializable, ClientBoard {
     private String bluePlayer;
     public final static int END_GAME_THRESHOLD = 20;
     public final static int MAX_POINTS = 29;
-    public HashMap<String, PawnColour> colourPlayermap = new HashMap<>();
+    public HashMap<String, PawnColour> colourPlayerMap = new HashMap<>();
 
     /**
      * populates the Hashmap colourPlayerMap with players and their pawn colours
@@ -33,7 +31,7 @@ public class Board implements Serializable, ClientBoard {
      */
     public void initBoard(List<Player> players){
         for(Player p: players){
-            colourPlayermap.put(p.getUsername(), p.getPawnColour());
+            colourPlayerMap.put(p.getUsername(), p.getPawnColour());
         }
     }
 
@@ -124,8 +122,8 @@ public class Board implements Serializable, ClientBoard {
      * @return The HashMap colourPlayermap
      */
     @Override
-    public HashMap<String, PawnColour> getColourPlayermap() {
-        return colourPlayermap;
+    public HashMap<String, PawnColour> getColourPlayerMap() {
+        return colourPlayerMap;
     }
 
     /**
@@ -190,5 +188,15 @@ public class Board implements Serializable, ClientBoard {
      */
     public void setBluePlayer(String bluePlayer) {
         this.bluePlayer = bluePlayer;
+    }
+
+    public int getPointsOf(PawnColour pawnColour){
+        return switch (pawnColour) {
+            case RED -> pointsRedPlayer;
+            case YELLOW -> pointsYellowPlayer;
+            case GREEN -> pointsGreenPlayer;
+            case BLUE -> pointsBluePlayer;
+            default -> 0;
+        };
     }
 }

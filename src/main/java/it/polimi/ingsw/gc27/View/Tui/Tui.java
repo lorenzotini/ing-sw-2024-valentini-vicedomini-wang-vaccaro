@@ -6,6 +6,7 @@ import it.polimi.ingsw.gc27.Model.ClientClass.ClientBoard;
 import it.polimi.ingsw.gc27.Model.ClientClass.ClientChat;
 import it.polimi.ingsw.gc27.Model.ClientClass.ClientManuscript;
 import it.polimi.ingsw.gc27.Model.ClientClass.ClientMarket;
+import it.polimi.ingsw.gc27.Model.Enumerations.PawnColour;
 import it.polimi.ingsw.gc27.Model.Enumerations.PointsMultiplier;
 import it.polimi.ingsw.gc27.Model.Game.*;
 import it.polimi.ingsw.gc27.Model.States.*;
@@ -30,13 +31,18 @@ public class Tui implements View {
     private final Scanner scan = new Scanner(in);
     boolean alreadyPrintedWinners = false;
     boolean isEndingState = false;
+    private static final ArrayList<String> chatters = new ArrayList<>();
 
     static {
+        // create a card for when the deck is empty
         noCardPrint.add("╔═════════════════╗");
         noCardPrint.add("║      #####      ║");
         noCardPrint.add("║      #####      ║");
         noCardPrint.add("║      #####      ║");
         noCardPrint.add("╚═════════════════╝");
+
+        // add the global chat
+        chatters.addFirst("Global");
     }
 
     @Override
@@ -44,14 +50,16 @@ public class Tui implements View {
 
         showTitle();
 
+        chatters.addAll(client.getMiniModel().getOtherPlayersUsernames());
+
         out.println("\nThe game is starting!");
         //TODO svuotare il buffer, altrimenti printa tutti i comandi presi durante l'attesa dei giocatori
         while (true) {
 
             try {
                 TimeUnit.MILLISECONDS.sleep(400);
-            }catch(InterruptedException e) {
-                throw  new RuntimeException("Thread Problem");
+            } catch (InterruptedException e) {
+                throw new RuntimeException("Thread Problem");
             }
             out.print(client.getMiniModel().getPlayer().getPlayerState() + "\n> ");
 
@@ -67,18 +75,18 @@ public class Tui implements View {
 
                 case "help":
                     out.println("╔═══ Commands ══════════════════════════════════╗");
-                    out.println("║ "+ ColourControl.YELLOW_BOLD+"addstarter"+ColourControl.RESET+" - add a starter card to your board ║");
-                    out.println("║ "+ColourControl.YELLOW_BOLD+"chooseobj"+ColourControl.RESET+" - choose an objective card          ║");
-                    out.println("║ "+ColourControl.YELLOW_BOLD+"addcard"+ColourControl.RESET+" - add a card to your board            ║");
-                    out.println("║ "+ColourControl.YELLOW_BOLD+"draw"+ColourControl.RESET+" - draw a card from the market            ║");
-                    out.println("║ "+ColourControl.YELLOW_BOLD+"sendmessage"+ColourControl.RESET+" - send a message in chat          ║");
+                    out.println("║ " + ColourControl.YELLOW_BOLD + "addstarter" + ColourControl.RESET + " - add a starter card to your board ║");
+                    out.println("║ " + ColourControl.YELLOW_BOLD + "chooseobj" + ColourControl.RESET + " - choose an objective card          ║");
+                    out.println("║ " + ColourControl.YELLOW_BOLD + "addcard" + ColourControl.RESET + " - add a card to your board            ║");
+                    out.println("║ " + ColourControl.YELLOW_BOLD + "draw" + ColourControl.RESET + " - draw a card from the market            ║");
+                    out.println("║ " + ColourControl.YELLOW_BOLD + "sendmessage" + ColourControl.RESET + " - send a message in chat          ║");
                     out.println("╔═══ Visualize ═════════════════════════════════╗");
-                    out.println("║ "+ColourControl.YELLOW_BOLD+"man"+ColourControl.RESET+" - print your manuscript                   ║");
-                    out.println("║ "+ColourControl.YELLOW_BOLD+"hand"+ColourControl.RESET+" - print your hand                        ║");
-                    out.println("║ "+ColourControl.YELLOW_BOLD+"obj"+ColourControl.RESET+" - print your secret objective             ║");
-                    out.println("║ "+ColourControl.YELLOW_BOLD+"market"+ColourControl.RESET+" - print the market                     ║");
-                    out.println("║ "+ColourControl.YELLOW_BOLD+"board"+ColourControl.RESET+" - print the players' score board        ║");
-                    out.println("║ "+ColourControl.YELLOW_BOLD+"showchat"+ColourControl.RESET+" - show the global or private chat    ║");
+                    out.println("║ " + ColourControl.YELLOW_BOLD + "man" + ColourControl.RESET + " - print your manuscript                   ║");
+                    out.println("║ " + ColourControl.YELLOW_BOLD + "hand" + ColourControl.RESET + " - print your hand                        ║");
+                    out.println("║ " + ColourControl.YELLOW_BOLD + "obj" + ColourControl.RESET + " - print your secret objective             ║");
+                    out.println("║ " + ColourControl.YELLOW_BOLD + "market" + ColourControl.RESET + " - print the market                     ║");
+                    out.println("║ " + ColourControl.YELLOW_BOLD + "board" + ColourControl.RESET + " - print the players' score board        ║");
+                    out.println("║ " + ColourControl.YELLOW_BOLD + "showchat" + ColourControl.RESET + " - show the global or private chat    ║");
                     out.println("╚═══════════════════════════════════════════════╝");
                     break;
 
@@ -198,7 +206,7 @@ public class Tui implements View {
 
                 case "man":
                     do {
-                        out.println("Which? "  + client.getMiniModel().getOtherPlayersUsernames());
+                        out.println("Which manuscript? " + client.getMiniModel().getOtherPlayersUsernames());
                         String person = scan.nextLine();
                         if (person.equals("mine")) {
                             out.println("\n" + showManuscript(client.getMiniModel().getManuscript()));
@@ -223,9 +231,9 @@ public class Tui implements View {
                     break;
                 case "showchat":
                     do {
-                        out.println("Which? "  + client.getMiniModel().getOtherPlayersUsernames());
+                        out.println("\nWhich chat? " + chatters);
                         String person = scan.nextLine();
-                        if (person.equals("global")) {
+                        if (person.equalsIgnoreCase("global")) {
                             printChat(client.getMiniModel().getChats().getFirst());
                             break;
                         } else if (client.getMiniModel().checkOtherUsername(person)) {
@@ -239,12 +247,12 @@ public class Tui implements View {
                     break;
                 case "sendmessage":
                     String receiver;
-                    boolean f ;
+                    boolean f;
                     do {
 
-                        out.println("\nChat available with: \nGlobal");
+                        out.println("\nChat available with: \n@Global");
                         for (String u : client.getMiniModel().getOtherPlayersUsernames()) {
-                            out.println(u);
+                            out.println("@" + u);
                         }
                         out.println("Choose one");
                         receiver = scan.nextLine();
@@ -256,12 +264,13 @@ public class Tui implements View {
                         f = client.getMiniModel().checkOtherUsername(receiver) || receiver.equalsIgnoreCase("global");
 
                     } while (!f);
-                    if(receiver.equalsIgnoreCase("global")){
-                        receiver =receiver.toLowerCase();
+                    if (receiver.equalsIgnoreCase("global")) {
+                        receiver = receiver.toLowerCase();
                     }
-                    out.println("\n" + "Content:");
+                    out.println("\nContent:");
                     String mess = scan.nextLine();
                     client.sendCommand(new SendMessageCommand(client.getMiniModel().getPlayer(), receiver, mess));
+                    out.println("\n");
                     break;
                 default:
                     out.println("\nInvalid command. Type 'help' for a list of commands.");
@@ -293,14 +302,14 @@ public class Tui implements View {
 
     @Override
     public void show(ArrayList<ResourceCard> hand) {
-        if(!isEndingState) {
+        if (!isEndingState) {
             out.println(showHand(hand));
         }
     }
 
     @Override
     public void show(ObjectiveCard secretObj) {
-        if(!isEndingState){
+        if (!isEndingState) {
             ArrayList<ObjectiveCard> obj = new ArrayList<>();
             obj.add(secretObj);
             out.println(showObjectives(obj));
@@ -309,14 +318,14 @@ public class Tui implements View {
 
     @Override
     public void show(ClientManuscript manuscript) {
-        if(!isEndingState) {
+        if (!isEndingState) {
             out.println(showManuscript(manuscript));
         }
     }
 
     @Override
     public void show(ClientBoard board) {
-        if(!isEndingState) {
+        if (!isEndingState) {
             out.println(showBoard(board));
         }
     }
@@ -327,7 +336,7 @@ public class Tui implements View {
 
     @Override
     public void show(ClientMarket market) {
-        if(!isEndingState){
+        if (!isEndingState) {
             out.println(showMarket(market));
         }
 
@@ -354,38 +363,43 @@ public class Tui implements View {
                     }
                 }).toList()
                 .getFirst();
-        out.println("Chat con " + username);
-        for (ChatMessage c : chat.getChatMessages()) {
-            out.println(c.getSender() + ":< " + c.getContent() + " >");
+        out.println("\nChat with " + username + ":");
+        if (chat.getChatMessages().isEmpty()) {
+            out.println("No messages yet\n");
+        } else {
+            for (ChatMessage c : chat.getChatMessages()) {
+                out.println(c.getSender() + ":< " + c.getContent() + " >");
+            }
+            out.println("\n");
         }
     }
 
     @Override
     public void okAck(String string) {
-        out.println("Connected to the server");
+
     }
 
     @Override
     public void koAck(String string) {
-        out.println("Server not found, retrying...");
+
     }
 
     @Override
-    public void showWinners(){
+    public void showWinners() {
 
         try {
             showWinnersToEveryone(client.getMiniModel().getBoard().getScoreBoard());
-            if(client.getMiniModel().getPlayer().getPlayerState() instanceof EndingState){
+            if (client.getMiniModel().getPlayer().getPlayerState() instanceof EndingState) {
                 isEndingState = true;
             }
-        } catch (RemoteException e){
+        } catch (RemoteException e) {
             throw new RuntimeException("Problem with the net");
         }
 
     }
 
-    public void showWinnersToEveryone(Map<String,Integer> scoreBoard){
-        if(!this.alreadyPrintedWinners) {
+    public void showWinnersToEveryone(Map<String, Integer> scoreBoard) {
+        if (!this.alreadyPrintedWinners) {
             List<Map.Entry<String, Integer>> entryList = new ArrayList<>(scoreBoard.entrySet());
 
             // Sort the entries by value in descending order
@@ -816,11 +830,12 @@ public class Tui implements View {
 
     }
 
-    public static String showBoard(ClientBoard board) {
-        return ("\nRed: " + ColourControl.RED_BACKGROUND_BRIGHT + board.getPointsRedPlayer() + ColourControl.RESET +
-                "\nYellow: " + ColourControl.YELLOW_BACKGROUND_BRIGHT + board.getPointsYellowPlayer() + ColourControl.RESET +
-                "\nGreen: " + ColourControl.GREEN_BACKGROUND_BRIGHT + board.getPointsGreenPlayer() + ColourControl.RESET +
-                "\nBlue: " + ColourControl.BLUE_BACKGROUND_BRIGHT + board.getPointsBluePlayer() + ColourControl.RESET);
+    public String showBoard(ClientBoard board) {
+        String printedBoard = "";
+        for(Map.Entry<String, PawnColour> entry : board.getColourPlayerMap().entrySet()){
+            printedBoard += ColourControl.get(entry.getValue()) + entry.getKey() + ColourControl.RESET + ": " + board.getPointsOf(entry.getValue()) + " points\n";
+        }
+        return printedBoard;
     }
 
     public static String showHand(ArrayList<ResourceCard> hand) {

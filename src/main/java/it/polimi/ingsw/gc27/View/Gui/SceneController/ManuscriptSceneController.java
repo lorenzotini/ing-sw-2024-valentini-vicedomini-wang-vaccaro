@@ -211,7 +211,7 @@ public class ManuscriptSceneController extends GenericController {
                         .toList().getFirst();
                 chatTab.setText(username);
                 chatTabHashMap.put(username, chatTab);
-                PawnColour colour = miniModel.getBoard().getColourPlayermap().get(username);
+                PawnColour colour = miniModel.getBoard().getColourPlayerMap().get(username);
                 switch (colour) {
                     case BLUE:
                         chatTab.getStyleClass().add("tab-colour-blue");
@@ -800,13 +800,13 @@ public class ManuscriptSceneController extends GenericController {
 
         for(String username : miniModel.getOtherPlayersUsernames()){
             ClientBoard board = miniModel.getBoard();
-            img = new ImageView(new Image(getClass().getResource(board.getColourPlayermap().get(username).getPathImage()).toExternalForm()));
+            img = new ImageView(new Image(getClass().getResource(board.getColourPlayerMap().get(username).getPathImage()).toExternalForm()));
             img.setFitWidth(PAWN_DIM);
             img.setFitHeight(PAWN_DIM);
-            pawnColourIntegerHashMap.put(board.getColourPlayermap().get(username), 0);
+            pawnColourIntegerHashMap.put(board.getColourPlayerMap().get(username), 0);
             scoreBoard.add(img, score.getx(), score.gety() - score.getCount());
 
-            pawnColourImageViewHashMap.put(board.getColourPlayermap().get(username), img);
+            pawnColourImageViewHashMap.put(board.getColourPlayerMap().get(username), img);
         }
     }
     public void updateBoard(ClientBoard board){
@@ -824,7 +824,7 @@ public class ManuscriptSceneController extends GenericController {
     }
     public void updatePawn(String username, MiniModel miniModel){
 
-        PawnColour colour = miniModel.getBoard().getColourPlayermap().get(username);
+        PawnColour colour = miniModel.getBoard().getColourPlayerMap().get(username);
         int actualScore = miniModel.getBoard().getScoreBoard().get(username);
         int oldScore = pawnColourIntegerHashMap.get(colour);
         if(actualScore != oldScore){

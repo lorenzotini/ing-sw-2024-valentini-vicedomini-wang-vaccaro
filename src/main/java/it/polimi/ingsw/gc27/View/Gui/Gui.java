@@ -36,15 +36,12 @@ public class Gui implements View {
 
     private boolean serverIsUp = false;
 
-    private boolean isReconnected=false;
+    private boolean isReconnected = false;
 
     private static Gui gui = null;
 
-    public boolean isGameOn() {
-        return isGameOn;
-    }
-
     private boolean isGameOn = true;
+
     private Stage stage;
 
     private GenericController currentController;
@@ -52,25 +49,32 @@ public class Gui implements View {
 
     private VirtualView client;
     final BlockingQueue<String> messages = new LinkedBlockingQueue<>();
-    final BlockingQueue<String> messagesReceived = new LinkedBlockingQueue<>();
     private final HashMap<String, Scene> pathSceneMap = new HashMap<>(); //maps path to scene
     private final HashMap<String, GenericController> pathContrMap = new HashMap<>(); //maps path to controller of the scene
 
 
     //setters and getters
+    public boolean isGameOn() {
+        return isGameOn;
+    }
+
     public void setStage(Stage stage) {
         this.stage = stage;
     }
+
     public GenericController getCurrentController() {
         return currentController;
     }
+
     public VirtualView getClient() {
         return client;
     }
+
     @Override
     public void setClient(VirtualView client) {
         this.client = client;
     }
+
     public void setReconnected(boolean reconnected) {
         isReconnected = reconnected;
     }
@@ -79,6 +83,7 @@ public class Gui implements View {
     //singleton pattern
     private Gui() {
     }
+
     public static Gui getInstance() {
         synchronized (Gui.class) {
             if (gui == null)
@@ -96,7 +101,7 @@ public class Gui implements View {
             GenericController contr = loader.getController();
             pathContrMap.put(path, contr);
         }
-        currentController=getControllerFromName(ScenePaths.STARTER.getValue());
+        currentController = getControllerFromName(ScenePaths.STARTER.getValue());
     }
 
     //start of the game after initialization
@@ -122,9 +127,6 @@ public class Gui implements View {
                     contr2.changeImageObj2(getClass().getResource(objectiveCard2.getFront().getImagePath()).toExternalForm());
                     contr2.chatInitObjective();
 
-                    // sets the chat in manuscriptScene
-//                    ManuscriptSceneController manuscriptSceneController = (ManuscriptSceneController) Gui.getInstance().getControllerFromName(ScenePaths.MANUSCRIPT.getValue());
-//                    manuscriptSceneController.chatInitManuscript();
                 }
 
             } catch (IOException e) {
@@ -134,7 +136,7 @@ public class Gui implements View {
     }
 
     public void switchScene(String scenePath) throws IOException {
-        Platform.runLater(()->{
+        Platform.runLater(() -> {
             stage.setScene(pathSceneMap.get(scenePath));
             stage.show();
             currentController = getControllerFromName(scenePath);
@@ -148,7 +150,6 @@ public class Gui implements View {
     @Override
     public void showString(String phrase) {
         System.out.println(phrase);
-        messagesReceived.add(phrase);
     }
 
     public void suspendedGame(String string){
@@ -164,7 +165,7 @@ public class Gui implements View {
 
     @Override
     public void show(ArrayList<ResourceCard> hand) {
-        if(currentController instanceof ManuscriptSceneController) {
+        if (currentController instanceof ManuscriptSceneController) {
             ManuscriptSceneController controller = (ManuscriptSceneController) Gui.getInstance().getCurrentController();
             MiniModel miniModel;
             try {
@@ -176,6 +177,7 @@ public class Gui implements View {
 
         }
     }
+
     @Override
     public void show(ObjectiveCard objectiveCard) {
 
@@ -191,7 +193,7 @@ public class Gui implements View {
                     MiniModel miniModel = client.getMiniModel();
 
                     // update manuscripts
-                    for(Map.Entry<String, ClientManuscript> element :  miniModel.getManuscriptsMap().entrySet()){
+                    for (Map.Entry<String, ClientManuscript> element : miniModel.getManuscriptsMap().entrySet()) {
                         controller.overwriteManuscript(miniModel, element.getKey(), false);
                     }
 
@@ -208,8 +210,8 @@ public class Gui implements View {
 
     @Override
     public void show(ClientBoard board) {
-        if(currentController instanceof ManuscriptSceneController)
-            ((ManuscriptSceneController)currentController).updateBoard(board);
+        if (currentController instanceof ManuscriptSceneController)
+            ((ManuscriptSceneController) currentController).updateBoard(board);
     }
 
     @Override
@@ -227,7 +229,7 @@ public class Gui implements View {
 
     @Override
     public void show(ClientMarket market) {
-        if(currentController instanceof ManuscriptSceneController) {
+        if (currentController instanceof ManuscriptSceneController) {
             ManuscriptSceneController controller = (ManuscriptSceneController) Gui.getInstance().getCurrentController();
 
             MiniModel miniModel;
@@ -264,7 +266,7 @@ public class Gui implements View {
     @Override
     public void okAck(String string) {
         // if a OkMessage arrives when the currentController is null, it means that the server is up but gui is not ready yet
-        if(currentController == null){
+        if (currentController == null) {
             serverIsUp = true;
             return;
         }
@@ -274,7 +276,7 @@ public class Gui implements View {
 
     @Override
     public void koAck(String string) {
-        if(currentController != null){
+        if (currentController != null) {
             System.out.println("\nKo " + currentController.toString() + string);
             currentController.receiveKo(string);
         }
@@ -283,7 +285,7 @@ public class Gui implements View {
     @Override
     public void showWinners() {
 
-        Platform.runLater(()->{
+        Platform.runLater(() -> {
             try {
                 ((EndingSceneController)Gui.getInstance().getControllerFromName(ScenePaths.ENDING.getValue()))
                         .changeWinnersLabel(client.getMiniModel().getBoard().getScoreBoard());
@@ -304,10 +306,10 @@ public class Gui implements View {
     }
 
     public void addLastChatMessage(ChatMessage message, Tab chatTab) {
-        Platform.runLater(()-> {
+        Platform.runLater(() -> {
             MiniModel miniModel;
             try {
-                miniModel=Gui.getInstance().getClient().getMiniModel();
+                miniModel = Gui.getInstance().getClient().getMiniModel();
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
             }

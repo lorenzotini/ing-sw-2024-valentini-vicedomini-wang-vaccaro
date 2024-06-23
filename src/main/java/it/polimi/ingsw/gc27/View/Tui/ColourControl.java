@@ -1,5 +1,7 @@
 package it.polimi.ingsw.gc27.View.Tui;
 
+import it.polimi.ingsw.gc27.Model.Enumerations.PawnColour;
+
 public class ColourControl {
 
     //how to use ---> ex. type : "ColourControl.RED"
@@ -79,5 +81,16 @@ public class ColourControl {
     public static final String PURPLE_BACKGROUND_BRIGHT = "\033[0;105m"; // PURPLE
     public static final String CYAN_BACKGROUND_BRIGHT = "\033[0;106m";  // CYAN
     public static final String WHITE_BACKGROUND_BRIGHT = "\033[0;107m";   // WHITE
+
+    public static String get(PawnColour pawnColour){
+        return switch (pawnColour) {
+            case RED -> RED_BRIGHT;
+            case YELLOW -> YELLOW_BRIGHT;
+            case GREEN -> GREEN_BRIGHT;
+            case BLUE -> BLUE_BRIGHT;
+            case BLACK -> "";
+        };
+    }
+
 }
 

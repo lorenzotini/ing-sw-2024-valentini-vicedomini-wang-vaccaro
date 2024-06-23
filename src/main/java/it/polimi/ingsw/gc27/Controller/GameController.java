@@ -138,6 +138,7 @@ public class GameController implements Serializable {
                     pawnColor = client.read();
                 } while (!game.validPawn(pawnColor));
                 pawnColourSelected = PawnColour.fromStringToPawnColour(pawnColor);
+                game.getBoard().colourPlayerMap.put(username, pawnColourSelected);
                 game.getAvailablePawns().remove(pawnColourSelected);
             }catch(IOException e){
                 System.out.println("Disconnected player before choosing a color");
@@ -158,6 +159,7 @@ public class GameController implements Serializable {
         // Add the player to the game
         game.addPlayer(p, client);
 
+        // Draw the initial cards
         p.getHand().add(this.getGame().getMarket().getResourceDeck().removeFirst());
         p.getHand().add(this.getGame().getMarket().getResourceDeck().removeFirst());
         p.getHand().add(this.getGame().getMarket().getGoldDeck().removeFirst());
@@ -169,7 +171,7 @@ public class GameController implements Serializable {
         try {
             client.setUsername(username);
         }catch(IOException e){
-
+            e.printStackTrace();
         }
 
         // All players are ready

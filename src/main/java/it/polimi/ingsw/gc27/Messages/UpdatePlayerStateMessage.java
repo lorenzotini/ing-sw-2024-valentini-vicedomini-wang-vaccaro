@@ -18,7 +18,7 @@ public class UpdatePlayerStateMessage extends Message {
             client.getMiniModel().setPlayer(this.getMiniModel().getPlayer());
             view.okAck(string);
         }catch(RemoteException e){
-            System.out.println("it dasent trou de pleier");
+            e.printStackTrace();
         }
     }
 }

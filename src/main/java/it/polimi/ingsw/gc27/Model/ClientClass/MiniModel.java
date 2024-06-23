@@ -19,12 +19,8 @@ public class MiniModel implements Serializable {
     public String currentPlayer;
     private ArrayList<String> otherPlayersUsernames = new ArrayList<>();
     final private ArrayList<ClientChat> chats = new ArrayList<>();
-   // private ArrayList<Manuscript> manuscripts = new ArrayList<>();
     private HashMap<String, ClientManuscript> manuscriptsMap = new HashMap<>();
 
-//    public MiniModel(ArrayList<Manuscript> manuscripts) {
-//        this.manuscripts = manuscripts;
-//    }
 
     // used when update the players manuscript
     public MiniModel(Player player, Manuscript manuscript) {
@@ -101,7 +97,6 @@ public class MiniModel implements Serializable {
                 .map(Player::getUsername)
                 .filter(username -> !username.equals(player.getUsername()))
                 .collect(Collectors.toCollection(ArrayList<String>::new)));
-        //this.manuscriptsMap.put(player.getUsername(), player.getManuscript());
         this.manuscriptsMap.putAll(game.getPlayers().stream()
                 .collect(Collectors.toMap(Player::getUsername, Player::getManuscript)));
     }

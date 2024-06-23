@@ -25,7 +25,7 @@
             <Image url="@../Images/utility/plateau_score.jpg" />
          </image>
       </ImageView>
-      <TabPane fx:id="manuscriptTabPane" layoutX="35.0" layoutY="194.0" prefHeight="452.0" prefWidth="983.0" styleClass="gridpane" tabClosingPolicy="UNAVAILABLE" />
+      <TabPane fx:id="manuscriptTabPane" layoutX="35.0" layoutY="194.0" prefHeight="452.0" prefWidth="983.0" style="-fx-background-color: red;" styleClass="gridpane" tabClosingPolicy="UNAVAILABLE" />
       <TitledPane fx:id="chatTitledPane" expanded="false" layoutX="1169.0" layoutY="46.0" prefHeight="717.0" prefWidth="354.0" text="Chat">
 
          <content>
@@ -130,17 +130,7 @@
          <RowConstraints maxHeight="100.0" minHeight="0.0" prefHeight="4.0" valignment="CENTER" />
          <RowConstraints maxHeight="100.0" minHeight="0.0" prefHeight="4.0" valignment="CENTER" />
       </rowConstraints></GridPane>
-      <Pane fx:id="feedbackPane" layoutX="1028.0" layoutY="14.0" prefHeight="26.0" prefWidth="494.0">
-         <children>
-            <TextFlow fx:id="feedbackTextFlow" lineSpacing="4.0" prefHeight="26.0" prefWidth="494.0" textAlignment="RIGHT">
-               <children>
-                  <Text fx:id="actionFeedback" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="RIGHT" wrappingWidth="196.2261962890625">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </Text>
-               </children></TextFlow>
-         </children></Pane>
+      <Pane fx:id="feedbackPane" layoutX="1028.0" layoutY="14.0" prefHeight="26.0" prefWidth="494.0" />
       <TextFlow fx:id="errorPane" layoutX="828.0" layoutY="660.0" prefHeight="86.0" prefWidth="211.0" textAlignment="CENTER">
          <children>
             <Text fx:id="errorText" strokeType="OUTSIDE" strokeWidth="0.0" >
@@ -150,7 +140,16 @@
             </Text>
          </children>
       </TextFlow>
-      <Circle fx:id="circleChat" fill="#ff1f1f" layoutX="1148.0" layoutY="59.0" radius="12.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle fx:id="circleChat" fill="#c11515" layoutX="1157.0" layoutY="59.0" radius="7.0" stroke="BLACK" strokeType="INSIDE" />
+      <TextFlow fx:id="feedbackTextFlow" layoutX="520.0" layoutY="154.0" lineSpacing="4.0" prefHeight="26.0" prefWidth="494.0" textAlignment="RIGHT">
+         <children>
+            <Text fx:id="actionFeedback" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="RIGHT" wrappingWidth="196.2261962890625">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+         </children>
+      </TextFlow>
 
    </children>
 </AnchorPane>

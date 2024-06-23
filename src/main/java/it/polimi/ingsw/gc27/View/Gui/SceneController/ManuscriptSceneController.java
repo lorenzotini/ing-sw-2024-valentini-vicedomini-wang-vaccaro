@@ -38,6 +38,7 @@ import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 
@@ -680,7 +681,16 @@ public class ManuscriptSceneController extends GenericController {
             HBox marketBox = this.marketResources;
             boolean isGold = false;
             boolean fromDeck;
-            Image deckImage = new Image(getClass().getResource(miniModel.getMarket().getResourceDeck().getLast().getBack().getImagePath()).toExternalForm());
+            Image deckImage;
+            boolean noMoreCards;
+
+            try{
+                noMoreCards = false;
+                deckImage = new Image(getClass().getResource(miniModel.getMarket().getResourceDeck().getLast().getBack().getImagePath()).toExternalForm());
+            } catch (NoSuchElementException e){
+                deckImage = new Image(getClass().getResource("/Images/utility/validPlacement.png").toExternalForm());
+                noMoreCards = true;
+            }
 
             marketResources.getChildren().clear();
             marketGolds.getChildren().clear();
@@ -693,7 +703,10 @@ public class ManuscriptSceneController extends GenericController {
                         marketRes.setFitHeight(marketBox.getPrefHeight());
                         marketRes.setFitWidth(marketBox.getPrefWidth() / 3);
                         marketRes.setUserData(new MarketCardData(isGold, fromDeck, 0));
-                        handleClickDetectedMarket(marketRes);
+                        // if there are more cards the player can draw, otherwise the card is not clickable
+                        if(!noMoreCards){
+                            handleClickDetectedMarket(marketRes);
+                        }
                         zoomCardOnHover(marketRes, 2);
                         marketBox.getChildren().add(marketRes);
                     } else {
@@ -709,7 +722,13 @@ public class ManuscriptSceneController extends GenericController {
                 }
                 marketBox = this.marketGolds;
                 isGold = true;
-                deckImage = new Image(getClass().getResource(miniModel.getMarket().getGoldDeck().getLast().getBack().getImagePath()).toExternalForm());
+                try{
+                    noMoreCards = false;
+                    deckImage = new Image(getClass().getResource(miniModel.getMarket().getGoldDeck().getLast().getBack().getImagePath()).toExternalForm());
+                } catch (NoSuchElementException e){
+                    deckImage = new Image(getClass().getResource("/Images/utility/validPlacement.png").toExternalForm());
+                    noMoreCards = true;
+                }
             }
 
         });

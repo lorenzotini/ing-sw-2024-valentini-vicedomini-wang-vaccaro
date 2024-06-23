@@ -49,7 +49,7 @@ public abstract class PlayerState implements Serializable {
      * @param faceUpCardIndex which of the two card placed face up in the market
      * @throws InterruptedException exception
      */
-    public abstract void drawCard(Player player, boolean isGold, boolean fromDeck, int faceUpCardIndex) throws InterruptedException;
+    public abstract void drawCard(Player player, boolean isGold, boolean fromDeck, int faceUpCardIndex);
 
     /**
      * this method allows the player to add a card to the personal manuscript, this last action

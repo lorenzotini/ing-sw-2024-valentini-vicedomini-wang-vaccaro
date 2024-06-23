@@ -87,9 +87,8 @@ public class TurnHandler implements Serializable {
      * this method will be executed at the end of a player's turn, it will check the end game points threshold,
      * handle the last turn and handle the turn passing
      * @param player which player ended the turn
-     * @throws InterruptedException exception
      */
-    public void notifyEndOfTurnState(Player player) throws InterruptedException {
+    public void notifyEndOfTurnState(Player player) {
 
         List<Player> players = game.getPlayers();
         Board board = game.getBoard();

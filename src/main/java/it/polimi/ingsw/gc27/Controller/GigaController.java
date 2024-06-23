@@ -1,6 +1,6 @@
 package it.polimi.ingsw.gc27.Controller;
 
-import it.polimi.ingsw.gc27.Messages.ClosedGameForNoOneLeftMessage;
+import it.polimi.ingsw.gc27.Messages.ClosingGameMessage;
 import it.polimi.ingsw.gc27.Messages.KoMessage;
 import it.polimi.ingsw.gc27.Messages.OkMessage;
 import it.polimi.ingsw.gc27.Model.Game.Player;
@@ -292,7 +292,6 @@ public class GigaController {
     public void addCommandToGameController(Command command) {
         String player = command.getPlayerName();
         try{
-
             userToGameController(player).addCommand(command);
         }catch(NullPointerException e){
             //this happens only if the player is not created yet, and the server want to give the SuspendPlayerCommand,
@@ -300,10 +299,12 @@ public class GigaController {
         }
     }
 
-    public void closeGame(GameController controller) {
+    public void closeGame(GameController controller,  boolean becauseOfNoMoreCards) {
+        String text = becauseOfNoMoreCards ? "No more cards to draw, the game is over" : "The game has been closed because it's been suspended for too long";
         synchronized (gameControllers) {
-            controller.getGame().notifyObservers(new ClosedGameForNoOneLeftMessage("The game has been closed because it's been suspended for too long"));
+            controller.getGame().notifyObservers(new ClosingGameMessage(text));
             gameControllers.remove(controller);
         }
     }
+
 }

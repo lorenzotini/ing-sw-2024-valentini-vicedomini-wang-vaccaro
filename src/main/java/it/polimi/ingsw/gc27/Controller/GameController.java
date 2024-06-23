@@ -19,22 +19,19 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 public class GameController implements Serializable {
 
+    private GigaController console;
     private Game game;
-    boolean suspended;
     private TurnHandler turnHandler;
+    private final BlockingQueue<Command> commands = new LinkedBlockingQueue<>();
     private int numMaxPlayers;
     private int id;
-    private final BlockingQueue<Command> commands = new LinkedBlockingQueue<>();
-    private GigaController console;
-    private boolean inMatch;
     private long time;
-    private static int MAX_TIME_BEFORE_CLOSING_GAME = 60000; //in milliseconds
+    private boolean inMatch;
+    private boolean suspended;
+    private static final int MAX_TIME_BEFORE_CLOSING_GAME = 60000; //in milliseconds
 
     public GameController(Game game) {
         this.game = game;
-    }
-
-    public GameController() {
     }
 
     public GameController(Game game, int numMaxPlayers, int id, GigaController console) {
@@ -80,8 +77,9 @@ public class GameController implements Serializable {
         player.getPlayerState().addCard(this.game, card, face, x, y);
     }
 
-    public void drawCard(Player player, boolean isGold, boolean fromDeck, int faceUpCardIndex) throws InterruptedException {
+    public void drawCard(Player player, boolean isGold, boolean fromDeck, int faceUpCardIndex) {
         player.getPlayerState().drawCard(player, isGold, fromDeck, faceUpCardIndex);
+        checkIfEndOfGameNoMoreCards();
     }
 
     public void chooseObjectiveCard(Player player, int objectiveCardIndex) {
@@ -98,6 +96,13 @@ public class GameController implements Serializable {
             turnHandler.handleDisconnection(player, this);
         } catch (NullPointerException | InterruptedException e) {
 
+        }
+    }
+
+    private void checkIfEndOfGameNoMoreCards(){
+        if(game.getMarket().getGoldDeck().isEmpty() && game.getMarket().getResourceDeck().isEmpty()){
+            // TODO adesso chiude e basta la partita, ma dovrebbe essere come quando si arriva a 20 punti quindi fare un turno e decretare il vincitore
+            console.closeGame(this, true);
         }
     }
 
@@ -244,7 +249,7 @@ public class GameController implements Serializable {
                         System.out.println("The game: " + id + " has been closed");
                         suspended = false;
                         inMatch = false;
-                        console.closeGame(this);
+                        console.closeGame(this, false);
                     }
                 }
             }

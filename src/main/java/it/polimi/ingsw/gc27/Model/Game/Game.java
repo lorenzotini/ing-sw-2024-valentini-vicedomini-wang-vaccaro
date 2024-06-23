@@ -25,7 +25,6 @@ public class Game implements Serializable {
 
     private final transient BlockingQueue<PlayerListener> observers = new LinkedBlockingQueue<>() {};
     private Integer numActualPlayers;
-
     private Market market;
     private List<Player> players;
     private Board board;
@@ -38,9 +37,6 @@ public class Game implements Serializable {
     final private HashMap< Pair<String, String>, Chat> chatMap = new HashMap<>();
     private int readyPlayers = 0;
 
-
-    public Game() {
-    }
 
     /**
      * constructor of the game
@@ -64,7 +60,6 @@ public class Game implements Serializable {
      * @param objectiveDeck the deck containing objective cards
      */
     public Game(Board board, Market market, List<Player> players, ObjectiveCard commonObjective1, ObjectiveCard commonObjective2, ArrayList<StarterCard> starterDeck, ArrayList<ObjectiveCard> objectiveDeck) {
-
         this.board = board;
         this.market = market;
         this.players = players;
@@ -72,7 +67,6 @@ public class Game implements Serializable {
         this.commonObjective2 = commonObjective2;
         this.starterDeck = starterDeck;
         this.objectiveDeck = objectiveDeck;
-
     }
 
     /**

@@ -13,6 +13,7 @@ import it.polimi.ingsw.gc27.Model.Game.Player;
 import it.polimi.ingsw.gc27.Model.ClientClass.MiniModel;
 
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 
 /**
  * Represents the state where a player draws a card from the market
@@ -42,7 +43,7 @@ public class DrawingState extends PlayerState {
      * method implemented from {@link PlayerState}, according to the State Pattern principle
      */
     @Override
-    public void drawCard(Player player, boolean isGold, boolean fromDeck, int faceUpCardIndex) throws InterruptedException {
+    public void drawCard(Player player, boolean isGold, boolean fromDeck, int faceUpCardIndex) {
 
         Market market = turnHandler.getGame().getMarket();
         ArrayList<? extends ResourceCard> deck;
@@ -50,25 +51,31 @@ public class DrawingState extends PlayerState {
 
         deck = isGold ? market.getGoldDeck() : market.getResourceDeck();
 
-        // add card to players hand and replace it on market
-        if (fromDeck) { // player drawn card from a deck
-            card = deck.removeLast();
-        } else { // player drawn a face up card from the market
-            card = market.getFaceUp(isGold)[faceUpCardIndex];
-            market.setFaceUp(deck.removeLast(), faceUpCardIndex);
+        try{
+            // add card to players hand and replace it on market
+            if (fromDeck) { // player drawn card from a deck
+                card = deck.removeLast();
+            } else { // player drawn a face up card from the market
+                card = market.getFaceUp(isGold)[faceUpCardIndex];
+                market.setFaceUp(deck.removeLast(), faceUpCardIndex);
+            }
+
+            player.getHand().add(card);
+
+            player.setPlayerState(new EndOfTurnState(player, getTurnHandler()));
+            getTurnHandler().notifyEndOfTurnState(getPlayer());
+
+            //send messages, one for the updated hand and the other for the updated market
+            Message updateHandMessage = new UpdateHandMessage(new MiniModel(player));
+
+            Message updateMarketMessage = new UpdateMarketMessage(new MiniModel(market));
+            turnHandler.getGame().notifyObservers(updateHandMessage);
+            turnHandler.getGame().notifyObservers(updateMarketMessage);
+        } catch (NoSuchElementException e){
+            super.sendError("No more cards to draw!", getPlayer(), turnHandler);
+
         }
 
-        player.getHand().add(card);
-
-        player.setPlayerState(new EndOfTurnState(player, getTurnHandler()));
-        getTurnHandler().notifyEndOfTurnState(getPlayer());
-
-        //send messages, one for the updated hand and the other for the updated market
-        Message updateHandMessage = new UpdateHandMessage(new MiniModel(player));
-
-        Message updateMarketMessage = new UpdateMarketMessage(new MiniModel(market));
-        turnHandler.getGame().notifyObservers(updateHandMessage);
-        turnHandler.getGame().notifyObservers(updateMarketMessage);
     }
 
     /**
@@ -94,4 +101,5 @@ public class DrawingState extends PlayerState {
     public String toStringGUI(){
         return "Draw a card!";
     }
+
 }

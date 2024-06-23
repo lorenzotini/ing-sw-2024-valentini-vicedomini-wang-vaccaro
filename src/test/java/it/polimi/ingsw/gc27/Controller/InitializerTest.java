@@ -30,8 +30,8 @@ class InitializerTest {
     void initializeTest() {
 
         JsonParser jsonParser = new JsonParser("codex_cards_collection.json");
-        starterDeck = jsonParser.getStarterDeck();
-        resourceDeck = jsonParser.getResourceDeck();
+        starterDeck = JsonParser.getStarterDeck();
+        resourceDeck = JsonParser.getResourceDeck();
         goldDeck = jsonParser.getGoldDeck();
         objectiveDeck = jsonParser.getObjectiveDeck();
 
@@ -48,4 +48,6 @@ class InitializerTest {
         assertNotNull(game.getBoard());
 
     }
+
+
 }

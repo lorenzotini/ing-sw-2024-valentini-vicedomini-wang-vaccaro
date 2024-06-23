@@ -7,54 +7,68 @@ import it.polimi.ingsw.gc27.Net.VirtualView;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
+import java.util.LinkedList;
+import java.util.Queue;
 
-public class ClientTest implements VirtualView {
-    @Override
+public class ClientTest implements VirtualView{
+    private String username;
+    private String lastShownMessage;
+    private Queue<String> nextReads = new LinkedList<>();
+    public Queue<String> nextShows = new LinkedList<>();
+
+    public void setNextRead(String nextRead) {
+        nextReads.add(nextRead);
+    }
+
+    public String getLastShownMessage() {
+        return lastShownMessage;
+    }
+
     public void show(String s) throws IOException {
-        
+        nextShows.add(s);
     }
 
-    @Override
+
     public String read() throws IOException, InterruptedException {
-        return null;
+        return nextReads.poll();
     }
 
-    @Override
+
     public void setUsername(String username) throws IOException {
 
     }
 
-    @Override
+
     public void runClient() throws IOException, InterruptedException {
 
     }
 
-    @Override
+
     public String getUsername() throws IOException {
         return null;
     }
 
-    @Override
+
     public void sendCommand(Command command) throws RemoteException {
 
     }
 
-    @Override
+
     public MiniModel getMiniModel() throws RemoteException {
         return null;
     }
 
-    @Override
+
     public void update(Message message) throws RemoteException {
 
     }
 
-    @Override
+
     public void close() throws RemoteException {
 
     }
 
-    @Override
+
     public void pingFromServer() throws RemoteException {
 
     }

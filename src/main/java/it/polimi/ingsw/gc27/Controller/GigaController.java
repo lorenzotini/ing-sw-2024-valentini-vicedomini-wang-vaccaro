@@ -24,6 +24,10 @@ public class GigaController {
 
     private final List<GameController> gameControllers = new ArrayList<>();
 
+    public List<GameController> getGameControllers() {
+        return gameControllers;
+    }
+
 
     public GameController userToGameController(String username) {
         synchronized (gameControllers) {
@@ -163,6 +167,7 @@ public class GigaController {
 
                     if (!canEnter) {
                         welcomePlayer(client);
+                        return;
                     } else {
 //                            if (player.isDisconnected ) {
 //                                return;
@@ -194,7 +199,7 @@ public class GigaController {
         int numMaxPlayers;
         try {
 
-            client.show("\nHow many player? there will be? (2-4)");
+            client.show("\nHow many players there will be? (2-4)");
 
             do {
                 try {

@@ -26,6 +26,7 @@ public class GameController implements Serializable {
     private int id;
     private final BlockingQueue<Command> commands = new LinkedBlockingQueue<>();
     private GigaController console;
+
     private boolean inMatch;
     private long time;
     private static int MAX_TIME_BEFORE_CLOSING_GAME = 60000; //in milliseconds
@@ -48,6 +49,7 @@ public class GameController implements Serializable {
     public Game getGame() {
         return game;
     }
+    public BlockingQueue<Command> getCommands() {return commands;}
 
     public TurnHandler getTurnHandler() {
         return turnHandler;
@@ -64,6 +66,11 @@ public class GameController implements Serializable {
     public int getNumMaxPlayers() {
         return numMaxPlayers;
     }
+    public void setInMatch(boolean inMatch) {
+        this.inMatch = inMatch;
+    }
+
+
 
 
     /**

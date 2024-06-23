@@ -3,6 +3,7 @@ package it.polimi.ingsw.gc27.View.Gui.SceneController;
 import it.polimi.ingsw.gc27.Model.ClientClass.ClientChat;
 import it.polimi.ingsw.gc27.Model.ClientClass.MiniModel;
 import it.polimi.ingsw.gc27.View.Gui.Gui;
+import it.polimi.ingsw.gc27.View.Gui.ScenePaths;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -23,6 +24,7 @@ public class JoinGameSceneController extends GenericController{
     public TextField idTextField;
     @FXML
     public Button sendGameIdButton;
+    private String tempId;
 
     @FXML
     public Button backButton;
@@ -48,6 +50,7 @@ public class JoinGameSceneController extends GenericController{
 
     public void sendGameId() {
         Gui.getInstance().stringFromSceneController(idTextField.getText());
+        tempId = idTextField.getText();
     }
 
     //players can change their minds and go back to chooseGameScene
@@ -73,11 +76,12 @@ public class JoinGameSceneController extends GenericController{
                        LoginSceneController loginContr= (LoginSceneController) Gui.getInstance().getControllerFromName("/fxml/LoginScene.fxml");
                        loginContr.getGameIDCreated().setText("\nThis game has a disconnected player. Are you him? If so, please enter your username.");
                        loginContr.getGameIDCreated().setVisible(true);
+                       loginContr.setGameId(tempId);
                        Gui.getInstance().switchScene("/fxml/LoginScene.fxml");
                    } catch (IOException e) {
                        throw new RuntimeException(e);
                    }
-               }else{
+               } else {
                    System.out.println("\nMESSAGGIO NON TROVATO\n");
                }
            });

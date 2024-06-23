@@ -457,6 +457,9 @@ public class ManuscriptSceneController extends GenericController {
     }
 
     private void sendAddCardCommand() {
+        if(!Gui.getInstance().isGameOn()){
+            suspendeGame();
+        }
         String username;
         try {
             username = Gui.getInstance().getClient().getUsername();
@@ -568,7 +571,6 @@ public class ManuscriptSceneController extends GenericController {
             handleZoom(newManuscriptScrollPane, grid);
 
             manuscriptTabPane.getTabs().add(new Tab(element.getKey(), newManuscriptScrollPane));
-
         }
     }
 
@@ -577,7 +579,6 @@ public class ManuscriptSceneController extends GenericController {
             initializePoints();
             setBoard(miniModel);
         });
-
     }
 
     public void overwriteManuscript(MiniModel miniModel, String username, boolean newScene) {
@@ -619,7 +620,6 @@ public class ManuscriptSceneController extends GenericController {
 
                     ManuscriptCardData manuscriptCardData = new ManuscriptCardData(placement.getX(), placement.getY());
                     imageView.setUserData(manuscriptCardData);
-
                     grid.add(imageView, placement.getX(), placement.getY());
 
                     // playable positions
@@ -647,15 +647,11 @@ public class ManuscriptSceneController extends GenericController {
             if (newScene) {
                 manuscriptTabPane.getSelectionModel().select(manuscriptTabPane.getTabs().stream().filter(tab -> tab.getText().equals(miniModel.getPlayer().getUsername())).findFirst().get());
             }
-
         });
-
     }
 
     public void overwriteHand(MiniModel miniModel) {
-
         Platform.runLater(() -> {
-
             handCards.getChildren().clear();
             for (Card card : miniModel.getPlayer().getHand()) {
                 ImageView newHandCard = new ImageView(new Image(getClass().getResource(card.getFront().getImagePath()).toExternalForm()));
@@ -668,13 +664,10 @@ public class ManuscriptSceneController extends GenericController {
                 newHandCard.setUserData(handCardData);
                 handCards.getChildren().add(newHandCard);
             }
-
         });
-
     }
 
     public void overwriteMarket(MiniModel miniModel) {
-
         Platform.runLater(() -> {
 
             HBox marketBox = this.marketResources;
@@ -711,9 +704,7 @@ public class ManuscriptSceneController extends GenericController {
                 isGold = true;
                 deckImage = new Image(getClass().getResource(miniModel.getMarket().getGoldDeck().getLast().getBack().getImagePath()).toExternalForm());
             }
-
         });
-
     }
 
     public void overwriteCounters(MiniModel miniModel) {
@@ -835,6 +826,9 @@ public class ManuscriptSceneController extends GenericController {
         PawnColour colour = miniModel.getBoard().getColourPlayerMap().get(username);
         int actualScore = miniModel.getBoard().getScoreBoard().get(username);
         int oldScore = pawnColourIntegerHashMap.get(colour);
+        if(actualScore > 29){
+            actualScore =29;
+        }
         if (actualScore != oldScore) {
             Point newPoint = position.get(actualScore);
 
@@ -848,7 +842,6 @@ public class ManuscriptSceneController extends GenericController {
 
             Platform.runLater(() -> {
                 scoreBoard.add(newImage, newPoint.getx(), newPoint.gety() - newPoint.getCount());
-
             });
 
             newPoint.incrementCount();
@@ -861,11 +854,22 @@ public class ManuscriptSceneController extends GenericController {
 
     @Override
     public void reconnectPlayer() {
-        errorText.setText("The game can resume");
+        Platform.runLater(()-> {
+            errorPane.setTextAlignment(TextAlignment.CENTER);
+            errorText.getStyleClass().add("labelError");
+            errorText.setText("The game can resume");
+            errorPane.setVisible(true);
+        });
     }
 
     @Override
     public void suspendeGame() {
-        errorText.setText("The game has been suspended, you're the last one playing");
+        Platform.runLater(()->{
+            errorPane.setTextAlignment(TextAlignment.CENTER);
+            errorText.getStyleClass().add("labelError");
+            System.out.println("The game has been suspended");
+            errorText.setText("The game has been suspended");
+            errorPane.setVisible(true);
+        });
     }
 }

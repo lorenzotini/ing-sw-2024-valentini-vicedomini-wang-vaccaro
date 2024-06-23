@@ -21,7 +21,6 @@ public class LoginSceneController extends GenericController {
     public TextField usernameInput;
     @FXML
     public Button blueButton;
-
     @FXML
     public Button greenButton;
     @FXML
@@ -34,7 +33,6 @@ public class LoginSceneController extends GenericController {
     public Button sendColourButton;
     @FXML
     public TextField errorUsername;
-
     @FXML
     public TextArea gameIDCreated;//displays the ID of the game the player has just created
     @FXML
@@ -42,7 +40,16 @@ public class LoginSceneController extends GenericController {
     @FXML
     public Label customlabel2;
     private String selectedColour;
+    boolean tried = false;
 
+    public void setGameId(String t) {
+        try {
+            this.gameId = Integer.parseInt(t);
+        }catch(Exception e){
+            System.out.println("UAU I didn't thought this was possible");
+        }
+    }
+    Integer gameId = -1 ;
 
 
     public TextArea getGameIDCreated() {
@@ -82,10 +89,14 @@ public class LoginSceneController extends GenericController {
 
     @FXML
     public void sendUsername() {
+        if(tried && gameId != -1){
+            Gui.getInstance().stringFromSceneController(gameId.toString());
+        }
         Gui.getInstance().stringFromSceneController(usernameInput.getText());
     }
 
     public void selectColour(MouseEvent event) {
+
         if (event.getSource().equals(blueButton)) {
             selectedColour="blue";
             blueButton.getStyleClass().add("pressed");
@@ -171,10 +182,10 @@ public class LoginSceneController extends GenericController {
     }
 
 
-
     @Override
     public void receiveKo(String ackType) {
         Platform.runLater(() -> {
+            tried = true;
             errorUsername.setText("Username not available");
             errorUsername.setVisible(true);
         });

@@ -26,7 +26,9 @@ public class Initializer {
     private  Board board;
 
     /**
-     * constructor
+     * Constructor that initializes the game components by parsing JSON data from a file.
+     * It sets up the starter deck, resource deck, gold deck, and objective deck.
+     * It also initializes the market and board for the game.
      */
     public Initializer () {
         JsonParser jsonParser = new JsonParser("codex_cards_collection.json");

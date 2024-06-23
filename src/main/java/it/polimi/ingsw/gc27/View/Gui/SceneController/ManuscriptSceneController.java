@@ -28,10 +28,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Circle;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
-import javafx.scene.text.TextFlow;
+import javafx.scene.text.*;
 import javafx.scene.transform.Scale;
 
 import java.io.IOException;
@@ -731,8 +728,8 @@ public class ManuscriptSceneController extends GenericController {
                 if (cs.equals(CornerSymbol.BLACK) || cs.equals(CornerSymbol.EMPTY)) continue;
                 Label counter = new Label("  -  " + miniModel.getManuscript().getCounter(cs));
                 counter.setPrefHeight(60);
-                counter.setFont(Font.font("Agency FB", 30));
-                counter.setFont(Font.font("Agency FB", 30));
+                counter.setFont(Font.font("Agency FB", FontWeight.BLACK, 30));
+                counter.setFont(Font.font("Agency FB", FontWeight.BLACK, 30));
                 counters.getChildren().add(counter);
             }
 

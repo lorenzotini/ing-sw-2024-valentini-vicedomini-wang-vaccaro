@@ -16,16 +16,17 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.text.TextFlow?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="780.0" prefWidth="1535.0" stylesheets="@../css/ManuscriptScene.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.gc27.View.Gui.SceneController.ManuscriptSceneController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="780.0" prefWidth="1535.0" styleClass="anchorpane" stylesheets="@../css/ManuscriptScene.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.gc27.View.Gui.SceneController.ManuscriptSceneController">
    <children>
+      <Pane layoutX="1015.0" layoutY="186.0" prefHeight="440.0" prefWidth="142.0" styleClass="counterbox" />
+      <VBox fx:id="counters" layoutX="1094.0" layoutY="190.0" prefHeight="452.0" prefWidth="63.0" />
       <HBox fx:id="handCards" layoutX="292.0" layoutY="656.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="100.0" prefWidth="470.0" spacing="10.0" />
-      <VBox fx:id="counters" layoutX="1094.0" layoutY="183.0" prefHeight="452.0" prefWidth="63.0" />
       <ImageView fx:id="scoreboard" fitHeight="688.0" fitWidth="353.0" layoutX="1170.0" layoutY="76.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../Images/utility/plateau_score.jpg" />
          </image>
       </ImageView>
-      <TabPane fx:id="manuscriptTabPane" layoutX="35.0" layoutY="194.0" prefHeight="452.0" prefWidth="983.0" style="-fx-background-color: red;" styleClass="gridpane" tabClosingPolicy="UNAVAILABLE" />
+      <TabPane fx:id="manuscriptTabPane" layoutX="35.0" layoutY="194.0" prefHeight="429.0" prefWidth="971.0" style="-fx-background-color: red;" styleClass="gridpane" tabClosingPolicy="UNAVAILABLE" />
       <TitledPane fx:id="chatTitledPane" expanded="false" layoutX="1169.0" layoutY="46.0" prefHeight="717.0" prefWidth="354.0" text="Chat">
 
          <content>
@@ -44,13 +45,13 @@
             <VBox fx:id="commonObjectives" alignment="TOP_CENTER" layoutX="24.0" layoutY="11.0" prefHeight="140.0" prefWidth="180.0" spacing="10.0" styleClass="commonObjectives" />
          </children>
       </Pane>
-      <ImageView fitHeight="54.0" fitWidth="54.0" layoutX="1034.0" layoutY="186.0" pickOnBounds="true" preserveRatio="true" styleClass="plant" />
-      <ImageView fitHeight="60.0" fitWidth="60.0" layoutX="1037.0" layoutY="243.0" pickOnBounds="true" preserveRatio="true" styleClass="animal" />
-      <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="1034.0" layoutY="309.0" pickOnBounds="true" preserveRatio="true" styleClass="insect" />
-      <ImageView fitHeight="55.0" fitWidth="55.0" layoutX="1034.0" layoutY="366.0" pickOnBounds="true" preserveRatio="true" styleClass="fungus" />
-      <ImageView fitHeight="56.0" fitWidth="56.0" layoutX="1034.0" layoutY="424.0" pickOnBounds="true" preserveRatio="true" styleClass="quill" />
-      <ImageView fitHeight="55.0" fitWidth="55.0" layoutX="1040.0" layoutY="484.0" pickOnBounds="true" preserveRatio="true" styleClass="inkwell" />
-      <ImageView fitHeight="55.0" fitWidth="55.0" layoutX="1033.0" layoutY="550.0" pickOnBounds="true" preserveRatio="true" styleClass="parchment" />
+      <ImageView fitHeight="54.0" fitWidth="54.0" layoutX="1034.0" layoutY="193.0" pickOnBounds="true" preserveRatio="true" styleClass="plant" />
+      <ImageView fitHeight="60.0" fitWidth="60.0" layoutX="1037.0" layoutY="250.0" pickOnBounds="true" preserveRatio="true" styleClass="animal" />
+      <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="1034.0" layoutY="316.0" pickOnBounds="true" preserveRatio="true" styleClass="insect" />
+      <ImageView fitHeight="55.0" fitWidth="55.0" layoutX="1034.0" layoutY="373.0" pickOnBounds="true" preserveRatio="true" styleClass="fungus" />
+      <ImageView fitHeight="56.0" fitWidth="56.0" layoutX="1034.0" layoutY="431.0" pickOnBounds="true" preserveRatio="true" styleClass="quill" />
+      <ImageView fitHeight="55.0" fitWidth="55.0" layoutX="1040.0" layoutY="491.0" pickOnBounds="true" preserveRatio="true" styleClass="inkwell" />
+      <ImageView fitHeight="55.0" fitWidth="55.0" layoutX="1033.0" layoutY="557.0" pickOnBounds="true" preserveRatio="true" styleClass="parchment" />
       <GridPane fx:id="scoreBoard" layoutX="1184.0" layoutY="92.0" prefHeight="659.0" prefWidth="322.0">
       <columnConstraints>
          <ColumnConstraints halignment="CENTER" maxWidth="17.0" minWidth="0.0" prefWidth="13.0" />

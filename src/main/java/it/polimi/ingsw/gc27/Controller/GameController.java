@@ -158,6 +158,13 @@ public class GameController implements Serializable {
         // Add the player to the game
         game.addPlayer(p, client);
 
+        p.getHand().add(this.getGame().getMarket().getResourceDeck().removeFirst());
+        p.getHand().add(this.getGame().getMarket().getResourceDeck().removeFirst());
+        p.getHand().add(this.getGame().getMarket().getGoldDeck().removeFirst());
+
+        // Get the secret objectives (Two cards are drawn at the beginning of the game)
+        p.getSecretObjectives().add(this.getGame().getObjectiveDeck().removeFirst());
+        p.getSecretObjectives().add(this.getGame().getObjectiveDeck().removeFirst());
 
         try {
             client.setUsername(username);

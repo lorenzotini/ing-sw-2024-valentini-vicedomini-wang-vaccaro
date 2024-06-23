@@ -242,7 +242,7 @@ public class TurnHandler implements Serializable {
             }
 
             sendWinnersToClient();
-//            sendWinnersToClient();
+
         }
     }
 
@@ -299,7 +299,7 @@ public class TurnHandler implements Serializable {
      * displays the winner/winners to the users, and the general scoreboard
      */
     public void sendWinnersToClient(){
-        UpdateEndGameMessage winnerMessage = new UpdateEndGameMessage(new MiniModel(game.getBoard()));
+        UpdateEndGameMessage winnerMessage = new UpdateEndGameMessage(new MiniModel(game));
         this.game.notifyObservers(winnerMessage);
     }
 

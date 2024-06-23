@@ -12,8 +12,13 @@ public class UpdateEndGameMessage extends Message{
     }
 
     @Override
-    public void reportUpdate(VirtualView client, View view) {
+    public void reportUpdate(VirtualView client, View view)  {
 
+        try {
+            client.getMiniModel().setBoard(this.miniModel.getBoard());
+        }catch(RemoteException | NullPointerException e){
+            throw new RuntimeException(e);
+        }
         view.showWinners();
     }
 }

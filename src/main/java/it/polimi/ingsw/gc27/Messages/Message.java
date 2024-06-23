@@ -35,7 +35,7 @@ public abstract class Message implements Serializable {
         return miniModel;
     }
 
-    public abstract void reportUpdate(VirtualView client, View view) throws RemoteException;
+    public abstract void reportUpdate(VirtualView client, View view) ;
 
     public String getString() {
         return this.string;

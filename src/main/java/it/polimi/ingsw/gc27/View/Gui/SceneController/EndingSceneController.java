@@ -60,7 +60,7 @@ public class EndingSceneController extends GenericController{
 
         while(sortedScoreBoard.entrySet().iterator().hasNext()){
             entry = sortedScoreBoard.entrySet().iterator().next();
-            if(entry.getValue().equals(maxPoints)){
+            if(entry.getValue().equals(maxPoints) && entry.getKey() != null){
                 sb.append(" and ").append(entry.getKey());
                 sortedScoreBoard.remove(entry.getKey(), entry.getValue());
                 moreThanOneWinner = true;

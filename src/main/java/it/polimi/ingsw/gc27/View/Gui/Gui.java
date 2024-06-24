@@ -31,59 +31,34 @@ import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
-
+/**
+ * The Gui class is responsible for managing the graphical user interface of the game
+ * It implements the View interface and follows the singleton pattern to ensure only one instance is used
+ * This class handles scene switching, user interactions, and updates from the game server, displaying
+ * every update in the current scene
+ */
 public class Gui implements View {
-
     private boolean serverIsUp = false;
-
     private boolean isReconnected = false;
-
     private static Gui gui = null;
-
     private boolean isGameOn = true;
-
     private Stage stage;
-
     private GenericController currentController;
-
-
     private VirtualView client;
     final BlockingQueue<String> messages = new LinkedBlockingQueue<>();
     private final HashMap<String, Scene> pathSceneMap = new HashMap<>(); //maps path to scene
     private final HashMap<String, GenericController> pathContrMap = new HashMap<>(); //maps path to controller of the scene
 
-
-    //setters and getters
-    public boolean isGameOn() {
-        return isGameOn;
-    }
-
-    public void setStage(Stage stage) {
-        this.stage = stage;
-    }
-
-    public GenericController getCurrentController() {
-        return currentController;
-    }
-
-    public VirtualView getClient() {
-        return client;
-    }
-
-    @Override
-    public void setClient(VirtualView client) {
-        this.client = client;
-    }
-
-    public void setReconnected(boolean reconnected) {
-        isReconnected = reconnected;
-    }
-    //end setters and getters
-
-    //singleton pattern
+    /**
+     * Private constructor to enforce singleton pattern.
+     */
     private Gui() {
     }
 
+    /**
+     * Returns the singleton instance of the Gui class
+     * @return The singleton instance of the Gui class
+     */
     public static Gui getInstance() {
         synchronized (Gui.class) {
             if (gui == null)
@@ -92,7 +67,11 @@ public class Gui implements View {
         }
     }
 
-    //loads scenes and controllers in hashmaps
+    /**
+     * Creates all the scenes and the respective controllers and
+     * Loads scenes and controllers into the hashmaps
+     * @throws IOException If an I/O error occurs
+     */
     public void initializing() throws IOException {
         for (String path : ScenePaths.valuesList()) {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(path));
@@ -104,7 +83,10 @@ public class Gui implements View {
         currentController = getControllerFromName(ScenePaths.STARTER.getValue());
     }
 
-    //start of the game after initialization
+    /**
+     * Starts the game after initialization, in case of disconnection
+     * handling reconnection automatically {@link View}
+     */
     @Override
     public void run() {
         Platform.runLater(() -> {
@@ -135,6 +117,11 @@ public class Gui implements View {
         });
     }
 
+    /**
+     * Switches the scene to the specified scene path and displays
+     * @param scenePath The path of the scene to switch to
+     * @throws IOException If an I/O error occurs
+     */
     public void switchScene(String scenePath) throws IOException {
         Platform.runLater(() -> {
             stage.setScene(pathSceneMap.get(scenePath));
@@ -143,26 +130,46 @@ public class Gui implements View {
         });
     }
 
+    /**
+     * Gets the controller associated with the specified path
+     * @param path The fil path of the scene
+     * @return The controller associated with the specified path
+     */
     public GenericController getControllerFromName(String path) {
         return pathContrMap.get(path);
     }
 
+    /**
+     * Displays a string message to the console {@link View}
+     * @param phrase The message to display
+     */
     @Override
     public void showString(String phrase) {
         System.out.println(phrase);
     }
 
+    /**
+     * Suspends the game and updates the current controller
+     * @param string the string shown
+     */
     public void suspendedGame(String string){
         currentController.suspendeGame();
         isGameOn = false;
     }
 
+    /**
+     * Resumes the match and updates the current controller {@link View}
+     */
     @Override
     public void resumeTheMatch() {
         isGameOn = true;
         currentController.reconnectPlayer();
     }
 
+    /**
+     * Displays the player's hand if the current scene is the manuscript scene {@link View}
+     * @param hand The player's hand to display
+     */
     @Override
     public void show(ArrayList<ResourceCard> hand) {
         if (currentController instanceof ManuscriptSceneController) {
@@ -178,11 +185,19 @@ public class Gui implements View {
         }
     }
 
+    /**
+     * Displays the specified ObjectiveCard {@link View}
+     * @param objectiveCard The ObjectiveCard to display
+     */
     @Override
     public void show(ObjectiveCard objectiveCard) {
 
     }
 
+    /**
+     * Displays the specified ClientManuscript {@link View}
+     * @param manuscript The ClientManuscript to display
+     */
     @Override
     public void show(ClientManuscript manuscript) {
 
@@ -208,12 +223,20 @@ public class Gui implements View {
 
     }
 
+    /**
+     * Displays the specified ClientBoard {@link View}
+     * @param board The ClientBoard to display
+     */
     @Override
     public void show(ClientBoard board) {
         if (currentController instanceof ManuscriptSceneController)
             ((ManuscriptSceneController) currentController).updateBoard(board);
     }
 
+    /**
+     * Displays the specified ClientChat {@link View}
+     * @param chat The ClientChat to display
+     */
     @Override
     public void show(ClientChat chat) {
         MiniModel miniModel;
@@ -227,6 +250,10 @@ public class Gui implements View {
         controller.overwriteChat(chat, miniModel);
     }
 
+    /**
+     * Displays the specified ClientMarket {@link View}
+     * @param market The ClientMarket to display
+     */
     @Override
     public void show(ClientMarket market) {
         if (currentController instanceof ManuscriptSceneController) {
@@ -242,11 +269,19 @@ public class Gui implements View {
         }
     }
 
+    /**
+     * Shows the updates the manuscript of another player {@link View}
+     * @param manuscript The ClientManuscript to show
+     */
     @Override
     public void updateManuscriptOfOtherPlayer(ClientManuscript manuscript) {
         show(manuscript);
     }
 
+    /**
+     * Reads a message from the message blocking queue {@link View}
+     * @return The message from the blocking queue
+     */
     @Override
     public String read() {
         String mess = "";
@@ -258,11 +293,18 @@ public class Gui implements View {
         return mess;
     }
 
-
+    /**
+     * Adds a message from the scene controller to the message queue
+     * @param string The message to add
+     */
     public void stringFromSceneController(String string) {
         messages.add(string);
     }
 
+    /**
+     * Handles the acknowledgment of an OK message {@link View}
+     * @param string The message to handle
+     */
     @Override
     public void okAck(String string) {
         // if a OkMessage arrives when the currentController is null, it means that the server is up but gui is not ready yet
@@ -274,6 +316,10 @@ public class Gui implements View {
         currentController.receiveOk(string);
     }
 
+    /**
+     * Handles the acknowledgment of a KO message {@link View}
+     * @param string The message to handle
+     */
     @Override
     public void koAck(String string) {
         if (currentController != null) {
@@ -282,6 +328,9 @@ public class Gui implements View {
         }
     }
 
+    /**
+     * Displays the winner/winners of the game {@link View}
+     */
     @Override
     public void showWinners() {
 
@@ -293,18 +342,17 @@ public class Gui implements View {
                     switchScene(ScenePaths.ENDING.getValue());
 
                 }
-
-//                if (currentController instanceof EndingSceneController){
-//                    ((EndingSceneController) Gui.getInstance().getCurrentController()).changeWinnersLabel(client.getMiniModel().getBoard().getScoreBoard());
-//                }
-
             } catch (Exception e){
                 e.printStackTrace();
             }
         });
-
     }
 
+    /**
+     * Adds the last chat message to the specified chat tab
+     * @param message The chat message to add
+     * @param chatTab The chat tab to add the message to
+     */
     public void addLastChatMessage(ChatMessage message, Tab chatTab) {
         Platform.runLater(() -> {
             MiniModel miniModel;
@@ -336,25 +384,6 @@ public class Gui implements View {
                 textName = new Text(message.getSender());
                 hBoxName = new HBox(textName);
                 hBoxName.setPadding(new Insets(0, 3, 0, 3));
-
-//                PawnColour colour = miniModel.getBoard().getColourPlayermap().get(username);
-//                switch (colour) {
-//                    case BLUE:
-//                        textName.getStyleClass().add("text-name");
-//                        textName.setFill(Color.WHITE);
-//                    case YELLOW:
-//                        textName.getStyleClass().add("text-name");
-//                        textName.setFill(Color.WHITE);
-//                    case GREEN:
-//                        textName.getStyleClass().add("text-name");
-//                        textName.setFill(Color.WHITE);
-//                    case RED:
-//                        textName.getStyleClass().add("text-name");
-//                        textName.setFill(Color.WHITE);
-//                }
-//                System.out.println("\n"+ message.getSender() + colour);
-
-
             }
 
             if (message.getSender().equals(username)) {
@@ -376,6 +405,12 @@ public class Gui implements View {
         });
     }
 
+
+    /**
+     * Gets the VBox containing chat messages from the specified chat tab
+     * @param chatTab The chat tab to get the messages from
+     * @return The VBox containing chat messages
+     */
     private VBox getChatMessagesVBox(Tab chatTab) {
         VBox chatContainer = (VBox) chatTab.getContent();
         ScrollPane chatContent = (ScrollPane) chatContainer.getChildren().getFirst();
@@ -383,8 +418,60 @@ public class Gui implements View {
         return (VBox) chatContent.getContent();
     }
 
+    /**
+     * Returns whether  the server is up
+     * @return true if the server is up, false otherwise
+     */
     public boolean isServerIsUp() {
         return serverIsUp;
     }
 
+    /**
+     * Returns whether the game is  on
+     * @return true if the game is on, false otherwise
+     */
+    public boolean isGameOn() {
+        return isGameOn;
+    }
+
+    /**
+     * Sets the stage for the GUI
+     * @param stage The stage
+     */
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
+
+    /**
+     * Gets the current controller
+     * @return The current controller
+     */
+    public GenericController getCurrentController() {
+        return currentController;
+    }
+
+    /**
+     * Gets the client (VirtualView)
+     * @return The client (VirtualView)
+     */
+    public VirtualView getClient() {
+        return client;
+    }
+
+    /**
+     * Sets the client (VirtualView) {@link View}
+     * @param client The client (VirtualView) to set
+     */
+    @Override
+    public void setClient(VirtualView client) {
+        this.client = client;
+    }
+
+    /**
+     * Sets the reconnected status (true or false)
+     * @param reconnected The reconnected status to set
+     */
+    public void setReconnected(boolean reconnected) {
+        isReconnected = reconnected;
+    }
 }

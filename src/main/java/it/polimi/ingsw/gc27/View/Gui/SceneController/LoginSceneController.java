@@ -122,7 +122,6 @@ public class LoginSceneController extends GenericController {
             Gui.getInstance().stringFromSceneController(selectedColour);
             Gui.getInstance().switchScene("/fxml/LobbyScene.fxml");
         }
-
     }
 
     public void disableOtherButtons(Button button){

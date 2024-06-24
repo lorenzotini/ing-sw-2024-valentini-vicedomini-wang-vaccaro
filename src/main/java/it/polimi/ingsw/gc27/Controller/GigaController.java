@@ -97,8 +97,10 @@ public class GigaController {
                     try {
                         client.show("\nInvalid input. Please enter a valid game id or 'new' to start a new game");
                         client.update(new KoMessage("invalidFormatID"));
+                        game = client.read();
                     }catch(IOException es){
                         System.out.println("Connection lost after trying to join a game (110)");
+
                     }
                     continue;
                 }

@@ -72,7 +72,8 @@ public class DrawingState extends PlayerState {
             Message updateMarketMessage = new UpdateMarketMessage(new MiniModel(market));
             turnHandler.getGame().notifyObservers(updateHandMessage);
             turnHandler.getGame().notifyObservers(updateMarketMessage);
-        } catch (NoSuchElementException e){
+        } catch (NoSuchElementException e){  // TODO probabilmente serve aggiungere una nullPOinterException per quando si pesca dalle carte scoperte
+            // when drawing from face ups, but no more cards in deck
             if(!fromDeck){
                // card = market.getFaceUp(isGold)[faceUpCardIndex];
                 player.getHand().add(card);
@@ -89,6 +90,8 @@ public class DrawingState extends PlayerState {
             } else {
                 super.sendError("No more cards to draw!", getPlayer(), turnHandler);
             }
+        } catch (NullPointerException e){ // when drawing from face ups, but there is no card
+            super.sendError("No more cards to draw!", getPlayer(), turnHandler);
         }
 
     }

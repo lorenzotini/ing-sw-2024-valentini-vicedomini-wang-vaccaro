@@ -685,7 +685,7 @@ public class ManuscriptSceneController extends GenericController {
                 noMoreDeckCards = false;
                 deckImage = new Image(getClass().getResource(miniModel.getMarket().getResourceDeck().getLast().getBack().getImagePath()).toExternalForm());
             } catch (NoSuchElementException e){
-                deckImage = new Image(getClass().getResource("/Images/utility/validPlacement.png").toExternalForm());
+                deckImage = new Image(getClass().getResource("/Images/utility/noMoreCards.png").toExternalForm());
                 noMoreDeckCards = true;
             }
 
@@ -715,7 +715,7 @@ public class ManuscriptSceneController extends GenericController {
                             marketRes = new ImageView(new Image(getClass().getResource(miniModel.getMarket().getFaceUp(isGold)[i - 1].getFront().getImagePath()).toExternalForm()));
                         } catch (NullPointerException e){
                             noMoreFaceUpCard = true;
-                            marketRes = new ImageView(new Image(getClass().getResource("/Images/utility/validPlacement.png").toExternalForm()));
+                            marketRes = new ImageView(new Image(getClass().getResource("/Images/utility/noMoreCards.png").toExternalForm()));
                         }
                         marketRes.setFitHeight(marketBox.getPrefHeight());
                         marketRes.setFitWidth(marketBox.getPrefWidth() / 3);
@@ -733,7 +733,7 @@ public class ManuscriptSceneController extends GenericController {
                     noMoreDeckCards = false;
                     deckImage = new Image(getClass().getResource(miniModel.getMarket().getGoldDeck().getLast().getBack().getImagePath()).toExternalForm());
                 } catch (NoSuchElementException e){
-                    deckImage = new Image(getClass().getResource("/Images/utility/validPlacement.png").toExternalForm());
+                    deckImage = new Image(getClass().getResource("/Images/utility/noMoreCards.png").toExternalForm());
                     noMoreDeckCards = true;
                 }
             }

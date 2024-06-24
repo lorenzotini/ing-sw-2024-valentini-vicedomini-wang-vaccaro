@@ -35,17 +35,11 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 public class Gui implements View {
 
-
     private boolean serverIsUp = false;
-
     private boolean isReconnected = false;
-
     private static Gui gui = null;
-
     private Stage stage;
-
     private GenericController currentController;
-
     private boolean isGameOn = true;
     private VirtualView client;
     private final BlockingQueue<String> messages = new LinkedBlockingQueue<>();

@@ -230,7 +230,7 @@ public class PlaceStarterCardSceneController extends GenericController{
     }
 
     @Override
-    public void reconnectPlayer(){
+    public void otherPlayerReconnected(){
         gameSuspendedLabel.setVisible(false);
     }
 

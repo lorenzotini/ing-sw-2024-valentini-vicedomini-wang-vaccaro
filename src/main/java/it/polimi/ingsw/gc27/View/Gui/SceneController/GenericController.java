@@ -21,7 +21,7 @@ public abstract class GenericController {
      */
     public void overwriteChat(ClientChat chat, MiniModel minimodel){}
 
-    public void reconnectPlayer(){};
+    public void otherPlayerReconnected(){};
     /**
      * invoked by Gui in order to send a string to a generic scene controller,
      * the string is generally a negative feedback, such as an error

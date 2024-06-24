@@ -852,7 +852,7 @@ public class ManuscriptSceneController extends GenericController {
     }
 
     @Override
-    public void reconnectPlayer() {
+    public void otherPlayerReconnected() {
         Platform.runLater(()-> {
             errorPane.setTextAlignment(TextAlignment.CENTER);
             errorText.getStyleClass().add("labelError");

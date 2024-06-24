@@ -360,18 +360,9 @@ public class Tui implements View {
     }
 
     @Override
-    public void show(ObjectiveCard secretObj) {
-        if (!isEndingState) {
-            ArrayList<ObjectiveCard> obj = new ArrayList<>();
-            obj.add(secretObj);
-            out.println(showObjectives(obj));
-        }
-    }
-
-    @Override
     public void show(ClientManuscript manuscript) {
         if (!isEndingState) {
-            //out.println(showManuscript(manuscript));
+            out.println(showManuscript(manuscript));
         }
     }
 

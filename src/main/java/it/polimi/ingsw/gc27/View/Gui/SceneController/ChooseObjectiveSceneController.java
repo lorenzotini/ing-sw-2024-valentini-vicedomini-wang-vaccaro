@@ -256,7 +256,7 @@ public class ChooseObjectiveSceneController extends GenericController {
         }
     }
     @Override
-    public void reconnectPlayer(){
+    public void otherPlayerReconnected(){
         gameSuspendedLabel.setVisible(false);
     }
 

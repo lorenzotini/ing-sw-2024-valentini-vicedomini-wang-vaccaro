@@ -57,6 +57,7 @@ public class DrawingState extends PlayerState {
                 card = deck.removeLast();
             } else { // player drawn a face up card from the market
                 card = market.getFaceUp(isGold)[faceUpCardIndex]; // pick the card
+                if(card == null) throw new NullPointerException(); // if there is no card, throw an exception
                 market.getFaceUp(isGold)[faceUpCardIndex] = null; // delete it from the market
                 market.setFaceUp(deck.removeLast(), faceUpCardIndex); // eventually, replace it with a deck card
             }

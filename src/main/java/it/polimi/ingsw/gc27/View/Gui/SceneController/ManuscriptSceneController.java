@@ -94,7 +94,6 @@ public class ManuscriptSceneController extends GenericController {
 
     // attributes to handle drawCard invocation
     private ImageView marketCard;
-
     //there is a private hashmap for all the scenes where the chat is displayed
     private final HashMap<String, Tab> chatTabHashMap = new HashMap<>();
     private final HashMap<PawnColour, Integer> pawnColourIntegerHashMap = new HashMap<>();

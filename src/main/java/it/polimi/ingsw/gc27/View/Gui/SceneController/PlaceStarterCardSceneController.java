@@ -227,7 +227,6 @@ public class PlaceStarterCardSceneController extends GenericController{
         }else{
             gameSuspendedLabel.setVisible(true);
         }
-
     }
 
     @Override

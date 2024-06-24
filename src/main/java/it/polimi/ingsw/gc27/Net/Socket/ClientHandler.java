@@ -53,7 +53,6 @@ public class ClientHandler implements VirtualView {
         this.input = new ObjectInputStream(socketClient.getInputStream());
 
         new Thread(() -> {
-
             try {
                 String message = (String) input.readObject();
                 if (message.equals("welcomeplayer")) {

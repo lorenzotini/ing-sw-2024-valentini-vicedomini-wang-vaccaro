@@ -34,6 +34,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 public class Gui implements View {
 
+
     private boolean serverIsUp = false;
 
     private boolean isReconnected = false;
@@ -48,7 +49,7 @@ public class Gui implements View {
 
 
     private VirtualView client;
-    final BlockingQueue<String> messages = new LinkedBlockingQueue<>();
+    private final BlockingQueue<String> messages = new LinkedBlockingQueue<>();
     private final HashMap<String, Scene> pathSceneMap = new HashMap<>(); //maps path to scene
     private final HashMap<String, GenericController> pathContrMap = new HashMap<>(); //maps path to controller of the scene
 

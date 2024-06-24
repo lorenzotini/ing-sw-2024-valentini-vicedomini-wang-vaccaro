@@ -40,6 +40,7 @@ public class GameController implements Serializable {
 
     /**
      * Constructor for the GameController with a game instance
+     *
      * @param game The game instance to be controlled
      */
     public GameController(Game game) {
@@ -54,10 +55,11 @@ public class GameController implements Serializable {
 
     /**
      * Constructor for GameController with game, number of maximum players, game id, and console.
-     * @param game The game
+     *
+     * @param game          The game
      * @param numMaxPlayers The number of players
-     * @param id The unique id for the game
-     * @param console The GigaController multi game controller
+     * @param id            The unique id for the game
+     * @param console       The GigaController multi game controller
      */
     public GameController(Game game, int numMaxPlayers, int id, GigaController console) {
         this.game = game;
@@ -84,9 +86,10 @@ public class GameController implements Serializable {
 
     /**
      * Draws a card for the player
-     * @param player The player drawing the card
-     * @param isGold Whether the card is a gold card
-     * @param fromDeck Whether the card is drawn from the deck
+     *
+     * @param player          The player drawing the card
+     * @param isGold          Whether the card is a gold card
+     * @param fromDeck        Whether the card is drawn from the deck
      * @param faceUpCardIndex The index of the face-up card.
      * @throws InterruptedException if the operation is interrupted
      */
@@ -97,7 +100,8 @@ public class GameController implements Serializable {
 
     /**
      * Allows the player to choose an objective card
-     * @param player The player
+     *
+     * @param player             The player
      * @param objectiveCardIndex The index of the objective card
      */
     public void chooseObjectiveCard(Player player, int objectiveCardIndex) {
@@ -106,9 +110,10 @@ public class GameController implements Serializable {
 
     /**
      * Adds the starter card to the player's manuscript
-     * @param player The player
+     *
+     * @param player  The player
      * @param starter The starter card
-     * @param face The face of the card (face up or face  down)
+     * @param face    The face of the card (face up or face  down)
      */
     public void addStarterCard(Player player, StarterCard starter, Face face) {
         player.getPlayerState().addStarterCard(this.game, starter, face);
@@ -116,6 +121,7 @@ public class GameController implements Serializable {
 
     /**
      * Suspends a player by marking them as disconnected and handling their disconnection
+     *
      * @param player The player to suspend
      */
     public void suspendPlayer(Player player) {
@@ -127,17 +133,19 @@ public class GameController implements Serializable {
         }
     }
 
-    private void checkIfEndOfGameNoMoreCards(){
+    private void checkIfEndOfGameNoMoreCards() {
         // check if there are no more cards in decks and face up cards in market
-        if(game.isMarketEmpty()){
+        if (game.isMarketEmpty()) {
             turnHandler.triggerEndingGameDueToNoMoreCards();
         }
     }
 
     // Create a player from command line, but hand, secret objective and starter are not instantiated
+
     /**
      * Initializes a player from the command line, without instantiating hand, secret objective, and starter card
-     * @param client The client view
+     *
+     * @param client   The client view
      * @param gigaChad The GigaController multi game controller
      */
     public void initializePlayer(VirtualView client, GigaController gigaChad) {
@@ -165,26 +173,36 @@ public class GameController implements Serializable {
             return;
         }
         // Ask for the pawn color
-        synchronized (game.getAvailablePawns()) {
-            try {
-                do {
-                    client.show("\nChoose your color: ");
+
+        try {
+            do {
+                client.show("\nChoose your color: ");
+                synchronized (game.getAvailablePawns()) {
                     for (PawnColour pawnColour : game.getAvailablePawns()) {
                         client.show(pawnColour.toString());
                         client.update(new OkMessage("Choose your color:" + pawnColour.toString()));
                     }
-                    pawnColor = client.read();
-                } while (!game.validPawn(pawnColor));
-                pawnColourSelected = PawnColour.fromStringToPawnColour(pawnColor);
-                game.getBoard().colourPlayerMap.put(username, pawnColourSelected);
-                game.getAvailablePawns().remove(pawnColourSelected);
-            } catch (IOException e) {
-                System.out.println("Disconnected player before choosing a color");
-                synchronized (game.getPlayers()) {
-                    game.setNumActualPlayers(game.getNumActualPlayers() - 1);
                 }
-                return;
+                pawnColor = client.read();
+                synchronized (game.getAvailablePawns()) {
+                    if (game.validPawn(pawnColor)) {
+                        pawnColourSelected = PawnColour.fromStringToPawnColour(pawnColor);
+                        game.getBoard().colourPlayerMap.put(username, pawnColourSelected);
+                        game.getAvailablePawns().remove(pawnColourSelected);
+                        client.update(new OkMessage("okColour"));
+                        break;
+                    } else {
+                        client.update(new KoMessage("koColour"));
+                    }
+                }
+            } while (true);
+
+        } catch (IOException e) {
+            System.out.println("Disconnected player before choosing a color");
+            synchronized (game.getPlayers()) {
+                game.setNumActualPlayers(game.getNumActualPlayers() - 1);
             }
+            return;
         }
 
 
@@ -225,6 +243,7 @@ public class GameController implements Serializable {
 
     /**
      * Sends a chat message
+     *
      * @param chatMessage The chat message
      */
     public void sendChatMessage(ChatMessage chatMessage) {
@@ -246,12 +265,13 @@ public class GameController implements Serializable {
                 game.notifyObservers(new UpdateChatMessage(chat, game.getPlayer(chatMessage.getSender()), chatMessage.getReceiver()));
             }
         } catch (NullPointerException e) {
-            game.notifyObservers(new GenericErrorMessage("There is no one with that name",new MiniModel(getPlayer(chatMessage.getSender()))));
+            game.notifyObservers(new GenericErrorMessage("There is no one with that name", new MiniModel(getPlayer(chatMessage.getSender()))));
         }
     }
 
     /**
      * Adds a command to the command queue
+     *
      * @param command The command
      */
     public void addCommand(Command command) {
@@ -277,6 +297,7 @@ public class GameController implements Serializable {
 
     /**
      * Suspends the game, waiting for players to reconnect or the game to be closed
+     *
      * @throws InterruptedException if the operation is interrupted
      */
     public void suspendGame() throws InterruptedException {
@@ -326,6 +347,7 @@ public class GameController implements Serializable {
 
     /**
      * Gets the game instance
+     *
      * @return The game instance
      */
     public Game getGame() {
@@ -334,6 +356,7 @@ public class GameController implements Serializable {
 
     /**
      * Gets the turn handler
+     *
      * @return The turn handler
      */
     public TurnHandler getTurnHandler() {
@@ -342,6 +365,7 @@ public class GameController implements Serializable {
 
     /**
      * Sets the current game
+     *
      * @param game The game
      */
     public void setGame(Game game) {
@@ -350,6 +374,7 @@ public class GameController implements Serializable {
 
     /**
      * Gets the unique id of the game
+     *
      * @return The unique id of the game
      */
     public int getId() {
@@ -358,6 +383,7 @@ public class GameController implements Serializable {
 
     /**
      * Gets the maximum number of players
+     *
      * @return The maximum number of players
      */
     public int getNumMaxPlayers() {
@@ -366,6 +392,7 @@ public class GameController implements Serializable {
 
     /**
      * Gets a player by their username
+     *
      * @param username The username of the player
      * @return The player with the specified username.
      */

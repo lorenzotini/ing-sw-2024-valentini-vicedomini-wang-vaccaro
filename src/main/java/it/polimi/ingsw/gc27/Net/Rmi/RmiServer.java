@@ -132,7 +132,7 @@ public class RmiServer implements VirtualServer {
      */
     @Override
     public void receivePing(VirtualView client) throws RemoteException {
-        clientsPing.replace((VirtualView) client, System.currentTimeMillis());
+        clientsPing.put(client, System.currentTimeMillis());
     }
 
     /**

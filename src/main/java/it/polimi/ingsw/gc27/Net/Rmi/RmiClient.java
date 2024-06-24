@@ -192,8 +192,10 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
                 try {
                     Thread.sleep(1000);
                     pingToServer( this);
-                } catch (RemoteException | InterruptedException e) {
-                    System.out.println("Probably the server is down");
+                } catch (RemoteException e) {
+                    System.out.println("Probably the server is down: remote exception");
+                } catch (InterruptedException e) {
+                    System.out.println("Probably the server is down: interrupted exception");
                 }
             }
         }).start();

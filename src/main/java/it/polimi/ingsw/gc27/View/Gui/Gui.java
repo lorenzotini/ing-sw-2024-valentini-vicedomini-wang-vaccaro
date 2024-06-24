@@ -531,4 +531,8 @@ public class Gui implements View {
         return serverIsUp;
     }
 
+    public boolean isReconnected() {
+        return isReconnected;
+    }
+
 }

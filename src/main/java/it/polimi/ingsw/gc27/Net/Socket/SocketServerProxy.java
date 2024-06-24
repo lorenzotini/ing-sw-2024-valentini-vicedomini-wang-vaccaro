@@ -115,7 +115,7 @@ public class SocketServerProxy implements VirtualServer {
                     throw new RuntimeException(e);
                 }
             } else {
-                System.out.println("ping non ricevuto " + count);
+                System.out.println("Ping not received " + count);
                 //TODO togliere questa print poco prima dell'esame, tipo 15 min prima
 
                 try {

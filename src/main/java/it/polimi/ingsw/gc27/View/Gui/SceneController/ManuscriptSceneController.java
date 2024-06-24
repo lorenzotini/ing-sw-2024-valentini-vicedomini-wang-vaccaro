@@ -77,7 +77,7 @@ public class ManuscriptSceneController extends GenericController {
     private TabPane chatTabPane;
     @FXML
     private TitledPane chatTitledPane;
-    private final HashMap<Integer, Point> position = new HashMap<Integer, Point>();
+    private final HashMap<Integer, Point> position = new HashMap<>();
 
     private final int CARD_WIDTH = 150;
     private final int CARD_HEIGHT = 100;

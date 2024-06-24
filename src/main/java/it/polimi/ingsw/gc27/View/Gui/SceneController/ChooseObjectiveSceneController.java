@@ -239,7 +239,6 @@ public class ChooseObjectiveSceneController extends GenericController {
         } else {
             Command comm = new ChooseObjectiveCommand(Gui.getInstance().getClient().getUsername(), 2);
             Gui.getInstance().getClient().sendCommand(comm);
-
         }
         objButton2.setOnMouseClicked(null);
         objButton2.setOnMouseClicked(null);

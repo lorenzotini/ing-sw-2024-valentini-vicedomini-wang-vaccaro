@@ -111,11 +111,8 @@ class TurnHandlerTest {
         p3.setPlayerState(new WaitingState(p3, turnHandler));
 
         game.getBoard().setPointsRedPlayer(20);
-        try {
-            turnHandler.notifyEndOfTurnState(p1);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        turnHandler.notifyEndOfTurnState(p1);
+
     }
 
     //case disconnection
@@ -126,12 +123,7 @@ class TurnHandlerTest {
         p2.setPlayerState(new WaitingState(p2, turnHandler));
         p3.setPlayerState(new WaitingState(p3, turnHandler));
         p2.setDisconnected(true);
-
-        try {
-            turnHandler.notifyEndOfTurnState(p1);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        turnHandler.notifyEndOfTurnState(p1);
     }
 
     @Test
@@ -144,12 +136,8 @@ class TurnHandlerTest {
         p3.setPlayerState(new WaitingState(p3, turnHandler));
         p2.setDisconnected(true);
 
+        turnHandler.notifyEndOfTurnState(p1);
 
-        try {
-            turnHandler.notifyEndOfTurnState(p1);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
     }
     // case disconnected player
 
@@ -160,12 +148,8 @@ class TurnHandlerTest {
         p2.setPlayerState(new WaitingState(p2, turnHandler));
         p3.setPlayerState(new WaitingState(p3, turnHandler));
         game.getBoard().setPointsBluePlayer(20);
+        turnHandler.notifyEndOfTurnState(p3);
 
-        try {
-            turnHandler.notifyEndOfTurnState(p3);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
     }
     @Test
     void notifyCalculateObjectivePointsTest() throws RemoteException {
@@ -176,11 +160,7 @@ class TurnHandlerTest {
         p2.getSecretObjectives().add(objectiveDeck.get(1));
         p3.getSecretObjectives().add(objectiveDeck.get(0));
         p3.setPlayerState(new EndingState(p3, turnHandler));
-        try {
-            turnHandler.notifyCalculateObjectivePoints(p1);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        turnHandler.notifyCalculateObjectivePoints(p1);
         assertEquals(game.getBoard().getPointsBluePlayer(), 0);
         assertEquals(game.getBoard().getPointsRedPlayer(), 0);
         assertEquals(game.getBoard().getPointsYellowPlayer(), 0);

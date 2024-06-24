@@ -89,11 +89,8 @@ class PlayingStateTest {
     void drawCard() {
         initializeGame();
         p1.setPlayerState(new PlayingState(p1,new TurnHandler(g1)));
-        try {
-            p1.getPlayerState().drawCard(p1, true,true,0);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        p1.getPlayerState().drawCard(p1, true,true,0);
+
         assertEquals(p1.getPlayerState().toString(), "PlayingState");
 
     }

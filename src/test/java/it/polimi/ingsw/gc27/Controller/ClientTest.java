@@ -29,7 +29,7 @@ public class ClientTest implements VirtualView{
     }
 
 
-    public String read() throws IOException, InterruptedException {
+    public String read() {
         return nextReads.poll();
     }
 
@@ -39,7 +39,7 @@ public class ClientTest implements VirtualView{
     }
 
 
-    public void runClient() throws IOException, InterruptedException {
+    public void runClient() {
 
     }
 

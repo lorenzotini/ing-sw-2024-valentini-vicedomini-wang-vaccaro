@@ -14,6 +14,7 @@ import it.polimi.ingsw.gc27.Net.VirtualView;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -372,5 +373,9 @@ public class GameController implements Serializable {
     public Player getPlayer(String username) {
         return getGame().getPlayer(username);
     }
+    public BlockingQueue<Command> getCommands() {
+        return commands;
+    }
+
 
 }

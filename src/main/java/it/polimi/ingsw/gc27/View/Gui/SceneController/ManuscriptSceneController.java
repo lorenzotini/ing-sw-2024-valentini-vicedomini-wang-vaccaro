@@ -711,8 +711,6 @@ public class ManuscriptSceneController extends GenericController {
                         marketBox.getChildren().add(marketRes);
                     } else {
                         fromDeck = false;
-                        marketRes = new ImageView(new Image(getClass().getResource(miniModel.getMarket().getFaceUp(isGold)[i - 1].getFront().getImagePath()).toExternalForm()));
-                        marketRes.getStyleClass().add("image-card");
                         try{
                             noMoreFaceUpCard = false;
                             marketRes = new ImageView(new Image(getClass().getResource(miniModel.getMarket().getFaceUp(isGold)[i - 1].getFront().getImagePath()).toExternalForm()));
@@ -720,6 +718,7 @@ public class ManuscriptSceneController extends GenericController {
                             noMoreFaceUpCard = true;
                             marketRes = new ImageView(new Image(getClass().getResource("/Images/utility/noMoreCards.png").toExternalForm()));
                         }
+                        marketRes.getStyleClass().add("image-card");
                         marketRes.setFitHeight(marketBox.getPrefHeight());
                         marketRes.setFitWidth(marketBox.getPrefWidth() / 3);
                         marketRes.setUserData(new MarketCardData(isGold, fromDeck, i - 1));

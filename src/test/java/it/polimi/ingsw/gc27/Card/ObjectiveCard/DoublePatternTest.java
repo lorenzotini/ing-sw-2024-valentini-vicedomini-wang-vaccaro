@@ -83,10 +83,9 @@ class DoublePatternTest {
     }
 
     @Test
-    void calculateObjectivePointsTest1() throws IOException, InterruptedException { //test1 double inkwell
+    void calculateObjectivePointsTest1(){
         initializeGame();
         p1.addCard(g1,starterDeck.get(2),starterDeck.get(2).getBack(), 42,42);
-        //p1.getManuscript().getField()[42][42]=;
 
         p1.addCard(g1,resourceDeck.get(31),resourceDeck.get(31).getFront(), 43, 43);
         assertTrue(p1.getManuscript().getField()[42][42].getCorner(1, -1).isHidden());
@@ -97,7 +96,7 @@ class DoublePatternTest {
         p1.addCard(g1,resourceDeck.get(32),resourceDeck.get(32).getFront(), 44, 44);
         assertTrue(p1.getManuscript().getField()[43][43].getCorner(1, -1).isHidden());
 
-        p1.addCard(g1,resourceDeck.get(34),resourceDeck.get(34).getFront(), 43, 41);
+        p1.addCard(g1,resourceDeck.get(34),resourceDeck.get(34).getBack(), 43, 41);
         assertTrue(p1.getManuscript().getField()[42][42].getCorner(1, 1).isHidden());
 
         p1.addCard(g1,resourceDeck.get(17),resourceDeck.get(17).getFront(), 44, 40);
@@ -117,7 +116,6 @@ class DoublePatternTest {
         assertTrue(p1.getManuscript().getField()[42][42].getCorner(-1, 1).isHidden());
         assertTrue(p1.getManuscript().getField()[42][40].getCorner(-1, -1).isHidden());
 
-
         p1.addCard(g1, goldDeck.get(16), goldDeck.get(16).getFront(), 40, 42);
         assertTrue(p1.getManuscript().getField()[41][41].getCorner(-1, -1).isHidden());
 
@@ -131,11 +129,10 @@ class DoublePatternTest {
         assertTrue(p1.getManuscript().getField()[42][38].getCorner(1, -1).isHidden());
         assertTrue(p1.getManuscript().getField()[42][40].getCorner(1, 1).isHidden());
         assertTrue(p1.getManuscript().getField()[44][40].getCorner(-1, 1).isHidden());
-
         assertEquals(2, objectiveDeck.get(14).calculateObjectivePoints(p1.getManuscript()));
     }
     @Test
-    void calculateObjectivePointsTest2() throws IOException, InterruptedException { //test2 double manuscript
+    void calculateObjectivePointsTest2(){
         initializeGame();
         p2.addCard(g1, starterDeck.get(1), starterDeck.get(1).getFront(),42,42);
 
@@ -175,7 +172,7 @@ class DoublePatternTest {
         assertEquals(4, objectiveDeck.get(13).calculateObjectivePoints(p2.getManuscript()));
     }
     @Test
-    void calculateObjectivePointsTest3() throws IOException, InterruptedException { //test1 double quill (added card 5 in position 46,46 not displayed in the example shared)
+    void calculateObjectivePointsTest3(){
         initializeGame();
         p1.addCard(g1, starterDeck.get(2), starterDeck.get(2).getBack(),42,42);
 
@@ -208,7 +205,6 @@ class DoublePatternTest {
         assertTrue(p1.getManuscript().getField()[42][42].getCorner(-1, 1).isHidden());
         assertTrue(p1.getManuscript().getField()[42][40].getCorner(-1, -1).isHidden());
 
-
         p1.addCard(g1, goldDeck.get(16), goldDeck.get(16).getFront(), 40, 42);
         assertTrue(p1.getManuscript().getField()[41][41].getCorner(-1, -1).isHidden());
 
@@ -224,7 +220,6 @@ class DoublePatternTest {
         assertTrue(p1.getManuscript().getField()[44][40].getCorner(-1, 1).isHidden());
 
         p1.addCard(g1, resourceDeck.get(4), resourceDeck.get(4).getFront(), 46, 46);
-
         assertEquals(2, objectiveDeck.get(15).calculateObjectivePoints(p1.getManuscript()));
     }
 

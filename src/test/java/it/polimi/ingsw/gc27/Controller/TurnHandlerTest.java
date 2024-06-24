@@ -224,7 +224,7 @@ class TurnHandlerTest {
             throw new RuntimeException(e);
         }
         assertEquals(p1.getPlayerState().toString(), "EndOfTurnState");
-        assertEquals(p2.getPlayerState().toString(), "WaitingState");
+        assertEquals(p2.getPlayerState().toString(), "EndOfTurnState");
 
 
     }

@@ -11,12 +11,14 @@ import it.polimi.ingsw.gc27.Model.Enumerations.Kingdom;
 import it.polimi.ingsw.gc27.Model.Enumerations.PawnColour;
 import it.polimi.ingsw.gc27.Game.*;
 import it.polimi.ingsw.gc27.Model.Game.*;
+import it.polimi.ingsw.gc27.View.Tui.Tui;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.lang.System.out;
 import static org.junit.jupiter.api.Assertions.*;
 
 class TwoPlusOnePatternTest {
@@ -139,7 +141,7 @@ class TwoPlusOnePatternTest {
     }
 
     @Test
-    void calculateObjectivePointsTest2() throws IOException, InterruptedException { //test1, animal+insect
+    void calculateObjectivePointsTest2() {
         initializeGame();
         p1.addCard(g1, starterDeck.get(2), starterDeck.get(2).getBack(), 42,42);
 
@@ -152,7 +154,7 @@ class TwoPlusOnePatternTest {
         p1.addCard(g1, resourceDeck.get(32), resourceDeck.get(32).getFront(), 44, 44);
         assertTrue(p1.getManuscript().getField()[43][43].getCorner(1, -1).isHidden());
 
-        p1.addCard(g1, goldDeck.get(34), goldDeck.get(34).getFront(), 43, 41);
+        p1.addCard(g1, goldDeck.get(34), goldDeck.get(34).getBack(), 43, 41);
         assertTrue(p1.getManuscript().getField()[42][42].getCorner(1, 1).isHidden());
 
         p1.addCard(g1, resourceDeck.get(17), resourceDeck.get(17).getFront(), 44, 40);

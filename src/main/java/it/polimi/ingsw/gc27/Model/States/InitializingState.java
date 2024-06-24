@@ -24,10 +24,10 @@ public class InitializingState extends PlayerState {
      * State in which a player adds the starter card to their manuscript
      * constructor matching super {@link PlayerState}
      */
-
     public InitializingState(Player player, TurnHandler turnHandler) {
         super(player, turnHandler);
     }
+
     /**
      * method implemented from {@link PlayerState}, according to the State Pattern principle
      */

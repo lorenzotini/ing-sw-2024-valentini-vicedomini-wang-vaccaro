@@ -35,6 +35,7 @@ import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 
@@ -652,9 +653,7 @@ public class ManuscriptSceneController extends GenericController {
     }
 
     public void overwriteHand(MiniModel miniModel) {
-
         Platform.runLater(() -> {
-
             handCards.getChildren().clear();
             for (Card card : miniModel.getPlayer().getHand()) {
                 ImageView newHandCard = new ImageView(new Image(getClass().getResource(card.getFront().getImagePath()).toExternalForm()));
@@ -668,9 +667,7 @@ public class ManuscriptSceneController extends GenericController {
                 newHandCard.setUserData(handCardData);
                 handCards.getChildren().add(newHandCard);
             }
-
         });
-
     }
 
     public void overwriteMarket(MiniModel miniModel) {
@@ -680,38 +677,68 @@ public class ManuscriptSceneController extends GenericController {
             HBox marketBox = this.marketResources;
             boolean isGold = false;
             boolean fromDeck;
-            Image deckImage = new Image(getClass().getResource(miniModel.getMarket().getResourceDeck().getLast().getBack().getImagePath()).toExternalForm());
+            Image deckImage;
+            boolean noMoreDeckCards;
+            boolean noMoreFaceUpCard;
+
+            try{
+                noMoreDeckCards = false;
+                deckImage = new Image(getClass().getResource(miniModel.getMarket().getResourceDeck().getLast().getBack().getImagePath()).toExternalForm());
+            } catch (NoSuchElementException e){
+                deckImage = new Image(getClass().getResource("/Images/utility/noMoreCards.png").toExternalForm());
+                noMoreDeckCards = true;
+            }
 
             marketResources.getChildren().clear();
             marketGolds.getChildren().clear();
+
+            ImageView marketRes;
 
             for (int j = 0; j < 2; j++) {
                 for (int i = 0; i < 3; i++) {
                     if (i == 0) {
                         fromDeck = true;
-                        ImageView marketRes = new ImageView(deckImage);
+                        marketRes = new ImageView(deckImage);
                         marketRes.getStyleClass().add("image-card");
                         marketRes.setFitHeight(marketBox.getPrefHeight());
                         marketRes.setFitWidth(marketBox.getPrefWidth() / 3);
                         marketRes.setUserData(new MarketCardData(isGold, fromDeck, 0));
-                        handleClickDetectedMarket(marketRes);
+                        // if there are more cards the player can draw, otherwise the card is not clickable
+                        if(!noMoreDeckCards){
+                            handleClickDetectedMarket(marketRes);
+                        }
                         zoomCardOnHover(marketRes, 2);
                         marketBox.getChildren().add(marketRes);
                     } else {
                         fromDeck = false;
-                        ImageView marketRes = new ImageView(new Image(getClass().getResource(miniModel.getMarket().getFaceUp(isGold)[i - 1].getFront().getImagePath()).toExternalForm()));
+                        marketRes = new ImageView(new Image(getClass().getResource(miniModel.getMarket().getFaceUp(isGold)[i - 1].getFront().getImagePath()).toExternalForm()));
                         marketRes.getStyleClass().add("image-card");
+                        try{
+                            noMoreFaceUpCard = false;
+                            marketRes = new ImageView(new Image(getClass().getResource(miniModel.getMarket().getFaceUp(isGold)[i - 1].getFront().getImagePath()).toExternalForm()));
+                        } catch (NullPointerException e){
+                            noMoreFaceUpCard = true;
+                            marketRes = new ImageView(new Image(getClass().getResource("/Images/utility/noMoreCards.png").toExternalForm()));
+                        }
                         marketRes.setFitHeight(marketBox.getPrefHeight());
                         marketRes.setFitWidth(marketBox.getPrefWidth() / 3);
                         marketRes.setUserData(new MarketCardData(isGold, fromDeck, i - 1));
-                        handleClickDetectedMarket(marketRes);
+                        if(!noMoreFaceUpCard){
+                            handleClickDetectedMarket(marketRes);
+                        }
                         zoomCardOnHover(marketRes, 2);
                         marketBox.getChildren().add(marketRes);
                     }
                 }
                 marketBox = this.marketGolds;
                 isGold = true;
-                deckImage = new Image(getClass().getResource(miniModel.getMarket().getGoldDeck().getLast().getBack().getImagePath()).toExternalForm());
+                try{
+                    noMoreDeckCards = false;
+                    deckImage = new Image(getClass().getResource(miniModel.getMarket().getGoldDeck().getLast().getBack().getImagePath()).toExternalForm());
+                } catch (NoSuchElementException e){
+                    deckImage = new Image(getClass().getResource("/Images/utility/noMoreCards.png").toExternalForm());
+                    noMoreDeckCards = true;
+                }
             }
 
         });
@@ -719,11 +746,8 @@ public class ManuscriptSceneController extends GenericController {
     }
 
     public void overwriteCounters(MiniModel miniModel) {
-
         Platform.runLater(() -> {
-
             counters.getChildren().clear();
-
             for (CornerSymbol cs : CornerSymbol.valuesList()) {
                 if (cs.equals(CornerSymbol.BLACK) || cs.equals(CornerSymbol.EMPTY)) continue;
                 Label counter = new Label("  -  " + miniModel.getManuscript().getCounter(cs));
@@ -732,9 +756,7 @@ public class ManuscriptSceneController extends GenericController {
                 counter.setFont(Font.font("Agency FB", FontWeight.BLACK, 30));
                 counters.getChildren().add(counter);
             }
-
         });
-
     }
 
     private void addValidPlacements(MiniModel miniModel, Placement placement, GridPane grid) {

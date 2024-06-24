@@ -27,16 +27,16 @@ import java.util.concurrent.LinkedBlockingQueue;
  */
 public class GameController implements Serializable {
 
+    private GigaController console;
     private Game game;
-    boolean suspended;
     private TurnHandler turnHandler;
+    private final BlockingQueue<Command> commands = new LinkedBlockingQueue<>();
     private int numMaxPlayers;
     private int id;
-    private final BlockingQueue<Command> commands = new LinkedBlockingQueue<>();
-    private GigaController console;
-    private boolean inMatch;
     private long time;
-    private static int MAX_TIME_BEFORE_CLOSING_GAME = 60000; //in milliseconds
+    private boolean inMatch;
+    private boolean suspended;
+    private static final int MAX_TIME_BEFORE_CLOSING_GAME = 60000; //in milliseconds
 
     /**
      * Constructor for the GameController with a game instance
@@ -90,8 +90,9 @@ public class GameController implements Serializable {
      * @param faceUpCardIndex The index of the face-up card.
      * @throws InterruptedException if the operation is interrupted
      */
-    public void drawCard(Player player, boolean isGold, boolean fromDeck, int faceUpCardIndex) throws InterruptedException {
+    public void drawCard(Player player, boolean isGold, boolean fromDeck, int faceUpCardIndex) {
         player.getPlayerState().drawCard(player, isGold, fromDeck, faceUpCardIndex);
+        checkIfEndOfGameNoMoreCards();
     }
 
     /**
@@ -126,6 +127,14 @@ public class GameController implements Serializable {
         }
     }
 
+    private void checkIfEndOfGameNoMoreCards(){
+        // check if there are no more cards in decks and face up cards in market
+        if(game.isMarketEmpty()){
+            turnHandler.triggerEndingGameDueToNoMoreCards();
+        }
+    }
+
+    // Create a player from command line, but hand, secret objective and starter are not instantiated
     /**
      * Initializes a player from the command line, without instantiating hand, secret objective, and starter card
      * @param client The client view
@@ -363,4 +372,5 @@ public class GameController implements Serializable {
     public Player getPlayer(String username) {
         return getGame().getPlayer(username);
     }
+
 }

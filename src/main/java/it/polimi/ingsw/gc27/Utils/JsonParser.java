@@ -94,7 +94,7 @@ public class JsonParser implements Serializable {
      * Retrieves the resource deck from the .json file.
      * @return an ArrayList of ResourceCard objects.
      */
-    public ArrayList<ResourceCard> getResourceDeck(){
+    public static ArrayList<ResourceCard> getResourceDeck(){
 
         ArrayList<ResourceCard> myDeck = new ArrayList<>();
         JSONArray jsonDeck = (JSONArray) cardsJsonObj.get("resourceDeck");
@@ -192,7 +192,7 @@ public class JsonParser implements Serializable {
      * @return an ArrayList of StarterCard objects.
      */
     // WARNING: STARTER CARDS' FRONT AND BACK ARE INVERTED IN THE GRAPHIC RESOURCES. REFER TO THE RULEBOOK.
-    public ArrayList<StarterCard> getStarterDeck(){
+    public static ArrayList<StarterCard> getStarterDeck(){
         ArrayList<StarterCard> myDeck = new ArrayList<>();
         JSONArray jsonDeck = (JSONArray) cardsJsonObj.get("starterDeck");
 

@@ -20,7 +20,12 @@ public class TurnHandler implements Serializable {
 
     private final Game game;
     private boolean twentyPointsReached;
+
     private boolean lastRound;
+
+    public void setLastRound(boolean lastRound) {
+        this.lastRound = lastRound;
+    }
 
     /**
      * constructor of the players' turn handler

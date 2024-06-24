@@ -13,7 +13,9 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-class ChooseObjectiveStateTest {
+import static org.junit.jupiter.api.Assertions.*;
+
+class PlayingStateTest {
     private static GameController gc1;
     private static Game g1;
     private static Player p1;
@@ -30,15 +32,11 @@ class ChooseObjectiveStateTest {
     private static ArrayList<GoldCard> goldDeck;
     private static ResourceCard[] faceUpResources;
     private static GoldCard[] faceUpGolds;
-
-    private static TurnHandler turnHandler;
-    private static ArrayList<ObjectiveCard> secretObjectives;
-
     public  void initializeGame() {
 
         players1 = new ArrayList<>();
-
-
+        g1 = new Game(1, new Board(), players1);
+        gc1 = new GameController(g1);
 
 
         // generate decks
@@ -63,28 +61,15 @@ class ChooseObjectiveStateTest {
         players1.add(p3);
         players1.add(p4);
 
-        g1 = new Game(1, new Board(), players1);
-        gc1 = new GameController(g1);
         faceUpResources = new ResourceCard[2];
         faceUpGolds= new GoldCard[2];
         faceUpResources[0]= resourceDeck.get(0);
         faceUpResources[1]= resourceDeck.get(1);
         faceUpGolds[0]=goldDeck.get(0);
         faceUpGolds[1]=goldDeck.get(1);
-        market=new Market(resourceDeck, goldDeck, faceUpResources,faceUpGolds, objectiveDeck );
+        market=new Market(resourceDeck, goldDeck, faceUpResources,faceUpGolds,objectiveDeck );
         g1.setMarket(market);
-        secretObjectives=new ArrayList<>();
-        secretObjectives.add(objectiveDeck.get(0));
-        secretObjectives.add(objectiveDeck.get(1));
-
-
-        turnHandler=new TurnHandler(g1);
-
         // create game and its controller
-
-
-        ChooseObjectiveState state=new ChooseObjectiveState(p1, turnHandler);
-        p1.setPlayerState(state);
         /*
         Collections.shuffle(resourceDeck);
         Collections.shuffle(goldDeck);
@@ -93,28 +78,45 @@ class ChooseObjectiveStateTest {
     }
 
     @Test
-    void drawResourceCard() {
-
-
+    void chooseObjectiveCard() {
+        initializeGame();
+        p1.setPlayerState(new PlayingState(p1,new TurnHandler(g1)));
+        p1.getPlayerState().chooseObjectiveCard(g1, 0);
+        assertEquals(p1.getPlayerState().toString(), "PlayingState");
     }
 
     @Test
-    void drawGoldCard() {
+    void drawCard() {
+        initializeGame();
+        p1.setPlayerState(new PlayingState(p1,new TurnHandler(g1)));
+        try {
+            p1.getPlayerState().drawCard(p1, true,true,0);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        assertEquals(p1.getPlayerState().toString(), "PlayingState");
+
     }
 
     @Test
     void addCard() {
+        initializeGame();
+        p1.setPlayerState(new PlayingState(p1,new TurnHandler(g1)));
+        //p1.getManuscript().getField()[42][42].
+        p1.addCard(g1, resourceDeck.getFirst(),resourceDeck.getFirst().getFront(), 42,42);
+
+
     }
 
     @Test
     void addStarterCard() {
+        initializeGame();
+        p1.setPlayerState(new PlayingState(p1,new TurnHandler(g1)));
+        p1.getPlayerState().addStarterCard(g1, starterDeck.getFirst(), starterDeck.getFirst().getFront());
+        assertEquals(p1.getPlayerState().toString(), "PlayingState");
     }
 
     @Test
-    void chooseObjectiveCardTest() {
-        initializeGame();
-        gc1.chooseObjectiveCard(p1, 0);
-        //assertEquals(objectiveDeck.get(0), p1.getSecretObjectives());
-
+    void toStringGUI() {
     }
 }

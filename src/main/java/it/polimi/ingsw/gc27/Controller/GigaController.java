@@ -20,6 +20,8 @@ public class GigaController {
 
     private int idCounter = 0;
 
+    private static final int MAX_USERNAME_LENGTH = 20;
+
     private final Map<String, VirtualView> registeredUsernames = new HashMap<>();
 
     private final List<GameController> gameControllers = new ArrayList<>();
@@ -261,14 +263,14 @@ public class GigaController {
     }
 
 
-    public boolean validUsername(String u, VirtualView view) {
-        if(u.equalsIgnoreCase("global"))
+    public boolean validUsername(String username, VirtualView view) {
+        if(username.equalsIgnoreCase("global") || username.contains(" ") || username.length() > MAX_USERNAME_LENGTH)
             return false;
         synchronized (registeredUsernames) {
-            if (registeredUsernames.containsKey(u) || u.isEmpty()) { // username already taken or empty
+            if (registeredUsernames.containsKey(username) || username.isEmpty()) { // username already taken or empty
                 return false;
             }
-            registeredUsernames.put(u, view);
+            registeredUsernames.put(username, view);
             return true;
         }
     }

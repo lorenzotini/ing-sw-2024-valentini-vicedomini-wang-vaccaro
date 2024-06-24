@@ -22,9 +22,11 @@ public class NewGameSceneController extends GenericController{
     public CheckBox checkBox3;
     @FXML
     public Button go;
+
     public Button backButton;
     @FXML
     public CheckBox checkBox1;
+
     private String chosenButton;
 
 

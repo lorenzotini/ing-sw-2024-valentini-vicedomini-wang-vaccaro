@@ -131,7 +131,6 @@
          <RowConstraints maxHeight="100.0" minHeight="0.0" prefHeight="4.0" valignment="CENTER" />
          <RowConstraints maxHeight="100.0" minHeight="0.0" prefHeight="4.0" valignment="CENTER" />
       </rowConstraints></GridPane>
-      <Pane fx:id="feedbackPane" layoutX="1028.0" layoutY="14.0" prefHeight="26.0" prefWidth="494.0" />
       <TextFlow fx:id="errorPane" layoutX="828.0" layoutY="660.0" prefHeight="86.0" prefWidth="211.0" textAlignment="CENTER">
          <children>
             <Text fx:id="errorText" strokeType="OUTSIDE" strokeWidth="0.0">

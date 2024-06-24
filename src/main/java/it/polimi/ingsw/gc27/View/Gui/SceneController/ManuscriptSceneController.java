@@ -42,8 +42,6 @@ import java.util.Optional;
 public class ManuscriptSceneController extends GenericController {
 
     @FXML
-    public Pane feedbackPane;
-    @FXML
     public TextFlow feedbackTextFlow;
     @FXML
     public Text actionFeedback;

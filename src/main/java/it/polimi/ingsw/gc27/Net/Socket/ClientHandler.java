@@ -53,7 +53,6 @@ public class ClientHandler implements VirtualView {
         this.input = new ObjectInputStream(socketClient.getInputStream());
 
         new Thread(() -> {
-
             try {
                 String message = (String) input.readObject();
                 if (message.equals("welcomeplayer")) {
@@ -252,7 +251,7 @@ public class ClientHandler implements VirtualView {
             disconnected = true;
             console.removeReferences(this);
             System.out.println("disconessione avvenuta");
-            //console.disconnected(this.player);
+
         }
     }
 

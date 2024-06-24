@@ -27,7 +27,6 @@ public interface View {
 
     void show(ArrayList<ResourceCard> hand);
 
-    void show(ObjectiveCard objectiveCard);
 
     void show(ClientManuscript manuscript);
 

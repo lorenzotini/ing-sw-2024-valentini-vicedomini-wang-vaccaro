@@ -147,12 +147,12 @@ public class GigaController {
                                 }
                                 else{
                                     client.show("invalid username");
-                                    client.update(new OkMessage("notReconnected"));
+                                    client.update(new KoMessage("Wrong username"));
                                     welcomePlayer(client);
                                     return;
                                 }
                             }catch (IOException e){
-                                System.out.println("Connection lost before reconnecting a game (123)");
+                                System.out.println("Connection lost before reconnecting a game (155)");
                                 return;
                             }
 
@@ -161,7 +161,7 @@ public class GigaController {
                                 client.show("\nGame is full. Restarting...");
                                 client.update(new KoMessage("gameFull"));
                             }catch (IOException e){
-                                System.out.println("Connection lost before entering game (131)");
+                                System.out.println("Connection lost before entering game (164)");
                                 return;
                             }
                         }

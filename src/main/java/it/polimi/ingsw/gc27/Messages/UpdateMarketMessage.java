@@ -18,7 +18,6 @@ public class UpdateMarketMessage extends Message {
     public void reportUpdate(VirtualView client, View view) {
         try {
             client.getMiniModel().setMarket(this.getMiniModel().getMarket());
-            view.showString(this.string);
             view.show(client.getMiniModel().getMarket());
 
         }catch(RemoteException e){

@@ -18,7 +18,6 @@ public class UpdateObjectiveMessage extends Message {
         try {
             client.getMiniModel().setPlayer(this.getMiniModel().getPlayer());
             view.showString(this.string);
-            view.show(client.getMiniModel().getPlayer().getSecretObjectives().getFirst());
 
         }catch(RemoteException e){
 

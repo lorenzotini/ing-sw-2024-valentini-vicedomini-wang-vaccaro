@@ -231,17 +231,18 @@ public class ChooseObjectiveSceneController extends GenericController {
      * @throws InterruptedException
      */
     @FXML
-    public void sendObj(MouseEvent event) throws IOException, InterruptedException {
+    public void sendObj(MouseEvent event) throws IOException {
+
         if (event.getSource().equals(objButton1)) {
             Command comm = new ChooseObjectiveCommand(Gui.getInstance().getClient().getUsername(), 1);
             Gui.getInstance().getClient().sendCommand(comm);
         } else {
             Command comm = new ChooseObjectiveCommand(Gui.getInstance().getClient().getUsername(), 2);
             Gui.getInstance().getClient().sendCommand(comm);
-
         }
+        objButton2.setOnMouseClicked(null);
+        objButton2.setOnMouseClicked(null);
         if(Gui.getInstance().isGameOn()) {
-
             Platform.runLater(() -> {
                 try {
                     ManuscriptSceneController manuscriptSceneController = (ManuscriptSceneController) Gui.getInstance().getControllerFromName(ScenePaths.MANUSCRIPT.getValue());
@@ -256,7 +257,7 @@ public class ChooseObjectiveSceneController extends GenericController {
         }
     }
     @Override
-    public void reconnectPlayer(){
+    public void otherPlayerReconnected(){
         gameSuspendedLabel.setVisible(false);
     }
 

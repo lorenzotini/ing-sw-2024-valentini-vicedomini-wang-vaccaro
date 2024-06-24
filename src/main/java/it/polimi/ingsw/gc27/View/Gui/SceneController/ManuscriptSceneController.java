@@ -892,7 +892,7 @@ public class ManuscriptSceneController extends GenericController {
             errorPane.setTextAlignment(TextAlignment.CENTER);
             errorText.getStyleClass().add("labelError");
             System.out.println("The game has been suspended");
-            errorText.setText("The game has been suspended");
+            errorText.setText("The game has been suspended: if no one rejoins, then the game will end in about a minute.");
             errorPane.setVisible(true);
         });
     }

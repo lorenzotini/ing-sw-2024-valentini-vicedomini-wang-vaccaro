@@ -881,25 +881,49 @@ public class Tui implements View {
 
         Queue<String> resourceDeckTop;
         Queue<String> goldDeckTop;
+        Queue<String> resourceOne;
+        Queue<String> resourceTwo;
+        Queue<String> goldOne;
+        Queue<String> goldTwo;
 
+        // TODO gestire il comando che mi chiede questa carta che non si può prendere
         try {
             resourceDeckTop = toCliCard(market.getResourceDeck().getLast(), false);
         } catch (NoSuchElementException e) {
-            resourceDeckTop = noCardPrint;
+            resourceDeckTop = copyNoCardCli();
         }
 
         try {
             goldDeckTop = toCliCard(market.getGoldDeck().getLast(), false);
         } catch (NoSuchElementException e) {
-            goldDeckTop = noCardPrint;
+            goldDeckTop = copyNoCardCli();
         }
 
-        Queue<String> resourceOne = toCliCard(market.getFaceUp(false)[0], true);
-        Queue<String> resourceTwo = toCliCard(market.getFaceUp(false)[1], true);
-        Queue<String> goldOne = toCliCard(market.getFaceUp(true)[0], true);
-        Queue<String> goldTwo = toCliCard(market.getFaceUp(true)[1], true);
+        try {
+            resourceOne = toCliCard(market.getFaceUp(false)[0], true);
+        } catch (NullPointerException e) {
+            resourceOne = copyNoCardCli();
+        }
 
-        int numLinesToPrint = resourceDeckTop.size();
+        try {
+            resourceTwo = toCliCard(market.getFaceUp(false)[1], true);
+        } catch (NullPointerException e) {
+            resourceTwo = copyNoCardCli();
+        }
+
+        try {
+            goldOne = toCliCard(market.getFaceUp(true)[0], true);
+        } catch (NullPointerException e) {
+            goldOne = copyNoCardCli();
+        }
+
+        try {
+            goldTwo = toCliCard(market.getFaceUp(true)[1], true);
+        } catch (NullPointerException e) {
+            goldTwo = copyNoCardCli();
+        }
+
+        int numLinesToPrint = noCardPrint.size();
 
         printedMarket += "Resource cards:\n";
 
@@ -915,6 +939,14 @@ public class Tui implements View {
 
         return printedMarket;
 
+    }
+
+    private static Queue<String> copyNoCardCli(){
+        Queue<String> copy = new LinkedList<>();
+        for(String line : Tui.noCardPrint){
+            copy.add(line);
+        }
+        return copy;
     }
 
     public static void showTitle() {

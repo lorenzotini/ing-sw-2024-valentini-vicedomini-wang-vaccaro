@@ -73,33 +73,20 @@ public class Board implements Serializable, ClientBoard {
         return colourPlayermap;
     }
 
-    public String getRedPlayer() {
-        return redPlayer;
-    }
 
     public void setRedPlayer(String redPlayer) {
         this.redPlayer = redPlayer;
-    }
-
-    public String getYellowPlayer() {
-        return yellowPlayer;
     }
 
     public void setYellowPlayer(String yellowPlayer) {
         this.yellowPlayer = yellowPlayer;
     }
 
-    public String getGreenPlayer() {
-        return greenPlayer;
-    }
 
     public void setGreenPlayer(String greenPlayer) {
         this.greenPlayer = greenPlayer;
     }
 
-    public String getBluePlayer() {
-        return bluePlayer;
-    }
 
     public void setBluePlayer(String bluePlayer) {
         this.bluePlayer = bluePlayer;

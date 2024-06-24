@@ -95,9 +95,6 @@ public class Game implements Serializable {
     public synchronized ArrayList<PawnColour> getAvailablePawns() {
         return availablePawns;
     }
-    public void setAvailablePawns(ArrayList<PawnColour> availablePawns) {
-        this.availablePawns = availablePawns;
-    }
     public Board getBoard() {
         return board;
     }

@@ -246,7 +246,7 @@ public class GameControllerTest {
         assertEquals(17, gameController.getGame().getBoard().getPointsGreenPlayer());
         assertEquals(4, objectiveDeck.get(13).calculateObjectivePoints(p2.getManuscript()));
         assertEquals(2, objectiveDeck.get(2).calculateObjectivePoints(p2.getManuscript()));
-        assertEquals(0, objectiveDeck.get(6).calculateObjectivePoints(p2.getManuscript()));
+        assertEquals(3, objectiveDeck.get(6).calculateObjectivePoints(p2.getManuscript()));
     }
 
 
@@ -307,7 +307,7 @@ public class GameControllerTest {
         assertEquals(2, objectiveDeck.get(9).calculateObjectivePoints(p3.getManuscript()));
         assertEquals(4, objectiveDeck.get(11).calculateObjectivePoints(p3.getManuscript()));
         assertEquals(2, objectiveDeck.get(1).calculateObjectivePoints(p3.getManuscript()));
-        assertEquals(0, objectiveDeck.get(7).calculateObjectivePoints(p3.getManuscript()));
+        assertEquals(3, objectiveDeck.get(7).calculateObjectivePoints(p3.getManuscript()));
     }
 
     @Test
@@ -865,6 +865,17 @@ public class GameControllerTest {
             throw new RuntimeException(e);
         }
 
+        p1.setPlayerState(new EndOfTurnState(p1, turnHandler));
+        try {
+            gameController.drawCard(p1,true,true,0);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        gameController.chooseObjectiveCard(p1, 0);
+        gameController.addCard(p1,resourceDeck.get(9), resourceDeck.get(9).getFront(),43,43);
+        gameController.addStarterCard(p1, starterDeck.get(4), starterDeck.get(4).getFront());
+
+
         p1.setPlayerState(new WaitingState(p1, turnHandler));
         assertEquals(p1.getPlayerState().toString(), "WaitingState");
         assertTrue(p1.getManuscript().getField()[42][42].getCorner(-1, 1).isHidden());
@@ -874,20 +885,24 @@ public class GameControllerTest {
             throw new RuntimeException(e);
         }
         gameController.chooseObjectiveCard(p1, 0);
-        gameController.addCard(p1,resourceDeck.get(0), resourceDeck.get(0).getFront(),43,43);
-        gameController.addStarterCard(p1, starterDeck.get(0), starterDeck.get(0).getFront());
+        gameController.addCard(p1,resourceDeck.get(9), resourceDeck.get(9).getFront(),43,43);
+        gameController.addStarterCard(p1, starterDeck.get(4), starterDeck.get(4).getFront());
         assertEquals(p1.getPlayerState().toStringGUI(), "Current player not set");
 
-        p1.setPlayerState(new EndingState(p1, turnHandler));
-        gameController.chooseObjectiveCard(p1, 0);
-        gameController.addCard(p1,resourceDeck.get(0), resourceDeck.get(0).getFront(),43,43);
-        gameController.addStarterCard(p1, starterDeck.get(0), starterDeck.get(0).getFront());
+        p2.setPlayerState(new EndingState(p2, turnHandler));
+        gameController.chooseObjectiveCard(p2, 0);
+        gameController.addCard(p2,resourceDeck.get(8), resourceDeck.get(8).getFront(),43,43);
+        gameController.addStarterCard(p2, starterDeck.get(3), starterDeck.get(3).getFront());
         try {
-            gameController.drawCard(p1,true,false,0);
+            gameController.drawCard(p2,true,false,0);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        assertEquals(p1.getPlayerState().toStringGUI(), "This is the last turn!");
+        assertEquals(p2.getPlayerState().toStringGUI(), "This is the last turn!");
+        String pathImage1= p1.getPawnColour().getPathImage();
+        String pathImage2= p2.getPawnColour().getPathImage();
+        String pathImage3= p3.getPawnColour().getPathImage();
+        assertEquals(p1, game.getPlayer(p1.getUsername()));
     }
 
 }

@@ -26,7 +26,7 @@
             <Image url="@../Images/utility/plateau_score.jpg" />
          </image>
       </ImageView>
-      <TabPane fx:id="manuscriptTabPane" layoutX="35.0" layoutY="194.0" prefHeight="429.0" prefWidth="971.0" style="-fx-background-color: red;" styleClass="gridpane" tabClosingPolicy="UNAVAILABLE" />
+      <TabPane fx:id="manuscriptTabPane" layoutX="35.0" layoutY="194.0" prefHeight="429.0" prefWidth="971.0" tabClosingPolicy="UNAVAILABLE" />
       <TitledPane fx:id="chatTitledPane" expanded="false" layoutX="1169.0" layoutY="46.0" prefHeight="717.0" prefWidth="354.0" text="Chat">
 
          <content>

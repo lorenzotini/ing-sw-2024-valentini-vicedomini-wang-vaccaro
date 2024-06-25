@@ -1,22 +1,4 @@
 
-/*.gridpane{
-    -fx-background-color: rgb(100, 100, 200);
-    -fx-alignment: centre;
-}
-
-.marketArea{
-    -fx-background-color: rgb(100, 230, 250);
-}
-
-.commonObjectives{
-    -fx-background-color: rgb(100, 50, 250);
-}
-
-.marketGolds{
-    -fx-background-color: rgb(255, 0, 250);
-}
-*/
-
 /*chat*/
 .text-name {
     -fx-font-size: 10.7px;
@@ -102,7 +84,13 @@
     -fx-background-image: url("../Images/utility/backg5.png");
     -fx-background-size: cover;
 }
+
 .counterbox{
     -fx-background-image: url("../Images/utility/counterbox3.png");
     -fx-background-size: cover;
+}
+
+.manuscript{
+    -fx-background: transparent;
+    -fx-background-color: rgba(255, 255, 255, 0.5);
 }

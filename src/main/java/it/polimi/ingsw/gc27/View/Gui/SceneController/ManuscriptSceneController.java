@@ -117,6 +117,7 @@ public class ManuscriptSceneController extends GenericController {
         chatInitManuscript();
 
         // populate manuscripts
+        manuscriptTabPane.getStyleClass().add("manuscript");
         for (Map.Entry<String, ClientManuscript> element : miniModel.getManuscriptsMap().entrySet()) {
             overwriteManuscript(miniModel, element.getKey(), true);
         }
@@ -557,6 +558,7 @@ public class ManuscriptSceneController extends GenericController {
 
             ScrollPane newManuscriptScrollPane = new ScrollPane();
 
+            newManuscriptScrollPane.getStyleClass().add("manuscript");
             newManuscriptScrollPane.setContent(grid);
             newManuscriptScrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
             newManuscriptScrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);

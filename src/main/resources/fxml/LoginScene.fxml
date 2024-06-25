@@ -44,7 +44,7 @@
             <ImageView fitHeight="274.0" fitWidth="412.0" pickOnBounds="true" preserveRatio="true" styleClass="imageview" />
             <StackPane layoutX="212.0" layoutY="142.0" prefHeight="37.0" prefWidth="141.0">
                <children>
-                  <Label fx:id="customlabel1" text="Insert your">
+                  <Label fx:id="customlabel1" alignment="CENTER" prefWidth="277.0" text="Insert your">
                      <font>
                         <Font name="Agency FB" size="30.0" />
                      </font>
@@ -53,7 +53,7 @@
             </StackPane>
             <StackPane layoutX="212.0" layoutY="176.0" prefHeight="37.0" prefWidth="141.0">
                <children>
-                  <Label fx:id="customlabel2" text="Username">
+                  <Label fx:id="customlabel2" alignment="CENTER" text="Username">
                      <font>
                         <Font name="Agency FB" size="30.0" />
                      </font>
@@ -67,11 +67,10 @@
             <Font size="20.0" />
          </font>
       </Button>
-      <Label fx:id="errorUsername" alignment="CENTER" layoutX="647.0" layoutY="373.0" prefHeight="38.0" prefWidth="253.0" visible="false" />
-      <Label fx:id="gameIDCreated" alignment="CENTER" layoutX="215.0" layoutY="653.0" prefHeight="60.0" prefWidth="1122.0" textAlignment="CENTER">
+      <Label fx:id="errorUsername" alignment="CENTER" layoutX="647.0" layoutY="370.0" prefHeight="30.0" prefWidth="254.0" styleClass="message-label" visible="false">
          <font>
-            <Font name="Agency FB Bold" size="30.0" />
-         </font>
-      </Label>
+            <Font size="30.0" />
+         </font></Label>
+      <Label fx:id="gameIDCreated" alignment="CENTER" layoutX="505.0" layoutY="677.0" prefHeight="38.0" prefWidth="537.0" styleClass="message-label" textAlignment="CENTER" />
    </children>
 </AnchorPane>

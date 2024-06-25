@@ -10,6 +10,7 @@ import it.polimi.ingsw.gc27.Model.ClientClass.MiniModel;
 import it.polimi.ingsw.gc27.Model.States.InitializingState;
 import it.polimi.ingsw.gc27.Net.Commands.Command;
 import it.polimi.ingsw.gc27.Net.Commands.ReconnectPlayerCommand;
+import it.polimi.ingsw.gc27.Net.Commands.SuspendPlayerCommand;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 
 import java.io.IOException;
@@ -36,7 +37,7 @@ public class GameController implements Serializable {
     private long time;
     private boolean inMatch;
     private boolean suspended;
-    private static final int MAX_TIME_BEFORE_CLOSING_GAME = 60000; //in milliseconds
+    private static final int MAX_TIME_BEFORE_CLOSING_GAME = 120000; //in milliseconds
 
     /**
      * Constructor for the GameController with a game instance
@@ -314,6 +315,13 @@ public class GameController implements Serializable {
                         System.out.println("The game: " + id + " has been closed");
                         suspended = false;
                         inMatch = false;
+                        for(Player p : game.getPlayers()){
+                            if(!p.isDisconnected()){
+                                game.getBoard().setLastAlive(p);
+                            }
+                        }
+                        UpdateEndGameMessage winnerMessage = new UpdateEndGameMessage(new MiniModel(game));
+                        this.game.notifyObservers(winnerMessage);
                         console.closeGame(this);
                     }
                 }
@@ -330,7 +338,10 @@ public class GameController implements Serializable {
             }
 
             synchronized (this) {
-                if (command instanceof ReconnectPlayerCommand) {
+                if(command instanceof SuspendPlayerCommand){
+                    command.execute(this);
+                }
+                else if (command instanceof ReconnectPlayerCommand ) {
                     command.execute(this);
                     if (!game.isSuspended()) {
                         game.notifyObservers(new ContinueGameMessage(new MiniModel(game)));

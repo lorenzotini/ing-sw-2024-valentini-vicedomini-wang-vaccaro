@@ -57,7 +57,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
     /**
      * The maximum time in milliseconds a server can be inactive before being considered disconnected.
      */
-    private int TIME_COUNT = 5000;
+    private int TIME_COUNT = 5;
 
     /**
      * Constructs a new RmiClient with the given IP address, port, and View.
@@ -243,11 +243,9 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
      * and the process closed
      */
     private void checkServerIsAlive()  {
-        if(this.lastPingFromServer == 0){
-            this.lastPingFromServer = System.currentTimeMillis();
-        }
+
         while(true){
-            if((System.currentTimeMillis() - this.lastPingFromServer) > TIME_COUNT ){
+            if((this.lastPingFromServer) > TIME_COUNT ){
                 System.out.println("Connection to the server was dropped");
                 close();
             }
@@ -291,7 +289,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
      * @throws RemoteException if there is any trouble with the connection
      */
     public void pingFromServer() throws RemoteException{
-        this.lastPingFromServer = System.currentTimeMillis();
+        this.lastPingFromServer = 0;
     }
 
     /**

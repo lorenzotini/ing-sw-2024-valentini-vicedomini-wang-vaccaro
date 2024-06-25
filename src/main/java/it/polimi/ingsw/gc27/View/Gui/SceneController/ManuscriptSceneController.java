@@ -826,6 +826,7 @@ public class ManuscriptSceneController extends GenericController {
             img = new ImageView(new Image(getClass().getResource(board.getColourPlayerMap().get(username).getPathImage()).toExternalForm()));
             img.setFitWidth(PAWN_DIM);
             img.setFitHeight(PAWN_DIM);
+            score.incrementCount();
             pawnColourIntegerHashMap.put(board.getColourPlayerMap().get(username), 0);
             scoreBoard.add(img, score.getx(), score.gety() - score.getCount());
 

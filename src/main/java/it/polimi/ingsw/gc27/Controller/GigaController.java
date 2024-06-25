@@ -48,7 +48,7 @@ public class GigaController {
         try {
             String username = getUsername(client);
             userToGameController(username).addCommand(new SuspendPlayerCommand(username));
-            registeredUsernames.remove(username);
+            //registeredUsernames.remove(username);
         } catch (NullPointerException e) {
             System.out.println("Client hadn't choose an username yet");
             System.out.println("NullPointerException caught while suspending player: " + e.getMessage());
@@ -249,9 +249,8 @@ public class GigaController {
 
         for (Player p : gc.getGame().getPlayers()) {
             if (p.getUsername().equals(disconnectedUsername) && p.isDisconnected()) {
-                //reconnectClient(client, p, gc);
                 client.setUsername(p.getUsername());
-                registeredUsernames.put(p.getUsername(), client);
+                registeredUsernames.replace(p.getUsername(), client);
                 gc.addCommand(new ReconnectPlayerCommand(client, p));
                 return true;
             }
@@ -264,10 +263,10 @@ public class GigaController {
 
 
     public boolean validUsername(String u, VirtualView view) {
-        if(u.equalsIgnoreCase("global"))
+        if(u.equalsIgnoreCase("global") || u.isEmpty())
             return false;
         synchronized (registeredUsernames) {
-            if (registeredUsernames.containsKey(u) || u.isEmpty()) { // username already taken or empty
+            if (registeredUsernames.containsKey(u)) { // username already taken or empty
                 return false;
             }
             registeredUsernames.put(u, view);
@@ -309,6 +308,9 @@ public class GigaController {
     public void closeGame(GameController controller) {
         synchronized (gameControllers) {
             controller.getGame().notifyObservers(new ClosingGameMessage("The game has been closed because it's been suspended for too long"));
+            for(Player p :controller.getGame().getPlayers()){
+                registeredUsernames.remove(p.getUsername());
+            }
             gameControllers.remove(controller);
         }
     }

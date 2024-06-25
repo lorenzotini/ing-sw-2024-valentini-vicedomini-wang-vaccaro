@@ -22,10 +22,8 @@ public class ReconnectPlayerCommand implements Command{
     public void execute(GameController gc)  {
         Game game = gc.getGame();
 
-
         game.addObserver(new PlayerListener(client, player));
         player.setDisconnected(false);
-
 
         // Update the client's miniModel with the player's data
         MiniModel miniModel = new MiniModel(player, game);
@@ -36,6 +34,6 @@ public class ReconnectPlayerCommand implements Command{
 
     @Override
     public String getPlayerName() {
-        return null;
+        return player.getUsername();
     }
 }

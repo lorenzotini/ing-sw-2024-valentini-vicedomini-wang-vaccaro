@@ -152,7 +152,6 @@ public class SocketServerProxy implements VirtualServer {
                     output.reset();
                 } catch (IOException | InterruptedException e) {
                     System.out.println("The server has been disconnected");
-                    break;
                 }
             }
         }).start();
@@ -163,7 +162,7 @@ public class SocketServerProxy implements VirtualServer {
             try {
                 client.update(message);
             } catch (IOException e) {
-
+                System.out.println("Net problem in local");
             }
         }
     }

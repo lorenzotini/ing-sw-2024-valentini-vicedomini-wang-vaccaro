@@ -70,7 +70,7 @@ public class ClientHandler implements VirtualView {
             } catch (ClassNotFoundException | InterruptedException | IOException e) {
                 System.out.println("Connection problem");
             }
-            while (true) {
+            while (!disconnected) {
                 try {
                     Command command;
                     command = (Command) input.readObject();
@@ -80,9 +80,14 @@ public class ClientHandler implements VirtualView {
                         console.addCommandToGameController(command);
                     }
                 } catch (IOException e) {
-                    System.out.println("Connection problem");
+                    System.out.println("Connection problem: in execute command sock");
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException ex) {
+                        throw new RuntimeException(ex);
+                    }
                 } catch (ClassNotFoundException e) {
-                    throw new RuntimeException(e);
+                    System.out.println("Mandato comando sbagliato ");
                 }
             }
         }).start();
@@ -102,8 +107,7 @@ public class ClientHandler implements VirtualView {
             this.output.reset();
             this.output.flush();
         } catch (IOException e) {
-            e.printStackTrace();
-            //TODO this.console.disconnected(this);
+            System.out.println("Disconnessione");
             //this to do will be implemented when the disconnection problem will be solved
         }
     }
@@ -146,7 +150,6 @@ public class ClientHandler implements VirtualView {
 
     @Override
     public void runClient() {
-
     }
 
     /**
@@ -201,6 +204,7 @@ public class ClientHandler implements VirtualView {
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
+
             }
         }
     }

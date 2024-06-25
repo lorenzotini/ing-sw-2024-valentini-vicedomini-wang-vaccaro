@@ -157,4 +157,33 @@ public class Board implements Serializable, ClientBoard {
             default -> 0;
         };
     }
+    public void setLastAlive(Player p){
+        switch (p.getPawnColour()){
+            case YELLOW -> {
+                this.greenPlayer=null;
+                this.redPlayer=null;
+                this.bluePlayer=null;
+
+            }
+
+            case GREEN -> {
+                this.yellowPlayer=null;
+                this.redPlayer=null;
+                this.bluePlayer=null;
+
+            }
+            case RED -> {
+                this.greenPlayer=null;
+                this.yellowPlayer=null;
+                this.bluePlayer=null;
+
+            }
+            case BLUE ->{
+                this.greenPlayer=null;
+                this.redPlayer=null;
+                this.yellowPlayer=null;
+
+            }
+        }
+    }
 }

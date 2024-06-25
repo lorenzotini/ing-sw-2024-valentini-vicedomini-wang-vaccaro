@@ -4,13 +4,13 @@
 .text{
     -fx-font-size: 12px;
 }
-.button{
+/*.button{
     -fx-background-color: #e4dfb2;
     -fx-border-width: 6px;
     -fx-border-color: #c4a64d;
     -fx-border-radius: 10;
     -fx-background-radius: 14;
-}
+}*/
 
 .text-flow-sender {
     -fx-background-color: rgb(100,149,237);
@@ -23,7 +23,7 @@
     -fx-padding: 5;
 }
 .vbox-background{
-    -fx-background-color: rgb(230, 230, 250)
+    -fx-background-image: url("../Images/utility/locksreen2.png");
 }
 .tab-colour-red{
     -fx-background-color: rgb(205,92,92)
@@ -37,3 +37,28 @@
 .tab-colour-blue{
     -fx-background-color: rgb(100,149,237)
 }
+.button {
+    -fx-background-color: linear-gradient(180deg, #7c8aff, #3c4fe0);
+    -fx-border-width: 0;
+    -fx-border-radius: 20px; /* Ridotto per renderlo più piccolo */
+    -fx-background-radius: 20px; /* Ridotto per renderlo più piccolo */
+    -fx-font-size: 10px; /* Ridotto per rendere il testo più piccolo */
+    -fx-font-weight: 400;
+    -fx-text-fill: #ffffff;
+    -fx-cursor: hand;
+    -fx-padding: 4px 12px; /* Ridotto per rendere il pulsante più piccolo */
+    -fx-max-height: 20px; /* Ridotto per l'altezza massima */
+    -fx-effect: dropshadow(gaussian, rgba(37, 44, 97, 0.15), 4, 0, 0, 4),
+    dropshadow(gaussian, rgba(93, 100, 148, 0.20), 1, 0, 0, 1);
+    -fx-transition: all 0.2s ease-out;
+}
+
+.button:hover {
+    -fx-effect: dropshadow(gaussian, rgba(37, 44, 97, 0.15), 8, 0, 0, 8),
+    dropshadow(gaussian, rgba(93, 100, 148, 0.20), 4, 0, 0, 4);
+}
+
+
+
+
+

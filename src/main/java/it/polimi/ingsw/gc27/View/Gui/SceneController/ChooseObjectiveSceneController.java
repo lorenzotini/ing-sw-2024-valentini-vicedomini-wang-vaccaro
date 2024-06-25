@@ -103,6 +103,8 @@ public class ChooseObjectiveSceneController extends GenericController {
             ScrollPane chatContent = new ScrollPane();
             VBox chatMessages = new VBox();
             chatMessages.getStyleClass().add("vbox-background");
+            chatContainer.getStyleClass().add("vbox-background");
+
             chatContent.setContent(chatMessages); //scrollPane contains Vbox with messages
 
             chatContent.setPrefHeight(400);

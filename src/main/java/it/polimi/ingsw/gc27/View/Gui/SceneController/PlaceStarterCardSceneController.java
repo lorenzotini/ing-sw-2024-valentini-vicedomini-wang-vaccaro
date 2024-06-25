@@ -9,6 +9,7 @@ import it.polimi.ingsw.gc27.Net.Commands.SendMessageCommand;
 import it.polimi.ingsw.gc27.View.Gui.ScenePaths;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -84,6 +85,7 @@ public class PlaceStarterCardSceneController extends GenericController{
                 ScrollPane chatContent = new ScrollPane();
                 VBox chatMessages = new VBox();
                 chatMessages.getStyleClass().add("vbox-background");
+                chatContainer.getStyleClass().add("vbox-background");
                 chatContent.setContent(chatMessages); //scrollPane contains Vbox with messages
 
                 chatContent.setPrefHeight(400);
@@ -94,10 +96,14 @@ public class PlaceStarterCardSceneController extends GenericController{
                 HBox messageBox = new HBox(); //used for the textField and the button on the bottom
                 TextField sendMessage = new TextField();
 
+
                 Button sendButton = new Button("Send");
                 sendButton.getStyleClass().add("text-field-chat");
                 messageBox.getChildren().addAll(sendMessage, sendButton);
-                messageBox.setSpacing(20);
+                messageBox.setSpacing(15);
+                messageBox.setMinHeight(24);
+                messageBox.setMaxHeight(24);
+
                 handleOnActionChat(sendButton, sendMessage);
                 handleOnKeyPress(sendMessage);
 
@@ -105,6 +111,8 @@ public class PlaceStarterCardSceneController extends GenericController{
 
                 // Set HBox growth for sendMessage
                 HBox.setHgrow(sendMessage, Priority.ALWAYS);
+                sendMessage.setMinHeight(24);
+                sendMessage.setMaxHeight(24);
                 sendMessage.setMaxWidth(300);
 
                 // Create a spacer

@@ -226,6 +226,7 @@ public class ManuscriptSceneController extends GenericController {
             ScrollPane chatContent = new ScrollPane();
             chatContent.setFitToHeight(true);
             VBox chatMessages = new VBox();
+            chatContainer.getStyleClass().add("vbox-background");
             chatMessages.getStyleClass().add("vbox-background");
             chatContent.setContent(chatMessages); //scrollPane contains Vbox with messages
 

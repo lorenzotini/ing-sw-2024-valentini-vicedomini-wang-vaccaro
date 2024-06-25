@@ -300,7 +300,7 @@ public class GigaController {
 
     public void closeGame(GameController controller) {
         synchronized (gameControllers) {
-            controller.getGame().notifyObservers(new ClosingGameMessage("The game has been closed because it's been suspended for too long"));
+            //controller.getGame().notifyObservers(new ClosingGameMessage("The game has been closed because it's been suspended for too long"));
             for(Player p :controller.getGame().getPlayers()){
                 registeredUsernames.remove(p.getUsername());
             }

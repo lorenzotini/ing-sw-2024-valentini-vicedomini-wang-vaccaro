@@ -16,6 +16,7 @@ public class UpdateEndGameMessage extends Message{
 
         try {
             client.getMiniModel().setBoard(this.miniModel.getBoard());
+            view.showWinners();
         }catch(RemoteException | NullPointerException e){
             throw new RuntimeException(e);
         }

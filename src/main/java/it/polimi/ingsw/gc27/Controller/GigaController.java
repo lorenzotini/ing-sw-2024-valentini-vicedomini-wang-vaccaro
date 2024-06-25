@@ -175,6 +175,9 @@ public class GigaController {
                         }
                     }
                     try {
+
+
+
                         client.show("\nGame not found. Please enter a valid game id or 'new' to start a new game");
                         client.update(new KoMessage("invalidID"));
                         game = client.read();

@@ -28,3 +28,17 @@
 .decoration{
     -fx-image: url("../Images/utility/decoration1.png");
 }
+
+.check-box{
+    -fx-border-width: 6px;
+    -fx-border-color: #c4a64d;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-inner-border-radious: 1;
+    -fx-outer-border-radious: 100;
+    -fx-effect: dropshadow(gaussian, rgba(255, 255, 255, 1.0), 20, 0.5, 0, 0);
+}
+
+.check-box:hover{
+    -fx-effect: dropshadow(gaussian, rgba(255, 255, 255, 1.0), 25, 0.5, 0, 0);
+}

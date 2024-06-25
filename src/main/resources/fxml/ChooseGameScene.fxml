@@ -9,17 +9,17 @@
 <AnchorPane prefHeight="780.0" prefWidth="1535.0" styleClass="anchorpane" stylesheets="@../css/ChooseGameScene.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.gc27.View.Gui.SceneController.ChooseGameSceneController">
    <children>
       <ImageView fitHeight="650.0" fitWidth="457.0" layoutX="539.0" layoutY="269.0" pickOnBounds="true" preserveRatio="true" styleClass="gamemaster" />
-      <Button fx:id="joinGameButton" layoutX="368.0" layoutY="228.0" mnemonicParsing="false" prefHeight="120.0" prefWidth="200.0" text="Join Game">
+      <Button fx:id="joinGameButton" layoutX="368.0" layoutY="258.0" mnemonicParsing="false" prefHeight="120.0" prefWidth="200.0" text="Join Game">
          <font>
             <Font name="Agency FB" size="40.0" />
          </font></Button>
-      <Button fx:id="newGameButton" layoutX="968.0" layoutY="228.0" prefHeight="120.0" prefWidth="200.0" text="New Game">
+      <Button fx:id="newGameButton" layoutX="968.0" layoutY="258.0" prefHeight="120.0" prefWidth="200.0" text="New Game">
          <font>
             <Font name="Agency FB" size="40.0" />
          </font></Button>
-      <ImageView fitHeight="100.0" fitWidth="250.0" layoutX="418.0" layoutY="420.0" pickOnBounds="true" preserveRatio="true" styleClass="decoration" />
-      <ImageView fitHeight="100.0" fitWidth="250.0" layoutX="868.0" layoutY="420.0" pickOnBounds="true" preserveRatio="true" styleClass="decoration2" />
-      <Label fx:id="serverDownLabel" layoutX="571.0" layoutY="126.0" prefHeight="42.0" prefWidth="393.0" text="Can't connect. The Server is down..." textFill="#cc0000">
+      <ImageView fitHeight="59.0" fitWidth="190.0" layoutX="578.0" layoutY="289.0" pickOnBounds="true" preserveRatio="true" styleClass="decoration" />
+      <ImageView fitHeight="59.0" fitWidth="191.0" layoutX="792.0" layoutY="289.0" pickOnBounds="true" preserveRatio="true" styleClass="decoration2" />
+      <Label fx:id="serverDownLabel" layoutX="581.0" layoutY="197.0" prefHeight="42.0" prefWidth="374.0" text="Can't connect. The Server is down..." textFill="#cc0000">
          <font>
             <Font name="Agency FB" size="33.0" />
          </font>

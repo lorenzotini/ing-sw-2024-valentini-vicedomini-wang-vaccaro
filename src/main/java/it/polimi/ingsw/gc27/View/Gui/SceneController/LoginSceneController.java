@@ -17,6 +17,7 @@ import java.io.IOException;
 
 //fourth scene, sends information about player
 public class LoginSceneController extends GenericController {
+
     @FXML
     public TextField usernameInput;
     @FXML
@@ -32,13 +33,14 @@ public class LoginSceneController extends GenericController {
     @FXML
     public Button sendColourButton;
     @FXML
-    public TextField errorUsername;
+    public Label errorUsername;
     @FXML
-    public TextArea gameIDCreated;//displays the ID of the game the player has just created
+    public Label gameIDCreated;//displays the ID of the game the player has just created
     @FXML
     public Label customlabel1;
     @FXML
     public Label customlabel2;
+
     private String selectedColour;
     boolean tried = false;
 
@@ -52,11 +54,11 @@ public class LoginSceneController extends GenericController {
     Integer gameId = -1 ;
 
 
-    public TextArea getGameIDCreated() {
+    public Label getGameIDCreated() {
         return gameIDCreated;
     }
-    public TextField getErrorUsername() {return errorUsername;}
-    public void setGameIDCreated(TextArea gameIDCreated) {
+    public Label getErrorUsername() {return errorUsername;}
+    public void setGameIDCreated(Label gameIDCreated) {
         this.gameIDCreated = gameIDCreated;
     }
 
@@ -162,7 +164,6 @@ public class LoginSceneController extends GenericController {
                 customlabel2.setText("Pawn Colour");
             }
             if(ackType.contains("Game created with id")) {//receives game id, sets it into TextArea of LoginScene
-                gameIDCreated.setVisible(true);//forse da togliere(?)
                 gameIDCreated.setText(ackType);
                 //todo: non funziona più dopo a ver messo la resilienza
             }
@@ -186,7 +187,7 @@ public class LoginSceneController extends GenericController {
     public void receiveKo(String ackType) {
         Platform.runLater(() -> {
             tried = true;
-            errorUsername.setText("Username not available");
+            errorUsername.setText("Username not valid");
             errorUsername.setVisible(true);
         });
 

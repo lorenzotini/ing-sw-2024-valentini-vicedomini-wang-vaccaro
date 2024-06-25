@@ -22,6 +22,10 @@ public class GigaController {
 
     private static final int MAX_USERNAME_LENGTH = 20;
 
+    private final int NUM_MAX_PLAYERS = 4;
+
+    private final int NUM_MIN_PLAYERS = 2;
+
     private final Map<String, VirtualView> registeredUsernames = new HashMap<>();
 
     private final List<GameController> gameControllers = new ArrayList<>();
@@ -212,7 +216,7 @@ public class GigaController {
             do {
                 try {
                     numMaxPlayers = Integer.parseInt(client.read());
-                    if (numMaxPlayers <= 4 && numMaxPlayers >= 1) {
+                    if (numMaxPlayers <= NUM_MAX_PLAYERS && numMaxPlayers >= NUM_MIN_PLAYERS) {
                         break;
                     }
                 } catch (NumberFormatException e) {
@@ -234,7 +238,7 @@ public class GigaController {
         // count the player who created the game
         controller.getGame().setNumActualPlayers(1);
         try{
-            client.update(new OkMessage("\nGame created with id " + controller.getId() + "\n" + "\nWaiting for players to join..."));
+            client.update(new OkMessage("Game created with id " + controller.getId() + " Waiting for players to join..."));
             client.show("\nGame created with id " + controller.getId() + "\n" + "\nWaiting for players to join...");
 
         }catch(IOException e){

@@ -25,30 +25,41 @@
             </Label>
          </children>
       </Pane>
-      <CheckBox fx:id="checkBox2" layoutX="450.0" layoutY="624.0" mnemonicParsing="false" onAction="#chooseNumber" text="2" textFill="#372113">
+      <CheckBox fx:id="checkBox2" layoutX="502.0" layoutY="620.0" mnemonicParsing="false" onAction="#chooseNumber" textFill="#372113">
          <font>
             <Font name="Agency FB" size="36.0" />
          </font></CheckBox>
-      <CheckBox fx:id="checkBox4" layoutX="1007.0" layoutY="624.0" mnemonicParsing="false" onAction="#chooseNumber" text="4" textFill="#372113">
+      <CheckBox fx:id="checkBox4" layoutX="972.0" layoutY="620.0" mnemonicParsing="false" onAction="#chooseNumber" textFill="#372113">
          <font>
             <Font name="Agency FB" size="36.0" />
          </font></CheckBox>
-      <CheckBox fx:id="checkBox3" layoutX="728.0" layoutY="624.0" mnemonicParsing="false" onAction="#chooseNumber" text="3" textFill="#372113">
-         <font>
-            <Font name="Agency FB" size="36.0" />
-         </font></CheckBox>
-      <Button fx:id="go" layoutX="1284.0" layoutY="623.0" mnemonicParsing="false" onAction="#sendNumberOfPlayers" text="➜">
+      <Button fx:id="go" layoutX="1192.0" layoutY="623.0" mnemonicParsing="false" onAction="#sendNumberOfPlayers" text="➜">
          <font>
             <Font name="Agency FB" size="20.0" />
          </font></Button>
-      <Button fx:id="backButton" layoutX="181.0" layoutY="623.0" mnemonicParsing="false" onAction="#previousScene" text="Back">
+      <Button fx:id="backButton" layoutX="282.0" layoutY="623.0" mnemonicParsing="false" onAction="#previousScene" text="Back">
          <font>
             <Font name="Agency FB" size="20.0" />
          </font></Button>
-      <CheckBox fx:id="checkBox1" layoutX="31.0" layoutY="673.0" mnemonicParsing="false" onAction="#chooseNumber" prefHeight="85.0" prefWidth="88.0" text="1">
+      <CheckBox fx:id="checkBox3" layoutX="737.0" layoutY="620.0" mnemonicParsing="false" onAction="#chooseNumber" textFill="#372113">
          <font>
-            <Font size="46.0" />
+            <Font name="Agency FB" size="36.0" />
          </font>
       </CheckBox>
+      <Label layoutX="582.0" layoutY="628.0" text="2">
+         <font>
+            <Font name="Agency FB" size="40.0" />
+         </font>
+      </Label>
+      <Label layoutX="817.0" layoutY="628.0" text="3">
+         <font>
+            <Font name="Agency FB" size="40.0" />
+         </font>
+      </Label>
+      <Label layoutX="1052.0" layoutY="628.0" text="4">
+         <font>
+            <Font name="Agency FB" size="40.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

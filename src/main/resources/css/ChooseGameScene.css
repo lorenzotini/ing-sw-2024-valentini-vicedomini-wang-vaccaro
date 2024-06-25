@@ -14,7 +14,7 @@
 }
 
 .label{
-    -fx-background-color: white;
+    /*-fx-background-color: white;*/
     -fx-background-radius: 10;
 }
 

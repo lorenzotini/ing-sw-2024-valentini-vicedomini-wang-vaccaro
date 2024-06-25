@@ -404,7 +404,7 @@ public class Gui implements View {
             serverIsUp = true;
             return;
         }
-        System.out.println("\nOk " + currentController.toString() + string);
+        System.out.println("\nOk " + currentController + string);
         currentController.receiveOk(string);
     }
 

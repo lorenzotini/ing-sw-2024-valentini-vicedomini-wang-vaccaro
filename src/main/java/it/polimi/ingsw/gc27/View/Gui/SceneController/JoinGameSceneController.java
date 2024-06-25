@@ -82,7 +82,7 @@ public class JoinGameSceneController extends GenericController{
                        throw new RuntimeException(e);
                    }
                } else {
-                   System.out.println("\nMESSAGGIO NON TROVATO\n");
+                   System.out.println("\nMESSAGGIO GUI NON TROVATO\n");
                }
            });
     }

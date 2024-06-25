@@ -338,7 +338,6 @@ public class ManuscriptSceneController extends GenericController {
                 this.x = manuscriptCardData.x;
                 this.y = manuscriptCardData.y;
                 this.manuscriptCard = imgView;
-                System.out.println("send addcard command");
                 sendAddCardCommand();
             }
             event.consume();
@@ -392,7 +391,6 @@ public class ManuscriptSceneController extends GenericController {
         imgView.setOnMouseClicked(event -> {
             this.marketCard = imgView;
             sendDrawCardCommand();
-            System.out.println("CLICK MARKET" + event);
             event.consume();
         });
 
@@ -495,7 +493,7 @@ public class ManuscriptSceneController extends GenericController {
             errorPane.setVisible(false);
             String feedback;
             feedback = miniModel.getPlayer().getPlayerState().toStringGUI();
-            System.out.println("\nFEEDBACK " + feedback);
+
             actionFeedback.setText(feedback);
             feedbackTextFlow.setTextAlignment(TextAlignment.RIGHT);
 

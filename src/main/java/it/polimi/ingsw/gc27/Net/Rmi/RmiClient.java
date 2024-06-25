@@ -108,10 +108,13 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
     /**
      *Send the Command to the server to have it executed
      * @param command the action the client want to do
-     * @throws RemoteException if there is any trouble with the connection
      */
-    public void sendCommand(Command command) throws RemoteException {
-        this.server.receiveCommand(command);
+    public void sendCommand(Command command) {
+        try {
+            this.server.receiveCommand(command);
+        } catch (RemoteException e) {
+            System.out.println("Probably the server is down: receiveCommand");
+        }
     }
 
     /**
@@ -180,7 +183,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
         try{
             this.server.connect(this);
         }catch(RemoteException e){
-            System.out.println("There is a problem with the connection, please retry");
+            System.out.println("There was a problem with the connection, please retry");
             close();
         }
 
@@ -193,9 +196,9 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
                     Thread.sleep(1000);
                     pingToServer( this);
                 } catch (RemoteException e) {
-                    System.out.println("Probably the server is down: remote exception");
+                    System.out.println("Probably the server is down: Ping");
                 } catch (InterruptedException e) {
-                    System.out.println("Probably the server is down: interrupted exception");
+                    System.out.println("Thread exception");
                 }
             }
         }).start();
@@ -215,7 +218,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
             this.server.welcomePlayer(this);
             this.show("Welcome " + this.username + "!" + "\nWaiting for other players to join the game...");
         }catch(IOException e){
-            System.out.println("The connection has been lost while setting the player, please try to reconnect ");
+            System.out.println("The connection has been lost while setting the player, please try to reconnect");
             close();
         }
 
@@ -243,7 +246,6 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
      * and the process closed
      */
     private void checkServerIsAlive()  {
-
         while(true){
             if((this.lastPingFromServer) > TIME_COUNT ){
                 System.out.println("Connection to the server was dropped");
@@ -252,7 +254,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
             try {
                 Thread.sleep(1000);
             }catch(InterruptedException e){
-                throw new RuntimeException("Explosion of thread sleep");
+                System.out.println("Explosion of thread sleep");
             }
         }
     }

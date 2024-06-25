@@ -17,10 +17,12 @@
 
 .imageview{
     -fx-image: url('../Images/utility/gamemastercard3.png');
+    -fx-effect: dropshadow(gaussian, rgba(90, 90, 90, 1.0), 20, 0.5, 0, 0);
 }
 
 #redButton{
     -fx-background-image: url('../Images/utility/pawn_red.png');
+    -fx-effect: dropshadow(gaussian, rgba(255, 255, 255, 1.0), 10, 0.3, 0, 0);
     -fx-background-size: cover;
     -fx-background-color: transparent;
 }
@@ -38,6 +40,7 @@
 
 #greenButton{
     -fx-background-image: url('../Images/utility/pawn_green.png');
+    -fx-effect: dropshadow(gaussian, rgba(255, 255, 255, 1.0), 10, 0.3, 0, 0);
     -fx-background-size: cover;
     -fx-background-color: transparent;
 }
@@ -55,6 +58,7 @@
 
 #blueButton{
     -fx-background-image: url('../Images/utility/pawn_blue.png');
+    -fx-effect: dropshadow(gaussian, rgba(255, 255, 255, 1.0), 10, 0.3, 0, 0);
     -fx-background-size: cover;
     -fx-background-color: transparent;
 }
@@ -72,6 +76,7 @@
 
 #yellowButton{
     -fx-background-image: url('../Images/utility/pawn_yellow.png');
+    -fx-effect: dropshadow(gaussian, rgba(255, 255, 255, 1.0), 10, 0.3, 0, 0);
     -fx-background-size: cover;
     -fx-background-color: transparent;
 }
@@ -89,9 +94,11 @@
 
 .selectionbutton{
     -fx-background-color: #e4dfb2;
-    -fx-border-width: 6px;
-    -fx-border-color: #c4a64d;
+    -fx-border-width: 2px;
+    -fx-border-color: #2B1806;
     -fx-border-radius: 10;
+    -fx-background-radius: 14;
+    -fx-effect: dropshadow(gaussian, rgba(255, 255, 255, 1.0), 10, 0.5, 0, 0);
 }
 
 .selectionbutton:hover{

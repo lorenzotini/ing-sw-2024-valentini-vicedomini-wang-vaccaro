@@ -8,7 +8,7 @@
 
 <AnchorPane prefHeight="780.0" prefWidth="1535.0" styleClass="anchorpane" stylesheets="@../css/ChooseGameScene.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.gc27.View.Gui.SceneController.ChooseGameSceneController">
    <children>
-      <ImageView fitHeight="650.0" fitWidth="457.0" layoutX="539.0" layoutY="259.0" pickOnBounds="true" preserveRatio="true" styleClass="gamemaster" />
+      <ImageView fitHeight="650.0" fitWidth="457.0" layoutX="539.0" layoutY="269.0" pickOnBounds="true" preserveRatio="true" styleClass="gamemaster" />
       <Button fx:id="joinGameButton" layoutX="368.0" layoutY="228.0" mnemonicParsing="false" prefHeight="120.0" prefWidth="200.0" text="Join Game">
          <font>
             <Font name="Agency FB" size="40.0" />

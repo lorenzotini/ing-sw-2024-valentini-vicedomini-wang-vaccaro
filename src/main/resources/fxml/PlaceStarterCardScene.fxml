@@ -11,13 +11,13 @@
 
 <AnchorPane prefHeight="780.0" prefWidth="1535.0" styleClass="anchorpane" stylesheets="@../css/PlaceStarterCardScene.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.gc27.View.Gui.SceneController.PlaceStarterCardSceneController">
     <children>
-        <ImageView fitHeight="419.0" fitWidth="368.0" layoutX="584.0" layoutY="361.0" pickOnBounds="true" preserveRatio="true" styleClass="imagetest" />
-        <ImageView fx:id="frontStarter" fitHeight="200.0" fitWidth="300.0" layoutX="217.0" layoutY="413.0" pickOnBounds="true" preserveRatio="true">
+        <ImageView fitHeight="419.0" fitWidth="368.0" layoutX="584.0" layoutY="371.0" pickOnBounds="true" preserveRatio="true" styleClass="imagetest" />
+        <ImageView fx:id="frontStarter" fitHeight="200.0" fitWidth="300.0" layoutX="217.0" layoutY="413.0" pickOnBounds="true" preserveRatio="true" style="-fx-effect: dropshadow(gaussian, rgba(90, 90, 90, 1.0), 20, 0.5, 0, 0);;">
             <image>
                 <Image url="@../Images/cards/card102_back.png" />
             </image>
         </ImageView>
-        <ImageView fx:id="backStarter" fitHeight="200.0" fitWidth="300.0" layoutX="1019.0" layoutY="413.0" pickOnBounds="true" preserveRatio="true">
+        <ImageView fx:id="backStarter" fitHeight="200.0" fitWidth="300.0" layoutX="1019.0" layoutY="413.0" pickOnBounds="true" preserveRatio="true" style="-fx-effect: dropshadow(gaussian, rgba(90, 90, 90, 1.0), 20, 0.5, 0, 0);;">
             <image>
                 <Image url="@../Images/cards/card102_back.png" />
             </image>
@@ -32,9 +32,9 @@
                 <Font name="Agency FB" size="24.0" />
             </font>
         </Button>
-        <Pane layoutX="562.0" layoutY="54.0">
+        <Pane layoutX="562.0" layoutY="74.0">
             <children>
-                <ImageView fitHeight="275.0" fitWidth="415.0" pickOnBounds="true" preserveRatio="true" styleClass="customlabel" />
+                <ImageView fitHeight="275.0" fitWidth="415.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true" styleClass="customlabel" />
                 <Label layoutX="238.0" layoutY="146.0" text="Place your">
                     <font>
                         <Font name="Agency FB" size="27.0" />

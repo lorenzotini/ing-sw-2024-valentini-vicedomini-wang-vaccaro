@@ -32,7 +32,7 @@
          <font>
             <Font name="Agency FB" size="27.0" />
          </font></Button>
-      <Button fx:id="sendUsernameButton" layoutX="1125.0" layoutY="298.0" mnemonicParsing="false" onAction="#sendUsername" prefHeight="46.0" prefWidth="62.0" styleClass="selectionbutton" text="➜">
+      <Button fx:id="sendUsernameButton" layoutX="1129.0" layoutY="298.0" mnemonicParsing="false" onAction="#sendUsername" prefHeight="46.0" prefWidth="62.0" styleClass="selectionbutton" text="➜">
          <font>
             <Font size="20.0" />
          </font></Button>

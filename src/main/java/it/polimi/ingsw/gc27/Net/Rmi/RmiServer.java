@@ -97,17 +97,21 @@ public class RmiServer implements VirtualServer {
                 synchronized (clientsPing) {
                     actualPing = clientsPing.get(client);
                 }
-
                 if (actualPing > MAX_PING_TIME) {
                     System.out.println("Timeout for client expired - rmi - " + client);
                     // Remove all the references to the client
                     console.removeReferences(client);
-                    clients.remove(client);
+                    synchronized (clients) {
+                        clients.remove(client);
+                        System.out.println(clients.size());
+                    }
                     break;
                 } else {
                     synchronized (clientsPing) {
                         Integer temp = clientsPing.get(client) + 1;
                         clientsPing.put(client, temp);
+                    }if(actualPing >2 ){
+                        System.out.println("Net error while sending ping: "+ actualPing);
                     }
                 }
                 new Thread(() -> {
@@ -118,7 +122,7 @@ public class RmiServer implements VirtualServer {
                     }
                 }).start();
                 try {
-                    Thread.sleep(500);
+                    Thread.sleep(1000);
                 } catch (InterruptedException e) {
                     System.out.println("Explosion of thread sleep");
                 }

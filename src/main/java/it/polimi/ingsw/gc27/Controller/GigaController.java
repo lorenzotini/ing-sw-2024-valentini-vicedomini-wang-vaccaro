@@ -51,7 +51,7 @@ public class GigaController {
             //registeredUsernames.remove(username);
         } catch (NullPointerException e) {
             System.out.println("Client hadn't choose an username yet");
-            System.out.println("NullPointerException caught while suspending player: " + e.getMessage());
+            System.out.println("Caught while suspending player " );
         }
     }
 

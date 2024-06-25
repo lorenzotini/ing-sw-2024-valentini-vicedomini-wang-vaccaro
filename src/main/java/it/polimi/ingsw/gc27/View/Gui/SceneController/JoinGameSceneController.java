@@ -7,6 +7,7 @@ import it.polimi.ingsw.gc27.View.Gui.ScenePaths;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
@@ -19,7 +20,7 @@ import java.io.IOException;
 
 public class JoinGameSceneController extends GenericController {
     @FXML
-    public TextArea errorGameID;
+    public Label errorGameID;
     @FXML
     public TextField idTextField;
     @FXML

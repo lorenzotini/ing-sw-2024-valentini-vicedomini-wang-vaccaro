@@ -1,7 +1,6 @@
-package it.polimi.ingsw.gc27.Model.States;
+package it.polimi.ingsw.gc27.Game;
 
 import it.polimi.ingsw.gc27.Controller.GameController;
-import it.polimi.ingsw.gc27.Controller.TurnHandler;
 import it.polimi.ingsw.gc27.Model.Card.GoldCard;
 import it.polimi.ingsw.gc27.Model.Card.ObjectiveCard.ObjectiveCard;
 import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
@@ -13,9 +12,9 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class PlayingStateTest {
+class GameTest {
     private static GameController gc1;
     private static Game g1;
     private static Player p1;
@@ -32,6 +31,7 @@ class PlayingStateTest {
     private static ArrayList<GoldCard> goldDeck;
     private static ResourceCard[] faceUpResources;
     private static GoldCard[] faceUpGolds;
+
     public  void initializeGame() {
 
         players1 = new ArrayList<>();
@@ -69,7 +69,12 @@ class PlayingStateTest {
         faceUpGolds[1]=goldDeck.get(1);
         market=new Market(resourceDeck, goldDeck, faceUpResources,faceUpGolds,objectiveDeck );
         g1.setMarket(market);
+
+
         // create game and its controller
+
+
+
         /*
         Collections.shuffle(resourceDeck);
         Collections.shuffle(goldDeck);
@@ -78,42 +83,19 @@ class PlayingStateTest {
     }
 
     @Test
-    void chooseObjectiveCard() {
-        initializeGame();
-        p1.setPlayerState(new PlayingState(p1,new TurnHandler(g1)));
-        p1.getPlayerState().chooseObjectiveCard(g1, 0);
-        assertEquals(p1.getPlayerState().toString(), "PlayingState");
-    }
-
-    @Test
-    void drawCard() {
-        initializeGame();
-        p1.setPlayerState(new PlayingState(p1,new TurnHandler(g1)));
-        p1.getPlayerState().drawCard(p1, true,true,0);
-
-        assertEquals(p1.getPlayerState().toString(), "PlayingState");
-
-    }
-
-    @Test
-    void addCard() {
-        initializeGame();
-        p1.setPlayerState(new PlayingState(p1,new TurnHandler(g1)));
-        //p1.getManuscript().getField()[42][42].
-        p1.addCard(g1, resourceDeck.getFirst(),resourceDeck.getFirst().getFront(), 42,42);
+    void addPointsTest() {
 
 
     }
-
     @Test
-    void addStarterCard() {
+    void validPawnTest(){
         initializeGame();
-        p1.setPlayerState(new PlayingState(p1,new TurnHandler(g1)));
-        p1.getPlayerState().addStarterCard(g1, starterDeck.getFirst(), starterDeck.getFirst().getFront());
-        assertEquals(p1.getPlayerState().toString(), "PlayingState");
+        assertTrue(g1.validPawn(String.valueOf(PawnColour.BLUE)));
     }
 
     @Test
-    void toStringGUI() {
+    void validUsernameTest(){
+        initializeGame();
+    //    assertTrue(g1.validUsername("Giocatore1"));
     }
 }

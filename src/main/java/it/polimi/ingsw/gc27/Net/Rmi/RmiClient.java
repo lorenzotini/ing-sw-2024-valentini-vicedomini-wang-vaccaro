@@ -252,7 +252,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
                 close();
             }else{
                 this.lastPingFromServer++;
-                System.out.println(this.lastPingFromServer);
+
             }
             try {
                 Thread.sleep(1000);

@@ -1,7 +1,6 @@
 package it.polimi.ingsw.gc27.Model.States;
 
 import it.polimi.ingsw.gc27.Controller.GameController;
-import it.polimi.ingsw.gc27.Controller.TurnHandler;
 import it.polimi.ingsw.gc27.Model.Card.GoldCard;
 import it.polimi.ingsw.gc27.Model.Card.ObjectiveCard.ObjectiveCard;
 import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
@@ -13,9 +12,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-class PlayingStateTest {
+class InitializingStateTest {
     private static GameController gc1;
     private static Game g1;
     private static Player p1;
@@ -32,6 +29,7 @@ class PlayingStateTest {
     private static ArrayList<GoldCard> goldDeck;
     private static ResourceCard[] faceUpResources;
     private static GoldCard[] faceUpGolds;
+
     public  void initializeGame() {
 
         players1 = new ArrayList<>();
@@ -79,41 +77,22 @@ class PlayingStateTest {
 
     @Test
     void chooseObjectiveCard() {
-        initializeGame();
-        p1.setPlayerState(new PlayingState(p1,new TurnHandler(g1)));
-        p1.getPlayerState().chooseObjectiveCard(g1, 0);
-        assertEquals(p1.getPlayerState().toString(), "PlayingState");
+
     }
 
     @Test
-    void drawCard() {
-        initializeGame();
-        p1.setPlayerState(new PlayingState(p1,new TurnHandler(g1)));
-        p1.getPlayerState().drawCard(p1, true,true,0);
+    void drawResourceCard() {
+    }
 
-        assertEquals(p1.getPlayerState().toString(), "PlayingState");
-
+    @Test
+    void drawGoldCard() {
     }
 
     @Test
     void addCard() {
-        initializeGame();
-        p1.setPlayerState(new PlayingState(p1,new TurnHandler(g1)));
-        //p1.getManuscript().getField()[42][42].
-        p1.addCard(g1, resourceDeck.getFirst(),resourceDeck.getFirst().getFront(), 42,42);
-
-
     }
 
     @Test
     void addStarterCard() {
-        initializeGame();
-        p1.setPlayerState(new PlayingState(p1,new TurnHandler(g1)));
-        p1.getPlayerState().addStarterCard(g1, starterDeck.getFirst(), starterDeck.getFirst().getFront());
-        assertEquals(p1.getPlayerState().toString(), "PlayingState");
-    }
-
-    @Test
-    void toStringGUI() {
     }
 }

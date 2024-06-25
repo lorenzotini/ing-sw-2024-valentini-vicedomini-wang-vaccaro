@@ -35,7 +35,8 @@ public class ClientTest implements VirtualView{
 
 
     public void setUsername(String username)  {
-        this.username = username;
+        this.username= username;
+
     }
 
 
@@ -59,8 +60,8 @@ public class ClientTest implements VirtualView{
     }
 
 
-    public void update(Message message) throws RemoteException {
-        System.out.println(message.toString());
+    public void update(Message message)  {
+
     }
 
 

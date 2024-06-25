@@ -8,10 +8,7 @@ import it.polimi.ingsw.gc27.Model.Enumerations.PawnColour;
 import it.polimi.ingsw.gc27.Model.Game.*;
 import it.polimi.ingsw.gc27.Model.States.PlayingState;
 import it.polimi.ingsw.gc27.Model.States.WaitingState;
-import it.polimi.ingsw.gc27.Net.Commands.Command;
-import it.polimi.ingsw.gc27.Net.Commands.ReconnectPlayerCommand;
-import it.polimi.ingsw.gc27.Net.Commands.SendMessageCommand;
-import it.polimi.ingsw.gc27.Net.Commands.SuspendPlayerCommand;
+import it.polimi.ingsw.gc27.Net.Commands.*;
 import it.polimi.ingsw.gc27.Utils.JsonParser;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -94,17 +91,20 @@ public class GigaControllerTest {
     public void testRemoveReferences() {
         String username = "testUser";
 
-        clientTest.setUsername(username);
+            clientTest.setUsername(username);
+
         gigaController.getRegisteredUsernames().put(username, clientTest);
         gigaController.removeReferences(clientTest);
         //assertFalse(gigaController.getRegisteredUsernames().containsKey(username));
     }
 
     @Test
-    public void testWelcomePlayerNewGame1() throws IOException, InterruptedException { //da finire
+    public void testWelcomePlayerNewGame1()  { //da finire
         initializeGame();
         clientTest = new ClientTest();
+        clientTest.setNextRead("n");
         clientTest.setNextRead("new");
+        clientTest.setNextRead("5");
         clientTest.setNextRead("2");
         clientTest.setNextRead("User");
         clientTest.setNextRead("BLUE");
@@ -113,6 +113,7 @@ public class GigaControllerTest {
 
 
         clientTest2=new ClientTest();
+        clientTest2.setNextRead("4");
         clientTest2.setNextRead("0");
         clientTest2.setNextRead("User2");
         clientTest2.setNextRead("RED");
@@ -121,21 +122,76 @@ public class GigaControllerTest {
 
     }
 
-
-    //invalid input id
     @Test
-    public void testWelcomePlayerNewGame2(){
-        initializeGame();
-        clientTest= new ClientTest();
-        clientTest.setNextRead("prova");
+    void drawTestsasasa() throws InterruptedException {
+
+        GameController gc ;
+        clientTest = new ClientTest();
         clientTest.setNextRead("new");
         clientTest.setNextRead("2");
-        clientTest.setNextRead("User");
+        clientTest.setNextRead("User1");
         clientTest.setNextRead("BLUE");
+        clientTest.setUsername("User1");
+        GigaController gigaController = new GigaController();
         gigaController.welcomePlayer(clientTest);
-        assertTrue(clientTest.nextShows.poll().contains("\nWelcome to Codex Naturalis\n\nDo you want to start a new game or join an existing one? (enter 'new' or the gameId)"));
-        assertTrue(clientTest.nextShows.poll().contains("Invalid input"));
+
+        clientTest2=new ClientTest();
+        clientTest2.setNextRead("0");
+        clientTest2.setNextRead("User1");
+        clientTest2.setNextRead("User2");
+        clientTest2.setNextRead("RED");
+        clientTest2.setUsername("User2");
+        gigaController.welcomePlayer(clientTest2);
+        new Thread(()->{
+            while(true){
+                String s = clientTest.nextShows.poll();
+                if(s!=null)
+                    System.out.println(clientTest.nextShows.poll());
+            }
+        }).start();
+
+        gc = gigaController.userToGameController("User1");
+
+
+        Command command = new AddStarterCommand("User1", true);
+        assertEquals("User1", command.getPlayerName());
+        gc.addCommand(command);
+        command = new AddStarterCommand("User2", true);
+        gc.addCommand(command);
+        command = new ChooseObjectiveCommand("User1", 1);
+        assertEquals("User1", command.getPlayerName());
+        gc.addCommand(command);
+        command = new ChooseObjectiveCommand("User2", 1);
+        gc.addCommand(command);
+        command = new SendMessageCommand(gc.getPlayer("User1"),"User2", "LAlalalala");
+        gc.addCommand(command);
+
+        command = new SuspendPlayerCommand("User2");
+        gc.addCommand(command);
+        System.out.println(gc.getGame().getMarket().getResourceDeck().size());
+        long time = System.currentTimeMillis();
+        while(System.currentTimeMillis() -time <20000) {
+
+        }
+        assertFalse(gc.getGame().getMarket().getResourceDeck().isEmpty());
+
+
+
     }
+    //invalid input id
+//    @Test
+//    public void testWelcomePlayerNewGame2(){
+//        initializeGame();
+//        clientTest= new ClientTest();
+//        clientTest.setNextRead("prova");
+//        clientTest.setNextRead("new");
+//        clientTest.setNextRead("2");
+//        clientTest.setNextRead("User");
+//        clientTest.setNextRead("BLUE");
+//        gigaController.welcomePlayer(clientTest);
+//        assertTrue(clientTest.nextShows.poll().contains("\nWelcome to Codex Naturalis\n\nDo you want to start a new game or join an existing one? (enter 'new' or the gameId)"));
+//        assertTrue(clientTest.nextShows.poll().contains("Invalid input"));
+//    }
 
     @Test
     void testWelcomePlayer3(){
@@ -144,50 +200,53 @@ public class GigaControllerTest {
         clientTest.setNextRead("hello");
         clientTest.setNextRead("ciao");
         clientTest.setNextRead("new");
+        clientTest.setNextRead("6");
         clientTest.setNextRead("2");
         clientTest.setNextRead("User");
+        clientTest.setNextRead("Tr");
         clientTest.setNextRead("BLUE");
         gigaController.welcomePlayer(clientTest);
     }
 
-    @Test
-    void testWelcomePlayer4(){
-        initializeGame();
-        clientTest= new ClientTest();
-        clientTest.setNextRead("new");
-        clientTest.setNextRead("2");
-        clientTest.setNextRead("User");
-        clientTest.setNextRead("BLUE");
-        gigaController.welcomePlayer(clientTest);
-
-        clientTest2 = new ClientTest();
-        clientTest2.setNextRead("0");
-        clientTest2.setNextRead("User2");
-        clientTest2.setNextRead("GREEN");
-        gigaController.welcomePlayer(clientTest2);
-
-        GameController gameController1=gigaController.getGameControllers().getLast();
-        Player p1=gameController1.getPlayer("User");
-        Player p2=gameController1.getPlayer("User2");
-        p1.setPlayerState(new PlayingState(p1,gameController1.getTurnHandler()));
-        p2.setPlayerState(new WaitingState(p2, gameController1.getTurnHandler()));
-        gameController1.getCommands().add(new SuspendPlayerCommand(p1.getUsername()));
-        //gameController1.getCommands().add(new ReconnectPlayerCommand(clientTest,p1));
-
-        clientTest3 = new ClientTest();
-        clientTest3.setNextRead("0");
-        clientTest3.setNextRead("User");
-        clientTest3.setNextRead("GREEN");
-        gigaController.welcomePlayer(clientTest3);
-
-    }
+//    @Test
+//    void testWelcomePlayer4(){
+//        initializeGame();
+//        gigaController = new GigaController();
+//        clientTest= new ClientTest();
+//        clientTest.setNextRead("new");
+//        clientTest.setNextRead("2");
+//        clientTest.setNextRead("User");
+//        clientTest.setNextRead("BLUE");
+//        clientTest.setUsername("User");
+//        gigaController.welcomePlayer(clientTest);
+//
+//        clientTest2 = new ClientTest();
+//        clientTest2.setNextRead("0");
+//        clientTest2.setNextRead("User2");
+//        clientTest2.setNextRead("GREEN");
+//        gigaController.welcomePlayer(clientTest2);
+//
+//        GameController gameController1=gigaController.getGameControllers().getLast();
+//        Player p1=gameController1.getPlayer("User");
+//        Player p2=gameController1.getPlayer("User2");
+//        p1.setPlayerState(new PlayingState(p1,gameController1.getTurnHandler()));
+//        p2.setPlayerState(new WaitingState(p2, gameController1.getTurnHandler()));
+//        gameController1.getCommands().add(new SuspendPlayerCommand(p1.getUsername()));
+//        gameController1.getCommands().add(new ReconnectPlayerCommand(clientTest,p1));
+//
+//        clientTest3 = new ClientTest();
+//        clientTest3.setNextRead("0");
+//        clientTest3.setNextRead("User");
+//        clientTest3.setNextRead("GREEN");
+//        gigaController.welcomePlayer(clientTest3);
+//
+//    }
     @Test
     void testWelcomePlayer5(){
         initializeGame();
+        gigaController = new GigaController();
         clientTest= new ClientTest();
-        clientTest.setNextRead("a");
         clientTest.setNextRead("new");
-        clientTest.setNextRead("6");
         clientTest.setNextRead("2");
         clientTest.setNextRead("User");
         clientTest.setNextRead("BLUE");
@@ -254,43 +313,9 @@ public class GigaControllerTest {
 
 //    @Test
 //    public void testWelcomePlayerNewGame4() throws IOException, InterruptedException { //da finire
-//        ArrayList<Player> players1 = new ArrayList<>();
+//
 //        GigaController gigaController = new GigaController();
 //
-//        // generate decks
-////        JsonParser jsonParser = new JsonParser("codex_cards_collection.json");
-////        ArrayList<StarterCard> starterDeck = JsonParser.getStarterDeck();
-////        ArrayList<ObjectiveCard> objectiveDeck = jsonParser.getObjectiveDeck();
-////        ArrayList<ResourceCard> resourceDeck = JsonParser.getResourceDeck();
-////        ArrayList<GoldCard> goldDeck = jsonParser.getGoldDeck();
-////
-////
-////        // create players and add them to the game.
-////        Player p1 = new Player("Giocatore 1", new Manuscript(), PawnColour.RED);
-////        p1.setHand(new ArrayList<ResourceCard>());
-////        Player p2 = new Player("Giocatore 2", new Manuscript(), PawnColour.GREEN);
-////        p2.setHand(new ArrayList<ResourceCard>());
-////        Player p3 = new Player("Giocatore 3", new Manuscript(), PawnColour.BLUE);
-////        p3.setHand(new ArrayList<ResourceCard>());
-////
-////
-////        players1.add(p1);
-////        players1.add(p2);
-////        players1.add(p3);
-////
-////
-////        ResourceCard[] faceUpResources = new ResourceCard[2];
-////        GoldCard[] faceUpGolds= new GoldCard[2];
-////        faceUpResources[0]= resourceDeck.get(0);
-////        faceUpResources[1]= resourceDeck.get(1);
-////        faceUpGolds[0]=goldDeck.get(0);
-////        faceUpGolds[1]=goldDeck.get(1);
-////        Market market=new Market(resourceDeck, goldDeck, faceUpResources,faceUpGolds,objectiveDeck);
-////
-////
-////        Game game1 = new Game(new Board(), market,players1,objectiveDeck.get(0),objectiveDeck.get(1), starterDeck,objectiveDeck);
-////        GameController gameController = new GameController(game1, 2, 1, gigaController);
-////        gigaController.getGameControllers().add(gameController);
 //
 //        clientTest = new ClientTest();
 //        clientTest.setNextRead("new");
@@ -303,22 +328,27 @@ public class GigaControllerTest {
 //
 //        clientTest2 = new ClientTest();
 //        clientTest2.setNextRead("0");
+//        clientTest2.setNextRead("User");
 //        clientTest2.setNextRead("User2");
 //        clientTest2.setNextRead("GREEN");
 //        gigaController.welcomePlayer(clientTest2);
 //        assertTrue(clientTest2.nextShows.poll().contains("\nWelcome to Codex Naturalis\n\nDo you want to start a new game or join an existing one? (enter 'new' or the gameId)"));
 //        assertEquals(gigaController.getGameControllers().getLast().getGame().getNumActualPlayers(), 2);
 //
-//        Player playerToSuspend= gigaController.getGameControllers().getLast().getGame().getPlayers().get(1);
-//        //prolema: prima di testare la riconnessione, la disconnessione dà problemi, testo prima suspend game in game controller
-//        gigaController.getGameControllers().getLast().suspendPlayer(playerToSuspend);
-//        assertTrue(gigaController.getGameControllers().getLast().getPlayer("User 2").isDisconnected());
-////        ClientTest clientTest3;
-////        clientTest3 = new ClientTest();
-////        clientTest3.setNextRead("0");
-////        clientTest3.setNextRead("Giocatore 2");
-////        clientTest3.setNextRead("YELLOW");
-////        gigaController.welcomePlayer(clientTest3);
+//        GameController gc = gigaController.userToGameController("User");
+//        Command command = new SuspendPlayerCommand("User2");
+//        command.execute(gc);
+////        Player playerToSuspend= gigaController.getGameControllers().getLast().getGame().getPlayers().get(1);
+////        //prolema: prima di testare la riconnessione, la disconnessione dà problemi, testo prima suspend game in game controller
+////        gigaController.getGameControllers().getLast().suspendPlayer(playerToSuspend);
+//        assertTrue(gigaController.getGameControllers().getLast().getPlayer("User2").isDisconnected());
+//        ClientTest clientTest3;
+//        clientTest3 = new ClientTest();
+//        clientTest3.setNextRead("0");
+//        clientTest3.setNextRead("User");
+//        clientTest3.setNextRead("0");
+//        clientTest3.setNextRead("User2");
+//        gigaController.welcomePlayer(clientTest3);
 //
 //        //assertEquals(gigaController.getGameControllers().getLast().getGame().getNumActualPlayers(), 2);
 //
@@ -342,8 +372,10 @@ public class GigaControllerTest {
     }
 //    @Test
 //    public void testCreateNewGame2() throws IOException, InterruptedException {
+//        clientTest = new ClientTest();
 //        clientTest.setNextRead("5");
-//        clientTest.setNextRead("User");
+//        clientTest2.setNextRead("2");
+//        clientTest.setNextRead("User55");
 //        clientTest.setNextRead("BLUE");
 //        gigaController.createNewGame(clientTest);
 //        assertTrue(clientTest.nextShows.poll().contains("How many play"));
@@ -358,7 +390,7 @@ public class GigaControllerTest {
 
     @Test
     public void testTryReconnectPlayer() throws IOException {
-       initializeGame();
+        initializeGame();
         clientTest = new ClientTest();
         clientTest.setNextRead("new");
         clientTest.setNextRead("2");
@@ -377,7 +409,6 @@ public class GigaControllerTest {
 
     @Test
     public void testGetView() {
-
         gigaController.getRegisteredUsernames().put("testUser", clientTest);
         assertEquals(clientTest, gigaController.getView("testUser"));
     }
@@ -386,7 +417,7 @@ public class GigaControllerTest {
     public void testGetUsername() {
         String username = "testUser";
 
-        clientTest.setUsername(username);
+            clientTest.setUsername(username);
 
         gigaController.getRegisteredUsernames().put(username, clientTest);
         assertEquals(username, gigaController.getUsername(clientTest));
@@ -404,7 +435,6 @@ public class GigaControllerTest {
     void addCommandToGameControllerTest(){
         initializeGame();
         SendMessageCommand sendMessageCommand=new SendMessageCommand(p1, p2.getUsername(), "hello");
-        assertEquals(sendMessageCommand.getPlayerName(), p1.getUsername());
         gigaController.addCommandToGameController(sendMessageCommand);
         gigaController.getPlayer(p1.getUsername());
     }

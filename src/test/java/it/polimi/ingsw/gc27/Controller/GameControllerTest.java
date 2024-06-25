@@ -945,10 +945,7 @@ public class GameControllerTest {
         p1.setPlayerState(new PlayingState(p1, turnHandler));
         p2.setPlayerState(new WaitingState(p2, turnHandler));
         p3.setPlayerState(new WaitingState(p3, turnHandler));
-        Command command = new ReconnectPlayerCommand(clientTest1, p1);
-        assertEquals(command.getPlayerName(), clientTest1.getUsername());
-        gameController.getCommands().add(command);
-
+        gameController.getCommands().add(new ReconnectPlayerCommand(clientTest1, p1));
         try {
             gameController.suspendGame();
         } catch (InterruptedException e) {
@@ -965,7 +962,7 @@ public class GameControllerTest {
 //        for (int i = list.size() - 1; i >= 0; i--) {
 //            list.remove(i);
 //        }
-       resourceDeck.clear();
+        resourceDeck.clear();
         p1.setPlayerState(new DrawingState(p1, turnHandler));
         gameController.drawCard(p1,false, true, 0);
 

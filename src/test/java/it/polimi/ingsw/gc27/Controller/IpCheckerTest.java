@@ -12,5 +12,7 @@ class IpCheckerTest {
         assertTrue(checkIp("10.168.91.94"));
         assertFalse(checkIp("123"));
         assertFalse(checkIp("500"));
+        assertFalse(checkIp("10.20.500.0"));
+
     }
 }

@@ -306,13 +306,13 @@ public class Manuscript implements Serializable, ClientManuscript {
         return manuscriptCounter;
     }
 
-    /**
-     * Gets the path of the last placed card on the manuscript
-     * @return The path of the last placed card
-     */
-    public String getLastPlacedCardPath() {
-        return lastPlacedCardPath;
-    }
+//    /**
+//     * Gets the path of the last placed card on the manuscript
+//     * @return The path of the last placed card
+//     */
+//    public String getLastPlacedCardPath() {
+//        return lastPlacedCardPath;
+//    } da togliere
 
     /**
      * Sets the path of the last placed card on the manuscript

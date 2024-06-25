@@ -4,6 +4,7 @@ import it.polimi.ingsw.gc27.Model.Card.GoldCard;
 import it.polimi.ingsw.gc27.Model.Card.ObjectiveCard.ObjectiveCard;
 import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
 import it.polimi.ingsw.gc27.Model.Card.StarterCard;
+import it.polimi.ingsw.gc27.Model.Enumerations.CornerSymbol;
 import it.polimi.ingsw.gc27.Model.Enumerations.PawnColour;
 import it.polimi.ingsw.gc27.Model.Game.*;
 import it.polimi.ingsw.gc27.Model.States.*;
@@ -173,39 +174,77 @@ class TurnHandlerTest {
     void handleDisconnectionTest()  {
         initializeGame();
         p1.setPlayerState(new PlayingState(p1, turnHandler));
-
-        p2.setStarterCard(starterDeck.get(0));
-        p2.getSecretObjectives().add(objectiveDeck.get(0));
-        p2.getSecretObjectives().add(objectiveDeck.get(1));
-        p2.setPlayerState(new InitializingState(p2,turnHandler));
-
-        p3.getSecretObjectives().add(objectiveDeck.get(0));
-        p3.getSecretObjectives().add(objectiveDeck.get(1));
-        p3.setPlayerState(new ChooseObjectiveState(p3,turnHandler));
+        p2.setPlayerState(new WaitingState(p2, turnHandler));
+        p3.setPlayerState(new WaitingState(p3, turnHandler));
         try {
             turnHandler.handleDisconnection(p1, gameController);
-            turnHandler.handleDisconnection(p2, gameController);
-            turnHandler.handleDisconnection(p3, gameController);
-
+            assertEquals(p1.getPlayerState().toString(), "WaitingState");
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        assertEquals(p1.getPlayerState().toString(), "EndOfTurnState");
-        assertEquals(p2.getPlayerState().toString(), "WaitingState");
-        assertEquals(p3.getPlayerState().toString(), "WaitingState");
 
+        initializeGame();
+        p1.setStarterCard(starterDeck.get(0));
+        p1.getSecretObjectives().add(objectiveDeck.get(0));
+        p1.getSecretObjectives().add(objectiveDeck.get(1));
+        p1.setPlayerState(new InitializingState(p1, turnHandler));
+        p2.setPlayerState(new WaitingState(p2, turnHandler));
+        p3.setPlayerState(new WaitingState(p3, turnHandler));
+        try {
+            turnHandler.handleDisconnection(p1, gameController);
+            assertEquals(p1.getPlayerState().toString(), "PlayingState");
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
 
+        initializeGame();
+        p1.setStarterCard(starterDeck.get(0));
+        p1.getSecretObjectives().add(objectiveDeck.get(0));
+        p1.getSecretObjectives().add(objectiveDeck.get(1));
+        p1.setPlayerState(new ChooseObjectiveState(p1, turnHandler));
+        p2.setPlayerState(new WaitingState(p2, turnHandler));
+        p3.setPlayerState(new WaitingState(p3, turnHandler));
+        gameController.drawCard(p1,true,true,0);
+        gameController.addCard(p1,resourceDeck.get(25),resourceDeck.get(25).getFront(),43,43);
+        gameController.addStarterCard(p1,starterDeck.get(3),starterDeck.get(3).getBack());
+        try {
+            turnHandler.handleDisconnection(p1, gameController);
+            assertEquals(p1.getPlayerState().toString(), "PlayingState");
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        initializeGame();
+        p1.setStarterCard(starterDeck.get(0));
+        p1.getSecretObjectives().add(objectiveDeck.get(0));
+        p1.getSecretObjectives().add(objectiveDeck.get(1));
         p1.setPlayerState(new DrawingState(p1, turnHandler));
         p2.setPlayerState(new WaitingState(p2, turnHandler));
+        p3.setPlayerState(new WaitingState(p3, turnHandler));
         try {
             turnHandler.handleDisconnection(p1, gameController);
-            turnHandler.handleDisconnection(p2, gameController);
+            assertEquals(p1.getPlayerState().toString(), "WaitingState");
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        assertEquals(p1.getPlayerState().toString(), "EndOfTurnState");
-        assertEquals(p2.getPlayerState().toString(), "EndOfTurnState");
+        p1.getPlayerState().toStringGUI();
 
+    }
 
+    @Test
+    void triggerEndingGameDueToNoMoreCardsTest(){
+        initializeGame();
+        TurnHandler turnHandler1=new TurnHandler(game);
+        turnHandler1.triggerEndingGameDueToNoMoreCards();
+    }
+
+    @Test
+    void handleReconnecionTest(){
+        initializeGame();
+        TurnHandler turnHandler2=new TurnHandler(game);
+        p1.setPlayerState(new PlayingState(p1, turnHandler2));
+        p2.setPlayerState(new WaitingState(p2, turnHandler2));
+        p3.setPlayerState(new WaitingState(p3, turnHandler2));
+        turnHandler2.handleReconnection(p1);
     }
 }

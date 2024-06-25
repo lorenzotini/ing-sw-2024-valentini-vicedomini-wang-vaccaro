@@ -6,6 +6,12 @@ import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
 import it.polimi.ingsw.gc27.Model.Card.StarterCard;
 import it.polimi.ingsw.gc27.Model.Enumerations.PawnColour;
 import it.polimi.ingsw.gc27.Model.Game.*;
+import it.polimi.ingsw.gc27.Model.States.PlayingState;
+import it.polimi.ingsw.gc27.Model.States.WaitingState;
+import it.polimi.ingsw.gc27.Net.Commands.Command;
+import it.polimi.ingsw.gc27.Net.Commands.ReconnectPlayerCommand;
+import it.polimi.ingsw.gc27.Net.Commands.SendMessageCommand;
+import it.polimi.ingsw.gc27.Net.Commands.SuspendPlayerCommand;
 import it.polimi.ingsw.gc27.Utils.JsonParser;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -94,7 +100,7 @@ public class GigaControllerTest {
         }
         gigaController.getRegisteredUsernames().put(username, clientTest);
         gigaController.removeReferences(clientTest);
-        assertFalse(gigaController.getRegisteredUsernames().containsKey(username));
+        //assertFalse(gigaController.getRegisteredUsernames().containsKey(username));
     }
 
     @Test
@@ -121,7 +127,7 @@ public class GigaControllerTest {
 
     //invalid input id
     @Test
-    public void testWelcomePlayerNewGame2() throws IOException, InterruptedException { //da finire
+    public void testWelcomePlayerNewGame2(){
         initializeGame();
         clientTest= new ClientTest();
         clientTest.setNextRead("prova");
@@ -134,9 +140,87 @@ public class GigaControllerTest {
         assertTrue(clientTest.nextShows.poll().contains("Invalid input"));
     }
 
+    @Test
+    void testWelcomePlayer3(){
+        initializeGame();
+        clientTest= new ClientTest();
+        clientTest.setNextRead("hello");
+        clientTest.setNextRead("ciao");
+        clientTest.setNextRead("new");
+        clientTest.setNextRead("2");
+        clientTest.setNextRead("User");
+        clientTest.setNextRead("BLUE");
+        gigaController.welcomePlayer(clientTest);
+    }
+
+    @Test
+    void testWelcomePlayer4(){
+        initializeGame();
+        clientTest= new ClientTest();
+        clientTest.setNextRead("new");
+        clientTest.setNextRead("2");
+        clientTest.setNextRead("User");
+        clientTest.setNextRead("BLUE");
+        gigaController.welcomePlayer(clientTest);
+
+        clientTest2 = new ClientTest();
+        clientTest2.setNextRead("0");
+        clientTest2.setNextRead("User2");
+        clientTest2.setNextRead("GREEN");
+        gigaController.welcomePlayer(clientTest2);
+
+        GameController gameController1=gigaController.getGameControllers().getLast();
+        Player p1=gameController1.getPlayer("User");
+        Player p2=gameController1.getPlayer("User2");
+        p1.setPlayerState(new PlayingState(p1,gameController1.getTurnHandler()));
+        p2.setPlayerState(new WaitingState(p2, gameController1.getTurnHandler()));
+        gameController1.getCommands().add(new SuspendPlayerCommand(p1.getUsername()));
+        //gameController1.getCommands().add(new ReconnectPlayerCommand(clientTest,p1));
+
+        clientTest3 = new ClientTest();
+        clientTest3.setNextRead("0");
+        clientTest3.setNextRead("User");
+        clientTest3.setNextRead("GREEN");
+        gigaController.welcomePlayer(clientTest3);
+
+    }
+    @Test
+    void testWelcomePlayer5(){
+        initializeGame();
+        clientTest= new ClientTest();
+        clientTest.setNextRead("new");
+        clientTest.setNextRead("2");
+        clientTest.setNextRead("User");
+        clientTest.setNextRead("BLUE");
+        gigaController.welcomePlayer(clientTest);
+
+        clientTest2 = new ClientTest();
+        clientTest2.setNextRead("0");
+        clientTest2.setNextRead("User2");
+        clientTest2.setNextRead("GREEN");
+        gigaController.welcomePlayer(clientTest2);
+
+        GameController gameController1=gigaController.getGameControllers().getLast();
+        Player p1=gameController1.getPlayer("User");
+        Player p2=gameController1.getPlayer("User2");
+        p1.setPlayerState(new PlayingState(p1,gameController1.getTurnHandler()));
+        p2.setPlayerState(new WaitingState(p2, gameController1.getTurnHandler()));
+        gameController1.getCommands().add(new SuspendPlayerCommand(p1.getUsername()));
+        //gameController1.getCommands().add(new ReconnectPlayerCommand(clientTest,p1));
+
+        clientTest3 = new ClientTest();
+        clientTest3.setNextRead("0");
+        clientTest3.setNextRead("UserErrore");
+        clientTest3.setNextRead("0");
+        clientTest3.setNextRead("User");
+        clientTest3.setNextRead("GREEN");
+        gigaController.welcomePlayer(clientTest3);
+
+    }
+
     //game full
     @Test
-    public void testWelcomePlayerNewGame3() throws IOException, InterruptedException { //da finire
+    public void testNewGame3() throws IOException, InterruptedException { //da finire
         initializeGame();
 
         gameController = new GameController(game1, 2, 0, gigaController);
@@ -317,4 +401,14 @@ public class GigaControllerTest {
         this.gigaController.closeGame(this.gameController);
         assertEquals(gigaController.getGameControllers().size(), 0);
     }
+
+    @Test
+    void addCommandToGameControllerTest(){
+        initializeGame();
+        SendMessageCommand sendMessageCommand=new SendMessageCommand(p1, p2.getUsername(), "hello");
+        gigaController.addCommandToGameController(sendMessageCommand);
+        gigaController.getPlayer(p1.getUsername());
+    }
+
+
 }

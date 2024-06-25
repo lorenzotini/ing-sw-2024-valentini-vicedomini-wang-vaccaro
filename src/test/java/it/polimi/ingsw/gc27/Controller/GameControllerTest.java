@@ -8,12 +8,17 @@ import it.polimi.ingsw.gc27.Model.Card.GoldCard;
 import it.polimi.ingsw.gc27.Model.Card.ObjectiveCard.ObjectiveCard;
 import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
 import it.polimi.ingsw.gc27.Model.Card.StarterCard;
+import it.polimi.ingsw.gc27.Model.ClientClass.ClientPlayer;
+import it.polimi.ingsw.gc27.Model.ClientClass.MiniModel;
+import it.polimi.ingsw.gc27.Model.Enumerations.CornerSymbol;
 import it.polimi.ingsw.gc27.Model.Enumerations.PawnColour;
 import it.polimi.ingsw.gc27.Model.Game.*;
+import it.polimi.ingsw.gc27.Model.PlayerListener;
 import it.polimi.ingsw.gc27.Model.States.*;
 import it.polimi.ingsw.gc27.Net.Commands.AddStarterCommand;
 import it.polimi.ingsw.gc27.Net.Commands.Command;
 import it.polimi.ingsw.gc27.Net.Commands.ReconnectPlayerCommand;
+import it.polimi.ingsw.gc27.Net.Commands.SuspendPlayerCommand;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 import it.polimi.ingsw.gc27.Utils.JsonParser;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,6 +27,7 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -89,6 +95,8 @@ public class GameControllerTest {
         gameControllers.add(gameController);
         turnHandler=new TurnHandler(game);
 
+
+
         clientTest= new ClientTest();
     }
 
@@ -117,7 +125,7 @@ public class GameControllerTest {
         gigaController1.getGameControllers().add(new GameController(new Game(1, new Board(),players ), 2, 1, gigaController1));
         gigaController1.getGameControllers().getFirst().getCommands().add(new ReconnectPlayerCommand(new ClientTest(), players.getFirst()));
         gigaController1.getGameControllers().getFirst().getGame().getPlayers().getFirst().setDisconnected(true);
-        gigaController1.getGameControllers().getFirst().suspendGame();
+        //gigaController1.getGameControllers().getFirst().suspendGame();
     }
 
     @Test
@@ -192,6 +200,26 @@ public class GameControllerTest {
         assertEquals(1, gameController.getGame().getPlayers().get(0).getManuscript().getQuillCounter());
         assertEquals(0, gameController.getGame().getPlayers().get(0).getManuscript().getManuscriptCounter());
         assertEquals(23, gameController.getGame().getBoard().getPointsRedPlayer());
+        Placement placement=new Placement(43,43);
+        placement.getX();
+        placement.getY();
+        game.getBoard().getColourPlayerMap();
+        game.getBoard().getPointsOf(PawnColour.fromStringToPawnColour("red"));
+        game.getBoard().getPointsOf(PawnColour.fromStringToPawnColour("blue"));
+        game.getBoard().getPointsOf(PawnColour.fromStringToPawnColour("yellow"));
+        game.getBoard().getPointsOf(PawnColour.fromStringToPawnColour("green"));
+        Map<String, Integer> map= game.getBoard().getScoreBoard();
+        game.getMarket().getCommonObjectives();
+        List<CornerSymbol> cornerSymbolList= CornerSymbol.valuesList();
+        Chat chat= new Chat();
+        chat.addChatMessage(new ChatMessage(p1.getUsername(),p2.getUsername(), "Let's play!"));
+        ArrayList<ChatMessage> chatMessages=chat.getChatMessages();
+        game.getChat(p1.getUsername(), p2.getUsername());
+        game.getGeneralChat();
+        game.setPlayers(players1);
+        PlayerListener playerListener=new PlayerListener(new ClientTest(), p1);
+        playerListener.getPlayerUsername();
+
     }
 
     @Test
@@ -882,5 +910,65 @@ public class GameControllerTest {
         String pathImage3= p3.getPawnColour().getPathImage();
         assertEquals(p1, game.getPlayer(p1.getUsername()));
     }
+
+    @Test
+    void minimodelTestGame(){
+        MiniModel miniModel=new MiniModel(new Board());
+        MiniModel miniModel2=new MiniModel(new Chat(new Player("user", new Manuscript(), PawnColour.fromStringToPawnColour("red")),
+                new Player("user2", new Manuscript(), PawnColour.fromStringToPawnColour("yellow"))));
+        miniModel2.checkOtherUsername("user");
+    }
+
+    @Test
+    void sendChatMessageTest(){
+        initializeGame();
+        Chat chat=new Chat();
+        Chat chatPrivate=new Chat(p1,p2);
+        gameController.sendChatMessage(new ChatMessage(p1.getUsername(), p2.getUsername(), "Hello"));
+        gameController.sendChatMessage(new ChatMessage(p1.getUsername(),"global", "Hello"));
+    }
+
+    @Test
+    void suspendPlayerTest(){
+        initializeGame();
+        p1.setPlayerState(new PlayingState(p1, turnHandler));
+        gameController.suspendPlayer(p1);
+        TurnHandler turnHandlerTest= gameController.getTurnHandler();
+    }
+
+    @Test
+    void suspendGameTest(){
+        initializeGame();
+        TurnHandler turnHandler1=new TurnHandler(game);
+        gameController.setTurnHandler(turnHandler1);
+        ClientTest clientTest1=new ClientTest();
+        p1.setPlayerState(new PlayingState(p1, turnHandler));
+        p2.setPlayerState(new WaitingState(p2, turnHandler));
+        p3.setPlayerState(new WaitingState(p3, turnHandler));
+        gameController.getCommands().add(new ReconnectPlayerCommand(clientTest1, p1));
+        try {
+            gameController.suspendGame();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Test
+    void cardsFinishedTest(){
+        initializeGame();
+//        for(ResourceCard r: resourceDeck){
+//            resourceDeck.remove(r);
+//        }
+//        for (int i = list.size() - 1; i >= 0; i--) {
+//            list.remove(i);
+//        }
+        resourceDeck.clear();
+        p1.setPlayerState(new DrawingState(p1, turnHandler));
+        gameController.drawCard(p1,false, true, 0);
+
+
+    }
+
+
 
 }

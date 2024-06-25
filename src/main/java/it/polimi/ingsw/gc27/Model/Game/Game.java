@@ -244,13 +244,13 @@ public class Game implements Serializable {
     public ArrayList<StarterCard> getStarterDeck() {
         return starterDeck;
     }
-    /**
-     * Sets the deck containing starter cards
-     * @param starterDeck The ArrayList of StarterCard instances to set as the starter deck
-     */
-    public void setStarterDeck(ArrayList<StarterCard> starterDeck) {
-        this.starterDeck = starterDeck;
-    }
+//    /**
+//     * Sets the deck containing starter cards
+//     * @param starterDeck The ArrayList of StarterCard instances to set as the starter deck
+//     */
+//    public void setStarterDeck(ArrayList<StarterCard> starterDeck) {
+//        this.starterDeck = starterDeck;
+//    } no usages
     /**
      * Gets the deck containing objective cards
      * @return The ArrayList of ObjectiveCard instances representing the objective deck
@@ -259,13 +259,13 @@ public class Game implements Serializable {
         return objectiveDeck;
     }
 
-    /**
-     * Sets the deck containing objective cards
-     * @param objectiveDeck The ArrayList of ObjectiveCard instances to set as the objective deck
-     */
-    public void setObjectiveDeck(ArrayList<ObjectiveCard> objectiveDeck) {
-        this.objectiveDeck = objectiveDeck;
-    }
+//    /**
+//     * Sets the deck containing objective cards
+//     * @param objectiveDeck The ArrayList of ObjectiveCard instances to set as the objective deck
+//     */
+//    public void setObjectiveDeck(ArrayList<ObjectiveCard> objectiveDeck) {
+//        this.objectiveDeck = objectiveDeck;
+//    } no usages
     /**
      * Gets the market
      * @return The Market instance representing the game's market
@@ -290,13 +290,13 @@ public class Game implements Serializable {
         return availablePawns;
     }
 
-    /**
-     * Sets the list of available pawn colors
-     * @param availablePawns The ArrayList of available pawn colors
-     */
-    public void setAvailablePawns(ArrayList<PawnColour> availablePawns) {
-        this.availablePawns = availablePawns;
-    }
+//    /**
+//     * Sets the list of available pawn colors
+//     * @param availablePawns The ArrayList of available pawn colors
+//     */
+//    public void setAvailablePawns(ArrayList<PawnColour> availablePawns) {
+//        this.availablePawns = availablePawns;
+//    } da togliere no usages
 
     /**
      * Gets the board
@@ -306,13 +306,13 @@ public class Game implements Serializable {
         return board;
     }
 
-    /**
-     * Sets the board
-     * @param board The Board instance to set as the game's board
-     */
-    public void setBoard(Board board) {
-        this.board = board;
-    }
+//    /**
+//     * Sets the board
+//     * @param board The Board instance to set as the game's board
+//     */
+//    public void setBoard(Board board) {
+//        this.board = board;
+//    }  no usages
 
     /**
      * Gets the first common objective card
@@ -358,12 +358,12 @@ public class Game implements Serializable {
         return false;
     }
 
-    private boolean checkIfNoMoreFaceUp(ResourceCard[] faceUps){
-        for(int i = 0; i < faceUps.length; i++){
-            if(faceUps[i] != null){
-                return false;
-            }
-        }
-        return true;
-    }
+//    private boolean checkIfNoMoreFaceUp(ResourceCard[] faceUps){
+//        for(int i = 0; i < faceUps.length; i++){
+//            if(faceUps[i] != null){
+//                return false;
+//            }
+//        }
+//        return true;
+//    }    no usages
 }

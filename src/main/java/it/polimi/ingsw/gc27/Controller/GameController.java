@@ -47,11 +47,11 @@ public class GameController implements Serializable {
         this.game = game;
     }
 
-    /**
-     * Default constructor for GameController
-     */
-    public GameController() {
-    }
+//    /**
+//     * Default constructor for GameController
+//     */
+//    public GameController() {
+//    }   no usages
 
     /**
      * Constructor for GameController with game, number of maximum players, game id, and console.
@@ -242,7 +242,7 @@ public class GameController implements Serializable {
 
                     chat = game.getChat(chatMessage.getSender(), chatMessage.getReceiver());
                     chat.addChatMessage(chatMessage);
-
+                    //todo: username corretto
                 }
                 game.notifyObservers(new UpdateChatMessage(chat, game.getPlayer(chatMessage.getSender()), chatMessage.getReceiver()));
             }
@@ -291,6 +291,7 @@ public class GameController implements Serializable {
                 synchronized (this) {
 
                     if (timeConfront - time > MAX_TIME_BEFORE_CLOSING_GAME) {
+                        //todo: non riconnnessione 2 gioc
                         System.out.println("The game: " + id + " has been closed");
                         suspended = false;
                         inMatch = false;
@@ -340,14 +341,15 @@ public class GameController implements Serializable {
     public TurnHandler getTurnHandler() {
         return turnHandler;
     }
+    public void setTurnHandler(TurnHandler turnHandler) {this.turnHandler = turnHandler;}
 
-    /**
-     * Sets the current game
-     * @param game The game
-     */
-    public void setGame(Game game) {
-        this.game = game;
-    }
+//    /**
+//     * Sets the current game
+//     * @param game The game
+//     */
+//    public void setGame(Game game) {
+//        this.game = game;
+//    }    no usages
 
     /**
      * Gets the unique id of the game

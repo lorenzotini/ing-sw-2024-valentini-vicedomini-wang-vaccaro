@@ -93,11 +93,8 @@ public class GigaControllerTest {
     @Test
     public void testRemoveReferences() {
         String username = "testUser";
-        try {
-            clientTest.setUsername(username);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+
+        clientTest.setUsername(username);
         gigaController.getRegisteredUsernames().put(username, clientTest);
         gigaController.removeReferences(clientTest);
         //assertFalse(gigaController.getRegisteredUsernames().containsKey(username));
@@ -188,7 +185,9 @@ public class GigaControllerTest {
     void testWelcomePlayer5(){
         initializeGame();
         clientTest= new ClientTest();
+        clientTest.setNextRead("a");
         clientTest.setNextRead("new");
+        clientTest.setNextRead("6");
         clientTest.setNextRead("2");
         clientTest.setNextRead("User");
         clientTest.setNextRead("BLUE");
@@ -378,6 +377,7 @@ public class GigaControllerTest {
 
     @Test
     public void testGetView() {
+
         gigaController.getRegisteredUsernames().put("testUser", clientTest);
         assertEquals(clientTest, gigaController.getView("testUser"));
     }
@@ -385,11 +385,9 @@ public class GigaControllerTest {
     @Test
     public void testGetUsername() {
         String username = "testUser";
-        try {
-            clientTest.setUsername(username);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+
+        clientTest.setUsername(username);
+
         gigaController.getRegisteredUsernames().put(username, clientTest);
         assertEquals(username, gigaController.getUsername(clientTest));
     }
@@ -406,6 +404,7 @@ public class GigaControllerTest {
     void addCommandToGameControllerTest(){
         initializeGame();
         SendMessageCommand sendMessageCommand=new SendMessageCommand(p1, p2.getUsername(), "hello");
+        assertEquals(sendMessageCommand.getPlayerName(), p1.getUsername());
         gigaController.addCommandToGameController(sendMessageCommand);
         gigaController.getPlayer(p1.getUsername());
     }

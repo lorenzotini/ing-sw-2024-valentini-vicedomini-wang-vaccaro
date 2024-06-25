@@ -75,8 +75,17 @@ class PlayingStateTest {
         Collections.shuffle(goldDeck);
         Collections.shuffle(objectiveDeck);
         */
+
+
     }
 
+
+    @Test
+    void chooceObjState( ){
+        ChooseObjectiveState obj = new ChooseObjectiveState(p1, new TurnHandler(g1));
+        assertEquals(obj.toStringGUI(), "Player State");
+
+    }
     @Test
     void chooseObjectiveCard() {
         initializeGame();

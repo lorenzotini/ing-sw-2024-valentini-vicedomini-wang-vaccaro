@@ -404,7 +404,6 @@ public class Gui implements View {
             serverIsUp = true;
             return;
         }
-        System.out.println("\nOk " + currentController.toString() + string);
         currentController.receiveOk(string);
     }
 
@@ -418,7 +417,6 @@ public class Gui implements View {
     @Override
     public void koAck(String string) {
         if (currentController != null) {
-            System.out.println("\nKo " + currentController.toString() + string);
             currentController.receiveKo(string);
         }
     }
@@ -529,6 +527,10 @@ public class Gui implements View {
      */
     public boolean isServerIsUp() {
         return serverIsUp;
+    }
+
+    public boolean isReconnected() {
+        return isReconnected;
     }
 
 }

@@ -32,7 +32,7 @@ public class ClientHandler implements VirtualView {
     private final GigaController console;
     private final SocketServer server;
     private boolean disconnected = false;
-    private int TIME_COUNT = 100;
+    private int TIME_COUNT = 5;
     // is for the command received
 
     /**
@@ -63,14 +63,14 @@ public class ClientHandler implements VirtualView {
                         try {
                             pingFromServer();
                         } catch (RemoteException e) {
-                            System.out.println("remote exception lol xd");
+                            System.out.println("Remote exception");
                         }
                     }).start();
                 }
             } catch (ClassNotFoundException | InterruptedException | IOException e) {
-                disconnected();
+                System.out.println("Connection problem");
             }
-            while (true) {
+            while (!disconnected) {
                 try {
                     Command command;
                     command = (Command) input.readObject();
@@ -80,9 +80,14 @@ public class ClientHandler implements VirtualView {
                         console.addCommandToGameController(command);
                     }
                 } catch (IOException e) {
-                    disconnected();
+                    System.out.println("Connection problem: in execute command sock");
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException ex) {
+                        throw new RuntimeException(ex);
+                    }
                 } catch (ClassNotFoundException e) {
-                    throw new RuntimeException(e);
+                    System.out.println("Mandato comando sbagliato ");
                 }
             }
         }).start();
@@ -102,8 +107,7 @@ public class ClientHandler implements VirtualView {
             this.output.reset();
             this.output.flush();
         } catch (IOException e) {
-            e.printStackTrace();
-            //TODO this.console.disconnected(this);
+            System.out.println("Disconnessione");
             //this to do will be implemented when the disconnection problem will be solved
         }
     }
@@ -146,7 +150,6 @@ public class ClientHandler implements VirtualView {
 
     @Override
     public void runClient() {
-
     }
 
     /**
@@ -180,7 +183,7 @@ public class ClientHandler implements VirtualView {
             output.reset();
             output.flush();
         } catch (IOException e) {
-            System.out.println("non funziona");
+            System.out.println("Connection problem: update message problem");
         }
     }
 
@@ -201,6 +204,7 @@ public class ClientHandler implements VirtualView {
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
+
             }
         }
     }
@@ -215,7 +219,7 @@ public class ClientHandler implements VirtualView {
     private void verifyPing() throws InterruptedException {
         new Thread(() -> {
             int count = 0;
-            while (count < 5) {
+            while (count <= TIME_COUNT) {
                 if (flag) {
                     count = 0;
                     flag = false;
@@ -225,7 +229,7 @@ public class ClientHandler implements VirtualView {
                         throw new RuntimeException(e);
                     }
                 } else {
-                    System.out.println("ping non ricevuto " + count);
+                    System.out.println("Ping not received " + count);
                     try {
                         Thread.sleep(1000);
                     } catch (InterruptedException e) {
@@ -234,7 +238,7 @@ public class ClientHandler implements VirtualView {
                     count++;
                     if (count == TIME_COUNT) {
                         disconnected();
-                        System.out.println("giocatore socket disconnesso");
+                        System.out.println("Socket player disconnected");
                     }
                 }
 

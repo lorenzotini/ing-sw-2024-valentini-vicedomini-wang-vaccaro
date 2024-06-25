@@ -27,7 +27,7 @@ public class RmiServer implements VirtualServer {
     /**
      * Map of clients and their last ping time.
      */
-    private final Map<VirtualView, Long> clientsPing = new HashMap<>();
+    private final Map<VirtualView, Integer> clientsPing = new HashMap<>();
 
     /**
      * The GigaController instance for handling game logic.
@@ -37,7 +37,7 @@ public class RmiServer implements VirtualServer {
     /**
      * Maximum time in milliseconds a client can be inactive before being considered disconnected.
      */
-    private static final int MAX_PING_TIME = 5000;
+    private static final int MAX_PING_TIME = 5;
 
 
     /**
@@ -71,7 +71,6 @@ public class RmiServer implements VirtualServer {
         }
 
         // Start the thread that checks if the clients are alive
-        new Thread(this::areClientsAlive).start();
         //new Thread(sayYouAreAlive()).start();
 
         // Start the thread that executes the commands
@@ -90,38 +89,46 @@ public class RmiServer implements VirtualServer {
     /**
      * Checks if the clients are alive by pinging them and removes any clients that have not responded within the maximum ping time.
      */
-    public void areClientsAlive() {
-        while (true) {
-            synchronized (clients) {
-                Iterator<VirtualView> iterator = clients.iterator();
-                while (iterator.hasNext()) {
-                    VirtualView client = iterator.next();
-                    if (clientsPing.get(client) == 0) {
-                        clientsPing.put(client, System.currentTimeMillis());
-                    } else if (System.currentTimeMillis() - clientsPing.get(client) > MAX_PING_TIME) {
-                        System.out.println("Timeout for client expired - rmi - " + client);
-                        // Remove all the references to the client
-                        iterator.remove();
-                        console.removeReferences(client);
+    public void areClientsAlive(VirtualView client) {
+
+        new Thread(() -> {
+            while (true) {
+                int actualPing;
+                synchronized (clientsPing) {
+                    actualPing = clientsPing.get(client);
+                }
+                if (actualPing > MAX_PING_TIME) {
+                    System.out.println("Timeout for client expired - rmi - " + client);
+                    // Remove all the references to the client
+                    console.removeReferences(client);
+                    synchronized (clients) {
+                        clients.remove(client);
+                        System.out.println(clients.size());
                     }
-                    new Thread(()->{
-                        try {
-                            client.pingFromServer();
-                        } catch (RemoteException e) {
-//                        iterator.remove();
-//                        console.removeReferences(client);
-                        }
-                    }).start();
+                    break;
+                } else {
+                    synchronized (clientsPing) {
+                        Integer temp = clientsPing.get(client) + 1;
+                        clientsPing.put(client, temp);
+                    }if(actualPing >2 ){
+                        System.out.println("Net error while sending ping: "+ actualPing);
+                    }
+                }
+                new Thread(() -> {
+                    try {
+                        client.pingFromServer();
+                    } catch (RemoteException e) {
+                        System.out.println("Net error while sending ping: "+ actualPing);
+                    }
+                }).start();
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    System.out.println("Explosion of thread sleep");
                 }
             }
+        }).start();
 
-            try {
-                Thread.sleep(1000); // Sleep for 1 second before next check
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt(); // Restore the interrupted status
-                throw new RuntimeException(e);
-            }
-        }
     }
 
     /**
@@ -132,7 +139,7 @@ public class RmiServer implements VirtualServer {
      */
     @Override
     public void receivePing(VirtualView client) throws RemoteException {
-        clientsPing.replace((VirtualView) client, System.currentTimeMillis());
+        clientsPing.put(client, 0);
     }
 
     /**
@@ -145,8 +152,11 @@ public class RmiServer implements VirtualServer {
     public void connect(VirtualView client) throws RemoteException {
         synchronized (this.clients) {
             this.clients.add(client);
-            this.clientsPing.put(client, System.currentTimeMillis());
         }
+        synchronized (clientsPing){
+            clientsPing.put(client, 0);
+        }
+        areClientsAlive(client);
         System.out.println("Client connected - rmi - " + client.toString());
     }
 
@@ -156,7 +166,7 @@ public class RmiServer implements VirtualServer {
      * @param client The client representing the player
      */
     @Override
-    public void welcomePlayer(VirtualView client)  {
+    public void welcomePlayer(VirtualView client) {
         this.console.welcomePlayer(client);
     }
 

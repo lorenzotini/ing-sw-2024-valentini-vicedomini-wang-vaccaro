@@ -19,6 +19,5 @@ public class UpdateEndGameMessage extends Message{
         }catch(RemoteException | NullPointerException e){
             throw new RuntimeException(e);
         }
-        view.showWinners();
     }
 }

@@ -331,8 +331,8 @@ public class Tui implements View {
         synchronized (this) {
             out.println(phrase);
             try {
-                MiniModel miniModel = client.getMiniModel();
                 if (phrase.equals("It's your turn to play")) {
+                    MiniModel miniModel = client.getMiniModel();
                     setupToYourRound(miniModel);
                 }
             } catch (RemoteException e) {

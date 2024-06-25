@@ -39,8 +39,11 @@ public class LoginSceneController extends GenericController {
     public Label customlabel1;
     @FXML
     public Label customlabel2;
+    @FXML
+    public Button sendBackButton;
     private String selectedColour;
     boolean tried = false;
+    private Integer gameId = -1 ;
 
     public void setGameId(String t) {
         try {
@@ -49,7 +52,6 @@ public class LoginSceneController extends GenericController {
             System.out.println("UAU I didn't thought this was possible");
         }
     }
-    Integer gameId = -1 ;
 
 
     public TextArea getGameIDCreated() {
@@ -117,12 +119,10 @@ public class LoginSceneController extends GenericController {
 
     }
 
-    public void sendToLobby() throws IOException {
+    public void sendToLobby() {
         if (selectedColour != null) {
             Gui.getInstance().stringFromSceneController(selectedColour);
-            Gui.getInstance().switchScene("/fxml/LobbyScene.fxml");
         }
-
     }
 
     public void disableOtherButtons(Button button){
@@ -178,6 +178,13 @@ public class LoginSceneController extends GenericController {
                     throw new RuntimeException(e);
                 }
             }
+            if(ackType.equals("okColour")){
+                try {
+                    Gui.getInstance().switchScene("/fxml/LobbyScene.fxml");
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
         });
     }
 
@@ -185,10 +192,35 @@ public class LoginSceneController extends GenericController {
     @Override
     public void receiveKo(String ackType) {
         Platform.runLater(() -> {
-            tried = true;
-            errorUsername.setText("Username not available");
-            errorUsername.setVisible(true);
+            if(ackType.equals("koColour")){
+                if(selectedColour.equals("red")){
+                    redButton.setDisable(true);
+                }
+                if(selectedColour.equals("green")){
+                    greenButton.setDisable(true);
+                }
+                if(selectedColour.equals("blue")){
+                    blueButton.setDisable(true);
+                }
+                if(selectedColour.equals("yellow")){
+                    yellowButton.setDisable(true);
+                }
+            } else {
+                tried = true;
+                errorUsername.setText("Username not available");
+                errorUsername.setVisible(true);
+                if(gameId != -1){
+                    sendBackButton.setDisable(false);
+                }
+            }
         });
 
     }
+
+    @FXML
+    private void goBack() throws IOException {
+        gameId = -1;
+        Gui.getInstance().switchScene(ScenePaths.CHOSEGAME.getValue());
+    }
+
 }

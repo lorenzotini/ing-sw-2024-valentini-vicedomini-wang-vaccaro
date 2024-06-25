@@ -50,7 +50,6 @@ public class ChooseGameSceneController extends GenericController{
      */
     @Override
     public void receiveOk(String ackType) {
-        System.out.println(ackType + "start scene");
         enableNextScene();
     }
 

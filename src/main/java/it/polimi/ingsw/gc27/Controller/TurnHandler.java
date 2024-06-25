@@ -343,7 +343,7 @@ public class TurnHandler implements Serializable {
                 flag = false;
             }
         }
-        if(flag){
+        if(flag && !game.isSuspended()){
             player.setPlayerState(new PlayingState(player, this));
             game.notifyObservers(new UpdatePlayerStateMessage(new MiniModel(player, game)));
         }

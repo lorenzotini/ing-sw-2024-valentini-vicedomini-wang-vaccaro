@@ -78,7 +78,6 @@ public class DrawingState extends PlayerState {
             if(!fromDeck){
                // card = market.getFaceUp(isGold)[faceUpCardIndex];
                 player.getHand().add(card);
-
                 player.setPlayerState(new EndOfTurnState(player, getTurnHandler()));
                 getTurnHandler().notifyEndOfTurnState(getPlayer());
 

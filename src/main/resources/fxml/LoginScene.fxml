@@ -71,7 +71,7 @@
          <font>
             <Font name="Agency FB" size="18.0" />
          </font></TextArea>
-      <Button fx:id="sendUsernameButton1" layoutX="114.0" layoutY="648.0" mnemonicParsing="false" onAction="#sendUsername" prefHeight="46.0" prefWidth="62.0" rotate="180.0" styleClass="selectionbutton" text="➜">
+      <Button fx:id="sendBackButton" disable="true" layoutX="114.0" layoutY="648.0" mnemonicParsing="false" onAction="#goBack" prefHeight="46.0" prefWidth="62.0" rotate="180.0" styleClass="selectionbutton" text="➜">
          <font>
             <Font size="20.0" />
          </font>

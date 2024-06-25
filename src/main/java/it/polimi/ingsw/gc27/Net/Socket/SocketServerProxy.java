@@ -58,6 +58,7 @@ public class SocketServerProxy implements VirtualServer {
             try{
                 Thread.sleep(2000);
             }catch(InterruptedException es){
+                System.out.println("Interrupted Thread");
             }
         }while(true);
         new Thread(() -> {
@@ -115,7 +116,7 @@ public class SocketServerProxy implements VirtualServer {
                     throw new RuntimeException(e);
                 }
             } else {
-                System.out.println("ping non ricevuto " + count);
+                System.out.println("Ping not received: " + count);
                 //TODO togliere questa print poco prima dell'esame, tipo 15 min prima
 
                 try {
@@ -150,9 +151,10 @@ public class SocketServerProxy implements VirtualServer {
                     Thread.sleep(1000);
                     output.writeObject(new PingCommand());
                     output.reset();
-                } catch (IOException | InterruptedException e) {
-                    System.out.println("The server has been disconnected");
-                    break;
+                } catch (IOException e ) {
+                    System.out.println("Probably the server is down: Ping");
+                }catch(InterruptedException e){
+                    System.out.println("Thread exception");
                 }
             }
         }).start();
@@ -163,7 +165,7 @@ public class SocketServerProxy implements VirtualServer {
             try {
                 client.update(message);
             } catch (IOException e) {
-
+                System.out.println("Net problem in local");
             }
         }
     }
@@ -205,6 +207,12 @@ public class SocketServerProxy implements VirtualServer {
             output.reset();
             output.flush();
         } catch (IOException e) {
+            System.out.println("Probably the server is down: receiveCommand");
+            try{
+                Thread.sleep(1000);
+            }catch(InterruptedException ies){
+                System.out.println("Thread exception");
+            }
             //there is a Connection problem, eventually take by the ping System
         }
     }
@@ -234,6 +242,12 @@ public class SocketServerProxy implements VirtualServer {
             try {
                 mess = (Message) input.readObject();
             } catch (IOException e) {
+                System.out.println("Probably the server is down receive Message");
+                try{
+                    Thread.sleep(1000);
+                }catch(InterruptedException ies){
+                    System.out.println("Thread exception");
+                }
                 continue;
             }
             if (mess instanceof PingMessage) {

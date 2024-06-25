@@ -64,20 +64,7 @@ public class GigaController {
             client.show("\nWelcome to Codex Naturalis\n" + "\nDo you want to start a new game or join an existing one? (enter 'new' or the gameId)");
 
             // check if the input is a valid game id or 'new'
-            while (true) {
-                game = client.read();
-                if (game.equalsIgnoreCase("new")) {
-                    break;
-                } else {
-                    try {
-                        Integer.parseInt(game);
-                        break;
-                    } catch (NumberFormatException e) {
-                        client.show("\nInvalid input. Please enter a valid game id or 'new' to start a new game");
-                        client.update(new KoMessage("invalidFormatID"));
-                    }
-                }
-            }
+            game = client.read();
         }catch(IOException e){
             return;
         }

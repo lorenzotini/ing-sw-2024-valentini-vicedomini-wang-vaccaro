@@ -250,6 +250,8 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
             if((this.lastPingFromServer) > TIME_COUNT ){
                 System.out.println("Connection to the server was dropped");
                 close();
+            }else{
+                this.lastPingFromServer++;
             }
             try {
                 Thread.sleep(1000);

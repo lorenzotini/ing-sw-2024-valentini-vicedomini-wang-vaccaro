@@ -33,7 +33,7 @@
             <Font name="Agency FB" size="30.0" />
          </font>
       </Label>
-      <Label fx:id="errorGameID" alignment="CENTER" layoutX="330.0" layoutY="628.0" prefHeight="37.0" prefWidth="875.0" styleClass="errorGameIdLabel" textAlignment="CENTER">
+      <Label fx:id="errorGameID" alignment="CENTER" layoutX="330.0" layoutY="628.0" prefHeight="37.0" prefWidth="875.0" styleClass="errorGameIdLabel" textAlignment="CENTER" visible="false">
          <font>
             <Font name="Agency FB" size="20.0" />
          </font>

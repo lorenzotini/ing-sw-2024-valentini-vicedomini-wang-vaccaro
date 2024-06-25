@@ -105,4 +105,5 @@ public class JoinGameSceneController extends GenericController {
             }
         });
     }
+
 }

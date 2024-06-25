@@ -43,10 +43,30 @@ public class Tui implements View {
         chatters.addFirst("Global");
     }
 
+    private void printHelp(){
+        out.println("╔═══ Commands ══════════════════════════════════╗");
+        out.println("║ " + ColourControl.YELLOW_BOLD + "addstarter" + ColourControl.RESET + " - add a starter card to your board ║");
+        out.println("║ " + ColourControl.YELLOW_BOLD + "chooseobj" + ColourControl.RESET + " - choose an objective card          ║");
+        out.println("║ " + ColourControl.YELLOW_BOLD + "addcard" + ColourControl.RESET + " - add a card to your board            ║");
+        out.println("║ " + ColourControl.YELLOW_BOLD + "draw" + ColourControl.RESET + " - draw a card from the market            ║");
+        out.println("║ " + ColourControl.YELLOW_BOLD + "sendmessage" + ColourControl.RESET + " - send a message in chat          ║");
+        out.println("║ " + ColourControl.YELLOW_BOLD + "help" + ColourControl.RESET + " - print this guide                       ║");
+        out.println("╔═══ Visualize ═════════════════════════════════╗");
+        out.println("║ " + ColourControl.YELLOW_BOLD + "man" + ColourControl.RESET + " - print your manuscript                   ║");
+        out.println("║ " + ColourControl.YELLOW_BOLD + "hand" + ColourControl.RESET + " - print your hand                        ║");
+        out.println("║ " + ColourControl.YELLOW_BOLD + "obj" + ColourControl.RESET + " - print your secret objective             ║");
+        out.println("║ " + ColourControl.YELLOW_BOLD + "market" + ColourControl.RESET + " - print the market                     ║");
+        out.println("║ " + ColourControl.YELLOW_BOLD + "board" + ColourControl.RESET + " - print the players' score board        ║");
+        out.println("║ " + ColourControl.YELLOW_BOLD + "showchat" + ColourControl.RESET + " - show the global or private chat    ║");
+        out.println("╚═══════════════════════════════════════════════╝");
+    }
+
     @Override
     public void run() throws IOException {
 
         showTitle();
+
+        printHelp();
 
         chatters.addAll(client.getMiniModel().getOtherPlayersUsernames());
 
@@ -70,20 +90,7 @@ public class Tui implements View {
             switch (command.toLowerCase()) {
 
                 case "help":
-                    out.println("╔═══ Commands ══════════════════════════════════╗");
-                    out.println("║ " + ColourControl.YELLOW_BOLD + "addstarter" + ColourControl.RESET + " - add a starter card to your board ║");
-                    out.println("║ " + ColourControl.YELLOW_BOLD + "chooseobj" + ColourControl.RESET + " - choose an objective card          ║");
-                    out.println("║ " + ColourControl.YELLOW_BOLD + "addcard" + ColourControl.RESET + " - add a card to your board            ║");
-                    out.println("║ " + ColourControl.YELLOW_BOLD + "draw" + ColourControl.RESET + " - draw a card from the market            ║");
-                    out.println("║ " + ColourControl.YELLOW_BOLD + "sendmessage" + ColourControl.RESET + " - send a message in chat          ║");
-                    out.println("╔═══ Visualize ═════════════════════════════════╗");
-                    out.println("║ " + ColourControl.YELLOW_BOLD + "man" + ColourControl.RESET + " - print your manuscript                   ║");
-                    out.println("║ " + ColourControl.YELLOW_BOLD + "hand" + ColourControl.RESET + " - print your hand                        ║");
-                    out.println("║ " + ColourControl.YELLOW_BOLD + "obj" + ColourControl.RESET + " - print your secret objective             ║");
-                    out.println("║ " + ColourControl.YELLOW_BOLD + "market" + ColourControl.RESET + " - print the market                     ║");
-                    out.println("║ " + ColourControl.YELLOW_BOLD + "board" + ColourControl.RESET + " - print the players' score board        ║");
-                    out.println("║ " + ColourControl.YELLOW_BOLD + "showchat" + ColourControl.RESET + " - show the global or private chat    ║");
-                    out.println("╚═══════════════════════════════════════════════╝");
+                    printHelp();
                     break;
 
                 case "addstarter":

@@ -71,6 +71,6 @@
          <font>
             <Font size="30.0" />
          </font></Label>
-      <Label fx:id="gameIDCreated" alignment="CENTER" layoutX="505.0" layoutY="677.0" prefHeight="38.0" prefWidth="537.0" styleClass="message-label" textAlignment="CENTER" />
+      <Label fx:id="gameIDCreated" alignment="CENTER" layoutX="505.0" layoutY="677.0" prefHeight="38.0" prefWidth="537.0" styleClass="message-label" textAlignment="CENTER" visible="false" />
    </children>
 </AnchorPane>

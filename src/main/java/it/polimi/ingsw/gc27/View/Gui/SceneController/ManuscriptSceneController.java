@@ -228,6 +228,7 @@ public class ManuscriptSceneController extends GenericController {
             VBox chatMessages = new VBox();
             chatContainer.getStyleClass().add("vbox-background");
             chatMessages.getStyleClass().add("vbox-background");
+            chatContent.getStyleClass().add("vbox-background");
             chatContent.setContent(chatMessages); //scrollPane contains Vbox with messages
 
             chatContent.setPrefHeight(400);
@@ -259,6 +260,7 @@ public class ManuscriptSceneController extends GenericController {
 
             chatContainer.getChildren().addAll(chatContent, messageBox);
             chatTab.setContent(chatContainer);
+            chatTab.getStyleClass().add("vbox-background");
             chatTabPane.getTabs().add(chatTab);
 
         }

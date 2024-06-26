@@ -9,6 +9,7 @@ import it.polimi.ingsw.gc27.Net.Commands.SendMessageCommand;
 import it.polimi.ingsw.gc27.View.Gui.ScenePaths;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -42,6 +43,8 @@ public class PlaceStarterCardSceneController extends GenericController{
     public TabPane chatTabPaneStarter;
     @FXML
     public Label gameSuspendedLabel;
+    @FXML
+    public TitledPane chatTitledPane;
 
     //there is a private hashmap for all the scenes where the chat is displayed
     private HashMap<String, Tab> chatTabHashMapP= new HashMap<>();
@@ -62,6 +65,8 @@ public class PlaceStarterCardSceneController extends GenericController{
                 if(i==0) {
                     chatTab.setText("Global");
                     chatTabHashMapP.put("global", chatTab);
+                    chatTab.getStyleClass().add("tab-global");
+                    //chatTab.getStyleClass().add("vbox-background");
                 }
                 else {
                     String myusername = miniModel.getPlayer().getUsername();
@@ -86,23 +91,31 @@ public class PlaceStarterCardSceneController extends GenericController{
                 VBox chatMessages = new VBox();
                 chatMessages.getStyleClass().add("vbox-background");
                 chatContainer.getStyleClass().add("vbox-background");
-                chatContent.setContent(chatMessages); //scrollPane contains Vbox with messages
+                chatContent.getStyleClass().add("vbox-background");
 
-                chatContent.setPrefHeight(400);
+
+                chatContainer.setDisable(true);
+                chatMessages.setDisable(true);
+                chatContainer.setPrefHeight(500);
+                chatContent.setContent(chatMessages); //scrollPane contains Vbox with messages
+                chatContent.setPrefHeight(450);
                 chatContent.setPrefWidth(Region.USE_COMPUTED_SIZE);
                 chatContent.setFitToWidth(true);
                 chatContent.setFitToHeight(true);
+                //chatContainer.getStyleClass().add("tab-pane-chat");
+                //chatContent.getStyleClass().add("tab-pane-chat");
 
                 HBox messageBox = new HBox(); //used for the textField and the button on the bottom
                 TextField sendMessage = new TextField();
 
 
                 Button sendButton = new Button("Send");
-                sendButton.getStyleClass().add("text-field-chat");
+                sendButton.getStyleClass().add("send-button");
                 messageBox.getChildren().addAll(sendMessage, sendButton);
-                messageBox.setSpacing(15);
-                messageBox.setMinHeight(24);
-                messageBox.setMaxHeight(24);
+                messageBox.setSpacing(10);
+                messageBox.setMinHeight(33);
+                messageBox.setMaxHeight(33);
+                messageBox.setPadding(new Insets(5,5,5,5));
 
                 handleOnActionChat(sendButton, sendMessage);
                 handleOnKeyPress(sendMessage);
@@ -114,15 +127,26 @@ public class PlaceStarterCardSceneController extends GenericController{
                 sendMessage.setMinHeight(24);
                 sendMessage.setMaxHeight(24);
                 sendMessage.setMaxWidth(300);
+                sendMessage.getStyleClass().add("text-field-chat");
 
                 // Create a spacer
                 Region spacer = new Region();
                 HBox.setHgrow(spacer, Priority.ALWAYS);
 
                 chatContainer.getChildren().addAll(chatContent, messageBox);
+
                 chatTab.setContent(chatContainer);
+
                 chatTabPaneStarter.getTabs().add(chatTab);
+                //chatTabPaneStarter.getStyleClass().add("tab-pane-chat");
             }
+            //chatTitledPane.getStyleClass().add("titled-pane");
+            chatTitledPane.setOnMouseClicked(event -> {
+                Platform.runLater(() -> {
+                    chatTitledPane.toFront();
+                    //circleChat.setVisible(false);
+                });
+            });
 
     }
 

@@ -23,10 +23,16 @@
     -fx-padding: 5;
 }
 .vbox-background{
-    -fx-background-image: url("../Images/utility/locksreen2.png");
+    -fx-background-image: url("../Images/utility/chat2.png");
+    -fx-background-radius: 15;
+    -fx-background-insets: 0, 1, 2;
+    -fx-border-color: #c48041;
+    -fx-border-width: 2;
 }
 .tab-colour-red{
-    -fx-background-color: rgb(205,92,92)
+    -fx-background-color: rgb(205,92,92);
+    -fx-border-color: rgb(143, 129, 147);
+    -fx-border-radius: 3;
 }
 .tab-colour-green{
     -fx-background-color: rgb(60,179,113)
@@ -37,8 +43,8 @@
 .tab-colour-blue{
     -fx-background-color: rgb(100,149,237)
 }
-.button {
-    -fx-background-color: linear-gradient(180deg, #7c8aff, #3c4fe0);
+.send-button {
+    -fx-background-color: linear-gradient(#7c8aff, #3c4fe0);
     -fx-border-width: 0;
     -fx-border-radius: 20px; /* Ridotto per renderlo più piccolo */
     -fx-background-radius: 20px; /* Ridotto per renderlo più piccolo */
@@ -47,16 +53,64 @@
     -fx-text-fill: #ffffff;
     -fx-cursor: hand;
     -fx-padding: 4px 12px; /* Ridotto per rendere il pulsante più piccolo */
-    -fx-max-height: 20px; /* Ridotto per l'altezza massima */
+    -fx-max-height: 27px; /* Ridotto per l'altezza massima */
     -fx-effect: dropshadow(gaussian, rgba(37, 44, 97, 0.15), 4, 0, 0, 4),
     dropshadow(gaussian, rgba(93, 100, 148, 0.20), 1, 0, 0, 1);
     -fx-transition: all 0.2s ease-out;
 }
 
-.button:hover {
+.send-button:hover {
     -fx-effect: dropshadow(gaussian, rgba(37, 44, 97, 0.15), 8, 0, 0, 8),
     dropshadow(gaussian, rgba(93, 100, 148, 0.20), 4, 0, 0, 4);
 }
+.text-field-chat{
+    -fx-background-color: ivory;
+    -fx-background-radius: 7;
+    -fx-padding: 5;
+}
+
+/*.tab-pane-chat{
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-border-radius: 15;
+    -fx-background-radius: 15;
+    -fx-background-insets: 0, 1, 2;
+}
+.tab-pane-chat .tab-header-area {
+    -fx-background-color: transparent;
+    -fx-background-radius: 15 15 0 0;
+    -fx-border-radius: 15 15 0 0;
+    -fx-background-insets: 0, 1, 2;
+}*/
+.tab-global {
+    -fx-background-color: orange;
+    -fx-border-color: rgb(143, 129, 147);
+    -fx-border-radius: 3;
+}
+ /* .tab-pane-chat .tab-header-area.tab-header-background {
+    -fx-background-color: transparent;
+    -fx-background-radius: 15 15 15 15;
+}
+/*
+.tab-pane-chat .tab-content-area {
+    -fx-background-color: transparent;
+    -fx-background-radius: 0 0 15 15;
+    -fx-b    -fx-background-insets: 0, 1, 2;
+order-radius: 0 0 15 15;
+}*/
+
+.titled-pane > .title
+{
+    -fx-background-color: -fx-box-border, -fx-inner-border, ivory;
+    -fx-background-insets: 0, 1, 2;
+    -fx-background-radius: 5 5 5 5, 4 4 4 4, 3 3 3 3;
+    -fx-padding: 0.166667em 0.833333em 0.25em 0.833333em; /* 2 10 3 10 */
+    -fx-pref-width: 150;
+}
+/*.titled-pane{
+    -fx-background-color: transparent;
+}*/
+
 
 
 

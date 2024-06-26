@@ -94,3 +94,16 @@
     -fx-background: transparent;
     -fx-background-color: rgba(255, 255, 255, 0.5);
 }
+
+.suspended-game{
+    -fx-background-color: ivory;
+    -fx-background-size: cover;
+    -fx-font-size: 30px;
+    -fx-font-weight: bold;
+    -fx-font-family: "Agency FB";
+    -fx-background-radius: 12;
+    -fx-pref-width: 500;
+    -fx-pref-height: 100;
+    -fx-alignment: center;
+    -fx-text-alignment: center;
+}

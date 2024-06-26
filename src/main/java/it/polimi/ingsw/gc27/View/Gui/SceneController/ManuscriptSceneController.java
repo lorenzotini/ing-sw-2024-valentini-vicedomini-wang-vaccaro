@@ -42,6 +42,8 @@ import java.util.Optional;
 public class ManuscriptSceneController extends GenericController {
 
     @FXML
+    private AnchorPane anchorPane;
+    @FXML
     public TextFlow feedbackTextFlow;
     @FXML
     public Text actionFeedback;
@@ -73,8 +75,9 @@ public class ManuscriptSceneController extends GenericController {
     private TabPane chatTabPane;
     @FXML
     private TitledPane chatTitledPane;
-    private final HashMap<Integer, Point> position = new HashMap<>();
 
+    private TextFlow suspendedGameTextFlow;
+    private final HashMap<Integer, Point> position = new HashMap<>();
     private final int CARD_WIDTH = 150;
     private final int CARD_HEIGHT = 100;
 
@@ -497,7 +500,6 @@ public class ManuscriptSceneController extends GenericController {
             System.out.println("\nFEEDBACK " + feedback);
             actionFeedback.setText(feedback);
             feedbackTextFlow.setTextAlignment(TextAlignment.RIGHT);
-
         });
     }
 
@@ -885,17 +887,29 @@ public class ManuscriptSceneController extends GenericController {
             errorText.getStyleClass().add("labelError");
             errorText.setText("The game can resume");
             errorPane.setVisible(true);
+            removeSuspendedMessage();
         });
     }
 
     @Override
     public void suspendeGame() {
         Platform.runLater(()->{
-            errorPane.setTextAlignment(TextAlignment.CENTER);
-            errorText.getStyleClass().add("labelError");
+            suspendedGameTextFlow = new TextFlow();
+            Text suspendedGameText = new Text("The game has been suspended: if no one rejoins the game will end in about a minute.");
+            suspendedGameTextFlow.getChildren().add(suspendedGameText);
+            anchorPane.getChildren().add(suspendedGameTextFlow);
+            suspendedGameTextFlow.toFront();
+            suspendedGameTextFlow.setTextAlignment(TextAlignment.CENTER);
+            suspendedGameTextFlow.getStyleClass().add("suspended-game");
+            AnchorPane.setTopAnchor(suspendedGameTextFlow, 370.0);
+            AnchorPane.setBottomAnchor(suspendedGameTextFlow, 370.0);
+            AnchorPane.setLeftAnchor(suspendedGameTextFlow, 290.0);
+            AnchorPane.setRightAnchor(suspendedGameTextFlow, 290.0);
             System.out.println("The game has been suspended");
-            errorText.setText("The game has been suspended: if no one rejoins, then the game will end in about a minute.");
-            errorPane.setVisible(true);
         });
+    }
+
+    private void removeSuspendedMessage(){
+        anchorPane.getChildren().remove(suspendedGameTextFlow);
     }
 }

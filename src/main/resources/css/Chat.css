@@ -93,11 +93,12 @@
 }
 */
 .tab-pane-chat  {
-    /*-fx-background-color: red;*/
-    -fx-background-radius: 15;
+    -fx-background-color: transparent;
+    -fx-background-radius: 0;
     -fx-background-insets: 0, 1, 2;
-    -fx-border-radius: 15;
-    /*-fx-border-color: blue;*/
+    -fx-border-radius: 3;
+    -fx-border-color: maroon;
+    -fx-border-width: 3;
 }
 
 .titled-pane > .title
@@ -108,7 +109,7 @@
     -fx-padding: 0.166667em 0.833333em 0.25em 0.833333em; /* 2 10 3 10 */
     -fx-max-width: 150;
 }
-.titled-pane{
+/*.titled-pane{
     -fx-background-color: transparent;
     -fx-background-radius: 15;
     -fx-background-insets: 0, 1, 2;

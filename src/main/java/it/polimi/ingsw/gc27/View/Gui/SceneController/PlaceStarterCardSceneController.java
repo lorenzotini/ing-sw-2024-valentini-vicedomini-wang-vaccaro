@@ -42,8 +42,6 @@ public class PlaceStarterCardSceneController extends GenericController{
     public Label gameSuspendedLabel;
     @FXML
     public TitledPane chatTitledPane;
-    @FXML
-    public AnchorPane chatAnchorPane;
 
     //there is a private hashmap for all the scenes where the chat is displayed
     private HashMap<String, Tab> chatTabHashMapP= new HashMap<>();
@@ -101,8 +99,6 @@ public class PlaceStarterCardSceneController extends GenericController{
                 chatContent.setPrefWidth(Region.USE_COMPUTED_SIZE);
                 chatContent.setFitToWidth(true);
                 chatContent.setFitToHeight(true);
-                //chatContainer.getStyleClass().add("tab-pane-chat");
-                //chatContent.getStyleClass().add("tab-pane-chat");
 
                 HBox messageBox = new HBox(); //used for the textField and the button on the bottom
                 TextField sendMessage = new TextField();
@@ -133,19 +129,12 @@ public class PlaceStarterCardSceneController extends GenericController{
                 HBox.setHgrow(spacer, Priority.ALWAYS);
 
                 chatContainer.getChildren().addAll(chatContent, messageBox);
-
-                //chatTitledPane.setStyle("-fx-border-color: maroon; -fx-background-radius: 15; -fx-border-radius: 10; ");
-                //chatAnchorPane.setStyle("-fx-border-color: maroon; -fx-background-radius: 15; -fx-border-radius: 15; -fx-border-width: 10");
-
-                //chatContent.setStyle("-fx-border-color: maroon; -fx-background-radius: 15; -fx-border-radius: 15;");
-                //messageBox.setStyle("-fx-border-color: maroon; -fx-background-radius: 15; -fx-border-radius: 15;");
-                //chatContainer.setStyle("-fx-border-color: maroon; -fx-background-radius: 15; -fx-border-radius: 15; ");
                 chatTab.setContent(chatContainer);
 
                 chatTabPaneStarter.getTabs().add(chatTab);
                 chatTabPaneStarter.getStyleClass().add("tab-pane-chat");
+
             }
-            //chatTitledPane.getStyleClass().add("titled-pane");
 
             chatTitledPane.setOnMouseClicked(event -> {
                 Platform.runLater(() -> {

@@ -10,16 +10,36 @@ import it.polimi.ingsw.gc27.View.View;
 
 import java.rmi.RemoteException;
 
+/**
+ * The UpdateChatMessage class represents a message updating the chat state
+ * It extends the {@link Message} class
+ */
 public class UpdateChatMessage extends Message {
 
+    /**
+     * constructor matching super {@link Message}
+     * @param chat global chat message
+     */
     public UpdateChatMessage(Chat chat) {
         super(new MiniModel(chat));
     }
 
+    /**
+     * constructor matching super {@link Message}
+     * @param chat private chat message
+     * @param player player sender
+     * @param receiver player receiver
+     */
     public UpdateChatMessage(Chat chat, Player player, String receiver) {
         super(new MiniModel(chat, player, receiver));
     }
 
+    /**
+     * Reports the update to the specified VirtualView and View
+     * This method updates the chat state on the client side and displays it on the associated View
+     * @param client The VirtualView to report the update to.
+     * @param view The View to report the update to.
+     */
     @Override
     public void reportUpdate(VirtualView client, View view) {
 
@@ -34,12 +54,6 @@ public class UpdateChatMessage extends Message {
                 client.getMiniModel().getChats().remove(chat2);
                 client.getMiniModel().getChats().add(this.getMiniModel().getChats().getFirst());
                 view.show(client.getMiniModel().getChats().getLast());
-                //            for (ChatMessage mess : client.getMiniModel().getChats().getLast().getChatMessages()){
-//                System.out.println("Sender:" + mess.getSender() + "\n");
-//                System.out.println("Receiver:" + mess.getReceiver() + "\n");
-//                System.out.println(mess.getContent() + "\n");
-//            }
-
             }
         } catch (RemoteException e) {
             throw new RuntimeException();

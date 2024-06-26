@@ -3,6 +3,7 @@ package it.polimi.ingsw.gc27.View.Gui.SceneController;
 import it.polimi.ingsw.gc27.Model.ClientClass.ClientChat;
 import it.polimi.ingsw.gc27.Model.ClientClass.MiniModel;
 import it.polimi.ingsw.gc27.View.Gui.Gui;
+import it.polimi.ingsw.gc27.View.Gui.MainApp;
 import it.polimi.ingsw.gc27.View.Gui.ScenePaths;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -60,6 +61,7 @@ public class StarterSceneController extends GenericController{
         ChooseGameSceneController chooseGameSceneController = (ChooseGameSceneController) Gui.getInstance().getControllerFromName(ScenePaths.CHOSEGAME.getValue());
         chooseGameSceneController.init();
         Gui.getInstance().switchScene("/fxml/ChooseGameScene.fxml");
+        MainApp.startMusic("/music/CoC_main_theme.mp3", true);
     }
 
 }

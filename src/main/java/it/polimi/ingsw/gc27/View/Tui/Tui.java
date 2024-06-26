@@ -1,5 +1,6 @@
 package it.polimi.ingsw.gc27.View.Tui;
 
+import it.polimi.ingsw.gc27.Commands.*;
 import it.polimi.ingsw.gc27.Model.Card.*;
 import it.polimi.ingsw.gc27.Model.Card.ObjectiveCard.ObjectiveCard;
 import it.polimi.ingsw.gc27.Model.ClientClass.*;

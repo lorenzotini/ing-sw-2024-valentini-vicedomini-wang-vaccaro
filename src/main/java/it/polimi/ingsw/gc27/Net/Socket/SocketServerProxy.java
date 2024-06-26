@@ -1,8 +1,8 @@
 package it.polimi.ingsw.gc27.Net.Socket;
 
 import it.polimi.ingsw.gc27.Messages.*;
-import it.polimi.ingsw.gc27.Net.Commands.Command;
-import it.polimi.ingsw.gc27.Net.Commands.PingCommand;
+import it.polimi.ingsw.gc27.Commands.Command;
+import it.polimi.ingsw.gc27.Commands.PingCommand;
 import it.polimi.ingsw.gc27.Net.VirtualServer;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.gc27.Net;
 
-import it.polimi.ingsw.gc27.Net.Commands.Command;
+import it.polimi.ingsw.gc27.Commands.Command;
 
 import java.io.IOException;
 import java.rmi.Remote;

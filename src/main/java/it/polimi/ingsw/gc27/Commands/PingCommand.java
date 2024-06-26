@@ -1,8 +1,6 @@
-package it.polimi.ingsw.gc27.Net.Commands;
+package it.polimi.ingsw.gc27.Commands;
 
 import it.polimi.ingsw.gc27.Controller.GameController;
-
-import java.io.IOException;
 
 public class PingCommand implements Command {
     @Override

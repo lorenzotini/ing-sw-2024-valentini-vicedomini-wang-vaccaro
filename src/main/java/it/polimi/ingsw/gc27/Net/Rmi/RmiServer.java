@@ -1,7 +1,7 @@
 package it.polimi.ingsw.gc27.Net.Rmi;
 
 import it.polimi.ingsw.gc27.Controller.GigaController;
-import it.polimi.ingsw.gc27.Net.Commands.Command;
+import it.polimi.ingsw.gc27.Commands.Command;
 import it.polimi.ingsw.gc27.Net.VirtualServer;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 

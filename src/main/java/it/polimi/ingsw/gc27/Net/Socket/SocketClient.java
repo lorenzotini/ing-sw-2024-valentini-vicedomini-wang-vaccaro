@@ -2,14 +2,12 @@ package it.polimi.ingsw.gc27.Net.Socket;
 
 import it.polimi.ingsw.gc27.Messages.Message;
 import it.polimi.ingsw.gc27.Model.ClientClass.MiniModel;
-import it.polimi.ingsw.gc27.Net.Commands.Command;
-import it.polimi.ingsw.gc27.Net.VirtualServer;
+import it.polimi.ingsw.gc27.Commands.Command;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 import it.polimi.ingsw.gc27.View.View;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
-import java.util.Scanner;
 
 /**
  * The RmiClient class implements the VirtualView interface and represents the client in the RMI network.

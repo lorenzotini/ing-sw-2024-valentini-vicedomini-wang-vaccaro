@@ -1,11 +1,9 @@
-package it.polimi.ingsw.gc27.Net.Commands;
+package it.polimi.ingsw.gc27.Commands;
 
 import it.polimi.ingsw.gc27.Controller.GameController;
 import it.polimi.ingsw.gc27.Model.Card.Face;
 import it.polimi.ingsw.gc27.Model.Card.StarterCard;
 import it.polimi.ingsw.gc27.Model.Game.Player;
-
-import java.io.IOException;
 
 public class AddStarterCommand implements Command {
 

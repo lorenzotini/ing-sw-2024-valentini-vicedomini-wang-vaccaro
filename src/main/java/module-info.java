@@ -6,6 +6,7 @@ module it.polimi.ingsw.gc27 {
     requires json.simple;
     requires java.rmi;
     requires java.desktop;
+    requires javafx.media;
 
     opens it.polimi.ingsw.gc27 to javafx.fxml;
     exports it.polimi.ingsw.gc27.Model.Enumerations;

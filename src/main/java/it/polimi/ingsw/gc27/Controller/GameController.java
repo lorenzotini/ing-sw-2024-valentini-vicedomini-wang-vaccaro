@@ -38,7 +38,7 @@ public class GameController implements Serializable {
     private long time;
     private boolean inMatch;
     private boolean suspended;
-    private static final int MAX_TIME_BEFORE_CLOSING_GAME = 10000; //in milliseconds
+    private static final int MAX_TIME_BEFORE_CLOSING_GAME = 60000; //in milliseconds
 
     /**
      * Constructor for the GameController with a game instance

@@ -385,6 +385,7 @@ public class Tui implements View {
             out.println(showMarket(miniModel.getMarket()));
             out.println(showManuscript(miniModel.getManuscript()));
             out.println(showHand(miniModel.getHand()));
+            out.print("> ");
         }
     }
 

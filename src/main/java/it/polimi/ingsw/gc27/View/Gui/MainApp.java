@@ -41,18 +41,20 @@ public class MainApp extends Application {
     }
 
     public static void startMusic(String path, boolean playInLoop){
-        String musicFile = path;
-        Media sound = new Media(MainApp.class.getResource(musicFile).toExternalForm());
-        MediaPlayer mediaPlayer = new MediaPlayer(sound);
-        mediaPlayer.play();
-        if(playInLoop){
-            mediaPlayer.setAutoPlay(true);
-            mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
-            mediaPlayer.setOnEndOfMedia(() -> {
-                mediaPlayer.seek(Duration.ZERO);
-                mediaPlayer.play();
-            });
-        }
+        new Thread(() -> {
+            String musicFile = path;
+            Media sound = new Media(MainApp.class.getResource(musicFile).toExternalForm());
+            MediaPlayer mediaPlayer = new MediaPlayer(sound);
+            mediaPlayer.play();
+            if (playInLoop) {
+                mediaPlayer.setAutoPlay(true);
+                mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+                mediaPlayer.setOnEndOfMedia(() -> {
+                    mediaPlayer.seek(Duration.ZERO);
+                    mediaPlayer.play();
+                });
+            }
+        }).start();
     }
 
 }

@@ -16,7 +16,7 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.text.TextFlow?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="780.0" prefWidth="1535.0" styleClass="anchorpane" stylesheets="@../css/ManuscriptScene.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.gc27.View.Gui.SceneController.ManuscriptSceneController">
+<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="780.0" prefWidth="1535.0" styleClass="anchorpane" stylesheets="@../css/ManuscriptScene.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.gc27.View.Gui.SceneController.ManuscriptSceneController">
    <children>
       <Pane layoutX="1015.0" layoutY="186.0" prefHeight="440.0" prefWidth="142.0" styleClass="counterbox" />
       <VBox fx:id="counters" layoutX="1094.0" layoutY="190.0" prefHeight="452.0" prefWidth="63.0" />
@@ -26,8 +26,8 @@
             <Image url="@../Images/utility/plateau_score.jpg" />
          </image>
       </ImageView>
-      <TabPane fx:id="manuscriptTabPane" layoutX="35.0" layoutY="194.0" prefHeight="429.0" prefWidth="971.0" style="-fx-background-color: red;" styleClass="gridpane" tabClosingPolicy="UNAVAILABLE" />
-      <TitledPane fx:id="chatTitledPane" expanded="false" layoutX="1169.0" layoutY="46.0" prefHeight="717.0" prefWidth="354.0" text="Chat">
+      <TabPane fx:id="manuscriptTabPane" layoutX="35.0" layoutY="194.0" prefHeight="429.0" prefWidth="971.0" tabClosingPolicy="UNAVAILABLE" />
+      <TitledPane fx:id="chatTitledPane" expanded="false" layoutX="1169.0" layoutY="46.0" prefHeight="717.0" prefWidth="354.0" stylesheets="@../css/Chat.css" text="Chat">
 
          <content>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="352.0">
@@ -131,7 +131,6 @@
          <RowConstraints maxHeight="100.0" minHeight="0.0" prefHeight="4.0" valignment="CENTER" />
          <RowConstraints maxHeight="100.0" minHeight="0.0" prefHeight="4.0" valignment="CENTER" />
       </rowConstraints></GridPane>
-      <Pane fx:id="feedbackPane" layoutX="1028.0" layoutY="14.0" prefHeight="26.0" prefWidth="494.0" />
       <TextFlow fx:id="errorPane" layoutX="828.0" layoutY="660.0" prefHeight="86.0" prefWidth="211.0" textAlignment="CENTER">
          <children>
             <Text fx:id="errorText" strokeType="OUTSIDE" strokeWidth="0.0">

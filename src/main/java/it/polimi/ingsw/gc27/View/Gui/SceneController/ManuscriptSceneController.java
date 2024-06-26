@@ -23,6 +23,7 @@ import it.polimi.ingsw.gc27.View.Gui.Gui;
 import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -40,7 +41,7 @@ import java.util.*;
 public class ManuscriptSceneController extends GenericController {
 
     @FXML
-    public Pane feedbackPane;
+    private AnchorPane anchorPane;
     @FXML
     public TextFlow feedbackTextFlow;
     @FXML
@@ -73,8 +74,9 @@ public class ManuscriptSceneController extends GenericController {
     private TabPane chatTabPane;
     @FXML
     private TitledPane chatTitledPane;
-    private final HashMap<Integer, Point> position = new HashMap<>();
 
+    private TextFlow suspendedGameTextFlow;
+    private final HashMap<Integer, Point> position = new HashMap<>();
     private final int CARD_WIDTH = 150;
     private final int CARD_HEIGHT = 100;
 
@@ -117,6 +119,7 @@ public class ManuscriptSceneController extends GenericController {
         chatInitManuscript();
 
         // populate manuscripts
+        manuscriptTabPane.getStyleClass().add("manuscript");
         for (Map.Entry<String, ClientManuscript> element : miniModel.getManuscriptsMap().entrySet()) {
             overwriteManuscript(miniModel, element.getKey(), true);
         }
@@ -200,6 +203,7 @@ public class ManuscriptSceneController extends GenericController {
             if (i == 0) {
                 chatTab.setText("Global");
                 chatTabHashMap.put("global", chatTab);
+                chatTab.getStyleClass().add("tab-global");
             } else {
                 String myusername = miniModel.getPlayer().getUsername();
                 String username = miniModel.getChats().get(i).getChatters().stream()
@@ -226,7 +230,9 @@ public class ManuscriptSceneController extends GenericController {
             ScrollPane chatContent = new ScrollPane();
             chatContent.setFitToHeight(true);
             VBox chatMessages = new VBox();
+            chatContainer.getStyleClass().add("vbox-background");
             chatMessages.getStyleClass().add("vbox-background");
+            chatContent.getStyleClass().add("vbox-background");
             chatContent.setContent(chatMessages); //scrollPane contains Vbox with messages
 
             chatContent.setPrefHeight(400);
@@ -238,8 +244,12 @@ public class ManuscriptSceneController extends GenericController {
             TextField sendMessage = new TextField();
 
             Button sendButton = new Button("Send");
+            sendButton.getStyleClass().add("send-button");
             messageBox.getChildren().addAll(sendMessage, sendButton);
-            messageBox.setSpacing(20);
+            messageBox.setSpacing(10);
+            messageBox.setMinHeight(33);
+            messageBox.setMaxHeight(33);
+            messageBox.setPadding(new Insets(5,5,5,5));
             handleOnActionChat(sendButton, sendMessage);
             handleOnKeyPress(sendMessage);
             sendMessage.setPromptText("Write your message here...");
@@ -251,6 +261,10 @@ public class ManuscriptSceneController extends GenericController {
             // Set HBox growth for sendMessage
             HBox.setHgrow(sendMessage, Priority.ALWAYS);
             sendMessage.setMaxWidth(300);
+            sendMessage.setMinHeight(24);
+            sendMessage.setMaxHeight(24);
+            sendMessage.getStyleClass().add("text-field-chat");
+
 
             // Create a spacer
             Region spacer = new Region();
@@ -259,6 +273,7 @@ public class ManuscriptSceneController extends GenericController {
             chatContainer.getChildren().addAll(chatContent, messageBox);
             chatTab.setContent(chatContainer);
             chatTabPane.getTabs().add(chatTab);
+            chatTabPane.getStyleClass().add("tab-pane-chat-manuscript");
 
         }
 
@@ -494,7 +509,6 @@ public class ManuscriptSceneController extends GenericController {
 
             actionFeedback.setText(feedback);
             feedbackTextFlow.setTextAlignment(TextAlignment.RIGHT);
-
         });
     }
 
@@ -555,9 +569,10 @@ public class ManuscriptSceneController extends GenericController {
 
             ScrollPane newManuscriptScrollPane = new ScrollPane();
 
+            newManuscriptScrollPane.getStyleClass().add("manuscript");
             newManuscriptScrollPane.setContent(grid);
-            newManuscriptScrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
-            newManuscriptScrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+            newManuscriptScrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+            newManuscriptScrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
             newManuscriptScrollPane.setFitToWidth(true);
             newManuscriptScrollPane.setFitToHeight(true);
             newManuscriptScrollPane.setHvalue(0.5);
@@ -565,7 +580,11 @@ public class ManuscriptSceneController extends GenericController {
 
             handleZoom(newManuscriptScrollPane, grid);
 
-            manuscriptTabPane.getTabs().add(new Tab(element.getKey(), newManuscriptScrollPane));
+            Tab newTab = new Tab(element.getKey(), newManuscriptScrollPane);
+            newTab.getStyleClass().add("manuscript-tab");
+
+            manuscriptTabPane.getTabs().add(newTab);
+
         }
     }
 
@@ -884,17 +903,29 @@ public class ManuscriptSceneController extends GenericController {
             errorText.getStyleClass().add("labelError");
             errorText.setText("The game can resume");
             errorPane.setVisible(true);
+            removeSuspendedMessage();
         });
     }
 
     @Override
     public void suspendeGame() {
         Platform.runLater(()->{
-            errorPane.setTextAlignment(TextAlignment.CENTER);
-            errorText.getStyleClass().add("labelError");
+            suspendedGameTextFlow = new TextFlow();
+            Text suspendedGameText = new Text("The game has been suspended: if no one rejoins the game will end in about a minute.");
+            suspendedGameTextFlow.getChildren().add(suspendedGameText);
+            anchorPane.getChildren().add(suspendedGameTextFlow);
+            suspendedGameTextFlow.toFront();
+            suspendedGameTextFlow.setTextAlignment(TextAlignment.CENTER);
+            suspendedGameTextFlow.getStyleClass().add("suspended-game");
+            AnchorPane.setTopAnchor(suspendedGameTextFlow, 370.0);
+            AnchorPane.setBottomAnchor(suspendedGameTextFlow, 370.0);
+            AnchorPane.setLeftAnchor(suspendedGameTextFlow, 290.0);
+            AnchorPane.setRightAnchor(suspendedGameTextFlow, 290.0);
             System.out.println("The game has been suspended");
-            errorText.setText("The game has been suspended");
-            errorPane.setVisible(true);
         });
+    }
+
+    private void removeSuspendedMessage(){
+        anchorPane.getChildren().remove(suspendedGameTextFlow);
     }
 }

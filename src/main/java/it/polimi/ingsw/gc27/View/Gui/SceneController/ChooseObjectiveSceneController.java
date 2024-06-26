@@ -11,6 +11,7 @@ import it.polimi.ingsw.gc27.View.Gui.ScenePaths;
 import it.polimi.ingsw.gc27.View.Gui.Gui;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -51,6 +52,8 @@ public class ChooseObjectiveSceneController extends GenericController {
     public TabPane chatTabPane;
     @FXML
     public Label gameSuspendedLabel;
+    @FXML
+    public TitledPane chatTitledPane;
     //there is a private hashmap for all the scenes where the chat is displayed
 
     /** maps the username of the other player  of the chat and the correspondent tab
@@ -79,6 +82,7 @@ public class ChooseObjectiveSceneController extends GenericController {
             if (i == 0) {
                 chatTab.setText("Global");
                 chatTabHashMapC.put("global", chatTab);
+                chatTab.getStyleClass().add("tab-global");
             } else {
                 String myusername = miniModel.getPlayer().getUsername();
                 String username = miniModel.getChats().get(i).getChatters().stream()
@@ -104,8 +108,10 @@ public class ChooseObjectiveSceneController extends GenericController {
             ScrollPane chatContent = new ScrollPane();
             VBox chatMessages = new VBox();
             chatMessages.getStyleClass().add("vbox-background");
-            chatContent.setContent(chatMessages); //scrollPane contains Vbox with messages
+            chatContainer.getStyleClass().add("vbox-background");
+            chatContent.getStyleClass().add("vbox-background");
 
+            chatContent.setContent(chatMessages); //scrollPane contains Vbox with messages
             chatContent.setPrefHeight(400);
             chatContent.setPrefWidth(Region.USE_COMPUTED_SIZE);
             chatContent.setFitToWidth(true);
@@ -115,8 +121,12 @@ public class ChooseObjectiveSceneController extends GenericController {
             TextField sendMessage = new TextField();
 
             Button sendButton = new Button("Send");
+            sendButton.getStyleClass().add("send-button");
             messageBox.getChildren().addAll(sendMessage, sendButton);
-            messageBox.setSpacing(20);
+            messageBox.setSpacing(10);
+            messageBox.setMinHeight(33);
+            messageBox.setMaxHeight(33);
+            messageBox.setPadding(new Insets(5,5,5,5));
             handleOnActionChat(sendButton, sendMessage);
             handleOnKeyPress(sendMessage);
 
@@ -124,7 +134,10 @@ public class ChooseObjectiveSceneController extends GenericController {
 
             // Set HBox growth for sendMessage
             HBox.setHgrow(sendMessage, Priority.ALWAYS);
+            sendMessage.setMinHeight(24);
+            sendMessage.setMaxHeight(24);
             sendMessage.setMaxWidth(300);
+            sendMessage.getStyleClass().add("text-field-chat");
 
             // Create a spacer
             Region spacer = new Region();
@@ -133,8 +146,15 @@ public class ChooseObjectiveSceneController extends GenericController {
             chatContainer.getChildren().addAll(chatContent, messageBox);
             chatTab.setContent(chatContainer);
             chatTabPane.getTabs().add(chatTab);
+            chatTabPane.getStyleClass().add("tab-pane-chat");
 
         }
+        chatTitledPane.setOnMouseClicked(event -> {
+            Platform.runLater(() -> {
+                chatTitledPane.toFront();
+                //circleChat.setVisible(false);
+            });
+        });
 
     }
 

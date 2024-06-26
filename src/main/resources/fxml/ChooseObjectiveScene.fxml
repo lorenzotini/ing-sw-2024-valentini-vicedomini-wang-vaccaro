@@ -3,6 +3,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -11,11 +12,11 @@
 
 <AnchorPane prefHeight="780.0" prefWidth="1535.0" styleClass="anchorpane" stylesheets="@../css/ChooseObjectiveScene.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.gc27.View.Gui.SceneController.ChooseObjectiveSceneController">
    <children>
-      <ImageView fx:id="obj1" fitHeight="200.0" fitWidth="300.0" layoutX="217.0" layoutY="413.0" pickOnBounds="true" preserveRatio="true" styleClass="objectivecard1">
+      <ImageView fx:id="obj1" fitHeight="200.0" fitWidth="300.0" layoutX="217.0" layoutY="413.0" pickOnBounds="true" preserveRatio="true" style="-fx-effect: dropshadow(gaussian, rgba(90, 90, 90, 1.0), 20, 0.5, 0, 0);;" styleClass="objectivecard1">
          <image>
             <Image url="@../Images/cards/card101_back.png" />
          </image></ImageView>
-      <ImageView fx:id="obj2" fitHeight="200.0" fitWidth="300.0" layoutX="1019.0" layoutY="413.0" pickOnBounds="true" preserveRatio="true" styleClass="objectivecard1">
+      <ImageView fx:id="obj2" fitHeight="200.0" fitWidth="300.0" layoutX="1019.0" layoutY="413.0" pickOnBounds="true" preserveRatio="true" style="-fx-effect: dropshadow(gaussian, rgba(90, 90, 90, 1.0), 20, 0.5, 0, 0);;" styleClass="objectivecard1">
          <image>
             <Image url="@../Images/cards/card101_back.png" />
          </image></ImageView>
@@ -27,7 +28,7 @@
          <font>
             <Font name="Agency FB" size="24.0" />
          </font></Button>
-      <Pane layoutX="562.0" layoutY="54.0" prefHeight="275.0" prefWidth="415.0">
+      <Pane layoutX="562.0" layoutY="74.0" prefHeight="275.0" prefWidth="415.0">
          <children>
             <ImageView fitHeight="275.0" fitWidth="415.0" pickOnBounds="true" preserveRatio="true" styleClass="customlabel" />
             <Label layoutX="231.0" layoutY="147.0" prefHeight="33.0" prefWidth="110.0" text="Choose your">
@@ -44,12 +45,20 @@
       </Pane>
       <ImageView fitHeight="100.0" fitWidth="260.0" layoutX="513.0" layoutY="644.0" pickOnBounds="true" preserveRatio="true" styleClass="decoration" />
       <ImageView fitHeight="100.0" fitWidth="260.0" layoutX="773.0" layoutY="644.0" pickOnBounds="true" preserveRatio="true" styleClass="decoration2" />
-      <TabPane fx:id="chatTabPane" layoutX="1143.0" layoutY="55.0" prefHeight="262.0" prefWidth="299.0" stylesheets="@../css/Chat.css" tabClosingPolicy="UNAVAILABLE" />
       <Label fx:id="gameSuspendedLabel" alignment="TOP_CENTER" layoutX="581.0" layoutY="353.0" prefHeight="18.0" prefWidth="368.0" text="The game has been suspended" textFill="#f40404" visible="false">
          <font>
             <Font name="Agency FB" size="33.0" />
          </font>
       </Label>
+      <TitledPane fx:id="chatTitledPane" animated="false" layoutX="85.0" layoutY="41.0" prefHeight="325.0" prefWidth="280.0" text="chat">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="250.0" prefWidth="280.0">
+               <children>
+                  <TabPane fx:id="chatTabPane" prefHeight="302.0" prefWidth="280.0" stylesheets="@../css/Chat.css" tabClosingPolicy="UNAVAILABLE" />
+               </children>
+            </AnchorPane>
+        </content>
+      </TitledPane>
 
    </children>
 </AnchorPane>

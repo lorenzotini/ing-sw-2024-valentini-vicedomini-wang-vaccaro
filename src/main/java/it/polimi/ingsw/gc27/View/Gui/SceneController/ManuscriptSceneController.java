@@ -22,6 +22,7 @@ import it.polimi.ingsw.gc27.View.Gui.Gui;
 import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -204,6 +205,7 @@ public class ManuscriptSceneController extends GenericController {
             if (i == 0) {
                 chatTab.setText("Global");
                 chatTabHashMap.put("global", chatTab);
+                chatTab.getStyleClass().add("tab-global");
             } else {
                 String myusername = miniModel.getPlayer().getUsername();
                 String username = miniModel.getChats().get(i).getChatters().stream()
@@ -230,7 +232,9 @@ public class ManuscriptSceneController extends GenericController {
             ScrollPane chatContent = new ScrollPane();
             chatContent.setFitToHeight(true);
             VBox chatMessages = new VBox();
+            chatContainer.getStyleClass().add("vbox-background");
             chatMessages.getStyleClass().add("vbox-background");
+            chatContent.getStyleClass().add("vbox-background");
             chatContent.setContent(chatMessages); //scrollPane contains Vbox with messages
 
             chatContent.setPrefHeight(400);
@@ -242,8 +246,12 @@ public class ManuscriptSceneController extends GenericController {
             TextField sendMessage = new TextField();
 
             Button sendButton = new Button("Send");
+            sendButton.getStyleClass().add("send-button");
             messageBox.getChildren().addAll(sendMessage, sendButton);
-            messageBox.setSpacing(20);
+            messageBox.setSpacing(10);
+            messageBox.setMinHeight(33);
+            messageBox.setMaxHeight(33);
+            messageBox.setPadding(new Insets(5,5,5,5));
             handleOnActionChat(sendButton, sendMessage);
             handleOnKeyPress(sendMessage);
             sendMessage.setPromptText("Write your message here...");
@@ -255,6 +263,10 @@ public class ManuscriptSceneController extends GenericController {
             // Set HBox growth for sendMessage
             HBox.setHgrow(sendMessage, Priority.ALWAYS);
             sendMessage.setMaxWidth(300);
+            sendMessage.setMinHeight(24);
+            sendMessage.setMaxHeight(24);
+            sendMessage.getStyleClass().add("text-field-chat");
+
 
             // Create a spacer
             Region spacer = new Region();
@@ -263,6 +275,7 @@ public class ManuscriptSceneController extends GenericController {
             chatContainer.getChildren().addAll(chatContent, messageBox);
             chatTab.setContent(chatContainer);
             chatTabPane.getTabs().add(chatTab);
+            chatTabPane.getStyleClass().add("tab-pane-chat-manuscript");
 
         }
 

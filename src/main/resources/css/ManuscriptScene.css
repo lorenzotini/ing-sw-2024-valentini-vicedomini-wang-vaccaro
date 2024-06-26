@@ -19,7 +19,7 @@
 }
 
 .vbox-background {
-    -fx-background-color: rgb(230, 230, 250);
+    -fx-background-image: url("../Images/utility/locksreen2.png");
 }
 
 .tab-colour-red{

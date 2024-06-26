@@ -4,29 +4,26 @@
 .text{
     -fx-font-size: 12px;
 }
-.button{
-    -fx-background-color: #e4dfb2;
-    -fx-border-width: 6px;
-    -fx-border-color: #c4a64d;
-    -fx-border-radius: 10;
-    -fx-background-radius: 14;
-}
 
 .text-flow-sender {
-    -fx-background-color: rgb(100,149,237);
+    -fx-background-color: linear-gradient(#a2ccc2,#708090);
     -fx-background-radius: 10;
     -fx-padding: 5;
 }
 .text-flow-receiver {
-    -fx-background-color: rgb(219,112,147);
+    -fx-background-color: linear-gradient(#CB92B5FF, #8B5474FF);
     -fx-background-radius: 10;
     -fx-padding: 5;
 }
 .vbox-background{
-    -fx-background-color: rgb(230, 230, 250)
+    -fx-background-image: url("../Images/utility/chat2.png");
+    -fx-background-radius: 15;
+    -fx-background-insets: 0, 1, 2;
+    -fx-border-color: #c48041;
+    -fx-border-width: 2;
 }
 .tab-colour-red{
-    -fx-background-color: rgb(205,92,92)
+    -fx-background-color: rgb(205,92,92);
 }
 .tab-colour-green{
     -fx-background-color: rgb(60,179,113)
@@ -37,3 +34,66 @@
 .tab-colour-blue{
     -fx-background-color: rgb(100,149,237)
 }
+.send-button {
+    -fx-background-color: linear-gradient(#708090, #3d3c99);
+    -fx-border-width: 0;
+    -fx-border-radius: 20px; /* Ridotto per renderlo più piccolo */
+    -fx-background-radius: 20px; /* Ridotto per renderlo più piccolo */
+    -fx-font-size: 10px; /* Ridotto per rendere il testo più piccolo */
+    -fx-font-weight: 400;
+    -fx-text-fill: #ffffff;
+    -fx-cursor: hand;
+    -fx-padding: 4px 12px; /* Ridotto per rendere il pulsante più piccolo */
+    -fx-max-height: 27px; /* Ridotto per l'altezza massima */
+    -fx-effect: dropshadow(gaussian, rgba(37, 44, 97, 0.15), 4, 0, 0, 4),
+    dropshadow(gaussian, rgba(93, 100, 148, 0.20), 1, 0, 0, 1);
+    -fx-transition: all 0.2s ease-out;
+}
+
+.send-button:hover {
+    -fx-effect: dropshadow(gaussian, rgba(37, 44, 97, 0.15), 8, 0, 0, 8),
+    dropshadow(gaussian, rgba(93, 100, 148, 0.20), 4, 0, 0, 4);
+}
+.text-field-chat{
+    -fx-background-color: #dddddd;
+    -fx-background-radius: 7;
+    -fx-padding: 5;
+}
+.tab-global {
+    -fx-background-color: #db8d4b;
+}
+
+.tab-pane-chat  {
+    -fx-background-color: transparent;
+    -fx-background-radius: 0;
+    -fx-background-insets: 0, 1, 2;
+    -fx-border-radius: 3;
+    -fx-border-color: #ECD4A6;
+    -fx-border-width: 4;
+}
+
+.tab-pane-chat-manuscript  {
+    -fx-background-color: transparent;
+    -fx-background-radius: 0;
+    -fx-background-insets: 0, 1, 2;
+    -fx-border-radius: 3;
+    -fx-border-color: #ECD4A6;
+    -fx-border-width: 4;
+}
+
+
+.titled-pane > .title
+{
+    -fx-background-color: -fx-box-border, -fx-inner-border, #dddddd;
+    -fx-background-insets: 0, 1, 2;
+    -fx-background-radius: 5 5 5 5, 4 4 4 4, 3 3 3 3;
+    -fx-padding: 0.166667em 0.833333em 0.25em 0.833333em; /* 2 10 3 10 */
+    -fx-max-width: 150;
+}
+
+
+
+
+
+
+

@@ -27,7 +27,7 @@
          </image>
       </ImageView>
       <TabPane fx:id="manuscriptTabPane" layoutX="35.0" layoutY="194.0" prefHeight="429.0" prefWidth="971.0" tabClosingPolicy="UNAVAILABLE" />
-      <TitledPane fx:id="chatTitledPane" expanded="false" layoutX="1169.0" layoutY="46.0" prefHeight="717.0" prefWidth="354.0" text="Chat">
+      <TitledPane fx:id="chatTitledPane" expanded="false" layoutX="1169.0" layoutY="46.0" prefHeight="717.0" prefWidth="354.0" stylesheets="@../css/Chat.css" text="Chat">
 
          <content>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="352.0">

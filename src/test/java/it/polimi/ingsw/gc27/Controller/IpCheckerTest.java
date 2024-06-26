@@ -2,7 +2,7 @@ package it.polimi.ingsw.gc27.Controller;
 
 import org.junit.jupiter.api.Test;
 
-import static it.polimi.ingsw.gc27.Controller.IpChecker.checkIp;
+import static it.polimi.ingsw.gc27.Utils.IpChecker.checkIp;
 import static org.junit.jupiter.api.Assertions.*;
 
 class IpCheckerTest {

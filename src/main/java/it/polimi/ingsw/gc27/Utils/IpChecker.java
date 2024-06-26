@@ -1,4 +1,4 @@
-package it.polimi.ingsw.gc27.Controller;
+package it.polimi.ingsw.gc27.Utils;
 
 /**
  * The IpChecker class provides utility methods for checking IP addresses.

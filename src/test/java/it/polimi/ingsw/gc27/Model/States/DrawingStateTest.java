@@ -6,7 +6,6 @@ import it.polimi.ingsw.gc27.Commands.*;
 import it.polimi.ingsw.gc27.Controller.ClientTest;
 import it.polimi.ingsw.gc27.Controller.GameController;
 import it.polimi.ingsw.gc27.Controller.GigaController;
-import it.polimi.ingsw.gc27.Net.Commands.*;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

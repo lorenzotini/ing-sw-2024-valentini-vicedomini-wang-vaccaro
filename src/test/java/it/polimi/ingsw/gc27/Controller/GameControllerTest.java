@@ -85,7 +85,7 @@ public class GameControllerTest {
         game = new Game(new Board(), market,players1,objectiveDeck.get(0),objectiveDeck.get(1), starterDeck,objectiveDeck);
         gameController = new GameController(game, 4, 0, gigaController);
         gameControllers.add(gameController);
-        turnHandler=new TurnHandler(game);
+        turnHandler=new TurnHandler(game, gameController);
 
 
 
@@ -931,7 +931,7 @@ public class GameControllerTest {
     @Test
     void suspendGameTest(){
         initializeGame();
-        TurnHandler turnHandler1=new TurnHandler(game);
+        TurnHandler turnHandler1=new TurnHandler(game, gameController);
         gameController.setTurnHandler(turnHandler1);
         ClientTest clientTest1=new ClientTest();
         p1.setPlayerState(new PlayingState(p1, turnHandler));

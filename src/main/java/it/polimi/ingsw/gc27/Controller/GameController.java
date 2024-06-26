@@ -313,7 +313,7 @@ public class GameController implements Serializable {
                 synchronized (this) {
 
                     if (timeConfront - time > MAX_TIME_BEFORE_CLOSING_GAME) {
-                        //todo: non riconnnessione 2 gioc
+
                         System.out.println("The game: " + id + " has been closed");
                         suspended = false;
                         inMatch = false;

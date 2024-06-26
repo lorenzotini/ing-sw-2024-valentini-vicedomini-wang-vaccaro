@@ -91,7 +91,7 @@ public class GigaController {
                             game = client.read();
                         } catch (IOException es) {
                             System.out.println("Connection lost after trying to join a game (110)");
-
+                            return;
                         }
                         continue;
                     }
@@ -293,8 +293,7 @@ public class GigaController {
         try{
             userToGameController(player).addCommand(command);
         }catch(NullPointerException e){
-            //this happens only if the player is not created yet, and the server want to give the SuspendPlayerCommand,
-            //but it's not required because the player doesn't exit
+            System.out.println("Didn't find controller while adding command ");
         }
     }
 

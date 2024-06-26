@@ -25,7 +25,7 @@ public class SocketServerProxy implements VirtualServer {
     //in case same RemoteException would being called they'd be ignored because the ping system is going to do what
     // the catch of them would do
     private final BlockingQueue<Message> messages = new LinkedBlockingQueue<>();
-    private final VirtualView client;
+    private final SocketClient client;
     private Socket serverSocket;
     private ObjectInputStream input;
     private ObjectOutputStream output;
@@ -40,7 +40,7 @@ public class SocketServerProxy implements VirtualServer {
      * @param ipAddress the IP address of the server
      * @param port      the port number of the server
      */
-    public SocketServerProxy(VirtualView client, String ipAddress, int port) {
+    public SocketServerProxy(SocketClient client, String ipAddress, int port) {
         this.client = client;
         do {
             try {
@@ -113,7 +113,7 @@ public class SocketServerProxy implements VirtualServer {
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
+                    System.out.println("Thread exception");
                 }
             } else {
                 System.out.println("Ping not received: " + count);
@@ -122,16 +122,14 @@ public class SocketServerProxy implements VirtualServer {
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
+                    System.out.println("Thread exception: 2");
                 }
                 count++;
-                if (count == TIME_COUNT) {
+                if (count >= TIME_COUNT) {
                     System.out.println("Connection to the server was dropped");
-                    try {
-                        client.close();
-                    } catch (RemoteException e) {
-                        System.exit(0);
-                    }
+
+                    client.close();
+
                 }
             }
         }
@@ -162,11 +160,9 @@ public class SocketServerProxy implements VirtualServer {
         // Read message type
         while (true) {
             message = messages.take();
-            try {
-                client.update(message);
-            } catch (IOException e) {
-                System.out.println("Net problem in local");
-            }
+
+            client.update(message);
+
         }
     }
 
@@ -237,14 +233,20 @@ public class SocketServerProxy implements VirtualServer {
      * @throws ClassNotFoundException if the class of a serialized object cannot be found.
      */
     public void listenFromRemoteServer() throws ClassNotFoundException {
+        int count=0;
         while (true) {
             Message mess = null;
+
             try {
                 mess = (Message) input.readObject();
             } catch (IOException e) {
-                System.out.println("Probably the server is down receive Message");
+                System.out.println("Probably the server is down receive Message, close the game");
+                count++;
+                if(count>TIME_COUNT){
+                    client.close();
+                }
                 try{
-                    Thread.sleep(1000);
+                    Thread.sleep(2000);
                 }catch(InterruptedException ies){
                     System.out.println("Thread exception");
                 }

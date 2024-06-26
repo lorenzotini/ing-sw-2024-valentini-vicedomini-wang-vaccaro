@@ -34,7 +34,9 @@ public class EndingSceneController extends GenericController{
 
 
     public void changeWinnersLabel(Map<String,Integer> scoreBoard){
+        scoreBoard.remove(null);
         List<Map.Entry<String, Integer>> entryList = new ArrayList<>(scoreBoard.entrySet());
+
 
         // Sort the entries by value in descending order
         entryList.sort((entry1, entry2) -> entry2.getValue().compareTo(entry1.getValue()));

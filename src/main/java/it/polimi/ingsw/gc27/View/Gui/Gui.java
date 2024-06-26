@@ -499,6 +499,7 @@ public class Gui implements View {
             } else {
                 hbox.setAlignment(Pos.CENTER_LEFT);
                 textFlow.getStyleClass().add("text-flow-sender");
+                text.getStyleClass().add("text-sender");
                 if (hBoxName != null)
                     hBoxName.setAlignment(Pos.CENTER_LEFT);
             }

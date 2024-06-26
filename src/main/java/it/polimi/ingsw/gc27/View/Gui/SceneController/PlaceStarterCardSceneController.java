@@ -37,11 +37,11 @@ public class PlaceStarterCardSceneController extends GenericController{
     @FXML
     public Button backStarterButton;
     @FXML
-    public TabPane chatTabPaneStarter;
+    public TabPane chatTabPane;
     @FXML
     public Label gameSuspendedLabel;
     @FXML
-    public TitledPane chatTitledPane;
+    public TitledPane chatTitledPaneStarter;
 
     //there is a private hashmap for all the scenes where the chat is displayed
     private HashMap<String, Tab> chatTabHashMapP= new HashMap<>();
@@ -63,7 +63,6 @@ public class PlaceStarterCardSceneController extends GenericController{
                     chatTab.setText("Global");
                     chatTabHashMapP.put("global", chatTab);
                     chatTab.getStyleClass().add("tab-global");
-                    //chatTab.getStyleClass().add("vbox-background");
                 }
                 else {
                     String myusername = miniModel.getPlayer().getUsername();
@@ -91,8 +90,8 @@ public class PlaceStarterCardSceneController extends GenericController{
                 chatContent.getStyleClass().add("vbox-background");
 
 
-                chatContainer.setDisable(true);
-                chatMessages.setDisable(true);
+                //chatContainer.setDisable(true);
+                //chatMessages.setDisable(true);
                 chatContainer.setPrefHeight(500);
                 chatContent.setContent(chatMessages); //scrollPane contains Vbox with messages
                 chatContent.setPrefHeight(450);
@@ -131,14 +130,14 @@ public class PlaceStarterCardSceneController extends GenericController{
                 chatContainer.getChildren().addAll(chatContent, messageBox);
                 chatTab.setContent(chatContainer);
 
-                chatTabPaneStarter.getTabs().add(chatTab);
-                chatTabPaneStarter.getStyleClass().add("tab-pane-chat");
+                chatTabPane.getTabs().add(chatTab);
+                chatTabPane.getStyleClass().add("tab-pane-chat");
 
             }
 
-            chatTitledPane.setOnMouseClicked(event -> {
+            chatTitledPaneStarter.setOnMouseClicked(event -> {
                 Platform.runLater(() -> {
-                    chatTitledPane.toFront();
+                    chatTitledPaneStarter.toFront();
                     //circleChat.setVisible(false);
                 });
             });
@@ -178,7 +177,7 @@ public class PlaceStarterCardSceneController extends GenericController{
      */
     void sendChatMessage(){
         try {
-            Tab currentTab = chatTabPaneStarter.getSelectionModel().getSelectedItem();
+            Tab currentTab = chatTabPane.getSelectionModel().getSelectedItem();
             String receiver = currentTab.getText();
             String content = getSendMessageFieldFromTab(currentTab).getText();
             if(!content.trim().isEmpty()) {

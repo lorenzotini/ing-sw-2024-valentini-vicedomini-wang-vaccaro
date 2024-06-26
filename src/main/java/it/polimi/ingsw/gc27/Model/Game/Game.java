@@ -114,7 +114,7 @@ public class Game implements Serializable {
         this.players.add(p);
         board.setColourPlayer(p);
 
-//        //create a listener
+        //create a listener
         //he will listen the observable and decide if the message has to be sent to his player
         this.addObserver(new PlayerListener(client, p));
         this.notifyObservers(new PlayerJoinedMessage(p.getUsername()));
@@ -244,13 +244,7 @@ public class Game implements Serializable {
     public ArrayList<StarterCard> getStarterDeck() {
         return starterDeck;
     }
-//    /**
-//     * Sets the deck containing starter cards
-//     * @param starterDeck The ArrayList of StarterCard instances to set as the starter deck
-//     */
-//    public void setStarterDeck(ArrayList<StarterCard> starterDeck) {
-//        this.starterDeck = starterDeck;
-//    } no usages
+
     /**
      * Gets the deck containing objective cards
      * @return The ArrayList of ObjectiveCard instances representing the objective deck
@@ -259,13 +253,6 @@ public class Game implements Serializable {
         return objectiveDeck;
     }
 
-//    /**
-//     * Sets the deck containing objective cards
-//     * @param objectiveDeck The ArrayList of ObjectiveCard instances to set as the objective deck
-//     */
-//    public void setObjectiveDeck(ArrayList<ObjectiveCard> objectiveDeck) {
-//        this.objectiveDeck = objectiveDeck;
-//    } no usages
     /**
      * Gets the market
      * @return The Market instance representing the game's market
@@ -290,14 +277,6 @@ public class Game implements Serializable {
         return availablePawns;
     }
 
-//    /**
-//     * Sets the list of available pawn colors
-//     * @param availablePawns The ArrayList of available pawn colors
-//     */
-//    public void setAvailablePawns(ArrayList<PawnColour> availablePawns) {
-//        this.availablePawns = availablePawns;
-//    } da togliere no usages
-
     /**
      * Gets the board
      * @return the game's board
@@ -305,14 +284,6 @@ public class Game implements Serializable {
     public Board getBoard() {
         return board;
     }
-
-//    /**
-//     * Sets the board
-//     * @param board The Board instance to set as the game's board
-//     */
-//    public void setBoard(Board board) {
-//        this.board = board;
-//    }  no usages
 
     /**
      * Gets the first common objective card
@@ -346,24 +317,15 @@ public class Game implements Serializable {
         this.players = players;
     }
 
-    // check only decks, so that when they are empty there are 4 more cards to draw in the last round triggered by this method
+    /**
+     * check the decks in the market so that when they are empty there will be at least 4 more cards
+     * to draw in the last round, triggered by this method
+     * @return true if the decks are empty, false otherwise
+     */
+    //
     public boolean isMarketEmpty(){
-        if(market.getGoldDeck().isEmpty() &&
-                market.getResourceDeck().isEmpty())
-//                checkIfNoMoreFaceUp(market.getFaceUp(true)) &&
-//                checkIfNoMoreFaceUp(market.getFaceUp(false)))
-        {
-            return true;
-        }
-        return false;
+        return market.getGoldDeck().isEmpty() &&
+                market.getResourceDeck().isEmpty();
     }
 
-//    private boolean checkIfNoMoreFaceUp(ResourceCard[] faceUps){
-//        for(int i = 0; i < faceUps.length; i++){
-//            if(faceUps[i] != null){
-//                return false;
-//            }
-//        }
-//        return true;
-//    }    no usages
 }

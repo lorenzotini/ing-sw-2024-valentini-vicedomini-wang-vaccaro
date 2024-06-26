@@ -184,14 +184,6 @@ public class Player implements Serializable, ClientPlayer {
         this.playerState = playerState;
     }
 
-//    /**
-//     * Sets the player's manuscript
-//     * @param manuscript The manuscript to set for the player
-//     */
-//    public void setManuscript(Manuscript manuscript) {
-//        this.manuscript = manuscript;
-//    } no usages ta togliere
-
     /**
      * Sets the player's current hand of resource cards
      * @param hand The list of resource cards to set as the player's hand

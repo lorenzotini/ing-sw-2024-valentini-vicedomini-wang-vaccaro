@@ -190,9 +190,9 @@ public class Tui implements View {
                             if (words.length == 3) {
                                 try {
                                     String cardType = words[0];
-                                    boolean fromDeck = Boolean.parseBoolean(words[1]);
+                                    boolean fromDeck = check(words[1], "true", "false");
                                     int faceUpIndex = Integer.parseInt(words[2]);
-                                    boolean isGold = cardType.equalsIgnoreCase("gold");
+                                    boolean isGold = check(cardType,"gold","res");
                                     Command comm = new DrawCardCommand(client.getUsername(), isGold, fromDeck, faceUpIndex);
                                     client.sendCommand(comm);
                                     break;
@@ -987,6 +987,16 @@ public class Tui implements View {
         return copy;
     }
 
+    private boolean check(String f, String conf1, String conf2){
+        if(f.equalsIgnoreCase(conf1)){
+            return true;
+
+        }else if (f.equalsIgnoreCase(conf2)){
+            return false;
+        }else{
+            throw new InputMismatchException("invalid input");
+        }
+    }
     public static void showTitle() {
         out.println("\n" +
                 " ██████╗ ██████╗ ██████╗ ███████╗██╗  ██╗    ███╗   ██╗ █████╗ ████████╗██╗   ██╗██████╗  █████╗ ██╗     ██╗███████╗\n" +

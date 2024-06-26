@@ -111,16 +111,17 @@ public class RmiServer implements VirtualServer {
                         Integer temp = clientsPing.get(client) + 1;
                         clientsPing.put(client, temp);
                     }if(actualPing >2 ){
-                        System.out.println("Net error while sending ping: "+ actualPing);
+                        System.out.println("Net error while checking ping: "+ actualPing);
                     }
+                    new Thread(() -> {
+                        try {
+                            client.pingFromServer();
+                        } catch (RemoteException e) {
+                            System.out.println("Net error while sending ping b: "+ actualPing);
+                        }
+                    }).start();
                 }
-                new Thread(() -> {
-                    try {
-                        client.pingFromServer();
-                    } catch (RemoteException e) {
-                        System.out.println("Net error while sending ping: "+ actualPing);
-                    }
-                }).start();
+
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {

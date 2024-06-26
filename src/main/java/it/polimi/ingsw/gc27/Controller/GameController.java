@@ -131,7 +131,7 @@ public class GameController implements Serializable {
         try {
             turnHandler.handleDisconnection(player, this);
         } catch (NullPointerException | InterruptedException e) {
-
+            System.out.println("Player or turnHandler are null");
         }
     }
 
@@ -327,6 +327,11 @@ public class GameController implements Serializable {
                         console.closeGame(this);
                     }
                 }
+                try{
+                    Thread.sleep(1);
+                }catch(InterruptedException e){
+                    System.out.println("Thread exception 333");
+                }
             }
         }).start();
 
@@ -355,7 +360,7 @@ public class GameController implements Serializable {
                     game.notifyObservers(new SuspendedGameMessage("The game has been suspended, wait for someone to comeback"));
                 }
             }
-        } while (!(command instanceof ReconnectPlayerCommand));
+        } while (suspended);
     }
 
     /**

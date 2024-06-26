@@ -64,7 +64,7 @@ public class WaitingState extends PlayerState {
         if(currentPlayer != null)
             return "Now playing: "+currentPlayer.getUsername();
         else{
-            return "Current player not set";
+            return "The other player is disconnected";
         }
     }
 

@@ -322,6 +322,7 @@ public class Tui implements View {
 
     /**
      * Sets the client for this Tui instance.
+     *
      * @param client the VirtualView client to be set
      */
     @Override
@@ -330,7 +331,8 @@ public class Tui implements View {
     }
 
     /**
-     * Handles the suspension of the game by displaying a message to the user.
+     * Notifies the suspension of the game by displaying a message to the user.
+     *
      * @param string the message to be displayed
      */
     @Override
@@ -340,6 +342,9 @@ public class Tui implements View {
         }
     }
 
+    /**
+     * Notifies that the game is resuming by displaying a message to the user.
+     */
     @Override
     public void resumeTheMatch() {
         synchronized (this) {
@@ -347,6 +352,11 @@ public class Tui implements View {
         }
     }
 
+    /**
+     * Displays a generic message to the user. Plus, when the message is to notify the user that it's their turn to play, it prints the game status (e.g. manuscript, market, etc.).
+     *
+     * @param phrase the message to be displayed
+     */
     @Override
     public void showString(String phrase) {
         synchronized (this) {
@@ -362,7 +372,12 @@ public class Tui implements View {
         }
     }
 
-    public void setupToYourRound(MiniModel miniModel){
+    /**
+     * Displays the game status, including the board, market, manuscript, and hand.
+     *
+     * @param miniModel the MiniModel to be displayed
+     */
+    public void setupToYourRound(MiniModel miniModel) {
         synchronized (this) {
             out.println("\n" + "<------------------------------------------------------------>" + "\n");
             out.println(showBoard(miniModel.getBoard()));
@@ -371,53 +386,86 @@ public class Tui implements View {
             out.println(showHand(miniModel.getHand()));
         }
     }
+
+    /**
+     * Displays the hand of the player.
+     *
+     * @param hand the hand to be displayed
+     */
     @Override
     public void show(ArrayList<ResourceCard> hand) {
         if (!isEndingState) {
-            synchronized (this){
+            synchronized (this) {
                 out.println(showHand(hand));
             }
         }
     }
 
+    /**
+     * Displays the manuscript of the player.
+     *
+     * @param manuscript the manuscript to be displayed
+     */
     @Override
     public void show(ClientManuscript manuscript) {
-        if (!isEndingState) {
-            out.println(showManuscript(manuscript));
+        synchronized (this) {
+            if (!isEndingState) {
+                out.println(showManuscript(manuscript));
+            }
         }
     }
 
+    /**
+     * This method is not used in the Tui class. It is empty on purpose.
+     *
+     * @param board the board to be displayed
+     */
     @Override
     public void show(ClientBoard board) {
-        if (!isEndingState) {
-            //out.println(showBoard(board));
-        }
+
     }
 
+    /**
+     * This method is not used in the Tui class. It is empty on purpose.
+     *
+     * @param chat the chat to be displayed
+     */
     @Override
     public void show(ClientChat chat) {
     }
 
+    /**
+     * This method is not used in the Tui class. It is empty on purpose.
+     *
+     * @param market the market to be displayed
+     */
     @Override
     public void show(ClientMarket market) {
-        if (!isEndingState) {
-            //out.println(showMarket(market));
-        }
+
     }
 
+    /**
+     * This method is not used in the Tui class. It is empty on purpose.
+     *
+     * @param manuscript the manuscript of another player to be displayed
+     */
     @Override
     public void updateManuscriptOfOtherPlayer(ClientManuscript manuscript) {
 
     }
 
+    /**
+     * Reads input from the client using a {@Link Scanner}.
+     *
+     * @return the input read from the client
+     */
     @Override
     public String read() {
         return scan.nextLine();
     }
 
-    public void printChat(ClientChat chat) {
+    private void printChat(ClientChat chat) {
         synchronized (this) {
-            //out.println("sono in printChat con " + chat.getChatters().getFirst().getUsername()+" e " + chat.getChatters().getLast().getUsername());
             String username;
             username = chat.getChatters().stream()
                     .filter(user -> {
@@ -440,19 +488,31 @@ public class Tui implements View {
         }
     }
 
+    /**
+     * This method is not used in the Tui class. It is empty on purpose.
+     */
     @Override
     public void okAck(String string) {
 
     }
 
+    /**
+     * Notifies the user that the command was not successful.
+     *
+     * @param string the message to be displayed
+     */
     @Override
     public void koAck(String string) {
-        out.println(string);
+        synchronized (this) {
+            out.println(string);
+        }
     }
 
+    /**
+     * Declare the winner(s) of the game.
+     */
     @Override
     public void showWinners() {
-
         synchronized (this) {
             try {
                 showWinnersToEveryone(client.getMiniModel().getBoard().getScoreBoard());
@@ -465,8 +525,7 @@ public class Tui implements View {
         }
     }
 
-    public void showWinnersToEveryone(Map<String, Integer> scoreBoard)
-    {
+    private void showWinnersToEveryone(Map<String, Integer> scoreBoard) {
         if (!this.alreadyPrintedWinners) {
             List<Map.Entry<String, Integer>> entryList = new ArrayList<>(scoreBoard.entrySet());
 
@@ -752,7 +811,7 @@ public class Tui implements View {
         return first ? ws_11 : ws_15;
     }
 
-    public static String showManuscript(ClientManuscript manuscript) {
+    private static String showManuscript(ClientManuscript manuscript) {
 
         StringBuffer sb = new StringBuffer();
 
@@ -851,7 +910,7 @@ public class Tui implements View {
 
     }
 
-    public static Queue<String> toCliCard(Card card, boolean isFront) {
+    private static Queue<String> toCliCard(Card card, boolean isFront) {
 
         Face face = isFront ? card.getFront() : card.getBack();
 
@@ -880,14 +939,14 @@ public class Tui implements View {
 
     }
 
-    public static String showStarter(StarterCard card) {
+    private static String showStarter(StarterCard card) {
         return ("\nStarter Front:" +
                 "\n" + toCliCard(card, true).stream().collect(Collectors.joining("\n")) +
                 "\nStarter Back:" +
                 "\n" + toCliCard(card, false).stream().collect(Collectors.joining("\n")));
     }
 
-    public static String showObjectives(ArrayList<ObjectiveCard> secretObjectives) {
+    private static String showObjectives(ArrayList<ObjectiveCard> secretObjectives) {
 
         String printedObjectives = "\n";
         int i = 1;
@@ -900,15 +959,15 @@ public class Tui implements View {
 
     }
 
-    public String showBoard(ClientBoard board) {
+    private String showBoard(ClientBoard board) {
         String printedBoard = "";
-        for(Map.Entry<String, PawnColour> entry : board.getColourPlayerMap().entrySet()){
+        for (Map.Entry<String, PawnColour> entry : board.getColourPlayerMap().entrySet()) {
             printedBoard += ColourControl.get(entry.getValue()) + entry.getKey() + ColourControl.RESET + ": " + board.getPointsOf(entry.getValue()) + " points\n";
         }
         return printedBoard;
     }
 
-    public static String showHand(ArrayList<ResourceCard> hand) {
+    private static String showHand(ArrayList<ResourceCard> hand) {
 
         String printedHand = "\n";
 
@@ -934,7 +993,7 @@ public class Tui implements View {
 
     }
 
-    public static String showMarket(ClientMarket market) {
+    private static String showMarket(ClientMarket market) {
 
         String printedMarket = "\n";
 
@@ -1000,23 +1059,25 @@ public class Tui implements View {
 
     }
 
-    private static Queue<String> copyNoCardCli(){
+    private static Queue<String> copyNoCardCli() {
         Queue<String> copy = new LinkedList<>();
-        for(String line : Tui.noCardPrint){
+        for (String line : Tui.noCardPrint) {
             copy.add(line);
         }
         return copy;
     }
 
-    public static void showTitle() {
-        out.println("\n" +
-                " ██████╗ ██████╗ ██████╗ ███████╗██╗  ██╗    ███╗   ██╗ █████╗ ████████╗██╗   ██╗██████╗  █████╗ ██╗     ██╗███████╗\n" +
-                "██╔════╝██╔═══██╗██╔══██╗██╔════╝╚██╗██╔╝    ████╗  ██║██╔══██╗╚══██╔══╝██║   ██║██╔══██╗██╔══██╗██║     ██║██╔════╝\n" +
-                "██║     ██║   ██║██║  ██║█████╗   ╚███╔╝     ██╔██╗ ██║███████║   ██║   ██║   ██║██████╔╝███████║██║     ██║███████╗\n" +
-                "██║     ██║   ██║██║  ██║██╔══╝   ██╔██╗     ██║╚██╗██║██╔══██║   ██║   ██║   ██║██╔══██╗██╔══██║██║     ██║╚════██║\n" +
-                "╚██████╗╚██████╔╝██████╔╝███████╗██╔╝ ██╗    ██║ ╚████║██║  ██║   ██║   ╚██████╔╝██║  ██║██║  ██║███████╗██║███████║\n" +
-                " ╚═════╝ ╚═════╝ ╚═════╝ ╚══════╝╚═╝  ╚═╝    ╚═╝  ╚═══╝╚═╝  ╚═╝   ╚═╝    ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝╚═╝╚══════╝\n"
-        );
+    private void showTitle() {
+        synchronized (this){
+            out.println("\n" +
+                    " ██████╗ ██████╗ ██████╗ ███████╗██╗  ██╗    ███╗   ██╗ █████╗ ████████╗██╗   ██╗██████╗  █████╗ ██╗     ██╗███████╗\n" +
+                    "██╔════╝██╔═══██╗██╔══██╗██╔════╝╚██╗██╔╝    ████╗  ██║██╔══██╗╚══██╔══╝██║   ██║██╔══██╗██╔══██╗██║     ██║██╔════╝\n" +
+                    "██║     ██║   ██║██║  ██║█████╗   ╚███╔╝     ██╔██╗ ██║███████║   ██║   ██║   ██║██████╔╝███████║██║     ██║███████╗\n" +
+                    "██║     ██║   ██║██║  ██║██╔══╝   ██╔██╗     ██║╚██╗██║██╔══██║   ██║   ██║   ██║██╔══██╗██╔══██║██║     ██║╚════██║\n" +
+                    "╚██████╗╚██████╔╝██████╔╝███████╗██╔╝ ██╗    ██║ ╚████║██║  ██║   ██║   ╚██████╔╝██║  ██║██║  ██║███████╗██║███████║\n" +
+                    " ╚═════╝ ╚═════╝ ╚═════╝ ╚══════╝╚═╝  ╚═╝    ╚═╝  ╚═══╝╚═╝  ╚═╝   ╚═╝    ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝╚═╝╚══════╝\n"
+            );
+        }
     }
 
 }

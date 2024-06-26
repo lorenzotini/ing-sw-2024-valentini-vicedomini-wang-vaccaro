@@ -562,8 +562,8 @@ public class ManuscriptSceneController extends GenericController {
 
             newManuscriptScrollPane.getStyleClass().add("manuscript");
             newManuscriptScrollPane.setContent(grid);
-            newManuscriptScrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
-            newManuscriptScrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+            newManuscriptScrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+            newManuscriptScrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
             newManuscriptScrollPane.setFitToWidth(true);
             newManuscriptScrollPane.setFitToHeight(true);
             newManuscriptScrollPane.setHvalue(0.5);
@@ -571,7 +571,11 @@ public class ManuscriptSceneController extends GenericController {
 
             handleZoom(newManuscriptScrollPane, grid);
 
-            manuscriptTabPane.getTabs().add(new Tab(element.getKey(), newManuscriptScrollPane));
+            Tab newTab = new Tab(element.getKey(), newManuscriptScrollPane);
+            newTab.getStyleClass().add("manuscript-tab");
+
+            manuscriptTabPane.getTabs().add(newTab);
+
         }
     }
 

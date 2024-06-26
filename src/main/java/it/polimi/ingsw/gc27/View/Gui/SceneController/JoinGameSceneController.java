@@ -76,7 +76,7 @@ public class JoinGameSceneController extends GenericController {
             } else if (ackType.equals("disconnectedPlayer")) {
                 try {
                     LoginSceneController loginContr = (LoginSceneController) Gui.getInstance().getControllerFromName("/fxml/LoginScene.fxml");
-                    loginContr.getGameIDCreated().setText("\nThis game has a disconnected player. Are you him? If so, please enter your username.");
+                    loginContr.getGameIDCreated().setText("This game has a disconnected player. Are you him? If so, please enter your username.");
                     loginContr.getGameIDCreated().setVisible(true);
                     loginContr.setGameId(tempId);
                     Gui.getInstance().switchScene("/fxml/LoginScene.fxml");

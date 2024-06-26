@@ -52,7 +52,7 @@ public class ChooseObjectiveSceneController extends GenericController {
     @FXML
     public Label gameSuspendedLabel;
     @FXML
-    public TitledPane chatTitledPaneObjective;
+    public TitledPane chatTitledPane;
     //there is a private hashmap for all the scenes where the chat is displayed
 
     /** maps the username of the other player  of the chat and the correspondent tab
@@ -148,9 +148,9 @@ public class ChooseObjectiveSceneController extends GenericController {
             chatTabPane.getStyleClass().add("tab-pane-chat");
 
         }
-        chatTitledPaneObjective.setOnMouseClicked(event -> {
+        chatTitledPane.setOnMouseClicked(event -> {
             Platform.runLater(() -> {
-                chatTitledPaneObjective.toFront();
+                chatTitledPane.toFront();
                 //circleChat.setVisible(false);
             });
         });

@@ -50,7 +50,7 @@
             <Font name="Agency FB" size="33.0" />
          </font>
       </Label>
-      <TitledPane fx:id="chatTitledPaneObjective" animated="false" layoutX="85.0" layoutY="41.0" prefHeight="325.0" prefWidth="280.0" text="chat">
+      <TitledPane fx:id="chatTitledPane" animated="false" layoutX="85.0" layoutY="41.0" prefHeight="325.0" prefWidth="280.0" text="chat">
         <content>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="250.0" prefWidth="280.0">
                <children>

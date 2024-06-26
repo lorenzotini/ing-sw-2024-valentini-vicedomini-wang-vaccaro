@@ -30,7 +30,6 @@ public interface VirtualView extends Remote, Serializable {
      *
      * @return The input read from the client.
      * @throws IOException If an I/O error occurs.
-     * @throws InterruptedException If the operation is interrupted.
      */
     String read() throws IOException ;
 

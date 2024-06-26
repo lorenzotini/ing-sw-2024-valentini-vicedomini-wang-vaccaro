@@ -49,12 +49,6 @@ public class GameController implements Serializable {
         this.game = game;
     }
 
-//    /**
-//     * Default constructor for GameController
-//     */
-//    public GameController() {
-//    }   no usages
-
     /**
      * Constructor for GameController with game, number of maximum players, game id, and console.
      *
@@ -70,7 +64,6 @@ public class GameController implements Serializable {
         this.console = console;
         this.inMatch = true;
     }
-
 
     /**
      * This method changes the player's manuscript, adding the selected card on it and possibly adding
@@ -93,7 +86,6 @@ public class GameController implements Serializable {
      * @param isGold          Whether the card is a gold card
      * @param fromDeck        Whether the card is drawn from the deck
      * @param faceUpCardIndex The index of the face-up card.
-     * @throws InterruptedException if the operation is interrupted
      */
     public void drawCard(Player player, boolean isGold, boolean fromDeck, int faceUpCardIndex) {
         player.getPlayerState().drawCard(player, isGold, fromDeck, faceUpCardIndex);
@@ -102,7 +94,6 @@ public class GameController implements Serializable {
 
     /**
      * Allows the player to choose an objective card
-     *
      * @param player             The player
      * @param objectiveCardIndex The index of the objective card
      */
@@ -112,7 +103,6 @@ public class GameController implements Serializable {
 
     /**
      * Adds the starter card to the player's manuscript
-     *
      * @param player  The player
      * @param starter The starter card
      * @param face    The face of the card (face up or face  down)
@@ -123,7 +113,6 @@ public class GameController implements Serializable {
 
     /**
      * Suspends a player by marking them as disconnected and handling their disconnection
-     *
      * @param player The player to suspend
      */
     public void suspendPlayer(Player player) {
@@ -141,8 +130,6 @@ public class GameController implements Serializable {
             turnHandler.triggerEndingGameDueToNoMoreCards();
         }
     }
-
-    // Create a player from command line, but hand, secret objective and starter are not instantiated
 
     /**
      * Initializes a player from the command line, without instantiating hand, secret objective, and starter card
@@ -382,14 +369,6 @@ public class GameController implements Serializable {
         return turnHandler;
     }
     public void setTurnHandler(TurnHandler turnHandler) {this.turnHandler = turnHandler;}
-
-//    /**
-//     * Sets the current game
-//     * @param game The game
-//     */
-//    public void setGame(Game game) {
-//        this.game = game;
-//    }    no usages
 
     /**
      * Gets the unique id of the game

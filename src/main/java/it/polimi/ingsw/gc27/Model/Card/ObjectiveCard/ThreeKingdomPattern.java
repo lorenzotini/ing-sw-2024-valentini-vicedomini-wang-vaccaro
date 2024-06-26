@@ -12,7 +12,7 @@ import it.polimi.ingsw.gc27.View.Tui.ColourControl;
  */
 public class ThreeKingdomPattern extends ObjectiveCard {
     public final int OBJECTIVE_POINTS = 2;
-    private Kingdom kingdom;
+    private final Kingdom kingdom;
 
     /**
      * constructor matching super {@link ObjectiveCard}

@@ -12,7 +12,7 @@ import it.polimi.ingsw.gc27.View.Tui.ColourControl;
  */
 public class DoublePattern extends ObjectiveCard {
     public final int OBJECTIVE_POINTS = 2;
-    private CornerSymbol cornerSymbol;
+    private final CornerSymbol cornerSymbol;
 
     /**
      * constructor matching super {@link ObjectiveCard}

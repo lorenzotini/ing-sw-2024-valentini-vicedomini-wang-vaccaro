@@ -12,9 +12,8 @@ public class PingMessage extends Message{
 
     /**
      * constructor matching super {@link Message}
-     * @param string string
      */
-    public PingMessage(String string) {
+    public PingMessage() {
         super("forza napoli");
     }
 

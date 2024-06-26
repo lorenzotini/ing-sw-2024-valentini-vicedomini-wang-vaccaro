@@ -1,6 +1,6 @@
 package it.polimi.ingsw.gc27;
 
-import it.polimi.ingsw.gc27.Controller.IpChecker;
+import it.polimi.ingsw.gc27.Utils.IpChecker;
 import it.polimi.ingsw.gc27.Net.Rmi.RmiClient;
 import it.polimi.ingsw.gc27.Net.Socket.SocketClient;
 import it.polimi.ingsw.gc27.Net.VirtualServer;
@@ -12,7 +12,6 @@ import it.polimi.ingsw.gc27.View.View;
 import javafx.application.Application;
 
 import java.io.IOException;
-import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 
 /**

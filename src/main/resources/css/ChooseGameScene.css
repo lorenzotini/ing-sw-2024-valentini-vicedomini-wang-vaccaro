@@ -1,16 +1,21 @@
 .anchorpane{
-    -fx-background-image: url("../Images/utility/background2.png");
+    -fx-background-image: url("../Images/utility/backg5.png");
     -fx-background-size: cover;
 }
 .gamemaster{
     -fx-image: url("../Images/utility/gamemaster.png");
+    -fx-effect: dropshadow(gaussian, rgba(90, 90, 90, 1.0), 20, 0.5, 0, 0);
 }
 .decoration{
     -fx-image: url("../Images/utility/decoration1.png");
 }
 .decoration2{
     -fx-image: url("../Images/utility/decoration2.png");
+}
 
+.label{
+    /*-fx-background-color: white;*/
+    -fx-background-radius: 10;
 }
 
 .button{
@@ -18,6 +23,8 @@
     -fx-border-width: 7px;
     -fx-border-color: #c4a64d;
     -fx-border-radius: 10;
+    -fx-background-radius: 14;
+    -fx-effect: dropshadow(gaussian, rgba(90, 90, 90, 1.0), 20, 0.5, 0, 0);
 }
 .button:hover{
     -fx-effect: dropshadow(gaussian, rgba(255, 255, 255, 1.0), 20, 0.5, 0, 0);

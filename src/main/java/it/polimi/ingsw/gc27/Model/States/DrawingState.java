@@ -92,6 +92,10 @@ public class DrawingState extends PlayerState {
             }
         } catch (NullPointerException e){ // when drawing from face ups, but there is no card
             super.sendError("No more cards to draw!", getPlayer(), turnHandler);
+        } catch(IndexOutOfBoundsException e){
+            super.sendError("Invalid index.", player, turnHandler);
+        } catch(Exception e){
+            super.sendError("Invalid input while drawing.", player, turnHandler);
         }
 
     }

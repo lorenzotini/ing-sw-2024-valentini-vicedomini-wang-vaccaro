@@ -1,5 +1,6 @@
 package it.polimi.ingsw.gc27.Controller;
 
+import it.polimi.ingsw.gc27.Messages.ClosingGameMessage;
 import it.polimi.ingsw.gc27.Messages.KoMessage;
 import it.polimi.ingsw.gc27.Messages.OkMessage;
 import it.polimi.ingsw.gc27.Model.Game.Player;
@@ -22,6 +23,12 @@ import java.util.Map;
 public class GigaController {
 
     private int idCounter = 0;
+
+    private static final int MAX_USERNAME_LENGTH = 20;
+
+    private final int NUM_MAX_PLAYERS = 4;
+
+    private final int NUM_MIN_PLAYERS = 2;
 
     private final Map<String, VirtualView> registeredUsernames = new HashMap<>();
 
@@ -216,7 +223,7 @@ public class GigaController {
             do {
                 try {
                     numMaxPlayers = Integer.parseInt(client.read());
-                    if (numMaxPlayers <= 4 && numMaxPlayers >= 1) {
+                    if (numMaxPlayers <= NUM_MAX_PLAYERS && numMaxPlayers >= NUM_MIN_PLAYERS) {
                         break;
                     }
                 } catch (NumberFormatException e) {
@@ -238,7 +245,7 @@ public class GigaController {
         // count the player who created the game
         controller.getGame().setNumActualPlayers(1);
         try{
-            client.update(new OkMessage("\nGame created with id " + controller.getId() + "\n" + "\nWaiting for players to join..."));
+            client.update(new OkMessage("Game created with id " + controller.getId() + " Waiting for players to join..."));
             client.show("\nGame created with id " + controller.getId() + "\n" + "\nWaiting for players to join...");
 
         }catch(IOException e){
@@ -271,20 +278,21 @@ public class GigaController {
         return false;
     }
 
+
     /**
      * Checks the validity and availability of a player's username
-     * @param u the username to validate
+     * @param username the username to validate
      * @param view the client's VirtualView
      * @return true if the username is valid and not taken, false otherwise
      */
-    public boolean validUsername(String u, VirtualView view) {
-        if(u.equalsIgnoreCase("global") || u.isEmpty())
+    public boolean validUsername(String username, VirtualView view) {
+        if(username.equalsIgnoreCase("global") || username.contains(" ") || username.length() > MAX_USERNAME_LENGTH)
             return false;
         synchronized (registeredUsernames) {
-            if (registeredUsernames.containsKey(u)) { // username already taken or empty
+            if (registeredUsernames.containsKey(username) || username.isEmpty()) { // username already taken or empty
                 return false;
             }
-            registeredUsernames.put(u, view);
+            registeredUsernames.put(username, view);
             return true;
         }
     }

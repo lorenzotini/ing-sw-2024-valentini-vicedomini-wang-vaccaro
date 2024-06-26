@@ -9,16 +9,15 @@ import it.polimi.ingsw.gc27.Net.Commands.SendMessageCommand;
 import it.polimi.ingsw.gc27.View.Gui.ScenePaths;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import it.polimi.ingsw.gc27.View.Gui.Gui;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.Region;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
@@ -38,9 +37,11 @@ public class PlaceStarterCardSceneController extends GenericController{
     @FXML
     public Button backStarterButton;
     @FXML
-    public TabPane chatTabPaneStarter;
+    public TabPane chatTabPane;
     @FXML
     public Label gameSuspendedLabel;
+    @FXML
+    public TitledPane chatTitledPaneStarter;
 
     //there is a private hashmap for all the scenes where the chat is displayed
     private HashMap<String, Tab> chatTabHashMapP= new HashMap<>();
@@ -61,6 +62,7 @@ public class PlaceStarterCardSceneController extends GenericController{
                 if(i==0) {
                     chatTab.setText("Global");
                     chatTabHashMapP.put("global", chatTab);
+                    chatTab.getStyleClass().add("tab-global");
                 }
                 else {
                     String myusername = miniModel.getPlayer().getUsername();
@@ -84,9 +86,15 @@ public class PlaceStarterCardSceneController extends GenericController{
                 ScrollPane chatContent = new ScrollPane();
                 VBox chatMessages = new VBox();
                 chatMessages.getStyleClass().add("vbox-background");
-                chatContent.setContent(chatMessages); //scrollPane contains Vbox with messages
+                chatContainer.getStyleClass().add("vbox-background");
+                chatContent.getStyleClass().add("vbox-background");
 
-                chatContent.setPrefHeight(400);
+
+                //chatContainer.setDisable(true);
+                //chatMessages.setDisable(true);
+                chatContainer.setPrefHeight(500);
+                chatContent.setContent(chatMessages); //scrollPane contains Vbox with messages
+                chatContent.setPrefHeight(450);
                 chatContent.setPrefWidth(Region.USE_COMPUTED_SIZE);
                 chatContent.setFitToWidth(true);
                 chatContent.setFitToHeight(true);
@@ -94,10 +102,15 @@ public class PlaceStarterCardSceneController extends GenericController{
                 HBox messageBox = new HBox(); //used for the textField and the button on the bottom
                 TextField sendMessage = new TextField();
 
+
                 Button sendButton = new Button("Send");
-                sendButton.getStyleClass().add("text-field-chat");
+                sendButton.getStyleClass().add("send-button");
                 messageBox.getChildren().addAll(sendMessage, sendButton);
-                messageBox.setSpacing(20);
+                messageBox.setSpacing(10);
+                messageBox.setMinHeight(33);
+                messageBox.setMaxHeight(33);
+                messageBox.setPadding(new Insets(5,5,5,5));
+
                 handleOnActionChat(sendButton, sendMessage);
                 handleOnKeyPress(sendMessage);
 
@@ -105,7 +118,10 @@ public class PlaceStarterCardSceneController extends GenericController{
 
                 // Set HBox growth for sendMessage
                 HBox.setHgrow(sendMessage, Priority.ALWAYS);
+                sendMessage.setMinHeight(24);
+                sendMessage.setMaxHeight(24);
                 sendMessage.setMaxWidth(300);
+                sendMessage.getStyleClass().add("text-field-chat");
 
                 // Create a spacer
                 Region spacer = new Region();
@@ -113,8 +129,18 @@ public class PlaceStarterCardSceneController extends GenericController{
 
                 chatContainer.getChildren().addAll(chatContent, messageBox);
                 chatTab.setContent(chatContainer);
-                chatTabPaneStarter.getTabs().add(chatTab);
+
+                chatTabPane.getTabs().add(chatTab);
+                chatTabPane.getStyleClass().add("tab-pane-chat");
+
             }
+
+            chatTitledPaneStarter.setOnMouseClicked(event -> {
+                Platform.runLater(() -> {
+                    chatTitledPaneStarter.toFront();
+                    //circleChat.setVisible(false);
+                });
+            });
 
     }
 
@@ -151,7 +177,7 @@ public class PlaceStarterCardSceneController extends GenericController{
      */
     void sendChatMessage(){
         try {
-            Tab currentTab = chatTabPaneStarter.getSelectionModel().getSelectedItem();
+            Tab currentTab = chatTabPane.getSelectionModel().getSelectedItem();
             String receiver = currentTab.getText();
             String content = getSendMessageFieldFromTab(currentTab).getText();
             if(!content.trim().isEmpty()) {

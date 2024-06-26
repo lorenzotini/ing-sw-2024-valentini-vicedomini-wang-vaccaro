@@ -8,7 +8,6 @@ import it.polimi.ingsw.gc27.Model.Game.Player;
 import it.polimi.ingsw.gc27.Model.ClientClass.MiniModel;
 import it.polimi.ingsw.gc27.Net.Commands.Command;
 import it.polimi.ingsw.gc27.Net.Commands.PingCommand;
-import it.polimi.ingsw.gc27.Net.VirtualServer;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 
 import java.io.IOException;
@@ -200,7 +199,7 @@ public class ClientHandler implements VirtualView {
     @Override
     public void pingFromServer() throws RemoteException {
         while (!disconnected) {
-            update(new PingMessage(""));
+            update(new PingMessage());
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {

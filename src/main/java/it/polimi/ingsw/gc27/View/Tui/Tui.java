@@ -20,6 +20,13 @@ import java.util.stream.Collectors;
 import static java.lang.System.in;
 import static java.lang.System.out;
 
+/**
+ * The Tui class represents the Text User Interface of the game.
+ * It provides methods for running the game, setting the client, displaying game status,
+ * and handling user input.It communicates with the rest of the system by sending commands
+ * to the client.
+ * This class implements the View interface.
+ */
 public class Tui implements View {
 
     private VirtualView client;
@@ -43,6 +50,11 @@ public class Tui implements View {
         chatters.addFirst("Global");
     }
 
+    /**
+     * Runs the game by displaying the title and starting the game interface.
+     * The game loop continuously reads user input and handles it based on the current game state.
+     * @throws IOException if an I/O error occurs.
+     */
     @Override
     public void run() throws IOException {
 
@@ -308,11 +320,19 @@ public class Tui implements View {
         }
     }
 
+    /**
+     * Sets the client for this Tui instance.
+     * @param client the VirtualView client to be set
+     */
     @Override
     public void setClient(VirtualView client) {
         this.client = client;
     }
 
+    /**
+     * Handles the suspension of the game by displaying a message to the user.
+     * @param string the message to be displayed
+     */
     @Override
     public void suspendedGame(String string) {
         synchronized (this) {
@@ -326,6 +346,7 @@ public class Tui implements View {
             out.println("The game can resume, play");
         }
     }
+
     @Override
     public void showString(String phrase) {
         synchronized (this) {

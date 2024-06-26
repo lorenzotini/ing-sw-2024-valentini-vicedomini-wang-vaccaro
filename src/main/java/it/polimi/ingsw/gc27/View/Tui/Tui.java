@@ -184,8 +184,8 @@ public class Tui implements View {
                                 } else {
                                     out.println("\nInvalid face: abort");
                                 }
-                            } catch (Exception e) {
-
+                            } catch (InputMismatchException e) {
+                                out.println("\nInvalid input. Please enter an integer.");
                             }
                         }
                         break;

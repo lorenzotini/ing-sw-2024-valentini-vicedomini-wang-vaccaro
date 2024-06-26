@@ -31,7 +31,7 @@ public class AddCardCommand implements Command {
             Face face = isFrontFace ? card.getFront() : card.getBack();
             gc.addCard(player, card, face, x, y);
         } catch (IndexOutOfBoundsException e){
-            gc.getGame().notifyObservers(new GenericErrorMessage("Draw a card", new MiniModel(player)));
+            gc.getGame().notifyObservers(new GenericErrorMessage("Invalid request: incorrect card number or placement", new MiniModel(player)));
         }
 
     }

@@ -56,254 +56,255 @@ public class Tui implements View {
      * @throws IOException if an I/O error occurs.
      */
     @Override
-    public void run() throws IOException {
+    public void run() {
+        //TODO svuotare il buffer, altrimenti printa tutti i comandi presi durante l'attesa dei giocatori
 
         showTitle();
+        showString("\nThe game is starting!");
 
-        chatters.addAll(client.getMiniModel().getOtherPlayersUsernames());
+        try {
 
-        out.println("\nThe game is starting!");
-        //TODO svuotare il buffer, altrimenti printa tutti i comandi presi durante l'attesa dei giocatori
-        while (true) {
+            chatters.addAll(client.getMiniModel().getOtherPlayersUsernames());
 
-            try {
+            while (true) {
+
+                MiniModel miniModel = client.getMiniModel();
+
                 TimeUnit.MILLISECONDS.sleep(400);
-            } catch (InterruptedException e) {
-                throw new RuntimeException("Thread Problem");
-            }
-            out.print(client.getMiniModel().getPlayer().getPlayerState() + "\n> ");
+
+                out.print(miniModel.getPlayer().getPlayerState() + "\n> ");
 
 
-            // skip the \n char when entering an input
-            scan.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+                // skip the \n char when entering an input
+                scan.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
 
-            String command = scan.nextLine();
+                String command = scan.nextLine();
 
-            switch (command.toLowerCase()) {
+                switch (command.toLowerCase()) {
 
-                case "help":
-                    out.println("╔═══ Commands ══════════════════════════════════╗");
-                    out.println("║ " + ColourControl.YELLOW_BOLD + "addstarter" + ColourControl.RESET + " - add a starter card to your board ║");
-                    out.println("║ " + ColourControl.YELLOW_BOLD + "chooseobj" + ColourControl.RESET + " - choose an objective card          ║");
-                    out.println("║ " + ColourControl.YELLOW_BOLD + "addcard" + ColourControl.RESET + " - add a card to your board            ║");
-                    out.println("║ " + ColourControl.YELLOW_BOLD + "draw" + ColourControl.RESET + " - draw a card from the market            ║");
-                    out.println("║ " + ColourControl.YELLOW_BOLD + "sendmessage" + ColourControl.RESET + " - send a message in chat          ║");
-                    out.println("╔═══ Visualize ═════════════════════════════════╗");
-                    out.println("║ " + ColourControl.YELLOW_BOLD + "man" + ColourControl.RESET + " - print your manuscript                   ║");
-                    out.println("║ " + ColourControl.YELLOW_BOLD + "hand" + ColourControl.RESET + " - print your hand                        ║");
-                    out.println("║ " + ColourControl.YELLOW_BOLD + "obj" + ColourControl.RESET + " - print your secret objective             ║");
-                    out.println("║ " + ColourControl.YELLOW_BOLD + "market" + ColourControl.RESET + " - print the market                     ║");
-                    out.println("║ " + ColourControl.YELLOW_BOLD + "board" + ColourControl.RESET + " - print the players' score board        ║");
-                    out.println("║ " + ColourControl.YELLOW_BOLD + "showchat" + ColourControl.RESET + " - show the global or private chat    ║");
-                    out.println("╚═══════════════════════════════════════════════╝");
-                    break;
+                    case "help":
+                        out.println("╔═══ Commands ══════════════════════════════════╗");
+                        out.println("║ " + ColourControl.YELLOW_BOLD + "addstarter" + ColourControl.RESET + " - add a starter card to your board ║");
+                        out.println("║ " + ColourControl.YELLOW_BOLD + "chooseobj" + ColourControl.RESET + " - choose an objective card          ║");
+                        out.println("║ " + ColourControl.YELLOW_BOLD + "addcard" + ColourControl.RESET + " - add a card to your board            ║");
+                        out.println("║ " + ColourControl.YELLOW_BOLD + "draw" + ColourControl.RESET + " - draw a card from the market            ║");
+                        out.println("║ " + ColourControl.YELLOW_BOLD + "sendmessage" + ColourControl.RESET + " - send a message in chat          ║");
+                        out.println("╔═══ Visualize ═════════════════════════════════╗");
+                        out.println("║ " + ColourControl.YELLOW_BOLD + "man" + ColourControl.RESET + " - print your manuscript                   ║");
+                        out.println("║ " + ColourControl.YELLOW_BOLD + "hand" + ColourControl.RESET + " - print your hand                        ║");
+                        out.println("║ " + ColourControl.YELLOW_BOLD + "obj" + ColourControl.RESET + " - print your secret objective             ║");
+                        out.println("║ " + ColourControl.YELLOW_BOLD + "market" + ColourControl.RESET + " - print the market                     ║");
+                        out.println("║ " + ColourControl.YELLOW_BOLD + "board" + ColourControl.RESET + " - print the players' score board        ║");
+                        out.println("║ " + ColourControl.YELLOW_BOLD + "showchat" + ColourControl.RESET + " - show the global or private chat    ║");
+                        out.println("╚═══════════════════════════════════════════════╝");
+                        break;
 
-                case "addstarter":
-                    synchronized (this) {
-                        if (!checkState(InitializingState.class)) {
-                            break;
-                        }
-
-                        out.println(showStarter(client.getMiniModel().getPlayer().getStarterCard()));
-                        out.println("\nWhat side do you want to play? (front or back)");
-                        while (true) {
-                            String side = scan.next();
-                            if (side.equalsIgnoreCase("front")) {
-                                Command comm = new AddStarterCommand(client.getUsername(), true);
-                                client.sendCommand(comm);
-
+                    case "addstarter":
+                        synchronized (this) {
+                            if (!checkState(InitializingState.class)) {
                                 break;
-                            } else if (side.equalsIgnoreCase("back")) {
-                                Command comm = new AddStarterCommand(client.getUsername(), false);
-                                client.sendCommand(comm);
-
-                                break;
-                            } else {
-                                out.println("\nInvalid face: insert front or back");
                             }
-                            // Consume the invalid input to clear the scanner's buffer
-                            scan.nextLine();
-                        }
-                        // Consume the invalid input to clear the scanner's buffer
-                    }
-                    break;
 
-                case "chooseobj":
-                    synchronized (this) {
-                        if (!checkState(ChooseObjectiveState.class)) {
-                            break;
-                        }
-                        out.println(showObjectives(client.getMiniModel().getPlayer().getSecretObjectives()));
-                        int obj;
-                        out.println("\nWhich objective do you want to achieve? (1 or 2)");
-                        while (true) {
-                            try {
-                                obj = scan.nextInt();
-                                if (obj == 1 || obj == 2) {
-                                    Command comm = new ChooseObjectiveCommand(client.getUsername(), obj);
+                            out.println(showStarter(miniModel.getPlayer().getStarterCard()));
+                            out.println("\nWhat side do you want to play? (front or back)");
+                            while (true) {
+                                String side = scan.next();
+                                if (side.equalsIgnoreCase("front")) {
+                                    Command comm = new AddStarterCommand(client.getUsername(), true);
                                     client.sendCommand(comm);
+
+                                    break;
+                                } else if (side.equalsIgnoreCase("back")) {
+                                    Command comm = new AddStarterCommand(client.getUsername(), false);
+                                    client.sendCommand(comm);
+
                                     break;
                                 } else {
-                                    out.println("\nInvalid number, insert 1 or 2");
+                                    out.println("\nInvalid face: insert front or back");
                                 }
-                            } catch (InputMismatchException e) {
-                                out.println("\nInvalid input. Please enter an integer.");
-                            } finally {
                                 // Consume the invalid input to clear the scanner's buffer
                                 scan.nextLine();
                             }
+                            // Consume the invalid input to clear the scanner's buffer
                         }
-                        // Consume the invalid input to clear the scanner's buffer
-                    }
-                    break;
+                        break;
 
-                // TODO creare una soluzione intelligente per gestire gli input di addcard, con while true e try catch vari
-                case "addcard":
-                    synchronized (this) {
-                        if (!checkState(PlayingState.class)) {
-                            break;
-                        }
-                        try {
-                            out.println(showManuscript(client.getMiniModel().getManuscript()));
-                            out.println(showHand(client.getMiniModel().getHand()));
-                            out.println("\nWhich card do you want to add? (choose from 1, 2, 3)");
-                            int cardIndex = scan.nextInt() - 1;
-                            out.println("\nFront or back?");
-                            String face = scan.next();
-                            out.println("\nx = ");
-                            int x = scan.nextInt();
-                            out.println("\ny = ");
-                            int y = scan.nextInt();
-                            if (face.equalsIgnoreCase("front")) {
-                                Command comm = new AddCardCommand(client.getUsername(), cardIndex, true, x, y);
-                                client.sendCommand(comm);
-                            } else if (face.equalsIgnoreCase("back")) {
-                                Command comm = new AddCardCommand(client.getUsername(), cardIndex, false, x, y);
-                                client.sendCommand(comm);
-                            } else {
-                                out.println("\nInvalid face: abort");
+                    case "chooseobj":
+                        synchronized (this) {
+                            if (!checkState(ChooseObjectiveState.class)) {
+                                break;
                             }
-                        } catch (Exception e) {
-
-                        }
-                    }
-                    break;
-
-                case "draw":
-                    synchronized (this) {
-                        if (!checkState(DrawingState.class)) {
-                            break;
-                        }
-                        do {
-                            out.println(showMarket(client.getMiniModel().getMarket()));
-                            out.println("\nEnter [cardType] [fromDeck] [faceUpIndex] (res/gold, true/false, 0/1)");
-                            String line = scan.nextLine();
-                            String[] words = line.split(" ");
-                            if (words.length == 3) {
+                            out.println(showObjectives(miniModel.getPlayer().getSecretObjectives()));
+                            int obj;
+                            out.println("\nWhich objective do you want to achieve? (1 or 2)");
+                            while (true) {
                                 try {
-                                    String cardType = words[0];
-                                    boolean fromDeck = Boolean.parseBoolean(words[1]);
-                                    int faceUpIndex = Integer.parseInt(words[2]);
-                                    boolean isGold = cardType.equalsIgnoreCase("gold");
-                                    Command comm = new DrawCardCommand(client.getUsername(), isGold, fromDeck, faceUpIndex);
-                                    client.sendCommand(comm);
-                                    break;
-                                } catch (Exception e) {
-                                    out.println("Invalid format");
+                                    obj = scan.nextInt();
+                                    if (obj == 1 || obj == 2) {
+                                        Command comm = new ChooseObjectiveCommand(client.getUsername(), obj);
+                                        client.sendCommand(comm);
+                                        break;
+                                    } else {
+                                        out.println("\nInvalid number, insert 1 or 2");
+                                    }
+                                } catch (InputMismatchException e) {
+                                    out.println("\nInvalid input. Please enter an integer.");
+                                } finally {
+                                    // Consume the invalid input to clear the scanner's buffer
+                                    scan.nextLine();
                                 }
                             }
-                        } while (true);
-                    }
-                    break;
-
-                case "man":
-                    synchronized (this) {
-                        do {
-                            out.println("Which manuscript? " + client.getMiniModel().getOtherPlayersUsernames());
-                            String person = scan.nextLine();
-                            if (person.equals("mine")) {
-                                out.println("\n" + showManuscript(client.getMiniModel().getManuscript()));
-                                break;
-                            } else if (client.getMiniModel().checkOtherUsername(person)) {
-                                out.println("\n" + showManuscript(client.getMiniModel().getManuscriptsMap().get(person)));
-                                break;
-                            }
-                        } while (true);
-                    }
-                    break;
-
-                case "hand":
-                    synchronized (this) {
-                        out.println("\n" + showHand(client.getMiniModel().getHand()));
-                    }
-                    break;
-
-                case "obj":
-                    synchronized (this) {
-                        out.println("\n" + showObjectives(client.getMiniModel().getPlayer().getSecretObjectives()));
-                    }
-                    break;
-
-                case "market":
-                    synchronized (this) {
-                        out.println("\n" + showMarket(client.getMiniModel().getMarket()));
-                    }
-                    break;
-                case "showchat":
-                    synchronized (this) {
-                        do {
-                            out.println("\nWhich chat? " + chatters);
-                            String person = scan.nextLine();
-                            if (person.equalsIgnoreCase("global")) {
-                                printChat(client.getMiniModel().getChats().getFirst());
-                                break;
-                            } else if (client.getMiniModel().checkOtherUsername(person)) {
-                                printChat(client.getMiniModel().getChat(person));
-                                break;
-                            }
-                        } while (true);
-                    }
-                    break;
-                case "board":
-                    synchronized (this) {
-                        out.println("\n" + showBoard(client.getMiniModel().getBoard()));
-                    }
-                    break;
-                case "sendmessage":
-                    synchronized (this) {
-                        String receiver;
-                        boolean f;
-                        do {
-
-                            out.println("\nChat available with: \n@Global");
-                            for (String u : client.getMiniModel().getOtherPlayersUsernames()) {
-                                out.println("@" + u);
-                            }
-                            out.println("Choose one");
-                            receiver = scan.nextLine();
-                            if (receiver.equals("\n") || receiver.isEmpty()) {
-                                receiver = scan.nextLine();
-                                break;
-                            }
-
-                            f = client.getMiniModel().checkOtherUsername(receiver) || receiver.equalsIgnoreCase("global");
-
-                        } while (!f);
-                        if (receiver.equalsIgnoreCase("global")) {
-                            receiver = receiver.toLowerCase();
+                            // Consume the invalid input to clear the scanner's buffer
                         }
-                        out.println("\nContent:");
-                        String mess = scan.nextLine();
-                        client.sendCommand(new SendMessageCommand(client.getMiniModel().getPlayer(), receiver, mess));
-                        out.println("\n");
-                    }
-                    break;
-                default:
-                    synchronized (this) {
-                        out.println("\nInvalid command. Type 'help' for a list of commands.");
-                    }
-                    break;
+                        break;
+
+                    // TODO creare una soluzione intelligente per gestire gli input di addcard, con while true e try catch vari
+                    case "addcard":
+                        synchronized (this) {
+                            if (!checkState(PlayingState.class)) {
+                                break;
+                            }
+                            try {
+                                out.println(showManuscript(miniModel.getManuscript()));
+                                out.println(showHand(miniModel.getHand()));
+                                out.println("\nWhich card do you want to add? (choose from 1, 2, 3)");
+                                int cardIndex = scan.nextInt() - 1;
+                                out.println("\nFront or back?");
+                                String face = scan.next();
+                                out.println("\nx = ");
+                                int x = scan.nextInt();
+                                out.println("\ny = ");
+                                int y = scan.nextInt();
+                                if (face.equalsIgnoreCase("front")) {
+                                    Command comm = new AddCardCommand(client.getUsername(), cardIndex, true, x, y);
+                                    client.sendCommand(comm);
+                                } else if (face.equalsIgnoreCase("back")) {
+                                    Command comm = new AddCardCommand(client.getUsername(), cardIndex, false, x, y);
+                                    client.sendCommand(comm);
+                                } else {
+                                    out.println("\nInvalid face: abort");
+                                }
+                            } catch (Exception e) {
+
+                            }
+                        }
+                        break;
+
+                    case "draw":
+                        synchronized (this) {
+                            if (!checkState(DrawingState.class)) {
+                                break;
+                            }
+                            do {
+                                out.println(showMarket(miniModel.getMarket()));
+                                out.println("\nEnter [cardType] [fromDeck] [faceUpIndex] (res/gold, true/false, 0/1)");
+                                String line = scan.nextLine();
+                                String[] words = line.split(" ");
+                                if (words.length == 3) {
+                                    try {
+                                        String cardType = words[0];
+                                        boolean fromDeck = Boolean.parseBoolean(words[1]);
+                                        int faceUpIndex = Integer.parseInt(words[2]);
+                                        boolean isGold = cardType.equalsIgnoreCase("gold");
+                                        Command comm = new DrawCardCommand(client.getUsername(), isGold, fromDeck, faceUpIndex);
+                                        client.sendCommand(comm);
+                                        break;
+                                    } catch (Exception e) {
+                                        out.println("Invalid format");
+                                    }
+                                }
+                            } while (true);
+                        }
+                        break;
+
+                    case "man":
+                        synchronized (this) {
+                            do {
+                                out.println("Which manuscript? " + miniModel.getOtherPlayersUsernames());
+                                String person = scan.nextLine();
+                                if (person.equals("mine")) {
+                                    out.println("\n" + showManuscript(miniModel.getManuscript()));
+                                    break;
+                                } else if (miniModel.checkOtherUsername(person)) {
+                                    out.println("\n" + showManuscript(miniModel.getManuscriptsMap().get(person)));
+                                    break;
+                                }
+                            } while (true);
+                        }
+                        break;
+
+                    case "hand":
+                        showString("\n" + showHand(miniModel.getHand()));
+                        break;
+
+                    case "obj":
+                        showString("\n" + showObjectives(miniModel.getPlayer().getSecretObjectives()));
+                        break;
+
+                    case "market":
+                        showString("\n" + showMarket(miniModel.getMarket()));
+                        break;
+
+                    case "showchat":
+                        synchronized (this) {
+                            do {
+                                out.println("\nWhich chat? " + chatters);
+                                String person = scan.nextLine();
+                                if (person.equalsIgnoreCase("global")) {
+                                    printChat(miniModel.getChats().getFirst());
+                                    break;
+                                } else if (miniModel.checkOtherUsername(person)) {
+                                    printChat(miniModel.getChat(person));
+                                    break;
+                                }
+                            } while (true);
+                        }
+                        break;
+                    case "board":
+                        synchronized (this) {
+                            out.println("\n" + showBoard(miniModel.getBoard()));
+                        }
+                        break;
+                    case "sendmessage":
+                        synchronized (this) {
+                            String receiver;
+                            boolean f;
+                            do {
+
+                                out.println("\nChat available with: \n@Global");
+                                for (String u : miniModel.getOtherPlayersUsernames()) {
+                                    out.println("@" + u);
+                                }
+                                out.println("Choose one");
+                                receiver = scan.nextLine();
+                                if (receiver.equals("\n") || receiver.isEmpty()) {
+                                    receiver = scan.nextLine();
+                                    break;
+                                }
+
+                                f = miniModel.checkOtherUsername(receiver) || receiver.equalsIgnoreCase("global");
+
+                            } while (!f);
+                            if (receiver.equalsIgnoreCase("global")) {
+                                receiver = receiver.toLowerCase();
+                            }
+                            out.println("\nContent:");
+                            String mess = scan.nextLine();
+                            client.sendCommand(new SendMessageCommand(miniModel.getPlayer(), receiver, mess));
+                            out.println("\n");
+                        }
+                        break;
+                    default:
+                        synchronized (this) {
+                            out.println("\nInvalid command. Type 'help' for a list of commands.");
+                        }
+                        break;
+                }
             }
+        } catch (InterruptedException e) {
+            out.println("Interrupted during sleep");
+        } catch (IOException e) {
+            out.println("Problem with the net during tui run");
         }
 
     }

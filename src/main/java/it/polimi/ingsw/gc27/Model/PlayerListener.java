@@ -18,6 +18,7 @@ public class PlayerListener implements Serializable {
 
     VirtualView client;
     String playerUsername;
+    boolean flag = true;
 
     /**
      * Constructs a PlayerListener with the specified client and player
@@ -42,11 +43,17 @@ public class PlayerListener implements Serializable {
                     (message.getMiniModel().currentPlayer == null && message.getMiniModel().getPlayer() == null) ||
                     (message.getMiniModel().currentPlayer != null && message.getMiniModel().currentPlayer.equals(playerUsername)) ||
                     (message.getMiniModel().getPlayer() != null && message.getMiniModel().getPlayer().getUsername().equals(playerUsername))) { //the condition check that the client of this listener has to receive the update
-                    try{
+
+                if (flag){
+                    try {
                         client.update(message);
-                    }catch(RemoteException e){
+                    } catch (RemoteException e) {
+                        e.printStackTrace();
+                        System.out.println("Net problem while sending update");
+                        flag = false;
                         System.out.println("Error from the listener");
                     }
+            }
             }
     }
 

@@ -101,6 +101,7 @@ public class RmiServer implements VirtualServer {
                     System.out.println("Timeout for client expired - rmi - " + client);
                     // Remove all the references to the client
                     console.removeReferences(client);
+                    System.out.println("After remove  references - " + client);
                     synchronized (clients) {
                         clients.remove(client);
                         System.out.println(clients.size());

@@ -28,8 +28,9 @@ public class ReconnectPlayerCommand implements Command{
         // Update the client's miniModel with the player's data
         MiniModel miniModel = new MiniModel(player, game);
         Message message = new ReconnectedPlayerMessage(miniModel, "Welcome back!!");
-        game.notifyObservers(message);
         gc.getTurnHandler().handleReconnection(player);
+        game.notifyObservers(message);
+
     }
 
     @Override

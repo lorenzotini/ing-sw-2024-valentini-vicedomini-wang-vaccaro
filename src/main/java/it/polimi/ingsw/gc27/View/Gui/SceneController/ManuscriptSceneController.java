@@ -2,6 +2,7 @@ package it.polimi.ingsw.gc27.View.Gui.SceneController;
 
 import it.polimi.ingsw.gc27.Model.Card.Card;
 import it.polimi.ingsw.gc27.Model.Card.Face;
+import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
 import it.polimi.ingsw.gc27.Model.ClientClass.ClientBoard;
 import it.polimi.ingsw.gc27.Model.ClientClass.ClientChat;
 import it.polimi.ingsw.gc27.Model.ClientClass.ClientManuscript;
@@ -33,10 +34,7 @@ import javafx.scene.transform.Scale;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.util.*;
 
 
 public class ManuscriptSceneController extends GenericController {
@@ -650,7 +648,8 @@ public class ManuscriptSceneController extends GenericController {
     public void overwriteHand(MiniModel miniModel) {
         Platform.runLater(() -> {
             handCards.getChildren().clear();
-            for (Card card : miniModel.getPlayer().getHand()) {
+            ArrayList<ResourceCard> hand = miniModel.getPlayer().getHand();
+            for (Card card : hand) {
                 ImageView newHandCard = new ImageView(new Image(getClass().getResource(card.getFront().getImagePath()).toExternalForm()));
                 newHandCard.getStyleClass().add("image-card");
                 newHandCard.setFitHeight(CARD_HEIGHT);
@@ -658,7 +657,7 @@ public class ManuscriptSceneController extends GenericController {
                 handleDragDetectedHand(newHandCard);
                 handleOnClick(newHandCard);
                 zoomCardOnHover(newHandCard, 1.2);
-                HandCardData handCardData = new HandCardData(miniModel.getPlayer().getHand().indexOf(card), true);
+                HandCardData handCardData = new HandCardData(hand.indexOf(card), true);
                 newHandCard.setUserData(handCardData);
                 handCards.getChildren().add(newHandCard);
             }
@@ -739,9 +738,10 @@ public class ManuscriptSceneController extends GenericController {
     public void overwriteCounters(MiniModel miniModel) {
         Platform.runLater(() -> {
             counters.getChildren().clear();
+            ClientManuscript manuscript = miniModel.getManuscript();
             for (CornerSymbol cs : CornerSymbol.valuesList()) {
                 if (cs.equals(CornerSymbol.BLACK) || cs.equals(CornerSymbol.EMPTY)) continue;
-                Label counter = new Label("  -  " + miniModel.getManuscript().getCounter(cs));
+                Label counter = new Label("  -  " + manuscript.getCounter(cs));
                 counter.setPrefHeight(60);
                 counter.setFont(Font.font("Agency FB", FontWeight.BLACK, 30));
                 counter.setFont(Font.font("Agency FB", FontWeight.BLACK, 30));

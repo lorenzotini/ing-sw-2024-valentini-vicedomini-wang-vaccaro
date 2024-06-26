@@ -285,8 +285,9 @@ public class Gui implements View {
             try {
                 MiniModel miniModel = client.getMiniModel();
 
+                HashMap<String, ClientManuscript> map = new HashMap<>(miniModel.getManuscriptsMap());
                 // update manuscripts
-                for (Map.Entry<String, ClientManuscript> element : miniModel.getManuscriptsMap().entrySet()) {
+                for (Map.Entry<String, ClientManuscript> element : map.entrySet()) {
                     controller.overwriteManuscript(miniModel, element.getKey(), false);
                 }
 
@@ -456,12 +457,6 @@ public class Gui implements View {
      */
     public void addLastChatMessage(ChatMessage message, Tab chatTab) {
         Platform.runLater(() -> {
-            MiniModel miniModel;
-            try {
-                miniModel = Gui.getInstance().getClient().getMiniModel();
-            } catch (RemoteException e) {
-                throw new RuntimeException(e);
-            }
 
             VBox vbox = getChatMessagesVBox(chatTab);
 

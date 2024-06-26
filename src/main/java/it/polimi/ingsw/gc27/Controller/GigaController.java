@@ -243,7 +243,7 @@ public class GigaController {
         for (Player p : gc.getGame().getPlayers()) {
             if (p.getUsername().equals(disconnectedUsername) && p.isDisconnected()) {
                 client.setUsername(p.getUsername());
-                registeredUsernames.replace(p.getUsername(), client);
+                registeredUsernames.put(p.getUsername(), client);
                 gc.addCommand(new ReconnectPlayerCommand(client, p));
                 return true;
             }

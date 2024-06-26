@@ -24,6 +24,7 @@ import javafx.scene.text.TextAlignment;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.HashMap;
 /**
  * third scene of initialization, players can choose their secret objective card from the two objective cards displayed
@@ -310,7 +311,8 @@ public class ChooseObjectiveSceneController extends GenericController {
     public void fullChatAllocate() throws RemoteException {
         MiniModel miniModel = Gui.getInstance().getClient().getMiniModel();
         String myUsername = miniModel.getPlayer().getUsername();
-        for (ClientChat chat : miniModel.getChats()) {
+        ArrayList<ClientChat> chats = miniModel.getChats();
+        for (ClientChat chat : chats) {
             Tab tab = chatTabHashMapC.get(chat.getChatters().stream()
                     .filter(user -> !user.equals(myUsername))
                     .toList().getFirst());

@@ -22,6 +22,7 @@ public class TurnHandler implements Serializable {
     private boolean twentyPointsReached;
 
     private boolean lastRound;
+    private GameController gameController;
 
     public void setLastRound(boolean lastRound) {
         this.lastRound = lastRound;
@@ -31,10 +32,11 @@ public class TurnHandler implements Serializable {
      * constructor of the players' turn handler
      * @param game which game
      */
-    public TurnHandler(Game game) {
+    public TurnHandler(Game game, GameController gameController) {
         this.game = game;
         this.twentyPointsReached = false;
         this.lastRound = false;
+        this.gameController = gameController;
     }
 
     /**
@@ -246,7 +248,6 @@ public class TurnHandler implements Serializable {
             }
 
             sendWinnersToClient();
-
         }
     }
 
@@ -309,8 +310,10 @@ public class TurnHandler implements Serializable {
      * displays the winner/winners to the users, and the general scoreboard
      */
     public void sendWinnersToClient(){
+
         UpdateEndGameMessage winnerMessage = new UpdateEndGameMessage(new MiniModel(game));
         this.game.notifyObservers(winnerMessage);
+        gameController.setInMatch(false);
     }
 
     /**
@@ -348,4 +351,5 @@ public class TurnHandler implements Serializable {
             game.notifyObservers(new UpdatePlayerStateMessage(new MiniModel(player, game)));
         }
     }
+
 }

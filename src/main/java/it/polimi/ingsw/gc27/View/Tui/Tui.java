@@ -282,7 +282,7 @@ public class Tui implements View {
                         }
                         out.println("\nContent:");
                         String mess = scan.nextLine();
-                        client.sendCommand(new SendMessageCommand(client.getMiniModel().getPlayer(), receiver, mess));
+                        client.sendCommand(new  SendMessageCommand(client.getMiniModel().getPlayer(), receiver, mess));
                         out.println("\n");
                     }
                     break;

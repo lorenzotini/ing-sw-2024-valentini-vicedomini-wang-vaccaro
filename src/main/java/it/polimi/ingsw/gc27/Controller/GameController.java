@@ -234,7 +234,7 @@ public class GameController implements Serializable {
 
         // All players are ready
         if (game.ready(p) == numMaxPlayers) {
-            this.turnHandler = new TurnHandler(this.game);
+            this.turnHandler = new TurnHandler(this.game, this);
             game.getBoard().initBoard(game.getPlayers());
             for (Player player : game.getPlayers()) {
                 player.setPlayerState(new InitializingState(player, this.turnHandler));
@@ -293,6 +293,7 @@ public class GameController implements Serializable {
                     throw new RuntimeException(e);
                 }
             }
+            console.closeGame(this);
             System.out.println("This thread has been closed");
         }).start();
     }
@@ -419,6 +420,9 @@ public class GameController implements Serializable {
     }
     public BlockingQueue<Command> getCommands() {
         return commands;
+    }
+    public void setInMatch(boolean f){
+        this.inMatch = f;
     }
 
 

@@ -13,8 +13,8 @@ public class SuspendPlayerCommand implements Command {
     }
     @Override
     public void execute(GameController gc)  {
-        gc.suspendPlayer(gc.getPlayer(player));
         gc.getGame().removeObserver(player);
+        gc.suspendPlayer(gc.getPlayer(player));
     }
 
     @Override

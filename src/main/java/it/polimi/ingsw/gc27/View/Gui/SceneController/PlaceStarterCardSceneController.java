@@ -17,10 +17,7 @@ import javafx.scene.image.ImageView;
 import it.polimi.ingsw.gc27.View.Gui.Gui;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.Region;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
@@ -45,6 +42,8 @@ public class PlaceStarterCardSceneController extends GenericController{
     public Label gameSuspendedLabel;
     @FXML
     public TitledPane chatTitledPane;
+    @FXML
+    public AnchorPane chatAnchorPane;
 
     //there is a private hashmap for all the scenes where the chat is displayed
     private HashMap<String, Tab> chatTabHashMapP= new HashMap<>();
@@ -135,12 +134,19 @@ public class PlaceStarterCardSceneController extends GenericController{
 
                 chatContainer.getChildren().addAll(chatContent, messageBox);
 
+                //chatTitledPane.setStyle("-fx-border-color: maroon; -fx-background-radius: 15; -fx-border-radius: 10; ");
+                //chatAnchorPane.setStyle("-fx-border-color: maroon; -fx-background-radius: 15; -fx-border-radius: 15; -fx-border-width: 10");
+
+                //chatContent.setStyle("-fx-border-color: maroon; -fx-background-radius: 15; -fx-border-radius: 15;");
+                //messageBox.setStyle("-fx-border-color: maroon; -fx-background-radius: 15; -fx-border-radius: 15;");
+                //chatContainer.setStyle("-fx-border-color: maroon; -fx-background-radius: 15; -fx-border-radius: 15; ");
                 chatTab.setContent(chatContainer);
 
                 chatTabPaneStarter.getTabs().add(chatTab);
-                //chatTabPaneStarter.getStyleClass().add("tab-pane-chat");
+                chatTabPaneStarter.getStyleClass().add("tab-pane-chat");
             }
             //chatTitledPane.getStyleClass().add("titled-pane");
+
             chatTitledPane.setOnMouseClicked(event -> {
                 Platform.runLater(() -> {
                     chatTitledPane.toFront();

@@ -91,13 +91,14 @@
     -fx-background-color: transparent;
     -fx-background-radius: 15 15 15 15;
 }
-/*
-.tab-pane-chat .tab-content-area {
-    -fx-background-color: transparent;
-    -fx-background-radius: 0 0 15 15;
-    -fx-b    -fx-background-insets: 0, 1, 2;
-order-radius: 0 0 15 15;
-}*/
+*/
+.tab-pane-chat  {
+    /*-fx-background-color: red;*/
+    -fx-background-radius: 15;
+    -fx-background-insets: 0, 1, 2;
+    -fx-border-radius: 15;
+    /*-fx-border-color: blue;*/
+}
 
 .titled-pane > .title
 {
@@ -105,7 +106,14 @@ order-radius: 0 0 15 15;
     -fx-background-insets: 0, 1, 2;
     -fx-background-radius: 5 5 5 5, 4 4 4 4, 3 3 3 3;
     -fx-padding: 0.166667em 0.833333em 0.25em 0.833333em; /* 2 10 3 10 */
-    -fx-pref-width: 150;
+    -fx-max-width: 150;
+}
+.titled-pane{
+    -fx-background-color: transparent;
+    -fx-background-radius: 15;
+    -fx-background-insets: 0, 1, 2;
+    -fx-border-radius: 15;
+    -fx-border-color: transparent;
 }
 /*.titled-pane{
     -fx-background-color: transparent;

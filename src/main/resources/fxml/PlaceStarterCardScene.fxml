@@ -56,7 +56,7 @@
       </Label>
       <TitledPane fx:id="chatTitledPane" layoutX="1086.0" layoutY="29.0" prefHeight="325.0" prefWidth="280.0" stylesheets="@../css/Chat.css" text="chat">
         <content>
-          <AnchorPane fx:id="chatTiledPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+          <AnchorPane fx:id="chatAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="250.0" prefWidth="280.0">
                <children>
                     <TabPane fx:id="chatTabPaneStarter" prefHeight="302.0" prefWidth="280.0" stylesheets="@../css/Chat.css" tabClosingPolicy="UNAVAILABLE" />
                </children>

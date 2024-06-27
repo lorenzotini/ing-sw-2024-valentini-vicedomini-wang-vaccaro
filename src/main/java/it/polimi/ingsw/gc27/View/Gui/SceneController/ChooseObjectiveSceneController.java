@@ -63,9 +63,9 @@ public class ChooseObjectiveSceneController extends GenericController {
     @FXML
     public TabPane chatTabPane;
     @FXML
-    public Label gameSuspendedLabel;
+    private Label gameSuspendedLabel;
     @FXML
-    public TitledPane chatTitledPane;
+    private TitledPane chatTitledPane;
     @FXML
     private Circle circleChat;
     //there is a private hashmap for all the scenes where the chat is displayed

@@ -462,7 +462,7 @@ public class Tui implements View {
     }
 
     /**
-     * Reads input from the client using a {@Link Scanner}.
+     * Reads input from the client using a {@link Scanner}.
      *
      * @return the input read from the client
      */

@@ -49,8 +49,6 @@ public class Player implements Serializable, ClientPlayer {
      * @param game game
      * @param card which card
      * @param face face up or face down
-     * @requires x
-     * @requires y
      */
     public void addCard(Game game, Card card, Face face, int x, int y) {
 

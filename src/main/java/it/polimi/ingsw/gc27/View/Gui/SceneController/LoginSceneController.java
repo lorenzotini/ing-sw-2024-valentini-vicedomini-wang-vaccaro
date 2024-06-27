@@ -139,7 +139,6 @@ public class LoginSceneController extends GenericController {
         redButton.setDisable(true);
         sendColourButton.setDisable(true);
         sendBackButton.setVisible(false);
-        //sendBackButton.setDisable(true);
         handleOnKeyPress(usernameInput);
     }
 
@@ -308,15 +307,20 @@ public class LoginSceneController extends GenericController {
                 errorUsername.setVisible(true);
                 if (gameId != -1) {
                     sendBackButton.setVisible(true);
-                    //sendBackButton.setDisable(false);
                 }
             }
         });
 
     }
 
+    /**
+     * Navigates back to the Choose Game scene when the back button is clicked.
+     * @param mouseEvent not triggered
+     * @throws IOException if the Choose Game scene FXML file is not found
+     */
     public void goBack(MouseEvent mouseEvent) throws IOException {
         gameId = -1;
         Gui.getInstance().switchScene(ScenePaths.CHOSEGAME.getValue());
     }
+
 }

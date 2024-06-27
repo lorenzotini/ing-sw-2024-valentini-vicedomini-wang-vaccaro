@@ -40,6 +40,7 @@ public class JoinGameSceneController extends GenericController {
      */
     @FXML
     public Button backButton;
+
     private String tempId;
 
     /**

@@ -51,7 +51,6 @@ public abstract class PlayerState implements Serializable {
      * @param isGold          if the card drawn is gold
      * @param fromDeck        if the card drawn is from the deck
      * @param faceUpCardIndex which of the two card placed face up in the market
-     * @throws InterruptedException exception
      */
     public abstract void drawCard(Player player, boolean isGold, boolean fromDeck, int faceUpCardIndex);
 
@@ -119,8 +118,9 @@ public abstract class PlayerState implements Serializable {
     }
 
     /**
-     * @return the name of the state, to a string
-     * if method called from Gui
+     * If method called from Gui, it returns the name of the state
+     *
+     * @return the name of the state
      */
     public String toStringGUI() {
         return "Player State";

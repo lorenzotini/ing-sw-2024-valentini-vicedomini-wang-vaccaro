@@ -314,4 +314,8 @@ public class LoginSceneController extends GenericController {
 
     }
 
+    public void goBack(MouseEvent mouseEvent) throws IOException {
+        gameId = -1;
+        Gui.getInstance().switchScene(ScenePaths.CHOSEGAME.getValue());
+    }
 }

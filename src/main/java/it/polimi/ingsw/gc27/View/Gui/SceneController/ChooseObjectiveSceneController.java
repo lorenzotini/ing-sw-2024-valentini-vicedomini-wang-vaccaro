@@ -21,6 +21,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.TextAlignment;
 
 import java.io.IOException;
@@ -54,6 +55,8 @@ public class ChooseObjectiveSceneController extends GenericController {
     public Label gameSuspendedLabel;
     @FXML
     public TitledPane chatTitledPane;
+    @FXML
+    private Circle circleChat;
     //there is a private hashmap for all the scenes where the chat is displayed
 
     /** maps the username of the other player  of the chat and the correspondent tab
@@ -68,6 +71,8 @@ public class ChooseObjectiveSceneController extends GenericController {
      */
     //start chat methods
     public void chatInitObjective() {
+        circleChat.getStyleClass().add("circle-chat");
+        circleChat.setVisible(false);
         MiniModel miniModel;
         do {
             try {
@@ -149,10 +154,11 @@ public class ChooseObjectiveSceneController extends GenericController {
             chatTabPane.getStyleClass().add("tab-pane-chat");
 
         }
+        chatTitledPane.setExpanded(false);
         chatTitledPane.setOnMouseClicked(event -> {
             Platform.runLater(() -> {
                 chatTitledPane.toFront();
-                //circleChat.setVisible(false);
+                circleChat.setVisible(false);
             });
         });
 
@@ -215,7 +221,9 @@ public class ChooseObjectiveSceneController extends GenericController {
                     .filter(user -> !user.equals(miniModel.getPlayer().getUsername()))
                     .toList().getFirst();
             Tab tab = chatTabHashMapC.get(username);
-
+            if (!chat.getChatMessages().getLast().getSender().equals(miniModel.getPlayer().getUsername())) {
+                circleChat.setVisible(true);
+            }
             Gui.getInstance().addLastChatMessage(chat.getChatMessages().getLast(), tab);
             //todo: fare scroll automatico
 

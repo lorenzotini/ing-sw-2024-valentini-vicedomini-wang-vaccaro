@@ -17,6 +17,7 @@ import it.polimi.ingsw.gc27.View.Gui.Gui;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.scene.shape.Circle;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
@@ -38,13 +39,17 @@ public class PlaceStarterCardSceneController extends GenericController{
     @FXML
     public Label gameSuspendedLabel;
     @FXML
-    public TitledPane chatTitledPaneStarter;
+    public TitledPane chatTitledPane;
+    @FXML
+    private Circle circleChat;
 
     //there is a private hashmap for all the scenes where the chat is displayed
     private HashMap<String, Tab> chatTabHashMapP= new HashMap<>();
 
     // start chat methods
     public void chatInitStarter(){
+        circleChat.getStyleClass().add("circle-chat");
+        circleChat.setVisible(false);
             MiniModel miniModel;
             do {
                 try {
@@ -131,11 +136,11 @@ public class PlaceStarterCardSceneController extends GenericController{
                 chatTabPane.getStyleClass().add("tab-pane-chat");
 
             }
-
-            chatTitledPaneStarter.setOnMouseClicked(event -> {
+            chatTitledPane.setExpanded(false);
+            chatTitledPane.setOnMouseClicked(event -> {
                 Platform.runLater(() -> {
-                    chatTitledPaneStarter.toFront();
-                    //circleChat.setVisible(false);
+                    chatTitledPane.toFront();
+                    circleChat.setVisible(false);
                 });
             });
 
@@ -198,6 +203,9 @@ public class PlaceStarterCardSceneController extends GenericController{
                     .filter(user -> !user.equals(miniModel.getPlayer().getUsername()))
                     .toList().getFirst();
             Tab tab = chatTabHashMapP.get(username);
+            if (!chat.getChatMessages().getLast().getSender().equals(miniModel.getPlayer().getUsername())) {
+                circleChat.setVisible(true);
+            }
 
             Gui.getInstance().addLastChatMessage(chat.getChatMessages().getLast(), tab);
             //todo: fare scroll automatico

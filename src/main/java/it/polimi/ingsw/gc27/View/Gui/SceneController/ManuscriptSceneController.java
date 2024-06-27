@@ -100,8 +100,8 @@ public class ManuscriptSceneController extends GenericController {
 
 
     public void init() {
+        circleChat.getStyleClass().add("circle-chat");
         circleChat.setVisible(false);
-
         MiniModel miniModel;
         do {
             try {
@@ -273,7 +273,7 @@ public class ManuscriptSceneController extends GenericController {
             chatContainer.getChildren().addAll(chatContent, messageBox);
             chatTab.setContent(chatContainer);
             chatTabPane.getTabs().add(chatTab);
-            chatTabPane.getStyleClass().add("tab-pane-chat-manuscript");
+            chatTabPane.getStyleClass().add("tab-pane-chat");
 
         }
 

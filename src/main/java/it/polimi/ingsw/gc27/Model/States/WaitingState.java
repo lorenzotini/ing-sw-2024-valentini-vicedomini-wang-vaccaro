@@ -13,7 +13,7 @@ import it.polimi.ingsw.gc27.Model.Game.Player;
  */
 public class WaitingState extends PlayerState {
     private Player currentPlayer;
-    private final String waitText = "Waiting State";
+    private final String waitText = "it's not your turn!";
 
     /**
      * State in which players wait for other players to add a starter card, choose an objective or play their turn

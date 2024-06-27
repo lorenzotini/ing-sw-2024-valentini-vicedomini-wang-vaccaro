@@ -8,6 +8,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="780.0" prefWidth="1535.0" styleClass="anchorpane" stylesheets="@../css/ChooseObjectiveScene.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.gc27.View.Gui.SceneController.ChooseObjectiveSceneController">
@@ -59,6 +60,7 @@
             </AnchorPane>
         </content>
       </TitledPane>
+      <Circle fx:id="circleChat" fill="#c11515" layoutX="73.0" layoutY="54.0" radius="7.0" stroke="BLACK" strokeType="INSIDE" />
 
    </children>
 </AnchorPane>

@@ -37,7 +37,7 @@ public class GameController implements Serializable {
     private long time;
     private boolean inMatch;
     private boolean suspended;
-    private static final int MAX_TIME_BEFORE_CLOSING_GAME = 60000; //in milliseconds
+    private static final int MAX_TIME_BEFORE_CLOSING_GAME = 10000; //in milliseconds
 
     /**
      * Constructor for the GameController with a game instance
@@ -156,11 +156,8 @@ public class GameController implements Serializable {
                 username = client.read();
                 flag = true;
             } while (!gigaChad.validUsername(username, client));
-        } catch (IOException e) {
-            System.out.println("Disconnected player before choosing a username, he'll be removed");
-            synchronized (game.getPlayers()) {
-                game.setNumActualPlayers(game.getNumActualPlayers() - 1);
-            }
+        } catch (IOException e) {System.out.println("Disconnected player before choosing a username, he'll be removed");
+            synchronized (game.getPlayers()) {game.setNumActualPlayers(game.getNumActualPlayers() - 1);}
             return;
         }
         // Ask for the pawn color
@@ -188,11 +185,8 @@ public class GameController implements Serializable {
                 }
             } while (true);
 
-        } catch (IOException e) {
-            System.out.println("Disconnected player before choosing a color");
-            synchronized (game.getPlayers()) {
-                game.setNumActualPlayers(game.getNumActualPlayers() - 1);
-            }
+        } catch (IOException e) {System.out.println("Disconnected player before choosing a color");
+            synchronized (game.getPlayers()) {game.setNumActualPlayers(game.getNumActualPlayers() - 1);}
             return;
         }
 
@@ -217,8 +211,7 @@ public class GameController implements Serializable {
 
         try {
             client.setUsername(username);
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException e) {System.out.println("Disconnected while setting username");
         }
 
         // All players are ready

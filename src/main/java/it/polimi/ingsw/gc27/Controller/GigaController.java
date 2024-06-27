@@ -93,123 +93,106 @@ public class GigaController {
         }
         boolean canEnter = false;
 
-        if (game.equalsIgnoreCase("new")) {    // start a new game
-            createNewGame(client);
-        } else {
 
-            // join an existing game
-            do {
-                if (game.equalsIgnoreCase("new")) {    // start a new game
-                    createNewGame(client);
-                    break;
-                } else {
+        // join an existing game
+        do {
+            if (game.equalsIgnoreCase("new")) {    // start a new game
+                createNewGame(client);
+                break;
+            } else {
+                try {
+                    Integer.parseInt(game);
+                } catch (NumberFormatException e) {
                     try {
-                        Integer.parseInt(game);
-                    } catch (NumberFormatException e) {
-                        try {
-                            client.show("\nInvalid input. Please enter a valid game id or 'new' to start a new game");
-                            client.update(new KoMessage("invalidFormatID"));
-                            game = client.read();
-                        } catch (IOException es) {
-                            System.out.println("Connection lost after trying to join a game (110)");
-                            return;
-                        }
-                        continue;
+                        client.show("\nInvalid input. Please enter a valid game id or 'new' to start a new game");
+                        client.update(new KoMessage("invalidFormatID"));
+                        game = client.read();
+                    } catch (IOException es) {System.out.println("Connection lost after trying to join a game (110)");return;
                     }
-                    GameController gc = null;
-                    synchronized (gameControllers) {
-                        for (var control : gameControllers) {
-                            if (control.getId() == Integer.parseInt(game)) {
-                                gc = control;
-                            }
+                    continue;
+                }
+                GameController gc = null;
+                synchronized (gameControllers) {
+                    for (var control : gameControllers) {
+                        if (control.getId() == Integer.parseInt(game)) {
+                            gc = control;
                         }
                     }
+                }
 
-                    if (gc != null) {
-                        try {
-                            client.show("\nJoining game " + game + "...");
-                        } catch (IOException e) {
-                            System.out.println("Connection lost after trying to join a game (110)");
-                        }
-                        synchronized (gc.getGame().getPlayers()) {
+                if (gc != null) {
+                    try {
+                        client.show("\nJoining game " + game + "...");
+                    } catch (IOException e) {System.out.println("Connection lost after trying to join a game (110)");
+                    }
+                    synchronized (gc.getGame().getPlayers()) {
 
-                            if (gc.getGame().getNumActualPlayers() < gc.getNumMaxPlayers()) { // game not full, can join
+                        if (gc.getGame().getNumActualPlayers() < gc.getNumMaxPlayers()) { // game not full, can join
 
-                                int a = gc.getGame().getNumActualPlayers();
-                                gc.getGame().setNumActualPlayers(a + 1);
-                                canEnter = true;
-                                try {
-                                    client.update(new OkMessage("validID"));
-                                } catch (RemoteException e) {
-                                    throw new RuntimeException(e);
-                                }
-
-                            } else if (gc.getGame().getNumActualPlayers() == gc.getNumMaxPlayers() &&      // game full, but a disconnected player can rejoin
-                                    gc.getGame().getPlayers().stream().anyMatch(Player::isDisconnected)) {
-                                String disconnectedUsername;
-                                try {
-                                    client.show("\nThis game has a disconnected player. Are you him? If so, please enter your username.");
-                                    client.update(new OkMessage("disconnectedPlayer"));
-                                    disconnectedUsername = client.read();
-                                } catch (IOException e) {
-                                    System.out.println("Connection lost before reconnecting a game (123)");
-                                    return;
-                                }
-                                // If the player is found, reconnect him, else null is returned
-                                try {
-
-                                    boolean clientReconnected = tryReconnectPlayer(client, gc, disconnectedUsername);
-                                    if (clientReconnected) {
-                                        client.update(new OkMessage("playerReconnected"));
-                                        return;
-                                    } else {
-                                        client.show("invalid username");
-                                        client.update(new KoMessage("Wrong username"));
-                                        welcomePlayer(client);
-                                        return;
-                                    }
-                                } catch (IOException e) {
-                                    System.out.println("Connection lost before reconnecting a game (155)");
-                                    return;
-                                }
-
-                            } else {
-                                try {
-                                    client.show("\nGame is full. Restarting...");
-                                    client.update(new KoMessage("gameFull"));
-                                } catch (IOException e) {
-                                    System.out.println("Connection lost before entering game (164)");
-                                    return;
-                                }
+                            int a = gc.getGame().getNumActualPlayers();
+                            gc.getGame().setNumActualPlayers(a + 1);
+                            canEnter = true;
+                            try {
+                                client.update(new OkMessage("validID"));
+                            } catch (RemoteException e) {throw new RuntimeException(e);
                             }
-                        }
-                        if (!canEnter) {
-                            welcomePlayer(client);
-                            return;
+
+                        } else if (gc.getGame().getNumActualPlayers() == gc.getNumMaxPlayers() &&      // game full, but a disconnected player can rejoin
+                                gc.getGame().getPlayers().stream().anyMatch(Player::isDisconnected)) {
+                            String disconnectedUsername;
+                            try {
+                                client.show("\nThis game has a disconnected player. Are you him? If so, please enter your username.");
+                                client.update(new OkMessage("disconnectedPlayer"));
+                                disconnectedUsername = client.read();
+                            } catch (IOException e) {System.out.println("Connection lost before reconnecting a game (123)");return;
+                            }
+                            // If the player is found, reconnect him, else null is returned
+                            try {
+
+                                boolean clientReconnected = tryReconnectPlayer(client, gc, disconnectedUsername);
+                                if (clientReconnected) {
+                                    client.update(new OkMessage("playerReconnected"));
+                                    return;
+                                } else {
+                                    client.show("invalid username");
+                                    client.update(new KoMessage("Wrong username"));
+                                    welcomePlayer(client);
+                                    return;
+                                }
+                            } catch (IOException e) {System.out.println("Connection lost before reconnecting a game (155)");return;
+                            }
+
                         } else {
+                            try {
+                                client.show("\nGame is full. Restarting...");
+                                client.update(new KoMessage("gameFull"));
+                            } catch (IOException e) {System.out.println("Connection lost before entering game (164)");return;
+                            }
+                        }
+                    }
+                    if (!canEnter) {
+                        welcomePlayer(client);
+                        return;
+                    } else {
 //                            if (player.isDisconnected ) {
 //                                return;
 //                            }
-                            gc.initializePlayer(client, this);
-                            return;
-                        }
-                    }
-                    try {
-                        client.show("\nGame not found. Please enter a valid game id or 'new' to start a new game");
-                        client.update(new KoMessage("invalidID"));
-                        game = client.read();
-                    } catch (IOException e) {
-                        System.out.println("Connection lost before entering game (131)");
-                        return;
-                    }
-                    if (game.equalsIgnoreCase("new")) {
-                        createNewGame(client);
+                        gc.initializePlayer(client, this);
                         return;
                     }
                 }
-            } while (true);
+                try {
+                    client.show("\nGame not found. Please enter a valid game id or 'new' to start a new game");
+                    client.update(new KoMessage("invalidID"));
+                    game = client.read();
+                } catch (IOException e) {System.out.println("Connection lost before entering game (131)");return;
+                }
 
-        }
+//                if (game.equalsIgnoreCase("new")) {createNewGame(client);return;
+//                } //TODO check is useless
+            }
+        } while (true);
+
 
     }
 
@@ -237,9 +220,7 @@ public class GigaController {
                 }
                 client.show("\nInvalid input. Please enter a number between 2 and 4");
             } while (true);
-        } catch (IOException e) {
-            System.out.print("Lost before creating a game");
-            return;
+        } catch (IOException e) {System.out.print("Lost before creating a game");return;
         }
         GameController controller;
         Initializer init = new Initializer();
@@ -253,9 +234,7 @@ public class GigaController {
             client.update(new OkMessage("Game created with id " + controller.getId() + " Waiting for players to join..."));
             client.show("\nGame created with id " + controller.getId() + "\n" + "\nWaiting for players to join...");
 
-        } catch (IOException e) {
-            System.out.print("Lost before knowing id game");
-            return;
+        } catch (IOException e) {System.out.print("Lost before knowing id game");return;
         }
         controller.initializePlayer(client, this);
         controller.executeCommands();
@@ -334,8 +313,7 @@ public class GigaController {
             if (registeredUsernames.get(username).equals(client)) {
                 return username;
             }
-        }
-        return "";
+        }return "";
     }
 
     /**

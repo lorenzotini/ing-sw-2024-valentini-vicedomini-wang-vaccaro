@@ -377,7 +377,7 @@ public class Gui implements View {
         try {
             mess = messages.take();
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            System.out.println("Interrupted taking from queue");
         }
         return mess;
     }
@@ -442,7 +442,7 @@ public class Gui implements View {
                 }
 
             } catch (Exception e) {
-                e.printStackTrace();
+                System.out.println("Error while taking from client");
             }
         });
     }

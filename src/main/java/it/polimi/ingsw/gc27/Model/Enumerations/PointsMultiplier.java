@@ -57,18 +57,13 @@ public enum PointsMultiplier implements Serializable {
      * @throws IllegalArgumentException If the PointsMultiplier does not have a corresponding CornerSymbol.
      */
     public CornerSymbol toCornerSymbol() {
-        try {
+
             return switch (this) {
                 case QUILL -> CornerSymbol.QUILL;
                 case INKWELL -> CornerSymbol.INKWELL;
                 case MANUSCRIPT -> CornerSymbol.MANUSCRIPT;
-                default -> throw new IllegalArgumentException();
+                default -> null;
             };
-        } catch (IllegalArgumentException e) {
-            System.err.println("You can't convert this points multiplier to a corner symbol: " + this);
-            e.printStackTrace();
-            return null;
-        }
     }
 
 }

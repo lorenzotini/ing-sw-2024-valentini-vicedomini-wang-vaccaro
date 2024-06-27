@@ -36,7 +36,7 @@ public class UpdatePlayerStateMessage extends Message {
             client.getMiniModel().setPlayer(this.getMiniModel().getPlayer());
             view.okAck(string);
         } catch (RemoteException e) {
-            e.printStackTrace();
+            System.out.println("Report update exception");
         }
     }
 }

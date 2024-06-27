@@ -42,7 +42,7 @@ public class UpdateMyManuscriptMessage extends Message {
             view.show(client.getMiniModel().getPlayer().getManuscript());
             view.show(client.getMiniModel().getBoard());
         } catch (RemoteException e) {
-            e.printStackTrace();
+            System.out.println("Report update exception");
         }
     }
 

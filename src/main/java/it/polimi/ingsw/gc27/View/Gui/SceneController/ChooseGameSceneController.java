@@ -95,15 +95,14 @@ public class ChooseGameSceneController extends GenericController {
                 try {
                     sendNewGame();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    System.out.println("Error while sending new game");
                 }
             });
             joinGameButton.setOnMouseClicked(event -> {
                 try {
                     sendJoinGame();
                 } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                    System.out.println("Error while sending join game");                }
             });
         });
     }

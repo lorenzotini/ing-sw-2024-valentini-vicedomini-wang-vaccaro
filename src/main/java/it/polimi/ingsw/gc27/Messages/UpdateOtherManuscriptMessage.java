@@ -38,7 +38,7 @@ public class UpdateOtherManuscriptMessage extends Message {
             client.getMiniModel().setBoard(miniModel.getBoard());
             view.show(client.getMiniModel().getBoard());
         } catch (RemoteException e) {
-            e.printStackTrace();
+            System.out.println("Report update exception");
         }
     }
 

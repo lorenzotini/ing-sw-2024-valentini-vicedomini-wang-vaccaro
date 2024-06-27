@@ -840,7 +840,7 @@ public class Tui implements View {
                     try {
                         matrix[i][j] = fromFaceToCliCard(field[i][j]);
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        System.out.println("Error face from clicard");
                     }
                 }
             }

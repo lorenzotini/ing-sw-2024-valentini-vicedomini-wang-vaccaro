@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class PawnColourTest {
-
     @Test
     void fromStringToPawnColour() {
         assertEquals(PawnColour.BLUE, PawnColour.fromStringToPawnColour("blue"));

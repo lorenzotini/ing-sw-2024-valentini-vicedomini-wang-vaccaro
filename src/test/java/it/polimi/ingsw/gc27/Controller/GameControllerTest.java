@@ -37,7 +37,6 @@ public class GameControllerTest {
     private static ArrayList<ResourceCard> resourceDeck;
     private static ArrayList<ObjectiveCard> objectiveDeck;
     private static ArrayList<GoldCard> goldDeck;
-    private final BlockingQueue<Command> commands = new LinkedBlockingQueue<>();
     private TurnHandler turnHandler;
     private Player p1,p2,p3,p4;
 
@@ -88,11 +87,9 @@ public class GameControllerTest {
         gameControllers.add(gameController);
         turnHandler=new TurnHandler(game, gameController);
 
-
-
         clientTest= new ClientTest();
     }
-
+    // test addStarterCommand
     @Test
     public void testAddCommand() {
         initializeGame();
@@ -105,10 +102,9 @@ public class GameControllerTest {
         gameController.executeCommands();
         assertEquals(1, gameController.getCommands().size());
     }
-
-
+    // test suspension of the game
     @Test
-    public void testSuspendGame() throws InterruptedException {
+    public void testSuspendGame(){
         initializeGame();
         GigaController gigaController1=new GigaController();
         ArrayList<Player> players=new ArrayList<>();
@@ -118,9 +114,8 @@ public class GameControllerTest {
         gigaController1.getGameControllers().add(new GameController(new Game(1, new Board(),players ), 2, 1, gigaController1));
         gigaController1.getGameControllers().getFirst().getCommands().add(new ReconnectPlayerCommand(new ClientTest(), players.getFirst()));
         gigaController1.getGameControllers().getFirst().getGame().getPlayers().getFirst().setDisconnected(true);
-        //gigaController1.getGameControllers().getFirst().suspendGame();
     }
-
+    // tests configuration of a manuscript created
     @Test
     void addCardTest1(){
         initializeGame();
@@ -212,9 +207,8 @@ public class GameControllerTest {
         game.setPlayers(players1);
         PlayerListener playerListener=new PlayerListener(new ClientTest(), p1);
         playerListener.getPlayerUsername();
-
     }
-
+    // tests configuration of a manuscript created
     @Test
     void addCardTest2(){
         initializeGame();
@@ -270,7 +264,7 @@ public class GameControllerTest {
         assertEquals(3, objectiveDeck.get(6).calculateObjectivePoints(p2.getManuscript()));
     }
 
-
+    // tests configuration of a manuscript created
     @Test
     void addCardTest3(){
         initializeGame();
@@ -330,7 +324,7 @@ public class GameControllerTest {
         assertEquals(2, objectiveDeck.get(1).calculateObjectivePoints(p3.getManuscript()));
         assertEquals(3, objectiveDeck.get(7).calculateObjectivePoints(p3.getManuscript()));
     }
-
+    // tests configuration of a manuscript created
     @Test
     void addCardTest4(){
         initializeGame();
@@ -407,7 +401,7 @@ public class GameControllerTest {
         assertEquals(4, objectiveDeck.get(9).calculateObjectivePoints(p4.getManuscript()));
         assertEquals(4, objectiveDeck.get(8).calculateObjectivePoints(p4.getManuscript()));
     }
-
+    // tests configuration of a manuscript created
     @Test
     void addCardTest5(){
         initializeGame();
@@ -494,7 +488,7 @@ public class GameControllerTest {
         p1.setPlayerState(new PlayingState(p1, turnHandler));
         gameController.addCard(p1, resourceDeck.get(39), resourceDeck.get(39).getBack(), 42, 2);
     }
-
+    // tests configuration of a manuscript created
     @Test
     void addCardTest6(){
         initializeGame();
@@ -584,9 +578,9 @@ public class GameControllerTest {
         assertEquals(6, objectiveDeck.get(0).calculateObjectivePoints(p1.getManuscript()));
     }
 
-
+    // tests configuration of a manuscript created
     @Test
-    void addCardTest7() throws IOException, InterruptedException {
+    void addCardTest7(){
         initializeGame();
         p1.setPlayerState(new InitializingState(p1, turnHandler));
         gameController.addStarterCard(p1, starterDeck.get(2), starterDeck.get(2).getBack());
@@ -702,7 +696,7 @@ public class GameControllerTest {
         p1.setPlayerState(new PlayingState(p1, turnHandler));
         gameController.addCard(p1, goldDeck.get(32), goldDeck.get(32).getBack(), 47, 49);
     }
-
+    // tests configuration of a manuscript created
     @Test
     void addCardTest8(){
         initializeGame();
@@ -751,6 +745,7 @@ public class GameControllerTest {
         p1.setPlayerState(new PlayingState(p1, turnHandler));
         gameController.addCard(p1, goldDeck.get(33), goldDeck.get(33).getFront(), 39, 43);
     }
+    // tests configuration of a manuscript created
     @Test
     void addCardTest9(){
         initializeGame();
@@ -874,13 +869,11 @@ public class GameControllerTest {
         assertEquals(p1.getPlayerState().toStringGUI(), "Draw a card!");
         gameController.drawCard(p1,true,false,0);
 
-
         p1.setPlayerState(new EndOfTurnState(p1, turnHandler));
         gameController.drawCard(p1,true,true,0);
         gameController.chooseObjectiveCard(p1, 0);
         gameController.addCard(p1,resourceDeck.get(9), resourceDeck.get(9).getFront(),43,43);
         gameController.addStarterCard(p1, starterDeck.get(4), starterDeck.get(4).getFront());
-
 
         p1.setPlayerState(new WaitingState(p1, turnHandler));
         assertEquals(p1.getPlayerState().toString(), "WaitingState");
@@ -904,6 +897,7 @@ public class GameControllerTest {
         assertEquals(p1, game.getPlayer(p1.getUsername()));
     }
 
+    // tests constructors of minimodel
     @Test
     void minimodelTestGame(){
         MiniModel miniModel=new MiniModel(new Board());
@@ -911,7 +905,7 @@ public class GameControllerTest {
                 new Player("user2", new Manuscript(), PawnColour.fromStringToPawnColour("yellow"))));
         miniModel2.checkOtherUsername("user");
     }
-
+    // tests message sent in chat
     @Test
     void sendChatMessageTest(){
         initializeGame();
@@ -920,7 +914,7 @@ public class GameControllerTest {
         gameController.sendChatMessage(new ChatMessage(p1.getUsername(), p2.getUsername(), "Hello"));
         gameController.sendChatMessage(new ChatMessage(p1.getUsername(),"global", "Hello"));
     }
-
+    // tests player suspended
     @Test
     void suspendPlayerTest(){
         initializeGame();
@@ -928,7 +922,7 @@ public class GameControllerTest {
         gameController.suspendPlayer(p1);
         TurnHandler turnHandlerTest= gameController.getTurnHandler();
     }
-
+    //tests game suspended
     @Test
     void suspendGameTest(){
         initializeGame();
@@ -945,23 +939,12 @@ public class GameControllerTest {
             throw new RuntimeException(e);
         }
     }
-
+    // tests cards finished in the deck
     @Test
     void cardsFinishedTest(){
         initializeGame();
-//        for(ResourceCard r: resourceDeck){
-//            resourceDeck.remove(r);
-//        }
-//        for (int i = list.size() - 1; i >= 0; i--) {
-//            list.remove(i);
-//        }
         resourceDeck.clear();
         p1.setPlayerState(new DrawingState(p1, turnHandler));
         gameController.drawCard(p1,false, true, 0);
-
-
     }
-
-
-
 }

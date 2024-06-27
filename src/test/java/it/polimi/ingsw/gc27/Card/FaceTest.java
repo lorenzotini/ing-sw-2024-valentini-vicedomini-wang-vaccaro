@@ -12,15 +12,7 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 class FaceTest {
-    private static Kingdom colour;
-    //UR = upper right, LL = lower left, etc...
-    private static Corner cornerUR;
-    private static Corner cornerUL;
-    private static Corner cornerLR;
-    private static Corner cornerLL;
     private static ArrayList<ResourceCard> resourceDeck;
-
-
     @Test
     void getCornerTest(){ //test for index out of bound
         JsonParser jsonParser = new JsonParser("codex_cards_collection.json");
@@ -29,7 +21,6 @@ class FaceTest {
         Face faceCard1=resourceDeck.get(0).getFront();
 
         assertNull(faceCard1.getCorner(2,2));
-
     }
 
 

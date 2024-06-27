@@ -70,19 +70,9 @@ class DoublePatternTest {
         faceUpGolds[1]=goldDeck.get(1);
         market=new Market(resourceDeck, goldDeck, faceUpResources,faceUpGolds,objectiveDeck );
         g1.setMarket(market);
-
-
-        // create game and its controller
-
-
-
-        /*
-        Collections.shuffle(resourceDeck);
-        Collections.shuffle(goldDeck);
-        Collections.shuffle(objectiveDeck);
-        */
     }
 
+    //tests method calculateObjectivePoints in the manuscript created if DoublePatter is satisfied
     @Test
     void calculateObjectivePointsTest1(){
         initializeGame();
@@ -132,6 +122,7 @@ class DoublePatternTest {
         assertTrue(p1.getManuscript().getField()[44][40].getCorner(-1, 1).isHidden());
         assertEquals(2, objectiveDeck.get(14).calculateObjectivePoints(p1.getManuscript()));
     }
+    //tests method calculateObjectivePoints in the manuscript created if DoublePatter is satisfied
     @Test
     void calculateObjectivePointsTest2(){
         initializeGame();
@@ -172,6 +163,7 @@ class DoublePatternTest {
 
         assertEquals(4, objectiveDeck.get(13).calculateObjectivePoints(p2.getManuscript()));
     }
+    //tests method calculateObjectivePoints in the manuscript created if DoublePatter is satisfied
     @Test
     void calculateObjectivePointsTest3(){
         initializeGame();

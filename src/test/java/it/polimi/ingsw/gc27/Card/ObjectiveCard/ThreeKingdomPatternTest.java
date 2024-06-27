@@ -72,21 +72,10 @@ class ThreeKingdomPatternTest {
         faceUpGolds[1]=goldDeck.get(1);
         market=new Market(resourceDeck, goldDeck, faceUpResources,faceUpGolds,objectiveDeck );
         g1.setMarket(market);
-
-
-        // create game and its controller
-
-
-
-        /*
-        Collections.shuffle(resourceDeck);
-        Collections.shuffle(goldDeck);
-        Collections.shuffle(objectiveDeck);
-        */
     }
-
+    //tests method calculateObjectivePoints in the manuscript created if ThreeKingdomPattern is satisfied
     @Test
-    void calculateObjectivePoints() throws IOException, InterruptedException { //test 8, tested all three kingdoms
+    void calculateObjectivePoints(){
         initializeGame();
         p1.addCard(g1, starterDeck.get(5), starterDeck.get(5).getFront(),42,42);
 
@@ -118,7 +107,7 @@ class ThreeKingdomPatternTest {
         p1.addCard(g1, resourceDeck.get(22), resourceDeck.get(22).getFront(), 40, 44);
         assertTrue(p1.getManuscript().getField()[41][43].getCorner(-1, -1).isHidden());
 
-        p1.addCard(g1, goldDeck.get(21), goldDeck.get(21).getFront(), 44, 40); //sistema
+        p1.addCard(g1, goldDeck.get(21), goldDeck.get(21).getFront(), 44, 40);
         assertTrue(p1.getManuscript().getField()[43][41].getCorner(1, 1).isHidden());
 
         p1.addCard(g1, resourceDeck.get(8), resourceDeck.get(8).getFront(), 38, 42);
@@ -133,9 +122,6 @@ class ThreeKingdomPatternTest {
         p1.addCard(g1, goldDeck.get(33), goldDeck.get(33).getFront(), 39, 43);
         assertTrue(p1.getManuscript().getField()[38][44].getCorner(1, 1).isHidden());
 
-        //ViewCli view8=new ViewCli();
-        //view8.showManuscript(p1.getManuscript());
-
         View view=new Tui();
         view.show(p1.getManuscript());
 
@@ -147,7 +133,5 @@ class ThreeKingdomPatternTest {
         assertEquals(2, objectiveDeck.get(10).calculateObjectivePoints(p1.getManuscript()));
         //three insect
         assertEquals(2, objectiveDeck.get(11).calculateObjectivePoints(p1.getManuscript()));
-
-
     }
 }

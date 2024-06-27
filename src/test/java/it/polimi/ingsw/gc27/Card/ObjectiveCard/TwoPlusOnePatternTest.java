@@ -76,21 +76,10 @@ class TwoPlusOnePatternTest {
         faceUpGolds[1]=goldDeck.get(1);
         market=new Market(resourceDeck, goldDeck, faceUpResources,faceUpGolds, objectiveDeck);
         g1.setMarket(market);
-
-
-        // create game and its controller
-
-
-
-        /*
-        Collections.shuffle(resourceDeck);
-        Collections.shuffle(goldDeck);
-        Collections.shuffle(objectiveDeck);
-        */
     }
-
+    //tests method calculateObjectivePoints in the manuscript created if TwoPlusOnePattern (plant, insect) is satisfied
     @Test
-    void calculateObjectivePointsTest1() throws IOException, InterruptedException { //test1, plant+insect
+    void calculateObjectivePointsTest1(){
         initializeGame();
         p1.addCard(g1, starterDeck.get(2), starterDeck.get(2).getBack(), 42,42);
 
@@ -140,7 +129,7 @@ class TwoPlusOnePatternTest {
 
         assertEquals(3, objectiveDeck.get(5).calculateObjectivePoints(p1.getManuscript()));
     }
-
+    //tests method calculateObjectivePoints in the manuscript created if TwoPlusOnePattern (fungi, plant) is satisfied
     @Test
     void calculateObjectivePointsTest2() {
         initializeGame();
@@ -193,9 +182,9 @@ class TwoPlusOnePatternTest {
         assertEquals(3, objectiveDeck.get(7).calculateObjectivePoints(p1.getManuscript()));
 
     }
-
+    //tests method calculateObjectivePoints in the manuscript created if TwoPlusOnePattern (fungi, animal) is satisfied
     @Test
-    void calculateObjectivePointsTest3() throws IOException, InterruptedException { //test 2, fungi+animal
+    void calculateObjectivePointsTest3(){
         initializeGame();
         p2.addCard(g1, starterDeck.get(1), starterDeck.get(1).getFront(),42,42);
 
@@ -234,9 +223,9 @@ class TwoPlusOnePatternTest {
 
         assertEquals(3, objectiveDeck.get(6).calculateObjectivePoints(p2.getManuscript()));
     }
-
+    //tests method calculateObjectivePoints in the manuscript created if TwoPlusOnePattern (animal, insect) is satisfied
     @Test
-    void calculateObjectivePointsTest4() throws IOException, InterruptedException {
+    void calculateObjectivePointsTest4(){
         initializeGame();
         p4.addCard(g1, starterDeck.get(4), starterDeck.get(4).getBack(),42,42);
 

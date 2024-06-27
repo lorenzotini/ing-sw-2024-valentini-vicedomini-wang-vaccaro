@@ -69,18 +69,11 @@ class PlayingStateTest {
         faceUpGolds[1]=goldDeck.get(1);
         market=new Market(resourceDeck, goldDeck, faceUpResources,faceUpGolds,objectiveDeck );
         g1.setMarket(market);
-        // create game and its controller
-        /*
-        Collections.shuffle(resourceDeck);
-        Collections.shuffle(goldDeck);
-        Collections.shuffle(objectiveDeck);
-        */
     }
-
     @Test
     void chooseObjectiveCard() {
         initializeGame();
-        p1.setPlayerState(new PlayingState(p1,new TurnHandler(g1)));
+        p1.setPlayerState(new PlayingState(p1,new TurnHandler(g1, gc1)));
         p1.getPlayerState().chooseObjectiveCard(g1, 0);
         assertEquals(p1.getPlayerState().toString(), "PlayingState");
     }

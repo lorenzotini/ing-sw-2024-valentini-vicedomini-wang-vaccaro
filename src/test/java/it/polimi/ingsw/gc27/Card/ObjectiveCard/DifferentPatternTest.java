@@ -75,8 +75,9 @@ class DifferentPatternTest {
         g1.setMarket(market);
     }
 
+    //tests method calculateObjectivePoints in the manuscript created if DifferentPattern is satisfied
     @Test
-    void calculateObjectivePoints() throws IOException, InterruptedException { //test 3
+    void calculateObjectivePoints(){
         initializeGame();
         p3.addCard(g1, starterDeck.get(0), starterDeck.get(0).getBack(),42,42);
 
@@ -118,12 +119,5 @@ class DifferentPatternTest {
         p3.addCard(g1, resourceDeck.get(16), resourceDeck.get(16).getFront(), 41, 43);
 
         assertEquals(3, objectiveDeck.get(12).calculateObjectivePoints(p3.getManuscript()));
-
-
-
-
-
-
-
     }
 }

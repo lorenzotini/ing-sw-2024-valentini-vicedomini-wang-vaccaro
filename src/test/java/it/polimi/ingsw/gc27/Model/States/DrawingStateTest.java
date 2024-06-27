@@ -12,17 +12,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 class DrawingStateTest {
-
-
     private GameController gc;
-
     private ClientTest clientTest, clientTest2;
 
     public  void initializeGame() {
 
     }
-
-
     @Test
     void drawTest() throws InterruptedException {
 

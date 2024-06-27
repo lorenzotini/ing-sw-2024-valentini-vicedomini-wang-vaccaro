@@ -5,13 +5,7 @@ import it.polimi.ingsw.gc27.Model.ClientClass.MiniModel;
 import it.polimi.ingsw.gc27.View.Gui.Gui;
 import it.polimi.ingsw.gc27.View.Gui.MainApp;
 import it.polimi.ingsw.gc27.View.Gui.ScenePaths;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.text.TextFlow;
 
 import java.io.IOException;
 

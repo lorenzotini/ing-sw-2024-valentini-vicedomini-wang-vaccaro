@@ -257,7 +257,6 @@ public class LoginSceneController extends GenericController {
             if (ackType.contains("Game created with id")) {//receives game id, sets it into TextArea of LoginScene
                 gameIDCreated.setText(ackType);
                 gameIDCreated.setVisible(true);
-                //todo: non funziona più dopo a ver messo la resilienza
             }
             if (ackType.contains("playerReconnected")) {
                 errorUsername.setText("Welcome back!!!");

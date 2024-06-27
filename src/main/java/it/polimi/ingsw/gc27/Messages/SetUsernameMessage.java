@@ -2,9 +2,8 @@ package it.polimi.ingsw.gc27.Messages;
 
 import it.polimi.ingsw.gc27.Net.VirtualView;
 import it.polimi.ingsw.gc27.View.View;
-
 import java.io.IOException;
-import java.rmi.RemoteException;
+
 
 /**
  * The SetUsernameMessage class represents a message used to set a player's username.

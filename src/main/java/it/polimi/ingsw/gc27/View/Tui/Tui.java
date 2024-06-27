@@ -72,11 +72,9 @@ public class Tui implements View {
      * Runs the game by displaying the title and starting the game interface.
      * The game loop continuously reads user input and handles it based on the current game state.
      *
-     * @throws IOException if an I/O error occurs.
      */
     @Override
     public void run() {
-        //TODO svuotare il buffer, altrimenti printa tutti i comandi presi durante l'attesa dei giocatori
 
         showTitle();
         showString("\nThe game is starting!");
@@ -166,7 +164,6 @@ public class Tui implements View {
                         }
                         break;
 
-                    // TODO creare una soluzione intelligente per gestire gli input di addcard, con while true e try catch vari
                     case "addcard":
                         synchronized (this) {
                             if (!checkState(PlayingState.class)) {
@@ -1014,7 +1011,6 @@ public class Tui implements View {
         Queue<String> goldOne;
         Queue<String> goldTwo;
 
-        // TODO gestire il comando che mi chiede questa carta che non si può prendere
         try {
             resourceDeckTop = toCliCard(market.getResourceDeck().getLast(), false);
         } catch (NoSuchElementException e) {

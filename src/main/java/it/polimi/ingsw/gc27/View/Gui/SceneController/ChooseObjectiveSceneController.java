@@ -240,7 +240,6 @@ public class ChooseObjectiveSceneController extends GenericController {
                 circleChat.setVisible(true);
             }
             Gui.getInstance().addLastChatMessage(chat.getChatMessages().getLast(), tab);
-            //todo: fare scroll automatico
 
         });
     }

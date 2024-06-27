@@ -208,8 +208,6 @@ public class PlaceStarterCardSceneController extends GenericController {
             }
 
             Gui.getInstance().addLastChatMessage(chat.getChatMessages().getLast(), tab);
-            //todo: fare scroll automatico
-
         });
     }
 

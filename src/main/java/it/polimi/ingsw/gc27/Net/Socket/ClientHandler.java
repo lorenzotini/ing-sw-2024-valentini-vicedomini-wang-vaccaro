@@ -86,7 +86,7 @@ public class ClientHandler implements VirtualView {
                         throw new RuntimeException(ex);
                     }
                 } catch (ClassNotFoundException e) {
-                    System.out.println("Mandato comando sbagliato ");
+                    System.out.println("Wrong command sent");
                 }
             }
         }).start();
@@ -106,7 +106,7 @@ public class ClientHandler implements VirtualView {
             this.output.reset();
             this.output.flush();
         } catch (IOException e) {
-            System.out.println("Disconnessione");
+            System.out.println("disconnection");
             //this to do will be implemented when the disconnection problem will be solved
         }
     }
@@ -204,7 +204,7 @@ public class ClientHandler implements VirtualView {
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
-
+                System.out.println("ping error: " + e.getMessage());
             }
         }
     }

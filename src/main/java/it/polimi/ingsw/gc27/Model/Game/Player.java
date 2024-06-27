@@ -70,7 +70,6 @@ public class Player implements Serializable, ClientPlayer {
             m.setyMin(y);
         }
 
-        //momentaneamente il metodo prende una card e gestisce separatamente se è una starter. In futuro provare a riscrivere con un design pattern
         if (card instanceof StarterCard) {
 
             if (m.getField()[Manuscript.FIELD_DIM / 2][Manuscript.FIELD_DIM / 2] == null) {

@@ -6,8 +6,6 @@ import it.polimi.ingsw.gc27.Model.Enumerations.PawnColour;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**

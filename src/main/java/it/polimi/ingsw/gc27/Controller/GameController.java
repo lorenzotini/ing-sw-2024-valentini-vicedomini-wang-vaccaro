@@ -251,7 +251,6 @@ public class GameController implements Serializable {
 
                     chat = game.getChat(chatMessage.getSender(), chatMessage.getReceiver());
                     chat.addChatMessage(chatMessage);
-                    //todo: username corretto
                 }
                 game.notifyObservers(new UpdateChatMessage(chat, game.getPlayer(chatMessage.getSender()), chatMessage.getReceiver()));
             }

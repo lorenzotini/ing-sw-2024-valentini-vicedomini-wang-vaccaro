@@ -49,7 +49,7 @@ public enum Kingdom implements Serializable {
             case INSECTKINGDOM -> CornerSymbol.INSECT;
             case EMPTY -> CornerSymbol.EMPTY;
         };
-        //aggiungere Ecception
+        //TODO:aggiungere Ecception
     }
 
     /**

@@ -29,7 +29,6 @@ public class Chat implements Serializable, ClientChat {
      * @param player2 The second player in the chat.
      */
     public Chat(Player player1, Player player2) {
-        //creazione di una chat singola
         chatters.add(player1.getUsername());
         chatters.add(player2.getUsername());
     }

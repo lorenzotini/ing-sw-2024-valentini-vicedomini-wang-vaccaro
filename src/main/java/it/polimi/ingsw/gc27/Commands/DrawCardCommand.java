@@ -3,7 +3,6 @@ package it.polimi.ingsw.gc27.Commands;
 import it.polimi.ingsw.gc27.Controller.GameController;
 import it.polimi.ingsw.gc27.Model.Game.Player;
 
-import java.io.IOException;
 
 /**
  * DrawCardCommand class represents a command to draw a card for a player.

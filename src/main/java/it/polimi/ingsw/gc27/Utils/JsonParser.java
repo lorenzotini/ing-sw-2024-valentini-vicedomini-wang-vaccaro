@@ -134,7 +134,6 @@ public class JsonParser implements Serializable {
             Corner c4 = new Corner(false, CornerSymbol.EMPTY);
             BackFace back = new BackFace(backImagePath, colour, c1, c2, c3, c4, permanentResources);
 
-            //modificare costruttore
             ResourceCard newCard = new ResourceCard(id, cardPoints, front, back);
             myDeck.add(newCard);
         }
@@ -185,7 +184,6 @@ public class JsonParser implements Serializable {
             Corner c4 = new Corner(false, CornerSymbol.EMPTY);
             BackFace back = new BackFace(backImagePath, colour, c1, c2, c3, c4, permanentResources);
 
-            //modificare costruttore
             GoldCard newCard = new GoldCard(id, cardPoints, front, back, requirements, pointsMultiplier);
             myDeck.add(newCard);
         }

@@ -29,14 +29,6 @@ public class HandCardData {
         return handIndex;
     }
 
-    /**
-     * Sets the index of the card in the hand.
-     *
-     * @param handIndex The new index of the card in the hand.
-     */
-    public void setHandIndex(int handIndex) {
-        this.handIndex = handIndex;
-    }
 
     /**
      * Checks if the card is face up.

@@ -18,7 +18,6 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.text.TextFlow;
@@ -520,10 +519,6 @@ public class Gui implements View {
      */
     public boolean isServerIsUp() {
         return serverIsUp;
-    }
-
-    public boolean isReconnected() {
-        return isReconnected;
     }
 
 }

@@ -1,7 +1,5 @@
 package it.polimi.ingsw.gc27.View.Gui.SceneController;
 
-import it.polimi.ingsw.gc27.Model.ClientClass.ClientChat;
-import it.polimi.ingsw.gc27.Model.ClientClass.MiniModel;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 

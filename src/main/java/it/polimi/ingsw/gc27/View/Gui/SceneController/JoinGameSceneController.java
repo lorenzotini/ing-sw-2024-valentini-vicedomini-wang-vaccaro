@@ -1,9 +1,6 @@
 package it.polimi.ingsw.gc27.View.Gui.SceneController;
 
-import it.polimi.ingsw.gc27.Model.ClientClass.ClientChat;
-import it.polimi.ingsw.gc27.Model.ClientClass.MiniModel;
 import it.polimi.ingsw.gc27.View.Gui.Gui;
-import it.polimi.ingsw.gc27.View.Gui.ScenePaths;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -100,7 +97,6 @@ public class JoinGameSceneController extends GenericController {
         Platform.runLater(() -> {
             if (ackType.equals("validID")) {
                 try {
-                    // Cambia la scena qui
                     errorGameID.setVisible(false);
                     Gui.getInstance().switchScene("/fxml/LoginScene.fxml");
                 } catch (IOException e) {

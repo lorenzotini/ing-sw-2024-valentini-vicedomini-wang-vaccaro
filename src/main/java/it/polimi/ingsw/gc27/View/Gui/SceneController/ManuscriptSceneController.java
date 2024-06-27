@@ -587,7 +587,6 @@ public class ManuscriptSceneController extends GenericController {
             }
 
             Gui.getInstance().addLastChatMessage(chat.getChatMessages().getLast(), tab);
-            //todo: fare scroll automatico
 
         });
     }

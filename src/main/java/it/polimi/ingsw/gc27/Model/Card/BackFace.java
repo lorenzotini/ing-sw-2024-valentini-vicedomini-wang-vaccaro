@@ -2,7 +2,6 @@ package it.polimi.ingsw.gc27.Model.Card;
 
 import it.polimi.ingsw.gc27.Model.Enumerations.Kingdom;
 
-import java.nio.file.Path;
 import java.util.ArrayList;
 
 /**

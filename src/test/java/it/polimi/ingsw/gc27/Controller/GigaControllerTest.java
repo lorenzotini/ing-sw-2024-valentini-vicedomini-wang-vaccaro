@@ -39,6 +39,7 @@ public class GigaControllerTest {
         clientTest = new ClientTest();
 
     }
+    //initializes game
     public  void initializeGame() {
 
         players1 = new ArrayList<>();

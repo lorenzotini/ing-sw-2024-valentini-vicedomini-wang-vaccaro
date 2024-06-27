@@ -152,6 +152,7 @@ public class ChooseObjectiveSceneController extends GenericController {
             chatTab.setContent(chatContainer);
             chatTabPane.getTabs().add(chatTab);
             chatTabPane.getStyleClass().add("tab-pane-chat");
+            chatTitledPane.getStyleClass().add("titled-pane");
 
         }
         chatTitledPane.setExpanded(false);

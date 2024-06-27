@@ -35,6 +35,7 @@ class DifferentPatternTest {
     private static ResourceCard[] faceUpResources;
     private static GoldCard[] faceUpGolds;
 
+    //initializes game
     public  void initializeGame() {
 
         players1 = new ArrayList<>();
@@ -72,17 +73,6 @@ class DifferentPatternTest {
         faceUpGolds[1]=goldDeck.get(1);
         market=new Market(resourceDeck, goldDeck, faceUpResources,faceUpGolds,objectiveDeck);
         g1.setMarket(market);
-
-
-        // create game and its controller
-
-
-
-        /*
-        Collections.shuffle(resourceDeck);
-        Collections.shuffle(goldDeck);
-        Collections.shuffle(objectiveDeck);
-        */
     }
 
     @Test

@@ -67,7 +67,7 @@ An example of a complete configuration specifying a custom server IP address, GU
 Executing the jar on the command line followed by --help or --h parameter displays all configurations.
 
 
-
+aggiungi che va solo da windows
 
 
 

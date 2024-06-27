@@ -36,6 +36,7 @@ class ThreeKingdomPatternTest {
     private ResourceCard[] faceUpResources = new ResourceCard[2];
     private GoldCard[] faceUpGolds = new GoldCard[2];
 
+    //initializes game
     public void initializeGame() {
 
         players1 = new ArrayList<>();

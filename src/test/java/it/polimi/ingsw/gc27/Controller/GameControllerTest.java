@@ -41,6 +41,7 @@ public class GameControllerTest {
     private TurnHandler turnHandler;
     private Player p1,p2,p3,p4;
 
+    //initializes game
     public  void initializeGame() {
 
         players1 = new ArrayList<>();

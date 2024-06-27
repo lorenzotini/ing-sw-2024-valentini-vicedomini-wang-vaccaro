@@ -74,7 +74,7 @@ public class DrawingState extends PlayerState {
             turnHandler.getGame().notifyObservers(updateHandMessage);
             turnHandler.getGame().notifyObservers(updateMarketMessage);
         } catch (
-                NoSuchElementException e) {  // TODO probabilmente serve aggiungere una nullPOinterException per quando si pesca dalle carte scoperte
+                NoSuchElementException e) {
             // when drawing from face ups, but no more cards in deck
             if (!fromDeck) {
                 // card = market.getFaceUp(isGold)[faceUpCardIndex];

@@ -70,8 +70,7 @@ public class GigaController {
             userToGameController(username).addCommand(new SuspendPlayerCommand(username));
             //registeredUsernames.remove(username);
         } catch (NullPointerException e) {
-            System.out.println("Client hadn't choose an username yet");
-            System.out.println("Caught while suspending player ");
+            System.out.println("Client hadn't choose an username yet and got suspended");
         }
     }
 
@@ -188,6 +187,9 @@ public class GigaController {
                             welcomePlayer(client);
                             return;
                         } else {
+//                            if (player.isDisconnected ) {
+//                                return;
+//                            }
                             gc.initializePlayer(client, this);
                             return;
                         }

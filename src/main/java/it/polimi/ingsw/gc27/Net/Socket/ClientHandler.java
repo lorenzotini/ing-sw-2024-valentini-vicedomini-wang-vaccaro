@@ -81,7 +81,7 @@ public class ClientHandler implements VirtualView {
                 } catch (IOException e) {
                     System.out.println("Connection problem: in execute command sock");
                     try {
-                        Thread.sleep(1000);
+                        Thread.sleep(3000);
                     } catch (InterruptedException ex) {
                         throw new RuntimeException(ex);
                     }
@@ -251,10 +251,9 @@ public class ClientHandler implements VirtualView {
      */
     public void disconnected() {
         if (!disconnected) {
-            server.disconnect(this); //rimuove questo handler dalla lista di handler
+            server.disconnect(this); //remove this handler from the handler list
             disconnected = true;
             console.removeReferences(this);
-            System.out.println("disconessione avvenuta");
 
         }
     }

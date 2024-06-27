@@ -128,7 +128,7 @@ public class TurnHandler implements Serializable {
                 int i = 0;
                 while (getNextOf(index + i, players).isDisconnected()) {
                     i++;
-                    if (index == players.size()) {
+                    if(index+i == players.size()){
                         //supendGame();
                         return;
                     }

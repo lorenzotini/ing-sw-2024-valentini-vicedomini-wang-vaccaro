@@ -101,11 +101,12 @@ public class RmiServer implements VirtualServer {
                     System.out.println("Timeout for client expired - rmi - " + client);
                     // Remove all the references to the client
                     console.removeReferences(client);
-                    System.out.println("After remove  references - " + client);
+
                     synchronized (clients) {
                         clients.remove(client);
-                        System.out.println(clients.size());
+
                     }
+                    System.out.println("After remove  references number of Rmi clients  " + clients.size());
                     break;
                 } else {
                     synchronized (clientsPing) {
@@ -119,7 +120,7 @@ public class RmiServer implements VirtualServer {
                         try {
                             client.pingFromServer();
                         } catch (RemoteException e) {
-                            System.out.println("Net error while sending ping b: " + actualPing);
+                           // System.out.println("Net error while sending ping b: "+ actualPing);
                         }
                     }).start();
                 }

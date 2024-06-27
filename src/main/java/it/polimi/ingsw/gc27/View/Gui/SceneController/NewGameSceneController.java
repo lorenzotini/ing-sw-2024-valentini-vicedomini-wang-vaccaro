@@ -1,6 +1,7 @@
 package it.polimi.ingsw.gc27.View.Gui.SceneController;
 
 import it.polimi.ingsw.gc27.View.Gui.Gui;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -152,8 +153,10 @@ public class NewGameSceneController extends GenericController {
     @Override
     public void receiveOk(String ackType) { //shows the game id in the login scene
         LoginSceneController log = (LoginSceneController) Gui.getInstance().getControllerFromName("/fxml/LoginScene.fxml");
-        log.getGameIDCreated().setVisible(true);
-        log.getGameIDCreated().setText(ackType);
+        Platform.runLater(()->{
+            log.getGameIDCreated().setVisible(true);
+            log.getGameIDCreated().setText(ackType);
+        });
     }
 
 

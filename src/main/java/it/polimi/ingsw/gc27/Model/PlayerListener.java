@@ -45,15 +45,14 @@ public class PlayerListener implements Serializable {
                 (message.getMiniModel().currentPlayer != null && message.getMiniModel().currentPlayer.equals(playerUsername)) ||
                 (message.getMiniModel().getPlayer() != null && message.getMiniModel().getPlayer().getUsername().equals(playerUsername))) { //the condition check that the client of this listener has to receive the update
 
-            if (flag) {
-                try {
-                    client.update(message);
-                } catch (RemoteException e) {
-                    e.printStackTrace();
-                    System.out.println("Net problem while sending update");
-                    flag = false;
-                    System.out.println("Error from the listener");
-                }
+                if (flag){
+                    try {
+                        client.update(message);
+                    } catch (RemoteException e) {
+                        System.out.println("Net problem while sending update");
+                        flag = false;
+                        System.out.println("Error from the listener");
+                    }
             }
         }
     }

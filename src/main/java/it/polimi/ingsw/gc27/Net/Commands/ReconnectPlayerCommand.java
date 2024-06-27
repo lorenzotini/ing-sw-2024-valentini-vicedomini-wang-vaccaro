@@ -10,14 +10,29 @@ import it.polimi.ingsw.gc27.Model.PlayerListener;
 import it.polimi.ingsw.gc27.Model.ClientClass.MiniModel;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 
+/**
+ * ReconnectPlayerCommand class represents a command to reconnect a disconnected player.
+ * Implements the Command interface. {@link Command}
+ */
 public class ReconnectPlayerCommand implements Command{
-    private VirtualView client;
-    private Player player;
+    private final VirtualView client;
+    private final Player player;
 
+    /**
+     * Constructs a ReconnectPlayerCommand with the specified client view and player
+     * @param client the VirtualView associated with the player
+     * @param player the player to be reconnected
+     */
     public ReconnectPlayerCommand(VirtualView client, ClientPlayer player){
         this.client=client;
         this.player=(Player) player;
     }
+
+    /**
+     * Executes the ReconnectPlayerCommand to reconnect the player to the game.
+     * Adds the player as an observer, updates their status, and sends a reconnection message to the client.
+     * @param gc the GameController that controls the game
+     */
     @Override
     public void execute(GameController gc)  {
         Game game = gc.getGame();
@@ -33,6 +48,10 @@ public class ReconnectPlayerCommand implements Command{
 
     }
 
+    /**
+     * Gets the name of the player who invoked this command
+     * @return the name of the player
+     */
     @Override
     public String getPlayerName() {
         return player.getUsername();

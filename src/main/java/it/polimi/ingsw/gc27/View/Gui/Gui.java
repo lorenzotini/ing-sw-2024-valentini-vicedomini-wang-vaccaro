@@ -503,12 +503,6 @@ public class Gui implements View {
         });
     }
 
-    /**
-     * Given a chatTab return the next space where add a message
-     *
-     * @param chatTab the tab where add new message
-     * @return the Box where you can add a new message
-     */
     private VBox getChatMessagesVBox(Tab chatTab) {
         VBox chatContainer = (VBox) chatTab.getContent();
         ScrollPane chatContent = (ScrollPane) chatContainer.getChildren().getFirst();

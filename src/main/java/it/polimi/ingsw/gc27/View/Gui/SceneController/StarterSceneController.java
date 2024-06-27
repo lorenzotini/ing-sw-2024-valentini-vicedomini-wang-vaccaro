@@ -15,16 +15,17 @@ import javafx.scene.text.TextFlow;
 
 import java.io.IOException;
 
-/** first scene of the game as the GUI is launched
- *  displays logo and "Play" button
+/**
+ * first scene of the game as the GUI is launched
+ * displays logo and "Play" button
  */
 public class StarterSceneController extends GenericController{
 
 
     /**
      * method implemented from {@link GenericController},
-     * @param chat
-     * @param minimodel
+     * @param chat the chat to be displayed
+     * @param minimodel the minimodel to be displayed
      */
     @Override
     public void overwriteChat(ClientChat chat, MiniModel minimodel) {
@@ -34,7 +35,7 @@ public class StarterSceneController extends GenericController{
     /**
      * method implemented from {@link GenericController}, invoked by Gui in order to send a string to a scene controller
      * the string is generally a positive feedback
-     * @param ackType
+     * @param ackType the string to be sent
      */
     @Override
     public void receiveOk(String ackType) {
@@ -45,7 +46,7 @@ public class StarterSceneController extends GenericController{
     /**
      * method implemented from {@link GenericController}, invoked by Gui in order to send a string to a generic scene controller,
      * the string is generally a negative feedback, such as an error
-     * @param ackType
+     * @param ackType the string to be sent
      */
     @Override
     public void receiveKo(String ackType) {
@@ -54,8 +55,8 @@ public class StarterSceneController extends GenericController{
 
     /**
      * if startGameButton is clicked, the stage switches scene to the ChooseGameScene
-     * @param event
-     * @throws IOException
+     * @param event the event of the button clicked
+     * @throws IOException if an I/O error occurs
      */
     public void switchToChooseGameScene(ActionEvent event) throws IOException {
         ChooseGameSceneController chooseGameSceneController = (ChooseGameSceneController) Gui.getInstance().getControllerFromName(ScenePaths.CHOSEGAME.getValue());

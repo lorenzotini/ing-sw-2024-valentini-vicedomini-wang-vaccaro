@@ -9,19 +9,59 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.*;
 
-
+/**
+ * Controller for the ending scene displaying game results.
+ */
 public class EndingSceneController extends GenericController{
 
+    /**
+     * Label displaying the title for the winners section.
+     */
     public Label winnerTitle;
+
+    /**
+     * Label displaying the username of the winner(s).
+     */
     public Label winnerUsername;
+
+    /**
+     * Label displaying the username of the second place player.
+     */
     public Label secondUsername;
+
+    /**
+     * Label displaying the username of the third place player.
+     */
     public Label thirdUsername;
+
+    /**
+     * Label displaying the username of the fourth place player.
+     */
     public Label fourthUsername;
+
+    /**
+     * Label displaying the points of the second place player.
+     */
     public Label secondPoints;
+
+    /**
+     * Label displaying the points of the third place player.
+     */
     public Label thirdPoints;
+
+    /**
+     * Label displaying the points of the fourth place player.
+     */
     public Label fourthPoints;
+
+    /**
+     * Label displaying the highest score among the players.
+     */
     public Label highestScore;
 
+    /**
+     * Initializes the controller by hiding labels for second, third, and fourth place players.
+     */
     @FXML
     public void initialize(){
         secondPoints.setVisible(false);
@@ -32,7 +72,11 @@ public class EndingSceneController extends GenericController{
         fourthUsername.setVisible(false);
     }
 
-
+    /**
+     * Updates the labels to display the winners and their scores based on the provided score board.
+     * It sorts the score board by score in descending order and displays the winners in the appropriate labels.
+     * @param scoreBoard a map containing player usernames as keys and their scores as values
+     */
     public void changeWinnersLabel(Map<String,Integer> scoreBoard){
         scoreBoard.remove(null);
         List<Map.Entry<String, Integer>> entryList = new ArrayList<>(scoreBoard.entrySet());

@@ -160,7 +160,7 @@ public class ChooseObjectiveSceneController extends GenericController {
 
     /**
      * allows to send the message in the chat by clicking the "enter" button on the keyboard
-     * @param textField
+     * @param textField the textfield where the message is written
      */
     private void handleOnKeyPress(TextField textField) {
         textField.setOnKeyPressed(event -> {
@@ -174,8 +174,8 @@ public class ChooseObjectiveSceneController extends GenericController {
 
     /**
      * allows to send the message in the chat by clicking the "send" button
-     * @param button
-     * @param textField
+     * @param button the button used to send the message
+     * @param textField the textfield where the message is written
      */
     void handleOnActionChat(Button button, TextField textField) {
         button.setOnAction(event -> {
@@ -206,8 +206,8 @@ public class ChooseObjectiveSceneController extends GenericController {
     /**
      * method implemented from {@link GenericController},
      * invoked by Gui when a message is sent by a player in the chat
-     * @param chat
-     * @param miniModel
+     * @param chat the chat to be updated
+     * @param miniModel the minimodel to be updated
      */
     public void overwriteChat(ClientChat chat, MiniModel miniModel) {
         Platform.runLater(() -> {
@@ -224,8 +224,8 @@ public class ChooseObjectiveSceneController extends GenericController {
 
     /**
      * used to extract the textfield from the tab the chat using nodes system of javaFX
-     * @param tab
-     * @returns the textfield associated with the chat
+     * @param tab the tab where the textfield is
+     * @return the textfield associated with the chat
      */
     private TextField getSendMessageFieldFromTab(Tab tab) {
         if (tab.getContent() instanceof VBox) {
@@ -247,9 +247,8 @@ public class ChooseObjectiveSceneController extends GenericController {
      * created and sends ChooseObjectiveCommand according which of the two buttons is pressed
      * invokes the method init() of ManuscriptSceneController to initialize the graphic of the scene
      * invokes Gui method to switch scene to ManuscriptScene
-     * @param event
-     * @throws IOException
-     * @throws InterruptedException
+     * @param event the event that triggers the method
+     * @throws IOException if the scene is not found
      */
     @FXML
     public void sendObj(MouseEvent event) throws IOException {
@@ -284,7 +283,7 @@ public class ChooseObjectiveSceneController extends GenericController {
 
     /**
      * invoked by Gui, it sets the image of the first objective card from the image path given as a parameter
-     * @param imagePath
+     * @param imagePath the path of the image
      */
     public void changeImageObj1(String imagePath) {
         Image image = new Image(imagePath);
@@ -293,7 +292,7 @@ public class ChooseObjectiveSceneController extends GenericController {
 
     /**
      * invoked by Gui, it sets the image of the second objective card from the image path given as a parameter
-     * @param imagePath
+     * @param imagePath the path of the image
      */
     public void changeImageObj2(String imagePath) {
         Image image = new Image(imagePath);
@@ -304,7 +303,7 @@ public class ChooseObjectiveSceneController extends GenericController {
      * invoked by Gui in order to send a string to this scene controller,
      * sets what is showed in the actionFeedback label displayed in ManuscriptSceneController
      * before the stage changes scene from this one to the manuscript scene
-     * @param ackType
+     * @param ackType the string to be sent
      */
     @Override
     public void receiveOk(String ackType) {
@@ -326,7 +325,7 @@ public class ChooseObjectiveSceneController extends GenericController {
 
     /**
      * allocates all the messages of all the chats of a player
-     * @throws RemoteException
+     * @throws RemoteException if the connection is lost
      */
     public void fullChatAllocate() throws RemoteException {
         MiniModel miniModel = Gui.getInstance().getClient().getMiniModel();

@@ -4,8 +4,14 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * This enum contains the paths to the FXML files of the various scenes.
+ */
 public enum ScenePaths {
 
+    /**
+     * The paths to the FXML files of the various scenes.
+     */
     STARTER("/fxml/StarterScene.fxml"), //scene number 0
     CHOSEGAME("/fxml/ChooseGameScene.fxml"), //scene number 1
     NEWGAME ("/fxml/NewGameScene.fxml"), //scene number 2.1
@@ -23,10 +29,18 @@ public enum ScenePaths {
         this.value = value;
     }
 
+    /**
+     * Returns the value of the enum.
+     * @return The value of the enum.
+     */
     public String getValue() {
         return this.value;
     }
 
+    /**
+     * Returns a list of all the values of the enum.
+     * @return A list of all the values of the enum.
+     */
     public static List<String> valuesList() {
         return Arrays.stream(ScenePaths.values())
                 .map(ScenePaths::getValue)

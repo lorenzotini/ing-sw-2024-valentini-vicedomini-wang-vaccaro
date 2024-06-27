@@ -38,12 +38,24 @@ import java.rmi.RemoteException;
 import java.util.*;
 
 
+/**
+ * Controller for the Manuscript scene where players can place cards on their manuscripts, draw cards from the market and chat.
+ * Overall it handles the game's main mechanics, from the player's perspective.
+ */
 public class ManuscriptSceneController extends GenericController {
 
     @FXML
     private AnchorPane anchorPane;
+
+    /**
+     * TextFlow containing the feedback messages
+     */
     @FXML
     public TextFlow feedbackTextFlow;
+
+    /**
+     * TextFlow containing the error messages
+     */
     @FXML
     public Text actionFeedback;
     @FXML
@@ -80,8 +92,6 @@ public class ManuscriptSceneController extends GenericController {
     private final int CARD_WIDTH = 150;
     private final int CARD_HEIGHT = 100;
 
-    //TODO vedere se è meglio mettere gli attributi privati che ora sono pubblici
-
     // attributes to handle addCard invocation
     private int handCardIndex;
     private boolean isFront;
@@ -98,7 +108,30 @@ public class ManuscriptSceneController extends GenericController {
     private final HashMap<PawnColour, ImageView> pawnColourImageViewHashMap = new HashMap<>();
     private final int PAWN_DIM = 50;
 
-
+    /**
+     * Initializes the GUI components and sets up the initial state of the game scene.
+     * This method is typically called when the game scene is first loaded or initialized.
+     * It populates various UI elements such as manuscripts, cards, objectives, counters,
+     * and chat functionalities based on the data retrieved from the MiniModel provided by the client.
+     * in order:
+     * Retrieves the MiniModel from the client
+     * Initializes grid panes for manuscripts and boards.
+     * Creates action feedback and error panes.
+     * Initializes manuscript-related chat functionality.
+     * Populates manuscripts into the manuscriptTabPane of all players.
+     * Populates the player's hand with cards.
+     * Sets up the market area and populates it with two decks of cards and 4 face-up cards, two for each card type.
+     * Displays common objectives as image cards in the UI.
+     * Displays the player's secret objective.
+     * Sets symbol counters to display game-related information.
+     * The method assumes the existence of various helper methods like createManuscriptGrids {@link #createManuscriptGrids},
+     * createBoardGrids {@link #createBoardGrids}, createActionFeedback {@link #createActionFeedback()}, createErrorPane {@link #createErrorPane()},
+     * chatInitManuscript {@link #chatInitManuscript()}, overwriteManuscript {@link #overwriteManuscript}, overwriteHand {@link #overwriteHand},
+     * overwriteMarket {@link #overwriteMarket}, overwriteCounters{@link #overwriteCounters}, and fullChatAllocate {@link #fullChatAllocate},
+     * which are responsible for setting up specific UI components and functionalities.
+     * If a RemoteException occurs during MiniModel retrieval or full chat initialization,
+     * it throws a RuntimeException to handle the exceptional case.
+     */
     public void init() {
         circleChat.setVisible(false);
 
@@ -157,6 +190,9 @@ public class ManuscriptSceneController extends GenericController {
 
     }
 
+    /**
+     * creates the error pane
+     */
     public void createErrorPane() {
         Platform.runLater(() -> {
             errorPane.setMaxWidth(200);
@@ -165,6 +201,9 @@ public class ManuscriptSceneController extends GenericController {
         });
     }
 
+    /**
+     * creates the action feedback
+     */
     public void createActionFeedback() {
         Platform.runLater(() -> {
             actionFeedback.setText("so fast!");
@@ -175,6 +214,12 @@ public class ManuscriptSceneController extends GenericController {
         });
     }
 
+    /**
+     * allocates the full chat in the chat tabs when the scene is initialized
+     * it is called when the scene is initialized
+     *
+     * @throws RemoteException if the client cannot retrieve the MiniModel
+     */
     public void fullChatAllocate() throws RemoteException {
         MiniModel miniModel = Gui.getInstance().getClient().getMiniModel();
         String myUsername = miniModel.getPlayer().getUsername();
@@ -188,6 +233,14 @@ public class ManuscriptSceneController extends GenericController {
         }
     }
 
+    /**
+     * This method creates chat tabs for different chat groups based on data
+     * retrieved from the MiniModel provided by the client. Each chat tab
+     * includes a scrollable chat area, a message input field, and a send button.
+     * <p>
+     * Additionally, the method sets up an event handler for the chatTitledPane,
+     * ensuring that clicking on it brings it to the front and hides the circleChat component which notifies the user of new messages.
+     */
     public void chatInitManuscript() {
         MiniModel miniModel;
         do {
@@ -249,7 +302,7 @@ public class ManuscriptSceneController extends GenericController {
             messageBox.setSpacing(10);
             messageBox.setMinHeight(33);
             messageBox.setMaxHeight(33);
-            messageBox.setPadding(new Insets(5,5,5,5));
+            messageBox.setPadding(new Insets(5, 5, 5, 5));
             handleOnActionChat(sendButton, sendMessage);
             handleOnKeyPress(sendMessage);
             sendMessage.setPromptText("Write your message here...");
@@ -286,6 +339,7 @@ public class ManuscriptSceneController extends GenericController {
 
     }
 
+
     private TextField getSendMessageFieldFromTab(Tab tab) {
         if (tab.getContent() instanceof VBox) {
             VBox chatContainer = (VBox) tab.getContent();
@@ -301,12 +355,6 @@ public class ManuscriptSceneController extends GenericController {
         return null;
     }
 
-    /**
-     * allows to send the message in the chat by clicking the "send" button
-     *
-     * @param button
-     * @param textField
-     */
     void handleOnActionChat(Button button, TextField textField) {
         button.setOnAction(event -> {
             sendChatMessage();
@@ -315,11 +363,6 @@ public class ManuscriptSceneController extends GenericController {
         });
     }
 
-    /**
-     * allows to send the message in the chat by clicking the "enter" button on the keyboard
-     *
-     * @param textField
-     */
 
     private void handleOnKeyPress(TextField textField) {
         textField.setOnKeyPressed(event -> {
@@ -330,7 +373,6 @@ public class ManuscriptSceneController extends GenericController {
             }
         });
     }
-
 
     void handleDropEventManuscript(ImageView imgView) {
 
@@ -355,10 +397,7 @@ public class ManuscriptSceneController extends GenericController {
             }
             event.consume();
         });
-
-
     }
-
 
     void handleDragDetectedHand(ImageView imgView) {
 
@@ -448,10 +487,6 @@ public class ManuscriptSceneController extends GenericController {
 
     }
 
-    /**
-     * collects information about the chat, the sender and the receiver of the message from the tab
-     * and sends the SendMessageCommand
-     */
     void sendChatMessage() {
         try {
             Tab currentTab = chatTabPane.getSelectionModel().getSelectedItem();
@@ -467,7 +502,7 @@ public class ManuscriptSceneController extends GenericController {
     }
 
     private void sendAddCardCommand() {
-        if(!Gui.getInstance().isGameOn()){
+        if (!Gui.getInstance().isGameOn()) {
             suspendeGame();
         }
         String username;
@@ -492,6 +527,12 @@ public class ManuscriptSceneController extends GenericController {
         }
     }
 
+    /**
+     * receives the acknowledgment from the server and updates the action feedback accordingly
+     * and shows the text in the feedbackTextFlow
+     *
+     * @param ackType the type of acknowledgment received
+     */
     @Override
     public void receiveOk(String ackType) {
 
@@ -512,6 +553,11 @@ public class ManuscriptSceneController extends GenericController {
         });
     }
 
+    /**
+     * receives the negative acknowledgment from the server and updates the error pane accordingly
+     *
+     * @param ackType the type of negative acknowledgment received
+     */
     @Override
     public void receiveKo(String ackType) {
         Platform.runLater(() -> {
@@ -527,8 +573,8 @@ public class ManuscriptSceneController extends GenericController {
      * method implemented from {@link GenericController},
      * invoked by Gui when a message is sent by a player in the chat
      *
-     * @param chat
-     * @param miniModel
+     * @param chat      the chat to be updated
+     * @param miniModel the minimodel to be updated
      */
     public void overwriteChat(ClientChat chat, MiniModel miniModel) {
         Platform.runLater(() -> {
@@ -588,6 +634,11 @@ public class ManuscriptSceneController extends GenericController {
         }
     }
 
+    /**
+     * creates the board grid panes used to position the pawn to their respective points amounts
+     *
+     * @param miniModel the MiniModel received from the server
+     */
     public void createBoardGrids(MiniModel miniModel) {
         Platform.runLater(() -> {
             initializePoints();
@@ -595,6 +646,20 @@ public class ManuscriptSceneController extends GenericController {
         });
     }
 
+
+    /**
+     * Updates the manuscript display for a given user in the GUI.
+     * This method is responsible for rendering the manuscript grid based on the
+     * provided MiniModel, username, and whether it's a new scene.
+     * Configures a GridPane with the appropriate column and row constraints
+     * Populates the GridPane with manuscript placements, setting up ImageView components for each card.
+     * Adds valid placement indicators if the manuscript belongs to the current player.
+     * Handles the zoom functionality for the manuscript grid.
+     *
+     * @param miniModel the MiniModel containing the game state
+     * @param username  the username of the player whose manuscript is being updated
+     * @param newScene  a boolean indicating whether the manuscript is a new scene
+     */
     public void overwriteManuscript(MiniModel miniModel, String username, boolean newScene) {
 
         Platform.runLater(() -> {
@@ -664,6 +729,13 @@ public class ManuscriptSceneController extends GenericController {
         });
     }
 
+    /**
+     * Updates the display of the player's hand in the GUI.
+     * This method clears the current hand display and populates it with the
+     * cards from the player's hand as defined in the MiniModel.
+     *
+     * @param miniModel the MiniModel instance containing the current game state
+     */
     public void overwriteHand(MiniModel miniModel) {
         Platform.runLater(() -> {
             handCards.getChildren().clear();
@@ -683,6 +755,14 @@ public class ManuscriptSceneController extends GenericController {
         });
     }
 
+    /**
+     * Updates the market display in the GUI.
+     * This method clears the current market display and populates it with the
+     * cards from the market as defined in the MiniModel.
+     * It also sets up the event handlers for the market cards.
+     *
+     * @param miniModel the MiniModel instance containing the current game state
+     */
     public void overwriteMarket(MiniModel miniModel) {
         Platform.runLater(() -> {
 
@@ -693,10 +773,10 @@ public class ManuscriptSceneController extends GenericController {
             boolean noMoreDeckCards;
             boolean noMoreFaceUpCard;
 
-            try{
+            try {
                 noMoreDeckCards = false;
                 deckImage = new Image(getClass().getResource(miniModel.getMarket().getResourceDeck().getLast().getBack().getImagePath()).toExternalForm());
-            } catch (NoSuchElementException e){
+            } catch (NoSuchElementException e) {
                 deckImage = new Image(getClass().getResource("/Images/utility/noMoreCards.png").toExternalForm());
                 noMoreDeckCards = true;
             }
@@ -716,17 +796,17 @@ public class ManuscriptSceneController extends GenericController {
                         marketRes.setFitWidth(marketBox.getPrefWidth() / 3);
                         marketRes.setUserData(new MarketCardData(isGold, fromDeck, 0));
                         // if there are more cards the player can draw, otherwise the card is not clickable
-                        if(!noMoreDeckCards){
+                        if (!noMoreDeckCards) {
                             handleClickDetectedMarket(marketRes);
                         }
                         zoomCardOnHover(marketRes, 2);
                         marketBox.getChildren().add(marketRes);
                     } else {
                         fromDeck = false;
-                        try{
+                        try {
                             noMoreFaceUpCard = false;
                             marketRes = new ImageView(new Image(getClass().getResource(miniModel.getMarket().getFaceUp(isGold)[i - 1].getFront().getImagePath()).toExternalForm()));
-                        } catch (NullPointerException e){
+                        } catch (NullPointerException e) {
                             noMoreFaceUpCard = true;
                             marketRes = new ImageView(new Image(getClass().getResource("/Images/utility/noMoreCards.png").toExternalForm()));
                         }
@@ -734,7 +814,7 @@ public class ManuscriptSceneController extends GenericController {
                         marketRes.setFitHeight(marketBox.getPrefHeight());
                         marketRes.setFitWidth(marketBox.getPrefWidth() / 3);
                         marketRes.setUserData(new MarketCardData(isGold, fromDeck, i - 1));
-                        if(!noMoreFaceUpCard){
+                        if (!noMoreFaceUpCard) {
                             handleClickDetectedMarket(marketRes);
                         }
                         zoomCardOnHover(marketRes, 2);
@@ -743,10 +823,10 @@ public class ManuscriptSceneController extends GenericController {
                 }
                 marketBox = this.marketGolds;
                 isGold = true;
-                try{
+                try {
                     noMoreDeckCards = false;
                     deckImage = new Image(getClass().getResource(miniModel.getMarket().getGoldDeck().getLast().getBack().getImagePath()).toExternalForm());
-                } catch (NoSuchElementException e){
+                } catch (NoSuchElementException e) {
                     deckImage = new Image(getClass().getResource("/Images/utility/noMoreCards.png").toExternalForm());
                     noMoreDeckCards = true;
                 }
@@ -754,6 +834,13 @@ public class ManuscriptSceneController extends GenericController {
         });
     }
 
+    /**
+     * Updates the symbol counters in the GUI.
+     * This method clears the current counters display and populates it with the
+     * symbol counters from the MiniModel.
+     *
+     * @param miniModel the MiniModel instance containing the current game state
+     */
     public void overwriteCounters(MiniModel miniModel) {
         Platform.runLater(() -> {
             counters.getChildren().clear();
@@ -786,6 +873,9 @@ public class ManuscriptSceneController extends GenericController {
         }
     }
 
+    /**
+     * Initializes the points and positions for the board grid pane
+     */
     public void initializePoints() {
         position.put(0, new Point(3, 60));
         position.put(1, new Point(7, 60));
@@ -826,6 +916,11 @@ public class ManuscriptSceneController extends GenericController {
 
     }
 
+    /**
+     * sets the board with the pawns of the players and their respective points
+     *
+     * @param miniModel the MiniModel received from the server
+     */
     public void setBoard(MiniModel miniModel) {
         ImageView img = new ImageView(new Image(getClass().getResource(miniModel.getPlayer().getPawnColour().getPathImage()).toExternalForm()));
 
@@ -851,6 +946,10 @@ public class ManuscriptSceneController extends GenericController {
         }
     }
 
+    /**
+     * updates the board with the pawns of the players and their respective points
+     * @param board
+     */
     public void updateBoard(ClientBoard board) {
         MiniModel miniModel;
         try {
@@ -865,13 +964,18 @@ public class ManuscriptSceneController extends GenericController {
         }
     }
 
+    /**
+     * updates the pawn of a specific player on the board
+     * @param username the username of the player
+     * @param miniModel the MiniModel received from the server
+     */
     public void updatePawn(String username, MiniModel miniModel) {
 
         PawnColour colour = miniModel.getBoard().getColourPlayerMap().get(username);
         int actualScore = miniModel.getBoard().getScoreBoard().get(username);
         int oldScore = pawnColourIntegerHashMap.get(colour);
-        if(actualScore > 29){
-            actualScore =29;
+        if (actualScore > 29) {
+            actualScore = 29;
         }
         if (actualScore != oldScore) {
             Point newPoint = position.get(actualScore);
@@ -896,9 +1000,13 @@ public class ManuscriptSceneController extends GenericController {
 
     }
 
+    /**
+     * checks if the disconnected player is reconnected
+     * if reconnected the game can resume effectively
+     */
     @Override
     public void otherPlayerReconnected() {
-        Platform.runLater(()-> {
+        Platform.runLater(() -> {
             errorPane.setTextAlignment(TextAlignment.CENTER);
             errorText.getStyleClass().add("labelError");
             errorText.setText("The game can resume");
@@ -907,9 +1015,12 @@ public class ManuscriptSceneController extends GenericController {
         });
     }
 
+    /**
+     * suspends the game if a player disconnects
+     */
     @Override
     public void suspendeGame() {
-        Platform.runLater(()->{
+        Platform.runLater(() -> {
             suspendedGameTextFlow = new TextFlow();
             Text suspendedGameText = new Text("The game has been suspended: if no one rejoins the game will end in about a minute.");
             suspendedGameTextFlow.getChildren().add(suspendedGameText);
@@ -925,7 +1036,10 @@ public class ManuscriptSceneController extends GenericController {
         });
     }
 
-    private void removeSuspendedMessage(){
+    /**
+     * removes the suspended message
+     */
+    private void removeSuspendedMessage() {
         anchorPane.getChildren().remove(suspendedGameTextFlow);
     }
 }

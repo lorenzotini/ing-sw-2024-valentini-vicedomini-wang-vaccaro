@@ -25,7 +25,11 @@ import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.HashMap;
 
-//sixth scene, allows the player to choose front or back of starterCard
+/**
+ * Controller class for the PlaceStarterCard scene in the GUI.
+ * Handles the interaction for selecting the front or back of a starter card,
+ * and includes chat functionality.
+ */
 public class PlaceStarterCardSceneController extends GenericController{
 
     @FXML
@@ -47,6 +51,11 @@ public class PlaceStarterCardSceneController extends GenericController{
     private HashMap<String, Tab> chatTabHashMapP= new HashMap<>();
 
     // start chat methods
+
+    /**
+     * Initializes the chat functionality for the starter card scene.
+     * Sets up tabs for global and private chats, message containers, and send button actions.
+     */
     public void chatInitStarter(){
             MiniModel miniModel;
             do {
@@ -144,10 +153,6 @@ public class PlaceStarterCardSceneController extends GenericController{
 
     }
 
-    /**
-     * allows to send the message in the chat by clicking the "enter" button on the keyboard
-     * @param textField
-     */
     private void handleOnKeyPress(TextField textField) {
         textField.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
@@ -158,11 +163,6 @@ public class PlaceStarterCardSceneController extends GenericController{
         });
     }
 
-    /**
-     * allows to send the message in the chat by clicking the "send" button
-     * @param button
-     * @param textField
-     */
     void handleOnActionChat(Button button, TextField textField){
         button.setOnAction(event -> {
             sendChatMessage();
@@ -171,10 +171,6 @@ public class PlaceStarterCardSceneController extends GenericController{
         });
     }
 
-    /**
-     * collects information about the chat, the sender and the receiver of the message from the tab
-     * and sends the SendMessageCommand
-     */
     void sendChatMessage(){
         try {
             Tab currentTab = chatTabPane.getSelectionModel().getSelectedItem();
@@ -192,8 +188,8 @@ public class PlaceStarterCardSceneController extends GenericController{
     /**
      * method implemented from {@link GenericController},
      * invoked by Gui when a message is sent by a player in the chat
-     * @param chat
-     * @param miniModel
+     * @param chat the chat where the message is sent
+     * @param miniModel the miniModel of the player
      */
     public void overwriteChat(ClientChat chat, MiniModel miniModel) {
         Platform.runLater(() -> {
@@ -228,16 +224,20 @@ public class PlaceStarterCardSceneController extends GenericController{
     }
     //end chat methods
 
+    /**
+     * Handles the event of selecting the front or back starter card.
+     *
+     * @param event The mouse event.
+     * @throws IOException If an I/O error occurs.
+     */
     @FXML
-    public void sendStarter(MouseEvent event) throws IOException, InterruptedException {
+    public void sendStarter(MouseEvent event) throws IOException {
         if(event.getSource().equals(frontStarterButton)){
-            //Gui.getInstance().stringFromSceneController("front");
             Command comm = new AddStarterCommand(Gui.getInstance().getClient().getUsername(), true);
             Gui.getInstance().getClient().sendCommand(comm);
         } else {
             Command comm = new AddStarterCommand(Gui.getInstance().getClient().getUsername(), false);
             Gui.getInstance().getClient().sendCommand(comm);
-            //Gui.getInstance().stringFromSceneController("back");
         }
         if(Gui.getInstance().isGameOn()) {
             Platform.runLater(() -> {
@@ -255,16 +255,29 @@ public class PlaceStarterCardSceneController extends GenericController{
         }
     }
 
+    /**
+     * Sets the label used to notify the game suspension to not visible
+     */
     @Override
     public void otherPlayerReconnected(){
         gameSuspendedLabel.setVisible(false);
     }
 
+    /**
+     * Changes the image of the front starter card.
+     *
+     * @param imagePath The path of the image to set.
+     */
     public void changeImageFront(String imagePath) {
         Image image = new Image(imagePath);
         frontStarter.setImage(image);
     }
 
+    /**
+     * Changes the image of the back starter card.
+     *
+     * @param imagePath The path of the image to set.
+     */
     public void changeImageBack(String imagePath) {
         Image image = new Image(imagePath);
         backStarter.setImage(image);

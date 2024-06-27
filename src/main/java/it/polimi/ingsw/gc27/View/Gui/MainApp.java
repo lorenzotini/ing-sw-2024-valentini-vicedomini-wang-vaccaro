@@ -40,6 +40,12 @@ public class MainApp extends Application {
 
     }
 
+    /**
+     * Starts playing music from the specified path.
+     *
+     * @param path       The path to the music file.
+     * @param playInLoop Boolean flag indicating whether to play the music in a loop.
+     */
     public static void startMusic(String path, boolean playInLoop){
         new Thread(() -> {
             Media sound = new Media(MainApp.class.getResource(path).toExternalForm());

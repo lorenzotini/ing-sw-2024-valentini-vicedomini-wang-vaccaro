@@ -31,19 +31,19 @@ import java.util.HashMap;
 public class PlaceStarterCardSceneController extends GenericController {
 
     @FXML
-    public ImageView frontStarter;
+    private ImageView frontStarter;
     @FXML
-    public ImageView backStarter;
+    private ImageView backStarter;
     @FXML
-    public Button frontStarterButton;
+    private Button frontStarterButton;
     @FXML
-    public Button backStarterButton;
+    private Button backStarterButton;
     @FXML
-    public TabPane chatTabPane;
+    private TabPane chatTabPane;
     @FXML
-    public Label gameSuspendedLabel;
+    private Label gameSuspendedLabel;
     @FXML
-    public TitledPane chatTitledPane;
+    private TitledPane chatTitledPane;
     @FXML
     private Circle circleChat;
 

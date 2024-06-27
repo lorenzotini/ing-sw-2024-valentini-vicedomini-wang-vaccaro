@@ -16,13 +16,19 @@ import java.io.IOException;
  */
 public class NewGameSceneController extends GenericController {
     @FXML
-    public CheckBox checkBox2;
+    private CheckBox checkBox2;
     @FXML
-    public CheckBox checkBox4;
+    private CheckBox checkBox4;
     @FXML
-    public CheckBox checkBox3;
+    private CheckBox checkBox3;
+    /**
+     * Used to go the next scene
+     */
     @FXML
     public Button go;
+    /**
+     * Used to go the back scene
+     */
     @FXML
     public Button backButton;
     @FXML

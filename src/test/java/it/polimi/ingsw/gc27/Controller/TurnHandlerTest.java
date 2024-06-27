@@ -84,7 +84,7 @@ class TurnHandlerTest {
         game = new Game(new Board(), market,players1,objectiveDeck.get(0),objectiveDeck.get(1), starterDeck,objectiveDeck);
         gameController = new GameController(game, 4, 0, gigaController);
         gameControllers.add(gameController);
-        turnHandler=new TurnHandler(game);
+        turnHandler=new TurnHandler(game, gameController);
 
 
         clientTest= new ClientTest();
@@ -234,14 +234,14 @@ class TurnHandlerTest {
     @Test
     void triggerEndingGameDueToNoMoreCardsTest(){
         initializeGame();
-        TurnHandler turnHandler1=new TurnHandler(game);
+        TurnHandler turnHandler1=new TurnHandler(game, new GameController(game));
         turnHandler1.triggerEndingGameDueToNoMoreCards();
     }
 
     @Test
-    void handleReconnecionTest(){
+    void handleReconnectionTest(){
         initializeGame();
-        TurnHandler turnHandler2=new TurnHandler(game);
+        TurnHandler turnHandler2=new TurnHandler(game, new GameController(game));
         p1.setPlayerState(new PlayingState(p1, turnHandler2));
         p2.setPlayerState(new WaitingState(p2, turnHandler2));
         p3.setPlayerState(new WaitingState(p3, turnHandler2));

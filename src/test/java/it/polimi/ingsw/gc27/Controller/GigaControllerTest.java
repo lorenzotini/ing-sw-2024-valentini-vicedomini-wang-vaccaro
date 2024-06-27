@@ -123,11 +123,12 @@ public class GigaControllerTest {
     }
 
     @Test
-    void drawTestsasasa() throws InterruptedException {
+    void drawTestsasasa()  {
 
         GameController gc ;
         clientTest = new ClientTest();
         clientTest.setNextRead("new");
+        clientTest.setNextRead("a");
         clientTest.setNextRead("2");
         clientTest.setNextRead("User1");
         clientTest.setNextRead("BLUE");
@@ -268,10 +269,13 @@ public class GigaControllerTest {
 
         clientTest3 = new ClientTest();
         clientTest3.setNextRead("0");
-        clientTest3.setNextRead("UserErrore");
-        clientTest3.setNextRead("0");
         clientTest3.setNextRead("User");
         clientTest3.setNextRead("GREEN");
+
+        int i = 0;
+        while(i < 100){
+            i++;
+        }
         gigaController.welcomePlayer(clientTest3);
 
     }

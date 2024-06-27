@@ -56,6 +56,9 @@ class LadderPatternTest {
         resourceDeck = jsonParser.getResourceDeck();
         goldDeck= jsonParser.getGoldDeck();
 
+        for(ObjectiveCard card : objectiveDeck){
+            card.toCliCard();
+        }
 
         // create players and add them to the game.
         p1 = new Player("Giocatore 1", new Manuscript(), PawnColour.RED);

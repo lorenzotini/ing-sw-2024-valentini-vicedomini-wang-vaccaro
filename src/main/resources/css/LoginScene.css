@@ -94,8 +94,8 @@
 
 .selectionbutton{
     -fx-background-color: #e4dfb2;
-    -fx-border-width: 2px;
-    -fx-border-color: #2B1806;
+    -fx-border-width: 6px;
+    -fx-border-color: #6f6232;
     -fx-border-radius: 10;
     -fx-background-radius: 14;
     -fx-effect: dropshadow(gaussian, rgba(255, 255, 255, 1.0), 10, 0.5, 0, 0);

@@ -1,27 +1,19 @@
 package it.polimi.ingsw.gc27.Controller;
 
-import it.polimi.ingsw.gc27.Controller.ClientTest;
-import it.polimi.ingsw.gc27.Controller.GameController;
-import it.polimi.ingsw.gc27.Controller.GigaController;
-import it.polimi.ingsw.gc27.Model.Card.Face;
 import it.polimi.ingsw.gc27.Model.Card.GoldCard;
 import it.polimi.ingsw.gc27.Model.Card.ObjectiveCard.ObjectiveCard;
 import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
 import it.polimi.ingsw.gc27.Model.Card.StarterCard;
-import it.polimi.ingsw.gc27.Model.ClientClass.ClientPlayer;
 import it.polimi.ingsw.gc27.Model.ClientClass.MiniModel;
 import it.polimi.ingsw.gc27.Model.Enumerations.CornerSymbol;
 import it.polimi.ingsw.gc27.Model.Enumerations.PawnColour;
 import it.polimi.ingsw.gc27.Model.Game.*;
 import it.polimi.ingsw.gc27.Model.PlayerListener;
 import it.polimi.ingsw.gc27.Model.States.*;
-import it.polimi.ingsw.gc27.Net.Commands.AddStarterCommand;
-import it.polimi.ingsw.gc27.Net.Commands.Command;
-import it.polimi.ingsw.gc27.Net.Commands.ReconnectPlayerCommand;
-import it.polimi.ingsw.gc27.Net.Commands.SuspendPlayerCommand;
-import it.polimi.ingsw.gc27.Net.VirtualView;
+import it.polimi.ingsw.gc27.Commands.AddStarterCommand;
+import it.polimi.ingsw.gc27.Commands.Command;
+import it.polimi.ingsw.gc27.Commands.ReconnectPlayerCommand;
 import it.polimi.ingsw.gc27.Utils.JsonParser;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -93,7 +85,7 @@ public class GameControllerTest {
         game = new Game(new Board(), market,players1,objectiveDeck.get(0),objectiveDeck.get(1), starterDeck,objectiveDeck);
         gameController = new GameController(game, 4, 0, gigaController);
         gameControllers.add(gameController);
-        turnHandler=new TurnHandler(game);
+        turnHandler=new TurnHandler(game, gameController);
 
 
 
@@ -939,7 +931,7 @@ public class GameControllerTest {
     @Test
     void suspendGameTest(){
         initializeGame();
-        TurnHandler turnHandler1=new TurnHandler(game);
+        TurnHandler turnHandler1=new TurnHandler(game, gameController);
         gameController.setTurnHandler(turnHandler1);
         ClientTest clientTest1=new ClientTest();
         p1.setPlayerState(new PlayingState(p1, turnHandler));

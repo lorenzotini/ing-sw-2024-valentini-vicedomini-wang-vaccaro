@@ -16,6 +16,7 @@ import javafx.util.Duration;
  * It initializes the GUI and sets up the primary stage.
  */
 public class MainApp extends Application {
+    private static MediaPlayer mediaPlayer;
 
     /**
      * The start method sets up the stage, scene, and GUI elements.
@@ -49,7 +50,7 @@ public class MainApp extends Application {
     public static void startMusic(String path, boolean playInLoop){
         new Thread(() -> {
             Media sound = new Media(MainApp.class.getResource(path).toExternalForm());
-            MediaPlayer mediaPlayer = new MediaPlayer(sound);
+            mediaPlayer = new MediaPlayer(sound);
             mediaPlayer.play();
             if (playInLoop) {
                 mediaPlayer.setAutoPlay(true);

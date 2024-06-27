@@ -1,12 +1,11 @@
 package it.polimi.ingsw.gc27.Controller;
 
-import it.polimi.ingsw.gc27.Messages.ClosingGameMessage;
 import it.polimi.ingsw.gc27.Messages.KoMessage;
 import it.polimi.ingsw.gc27.Messages.OkMessage;
 import it.polimi.ingsw.gc27.Model.Game.Player;
-import it.polimi.ingsw.gc27.Net.Commands.Command;
-import it.polimi.ingsw.gc27.Net.Commands.ReconnectPlayerCommand;
-import it.polimi.ingsw.gc27.Net.Commands.SuspendPlayerCommand;
+import it.polimi.ingsw.gc27.Commands.Command;
+import it.polimi.ingsw.gc27.Commands.ReconnectPlayerCommand;
+import it.polimi.ingsw.gc27.Commands.SuspendPlayerCommand;
 import it.polimi.ingsw.gc27.Net.VirtualView;
 
 import java.io.IOException;

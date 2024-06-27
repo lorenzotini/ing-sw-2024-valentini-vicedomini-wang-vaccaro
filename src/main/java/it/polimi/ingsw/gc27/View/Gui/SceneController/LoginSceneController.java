@@ -138,6 +138,8 @@ public class LoginSceneController extends GenericController {
         yellowButton.setDisable(true);
         redButton.setDisable(true);
         sendColourButton.setDisable(true);
+        sendBackButton.setVisible(false);
+        //sendBackButton.setDisable(true);
         handleOnKeyPress(usernameInput);
     }
     /**
@@ -304,7 +306,8 @@ public class LoginSceneController extends GenericController {
                 errorUsername.setText("Username not available");
                 errorUsername.setVisible(true);
                 if(gameId != -1){
-                    sendBackButton.setDisable(false);
+                    sendBackButton.setVisible(true);
+                    //sendBackButton.setDisable(false);
                 }
             }
         });

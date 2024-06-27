@@ -11,10 +11,10 @@ import it.polimi.ingsw.gc27.Model.Enumerations.CornerSymbol;
 import it.polimi.ingsw.gc27.Model.Enumerations.PawnColour;
 import it.polimi.ingsw.gc27.Model.Game.ChatMessage;
 import it.polimi.ingsw.gc27.Model.Game.Placement;
-import it.polimi.ingsw.gc27.Net.Commands.AddCardCommand;
-import it.polimi.ingsw.gc27.Net.Commands.Command;
-import it.polimi.ingsw.gc27.Net.Commands.DrawCardCommand;
-import it.polimi.ingsw.gc27.Net.Commands.SendMessageCommand;
+import it.polimi.ingsw.gc27.Commands.AddCardCommand;
+import it.polimi.ingsw.gc27.Commands.Command;
+import it.polimi.ingsw.gc27.Commands.DrawCardCommand;
+import it.polimi.ingsw.gc27.Commands.SendMessageCommand;
 import it.polimi.ingsw.gc27.View.Gui.Point;
 import it.polimi.ingsw.gc27.View.Gui.UserData.HandCardData;
 import it.polimi.ingsw.gc27.View.Gui.UserData.ManuscriptCardData;
@@ -133,8 +133,8 @@ public class ManuscriptSceneController extends GenericController {
      * it throws a RuntimeException to handle the exceptional case.
      */
     public void init() {
+        circleChat.getStyleClass().add("circle-chat");
         circleChat.setVisible(false);
-
         MiniModel miniModel;
         do {
             try {
@@ -326,7 +326,7 @@ public class ManuscriptSceneController extends GenericController {
             chatContainer.getChildren().addAll(chatContent, messageBox);
             chatTab.setContent(chatContainer);
             chatTabPane.getTabs().add(chatTab);
-            chatTabPane.getStyleClass().add("tab-pane-chat-manuscript");
+            chatTabPane.getStyleClass().add("tab-pane-chat");
 
         }
 

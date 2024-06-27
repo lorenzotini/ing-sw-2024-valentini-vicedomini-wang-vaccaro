@@ -24,16 +24,25 @@
 }
 .tab-colour-red{
     -fx-background-color: rgb(205,92,92);
+    -fx-background-radius: 5 5 0 0;
 }
 .tab-colour-green{
-    -fx-background-color: rgb(60,179,113)
+    -fx-background-color: rgb(60,179,113);
+    -fx-background-radius: 5 5 0 0;
 }
 .tab-colour-yellow{
-    -fx-background-color: rgb(240,230,140)
+    -fx-background-color: rgb(240,230,140);
+    -fx-background-radius: 5 5 0 0;
 }
 .tab-colour-blue{
-    -fx-background-color: rgb(100,149,237)
+    -fx-background-color: rgb(100,149,237);
+    -fx-background-radius: 5 5 0 0;
 }
+.tab-global {
+    -fx-background-color: #db8d4b;
+    -fx-background-radius: 5 5 0 0;
+}
+
 .send-button {
     -fx-background-color: linear-gradient(#708090, #3d3c99);
     -fx-border-width: 0;
@@ -54,13 +63,11 @@
     -fx-effect: dropshadow(gaussian, rgba(37, 44, 97, 0.15), 8, 0, 0, 8),
     dropshadow(gaussian, rgba(93, 100, 148, 0.20), 4, 0, 0, 4);
 }
+
 .text-field-chat{
     -fx-background-color: #dddddd;
     -fx-background-radius: 7;
     -fx-padding: 5;
-}
-.tab-global {
-    -fx-background-color: #db8d4b;
 }
 
 .tab-pane-chat  {
@@ -72,16 +79,6 @@
     -fx-border-width: 4;
 }
 
-.tab-pane-chat-manuscript  {
-    -fx-background-color: transparent;
-    -fx-background-radius: 0;
-    -fx-background-insets: 0, 1, 2;
-    -fx-border-radius: 3;
-    -fx-border-color: #ECD4A6;
-    -fx-border-width: 4;
-}
-
-
 .titled-pane > .title
 {
     -fx-background-color: -fx-box-border, -fx-inner-border, #dddddd;
@@ -90,6 +87,10 @@
     -fx-padding: 0.166667em 0.833333em 0.25em 0.833333em; /* 2 10 3 10 */
     -fx-max-width: 150;
 }
+.circle-chat{
+    -fx-background-color: #c11515;
+}
+
 
 
 

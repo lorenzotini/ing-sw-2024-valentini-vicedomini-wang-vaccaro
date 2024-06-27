@@ -85,11 +85,10 @@ public class GigaControllerTest {
     public void testRemoveReferences() {
         String username = "testUser";
 
-            clientTest.setUsername(username);
+        clientTest.setUsername(username);
 
         gigaController.getRegisteredUsernames().put(username, clientTest);
         gigaController.removeReferences(clientTest);
-        //assertFalse(gigaController.getRegisteredUsernames().containsKey(username));
     }
 
     @Test

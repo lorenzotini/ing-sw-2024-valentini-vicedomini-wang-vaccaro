@@ -882,7 +882,7 @@ public class GameControllerTest {
         gameController.chooseObjectiveCard(p1, 0);
         gameController.addCard(p1,resourceDeck.get(9), resourceDeck.get(9).getFront(),43,43);
         gameController.addStarterCard(p1, starterDeck.get(4), starterDeck.get(4).getFront());
-        assertEquals(p1.getPlayerState().toStringGUI(), "Current player not set");
+        assertEquals(p1.getPlayerState().toStringGUI(), "The other player is disconnected");
 
         p2.setPlayerState(new EndingState(p2, turnHandler));
         gameController.chooseObjectiveCard(p2, 0);

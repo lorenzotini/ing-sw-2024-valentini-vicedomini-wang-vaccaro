@@ -72,6 +72,7 @@ public class LoginSceneController extends GenericController {
         yellowButton.setDisable(true);
         redButton.setDisable(true);
         sendColourButton.setDisable(true);
+        sendBackButton.setDisable(true);
         handleOnKeyPress(usernameInput);
     }
     /**

@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 public enum ScenePaths {
 
     STARTER("/fxml/StarterScene.fxml"), //scene number 0
-    CHOSEGAME("/fxml/ChooseGameScene.fxml"), //scene number 1
+    CHOOSEGAME("/fxml/ChooseGameScene.fxml"), //scene number 1
     NEWGAME ("/fxml/NewGameScene.fxml"), //scene number 2.1
     JOINGAME ("/fxml/JoinGameScene.fxml"), //scene number 2.2
     LOGIN ("/fxml/LoginScene.fxml"), //scene number 3

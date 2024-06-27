@@ -227,7 +227,8 @@ public class Tui implements View {
                     case "man":
                         synchronized (this) {
                             do {
-                                out.println("Which manuscript? " + miniModel.getOtherPlayersUsernames());
+                                out.println("Which manuscript? " +
+                                        "\nwrite 'mine' or one of the following usernames: " +miniModel.getOtherPlayersUsernames());
                                 String person = scan.nextLine();
                                 if (person.equals("mine")) {
                                     out.println("\n" + showManuscript(miniModel.getManuscript()));

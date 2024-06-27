@@ -5,13 +5,7 @@ import it.polimi.ingsw.gc27.Model.ClientClass.MiniModel;
 import it.polimi.ingsw.gc27.View.Gui.Gui;
 import it.polimi.ingsw.gc27.View.Gui.MainApp;
 import it.polimi.ingsw.gc27.View.Gui.ScenePaths;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.text.TextFlow;
 
 import java.io.IOException;
 
@@ -38,7 +32,7 @@ public class StarterSceneController extends GenericController{
      */
     @Override
     public void receiveOk(String ackType) {
-        ChooseGameSceneController controller = (ChooseGameSceneController) Gui.getInstance().getControllerFromName(ScenePaths.CHOSEGAME.getValue());
+        ChooseGameSceneController controller = (ChooseGameSceneController) Gui.getInstance().getControllerFromName(ScenePaths.CHOOSEGAME.getValue());
         controller.enableNextScene();
     }
 
@@ -58,7 +52,7 @@ public class StarterSceneController extends GenericController{
      * @throws IOException
      */
     public void switchToChooseGameScene(ActionEvent event) throws IOException {
-        ChooseGameSceneController chooseGameSceneController = (ChooseGameSceneController) Gui.getInstance().getControllerFromName(ScenePaths.CHOSEGAME.getValue());
+        ChooseGameSceneController chooseGameSceneController = (ChooseGameSceneController) Gui.getInstance().getControllerFromName(ScenePaths.CHOOSEGAME.getValue());
         chooseGameSceneController.init();
         Gui.getInstance().switchScene("/fxml/ChooseGameScene.fxml");
         MainApp.startMusic("/music/CoC_main_theme.mp3", true);

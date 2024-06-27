@@ -1,14 +1,11 @@
 package it.polimi.ingsw.gc27.View.Gui.SceneController;
 
-import it.polimi.ingsw.gc27.Model.ClientClass.ClientChat;
-import it.polimi.ingsw.gc27.Model.ClientClass.MiniModel;
 import it.polimi.ingsw.gc27.View.Gui.ScenePaths;
 import it.polimi.ingsw.gc27.View.Gui.Gui;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
@@ -225,7 +222,7 @@ public class LoginSceneController extends GenericController {
     @FXML
     private void goBack() throws IOException {
         gameId = -1;
-        Gui.getInstance().switchScene(ScenePaths.CHOSEGAME.getValue());
+        Gui.getInstance().switchScene(ScenePaths.CHOOSEGAME.getValue());
     }
 
 }

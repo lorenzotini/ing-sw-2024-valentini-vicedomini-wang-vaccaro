@@ -19,7 +19,7 @@ import java.util.concurrent.LinkedBlockingQueue;
  * Proxy server that manages the connection between the client and the remote server using sockets.
  * It implements the VirtualServer interface and provides methods to communicate with the server.
  * It checks if the connection works.
- * */
+ */
 public class SocketServerProxy implements VirtualServer {
 
     //in case same RemoteException would being called they'd be ignored because the ping system is going to do what
@@ -55,12 +55,12 @@ public class SocketServerProxy implements VirtualServer {
             }
             System.out.println("Retrying...");
             //todo: gui
-            try{
+            try {
                 Thread.sleep(2000);
-            }catch(InterruptedException es){
+            } catch (InterruptedException es) {
                 System.out.println("Interrupted Thread");
             }
-        }while(true);
+        } while (true);
         new Thread(() -> {
             try {
                 listenFromRemoteServer();
@@ -149,9 +149,9 @@ public class SocketServerProxy implements VirtualServer {
                     Thread.sleep(1000);
                     output.writeObject(new PingCommand());
                     output.reset();
-                } catch (IOException e ) {
+                } catch (IOException e) {
                     System.out.println("Probably the server is down: Ping");
-                }catch(InterruptedException e){
+                } catch (InterruptedException e) {
                     System.out.println("Thread exception");
                 }
             }
@@ -176,10 +176,10 @@ public class SocketServerProxy implements VirtualServer {
     }
 
     /**
-     *It's called once for client, to enter a game.
-     *The connection has already established.
-     * @param client the VirtualView client that send the welcome message.
+     * It's called once for client, to enter a game.
+     * The connection has already established.
      *
+     * @param client the VirtualView client that send the welcome message.
      * @throws IOException if there is an issue with the output stream, such as a disconnection
      *                     or stream corruption, which prevents the message from being sent.
      */
@@ -194,6 +194,7 @@ public class SocketServerProxy implements VirtualServer {
     /**
      * every time is called sand an object, which is the action the client want to do
      * through the output channel
+     *
      * @param command is not modified, only sent
      */
     @Override
@@ -204,9 +205,9 @@ public class SocketServerProxy implements VirtualServer {
             output.flush();
         } catch (IOException e) {
             System.out.println("Probably the server is down: receiveCommand");
-            try{
+            try {
                 Thread.sleep(1000);
-            }catch(InterruptedException ies){
+            } catch (InterruptedException ies) {
                 System.out.println("Thread exception");
             }
             //there is a Connection problem, eventually take by the ping System
@@ -215,6 +216,7 @@ public class SocketServerProxy implements VirtualServer {
 
     /**
      * Used in the RmiConnection, has to be in the VirtualServer interface
+     *
      * @param client
      * @throws RemoteException
      */
@@ -233,7 +235,7 @@ public class SocketServerProxy implements VirtualServer {
      * @throws ClassNotFoundException if the class of a serialized object cannot be found.
      */
     public void listenFromRemoteServer() throws ClassNotFoundException {
-        int count=0;
+        int count = 0;
         while (true) {
             Message mess = null;
 
@@ -242,12 +244,12 @@ public class SocketServerProxy implements VirtualServer {
             } catch (IOException e) {
                 System.out.println("Probably the server is down receive Message, close the game");
                 count++;
-                if(count>TIME_COUNT){
+                if (count > TIME_COUNT) {
                     client.close();
                 }
-                try{
+                try {
                     Thread.sleep(2000);
-                }catch(InterruptedException ies){
+                } catch (InterruptedException ies) {
                     System.out.println("Thread exception");
                 }
                 continue;

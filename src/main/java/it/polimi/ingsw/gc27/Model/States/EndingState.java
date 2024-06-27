@@ -12,7 +12,7 @@ import it.polimi.ingsw.gc27.Model.Game.Player;
  * This state is reached when the player has finished their last turn
  * When every player has reached this state, the Objective Cards points calculation will start
  */
-public class EndingState extends PlayerState  {
+public class EndingState extends PlayerState {
     private final String textMessage = "the game is ending... it's too late man";
 
     /**
@@ -60,7 +60,7 @@ public class EndingState extends PlayerState  {
     /**
      * method implemented from {@link PlayerState}, according to the State Pattern principle
      */
-    public String toStringGUI(){
+    public String toStringGUI() {
         return "This is the last turn!";
     }
 

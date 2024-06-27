@@ -14,6 +14,7 @@ public interface ClientMarket {
 
     /**
      * Gets the face-up ResourceCards/GoldCard in the market
+     *
      * @param isGold if true, returns GoldCard, otherwise returns ResourceCards.
      * @return an array of ResourceCards that are face-up in the market.
      */
@@ -21,18 +22,21 @@ public interface ClientMarket {
 
     /**
      * Gets the deck of ResourceCards in the market.
+     *
      * @return an ArrayList of ResourceCards representing the resource deck.
      */
     ArrayList<ResourceCard> getResourceDeck();
 
     /**
      * Gets the deck of GoldCards in the market.
+     *
      * @return an ArrayList of GoldCards representing the gold deck.
      */
     ArrayList<GoldCard> getGoldDeck();
 
     /**
      * Gets the list of common ObjectiveCards in the market.
+     *
      * @return an ArrayList of ObjectiveCards representing the common objectives.
      */
     ArrayList<ObjectiveCard> getCommonObjectives();

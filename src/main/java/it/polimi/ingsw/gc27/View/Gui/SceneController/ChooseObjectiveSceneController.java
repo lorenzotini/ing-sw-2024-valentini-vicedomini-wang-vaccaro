@@ -28,27 +28,38 @@ import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.HashMap;
+
 /**
  * third scene of initialization, players can choose their secret objective card from the two objective cards displayed
  */
 public class ChooseObjectiveSceneController extends GenericController {
-    /** button used to select the first objective card */
+    /**
+     * button used to select the first objective card
+     */
     @FXML
     public Button objButton1;
 
-    /** button used to select the second objective card */
+    /**
+     * button used to select the second objective card
+     */
     @FXML
     public Button objButton2;
 
-    /** shows the image of the first objective card */
+    /**
+     * shows the image of the first objective card
+     */
     @FXML
     public ImageView obj1;
 
-    /** shows the image of the second objective card */
+    /**
+     * shows the image of the second objective card
+     */
     @FXML
     public ImageView obj2;
 
-    /** pane that contains all the chats of the player */
+    /**
+     * pane that contains all the chats of the player
+     */
     @FXML
     public TabPane chatTabPane;
     @FXML
@@ -59,8 +70,9 @@ public class ChooseObjectiveSceneController extends GenericController {
     private Circle circleChat;
     //there is a private hashmap for all the scenes where the chat is displayed
 
-    /** maps the username of the other player  of the chat and the correspondent tab
-     *  if the chat is global the string mapped to the tab is "global"
+    /**
+     * maps the username of the other player  of the chat and the correspondent tab
+     * if the chat is global the string mapped to the tab is "global"
      */
     private HashMap<String, Tab> chatTabHashMapC = new HashMap<>();
 
@@ -131,7 +143,7 @@ public class ChooseObjectiveSceneController extends GenericController {
             messageBox.setSpacing(10);
             messageBox.setMinHeight(33);
             messageBox.setMaxHeight(33);
-            messageBox.setPadding(new Insets(5,5,5,5));
+            messageBox.setPadding(new Insets(5, 5, 5, 5));
             handleOnActionChat(sendButton, sendMessage);
             handleOnKeyPress(sendMessage);
 
@@ -166,6 +178,7 @@ public class ChooseObjectiveSceneController extends GenericController {
 
     /**
      * allows to send the message in the chat by clicking the "enter" button on the keyboard
+     *
      * @param textField the textfield where the message is written
      */
     private void handleOnKeyPress(TextField textField) {
@@ -180,7 +193,8 @@ public class ChooseObjectiveSceneController extends GenericController {
 
     /**
      * allows to send the message in the chat by clicking the "send" button
-     * @param button the button used to send the message
+     *
+     * @param button    the button used to send the message
      * @param textField the textfield where the message is written
      */
     void handleOnActionChat(Button button, TextField textField) {
@@ -212,7 +226,8 @@ public class ChooseObjectiveSceneController extends GenericController {
     /**
      * method implemented from {@link GenericController},
      * invoked by Gui when a message is sent by a player in the chat
-     * @param chat the chat to be updated
+     *
+     * @param chat      the chat to be updated
      * @param miniModel the minimodel to be updated
      */
     public void overwriteChat(ClientChat chat, MiniModel miniModel) {
@@ -232,6 +247,7 @@ public class ChooseObjectiveSceneController extends GenericController {
 
     /**
      * used to extract the textfield from the tab the chat using nodes system of javaFX
+     *
      * @param tab the tab where the textfield is
      * @return the textfield associated with the chat
      */
@@ -255,6 +271,7 @@ public class ChooseObjectiveSceneController extends GenericController {
      * created and sends ChooseObjectiveCommand according which of the two buttons is pressed
      * invokes the method init() of ManuscriptSceneController to initialize the graphic of the scene
      * invokes Gui method to switch scene to ManuscriptScene
+     *
      * @param event the event that triggers the method
      * @throws IOException if the scene is not found
      */
@@ -270,7 +287,7 @@ public class ChooseObjectiveSceneController extends GenericController {
         }
         objButton2.setOnMouseClicked(null);
         objButton2.setOnMouseClicked(null);
-        if(Gui.getInstance().isGameOn()) {
+        if (Gui.getInstance().isGameOn()) {
             Platform.runLater(() -> {
                 try {
                     ManuscriptSceneController manuscriptSceneController = (ManuscriptSceneController) Gui.getInstance().getControllerFromName(ScenePaths.MANUSCRIPT.getValue());
@@ -280,17 +297,19 @@ public class ChooseObjectiveSceneController extends GenericController {
                     throw new RuntimeException(e);
                 }
             });
-        }else{
+        } else {
             gameSuspendedLabel.setVisible(true);
         }
     }
+
     @Override
-    public void otherPlayerReconnected(){
+    public void otherPlayerReconnected() {
         gameSuspendedLabel.setVisible(false);
     }
 
     /**
      * invoked by Gui, it sets the image of the first objective card from the image path given as a parameter
+     *
      * @param imagePath the path of the image
      */
     public void changeImageObj1(String imagePath) {
@@ -300,6 +319,7 @@ public class ChooseObjectiveSceneController extends GenericController {
 
     /**
      * invoked by Gui, it sets the image of the second objective card from the image path given as a parameter
+     *
      * @param imagePath the path of the image
      */
     public void changeImageObj2(String imagePath) {
@@ -311,6 +331,7 @@ public class ChooseObjectiveSceneController extends GenericController {
      * invoked by Gui in order to send a string to this scene controller,
      * sets what is showed in the actionFeedback label displayed in ManuscriptSceneController
      * before the stage changes scene from this one to the manuscript scene
+     *
      * @param ackType the string to be sent
      */
     @Override
@@ -318,13 +339,13 @@ public class ChooseObjectiveSceneController extends GenericController {
         MiniModel miniModel;
 
         try {
-            miniModel=Gui.getInstance().getClient().getMiniModel();
+            miniModel = Gui.getInstance().getClient().getMiniModel();
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }
-        Platform.runLater(()->{
+        Platform.runLater(() -> {
             String feedback;
-            feedback= miniModel.getPlayer().getPlayerState().toStringGUI();
+            feedback = miniModel.getPlayer().getPlayerState().toStringGUI();
             ManuscriptSceneController manuscriptSceneController = (ManuscriptSceneController) Gui.getInstance().getControllerFromName(ScenePaths.MANUSCRIPT.getValue());
             manuscriptSceneController.actionFeedback.setText(feedback);
             manuscriptSceneController.feedbackTextFlow.setTextAlignment(TextAlignment.RIGHT);
@@ -333,6 +354,7 @@ public class ChooseObjectiveSceneController extends GenericController {
 
     /**
      * allocates all the messages of all the chats of a player
+     *
      * @throws RemoteException if the connection is lost
      */
     public void fullChatAllocate() throws RemoteException {

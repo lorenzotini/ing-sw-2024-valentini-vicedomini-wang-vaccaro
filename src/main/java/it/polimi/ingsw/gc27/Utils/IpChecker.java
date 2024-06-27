@@ -6,6 +6,7 @@ package it.polimi.ingsw.gc27.Utils;
 public class IpChecker {
     /**
      * check the incoming ip address
+     *
      * @param ip ip address (string)
      * @return boolean indicating the validity
      */

@@ -27,7 +27,8 @@ public class Player implements Serializable, ClientPlayer {
 
     /**
      * constructor for the player entity
-     * @param username player's username
+     *
+     * @param username   player's username
      * @param manuscript player's personal manuscript
      * @param pawnColour player's pawn colour
      */
@@ -154,6 +155,7 @@ public class Player implements Serializable, ClientPlayer {
 
     /**
      * Sets the secret objectives of the player
+     *
      * @param card The secret objectives to set
      */
     public void setSecretObjectives(ArrayList<ObjectiveCard> card) {
@@ -162,6 +164,7 @@ public class Player implements Serializable, ClientPlayer {
 
     /**
      * Checks if the player is disconnected
+     *
      * @return true if the player is disconnected, false otherwise
      */
     public boolean isDisconnected() {
@@ -170,6 +173,7 @@ public class Player implements Serializable, ClientPlayer {
 
     /**
      * Sets the player's disconnected status
+     *
      * @param disconnected true to set the player as disconnected, false otherwise
      */
     public void setDisconnected(boolean disconnected) {
@@ -178,6 +182,7 @@ public class Player implements Serializable, ClientPlayer {
 
     /**
      * Sets the player's current state in the game
+     *
      * @param playerState The player's state to set
      */
     public void setPlayerState(PlayerState playerState) {
@@ -186,6 +191,7 @@ public class Player implements Serializable, ClientPlayer {
 
     /**
      * Sets the player's current hand of resource cards
+     *
      * @param hand The list of resource cards to set as the player's hand
      */
     public void setHand(ArrayList<ResourceCard> hand) {
@@ -194,6 +200,7 @@ public class Player implements Serializable, ClientPlayer {
 
     /**
      * Sets the player's starter card
+     *
      * @param starterCard The starter card to set for the player
      */
     public void setStarterCard(StarterCard starterCard) {
@@ -202,6 +209,7 @@ public class Player implements Serializable, ClientPlayer {
 
     /**
      * gets the secret objectives chosen by the player
+     *
      * @return The secret objectives
      */
     @Override
@@ -211,6 +219,7 @@ public class Player implements Serializable, ClientPlayer {
 
     /**
      * Gets the current state of the player
+     *
      * @return The current state of the player
      */
     @Override
@@ -220,6 +229,7 @@ public class Player implements Serializable, ClientPlayer {
 
     /**
      * Gets the pawn color chosen by the player
+     *
      * @return The pawn color
      */
     @Override
@@ -229,6 +239,7 @@ public class Player implements Serializable, ClientPlayer {
 
     /**
      * Gets the manuscript of the player
+     *
      * @return The manuscript
      */
     @Override
@@ -238,6 +249,7 @@ public class Player implements Serializable, ClientPlayer {
 
     /**
      * Gets the username of the player
+     *
      * @return The username of the player
      */
     @Override
@@ -247,6 +259,7 @@ public class Player implements Serializable, ClientPlayer {
 
     /**
      * Gets the current hand of resource cards held by the player
+     *
      * @return The current hand of resource cards held by the player
      */
     @Override
@@ -256,6 +269,7 @@ public class Player implements Serializable, ClientPlayer {
 
     /**
      * Gets the starter card chosen by the player
+     *
      * @return The starter card
      */
     @Override

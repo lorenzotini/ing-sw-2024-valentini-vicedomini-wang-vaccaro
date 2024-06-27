@@ -12,11 +12,9 @@ import java.rmi.RemoteException;
  */
 public class UpdateMarketMessage extends Message {
 
-    //the minimodel of this class will have only market set
-    //everyone will receive this
-
     /**
      * constructor matching super {@link Message}
+     *
      * @param miniModel mini model
      */
     public UpdateMarketMessage(MiniModel miniModel) {
@@ -27,8 +25,9 @@ public class UpdateMarketMessage extends Message {
      * Reports the update to the specified VirtualView and View
      * This method updates the client's MiniModel with the market information from the message's MiniModel
      * and then displays the updated market on the View
+     *
      * @param client The VirtualView to report the update to.
-     * @param view The View to report the update to.
+     * @param view   The View to report the update to.
      */
     @Override
     public void reportUpdate(VirtualView client, View view) {
@@ -36,7 +35,7 @@ public class UpdateMarketMessage extends Message {
             client.getMiniModel().setMarket(this.getMiniModel().getMarket());
             view.show(client.getMiniModel().getMarket());
 
-        }catch(RemoteException e){
+        } catch (RemoteException e) {
             System.out.println("Error while updating market: " + e);
         }
     }

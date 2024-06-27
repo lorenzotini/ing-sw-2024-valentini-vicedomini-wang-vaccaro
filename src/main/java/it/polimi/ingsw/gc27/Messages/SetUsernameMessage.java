@@ -14,6 +14,7 @@ public class SetUsernameMessage extends Message {
 
     /**
      * constructor matching super {@link Message}
+     *
      * @param username player's username
      */
     public SetUsernameMessage(String username) {
@@ -24,8 +25,9 @@ public class SetUsernameMessage extends Message {
     /**
      * Reports the update to the specified VirtualView and View
      * This method sets the username on the client side using the provided username string
+     *
      * @param client The VirtualView to report the update to.
-     * @param view The View to report the update to.
+     * @param view   The View to report the update to.
      */
     @Override
     public void reportUpdate(VirtualView client, View view) {

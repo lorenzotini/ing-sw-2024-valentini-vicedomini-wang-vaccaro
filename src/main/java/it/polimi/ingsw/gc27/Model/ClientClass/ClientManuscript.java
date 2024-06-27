@@ -16,6 +16,7 @@ public interface ClientManuscript {
 
     /**
      * Gets the number of the specified CornerSymbol
+     *
      * @param cs the CornerSymbol
      * @return the number of the specified CornerSymbol
      */
@@ -23,6 +24,7 @@ public interface ClientManuscript {
 
     /**
      * Checks if the given ResourceCard or GoldCard (subclass of ResourceCard {@link it.polimi.ingsw.gc27.Model.Card.GoldCard}) satisfies the requirements.
+     *
      * @param card the ResourceCard/GoldCard to check
      * @return true if the requirements are satisfied, false otherwise.
      */
@@ -30,12 +32,14 @@ public interface ClientManuscript {
 
     /**
      * Gets the list of valid placements in the manuscript.
+     *
      * @return an ArrayList of Placement objects representing the placements.
      */
     ArrayList<Placement> getPlacements();
 
     /**
      * Checks if the placement at the specified coordinates is valid
+     *
      * @param x the x-coordinate of the placement
      * @param y the y-coordinate of the placement
      * @return true if the placement is valid, false otherwise
@@ -44,70 +48,84 @@ public interface ClientManuscript {
 
     /**
      * Gets the counter for manuscripts.
+     *
      * @return the manuscript counter value.
      */
     int getManuscriptCounter();
 
     /**
      * Gets the counter for quills.
+     *
      * @return the quill counter value.
      */
     int getQuillCounter();
+
     /**
      * Gets the counter for inkwells.
+     *
      * @return the inkwell counter value.
      */
     int getInkwellCounter();
 
     /**
      * Gets the counter for plants.
+     *
      * @return the plant counter value.
      */
     int getPlantCounter();
 
     /**
      * Gets the counter for insects.
+     *
      * @return the insect counter value.
      */
     int getInsectCounter();
 
     /**
      * Gets the counter for fungi.
+     *
      * @return the fungi counter value.
      */
     int getFungiCounter();
 
     /**
      * Gets the counter for animals.
+     *
      * @return the animal counter value.
      */
     int getAnimalCounter();
 
     /**
      * Gets the field of faces representing the manuscript
+     *
      * @return a 2D array of Face objects representing the field.
      */
     Face[][] getField();
+
     /**
      * Gets the maximum x-coordinate value of the manuscript
+     *
      * @return the maximum x-coordinate value.
      */
     int getxMax();
 
     /**
      * Gets the maximum y-coordinate value of the manuscript
+     *
      * @return the maximum y-coordinate value.
      */
     int getyMax();
 
     /**
      * Gets the minimum x-coordinate value of the manuscript
+     *
      * @return the minimum x-coordinate value.
      */
     int getxMin();
 
     /**
      * Gets the minimum y-coordinate value of the manuscript
+     *
      * @return the minimum y-coordinate value.
      */
     int getyMin();

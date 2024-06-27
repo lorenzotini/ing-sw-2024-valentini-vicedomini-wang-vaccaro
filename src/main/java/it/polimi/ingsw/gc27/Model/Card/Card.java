@@ -13,12 +13,13 @@ public abstract class Card implements Serializable {
     private BackFace back;
 
     /**
-     * constructor
-     * @param cardID card's id
+     * constructor for the card
+     *
+     * @param cardID      card's id
      * @param given_front front face
-     * @param given_back back face
+     * @param given_back  back face
      */
-    public Card(int cardID, FrontFace given_front, BackFace given_back){
+    public Card(int cardID, FrontFace given_front, BackFace given_back) {
         this.cardID = cardID;
         this.front = given_front;
         this.back = given_back;
@@ -26,6 +27,7 @@ public abstract class Card implements Serializable {
 
     /**
      * Gets the front face of the card
+     *
      * @return the front face
      */
     public FrontFace getFront() {
@@ -34,6 +36,7 @@ public abstract class Card implements Serializable {
 
     /**
      * Gets the back face of the card
+     *
      * @return the back face
      */
     public BackFace getBack() {

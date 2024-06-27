@@ -59,7 +59,7 @@ public class HandCardData {
     /**
      * Toggles the orientation of the card between front and back.
      */
-    public void changeIsFront(){
+    public void changeIsFront() {
         this.isFront = !this.isFront;
     }
 

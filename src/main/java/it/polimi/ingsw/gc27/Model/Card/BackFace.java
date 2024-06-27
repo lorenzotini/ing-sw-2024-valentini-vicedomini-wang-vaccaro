@@ -13,12 +13,13 @@ public class BackFace extends Face {
 
     /**
      * constructor matching super {@link Face}
-     * @param imagePath the path of the image converted to string
-     * @param colour the colour of the card
-     * @param cornerUR corner upper right
-     * @param cornerUL corner upper  left
-     * @param cornerLR corner lower right
-     * @param cornerLL corner lower left
+     *
+     * @param imagePath          the path of the image converted to string
+     * @param colour             the colour of the card
+     * @param cornerUR           corner upper right
+     * @param cornerUL           corner upper  left
+     * @param cornerLR           corner lower right
+     * @param cornerLL           corner lower left
      * @param permanentResources the resource (symbol) on the back of the card
      */
     public BackFace(String imagePath, Kingdom colour, Corner cornerUR, Corner cornerUL, Corner cornerLR, Corner cornerLL, ArrayList<Kingdom> permanentResources) {
@@ -27,11 +28,12 @@ public class BackFace extends Face {
     }
 
     /**
-     * getter
+     * getter for the permanent resources
+     *
      * @return arraylist
      */
     @Override
-    public ArrayList<Kingdom> getPermanentResources(){
+    public ArrayList<Kingdom> getPermanentResources() {
         return permanentResources;
     }
 }

@@ -15,11 +15,12 @@ public class SendMessageCommand implements Command {
 
     /**
      * Constructs a SendMessageCommand with the specified sender, receiver, and content
-     * @param p the player sending the message
+     *
+     * @param p        the player sending the message
      * @param receiver the receiver of the message
-     * @param content the content of the message
+     * @param content  the content of the message
      */
-    public  SendMessageCommand(ClientPlayer p, String receiver, String content){
+    public SendMessageCommand(ClientPlayer p, String receiver, String content) {
         this.sender = p.getUsername();
         this.receiver = receiver;
         this.content = content;
@@ -27,6 +28,7 @@ public class SendMessageCommand implements Command {
 
     /**
      * Executes the SendMessageCommand to send the chat message
+     *
      * @param gc the GameController that controls the game
      */
     @Override
@@ -36,6 +38,7 @@ public class SendMessageCommand implements Command {
 
     /**
      * Gets the name of the player who invoked this command
+     *
      * @return the name of the player
      */
     @Override

@@ -16,6 +16,7 @@ public class UpdateMyManuscriptMessage extends Message {
 
     /**
      * constructor matching super {@link Message}
+     *
      * @param miniModel mini model
      */
     public UpdateMyManuscriptMessage(MiniModel miniModel) {
@@ -26,12 +27,13 @@ public class UpdateMyManuscriptMessage extends Message {
      * Reports the update to the specified VirtualView and View
      * This method updates the client's MiniModel with the player's manuscript information from the MiniModel,
      * then displays the updated manuscript and board on the associated View
+     *
      * @param client The VirtualView to report the update to
-     * @param view The View to report the update to
+     * @param view   The View to report the update to
      */
     @Override
     public void reportUpdate(VirtualView client, View view) {
-        try{
+        try {
             client.getMiniModel().setPlayer(miniModel.getPlayer());
             client.getMiniModel().setManuscript(miniModel.getPlayer().getManuscript());
             client.getMiniModel().setManuscriptsMap(miniModel.getManuscriptsMap());
@@ -39,7 +41,7 @@ public class UpdateMyManuscriptMessage extends Message {
             view.showString(string);
             view.show(client.getMiniModel().getPlayer().getManuscript());
             view.show(client.getMiniModel().getBoard());
-        }catch(RemoteException e){
+        } catch (RemoteException e) {
             e.printStackTrace();
         }
     }

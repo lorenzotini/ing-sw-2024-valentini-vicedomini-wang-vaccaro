@@ -15,8 +15,9 @@ import java.util.Map;
 public abstract class ObjectiveCard extends Card {
 
 
-    protected static Map<Class<? extends  ObjectiveCard>, Integer> objPointsMap = new HashMap<>();
-    static{
+    protected static Map<Class<? extends ObjectiveCard>, Integer> objPointsMap = new HashMap<>();
+
+    static {
         objPointsMap.put(DifferentPattern.class, 3);
         objPointsMap.put(DoublePattern.class, 2);
         objPointsMap.put(LadderPattern.class, 2);
@@ -26,9 +27,10 @@ public abstract class ObjectiveCard extends Card {
 
     /**
      * constructor for the objective card, super {@link Card}
-     * @param id the card's id
+     *
+     * @param id    the card's id
      * @param front the card's front face
-     * @param back the card's back face
+     * @param back  the card's back face
      */
     public ObjectiveCard(int id, FrontFace front, BackFace back) {
         super(id, front, back);
@@ -45,6 +47,7 @@ public abstract class ObjectiveCard extends Card {
     /**
      * method to be implemented and overridden by a concrete class,
      * which returns a coloured string based on the input
+     *
      * @param s the input string to be processed
      * @return coloured string
      */
@@ -53,6 +56,7 @@ public abstract class ObjectiveCard extends Card {
     /**
      * method to be implemented and overridden by a concrete class,
      * which converts the card details to a string suitable for Tui interface display
+     *
      * @return a string representation of the card
      */
     public abstract String toCliCard();
@@ -60,6 +64,7 @@ public abstract class ObjectiveCard extends Card {
     /**
      * method to be implemented and overridden by a concrete class,
      * which calculates the points earned by achieving the objective, based on the given manuscript
+     *
      * @param manuscript the manuscript used to evaluate the objective
      * @return the points scored for achieving the objective
      */

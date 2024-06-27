@@ -33,18 +33,21 @@ public interface ClientBoard {
 
     /**
      * Gets the scoreboard, mapping player names to their respective points
+     *
      * @return a map representing the scoreboard.
      */
     Map<String, Integer> getScoreBoard();
 
     /**
      * Gets the mapping of player names to their respective pawn colors.
+     *
      * @return a HashMap representing the player colors.
      */
     HashMap<String, PawnColour> getColourPlayerMap();
 
     /**
      * Gets the points of a player with the specified pawn color
+     *
      * @param value the pawn color of the player
      * @return the points of the player with the specified pawn color
      */

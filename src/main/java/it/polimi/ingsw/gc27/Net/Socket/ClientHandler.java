@@ -135,6 +135,7 @@ public class ClientHandler implements VirtualView {
 
     /**
      * Sets the username for the player and sends a SetUsernameMessage to the client.
+     *
      * @param username the username to set
      * @throws IOException if an I/O error occurs
      */

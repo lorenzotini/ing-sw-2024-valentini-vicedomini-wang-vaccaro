@@ -16,8 +16,9 @@ public class UpdateStartOfGameMessage extends Message {
 
     /**
      * constructor matching super {@link Message}
+     *
      * @param miniModel mini model
-     * @param string string message
+     * @param string    string message
      */
     public UpdateStartOfGameMessage(MiniModel miniModel, String string) {
         super(miniModel, string);
@@ -27,14 +28,15 @@ public class UpdateStartOfGameMessage extends Message {
      * Reports the update to the specified VirtualView and View.
      * This method updates the client's MiniModel with the MiniModel from the message,
      * which contains the initial game state at the start of the game.
+     *
      * @param client The VirtualView to report the update to.
-     * @param view The View to report the update to.
+     * @param view   The View to report the update to.
      */
     @Override
     public void reportUpdate(VirtualView client, View view) {
         try {
             client.getMiniModel().copy(this.getMiniModel());
-        }catch (RemoteException e){
+        } catch (RemoteException e) {
             System.out.println("Error while reporting the start of the game");
         }
     }

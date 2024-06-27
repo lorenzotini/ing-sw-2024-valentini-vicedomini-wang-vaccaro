@@ -12,7 +12,7 @@ import java.util.*;
 /**
  * Controller for the ending scene displaying game results.
  */
-public class EndingSceneController extends GenericController{
+public class EndingSceneController extends GenericController {
 
     /**
      * Label displaying the title for the winners section.
@@ -63,7 +63,7 @@ public class EndingSceneController extends GenericController{
      * Initializes the controller by hiding labels for second, third, and fourth place players.
      */
     @FXML
-    public void initialize(){
+    public void initialize() {
         secondPoints.setVisible(false);
         secondUsername.setVisible(false);
         thirdPoints.setVisible(false);
@@ -75,9 +75,10 @@ public class EndingSceneController extends GenericController{
     /**
      * Updates the labels to display the winners and their scores based on the provided score board.
      * It sorts the score board by score in descending order and displays the winners in the appropriate labels.
+     *
      * @param scoreBoard a map containing player usernames as keys and their scores as values
      */
-    public void changeWinnersLabel(Map<String,Integer> scoreBoard){
+    public void changeWinnersLabel(Map<String, Integer> scoreBoard) {
         scoreBoard.remove(null);
         List<Map.Entry<String, Integer>> entryList = new ArrayList<>(scoreBoard.entrySet());
 
@@ -94,19 +95,19 @@ public class EndingSceneController extends GenericController{
         StringBuilder sb = new StringBuilder();
 
 
-        Map.Entry<String,Integer> entry = sortedScoreBoard.entrySet().iterator().next();
+        Map.Entry<String, Integer> entry = sortedScoreBoard.entrySet().iterator().next();
         sb.append(entry.getKey());
 
-        sortedScoreBoard.remove(entry.getKey(),entry.getValue());
+        sortedScoreBoard.remove(entry.getKey(), entry.getValue());
 
         highestScore.setText("Highest score: " + maxPoints + " pts");
 
         boolean moreThanOneWinner = false;
 
 
-        while(sortedScoreBoard.entrySet().iterator().hasNext()){
+        while (sortedScoreBoard.entrySet().iterator().hasNext()) {
             entry = sortedScoreBoard.entrySet().iterator().next();
-            if(entry.getValue().equals(maxPoints) && entry.getKey() != null){
+            if (entry.getValue().equals(maxPoints) && entry.getKey() != null) {
                 sb.append(" and ").append(entry.getKey());
                 sortedScoreBoard.remove(entry.getKey(), entry.getValue());
                 moreThanOneWinner = true;
@@ -115,14 +116,14 @@ public class EndingSceneController extends GenericController{
             }
         }
 
-        if (moreThanOneWinner){
+        if (moreThanOneWinner) {
             winnerTitle.setText("The Winners are...");
         }
         winnerUsername.setText(sb.toString());
 
-        if(sortedScoreBoard.entrySet().iterator().hasNext()){
+        if (sortedScoreBoard.entrySet().iterator().hasNext()) {
             entry = sortedScoreBoard.entrySet().iterator().next();
-            if(entry.getKey() != null) {
+            if (entry.getKey() != null) {
                 secondUsername.setText(entry.getKey() + ":");
                 secondUsername.setVisible(true);
 
@@ -131,9 +132,9 @@ public class EndingSceneController extends GenericController{
             }
             sortedScoreBoard.remove(entry.getKey(), entry.getValue());
         }
-        if(sortedScoreBoard.entrySet().iterator().hasNext()){
+        if (sortedScoreBoard.entrySet().iterator().hasNext()) {
             entry = sortedScoreBoard.entrySet().iterator().next();
-            if(entry.getKey() != null) {
+            if (entry.getKey() != null) {
                 thirdUsername.setText(entry.getKey() + ":");
                 thirdUsername.setVisible(true);
 
@@ -142,9 +143,9 @@ public class EndingSceneController extends GenericController{
             }
             sortedScoreBoard.remove(entry.getKey(), entry.getValue());
         }
-        if(sortedScoreBoard.entrySet().iterator().hasNext()){
+        if (sortedScoreBoard.entrySet().iterator().hasNext()) {
             entry = sortedScoreBoard.entrySet().iterator().next();
-            if(entry.getKey() != null) {
+            if (entry.getKey() != null) {
                 fourthUsername.setText(entry.getKey() + ":");
                 fourthUsername.setVisible(true);
 

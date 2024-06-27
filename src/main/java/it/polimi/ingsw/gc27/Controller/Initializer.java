@@ -18,19 +18,19 @@ import java.util.Collections;
  */
 public class Initializer {
 
-    private  ArrayList<StarterCard> starterDeck;
-    private  ArrayList<ResourceCard> resourceDeck;
-    private  ArrayList<GoldCard> goldDeck;
-    private  ArrayList<ObjectiveCard> objectiveDeck;
-    private  Market market;
-    private  Board board;
+    private ArrayList<StarterCard> starterDeck;
+    private ArrayList<ResourceCard> resourceDeck;
+    private ArrayList<GoldCard> goldDeck;
+    private ArrayList<ObjectiveCard> objectiveDeck;
+    private Market market;
+    private Board board;
 
     /**
      * Constructor that initializes the game components by parsing JSON data from a file.
      * It sets up the starter deck, resource deck, gold deck, and objective deck.
      * It also initializes the market and board for the game.
      */
-    public Initializer () {
+    public Initializer() {
         JsonParser jsonParser = new JsonParser("codex_cards_collection.json");
         starterDeck = jsonParser.getStarterDeck();
         resourceDeck = jsonParser.getResourceDeck();
@@ -45,9 +45,10 @@ public class Initializer {
      * shuffles the decks
      * sets common objectives
      * populates the market
+     *
      * @return the initialized game
      */
-    public  Game initialize(){
+    public Game initialize() {
 
         // shuffle decks
         Collections.shuffle(starterDeck);

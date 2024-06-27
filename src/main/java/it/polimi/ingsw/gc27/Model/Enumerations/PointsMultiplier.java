@@ -40,7 +40,7 @@ public enum PointsMultiplier implements Serializable {
      *
      * @return The string representation of the multiplier.
      */
-    public String toString(){
+    public String toString() {
         return switch (this) {
             case CORNER -> "c";
             case QUILL -> "q";
@@ -57,14 +57,14 @@ public enum PointsMultiplier implements Serializable {
      * @throws IllegalArgumentException If the PointsMultiplier does not have a corresponding CornerSymbol.
      */
     public CornerSymbol toCornerSymbol() {
-        try{
+        try {
             return switch (this) {
                 case QUILL -> CornerSymbol.QUILL;
-                case INKWELL-> CornerSymbol.INKWELL;
+                case INKWELL -> CornerSymbol.INKWELL;
                 case MANUSCRIPT -> CornerSymbol.MANUSCRIPT;
                 default -> throw new IllegalArgumentException();
             };
-        } catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             System.err.println("You can't convert this points multiplier to a corner symbol: " + this);
             e.printStackTrace();
             return null;

@@ -114,7 +114,7 @@ public class LoginSceneController extends GenericController {
     public void setGameId(String t) {
         try {
             this.gameId = Integer.parseInt(t);
-        }catch(Exception e){
+        } catch (Exception e) {
             System.out.println("UAU I didn't thought this was possible");
         }
     }
@@ -142,8 +142,10 @@ public class LoginSceneController extends GenericController {
         //sendBackButton.setDisable(true);
         handleOnKeyPress(usernameInput);
     }
+
     /**
      * allows to send the message in the chat by clicking the "enter" button on the keyboard
+     *
      * @param textField the text field to which the event is added
      */
     private void handleOnKeyPress(TextField textField) {
@@ -162,7 +164,7 @@ public class LoginSceneController extends GenericController {
      */
     @FXML
     public void sendUsername() {
-        if(tried && gameId != -1){
+        if (tried && gameId != -1) {
             Gui.getInstance().stringFromSceneController(gameId.toString());
         }
         Gui.getInstance().stringFromSceneController(usernameInput.getText());
@@ -177,19 +179,19 @@ public class LoginSceneController extends GenericController {
     public void selectColour(MouseEvent event) {
 
         if (event.getSource().equals(blueButton)) {
-            selectedColour="blue";
+            selectedColour = "blue";
             blueButton.getStyleClass().add("pressed");
             disableOtherButtons(blueButton);
         } else if (event.getSource().equals(redButton)) {
-            selectedColour="red";
+            selectedColour = "red";
             redButton.getStyleClass().add("pressed");
             disableOtherButtons(redButton);
         } else if (event.getSource().equals(yellowButton)) {
-            selectedColour="yellow";
+            selectedColour = "yellow";
             yellowButton.getStyleClass().add("pressed");
             disableOtherButtons(yellowButton);
-        } else if(event.getSource().equals(greenButton)){
-            selectedColour="green";
+        } else if (event.getSource().equals(greenButton)) {
+            selectedColour = "green";
             greenButton.getStyleClass().add("pressed");
             disableOtherButtons(greenButton);
         }
@@ -210,17 +212,17 @@ public class LoginSceneController extends GenericController {
      *
      * @param button the button that was selected (and should remain enabled)
      */
-    public void disableOtherButtons(Button button){
-        if(!button.equals(redButton)){
+    public void disableOtherButtons(Button button) {
+        if (!button.equals(redButton)) {
             redButton.setDisable(true);
         }
-        if(!button.equals(greenButton)){
+        if (!button.equals(greenButton)) {
             greenButton.setDisable(true);
         }
-        if(!button.equals(blueButton)){
+        if (!button.equals(blueButton)) {
             blueButton.setDisable(true);
         }
-        if(!button.equals(yellowButton)){
+        if (!button.equals(yellowButton)) {
             yellowButton.setDisable(true);
         }
     }
@@ -235,7 +237,7 @@ public class LoginSceneController extends GenericController {
     public void receiveOk(String ackType) {
         //only shows available pawn colours
         Platform.runLater(() -> {
-            if(ackType.contains("Choose your color:")) {
+            if (ackType.contains("Choose your color:")) {
                 if (ackType.contains("BLUE"))
                     blueButton.setDisable(false);
                 if (ackType.contains("GREEN"))
@@ -252,12 +254,12 @@ public class LoginSceneController extends GenericController {
                 customlabel1.setText("Choose the");
                 customlabel2.setText("Pawn Colour");
             }
-            if(ackType.contains("Game created with id")) {//receives game id, sets it into TextArea of LoginScene
+            if (ackType.contains("Game created with id")) {//receives game id, sets it into TextArea of LoginScene
                 gameIDCreated.setText(ackType);
                 gameIDCreated.setVisible(true);
                 //todo: non funziona più dopo a ver messo la resilienza
             }
-            if(ackType.contains("playerReconnected")){
+            if (ackType.contains("playerReconnected")) {
                 errorUsername.setText("Welcome back!!!");
                 errorUsername.setVisible(true);
                 Gui.getInstance().setReconnected(true);
@@ -269,7 +271,7 @@ public class LoginSceneController extends GenericController {
                     throw new RuntimeException(e);
                 }
             }
-            if(ackType.equals("okColour")){
+            if (ackType.equals("okColour")) {
                 try {
                     Gui.getInstance().switchScene("/fxml/LobbyScene.fxml");
                 } catch (IOException e) {
@@ -288,24 +290,24 @@ public class LoginSceneController extends GenericController {
     @Override
     public void receiveKo(String ackType) {
         Platform.runLater(() -> {
-            if(ackType.equals("koColour")){
-                if(selectedColour.equals("red")){
+            if (ackType.equals("koColour")) {
+                if (selectedColour.equals("red")) {
                     redButton.setDisable(true);
                 }
-                if(selectedColour.equals("green")){
+                if (selectedColour.equals("green")) {
                     greenButton.setDisable(true);
                 }
-                if(selectedColour.equals("blue")){
+                if (selectedColour.equals("blue")) {
                     blueButton.setDisable(true);
                 }
-                if(selectedColour.equals("yellow")){
+                if (selectedColour.equals("yellow")) {
                     yellowButton.setDisable(true);
                 }
             } else {
                 tried = true;
                 errorUsername.setText("Username not available");
                 errorUsername.setVisible(true);
-                if(gameId != -1){
+                if (gameId != -1) {
                     sendBackButton.setVisible(true);
                     //sendBackButton.setDisable(false);
                 }

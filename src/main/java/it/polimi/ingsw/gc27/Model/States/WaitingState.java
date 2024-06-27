@@ -53,23 +53,24 @@ public class WaitingState extends PlayerState {
      */
     @Override
     public void addStarterCard(Game game, StarterCard starterCard, Face face) {
-        super.sendError(waitText, getPlayer(),turnHandler);
+        super.sendError(waitText, getPlayer(), turnHandler);
     }
 
     /**
      * method implemented from {@link PlayerState}, according to the State Pattern principle
      */
     @Override
-    public String toStringGUI(){
-        if(currentPlayer != null)
-            return "Now playing: "+currentPlayer.getUsername();
-        else{
+    public String toStringGUI() {
+        if (currentPlayer != null)
+            return "Now playing: " + currentPlayer.getUsername();
+        else {
             return "The other player is disconnected";
         }
     }
 
     /**
      * sets the current player
+     *
      * @param currentPlayer the current player
      */
     public void setCurrentPlayer(Player currentPlayer) {

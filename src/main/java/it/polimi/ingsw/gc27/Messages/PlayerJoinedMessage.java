@@ -11,6 +11,7 @@ public class PlayerJoinedMessage extends Message {
 
     /**
      * constructor matching super {@link Message}
+     *
      * @param username player's username
      */
     public PlayerJoinedMessage(String username) {
@@ -21,8 +22,9 @@ public class PlayerJoinedMessage extends Message {
      * Reports the update to the specified VirtualView and View
      * This method will show the message indicating the player has joined the game
      * Every Client connected must receive this update after a player has joined the game
+     *
      * @param client The VirtualView to report the update to
-     * @param view The View to report the update to.
+     * @param view   The View to report the update to.
      */
     @Override
     public void reportUpdate(VirtualView client, View view) {

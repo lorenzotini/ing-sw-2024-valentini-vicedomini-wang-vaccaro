@@ -948,6 +948,7 @@ public class ManuscriptSceneController extends GenericController {
 
     /**
      * updates the board with the pawns of the players and their respective points
+     *
      * @param board
      */
     public void updateBoard(ClientBoard board) {
@@ -966,7 +967,8 @@ public class ManuscriptSceneController extends GenericController {
 
     /**
      * updates the pawn of a specific player on the board
-     * @param username the username of the player
+     *
+     * @param username  the username of the player
      * @param miniModel the MiniModel received from the server
      */
     public void updatePawn(String username, MiniModel miniModel) {

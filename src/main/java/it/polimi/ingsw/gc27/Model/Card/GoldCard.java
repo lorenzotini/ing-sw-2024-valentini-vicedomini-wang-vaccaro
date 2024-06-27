@@ -16,11 +16,12 @@ public class GoldCard extends ResourceCard {
 
     /**
      * constructor matching super {@link Card}
-     * @param id card's id
-     * @param cardPoints points given if played
-     * @param front front face
-     * @param back back face
-     * @param requirements requirements needed to be played
+     *
+     * @param id               card's id
+     * @param cardPoints       points given if played
+     * @param front            front face
+     * @param back             back face
+     * @param requirements     requirements needed to be played
      * @param pointsMultiplier how many points it gives
      */
     public GoldCard(int id, int cardPoints, FrontFace front, BackFace back, ArrayList<Kingdom> requirements, PointsMultiplier pointsMultiplier) {
@@ -31,6 +32,7 @@ public class GoldCard extends ResourceCard {
 
     /**
      * Gets the points multiplier of the card
+     *
      * @return the points multiplier
      */
     public PointsMultiplier getPointsMultiplier() {
@@ -39,6 +41,7 @@ public class GoldCard extends ResourceCard {
 
     /**
      * Gets the requirements needed to play the card
+     *
      * @return a list of requirements
      */
     public ArrayList<Kingdom> getRequirements() {

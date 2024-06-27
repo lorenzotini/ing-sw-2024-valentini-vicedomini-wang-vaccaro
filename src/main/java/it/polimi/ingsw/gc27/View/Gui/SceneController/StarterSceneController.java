@@ -19,12 +19,13 @@ import java.io.IOException;
  * first scene of the game as the GUI is launched
  * displays logo and "Play" button
  */
-public class StarterSceneController extends GenericController{
+public class StarterSceneController extends GenericController {
 
 
     /**
      * method implemented from {@link GenericController},
-     * @param chat the chat to be displayed
+     *
+     * @param chat      the chat to be displayed
      * @param minimodel the minimodel to be displayed
      */
     @Override
@@ -35,6 +36,7 @@ public class StarterSceneController extends GenericController{
     /**
      * method implemented from {@link GenericController}, invoked by Gui in order to send a string to a scene controller
      * the string is generally a positive feedback
+     *
      * @param ackType the string to be sent
      */
     @Override
@@ -46,6 +48,7 @@ public class StarterSceneController extends GenericController{
     /**
      * method implemented from {@link GenericController}, invoked by Gui in order to send a string to a generic scene controller,
      * the string is generally a negative feedback, such as an error
+     *
      * @param ackType the string to be sent
      */
     @Override
@@ -55,6 +58,7 @@ public class StarterSceneController extends GenericController{
 
     /**
      * if startGameButton is clicked, the stage switches scene to the ChooseGameScene
+     *
      * @param event the event of the button clicked
      * @throws IOException if an I/O error occurs
      */

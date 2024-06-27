@@ -22,6 +22,7 @@ public class SocketServer {
 
     /**
      * Constructs a new SocketServer that listens on the default port and uses the specified GigaController.
+     *
      * @param console the GigaController to be used for handling client connections and interaction
      * @throws IOException if an I/O error occurs when opening the socket
      */
@@ -35,7 +36,7 @@ public class SocketServer {
      * to manage the communication with that client.
      *
      * @throws IOException if an I/O error occurs when waiting for a connection
-     * */
+     */
     public void runServer() throws IOException {
 
         Socket clientSocket;
@@ -53,7 +54,7 @@ public class SocketServer {
      *
      * @param handler the ClientHandler to be disconnected
      */
-    public void disconnect(ClientHandler handler){
+    public void disconnect(ClientHandler handler) {
         synchronized (this.clients) {
             clients.remove(handler);
         }

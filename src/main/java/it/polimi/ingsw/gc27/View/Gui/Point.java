@@ -15,7 +15,7 @@ public class Point {
      * @param x the x-coordinate of the point
      * @param y the y-coordinate of the point
      */
-    public Point(int x, int y){
+    public Point(int x, int y) {
         this.x = x;
         this.y = y;
         this.count = 0;
@@ -26,7 +26,7 @@ public class Point {
      *
      * @return the x-coordinate of the point
      */
-    public int getx(){
+    public int getx() {
         return this.x;
     }
 
@@ -35,14 +35,14 @@ public class Point {
      *
      * @return the y-coordinate of the point
      */
-    public int gety(){
+    public int gety() {
         return this.y;
     }
 
     /**
      * Increments the count associated with the point by 1.
      */
-    public void incrementCount(){
+    public void incrementCount() {
         this.count++;
     }
 
@@ -51,7 +51,7 @@ public class Point {
      *
      * @return the count associated with the point
      */
-    public int getCount(){
+    public int getCount() {
         return this.count;
     }
 }

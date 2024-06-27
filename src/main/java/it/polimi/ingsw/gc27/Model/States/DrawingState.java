@@ -51,13 +51,13 @@ public class DrawingState extends PlayerState {
 
         deck = isGold ? market.getGoldDeck() : market.getResourceDeck();
 
-        try{
+        try {
             // add card to players hand and replace it on market
             if (fromDeck) { // player drawn card from a deck
                 card = deck.removeLast();
             } else { // player drawn a face up card from the market
                 card = market.getFaceUp(isGold)[faceUpCardIndex]; // pick the card
-                if(card == null) throw new NullPointerException(); // if there is no card, throw an exception
+                if (card == null) throw new NullPointerException(); // if there is no card, throw an exception
                 market.getFaceUp(isGold)[faceUpCardIndex] = null; // delete it from the market
                 market.setFaceUp(deck.removeLast(), faceUpCardIndex); // eventually, replace it with a deck card
             }
@@ -73,10 +73,11 @@ public class DrawingState extends PlayerState {
             Message updateMarketMessage = new UpdateMarketMessage(new MiniModel(market));
             turnHandler.getGame().notifyObservers(updateHandMessage);
             turnHandler.getGame().notifyObservers(updateMarketMessage);
-        } catch (NoSuchElementException e){  // TODO probabilmente serve aggiungere una nullPOinterException per quando si pesca dalle carte scoperte
+        } catch (
+                NoSuchElementException e) {  // TODO probabilmente serve aggiungere una nullPOinterException per quando si pesca dalle carte scoperte
             // when drawing from face ups, but no more cards in deck
-            if(!fromDeck){
-               // card = market.getFaceUp(isGold)[faceUpCardIndex];
+            if (!fromDeck) {
+                // card = market.getFaceUp(isGold)[faceUpCardIndex];
                 player.getHand().add(card);
                 player.setPlayerState(new EndOfTurnState(player, getTurnHandler()));
                 getTurnHandler().notifyEndOfTurnState(getPlayer());
@@ -90,11 +91,11 @@ public class DrawingState extends PlayerState {
             } else {
                 super.sendError("No more cards to draw!", getPlayer(), turnHandler);
             }
-        } catch (NullPointerException e){ // when drawing from face ups, but there is no card
+        } catch (NullPointerException e) { // when drawing from face ups, but there is no card
             super.sendError("No more cards to draw!", getPlayer(), turnHandler);
-        } catch(IndexOutOfBoundsException e){
+        } catch (IndexOutOfBoundsException e) {
             super.sendError("Invalid index.", player, turnHandler);
-        } catch(Exception e){
+        } catch (Exception e) {
             super.sendError("Invalid input while drawing.", player, turnHandler);
         }
 
@@ -120,7 +121,7 @@ public class DrawingState extends PlayerState {
      * method implemented from {@link PlayerState}, according to the State Pattern principle
      */
     @Override
-    public String toStringGUI(){
+    public String toStringGUI() {
         return "Draw a card!";
     }
 

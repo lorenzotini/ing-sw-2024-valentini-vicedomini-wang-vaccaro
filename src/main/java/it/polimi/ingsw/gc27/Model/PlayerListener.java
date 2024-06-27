@@ -22,6 +22,7 @@ public class PlayerListener implements Serializable {
 
     /**
      * Constructs a PlayerListener with the specified client and player
+     *
      * @param client The client's VirtualView.
      * @param player The player associated with this listener
      */
@@ -31,30 +32,30 @@ public class PlayerListener implements Serializable {
     }
 
 
-
     /**
      * Updates the client with the given message if the conditions are met, the conditions are contained in the Minimodel
+     *
      * @param message The message to be potentially sent to the client. This method checks if the client should receive the update,
      *                without modifying the message given
      */
     public void update(Message message) {
 
-            if (message.getMiniModel() == null ||
-                    (message.getMiniModel().currentPlayer == null && message.getMiniModel().getPlayer() == null) ||
-                    (message.getMiniModel().currentPlayer != null && message.getMiniModel().currentPlayer.equals(playerUsername)) ||
-                    (message.getMiniModel().getPlayer() != null && message.getMiniModel().getPlayer().getUsername().equals(playerUsername))) { //the condition check that the client of this listener has to receive the update
+        if (message.getMiniModel() == null ||
+                (message.getMiniModel().currentPlayer == null && message.getMiniModel().getPlayer() == null) ||
+                (message.getMiniModel().currentPlayer != null && message.getMiniModel().currentPlayer.equals(playerUsername)) ||
+                (message.getMiniModel().getPlayer() != null && message.getMiniModel().getPlayer().getUsername().equals(playerUsername))) { //the condition check that the client of this listener has to receive the update
 
-                if (flag){
-                    try {
-                        client.update(message);
-                    } catch (RemoteException e) {
-                        e.printStackTrace();
-                        System.out.println("Net problem while sending update");
-                        flag = false;
-                        System.out.println("Error from the listener");
-                    }
+            if (flag) {
+                try {
+                    client.update(message);
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                    System.out.println("Net problem while sending update");
+                    flag = false;
+                    System.out.println("Error from the listener");
+                }
             }
-            }
+        }
     }
 
     /**

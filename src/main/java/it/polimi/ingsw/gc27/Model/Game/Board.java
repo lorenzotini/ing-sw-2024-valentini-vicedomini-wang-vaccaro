@@ -29,10 +29,11 @@ public class Board implements Serializable, ClientBoard {
 
     /**
      * populates the Hashmap colourPlayerMap with players and their pawn colours
+     *
      * @param players the list of players
      */
-    public void initBoard(List<Player> players){
-        for(Player p: players){
+    public void initBoard(List<Player> players) {
+        for (Player p : players) {
             colourPlayerMap.put(p.getUsername(), p.getPawnColour());
         }
     }
@@ -41,7 +42,7 @@ public class Board implements Serializable, ClientBoard {
      * @return a Map that represents the scoreboard
      * the keys are the players username, whereas the values will be the scored points mapped to the username
      */
-    public Map<String, Integer> getScoreBoard(){
+    public Map<String, Integer> getScoreBoard() {
         Map<String, Integer> scoreBoard = new HashMap<>();
         scoreBoard.put(this.redPlayer, pointsRedPlayer);
         scoreBoard.put(this.yellowPlayer, pointsYellowPlayer);
@@ -53,6 +54,7 @@ public class Board implements Serializable, ClientBoard {
 
     /**
      * Gets the points of the red player
+     *
      * @return The points of the red player
      */
     @Override
@@ -62,6 +64,7 @@ public class Board implements Serializable, ClientBoard {
 
     /**
      * Sets the points of the red player.
+     *
      * @param pointsRedPlayer The points to set for the red player.
      */
     public void setPointsRedPlayer(int pointsRedPlayer) {
@@ -70,6 +73,7 @@ public class Board implements Serializable, ClientBoard {
 
     /**
      * Gets the points of the yellow player
+     *
      * @return The points of the yellow player
      */
     @Override
@@ -79,6 +83,7 @@ public class Board implements Serializable, ClientBoard {
 
     /**
      * Sets the points of the yellow player
+     *
      * @param pointsYellowPlayer The points to set for the yellow player
      */
     public void setPointsYellowPlayer(int pointsYellowPlayer) {
@@ -87,6 +92,7 @@ public class Board implements Serializable, ClientBoard {
 
     /**
      * Gets the points of the green player
+     *
      * @return The points of the green player
      */
     @Override
@@ -96,6 +102,7 @@ public class Board implements Serializable, ClientBoard {
 
     /**
      * Sets the points of the green player
+     *
      * @param pointsGreenPlayer The points to set for the green player
      */
     public void setPointsGreenPlayer(int pointsGreenPlayer) {
@@ -104,6 +111,7 @@ public class Board implements Serializable, ClientBoard {
 
     /**
      * Gets the points of the blue player
+     *
      * @return The points of the blue player
      */
     @Override
@@ -113,6 +121,7 @@ public class Board implements Serializable, ClientBoard {
 
     /**
      * Sets the points of the blue player
+     *
      * @param pointsBluePlayer The points to set for the blue player
      */
     public void setPointsBluePlayer(int pointsBluePlayer) {
@@ -121,6 +130,7 @@ public class Board implements Serializable, ClientBoard {
 
     /**
      * Gets the HashMap mapping player usernames to their pawn colours
+     *
      * @return The HashMap colourPlayermap
      */
     @Override
@@ -129,8 +139,8 @@ public class Board implements Serializable, ClientBoard {
     }
 
 
-    public void setColourPlayer(Player p){
-        switch (p.getPawnColour()){
+    public void setColourPlayer(Player p) {
+        switch (p.getPawnColour()) {
             case RED:
                 redPlayer = p.getUsername();
                 break;
@@ -148,7 +158,7 @@ public class Board implements Serializable, ClientBoard {
         }
     }
 
-    public int getPointsOf(PawnColour pawnColour){
+    public int getPointsOf(PawnColour pawnColour) {
         return switch (pawnColour) {
             case RED -> pointsRedPlayer;
             case YELLOW -> pointsYellowPlayer;
@@ -157,31 +167,32 @@ public class Board implements Serializable, ClientBoard {
             default -> 0;
         };
     }
-    public void setLastAlive(Player p){
-        switch (p.getPawnColour()){
+
+    public void setLastAlive(Player p) {
+        switch (p.getPawnColour()) {
             case YELLOW -> {
-                this.greenPlayer=null;
-                this.redPlayer=null;
-                this.bluePlayer=null;
+                this.greenPlayer = null;
+                this.redPlayer = null;
+                this.bluePlayer = null;
 
             }
 
             case GREEN -> {
-                this.yellowPlayer=null;
-                this.redPlayer=null;
-                this.bluePlayer=null;
+                this.yellowPlayer = null;
+                this.redPlayer = null;
+                this.bluePlayer = null;
 
             }
             case RED -> {
-                this.greenPlayer=null;
-                this.yellowPlayer=null;
-                this.bluePlayer=null;
+                this.greenPlayer = null;
+                this.yellowPlayer = null;
+                this.bluePlayer = null;
 
             }
-            case BLUE ->{
-                this.greenPlayer=null;
-                this.redPlayer=null;
-                this.yellowPlayer=null;
+            case BLUE -> {
+                this.greenPlayer = null;
+                this.redPlayer = null;
+                this.yellowPlayer = null;
 
             }
         }

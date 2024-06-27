@@ -8,7 +8,7 @@ import it.polimi.ingsw.gc27.View.View;
  * It extends the {@link Message} class but does not perform any specific action
  * in the {@link #reportUpdate(VirtualView, View)} method
  */
-public class PingMessage extends Message{
+public class PingMessage extends Message {
 
     /**
      * constructor matching super {@link Message}
@@ -20,8 +20,9 @@ public class PingMessage extends Message{
     /**
      * This method does not perform any actions intentionally, the implementation
      * does not require any update to VirtualView nor View
+     *
      * @param client The VirtualView to report the update to.
-     * @param view The View to report the update to.
+     * @param view   The View to report the update to.
      */
     @Override
     public void reportUpdate(VirtualView client, View view) {

@@ -14,8 +14,9 @@ public class Corner implements Serializable {
     private CornerSymbol symbol;
 
     /**
-     * constructor
-     * @param black indicates if the corner is
+     * constructor for the corner
+     *
+     * @param black  indicates if the corner is
      * @param symbol the symbol
      */
     public Corner(boolean black, CornerSymbol symbol) {
@@ -26,6 +27,7 @@ public class Corner implements Serializable {
 
     /**
      * Checks if the corner is hidden
+     *
      * @return true if the corner is hidden, false otherwise
      */
     public boolean isHidden() {
@@ -34,6 +36,7 @@ public class Corner implements Serializable {
 
     /**
      * Sets the corner to hidden status
+     *
      * @param hidden the hidden status to set
      */
     public void setHidden(boolean hidden) {
@@ -42,6 +45,7 @@ public class Corner implements Serializable {
 
     /**
      * Checks if the corner is black
+     *
      * @return true if the corner is black, false otherwise
      */
     public boolean isBlack() {
@@ -50,6 +54,7 @@ public class Corner implements Serializable {
 
     /**
      * Gets the symbol of the corner
+     *
      * @return the symbol of the corner
      */
     public CornerSymbol getSymbol() {

@@ -16,9 +16,10 @@ public class DifferentPattern extends ObjectiveCard {
 
     /**
      * constructor matching super {@link ObjectiveCard}
-     * @param id card's id
+     *
+     * @param id    card's id
      * @param front front face
-     * @param back back face
+     * @param back  back face
      */
     public DifferentPattern(int id, FrontFace front, BackFace back) {
         super(id, front, back);
@@ -27,6 +28,7 @@ public class DifferentPattern extends ObjectiveCard {
     /**
      * this method returns the points scored according to the different (all three of the special symbol) pattern objective card
      * it iterates throughout all the player's manuscript and finds the given symbols of the objective card
+     *
      * @param manuscript is the player's field
      * @return int
      */
@@ -37,15 +39,15 @@ public class DifferentPattern extends ObjectiveCard {
         int min = 9999; // arbitrary big number that prevents bugs
 
         count = manuscript.getCounter(CornerSymbol.QUILL);
-        if(count<=min) {
+        if (count <= min) {
             min = count;
         }
         count = manuscript.getCounter(CornerSymbol.MANUSCRIPT);
-        if(count<=min) {
+        if (count <= min) {
             min = count;
         }
         count = manuscript.getCounter(CornerSymbol.INKWELL);
-        if(count<=min) {
+        if (count <= min) {
             min = count;
         }
         points = OBJECTIVE_POINTS * min;
@@ -54,6 +56,7 @@ public class DifferentPattern extends ObjectiveCard {
 
     /**
      * changes the colour of the string provided
+     *
      * @param s initial string
      * @return colored string
      */
@@ -64,15 +67,16 @@ public class DifferentPattern extends ObjectiveCard {
 
     /**
      * transforms the objective card to an equivalent string printable on the Tui terminal
+     *
      * @return the card in string form
      */
     @Override
-    public String toCliCard(){
+    public String toCliCard() {
         String first = paintString("╔═════════════════╗");
         String second = paintString("║ ") + "pts: " + this.getObjPointsMap().get(this.getClass()) + paintString("          ║");
         String third = paintString("║                 ║");
         String fourth = paintString("║ QMI             ║");
-        String fifth =  paintString("╚═════════════════╝");
+        String fifth = paintString("╚═════════════════╝");
         return first + "\n" + second + "\n" + third + "\n" + fourth + "\n" + fifth;
     }
 

@@ -29,6 +29,7 @@ public class NewGameSceneController extends GenericController {
 
     /**
      * Sends the chosen number of players to the server and switches to the Login Scene.
+     *
      * @throws IOException if an I/O error occurs
      */
     @FXML

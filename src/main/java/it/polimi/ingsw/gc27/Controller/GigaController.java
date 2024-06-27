@@ -42,6 +42,7 @@ public class GigaController {
 
     /**
      * Finds the game controller that controls the game containing the player matching the given username
+     *
      * @param username the username to search for
      * @return the game controller associated with the username, or null if not found.
      */
@@ -59,6 +60,7 @@ public class GigaController {
 
     /**
      * Removes references to a disconnected client and sets the player's state to disconnected
+     *
      * @param client the client's VirtualView
      */
     public void removeReferences(VirtualView client) {
@@ -69,13 +71,14 @@ public class GigaController {
             //registeredUsernames.remove(username);
         } catch (NullPointerException e) {
             System.out.println("Client hadn't choose an username yet");
-            System.out.println("Caught while suspending player " );
+            System.out.println("Caught while suspending player ");
         }
     }
 
     /**
      * Welcomes a new player and allows them to start or join an already existing game
      * handles the case when the player disconnects and the case when the game is full
+     *
      * @param client the client's VirtualView
      */
     public void welcomePlayer(VirtualView client) {
@@ -86,7 +89,7 @@ public class GigaController {
 
             // check if the input is a valid game id or 'new'
             game = client.read();
-        }catch(IOException e){
+        } catch (IOException e) {
             return;
         }
         boolean canEnter = false;
@@ -202,7 +205,7 @@ public class GigaController {
                         return;
                     }
                 }
-                } while (true) ;
+            } while (true);
 
         }
 
@@ -211,6 +214,7 @@ public class GigaController {
     /**
      * Creates a new game and registers the player as the first participant,
      * sets the number of players (2-4) and displays the id of the game created
+     *
      * @param client the client's VirtualView
      */
     public void createNewGame(VirtualView client) {
@@ -231,7 +235,7 @@ public class GigaController {
                 }
                 client.show("\nInvalid input. Please enter a number between 2 and 4");
             } while (true);
-        }catch(IOException e){
+        } catch (IOException e) {
             System.out.print("Lost before creating a game");
             return;
         }
@@ -243,11 +247,11 @@ public class GigaController {
         }
         // count the player who created the game
         controller.getGame().setNumActualPlayers(1);
-        try{
+        try {
             client.update(new OkMessage("Game created with id " + controller.getId() + " Waiting for players to join..."));
             client.show("\nGame created with id " + controller.getId() + "\n" + "\nWaiting for players to join...");
 
-        }catch(IOException e){
+        } catch (IOException e) {
             System.out.print("Lost before knowing id game");
             return;
         }
@@ -257,8 +261,9 @@ public class GigaController {
 
     /**
      * Tries to reconnect a player to a game.
-     * @param client the client's VirtualView.
-     * @param gc the game controller.
+     *
+     * @param client               the client's VirtualView.
+     * @param gc                   the game controller.
      * @param disconnectedUsername the username of the disconnected player.
      * @return true if the player was successfully reconnected, false otherwise.
      * @throws IOException if an I/O error occurs.
@@ -280,12 +285,13 @@ public class GigaController {
 
     /**
      * Checks the validity and availability of a player's username
+     *
      * @param username the username to validate
-     * @param view the client's VirtualView
+     * @param view     the client's VirtualView
      * @return true if the username is valid and not taken, false otherwise
      */
     public boolean validUsername(String username, VirtualView view) {
-        if(username.equalsIgnoreCase("global") || username.contains(" ") || username.length() > MAX_USERNAME_LENGTH)
+        if (username.equalsIgnoreCase("global") || username.contains(" ") || username.length() > MAX_USERNAME_LENGTH)
             return false;
         synchronized (registeredUsernames) {
             if (registeredUsernames.containsKey(username) || username.isEmpty()) { // username already taken or empty
@@ -298,6 +304,7 @@ public class GigaController {
 
     /**
      * Gets the VirtualView associated with a username
+     *
      * @param user the username
      * @return the VirtualView associated with the username
      */
@@ -307,6 +314,7 @@ public class GigaController {
 
     /**
      * Gets the map of registered usernames and their associated VirtualViews
+     *
      * @return the map of registered usernames and VirtualViews
      */
     public Map<String, VirtualView> getRegisteredUsernames() {
@@ -315,6 +323,7 @@ public class GigaController {
 
     /**
      * Gets the username associated with a client's VirtualView
+     *
      * @param client the client's VirtualView
      * @return the username associated with the client's VirtualView
      */
@@ -329,6 +338,7 @@ public class GigaController {
 
     /**
      * Gets the Player instance associated with its username
+     *
      * @param username the username
      * @return the Player
      */
@@ -338,24 +348,26 @@ public class GigaController {
 
     /**
      * Adds a command to the game controller of the player associated with the command
+     *
      * @param command the command to add
      */
     public void addCommandToGameController(Command command) {
         String player = command.getPlayerName();
-        try{
+        try {
             userToGameController(player).addCommand(command);
-        }catch(NullPointerException e){
+        } catch (NullPointerException e) {
             System.out.println("Didn't find controller while adding command ");
         }
     }
 
     /**
      * Closes a game and removes all references to its players and controller
+     *
      * @param controller the game controller to close
      */
     public void closeGame(GameController controller) {
         synchronized (gameControllers) {
-            for(Player p :controller.getGame().getPlayers()){
+            for (Player p : controller.getGame().getPlayers()) {
                 registeredUsernames.remove(p.getUsername());
             }
             gameControllers.remove(controller);

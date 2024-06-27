@@ -24,7 +24,8 @@ import java.util.concurrent.LinkedBlockingQueue;
  */
 public class Game implements Serializable {
 
-    private final transient BlockingQueue<PlayerListener> observers = new LinkedBlockingQueue<>() {};
+    private final transient BlockingQueue<PlayerListener> observers = new LinkedBlockingQueue<>() {
+    };
     private Integer numActualPlayers;
     private Market market;
     private List<Player> players;
@@ -35,14 +36,15 @@ public class Game implements Serializable {
     private ArrayList<ObjectiveCard> objectiveDeck;
     private ArrayList<PawnColour> availablePawns = new ArrayList<>(List.of(PawnColour.GREEN, PawnColour.YELLOW, PawnColour.BLUE, PawnColour.RED));
     private final Chat generalChat = new Chat();
-    final private HashMap< Pair<String, String>, Chat> chatMap = new HashMap<>();
+    final private HashMap<Pair<String, String>, Chat> chatMap = new HashMap<>();
     private int readyPlayers = 0;
 
 
     /**
      * constructor of the game
-     * @param gameID game id
-     * @param board the board/scoreboard
+     *
+     * @param gameID  game id
+     * @param board   the board/scoreboard
      * @param players players participating in the game
      */
     public Game(int gameID, Board board, List<Player> players) {
@@ -52,13 +54,14 @@ public class Game implements Serializable {
 
     /**
      * constructor of the game
-     * @param board the board/scoreboard
-     * @param market the common market
-     * @param players list of players
+     *
+     * @param board            the board/scoreboard
+     * @param market           the common market
+     * @param players          list of players
      * @param commonObjective1 common objective card
      * @param commonObjective2 common objective card
-     * @param starterDeck the deck containing starter cards
-     * @param objectiveDeck the deck containing objective cards
+     * @param starterDeck      the deck containing starter cards
+     * @param objectiveDeck    the deck containing objective cards
      */
     public Game(Board board, Market market, List<Player> players, ObjectiveCard commonObjective1, ObjectiveCard commonObjective2, ArrayList<StarterCard> starterDeck, ArrayList<ObjectiveCard> objectiveDeck) {
         this.board = board;
@@ -72,6 +75,7 @@ public class Game implements Serializable {
 
     /**
      * Updates player's points, as a result of a played card or objectives points
+     *
      * @param player which player receives the points
      * @param points amount of points
      */
@@ -87,6 +91,7 @@ public class Game implements Serializable {
 
     /**
      * this method returns a boolean indicating if a pawn colour is mapped to an actual player
+     *
      * @param pawn pawn colour
      * @return boolean
      */
@@ -101,15 +106,16 @@ public class Game implements Serializable {
 
     /**
      * adds a player to the game
-     * @param p player
+     *
+     * @param p      player
      * @param client player's client
      */
     public void addPlayer(Player p, VirtualView client) {
 
-        for(Player player : players){
+        for (Player player : players) {
             Chat chat = new Chat(player, p);
-            chatMap.put(new Pair<String, String>(player.getUsername(), p.getUsername()),   chat);
-            chatMap.put(new Pair<String, String>(p.getUsername(), player.getUsername()),   chat);
+            chatMap.put(new Pair<String, String>(player.getUsername(), p.getUsername()), chat);
+            chatMap.put(new Pair<String, String>(p.getUsername(), player.getUsername()), chat);
         }
         this.players.add(p);
         board.setColourPlayer(p);
@@ -122,6 +128,7 @@ public class Game implements Serializable {
 
     /**
      * adds observer to the observers list
+     *
      * @param pl PlayerListener
      */
     public void addObserver(PlayerListener pl) {
@@ -130,6 +137,7 @@ public class Game implements Serializable {
 
     /**
      * removes observer from the observers list
+     *
      * @param username player's username
      */
     public void removeObserver(String username) {
@@ -139,6 +147,7 @@ public class Game implements Serializable {
 
     /**
      * notifies all the observers, sending them a specific message
+     *
      * @param message message
      */
     public void notifyObservers(Message message) {
@@ -152,21 +161,23 @@ public class Game implements Serializable {
      */
     public boolean isSuspended() {
         int count = 0;
-        for(Player p: players){
-            if(p.isDisconnected()){
+        for (Player p : players) {
+            if (p.isDisconnected()) {
                 count++;
             }
         }
         return count >= players.size() - 1;
 
     }
+
     /**
      * changes the state of a player to ready
+     *
      * @param p player
      * @return the number of players that are ready
      */
     public int ready(Player p) {
-        synchronized (board){
+        synchronized (board) {
             this.readyPlayers++;
             return readyPlayers;
         }
@@ -174,14 +185,16 @@ public class Game implements Serializable {
 
     /**
      * Gets the general chat instance associated with the game
+     *
      * @return The general Chat instance
      */
-    public Chat getGeneralChat(){
+    public Chat getGeneralChat() {
         return this.generalChat;
     }
 
     /**
      * Gets the chat between two specific players
+     *
      * @param p1 Username of the first player
      * @param p2 Username of the second player
      * @return The Chat instance representing the chat between the two players
@@ -192,14 +205,15 @@ public class Game implements Serializable {
 
     /**
      * Gets all chats associated with a specific player
+     *
      * @param player The player
      * @return List of Chat instances including the general chat and chats with other players
      */
-    public ArrayList<Chat> getChats(Player player){
+    public ArrayList<Chat> getChats(Player player) {
         ArrayList<Chat> chats = new ArrayList<>();
         chats.add(this.generalChat);
-        for(Pair<String , String> p : chatMap.keySet()){
-            if(p.getKey().equals(player.getUsername())){
+        for (Pair<String, String> p : chatMap.keySet()) {
+            if (p.getKey().equals(player.getUsername())) {
                 chats.add(chatMap.get(p));
             }
         }
@@ -209,6 +223,7 @@ public class Game implements Serializable {
 
     /**
      * Gets the number of actual players in the game
+     *
      * @return The number of actual players
      */
     public Integer getNumActualPlayers() {
@@ -217,6 +232,7 @@ public class Game implements Serializable {
 
     /**
      * Sets the number of actual players in the game
+     *
      * @param numActualPlayers The number of actual players to set
      */
     public void setNumActualPlayers(Integer numActualPlayers) {
@@ -225,6 +241,7 @@ public class Game implements Serializable {
 
     /**
      * Gets a player by their username
+     *
      * @param playerName The username of the player
      * @return The Player instance corresponding to the given username, or null if not found
      */
@@ -239,6 +256,7 @@ public class Game implements Serializable {
 
     /**
      * Gets the deck containing starter cards
+     *
      * @return The ArrayList of StarterCard instances representing the starter deck
      */
     public ArrayList<StarterCard> getStarterDeck() {
@@ -247,6 +265,7 @@ public class Game implements Serializable {
 
     /**
      * Gets the deck containing objective cards
+     *
      * @return The ArrayList of ObjectiveCard instances representing the objective deck
      */
     public ArrayList<ObjectiveCard> getObjectiveDeck() {
@@ -255,6 +274,7 @@ public class Game implements Serializable {
 
     /**
      * Gets the market
+     *
      * @return The Market instance representing the game's market
      */
     public Market getMarket() {
@@ -263,6 +283,7 @@ public class Game implements Serializable {
 
     /**
      * Sets the market
+     *
      * @param market The Market instance to set as the game's market
      */
     public void setMarket(Market market) {
@@ -271,6 +292,7 @@ public class Game implements Serializable {
 
     /**
      * Gets the full list of available pawn colors
+     *
      * @return The ArrayList available pawn colors
      */
     public synchronized ArrayList<PawnColour> getAvailablePawns() {
@@ -279,6 +301,7 @@ public class Game implements Serializable {
 
     /**
      * Gets the board
+     *
      * @return the game's board
      */
     public Board getBoard() {
@@ -287,6 +310,7 @@ public class Game implements Serializable {
 
     /**
      * Gets the first common objective card
+     *
      * @return the first common objective card
      */
     public ObjectiveCard getCommonObjective1() {
@@ -295,6 +319,7 @@ public class Game implements Serializable {
 
     /**
      * Gets the second common objective card
+     *
      * @return the second common objective card
      */
     public ObjectiveCard getCommonObjective2() {
@@ -303,6 +328,7 @@ public class Game implements Serializable {
 
     /**
      * Gets the list of players participating in the game
+     *
      * @return The List of Player instances representing the players in the game
      */
     public List<Player> getPlayers() {
@@ -311,6 +337,7 @@ public class Game implements Serializable {
 
     /**
      * Sets the list of players participating in the game
+     *
      * @param players The List of Player instances to set as the players in the game
      */
     public void setPlayers(List<Player> players) {
@@ -320,10 +347,11 @@ public class Game implements Serializable {
     /**
      * check the decks in the market so that when they are empty there will be at least 4 more cards
      * to draw in the last round, triggered by this method
+     *
      * @return true if the decks are empty, false otherwise
      */
     //
-    public boolean isMarketEmpty(){
+    public boolean isMarketEmpty() {
         return market.getGoldDeck().isEmpty() &&
                 market.getResourceDeck().isEmpty();
     }

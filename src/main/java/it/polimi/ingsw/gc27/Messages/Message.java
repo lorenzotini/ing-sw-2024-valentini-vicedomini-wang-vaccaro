@@ -21,8 +21,9 @@ public abstract class Message implements Serializable {
 
     /**
      * Constructs a Message with the specified MiniModel and string {@link MiniModel}
+     *
      * @param miniModel The MiniModel associated with the message
-     * @param string The string associated with the message
+     * @param string    The string associated with the message
      */
     protected Message(MiniModel miniModel, String string) {
         this.miniModel = miniModel;
@@ -31,6 +32,7 @@ public abstract class Message implements Serializable {
 
     /**
      * Constructs a Message with the specified MiniModel {@link MiniModel}
+     *
      * @param miniModel The MiniModel associated with the message
      */
     protected Message(MiniModel miniModel) {
@@ -40,6 +42,7 @@ public abstract class Message implements Serializable {
 
     /**
      * Constructs a Message with the specified string message
+     *
      * @param string The string associated with the message
      */
     protected Message(String string) {
@@ -49,6 +52,7 @@ public abstract class Message implements Serializable {
 
     /**
      * Gets the MiniModel associated with the message {@link MiniModel}
+     *
      * @return The MiniModel associated with the message
      */
     public MiniModel getMiniModel() {
@@ -57,13 +61,15 @@ public abstract class Message implements Serializable {
 
     /**
      * Abstract method to report updates to the VirtualView and View
+     *
      * @param client The VirtualView to report to
-     * @param view The View to report the update to
+     * @param view   The View to report the update to
      */
-    public abstract void reportUpdate(VirtualView client, View view) ;
+    public abstract void reportUpdate(VirtualView client, View view);
 
     /**
      * Gets the string associated with the message
+     *
      * @return The string associated with the message
      */
     public String getString() {

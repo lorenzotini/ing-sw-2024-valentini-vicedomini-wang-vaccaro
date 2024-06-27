@@ -51,7 +51,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
     /**
      * The last time a ping was received from the server.
      */
-    private long lastPingFromServer = 0 ;
+    private long lastPingFromServer = 0;
 
     // TODO IMPORTANTISSIMO: REIMPOSTARE I TEMPI DI PING A ROBA NORMALE CHE SE NO ZIO PERA è LA FINE
     /**
@@ -63,8 +63,8 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
      * Constructs a new RmiClient with the given IP address, port, and View.
      *
      * @param ipAddress The IP address of the server.
-     * @param port The port number of the server.
-     * @param view The View instance for handling client view.
+     * @param port      The port number of the server.
+     * @param view      The View instance for handling client view.
      * @throws RemoteException If a remote access error occurs.
      */
     public RmiClient(String ipAddress, int port, View view) throws RemoteException {
@@ -73,14 +73,14 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
         this.miniModel = new MiniModel();
 
         do {
-            try{
+            try {
                 locateRegistry(ipAddress, port);
                 break;
-            }catch(IOException | NotBoundException e){
+            } catch (IOException | NotBoundException e) {
                 show("Server not found, retrying...");
-                try{
+                try {
                     Thread.sleep(1000);
-                }catch(InterruptedException ignored){
+                } catch (InterruptedException ignored) {
 
                 }
             }
@@ -90,14 +90,14 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
 
     /**
      * * Establishes a connection to the RMI registry at the specified IP address and port.
-     *  * It then retrieves the remote object registered under the name "VirtualServer".
+     * * It then retrieves the remote object registered under the name "VirtualServer".
      *
      * @param ipAddress the IP address where the RMI registry is hosted.
-     * @param port the port number on which the RMI registry accepts connections.
-     * @throws RemoteException if there is an issue with network connectivity or
-     *         the registry is not available at the specified IP address and port.
+     * @param port      the port number on which the RMI registry accepts connections.
+     * @throws RemoteException   if there is an issue with network connectivity or
+     *                           the registry is not available at the specified IP address and port.
      * @throws NotBoundException if no binding for "VirtualServer" is found in the registry,
-     *         indicating that the remote object is not registered.
+     *                           indicating that the remote object is not registered.
      */
     public void locateRegistry(String ipAddress, int port) throws RemoteException, NotBoundException {
         Registry registry = LocateRegistry.getRegistry(ipAddress, port);
@@ -106,7 +106,8 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
     }
 
     /**
-     *Send the Command to the server to have it executed
+     * Send the Command to the server to have it executed
+     *
      * @param command the action the client want to do
      */
     public void sendCommand(Command command) {
@@ -120,6 +121,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
     /**
      * this.miniModel contains all the data the client need to describe the actual
      * state of the game
+     *
      * @return this client miniModel
      * @throws RemoteException if there is any trouble with the connection
      */
@@ -131,6 +133,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
     /**
      * called by the server or the messages for updates, act as an intermediary
      * to connect with the vies
+     *
      * @param message is the string wanted to be showed
      * @throws RemoteException if there is any trouble with the connection
      */
@@ -142,6 +145,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
     /**
      * take a String input from the view, usually called in situation with
      * an expected result
+     *
      * @return a String
      * @throws RemoteException if there is any trouble with the connection
      */
@@ -152,6 +156,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
 
     /**
      * modify this.username with the chosen username by the client
+     *
      * @param username is going to be put in this.username
      * @throws RemoteException if there is any trouble with the connection
      */
@@ -169,10 +174,10 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
      * - Manages the user interface and game flow after the initial connection.
      * The method employs multiple threads to manage different aspects of client-server communication
      * and user interaction:
-     *   A thread to continuously check if the server is alive by pinging it.
-     *   A thread to process incoming messages from the server.
-     *   The main thread handles initial connection setup and user interaction.
-     *
+     * A thread to continuously check if the server is alive by pinging it.
+     * A thread to process incoming messages from the server.
+     * The main thread handles initial connection setup and user interaction.
+     * <p>
      * If any part of the initial setup or ongoing communication fails, the client will attempt
      * to close its connection
      * and notify the user of the need to restart.
@@ -180,21 +185,21 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
     @Override
     public void runClient() {
 
-        try{
+        try {
             this.server.connect(this);
-        }catch(RemoteException e){
+        } catch (RemoteException e) {
             System.out.println("There was a problem with the connection, please retry");
 
         }
 
-        new Thread(this :: checkServerIsAlive).start();
+        new Thread(this::checkServerIsAlive).start();
 
         //keep the client alive
         new Thread(() -> {
             while (true) {
                 try {
                     Thread.sleep(1000);
-                    pingToServer( this);
+                    pingToServer(this);
                 } catch (RemoteException e) {
                     System.out.println("Probably the server is down: Ping");
                 } catch (InterruptedException e) {
@@ -214,10 +219,10 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
             }
         }).start();
 
-        try{
+        try {
             this.server.welcomePlayer(this);
             this.show("Welcome " + this.username + "!" + "\nWaiting for other players to join the game...");
-        }catch(IOException e){
+        } catch (IOException e) {
             System.out.println("The connection has been lost while setting the player, please try to reconnect");
 
         }
@@ -226,15 +231,15 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
         while (miniModel.getPlayer() == null) {
             try {
                 Thread.sleep(1000);
-            }catch(InterruptedException e){
+            } catch (InterruptedException e) {
                 throw new RuntimeException("Thread problem");
             }
         }
 
         //start the game
-        try{
+        try {
             view.run();
-        }catch(IOException e){
+        } catch (IOException e) {
             System.out.println("There has been a problem with the UI, please restart ");
 
         }
@@ -245,18 +250,18 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
      * check if last ping received from server is too old, in that case the connection is considered lost
      * and the process closed
      */
-    private void checkServerIsAlive()  {
-        while(true){
-            if(this.lastPingFromServer > TIME_COUNT ){
+    private void checkServerIsAlive() {
+        while (true) {
+            if (this.lastPingFromServer > TIME_COUNT) {
                 System.out.println("Connection to the server was dropped");
                 close();
-            }else{
+            } else {
                 this.lastPingFromServer++;
 
             }
             try {
                 Thread.sleep(1000);
-            }catch(InterruptedException e){
+            } catch (InterruptedException e) {
                 System.out.println("Explosion of thread sleep");
             }
         }
@@ -273,6 +278,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
 
     /**
      * add the messages received from the server in the queue messages
+     *
      * @param message is the update received from the server
      * @throws RemoteException if there is any trouble with the connection
      */
@@ -285,24 +291,26 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
      * close the process
      */
     @Override
-    public void close(){
+    public void close() {
         System.exit(0);
     }
 
     /**
      * set the lastPingFromRemoteServer to the actual current in millis
+     *
      * @throws RemoteException if there is any trouble with the connection
      */
-    public void pingFromServer() throws RemoteException{
+    public void pingFromServer() throws RemoteException {
         this.lastPingFromServer = 0;
     }
 
     /**
      * say to the server that connection is working
+     *
      * @param client is this class
      * @throws RemoteException if there is any trouble with the connection
      */
-    public void pingToServer( VirtualView client) throws RemoteException {
+    public void pingToServer(VirtualView client) throws RemoteException {
         server.receivePing(client);
     }
 

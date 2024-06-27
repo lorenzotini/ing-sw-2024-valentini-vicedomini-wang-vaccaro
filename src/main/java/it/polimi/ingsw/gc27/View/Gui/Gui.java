@@ -59,6 +59,7 @@ public class Gui implements View {
     private final HashMap<String, GenericController> pathContrMap = new HashMap<>(); //maps path to controller of the scene
 
     //setters and getters
+
     /**
      * Sets the primary stage for the GUI.
      *
@@ -117,6 +118,7 @@ public class Gui implements View {
     //end setters and getters
 
     //singleton pattern
+
     /**
      * Private constructor for the {@link Gui} class.
      * Implements the singleton pattern to ensure that only one instance of {@link Gui} is created.
@@ -141,6 +143,7 @@ public class Gui implements View {
     }
 
     //loads scenes and controllers in hashmaps
+
     /**
      * Initializes the application by loading all scenes and their corresponding controllers.
      * This method loads each scene specified in {@link ScenePaths}, creates a new Scene object,
@@ -512,6 +515,7 @@ public class Gui implements View {
 
     /**
      * Returns whether  the server is up
+     *
      * @return true if the server is up, false otherwise
      */
     public boolean isServerIsUp() {

@@ -16,9 +16,10 @@ public class ThreeKingdomPattern extends ObjectiveCard {
 
     /**
      * constructor matching super {@link ObjectiveCard}
-     * @param id card's id
-     * @param front front face
-     * @param back back face
+     *
+     * @param id      card's id
+     * @param front   front face
+     * @param back    back face
      * @param kingdom symbol counted
      */
     public ThreeKingdomPattern(int id, FrontFace front, BackFace back, Kingdom kingdom) {
@@ -29,6 +30,7 @@ public class ThreeKingdomPattern extends ObjectiveCard {
     /**
      * this method returns the points scored according to the three kingdom (three of the same basic symbol) pattern objective card
      * it iterates throughout all the player's manuscript and finds the given symbol of the objective card
+     *
      * @param manuscript is the player's field
      * @return int
      */
@@ -37,11 +39,12 @@ public class ThreeKingdomPattern extends ObjectiveCard {
 
         int count = manuscript.getCounter(this.kingdom.toCornerSymbol());
 
-        return OBJECTIVE_POINTS*(count/3);
+        return OBJECTIVE_POINTS * (count / 3);
     }
 
     /**
      * changes the colour of the string provided
+     *
      * @param s initial string
      * @return colored string
      */
@@ -52,12 +55,13 @@ public class ThreeKingdomPattern extends ObjectiveCard {
 
     /**
      * transforms the objective card to an equivalent string printable on the Tui terminal
+     *
      * @return the card in string form
      */
     @Override
-    public String toCliCard(){
+    public String toCliCard() {
         String kingdom = this.kingdom.toCornerSymbol().toCliString();
-        String first =  paintString("╔═════════════════╗");
+        String first = paintString("╔═════════════════╗");
         String second = paintString("║ ") + "pts: " + this.OBJECTIVE_POINTS + paintString("          ║");
         String third = paintString("║          ") + kingdom + paintString("      ║");
         String fourth = paintString("║         ") + kingdom + " " + kingdom + paintString("     ║");

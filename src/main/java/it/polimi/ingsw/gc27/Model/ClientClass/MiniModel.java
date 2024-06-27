@@ -28,7 +28,8 @@ public class MiniModel implements Serializable {
 
     /**
      * Constructor for updating the player's manuscript.
-     * @param player the player whose manuscript is being updated
+     *
+     * @param player     the player whose manuscript is being updated
      * @param manuscript the manuscript to update
      */
     public MiniModel(Player player, Manuscript manuscript) {
@@ -43,6 +44,7 @@ public class MiniModel implements Serializable {
 
     /**
      * Constructor for updating the player's objective card
+     *
      * @param player the player whose objective card is being updated
      */
     public MiniModel(Player player) {
@@ -56,6 +58,7 @@ public class MiniModel implements Serializable {
 
     /**
      * Constructor for updating the board when points are added to a player's score
+     *
      * @param board the board to update
      */
     public MiniModel(Board board) {
@@ -69,9 +72,10 @@ public class MiniModel implements Serializable {
 
     /**
      * Constructor for updating the market
+     *
      * @param market the market to update
      */
-    public MiniModel(ClientMarket market ) {
+    public MiniModel(ClientMarket market) {
         this.manuscript = null;
         this.board = null;
         this.market = market;
@@ -82,8 +86,9 @@ public class MiniModel implements Serializable {
 
     /**
      * Constructor for updating the player and the board
+     *
      * @param player the player to update
-     * @param board the board to update
+     * @param board  the board to update
      */
     public MiniModel(Player player, Board board) {
         this.manuscript = null;
@@ -96,6 +101,7 @@ public class MiniModel implements Serializable {
 
     /**
      * Constructor for initializing the model
+     *
      * @param game the game to initialize
      */
     public MiniModel(Game game) {
@@ -112,8 +118,9 @@ public class MiniModel implements Serializable {
 
     /**
      * Constructor for updating the player state
+     *
      * @param player the player to update
-     * @param game the game to update
+     * @param game   the game to update
      */
     public MiniModel(Player player, Game game) {
         this.manuscript = player.getManuscript();
@@ -145,8 +152,9 @@ public class MiniModel implements Serializable {
 
     /**
      * Constructor for updating the private chat between two players
-     * @param chat the chat to update
-     * @param player the player to update
+     *
+     * @param chat     the chat to update
+     * @param player   the player to update
      * @param receiver the receiver of the chat
      */
     public MiniModel(Chat chat, Player player, String receiver) {
@@ -155,12 +163,13 @@ public class MiniModel implements Serializable {
         this.market = null;
         this.player = player;
         this.hand = null;
-        this.currentPlayer= receiver;
+        this.currentPlayer = receiver;
         this.chats.add(chat);
     }
 
     /**
      * Constructor for updating the global chat
+     *
      * @param chat the chat to update
      */
     public MiniModel(Chat chat) {
@@ -175,6 +184,7 @@ public class MiniModel implements Serializable {
 
     /**
      * Gets the manuscripts map, which maps each player's username to their manuscript
+     *
      * @return the manuscripts map
      */
     public synchronized HashMap<String, ClientManuscript> getManuscriptsMap() {
@@ -183,14 +193,16 @@ public class MiniModel implements Serializable {
 
     /**
      * Sets the manuscripts map
+     *
      * @param manuscriptsMap the manuscripts map to set
      */
-    public synchronized  void setManuscriptsMap(HashMap<String, ClientManuscript> manuscriptsMap) {
+    public synchronized void setManuscriptsMap(HashMap<String, ClientManuscript> manuscriptsMap) {
         this.manuscriptsMap = manuscriptsMap;
     }
 
     /**
      * Gets the player
+     *
      * @return the player
      */
     public synchronized ClientPlayer getPlayer() {
@@ -199,6 +211,7 @@ public class MiniModel implements Serializable {
 
     /**
      * Gets the market
+     *
      * @return the market
      */
     public synchronized ClientMarket getMarket() {
@@ -207,6 +220,7 @@ public class MiniModel implements Serializable {
 
     /**
      * Gets the board
+     *
      * @return the board
      */
     public synchronized ClientBoard getBoard() {
@@ -215,6 +229,7 @@ public class MiniModel implements Serializable {
 
     /**
      * Gets the manuscript
+     *
      * @return the manuscript
      */
     public synchronized ClientManuscript getManuscript() {
@@ -223,6 +238,7 @@ public class MiniModel implements Serializable {
 
     /**
      * Gets the hand of the player
+     *
      * @return the hand of the player
      */
     public synchronized ArrayList<ResourceCard> getHand() {
@@ -231,6 +247,7 @@ public class MiniModel implements Serializable {
 
     /**
      * Sets the hand of the player
+     *
      * @param hand the hand to set
      */
     public synchronized void setHand(ArrayList<ResourceCard> hand) {
@@ -239,6 +256,7 @@ public class MiniModel implements Serializable {
 
     /**
      * Sets the manuscript
+     *
      * @param manuscript the manuscript to set
      */
     public synchronized void setManuscript(ClientManuscript manuscript) {
@@ -247,6 +265,7 @@ public class MiniModel implements Serializable {
 
     /**
      * Sets the market
+     *
      * @param market the market to set
      */
     public synchronized void setMarket(ClientMarket market) {
@@ -255,6 +274,7 @@ public class MiniModel implements Serializable {
 
     /**
      * Sets the board
+     *
      * @param board the board to set
      */
     public synchronized void setBoard(ClientBoard board) {
@@ -263,6 +283,7 @@ public class MiniModel implements Serializable {
 
     /**
      * Sets the player
+     *
      * @param player the player to set
      */
     public synchronized void setPlayer(ClientPlayer player) {
@@ -271,6 +292,7 @@ public class MiniModel implements Serializable {
 
     /**
      * Copies the state from another MiniModel
+     *
      * @param miniModel the MiniModel to copy from
      */
     public synchronized void copy(MiniModel miniModel) {
@@ -288,6 +310,7 @@ public class MiniModel implements Serializable {
 
     /**
      * Gets the chat with the specified players in the chat
+     *
      * @param chatters the list of players in the chat
      * @return the ClientChat if found, null otherwise
      */
@@ -314,6 +337,7 @@ public class MiniModel implements Serializable {
 
     /**
      * Gets the usernames of other players
+     *
      * @return the list of usernames of other players
      */
     public synchronized ArrayList<String> getOtherPlayersUsernames() {
@@ -322,6 +346,7 @@ public class MiniModel implements Serializable {
 
     /**
      * Checks if the specified username belongs to another player
+     *
      * @param user the username to check
      * @return true if the username belongs to another player, false otherwise
      */
@@ -331,6 +356,7 @@ public class MiniModel implements Serializable {
 
     /**
      * Gets the list of chats
+     *
      * @return the list of chats
      */
     public synchronized ArrayList<ClientChat> getChats() {
@@ -339,6 +365,7 @@ public class MiniModel implements Serializable {
 
     /**
      * Gets the chat with the specified player
+     *
      * @param person the player to get the chat for
      * @return the ClientChat if found, null otherwise
      */

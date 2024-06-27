@@ -28,7 +28,7 @@ import java.util.HashMap;
  * Handles the interaction for selecting the front or back of a starter card,
  * and includes chat functionality.
  */
-public class PlaceStarterCardSceneController extends GenericController{
+public class PlaceStarterCardSceneController extends GenericController {
 
     @FXML
     public ImageView frontStarter;
@@ -48,7 +48,7 @@ public class PlaceStarterCardSceneController extends GenericController{
     private Circle circleChat;
 
     //there is a private hashmap for all the scenes where the chat is displayed
-    private HashMap<String, Tab> chatTabHashMapP= new HashMap<>();
+    private HashMap<String, Tab> chatTabHashMapP = new HashMap<>();
 
     // start chat methods
 
@@ -56,102 +56,105 @@ public class PlaceStarterCardSceneController extends GenericController{
      * Initializes the chat functionality for the starter card scene.
      * Sets up tabs for global and private chats, message containers, and send button actions.
      */
-    public void chatInitStarter(){
+    public void chatInitStarter() {
         circleChat.getStyleClass().add("circle-chat");
         circleChat.setVisible(false);
-            MiniModel miniModel;
-            do {
-                try {
-                    miniModel = Gui.getInstance().getClient().getMiniModel();
-                } catch (RemoteException e) {
-                    throw new RuntimeException(e);
+        MiniModel miniModel;
+        do {
+            try {
+                miniModel = Gui.getInstance().getClient().getMiniModel();
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
+            }
+        } while (miniModel.getMarket() == null);
+
+        for (int i = 0; i < miniModel.getChats().size(); i++) {
+            Tab chatTab = new Tab(); //a tab for each chat
+            if (i == 0) {
+                chatTab.setText("Global");
+                chatTabHashMapP.put("global", chatTab);
+                chatTab.getStyleClass().add("tab-global");
+            } else {
+                String myusername = miniModel.getPlayer().getUsername();
+                String username = miniModel.getChats().get(i).getChatters().stream()
+                        .filter(user -> !user.equals(myusername))
+                        .toList().getFirst();
+                chatTab.setText(username);
+                chatTabHashMapP.put(username, chatTab);
+
+                PawnColour colour = miniModel.getBoard().getColourPlayerMap().get(username);
+                switch (colour) {
+
+                    case BLUE:
+                        chatTab.getStyleClass().add("tab-colour-blue");
+                    case YELLOW:
+                        chatTab.getStyleClass().add("tab-colour-yellow");
+                    case GREEN:
+                        chatTab.getStyleClass().add("tab-colour-green");
+                    case RED:
+                        chatTab.getStyleClass().add("tab-colour-red");
                 }
-            }while(miniModel.getMarket() == null);
-
-            for (int i = 0; i < miniModel.getChats().size(); i++) {
-                Tab chatTab = new Tab(); //a tab for each chat
-                if(i==0) {
-                    chatTab.setText("Global");
-                    chatTabHashMapP.put("global", chatTab);
-                    chatTab.getStyleClass().add("tab-global");
-                }
-                else {
-                    String myusername = miniModel.getPlayer().getUsername();
-                    String username = miniModel.getChats().get(i).getChatters().stream()
-                            .filter(user -> !user.equals(myusername))
-                            .toList().getFirst();
-                    chatTab.setText(username);
-                    chatTabHashMapP.put(username, chatTab);
-
-                    PawnColour colour = miniModel.getBoard().getColourPlayerMap().get(username);
-                    switch (colour){
-
-                        case BLUE: chatTab.getStyleClass().add("tab-colour-blue");
-                        case YELLOW: chatTab.getStyleClass().add("tab-colour-yellow");
-                        case GREEN: chatTab.getStyleClass().add("tab-colour-green");
-                        case RED: chatTab.getStyleClass().add("tab-colour-red");
-                    }
-
-                }
-                VBox chatContainer = new VBox(); //contains che messages of a chat
-                ScrollPane chatContent = new ScrollPane();
-                VBox chatMessages = new VBox();
-                chatMessages.getStyleClass().add("vbox-background");
-                chatContainer.getStyleClass().add("vbox-background");
-                chatContent.getStyleClass().add("vbox-background");
-
-
-                //chatContainer.setDisable(true);
-                //chatMessages.setDisable(true);
-                chatContainer.setPrefHeight(500);
-                chatContent.setContent(chatMessages); //scrollPane contains Vbox with messages
-                chatContent.setPrefHeight(450);
-                chatContent.setPrefWidth(Region.USE_COMPUTED_SIZE);
-                chatContent.setFitToWidth(true);
-                chatContent.setFitToHeight(true);
-
-                HBox messageBox = new HBox(); //used for the textField and the button on the bottom
-                TextField sendMessage = new TextField();
-
-
-                Button sendButton = new Button("Send");
-                sendButton.getStyleClass().add("send-button");
-                messageBox.getChildren().addAll(sendMessage, sendButton);
-                messageBox.setSpacing(10);
-                messageBox.setMinHeight(33);
-                messageBox.setMaxHeight(33);
-                messageBox.setPadding(new Insets(5,5,5,5));
-
-                handleOnActionChat(sendButton, sendMessage);
-                handleOnKeyPress(sendMessage);
-
-                sendMessage.setPromptText("Write your message here...");
-
-                // Set HBox growth for sendMessage
-                HBox.setHgrow(sendMessage, Priority.ALWAYS);
-                sendMessage.setMinHeight(24);
-                sendMessage.setMaxHeight(24);
-                sendMessage.setMaxWidth(300);
-                sendMessage.getStyleClass().add("text-field-chat");
-
-                // Create a spacer
-                Region spacer = new Region();
-                HBox.setHgrow(spacer, Priority.ALWAYS);
-
-                chatContainer.getChildren().addAll(chatContent, messageBox);
-                chatTab.setContent(chatContainer);
-
-                chatTabPane.getTabs().add(chatTab);
-                chatTabPane.getStyleClass().add("tab-pane-chat");
 
             }
-            chatTitledPane.setExpanded(false);
-            chatTitledPane.setOnMouseClicked(event -> {
-                Platform.runLater(() -> {
-                    chatTitledPane.toFront();
-                    circleChat.setVisible(false);
-                });
+            VBox chatContainer = new VBox(); //contains che messages of a chat
+            ScrollPane chatContent = new ScrollPane();
+            VBox chatMessages = new VBox();
+            chatMessages.getStyleClass().add("vbox-background");
+            chatContainer.getStyleClass().add("vbox-background");
+            chatContent.getStyleClass().add("vbox-background");
+
+
+            //chatContainer.setDisable(true);
+            //chatMessages.setDisable(true);
+            chatContainer.setPrefHeight(500);
+            chatContent.setContent(chatMessages); //scrollPane contains Vbox with messages
+            chatContent.setPrefHeight(450);
+            chatContent.setPrefWidth(Region.USE_COMPUTED_SIZE);
+            chatContent.setFitToWidth(true);
+            chatContent.setFitToHeight(true);
+
+            HBox messageBox = new HBox(); //used for the textField and the button on the bottom
+            TextField sendMessage = new TextField();
+
+
+            Button sendButton = new Button("Send");
+            sendButton.getStyleClass().add("send-button");
+            messageBox.getChildren().addAll(sendMessage, sendButton);
+            messageBox.setSpacing(10);
+            messageBox.setMinHeight(33);
+            messageBox.setMaxHeight(33);
+            messageBox.setPadding(new Insets(5, 5, 5, 5));
+
+            handleOnActionChat(sendButton, sendMessage);
+            handleOnKeyPress(sendMessage);
+
+            sendMessage.setPromptText("Write your message here...");
+
+            // Set HBox growth for sendMessage
+            HBox.setHgrow(sendMessage, Priority.ALWAYS);
+            sendMessage.setMinHeight(24);
+            sendMessage.setMaxHeight(24);
+            sendMessage.setMaxWidth(300);
+            sendMessage.getStyleClass().add("text-field-chat");
+
+            // Create a spacer
+            Region spacer = new Region();
+            HBox.setHgrow(spacer, Priority.ALWAYS);
+
+            chatContainer.getChildren().addAll(chatContent, messageBox);
+            chatTab.setContent(chatContainer);
+
+            chatTabPane.getTabs().add(chatTab);
+            chatTabPane.getStyleClass().add("tab-pane-chat");
+
+        }
+        chatTitledPane.setExpanded(false);
+        chatTitledPane.setOnMouseClicked(event -> {
+            Platform.runLater(() -> {
+                chatTitledPane.toFront();
+                circleChat.setVisible(false);
             });
+        });
 
     }
 
@@ -165,7 +168,7 @@ public class PlaceStarterCardSceneController extends GenericController{
         });
     }
 
-    void handleOnActionChat(Button button, TextField textField){
+    void handleOnActionChat(Button button, TextField textField) {
         button.setOnAction(event -> {
             sendChatMessage();
             textField.clear();
@@ -173,12 +176,12 @@ public class PlaceStarterCardSceneController extends GenericController{
         });
     }
 
-    void sendChatMessage(){
+    void sendChatMessage() {
         try {
             Tab currentTab = chatTabPane.getSelectionModel().getSelectedItem();
             String receiver = currentTab.getText();
             String content = getSendMessageFieldFromTab(currentTab).getText();
-            if(!content.trim().isEmpty()) {
+            if (!content.trim().isEmpty()) {
                 Command command = new SendMessageCommand(Gui.getInstance().getClient().getMiniModel().getPlayer(), receiver, content);
                 Gui.getInstance().getClient().sendCommand(command);
             }
@@ -190,7 +193,8 @@ public class PlaceStarterCardSceneController extends GenericController{
     /**
      * method implemented from {@link GenericController},
      * invoked by Gui when a message is sent by a player in the chat
-     * @param chat the chat where the message is sent
+     *
+     * @param chat      the chat where the message is sent
      * @param miniModel the miniModel of the player
      */
     public void overwriteChat(ClientChat chat, MiniModel miniModel) {
@@ -208,13 +212,15 @@ public class PlaceStarterCardSceneController extends GenericController{
 
         });
     }
+
     private VBox getChatMessagesVBox(Tab chatTab) {
         VBox chatContainer = (VBox) chatTab.getContent();
         ScrollPane chatContent = (ScrollPane) chatContainer.getChildren().getFirst();
         chatContent.setVvalue(1.0); //non so se si mette qui
         return (VBox) chatContent.getContent();
     }
-    private  TextField getSendMessageFieldFromTab(Tab tab) {
+
+    private TextField getSendMessageFieldFromTab(Tab tab) {
         if (tab.getContent() instanceof VBox) {
             VBox chatContainer = (VBox) tab.getContent();
             if (chatContainer.getChildren().size() > 1 && chatContainer.getChildren().get(1) instanceof HBox) {
@@ -225,7 +231,8 @@ public class PlaceStarterCardSceneController extends GenericController{
                     }
                 }
             }
-        }return null;
+        }
+        return null;
     }
     //end chat methods
 
@@ -237,14 +244,14 @@ public class PlaceStarterCardSceneController extends GenericController{
      */
     @FXML
     public void sendStarter(MouseEvent event) throws IOException {
-        if(event.getSource().equals(frontStarterButton)){
+        if (event.getSource().equals(frontStarterButton)) {
             Command comm = new AddStarterCommand(Gui.getInstance().getClient().getUsername(), true);
             Gui.getInstance().getClient().sendCommand(comm);
         } else {
             Command comm = new AddStarterCommand(Gui.getInstance().getClient().getUsername(), false);
             Gui.getInstance().getClient().sendCommand(comm);
         }
-        if(Gui.getInstance().isGameOn()) {
+        if (Gui.getInstance().isGameOn()) {
             Platform.runLater(() -> {
                 try {
                     ((ChooseObjectiveSceneController) Gui.getInstance()
@@ -255,7 +262,7 @@ public class PlaceStarterCardSceneController extends GenericController{
                     throw new RuntimeException(e);
                 }
             });
-        }else{
+        } else {
             gameSuspendedLabel.setVisible(true);
         }
     }
@@ -264,7 +271,7 @@ public class PlaceStarterCardSceneController extends GenericController{
      * Sets the label used to notify the game suspension to not visible
      */
     @Override
-    public void otherPlayerReconnected(){
+    public void otherPlayerReconnected() {
         gameSuspendedLabel.setVisible(false);
     }
 
@@ -287,8 +294,6 @@ public class PlaceStarterCardSceneController extends GenericController{
         Image image = new Image(imagePath);
         backStarter.setImage(image);
     }
-
-
 
 
 }

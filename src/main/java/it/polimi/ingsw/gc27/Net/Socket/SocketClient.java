@@ -111,6 +111,7 @@ public class SocketClient implements VirtualView {
 
     /**
      * take the update from the server and put it in the messages queue
+     *
      * @param message The update from the server.
      */
     @Override

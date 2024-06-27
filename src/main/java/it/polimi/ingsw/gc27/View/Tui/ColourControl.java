@@ -37,8 +37,7 @@ public class ColourControl {
     public static final String BLUE_BRIGHT = "\033[0;94m";   // BLUE
 
 
-
-    public static String get(PawnColour pawnColour){
+    public static String get(PawnColour pawnColour) {
         return switch (pawnColour) {
             case RED -> RED_BRIGHT;
             case YELLOW -> YELLOW_BRIGHT;

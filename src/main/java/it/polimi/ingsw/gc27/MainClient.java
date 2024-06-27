@@ -26,7 +26,7 @@ public class MainClient {
      *
      * @param args The command-line arguments.
      */
-    public static void main(String[] args)  {
+    public static void main(String[] args) {
 
         // Default values
         String ipAddress = "localhost";
@@ -118,7 +118,7 @@ public class MainClient {
 
         try {
             client.runClient();
-        }catch(RemoteException e){
+        } catch (RemoteException e) {
             System.out.println("Problem with connection");
             System.exit(0);
         }

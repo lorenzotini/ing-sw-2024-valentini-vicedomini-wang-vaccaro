@@ -50,7 +50,7 @@ public class Tui implements View {
         chatters.addFirst("Global");
     }
 
-    private void printHelp(){
+    private void printHelp() {
         out.println("╔═══ Commands ══════════════════════════════════╗");
         out.println("║ " + ColourControl.YELLOW_BOLD + "addstarter" + ColourControl.RESET + " - add a starter card to your board ║");
         out.println("║ " + ColourControl.YELLOW_BOLD + "chooseobj" + ColourControl.RESET + " - choose an objective card          ║");
@@ -71,6 +71,7 @@ public class Tui implements View {
     /**
      * Runs the game by displaying the title and starting the game interface.
      * The game loop continuously reads user input and handles it based on the current game state.
+     *
      * @throws IOException if an I/O error occurs.
      */
     @Override
@@ -82,9 +83,9 @@ public class Tui implements View {
 
         try {
 
-        printHelp();
+            printHelp();
 
-        chatters.addAll(client.getMiniModel().getOtherPlayersUsernames());
+            chatters.addAll(client.getMiniModel().getOtherPlayersUsernames());
 
             while (true) {
 
@@ -102,9 +103,9 @@ public class Tui implements View {
 
                 switch (command.toLowerCase()) {
 
-                case "help":
-                    printHelp();
-                    break;
+                    case "help":
+                        printHelp();
+                        break;
 
                     case "addstarter":
                         synchronized (this) {
@@ -212,7 +213,7 @@ public class Tui implements View {
                                         String cardType = words[0];
                                         boolean fromDeck = check(words[1], "true", "false");
                                         int faceUpIndex = Integer.parseInt(words[2]);
-                                        boolean isGold = check(cardType,"gold","res");
+                                        boolean isGold = check(cardType, "gold", "res");
                                         Command comm = new DrawCardCommand(client.getUsername(), isGold, fromDeck, faceUpIndex);
                                         client.sendCommand(comm);
                                         break;
@@ -1076,19 +1077,19 @@ public class Tui implements View {
         return copy;
     }
 
-    private boolean check(String f, String conf1, String conf2){
-        if(f.equalsIgnoreCase(conf1)){
+    private boolean check(String f, String conf1, String conf2) {
+        if (f.equalsIgnoreCase(conf1)) {
             return true;
 
-        }else if (f.equalsIgnoreCase(conf2)){
+        } else if (f.equalsIgnoreCase(conf2)) {
             return false;
-        }else{
+        } else {
             throw new InputMismatchException("invalid input");
         }
     }
 
     private void showTitle() {
-        synchronized (this){
+        synchronized (this) {
             out.println("\n" +
                     " ██████╗ ██████╗ ██████╗ ███████╗██╗  ██╗    ███╗   ██╗ █████╗ ████████╗██╗   ██╗██████╗  █████╗ ██╗     ██╗███████╗\n" +
                     "██╔════╝██╔═══██╗██╔══██╗██╔════╝╚██╗██╔╝    ████╗  ██║██╔══██╗╚══██╔══╝██║   ██║██╔══██╗██╔══██╗██║     ██║██╔════╝\n" +

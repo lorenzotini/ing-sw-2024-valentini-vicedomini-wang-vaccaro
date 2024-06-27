@@ -41,7 +41,7 @@ public enum Kingdom implements Serializable {
      *
      * @return The corresponding CornerSymbol.
      */
-    public CornerSymbol toCornerSymbol(){
+    public CornerSymbol toCornerSymbol() {
         return switch (this) {
             case FUNGIKINGDOM -> CornerSymbol.FUNGI;
             case PLANTKINGDOM -> CornerSymbol.PLANT;
@@ -57,7 +57,7 @@ public enum Kingdom implements Serializable {
      *
      * @return The corresponding ANSI color escape codes for CLI output.
      */
-    public String toColourControl(){
+    public String toColourControl() {
         return switch (this) {
             case FUNGIKINGDOM -> ColourControl.RED;
             case PLANTKINGDOM -> ColourControl.GREEN;
@@ -66,7 +66,6 @@ public enum Kingdom implements Serializable {
             case EMPTY -> ColourControl.YELLOW;
         };
     }
-
 
 
 }

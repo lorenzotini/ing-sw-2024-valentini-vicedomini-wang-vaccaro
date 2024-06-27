@@ -18,6 +18,7 @@ public class UpdateChatMessage extends Message {
 
     /**
      * constructor matching super {@link Message}
+     *
      * @param chat global chat message
      */
     public UpdateChatMessage(Chat chat) {
@@ -26,8 +27,9 @@ public class UpdateChatMessage extends Message {
 
     /**
      * constructor matching super {@link Message}
-     * @param chat private chat message
-     * @param player player sender
+     *
+     * @param chat     private chat message
+     * @param player   player sender
      * @param receiver player receiver
      */
     public UpdateChatMessage(Chat chat, Player player, String receiver) {
@@ -37,8 +39,9 @@ public class UpdateChatMessage extends Message {
     /**
      * Reports the update to the specified VirtualView and View
      * This method updates the chat state on the client side and displays it on the associated View
+     *
      * @param client The VirtualView to report the update to.
-     * @param view The View to report the update to.
+     * @param view   The View to report the update to.
      */
     @Override
     public void reportUpdate(VirtualView client, View view) {

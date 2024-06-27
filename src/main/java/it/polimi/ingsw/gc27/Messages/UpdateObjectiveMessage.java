@@ -15,6 +15,7 @@ public class UpdateObjectiveMessage extends Message {
 
     /**
      * constructor matching super {@link Message}
+     *
      * @param miniModel mini model
      */
     public UpdateObjectiveMessage(MiniModel miniModel) {
@@ -25,8 +26,9 @@ public class UpdateObjectiveMessage extends Message {
      * Reports the update to the specified VirtualView and View
      * This method updates the client's MiniModel with the player's information from the MiniModel,
      * and then displays a message indicating that the player has chosen their secret objective
+     *
      * @param client The VirtualView to report the update to.
-     * @param view The View to report the update to.
+     * @param view   The View to report the update to.
      */
     @Override
     public void reportUpdate(VirtualView client, View view) {
@@ -34,7 +36,7 @@ public class UpdateObjectiveMessage extends Message {
         try {
             client.getMiniModel().setPlayer(this.getMiniModel().getPlayer());
             view.showString(this.string);
-        }catch(RemoteException e){
+        } catch (RemoteException e) {
             System.out.println("Error while updating secret objective");
         }
     }

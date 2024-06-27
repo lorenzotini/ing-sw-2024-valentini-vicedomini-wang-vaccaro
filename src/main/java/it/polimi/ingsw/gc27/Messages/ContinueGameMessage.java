@@ -9,10 +9,11 @@ import it.polimi.ingsw.gc27.View.View;
  * after the disconnection a player, resuming the game flow
  * It extends the {@link Message} class and implements the reportUpdate method.
  */
-public class ContinueGameMessage extends Message{
+public class ContinueGameMessage extends Message {
 
     /**
      * constructor matching super {@link Message}
+     *
      * @param miniModel mini model
      */
     public ContinueGameMessage(MiniModel miniModel) {
@@ -22,8 +23,9 @@ public class ContinueGameMessage extends Message{
     /**
      * Reports the update to the specified VirtualView and View
      * This method resumes the match in the view
+     *
      * @param client The VirtualView to report the update to
-     * @param view The View to report the update to
+     * @param view   The View to report the update to
      */
     @Override
     public void reportUpdate(VirtualView client, View view) {

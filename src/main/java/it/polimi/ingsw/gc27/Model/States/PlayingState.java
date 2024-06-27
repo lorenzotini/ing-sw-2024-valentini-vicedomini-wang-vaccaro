@@ -51,7 +51,7 @@ public class PlayingState extends PlayerState {
             //shows on screen that a card was played successfully
             //...
             getPlayer().setPlayerState(new DrawingState(getPlayer(), getTurnHandler()));
-            Message updatePlayerStateMessage=new UpdatePlayerStateMessage(new MiniModel(getPlayer(), game));
+            Message updatePlayerStateMessage = new UpdatePlayerStateMessage(new MiniModel(getPlayer(), game));
             //update message
             Message updateHandMessage = new UpdateHandMessage(new MiniModel(player));
 
@@ -64,9 +64,9 @@ public class PlayingState extends PlayerState {
             turnHandler.getGame().notifyObservers(updateOtherManuscriptMessage);
 
 
-        } else if((face instanceof FrontFace) && !(player.getManuscript().satisfiedRequirement((ResourceCard) card))){
+        } else if ((face instanceof FrontFace) && !(player.getManuscript().satisfiedRequirement((ResourceCard) card))) {
             super.sendError("You don't have enough resource, change card or place it in the back.", player, turnHandler);
-        }else{
+        } else {
             super.sendError("Invalid Placement, try again.", player, turnHandler);
         }
 
@@ -80,11 +80,12 @@ public class PlayingState extends PlayerState {
     public void addStarterCard(Game game, StarterCard starterCard, Face face) {
         super.sendError("Just play a ******* card!", player, turnHandler);
     }
+
     /**
      * method implemented from {@link PlayerState}, according to the State Pattern principle
      */
     @Override
-    public String toStringGUI(){
+    public String toStringGUI() {
         return "It's your turn to play!";
     }
 }

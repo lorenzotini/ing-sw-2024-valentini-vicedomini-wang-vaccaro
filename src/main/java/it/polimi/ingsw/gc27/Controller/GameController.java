@@ -93,6 +93,7 @@ public class GameController implements Serializable {
 
     /**
      * Allows the player to choose an objective card
+     *
      * @param player             The player
      * @param objectiveCardIndex The index of the objective card
      */
@@ -102,6 +103,7 @@ public class GameController implements Serializable {
 
     /**
      * Adds the starter card to the player's manuscript
+     *
      * @param player  The player
      * @param starter The starter card
      * @param face    The face of the card (face up or face  down)
@@ -112,6 +114,7 @@ public class GameController implements Serializable {
 
     /**
      * Suspends a player by marking them as disconnected and handling their disconnection
+     *
      * @param player The player to suspend
      */
     public void suspendPlayer(Player player) {
@@ -304,8 +307,8 @@ public class GameController implements Serializable {
                         System.out.println("The game: " + id + " has been closed");
                         suspended = false;
                         inMatch = false;
-                        for(Player p : game.getPlayers()){
-                            if(!p.isDisconnected()){
+                        for (Player p : game.getPlayers()) {
+                            if (!p.isDisconnected()) {
                                 game.getBoard().setLastAlive(p);
                             }
                         }
@@ -314,9 +317,9 @@ public class GameController implements Serializable {
                         console.closeGame(this);
                     }
                 }
-                try{
+                try {
                     Thread.sleep(1);
-                }catch(InterruptedException e){
+                } catch (InterruptedException e) {
                     System.out.println("Thread exception 333");
                 }
             }
@@ -332,10 +335,9 @@ public class GameController implements Serializable {
             }
 
             synchronized (this) {
-                if(command instanceof SuspendPlayerCommand){
+                if (command instanceof SuspendPlayerCommand) {
                     command.execute(this);
-                }
-                else if (command instanceof ReconnectPlayerCommand ) {
+                } else if (command instanceof ReconnectPlayerCommand) {
                     command.execute(this);
                     if (!game.isSuspended()) {
                         game.notifyObservers(new ContinueGameMessage(new MiniModel(game)));
@@ -367,7 +369,10 @@ public class GameController implements Serializable {
     public TurnHandler getTurnHandler() {
         return turnHandler;
     }
-    public void setTurnHandler(TurnHandler turnHandler) {this.turnHandler = turnHandler;}
+
+    public void setTurnHandler(TurnHandler turnHandler) {
+        this.turnHandler = turnHandler;
+    }
 
     /**
      * Gets the unique id of the game
@@ -396,10 +401,12 @@ public class GameController implements Serializable {
     public Player getPlayer(String username) {
         return getGame().getPlayer(username);
     }
+
     public BlockingQueue<Command> getCommands() {
         return commands;
     }
-    public void setInMatch(boolean f){
+
+    public void setInMatch(boolean f) {
         this.inMatch = f;
     }
 

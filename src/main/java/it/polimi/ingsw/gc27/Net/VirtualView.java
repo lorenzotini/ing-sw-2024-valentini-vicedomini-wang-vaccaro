@@ -31,7 +31,7 @@ public interface VirtualView extends Remote, Serializable {
      * @return The input read from the client.
      * @throws IOException If an I/O error occurs.
      */
-    String read() throws IOException ;
+    String read() throws IOException;
 
     /**
      * Sets the username of the client.
@@ -46,7 +46,7 @@ public interface VirtualView extends Remote, Serializable {
      *
      * @throws RemoteException If a net Exception occurs.
      */
-    void runClient() throws RemoteException ;
+    void runClient() throws RemoteException;
 
     /**
      * Gets the username of the client.

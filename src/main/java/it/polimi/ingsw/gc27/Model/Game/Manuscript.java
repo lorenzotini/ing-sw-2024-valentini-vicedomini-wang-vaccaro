@@ -45,6 +45,7 @@ public class Manuscript implements Serializable, ClientManuscript {
 
     /**
      * checks if the placement of a specific card is valid or not
+     *
      * @param x position index
      * @param y position index
      * @return boolean
@@ -70,6 +71,7 @@ public class Manuscript implements Serializable, ClientManuscript {
 
     /**
      * getter for playable placements
+     *
      * @return arraylist of placement
      */
     @Override
@@ -79,6 +81,7 @@ public class Manuscript implements Serializable, ClientManuscript {
 
     /**
      * indicates if a card meets the requirements to be played and placed
+     *
      * @param card the specific card
      * @return boolean
      */
@@ -110,6 +113,7 @@ public class Manuscript implements Serializable, ClientManuscript {
 
     /**
      * getter that returns the amount of symbols present in the manuscript
+     *
      * @param cs corner symbol
      * @return the number of symbol in the manuscript
      */
@@ -129,6 +133,7 @@ public class Manuscript implements Serializable, ClientManuscript {
 
     /**
      * decreases the amount of symbols present in the manuscript
+     *
      * @param cs corner symbol
      */
     public void decreaseCounter(CornerSymbol cs) {
@@ -148,6 +153,7 @@ public class Manuscript implements Serializable, ClientManuscript {
 
     /**
      * increases the amount of symbols present in the manuscript
+     *
      * @param cs corner symbol
      */
     public void increaseCounter(CornerSymbol cs) {
@@ -167,6 +173,7 @@ public class Manuscript implements Serializable, ClientManuscript {
 
     /**
      * Gets the maximum X coordinate of the manuscript
+     *
      * @return The maximum X coordinate
      */
     @Override
@@ -176,6 +183,7 @@ public class Manuscript implements Serializable, ClientManuscript {
 
     /**
      * Sets the maximum X coordinate of the manuscript
+     *
      * @param x The maximum X coordinate to set
      */
     public void setxMax(int x) {
@@ -184,6 +192,7 @@ public class Manuscript implements Serializable, ClientManuscript {
 
     /**
      * Gets the maximum Y coordinate of the manuscript
+     *
      * @return The maximum Y coordinate
      */
     @Override
@@ -193,6 +202,7 @@ public class Manuscript implements Serializable, ClientManuscript {
 
     /**
      * Sets the maximum Y coordinate of the manuscript
+     *
      * @param y The maximum Y coordinate to set
      */
     public void setyMax(int y) {
@@ -201,6 +211,7 @@ public class Manuscript implements Serializable, ClientManuscript {
 
     /**
      * Gets the minimum X coordinate of the manuscript
+     *
      * @return The minimum X coordinate
      */
     @Override
@@ -210,6 +221,7 @@ public class Manuscript implements Serializable, ClientManuscript {
 
     /**
      * Sets the minimum X coordinate of the manuscript
+     *
      * @param x The minimum X coordinate to set
      */
     public void setxMin(int x) {
@@ -218,6 +230,7 @@ public class Manuscript implements Serializable, ClientManuscript {
 
     /**
      * Gets the minimum Y coordinate of the manuscript
+     *
      * @return The minimum Y coordinate
      */
     @Override
@@ -227,6 +240,7 @@ public class Manuscript implements Serializable, ClientManuscript {
 
     /**
      * Sets the minimum Y coordinate of the manuscript
+     *
      * @param y The minimum Y coordinate to set
      */
     public void setyMin(int y) {
@@ -245,6 +259,7 @@ public class Manuscript implements Serializable, ClientManuscript {
 
     /**
      * Gets the counter for the number of animal symbols in the manuscript
+     *
      * @return The count of animal symbols
      */
     @Override
@@ -254,6 +269,7 @@ public class Manuscript implements Serializable, ClientManuscript {
 
     /**
      * Gets the counter for the number of fungi symbols in the manuscript
+     *
      * @return The count of fungi symbols
      */
     @Override
@@ -263,6 +279,7 @@ public class Manuscript implements Serializable, ClientManuscript {
 
     /**
      * Gets the counter for the number of insect symbols in the manuscript
+     *
      * @return The count of insect symbols
      */
     @Override
@@ -272,6 +289,7 @@ public class Manuscript implements Serializable, ClientManuscript {
 
     /**
      * Gets the counter for the number of plant symbols in the manuscript
+     *
      * @return The count of plant symbols
      */
     @Override
@@ -281,6 +299,7 @@ public class Manuscript implements Serializable, ClientManuscript {
 
     /**
      * Gets the counter for the number of inkwell symbols in the manuscript
+     *
      * @return The count of inkwell symbols
      */
     @Override
@@ -290,6 +309,7 @@ public class Manuscript implements Serializable, ClientManuscript {
 
     /**
      * Gets the counter for the number of quill symbols in the manuscript
+     *
      * @return The count of quill symbols
      */
     @Override
@@ -299,6 +319,7 @@ public class Manuscript implements Serializable, ClientManuscript {
 
     /**
      * Gets the counter for the number of manuscript symbols in the manuscript
+     *
      * @return The count of manuscript symbols
      */
     @Override
@@ -309,6 +330,7 @@ public class Manuscript implements Serializable, ClientManuscript {
 
     /**
      * Sets the path of the last placed card on the manuscript
+     *
      * @param lastPlacedCardPath The path of the last placed card to set
      */
     public void setLastPlacedCardPath(String lastPlacedCardPath) {

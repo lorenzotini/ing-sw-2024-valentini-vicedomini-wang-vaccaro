@@ -18,16 +18,17 @@ public class Chat implements Serializable, ClientChat {
     /**
      * Default constructor. Initializes a global chat.
      */
-    public Chat(){
+    public Chat() {
         chatters.add("global");
     }
 
     /**
      * Constructor for a chat between two players.
+     *
      * @param player1 The first player in the chat.
      * @param player2 The second player in the chat.
      */
-    public Chat(Player player1, Player player2){
+    public Chat(Player player1, Player player2) {
         //creazione di una chat singola
         chatters.add(player1.getUsername());
         chatters.add(player2.getUsername());
@@ -35,14 +36,16 @@ public class Chat implements Serializable, ClientChat {
 
     /**
      * Adds a chat message to the chat
+     *
      * @param chatMessage the chat message to add
      */
-    public synchronized void addChatMessage(ChatMessage chatMessage){
+    public synchronized void addChatMessage(ChatMessage chatMessage) {
         chatMessages.add(chatMessage);
     }
 
     /**
      * Gets the list of chat participants
+     *
      * @return the list of chat participants
      */
     @Override
@@ -52,22 +55,24 @@ public class Chat implements Serializable, ClientChat {
 
     /**
      * Gets the list of chat messages
+     *
      * @return the list of chat messages
      */
     @Override
-    public ArrayList<ChatMessage> getChatMessages(){
+    public ArrayList<ChatMessage> getChatMessages() {
         return new ArrayList<>(this.chatMessages);
     }
 
     /**
      * Checks if a username is a participant of the chat
+     *
      * @param username the username to check
      * @return true if the username is a participant, false otherwise
      */
     @Override
-    public boolean contains(String username){
-        for(String p : getChatters()){
-            if(p.equals(username)){
+    public boolean contains(String username) {
+        for (String p : getChatters()) {
+            if (p.equals(username)) {
                 return true;
             }
         }

@@ -15,6 +15,7 @@ public class UpdatePlayerStateMessage extends Message {
 
     /**
      * constructor matching super {@link Message}
+     *
      * @param miniModel mini model
      */
     public UpdatePlayerStateMessage(MiniModel miniModel) {
@@ -25,15 +26,16 @@ public class UpdatePlayerStateMessage extends Message {
      * Reports the update to the specified VirtualView and View.
      * This method updates the client's MiniModel with the player from the MiniModel,
      * and then acknowledges the update with an OK acknowledgment message on the associated View.
+     *
      * @param client The VirtualView to report the update to.
-     * @param view The View to report the update to.
+     * @param view   The View to report the update to.
      */
     @Override
     public void reportUpdate(VirtualView client, View view) {
-        try{
+        try {
             client.getMiniModel().setPlayer(this.getMiniModel().getPlayer());
             view.okAck(string);
-        }catch(RemoteException e){
+        } catch (RemoteException e) {
             e.printStackTrace();
         }
     }

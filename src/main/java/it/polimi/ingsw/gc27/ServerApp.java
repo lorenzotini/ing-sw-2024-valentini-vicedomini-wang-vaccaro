@@ -29,7 +29,7 @@ public class ServerApp {
      * The main method that starts the server application.
      *
      * @param args The command-line arguments.
-     * @throws IOException If an I/O error occurs.
+     * @throws IOException          If an I/O error occurs.
      * @throws InterruptedException If the operation is interrupted.
      */
     public static void main(String[] args) throws IOException, InterruptedException {

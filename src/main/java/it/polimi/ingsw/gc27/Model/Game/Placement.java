@@ -16,6 +16,7 @@ public class Placement implements Serializable {
 
     /**
      * Constructs a Placement with the specified x and y coordinates
+     *
      * @param x The x-coordinate of the placement
      * @param y The y-coordinate of the placement
      */

@@ -11,6 +11,7 @@ public class KoMessage extends Message {
 
     /**
      * constructor matching super {@link Message}
+     *
      * @param string string message
      */
     public KoMessage(String string) {
@@ -20,8 +21,9 @@ public class KoMessage extends Message {
     /**
      * Reports the update to the specified VirtualView and View
      * This method sends a negative acknowledgment
+     *
      * @param client The VirtualView to report the update to
-     * @param view The View to report the update to
+     * @param view   The View to report the update to
      */
     @Override
     public void reportUpdate(VirtualView client, View view) {

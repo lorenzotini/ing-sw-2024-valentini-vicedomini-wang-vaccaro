@@ -13,11 +13,12 @@ public class ChatMessage implements Serializable {
 
     /**
      * Constructs a ChatMessage with the specified sender, receiver, and message
-     * @param sender the sender of the message
+     *
+     * @param sender   the sender of the message
      * @param receiver the receiver of the message
-     * @param content the message's content
+     * @param content  the message's content
      */
-    public ChatMessage(String sender, String receiver, String content){
+    public ChatMessage(String sender, String receiver, String content) {
 
         this.sender = sender;
         this.receiver = receiver;
@@ -27,6 +28,7 @@ public class ChatMessage implements Serializable {
 
     /**
      * Gets the sender of the message
+     *
      * @return the sender of the message
      */
     public String getSender() {
@@ -35,6 +37,7 @@ public class ChatMessage implements Serializable {
 
     /**
      * Gets the receiver of the message
+     *
      * @return the receiver of the message
      */
     public String getReceiver() {
@@ -43,6 +46,7 @@ public class ChatMessage implements Serializable {
 
     /**
      * Gets the content of the message
+     *
      * @return the content of the message
      */
     public String getContent() {

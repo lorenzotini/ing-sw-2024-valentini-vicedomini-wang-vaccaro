@@ -30,6 +30,7 @@ public class TurnHandler implements Serializable {
 
     /**
      * constructor of the players' turn handler
+     *
      * @param game which game
      */
     public TurnHandler(Game game, GameController gameController) {
@@ -62,37 +63,38 @@ public class TurnHandler implements Serializable {
             do {
 
                 Player p = players.get(i);
-                if(!p.isDisconnected()) {
+                if (!p.isDisconnected()) {
                     p.setPlayerState(new PlayingState(p, this));
-                    Message updatePlayerStateMessage = new UpdatePlayerStateMessage(new MiniModel(p,game));
+                    Message updatePlayerStateMessage = new UpdatePlayerStateMessage(new MiniModel(p, game));
                     this.game.notifyObservers(updatePlayerStateMessage);
 
                     Message yourTurnToPlayMessage = new YourTurnMessage(new MiniModel(p), "");
                     this.game.notifyObservers(yourTurnToPlayMessage);
 
-                    for(Player otherPlayer: players) {
-                        if( !otherPlayer.equals(p)){
+                    for (Player otherPlayer : players) {
+                        if (!otherPlayer.equals(p)) {
                             String state = otherPlayer.getPlayerState().toString();
-                            if(state.equalsIgnoreCase("WaitingState")){
+                            if (state.equalsIgnoreCase("WaitingState")) {
                                 WaitingState playerState = (WaitingState) otherPlayer.getPlayerState();
                                 playerState.setCurrentPlayer(p);
-                                UpdatePlayerStateMessage ok=new UpdatePlayerStateMessage(new MiniModel(otherPlayer));
+                                UpdatePlayerStateMessage ok = new UpdatePlayerStateMessage(new MiniModel(otherPlayer));
                                 this.game.notifyObservers(ok);
                             }
                         }
                     }
 
                     break;
-                }else{
+                } else {
                     i++;
                 }
-            }while(i < players.size());
+            } while (i < players.size());
         }
     }
 
     /**
      * this method will be executed at the end of a player's turn, it will check the end game points threshold,
      * handle the last turn and handle the turn passing
+     *
      * @param player which player ended the turn
      */
     public void notifyEndOfTurnState(Player player) {
@@ -115,7 +117,7 @@ public class TurnHandler implements Serializable {
         if (!lastRound) {
 
             // Set to waiting state the player that just finished his turn
-            WaitingState waitingState=new WaitingState(players.get(index), this);
+            WaitingState waitingState = new WaitingState(players.get(index), this);
             players.get(index).setPlayerState(waitingState);
 
             updatePlayerStateMessage = new UpdatePlayerStateMessage(new MiniModel(player, game));
@@ -124,27 +126,27 @@ public class TurnHandler implements Serializable {
             if (getNextOf(index, players).isDisconnected()) {  // the next player is disconnected --> skip him
 
                 int i = 0;
-                while(getNextOf(index + i, players).isDisconnected()){
+                while (getNextOf(index + i, players).isDisconnected()) {
                     i++;
-                    if(index == players.size()){
+                    if (index == players.size()) {
                         //supendGame();
-                        return ;
+                        return;
                     }
                 }
 
                 getNextOf(index + i, players).setPlayerState(new PlayingState(getNextOf(index + i, players), this));
-                updatePlayerStateMessage = new UpdatePlayerStateMessage(new MiniModel(getNextOf(index + i, players),game.getBoard()));
+                updatePlayerStateMessage = new UpdatePlayerStateMessage(new MiniModel(getNextOf(index + i, players), game.getBoard()));
                 this.game.notifyObservers(updatePlayerStateMessage);
-                Message yourTurnToPlayMessage = new YourTurnMessage(new MiniModel(getNextOf(index+i, players)), "");
+                Message yourTurnToPlayMessage = new YourTurnMessage(new MiniModel(getNextOf(index + i, players)), "");
                 this.game.notifyObservers(yourTurnToPlayMessage);
                 // other players are updated about the current player
-                for(Player otherPlayers: players){
-                    if( !otherPlayers.equals(getNextOf(index, players))){
+                for (Player otherPlayers : players) {
+                    if (!otherPlayers.equals(getNextOf(index, players))) {
                         String state = otherPlayers.getPlayerState().toString();
-                        if(state.equalsIgnoreCase("WaitingState")){
+                        if (state.equalsIgnoreCase("WaitingState")) {
                             WaitingState playerState = (WaitingState) otherPlayers.getPlayerState();
                             playerState.setCurrentPlayer(getNextOf(index, players));
-                            UpdatePlayerStateMessage ok=new UpdatePlayerStateMessage(new MiniModel(otherPlayers));
+                            UpdatePlayerStateMessage ok = new UpdatePlayerStateMessage(new MiniModel(otherPlayers));
                             this.game.notifyObservers(ok);
                         }
                     }
@@ -153,18 +155,18 @@ public class TurnHandler implements Serializable {
             } else { // the next player is connected
 
                 getNextOf(index, players).setPlayerState(new PlayingState(getNextOf(index, players), this));
-                updatePlayerStateMessage = new UpdatePlayerStateMessage(new MiniModel(getNextOf(index, players),game.getBoard()));
+                updatePlayerStateMessage = new UpdatePlayerStateMessage(new MiniModel(getNextOf(index, players), game.getBoard()));
                 this.game.notifyObservers(updatePlayerStateMessage);
-                Message yourTurnToPlayMessage = new YourTurnMessage(new MiniModel(getNextOf(index,players)), "");
+                Message yourTurnToPlayMessage = new YourTurnMessage(new MiniModel(getNextOf(index, players)), "");
                 this.game.notifyObservers(yourTurnToPlayMessage);
                 // other players are updated about the current player
-                for(Player otherPlayers: players){
-                    if( !otherPlayers.equals(getNextOf(index, players))){
+                for (Player otherPlayers : players) {
+                    if (!otherPlayers.equals(getNextOf(index, players))) {
                         String state = otherPlayers.getPlayerState().toString();
-                        if(state.equalsIgnoreCase("WaitingState")){
+                        if (state.equalsIgnoreCase("WaitingState")) {
                             WaitingState playerState = (WaitingState) otherPlayers.getPlayerState();
                             playerState.setCurrentPlayer(getNextOf(index, players));
-                            UpdatePlayerStateMessage ok=new UpdatePlayerStateMessage(new MiniModel(otherPlayers));
+                            UpdatePlayerStateMessage ok = new UpdatePlayerStateMessage(new MiniModel(otherPlayers));
                             this.game.notifyObservers(ok);
                         }
                     }
@@ -175,16 +177,16 @@ public class TurnHandler implements Serializable {
 
             if (twentyPointsReached && game.getPlayers().getLast().equals(game.getPlayers().get(index))) {
                 lastRound = true; // once someone gets 20 points, only if the round is finished you can trigger the last round
-                Message lastRoundMessage = new LastRoundMessage(new MiniModel(game),"It's the last turn!");
+                Message lastRoundMessage = new LastRoundMessage(new MiniModel(game), "It's the last turn!");
                 this.game.notifyObservers(lastRoundMessage);
             }
 
         } else {
 
             players.get(index).setPlayerState(new EndingState(players.get(index), this));
-            updatePlayerStateMessage = new UpdatePlayerStateMessage(new MiniModel(player,game.getBoard()));
+            updatePlayerStateMessage = new UpdatePlayerStateMessage(new MiniModel(player, game.getBoard()));
             this.game.notifyObservers(updatePlayerStateMessage);
-            for(Player otherPlayers: players){
+            for (Player otherPlayers : players) {
             }
 
             this.notifyCalculateObjectivePoints(players.get(index));
@@ -192,23 +194,23 @@ public class TurnHandler implements Serializable {
             if (getNextOf(index, players).isDisconnected()) { // the next player is disconnected --> find the next connected player
 
                 int i = 0;
-                while(getNextOf(index + i, players).isDisconnected()){
+                while (getNextOf(index + i, players).isDisconnected()) {
                     i++;
                 }
 
                 getNextOf(index + i, players).setPlayerState(new PlayingState(getNextOf(index + i, players), this));
-                updatePlayerStateMessage = new UpdatePlayerStateMessage(new MiniModel(getNextOf(index + i, players),game.getBoard()));
+                updatePlayerStateMessage = new UpdatePlayerStateMessage(new MiniModel(getNextOf(index + i, players), game.getBoard()));
                 this.game.notifyObservers(updatePlayerStateMessage);
-                Message yourTurnToPlayMessage = new YourTurnMessage(new MiniModel(getNextOf(index+i, players)), "");
+                Message yourTurnToPlayMessage = new YourTurnMessage(new MiniModel(getNextOf(index + i, players)), "");
                 this.game.notifyObservers(yourTurnToPlayMessage);
 
 
             } else { // the next player is connected
-                if(!(getNextOf(index, players).getPlayerState() instanceof EndingState)){
+                if (!(getNextOf(index, players).getPlayerState() instanceof EndingState)) {
                     getNextOf(index, players).setPlayerState(new PlayingState(getNextOf(index, players), this));
-                    updatePlayerStateMessage = new UpdatePlayerStateMessage(new MiniModel(getNextOf(index, players),game.getBoard()));
+                    updatePlayerStateMessage = new UpdatePlayerStateMessage(new MiniModel(getNextOf(index, players), game.getBoard()));
                     this.game.notifyObservers(updatePlayerStateMessage);
-                    Message yourTurnToPlayMessage = new YourTurnMessage(new MiniModel(getNextOf(index,players)), "");
+                    Message yourTurnToPlayMessage = new YourTurnMessage(new MiniModel(getNextOf(index, players)), "");
                     this.game.notifyObservers(yourTurnToPlayMessage);
                 }
             }
@@ -219,9 +221,10 @@ public class TurnHandler implements Serializable {
      * this method is executed when every player is in EndingState
      * this method will calculate and add the points scored by Objective cards
      * then finally, will display to the user the winner/winners of this game
+     *
      * @param player which player
      */
-    public void notifyCalculateObjectivePoints(Player player)  { // this method calculates the objective points and announces the winner/winners
+    public void notifyCalculateObjectivePoints(Player player) { // this method calculates the objective points and announces the winner/winners
 
         // verify that every player is in the ending state
         int points;
@@ -241,7 +244,7 @@ public class TurnHandler implements Serializable {
                 points = p.getSecretObjectives().getFirst().calculateObjectivePoints(p.getManuscript());
                 game.addPoints(p, points); // adding secret obj points to the respective player
             }
-            for (Player p: game.getPlayers()) {
+            for (Player p : game.getPlayers()) {
                 points = ((ObjectiveCard) game.getCommonObjective1()).calculateObjectivePoints(p.getManuscript());
                 points += ((ObjectiveCard) game.getCommonObjective2()).calculateObjectivePoints(p.getManuscript());
                 game.addPoints(p, points); // adding common obj points to the respective player
@@ -251,9 +254,9 @@ public class TurnHandler implements Serializable {
         }
     }
 
-    public void triggerEndingGameDueToNoMoreCards(){
+    public void triggerEndingGameDueToNoMoreCards() {
         lastRound = true;
-        Message lastRoundMessage = new LastRoundMessage(new MiniModel(game),"It's the last turn!");
+        Message lastRoundMessage = new LastRoundMessage(new MiniModel(game), "It's the last turn!");
         this.game.notifyObservers(lastRoundMessage);
     }
 
@@ -261,7 +264,7 @@ public class TurnHandler implements Serializable {
 
         String stateClassName = player.getPlayerState().getClass().getSimpleName();
 
-        switch(stateClassName){
+        switch (stateClassName) {
 
             case "InitializingState":
                 // automatically choose the starter card for the player
@@ -300,7 +303,7 @@ public class TurnHandler implements Serializable {
             default:
                 break;
         }
-        if(game.isSuspended()){
+        if (game.isSuspended()) {
             gc.suspendGame();
         }
 
@@ -309,7 +312,7 @@ public class TurnHandler implements Serializable {
     /**
      * displays the winner/winners to the users, and the general scoreboard
      */
-    public void sendWinnersToClient(){
+    public void sendWinnersToClient() {
 
         UpdateEndGameMessage winnerMessage = new UpdateEndGameMessage(new MiniModel(game));
         this.game.notifyObservers(winnerMessage);
@@ -318,7 +321,8 @@ public class TurnHandler implements Serializable {
 
     /**
      * get the next player from the list of players
-     * @param index index of the current player
+     *
+     * @param index   index of the current player
      * @param players the list of players
      * @return the next player in line
      * @requires index < players.size()
@@ -333,6 +337,7 @@ public class TurnHandler implements Serializable {
 
     /**
      * Gets the game which turns are handled by the TurnHandler
+     *
      * @return the game
      */
     public Game getGame() {
@@ -341,12 +346,12 @@ public class TurnHandler implements Serializable {
 
     public void handleReconnection(Player player) {
         boolean flag = true;
-        for(Player p : game.getPlayers()){
-            if(!p.getPlayerState().toString().equals("WaitingState")){
+        for (Player p : game.getPlayers()) {
+            if (!p.getPlayerState().toString().equals("WaitingState")) {
                 flag = false;
             }
         }
-        if(flag && !game.isSuspended()){
+        if (flag && !game.isSuspended()) {
             player.setPlayerState(new PlayingState(player, this));
             game.notifyObservers(new UpdatePlayerStateMessage(new MiniModel(player, game)));
         }

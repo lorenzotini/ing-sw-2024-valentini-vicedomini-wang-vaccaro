@@ -81,7 +81,7 @@ class PlayingStateTest {
     @Test
     void drawCard() {
         initializeGame();
-        p1.setPlayerState(new PlayingState(p1,new TurnHandler(g1)));
+        p1.setPlayerState(new PlayingState(p1,new TurnHandler(g1,gc1)));
         p1.getPlayerState().drawCard(p1, true,true,0);
 
         assertEquals(p1.getPlayerState().toString(), "PlayingState");
@@ -91,7 +91,7 @@ class PlayingStateTest {
     @Test
     void addCard() {
         initializeGame();
-        p1.setPlayerState(new PlayingState(p1,new TurnHandler(g1)));
+        p1.setPlayerState(new PlayingState(p1,new TurnHandler(g1, gc1)));
         //p1.getManuscript().getField()[42][42].
         p1.addCard(g1, resourceDeck.getFirst(),resourceDeck.getFirst().getFront(), 42,42);
 
@@ -101,7 +101,7 @@ class PlayingStateTest {
     @Test
     void addStarterCard() {
         initializeGame();
-        p1.setPlayerState(new PlayingState(p1,new TurnHandler(g1)));
+        p1.setPlayerState(new PlayingState(p1,new TurnHandler(g1, gc1)));
         p1.getPlayerState().addStarterCard(g1, starterDeck.getFirst(), starterDeck.getFirst().getFront());
         assertEquals(p1.getPlayerState().toString(), "PlayingState");
     }

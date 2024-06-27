@@ -128,8 +128,7 @@ public class TurnHandler implements Serializable {
                 int i = 0;
                 while (getNextOf(index + i, players).isDisconnected()) {
                     i++;
-                    if(index+i == players.size()){
-                        //suspendGame();
+                    if(i == players.size()){
                         return;
                     }
                 }
@@ -139,13 +138,14 @@ public class TurnHandler implements Serializable {
                 this.game.notifyObservers(updatePlayerStateMessage);
                 Message yourTurnToPlayMessage = new YourTurnMessage(new MiniModel(getNextOf(index + i, players)), "");
                 this.game.notifyObservers(yourTurnToPlayMessage);
+                Player nextOne = getNextOf(index + i, players);
                 // other players are updated about the current player
                 for (Player otherPlayers : players) {
-                    if (!otherPlayers.equals(getNextOf(index, players))) {
+                    if (! otherPlayers.equals(nextOne)) {
                         String state = otherPlayers.getPlayerState().toString();
                         if (state.equalsIgnoreCase("WaitingState")) {
                             WaitingState playerState = (WaitingState) otherPlayers.getPlayerState();
-                            playerState.setCurrentPlayer(getNextOf(index, players));
+                            playerState.setCurrentPlayer(nextOne);
                             UpdatePlayerStateMessage ok = new UpdatePlayerStateMessage(new MiniModel(otherPlayers));
                             this.game.notifyObservers(ok);
                         }

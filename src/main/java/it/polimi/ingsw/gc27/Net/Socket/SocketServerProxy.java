@@ -115,9 +115,9 @@ public class SocketServerProxy implements VirtualServer {
                     System.out.println("Thread exception");
                 }
             } else {
-                System.out.println("Ping not received: " + count);
-                //TODO togliere questa print poco prima dell'esame, tipo 15 min prima
-
+                if(count > 3) {
+                    System.out.println("Ping not received: " + count);
+                }
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {

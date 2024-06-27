@@ -13,15 +13,15 @@ public enum ScenePaths {
      * The paths to the FXML files of the various scenes.
      */
     STARTER("/fxml/StarterScene.fxml"), //scene number 0
-    CHOSEGAME("/fxml/ChooseGameScene.fxml"), //scene number 1
-    NEWGAME("/fxml/NewGameScene.fxml"), //scene number 2.1
-    JOINGAME("/fxml/JoinGameScene.fxml"), //scene number 2.2
-    LOGIN("/fxml/LoginScene.fxml"), //scene number 3
-    LOBBY("/fxml/LobbyScene.fxml"), //scene number 5
-    PLACESTARTER("/fxml/PlaceStarterCardScene.fxml"), //scene number 5
-    CHOOSEOBJ("/fxml/ChooseObjectiveScene.fxml"), //scene number 5
-    MANUSCRIPT("/fxml/ManuscriptScene.fxml"),
-    ENDING("/fxml/EndingScene.fxml");
+    CHOOSEGAME("/fxml/ChooseGameScene.fxml"), //scene number 1
+    NEWGAME ("/fxml/NewGameScene.fxml"), //scene number 2.1
+    JOINGAME ("/fxml/JoinGameScene.fxml"), //scene number 2.2
+    LOGIN ("/fxml/LoginScene.fxml"), //scene number 3
+    LOBBY ("/fxml/LobbyScene.fxml"), //scene number 5
+    PLACESTARTER ("/fxml/PlaceStarterCardScene.fxml"), //scene number 5
+    CHOOSEOBJ ("/fxml/ChooseObjectiveScene.fxml"), //scene number 5
+    MANUSCRIPT ("/fxml/ManuscriptScene.fxml"),
+    ENDING ("/fxml/EndingScene.fxml");
 
     private final String value;
 

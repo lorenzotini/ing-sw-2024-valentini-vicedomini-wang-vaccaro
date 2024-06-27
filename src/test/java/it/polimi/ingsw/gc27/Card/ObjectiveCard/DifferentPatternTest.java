@@ -35,6 +35,7 @@ class DifferentPatternTest {
     private static ResourceCard[] faceUpResources;
     private static GoldCard[] faceUpGolds;
 
+    //initializes game
     public  void initializeGame() {
 
         players1 = new ArrayList<>();
@@ -72,21 +73,11 @@ class DifferentPatternTest {
         faceUpGolds[1]=goldDeck.get(1);
         market=new Market(resourceDeck, goldDeck, faceUpResources,faceUpGolds,objectiveDeck);
         g1.setMarket(market);
-
-
-        // create game and its controller
-
-
-
-        /*
-        Collections.shuffle(resourceDeck);
-        Collections.shuffle(goldDeck);
-        Collections.shuffle(objectiveDeck);
-        */
     }
 
+    //tests method calculateObjectivePoints in the manuscript created if DifferentPattern is satisfied
     @Test
-    void calculateObjectivePoints() throws IOException, InterruptedException { //test 3
+    void calculateObjectivePoints(){
         initializeGame();
         p3.addCard(g1, starterDeck.get(0), starterDeck.get(0).getBack(),42,42);
 
@@ -128,12 +119,5 @@ class DifferentPatternTest {
         p3.addCard(g1, resourceDeck.get(16), resourceDeck.get(16).getFront(), 41, 43);
 
         assertEquals(3, objectiveDeck.get(12).calculateObjectivePoints(p3.getManuscript()));
-
-
-
-
-
-
-
     }
 }

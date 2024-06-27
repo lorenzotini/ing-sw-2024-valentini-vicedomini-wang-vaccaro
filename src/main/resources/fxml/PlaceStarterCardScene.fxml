@@ -66,6 +66,9 @@
          <opaqueInsets>
             <Insets />
          </opaqueInsets>
+         <font>
+            <Font name="Agency FB" size="14.0" />
+         </font>
       </TitledPane>
       <Circle fx:id="circleChat" fill="#c11515" layoutX="73.0" layoutY="54.0" radius="7.0" stroke="BLACK" strokeType="INSIDE" AnchorPane.bottomAnchor="731.0" />
         

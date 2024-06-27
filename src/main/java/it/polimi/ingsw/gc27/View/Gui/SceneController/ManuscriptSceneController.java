@@ -627,6 +627,17 @@ public class ManuscriptSceneController extends GenericController {
 
             Tab newTab = new Tab(element.getKey(), newManuscriptScrollPane);
             newTab.getStyleClass().add("manuscript-tab");
+            PawnColour colour= miniModel.getBoard().getColourPlayerMap().get(element.getKey());
+            switch (colour) {
+                case BLUE:
+                    newTab.getStyleClass().add("tab-colour-blue");
+                case YELLOW:
+                    newTab.getStyleClass().add("tab-colour-yellow");
+                case GREEN:
+                    newTab.getStyleClass().add("tab-colour-green");
+                case RED:
+                    newTab.getStyleClass().add("tab-colour-red");
+            }
 
             manuscriptTabPane.getTabs().add(newTab);
 

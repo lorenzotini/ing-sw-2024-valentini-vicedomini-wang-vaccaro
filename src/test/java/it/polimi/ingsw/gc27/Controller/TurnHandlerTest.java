@@ -21,31 +21,20 @@ class TurnHandlerTest {
     private GameController gameController;
     private Game game;
     private ClientTest clientTest;
-
-
-    private static Game g1;
     private static Player p1;
     private static Player p2;
     private static Player p3;
     private static Player p4;
     private static ArrayList<Player> players1;
-
-    private static Market market;
-
     private static ArrayList<StarterCard> starterDeck;
     private static ArrayList<ResourceCard> resourceDeck;
     private static ArrayList<ObjectiveCard> objectiveDeck;
     private static ArrayList<GoldCard> goldDeck;
-    private static ResourceCard[] faceUpResources;
-    private static GoldCard[] faceUpGolds;
-
     private static TurnHandler turnHandler;
     private static ArrayList<ObjectiveCard> secretObjectives;
     private ArrayList<GameController> gameControllers=new ArrayList<>();
-
+    //initializes game
     public  void initializeGame() {
-
-
         players1 = new ArrayList<>();
 
         gigaController = new GigaController();
@@ -89,7 +78,6 @@ class TurnHandlerTest {
 
         clientTest= new ClientTest();
     }
-
     @Test
     void notifyChooseObjectiveState() {
         initializeGame();
@@ -104,7 +92,7 @@ class TurnHandlerTest {
 
     //case last round
     @Test
-    void notifyEndOfTurnStateTest1() throws RemoteException, InterruptedException {
+    void notifyEndOfTurnStateTest1() {
         initializeGame();
         turnHandler.setLastRound(true);
         p1.setPlayerState(new PlayingState(p1, turnHandler));
@@ -113,12 +101,11 @@ class TurnHandlerTest {
 
         game.getBoard().setPointsRedPlayer(20);
         turnHandler.notifyEndOfTurnState(p1);
-
     }
 
     //case disconnection
     @Test
-    void notifyEndOfTurnStateTest2() throws RemoteException, InterruptedException {
+    void notifyEndOfTurnStateTest2(){
         initializeGame();
         p1.setPlayerState(new PlayingState(p1, turnHandler));
         p2.setPlayerState(new WaitingState(p2, turnHandler));
@@ -143,7 +130,7 @@ class TurnHandlerTest {
     // case disconnected player
 
     @Test
-    void notifyEndOfTurnStateTest4() throws RemoteException, InterruptedException {
+    void notifyEndOfTurnStateTest4(){
         initializeGame();
         p1.setPlayerState(new PlayingState(p1, turnHandler));
         p2.setPlayerState(new WaitingState(p2, turnHandler));
@@ -153,7 +140,7 @@ class TurnHandlerTest {
 
     }
     @Test
-    void notifyCalculateObjectivePointsTest() throws RemoteException {
+    void notifyCalculateObjectivePointsTest(){
         initializeGame();
         p1.setPlayerState(new EndingState(p1, turnHandler));
         p1.getSecretObjectives().add(objectiveDeck.get(0));

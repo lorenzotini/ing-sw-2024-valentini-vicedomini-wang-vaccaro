@@ -42,6 +42,7 @@ class LadderPatternTest {
     private ResourceCard[] faceUpResources = new ResourceCard[2];
     private GoldCard[] faceUpGolds = new GoldCard[2];
 
+    //initializes game
     public void initializeGame() {
 
         players1 = new ArrayList<>();
@@ -54,7 +55,7 @@ class LadderPatternTest {
         starterDeck = jsonParser.getStarterDeck();
         objectiveDeck = jsonParser.getObjectiveDeck();
         resourceDeck = jsonParser.getResourceDeck();
-        goldDeck= jsonParser.getGoldDeck();
+        goldDeck = jsonParser.getGoldDeck();
 
         for(ObjectiveCard card : objectiveDeck){
             card.toCliCard();
@@ -75,29 +76,19 @@ class LadderPatternTest {
         players1.add(p3);
         players1.add(p4);
 
-        faceUpResources[0]= resourceDeck.get(0);
-        faceUpResources[1]= resourceDeck.get(1);
-        faceUpGolds[0]=goldDeck.get(0);
-        faceUpGolds[1]=goldDeck.get(1);
-        market=new Market(resourceDeck, goldDeck, faceUpResources,faceUpGolds, objectiveDeck);
+        faceUpResources[0] = resourceDeck.get(0);
+        faceUpResources[1] = resourceDeck.get(1);
+        faceUpGolds[0] = goldDeck.get(0);
+        faceUpGolds[1] = goldDeck.get(1);
+        market = new Market(resourceDeck, goldDeck, faceUpResources, faceUpGolds, objectiveDeck);
         g1.setMarket(market);
-
-
-        // create game and its controller
-
-
-
-        /*
-        Collections.shuffle(resourceDeck);
-        Collections.shuffle(goldDeck);
-        Collections.shuffle(objectiveDeck);
-        */
     }
 
+    //tests method calculateObjectivePoints in the manuscript created if LadderPattern of plants is satisfied
     @Test
-    void calculateObjectivePointsTest1() throws IOException, InterruptedException { //test3, plant ladder
+    void calculateObjectivePointsTest1(){
         initializeGame();
-        p3.addCard(g1, starterDeck.get(0), starterDeck.get(0).getBack(),42,42);
+        p3.addCard(g1, starterDeck.get(0), starterDeck.get(0).getBack(), 42, 42);
 
         p3.addCard(g1, resourceDeck.get(15), resourceDeck.get(15).getFront(), 41, 41);
         assertTrue(p3.getManuscript().getField()[42][42].getCorner(-1, 1).isHidden());
@@ -137,15 +128,14 @@ class LadderPatternTest {
 
         p3.addCard(g1, resourceDeck.get(16), resourceDeck.get(16).getFront(), 41, 43);
 
-
         assertEquals(2, objectiveDeck.get(1).calculateObjectivePoints(p3.getManuscript()));
 
     }
-
+    //tests method calculateObjectivePoints in the manuscript created if LadderPattern of animal is satisfied
     @Test
-    void calculateObjectivePointsTest2() throws IOException, InterruptedException { //test2, animal ladder
+    void calculateObjectivePointsTest2(){
         initializeGame();
-        p2.addCard(g1, starterDeck.get(1), starterDeck.get(1).getFront(),42,42);
+        p2.addCard(g1, starterDeck.get(1), starterDeck.get(1).getFront(), 42, 42);
 
         p2.addCard(g1, resourceDeck.get(24), resourceDeck.get(24).getFront(), 41, 43);
         assertTrue(p2.getManuscript().getField()[42][42].getCorner(-1, -1).isHidden());
@@ -181,10 +171,6 @@ class LadderPatternTest {
         assertTrue(p2.getManuscript().getField()[42][44].getCorner(1, 1).isHidden());
 
         assertEquals(2, objectiveDeck.get(2).calculateObjectivePoints(p2.getManuscript()));
-
-
-
-
     }
 
 }

@@ -35,7 +35,7 @@ public class StarterSceneController extends GenericController {
      */
     @Override
     public void receiveOk(String ackType) {
-        ChooseGameSceneController controller = (ChooseGameSceneController) Gui.getInstance().getControllerFromName(ScenePaths.CHOSEGAME.getValue());
+        ChooseGameSceneController controller = (ChooseGameSceneController) Gui.getInstance().getControllerFromName(ScenePaths.CHOOSEGAME.getValue());
         controller.enableNextScene();
     }
 
@@ -57,7 +57,7 @@ public class StarterSceneController extends GenericController {
      * @throws IOException if an I/O error occurs
      */
     public void switchToChooseGameScene(ActionEvent event) throws IOException {
-        ChooseGameSceneController chooseGameSceneController = (ChooseGameSceneController) Gui.getInstance().getControllerFromName(ScenePaths.CHOSEGAME.getValue());
+        ChooseGameSceneController chooseGameSceneController = (ChooseGameSceneController) Gui.getInstance().getControllerFromName(ScenePaths.CHOOSEGAME.getValue());
         chooseGameSceneController.init();
         Gui.getInstance().switchScene("/fxml/ChooseGameScene.fxml");
         MainApp.startMusic("/music/CoC_main_theme.mp3", true);

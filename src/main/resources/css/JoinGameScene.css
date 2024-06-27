@@ -1,5 +1,5 @@
 .backgroundpane{
-    -fx-background-image: url("../Images/utility/backg5.png");
+    -fx-background-image: url("../Images/utility/mainBackground.png");
     -fx-background-size: cover;
 }
 

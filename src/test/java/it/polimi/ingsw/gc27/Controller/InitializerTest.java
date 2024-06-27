@@ -26,6 +26,7 @@ class InitializerTest {
     private static int gameId;
     private static Market market = new Market();
     private static Board board = new Board();
+    //tests the initialization of the game
     @Test
     void initializeTest() {
 

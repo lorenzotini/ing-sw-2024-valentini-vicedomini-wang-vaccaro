@@ -47,13 +47,10 @@ class MiniModelTest {
         miniModel= new MiniModel((Player) player, (Manuscript) manuscript);
         miniModel=new MiniModel();
 
-
         chat1=new ClientChatTest();
         chat2=new Chat();
         miniModel=new MiniModel((Chat) chat2);
         miniModel=new MiniModel((Chat) chat2, (Player) player, "global");
-
-
     }
 
     @Test

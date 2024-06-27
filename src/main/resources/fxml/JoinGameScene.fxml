@@ -1,19 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="780.0" prefWidth="1535.0" styleClass="backgroundpane" stylesheets="@../css/JoinGameScene.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.gc27.View.Gui.SceneController.JoinGameSceneController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="780.0" prefWidth="1535.0" styleClass="backgroundpane" stylesheets="@../css/JoinGameScene.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.gc27.View.Gui.SceneController.JoinGameSceneController">
    <children>
-      <TextField fx:id="idTextField" layoutX="653.0" layoutY="551.0" prefHeight="18.0" prefWidth="229.0">
+      <TextField fx:id="idTextField" layoutX="653.0" layoutY="451.0" prefHeight="18.0" prefWidth="229.0">
          <font>
             <Font name="Agency FB" size="25.0" />
          </font></TextField>
-      <Button fx:id="sendGameIdButton" layoutX="916.0" layoutY="546.0" mnemonicParsing="false" onAction="#sendGameId" styleClass="selectionbutton" text="➜">
+      <Button fx:id="sendGameIdButton" layoutX="916.0" layoutY="447.0" mnemonicParsing="false" onAction="#sendGameId" styleClass="selectionbutton" text="➜">
          <font>
             <Font size="20.0" />
          </font></Button>
@@ -21,13 +19,8 @@
          <font>
             <Font name="Agency FB" size="18.0" />
          </font></Button>
-      <Label alignment="TOP_CENTER" layoutX="644.0" layoutY="472.0" prefHeight="53.0" prefWidth="247.0" styleClass="insertLabel" text="Insert game ID">
-         <font>
-            <Font name="Agency FB" size="43.0" />
-         </font>
-      </Label>
-      <ImageView fitHeight="274.0" fitWidth="412.0" layoutX="563.0" layoutY="83.0" pickOnBounds="true" preserveRatio="true" styleClass="customlabel" />
-      <Label alignment="CENTER" layoutX="793.0" layoutY="245.0" prefHeight="37.0" prefWidth="104.0" text="Let's Play">
+      <ImageView fitHeight="274.0" fitWidth="495.0" layoutX="563.0" layoutY="83.0" pickOnBounds="true" preserveRatio="true" styleClass="customlabel" />
+      <Label alignment="CENTER" layoutX="778.0" layoutY="227.0" prefHeight="37.0" prefWidth="138.0" text="Insert">
          <font>
             <Font name="Agency FB" size="30.0" />
          </font>
@@ -35,6 +28,11 @@
       <Label fx:id="errorGameID" alignment="CENTER" layoutX="330.0" layoutY="628.0" prefHeight="37.0" prefWidth="875.0" styleClass="errorGameIdLabel" textAlignment="CENTER" visible="false">
          <font>
             <Font name="Agency FB" size="20.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="778.0" layoutY="261.0" prefHeight="37.0" prefWidth="138.0" text="Game ID">
+         <font>
+            <Font name="Agency FB" size="30.0" />
          </font>
       </Label>
    </children>

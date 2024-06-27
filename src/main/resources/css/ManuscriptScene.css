@@ -18,10 +18,6 @@
     -fx-padding: 5;
 }
 
-.vbox-background {
-    -fx-background-image: url("../Images/utility/locksreen2.png");
-}
-
 .tab-colour-red{
     -fx-background-color: rgb(205,92,92)
 }
@@ -86,7 +82,7 @@
 }
 
 .counterbox{
-    -fx-background-image: url("../Images/utility/counterbox3.png");
+    -fx-background-image: url("../Images/utility/counterbox4.png");
     -fx-background-size: cover;
 }
 

@@ -30,7 +30,7 @@ This project involves developing a Java Application of the board game Codex Natu
 | Persistence of server crash| ⛔         |
 
 ## Code Coverage
-
+![coverage](https://github.com/lorenzotini/ing-sw-2024-valentini-vicedomini-wang-vaccaro/assets/160732595/90b2d080-08cf-4d08-80c9-b17d3b32f3d6)
 
 ## JAR Compilation
 Two different JAR files must be created, one for the server and the other for the client.

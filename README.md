@@ -29,46 +29,64 @@ This project involves developing a Java Application of the board game Codex Natu
 |Resilience to client disconnection| ✅          |
 | Persistence of server crash| ⛔         |
 
+## Code Coverage
+
+
+## JAR Compilation
+Two different JAR files must be created, one for the server and the other for the client.
+For the server, build a jar using ServerApp.java as the main class. For the client, build a jar using MainClient.java as the main class.
+After that the two jars can be executed.
+
 ## JAR Execution
 **Server**
 
-In order to execute the server, the command below has to be written in the terminal. No more arguments are required, as the port is predefined. 
+In order to execute the server application, go to the folder where the server jar file was built and run the command below in the terminal. No more arguments are required, as the port is predefined. 
 ```shell
- java -jar GC27.jar
+java -jar GC27.jar
 ```
 
 **Client**
 
-The default configuration for the client sets RMI as client-server communication type, TUI as User Interface and localhost as the IP address.
-A different IP address of the Server can be provided, it has to be written as the first additional argument of the Jar.
+Do the same for the client application, but with some additional arguments if needed:
+the default configuration for the client sets RMI as client-server communication type, TUI as User Interface and _localhost_ as the IP address.
+For connecting to a server on the same network, write its private IP Address as first argument after the jar file name.
 ```shell
-> java -jar GC27 
+java -jar GC27.jar 
 ```
 
 Two more arguments can be specified to the client jar, their order does not affect the execution:
 *  _--rmi_ or _--socket_  to specify the client-server communication type
 * _--tui_ or _--gui_ to specify the User Interface type
 
-**Client GUI**
-
-```shell
-> java -jar GC27 --gui 
-```
-**Client TUI**
-
-```shell
-> java -jar GC27 --tui
-```
 An example of a complete configuration specifying a custom server IP address, GUI, and socket communication:
 ```shell
-> java -jar GC27 192.168.56.1 --gui --socket
+java -jar GC27.jar 192.168.56.1 --gui --socket
 ```
 
-Executing the jar on the command line followed by --help or --h parameter displays all configurations.
+Executing the client jar followed by _--help_ or _--h_ parameter displays all configurations.
 
+## Playing the game
 
-aggiungi che va solo da windows
+**Tui**
 
+After the login process, the game can starts when all the players are connected.
+When creating a new game, an ID is assigned to the game: use it to connect to the same game from different clients.
+Once the game is started, a list of commands is displayed. To show it again during the game, type _help_.
+In general, once called a command the user must follow the instructions displayed on the screen.
+Now some tips:
+* the manuscript is where the player can play cards: a "@" is used to suggest a valid card placement;
+* the "■" as corner symbol represents a non-coverable corner;
+* when drawing a card (type _draw_ as command), always specify the full command, e.g. _"res true 1"_, that is to say an index is required (it will be ignored in this case since _true_ was specified as _[fromDeck]_ parameter) at the end even though the card requested does not come from the face-up cards;
 
+**Gui**
 
+When creating a new game, an ID is assigned to the game: use it to connect to the same game from different clients.
+Once the game is started, the user can interact with the GUI by clicking on the buttons and following the instructions displayed on the screen.
+Now some tips: 
+* to play a card, drag it from the hand to the manuscript (grey areas indicate where the card can be placed);
+* to play a card upside down, first click on it and then drag it to the manuscript;
+* to draw a card, click on the deck or on the face-up cards;
 
+## Clarifications
+* The project is developed in Java 21, so it is recommended to use the same version to avoid compatibility issues.
+* The correct behaviour of the application is not guaranteed on Linux and macOS machines, since it was developed only on Windows.

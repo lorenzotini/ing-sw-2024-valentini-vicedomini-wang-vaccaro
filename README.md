@@ -88,5 +88,6 @@ Now some tips:
 * to draw a card, click on the deck or on the face-up cards;
 
 ## Clarifications
+* Jars must be compiled and build manually and not using maven (from right-click on root -> Open module settings -> Artifacts -> "+" -> "JAR" -> From modules... -> MainClient or ServerApp and then Build -> Build artifacts -> jarName -> build)
 * The project is developed in Java 21, so it is recommended to use the same version to avoid compatibility issues.
 * The correct behaviour of the application is not guaranteed on Linux and macOS machines, since it was developed only on Windows.

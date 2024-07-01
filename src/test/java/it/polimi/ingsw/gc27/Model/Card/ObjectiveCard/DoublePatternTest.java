@@ -1,4 +1,4 @@
-package it.polimi.ingsw.gc27.Card.ObjectiveCard;
+package it.polimi.ingsw.gc27.Model.Card.ObjectiveCard;
 
 import it.polimi.ingsw.gc27.Controller.GameController;
 import it.polimi.ingsw.gc27.Model.Card.GoldCard;

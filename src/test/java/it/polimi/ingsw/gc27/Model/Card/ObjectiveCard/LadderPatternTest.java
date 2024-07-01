@@ -1,8 +1,6 @@
-package it.polimi.ingsw.gc27.Card.ObjectiveCard;
+package it.polimi.ingsw.gc27.Model.Card.ObjectiveCard;
 
 import it.polimi.ingsw.gc27.Model.Card.GoldCard;
-import it.polimi.ingsw.gc27.Model.Card.ObjectiveCard.DifferentPattern;
-import it.polimi.ingsw.gc27.Model.Card.ObjectiveCard.ObjectiveCard;
 import it.polimi.ingsw.gc27.Model.Card.ResourceCard;
 import it.polimi.ingsw.gc27.Model.Card.StarterCard;
 import it.polimi.ingsw.gc27.Controller.GameController;
@@ -11,13 +9,11 @@ import it.polimi.ingsw.gc27.Model.Enumerations.PawnColour;
 import it.polimi.ingsw.gc27.Model.Game.*;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class DifferentPatternTest {
+class LadderPatternTest {
     private static GameController gc1;
     private static Game g1;
     private static Player p1;
@@ -32,11 +28,11 @@ class DifferentPatternTest {
     private static ArrayList<ResourceCard> resourceDeck;
     private static ArrayList<ObjectiveCard> objectiveDeck;
     private static ArrayList<GoldCard> goldDeck;
-    private static ResourceCard[] faceUpResources;
-    private static GoldCard[] faceUpGolds;
+    private ResourceCard[] faceUpResources = new ResourceCard[2];
+    private GoldCard[] faceUpGolds = new GoldCard[2];
 
     //initializes game
-    public  void initializeGame() {
+    public void initializeGame() {
 
         players1 = new ArrayList<>();
         g1 = new Game(1, new Board(), players1);
@@ -45,10 +41,14 @@ class DifferentPatternTest {
 
         // generate decks
         JsonParser jsonParser = new JsonParser("codex_cards_collection.json");
-        starterDeck = JsonParser.getStarterDeck();
-         objectiveDeck = jsonParser.getObjectiveDeck();
-        resourceDeck = JsonParser.getResourceDeck();
-        goldDeck=jsonParser.getGoldDeck();
+        starterDeck = jsonParser.getStarterDeck();
+        objectiveDeck = jsonParser.getObjectiveDeck();
+        resourceDeck = jsonParser.getResourceDeck();
+        goldDeck = jsonParser.getGoldDeck();
+
+        for(ObjectiveCard card : objectiveDeck){
+            card.toCliCard();
+        }
 
         // create players and add them to the game.
         p1 = new Player("Giocatore 1", new Manuscript(), PawnColour.RED);
@@ -65,21 +65,19 @@ class DifferentPatternTest {
         players1.add(p3);
         players1.add(p4);
 
-        faceUpResources = new ResourceCard[2];
-        faceUpGolds= new GoldCard[2];
-        faceUpResources[0]= resourceDeck.get(0);
-        faceUpResources[1]= resourceDeck.get(1);
-        faceUpGolds[0]=goldDeck.get(0);
-        faceUpGolds[1]=goldDeck.get(1);
-        market=new Market(resourceDeck, goldDeck, faceUpResources,faceUpGolds,objectiveDeck);
+        faceUpResources[0] = resourceDeck.get(0);
+        faceUpResources[1] = resourceDeck.get(1);
+        faceUpGolds[0] = goldDeck.get(0);
+        faceUpGolds[1] = goldDeck.get(1);
+        market = new Market(resourceDeck, goldDeck, faceUpResources, faceUpGolds, objectiveDeck);
         g1.setMarket(market);
     }
 
-    //tests method calculateObjectivePoints in the manuscript created if DifferentPattern is satisfied
+    //tests method calculateObjectivePoints in the manuscript created if LadderPattern of plants is satisfied
     @Test
-    void calculateObjectivePoints(){
+    void calculateObjectivePointsTest1(){
         initializeGame();
-        p3.addCard(g1, starterDeck.get(0), starterDeck.get(0).getBack(),42,42);
+        p3.addCard(g1, starterDeck.get(0), starterDeck.get(0).getBack(), 42, 42);
 
         p3.addCard(g1, resourceDeck.get(15), resourceDeck.get(15).getFront(), 41, 41);
         assertTrue(p3.getManuscript().getField()[42][42].getCorner(-1, 1).isHidden());
@@ -116,8 +114,52 @@ class DifferentPatternTest {
 
         p3.addCard(g1, goldDeck.get(18), goldDeck.get(18).getFront(), 45, 43);
         assertTrue(p3.getManuscript().getField()[44][42].getCorner(1, -1).isHidden());
+
         p3.addCard(g1, resourceDeck.get(16), resourceDeck.get(16).getFront(), 41, 43);
 
-        assertEquals(3, objectiveDeck.get(12).calculateObjectivePoints(p3.getManuscript()));
+        assertEquals(2, objectiveDeck.get(1).calculateObjectivePoints(p3.getManuscript()));
+
     }
+    //tests method calculateObjectivePoints in the manuscript created if LadderPattern of animal is satisfied
+    @Test
+    void calculateObjectivePointsTest2(){
+        initializeGame();
+        p2.addCard(g1, starterDeck.get(1), starterDeck.get(1).getFront(), 42, 42);
+
+        p2.addCard(g1, resourceDeck.get(24), resourceDeck.get(24).getFront(), 41, 43);
+        assertTrue(p2.getManuscript().getField()[42][42].getCorner(-1, -1).isHidden());
+
+        p2.addCard(g1, resourceDeck.get(25), resourceDeck.get(25).getFront(), 41, 41);
+        assertTrue(p2.getManuscript().getField()[42][42].getCorner(-1, 1).isHidden());
+
+        p2.addCard(g1, resourceDeck.get(28), resourceDeck.get(28).getFront(), 40, 44);
+        assertTrue(p2.getManuscript().getField()[41][43].getCorner(-1, -1).isHidden());
+
+        p2.addCard(g1, goldDeck.get(26), goldDeck.get(26).getFront(), 39, 45);
+        assertTrue(p2.getManuscript().getField()[40][44].getCorner(-1, -1).isHidden());
+
+        p2.addCard(g1, resourceDeck.get(6), resourceDeck.get(6).getFront(), 42, 40);
+        assertTrue(p2.getManuscript().getField()[41][41].getCorner(1, 1).isHidden());
+
+        p2.addCard(g1, goldDeck.get(35), goldDeck.get(35).getFront(), 43, 41);
+        assertTrue(p2.getManuscript().getField()[42][42].getCorner(1, 1).isHidden());
+        assertTrue(p2.getManuscript().getField()[42][40].getCorner(1, -1).isHidden());
+
+        p2.addCard(g1, goldDeck.get(37), goldDeck.get(37).getFront(), 38, 44);
+        assertTrue(p2.getManuscript().getField()[39][45].getCorner(-1, 1).isHidden());
+
+        p2.addCard(g1, resourceDeck.get(16), resourceDeck.get(16).getFront(), 44, 42);
+        assertTrue(p2.getManuscript().getField()[43][41].getCorner(1, -1).isHidden());
+
+        p2.addCard(g1, resourceDeck.get(18), resourceDeck.get(18).getBack(), 42, 44);
+        assertTrue(p2.getManuscript().getField()[41][43].getCorner(1, -1).isHidden());
+
+        p2.addCard(g1, goldDeck.get(34), goldDeck.get(34).getFront(), 43, 43);
+        assertTrue(p2.getManuscript().getField()[42][42].getCorner(1, -1).isHidden());
+        assertTrue(p2.getManuscript().getField()[44][42].getCorner(-1, -1).isHidden());
+        assertTrue(p2.getManuscript().getField()[42][44].getCorner(1, 1).isHidden());
+
+        assertEquals(2, objectiveDeck.get(2).calculateObjectivePoints(p2.getManuscript()));
+    }
+
 }

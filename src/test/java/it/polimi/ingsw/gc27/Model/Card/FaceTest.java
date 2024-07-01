@@ -1,4 +1,4 @@
-package it.polimi.ingsw.gc27.Card;
+package it.polimi.ingsw.gc27.Model.Card;
 
 import it.polimi.ingsw.gc27.Model.Card.Corner;
 import it.polimi.ingsw.gc27.Model.Card.Face;

@@ -1,6 +1,5 @@
-package it.polimi.ingsw.gc27.Enumerations;
+package it.polimi.ingsw.gc27.Model.Enumerations;
 
-import it.polimi.ingsw.gc27.Model.Enumerations.PointsMultiplier;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

@@ -41,6 +41,7 @@ public class NewGameSceneController extends GenericController {
      */
     @FXML
     public void sendNumberOfPlayers() throws IOException {
+        playClickMusic("/music/click.mp3");
         Gui.getInstance().stringFromSceneController("new");
         Gui.getInstance().stringFromSceneController(chosenButton);
         Gui.getInstance().switchScene("/fxml/LoginScene.fxml");
@@ -107,6 +108,7 @@ public class NewGameSceneController extends GenericController {
      * @param event the action event triggered by the player
      */
     public void chooseNumber(ActionEvent event) {
+        playClickMusic("/music/click.mp3");
         if (event.getSource().equals(checkBox2)) {
             handleOnKeyPress2(checkBox2);
             chosenButton = "2";
@@ -147,6 +149,7 @@ public class NewGameSceneController extends GenericController {
      * @throws IOException if the Choose Game scene FXML file is not found
      */
     public void previousScene(ActionEvent event) throws IOException {
+        playClickMusic("/music/click.mp3");
         Gui.getInstance().switchScene("/fxml/ChooseGameScene.fxml");
     }
 

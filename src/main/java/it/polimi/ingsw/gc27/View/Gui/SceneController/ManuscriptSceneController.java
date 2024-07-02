@@ -387,6 +387,7 @@ public class ManuscriptSceneController extends GenericController {
 
         // DRAG DROPPED
         imgView.setOnDragDropped(event -> {
+            playClickMusic("/music/Minecraft_hit.mp3");
             Dragboard db = event.getDragboard();
             if (db.hasImage()) {
                 ManuscriptCardData manuscriptCardData = (ManuscriptCardData) imgView.getUserData();
@@ -426,6 +427,7 @@ public class ManuscriptSceneController extends GenericController {
 
     void handleOnClick(ImageView imgView) {
         imgView.setOnMouseClicked(event -> {
+            playClickMusic("/music/blop.mp3");
             String oldUrl = imgView.getImage().getUrl();
             if (((HandCardData) imgView.getUserData()).isFront()) {
                 imgView.setImage(new Image(oldUrl.replace("front", "back")));

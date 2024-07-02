@@ -72,6 +72,7 @@ public class JoinGameSceneController extends GenericController {
      * Stores the entered game ID in tempId for future reference.
      */
     public void sendGameId() {
+        playClickMusic("/music/click.mp3");
         Gui.getInstance().stringFromSceneController(idTextField.getText());
         tempId = idTextField.getText();
     }

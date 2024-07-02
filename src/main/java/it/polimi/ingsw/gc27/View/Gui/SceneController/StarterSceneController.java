@@ -57,6 +57,7 @@ public class StarterSceneController extends GenericController {
      * @throws IOException if an I/O error occurs
      */
     public void switchToChooseGameScene(ActionEvent event) throws IOException {
+        playClickMusic("/music/click.mp3");
         ChooseGameSceneController chooseGameSceneController = (ChooseGameSceneController) Gui.getInstance().getControllerFromName(ScenePaths.CHOOSEGAME.getValue());
         chooseGameSceneController.init();
         Gui.getInstance().switchScene("/fxml/ChooseGameScene.fxml");

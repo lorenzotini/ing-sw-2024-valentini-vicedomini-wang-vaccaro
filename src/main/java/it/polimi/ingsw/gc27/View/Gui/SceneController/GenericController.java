@@ -2,6 +2,11 @@ package it.polimi.ingsw.gc27.View.Gui.SceneController;
 
 import it.polimi.ingsw.gc27.Model.ClientClass.ClientChat;
 import it.polimi.ingsw.gc27.Model.ClientClass.MiniModel;
+import it.polimi.ingsw.gc27.View.Gui.Gui;
+import it.polimi.ingsw.gc27.View.Gui.MainApp;
+import javafx.fxml.FXML;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 
 /**
  * An abstract class representing a generic controller.
@@ -52,5 +57,12 @@ public abstract class GenericController {
      * This method is empty and should be overridden in a subclass.
      */
     public void suspendeGame() {
+    }
+
+    @FXML
+    public void playClickMusic(String path){
+        Media sound = new Media(MainApp.class.getResource(path).toExternalForm());
+        MediaPlayer mediaPlayer = new MediaPlayer(sound);
+        mediaPlayer.play();
     }
 }

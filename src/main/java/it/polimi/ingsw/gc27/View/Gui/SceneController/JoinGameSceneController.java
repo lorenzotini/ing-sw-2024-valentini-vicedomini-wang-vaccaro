@@ -5,7 +5,6 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
@@ -72,7 +71,7 @@ public class JoinGameSceneController extends GenericController {
      * Stores the entered game ID in tempId for future reference.
      */
     public void sendGameId() {
-        playClickMusic("/music/click.mp3");
+        playMusic("/music/click.mp3");
         Gui.getInstance().stringFromSceneController(idTextField.getText());
         tempId = idTextField.getText();
     }

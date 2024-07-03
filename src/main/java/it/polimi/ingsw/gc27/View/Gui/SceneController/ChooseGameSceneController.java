@@ -92,7 +92,7 @@ public class ChooseGameSceneController extends GenericController {
         Platform.runLater(() -> {
             serverDownLabel.setVisible(false);
             newGameButton.setOnMouseClicked(event -> {
-                playClickMusic("/music/click.mp3");
+                playMusic("/music/click.mp3");
                 try {
                     sendNewGame();
                 } catch (IOException e) {
@@ -100,7 +100,7 @@ public class ChooseGameSceneController extends GenericController {
                 }
             });
             joinGameButton.setOnMouseClicked(event -> {
-                playClickMusic("/music/click.mp3");
+                playMusic("/music/click.mp3");
                 try {
                     sendJoinGame();
                 } catch (IOException e) {

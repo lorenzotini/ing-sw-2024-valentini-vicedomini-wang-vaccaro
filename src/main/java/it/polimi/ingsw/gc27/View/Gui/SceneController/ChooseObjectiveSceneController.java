@@ -278,7 +278,7 @@ public class ChooseObjectiveSceneController extends GenericController {
     @FXML
     public void sendObj(MouseEvent event) throws IOException {
 
-        playClickMusic("/music/click.mp3");
+        playMusic("/music/click.mp3");
 
         if (event.getSource().equals(objButton1)) {
             Command comm = new ChooseObjectiveCommand(Gui.getInstance().getClient().getUsername(), 1);

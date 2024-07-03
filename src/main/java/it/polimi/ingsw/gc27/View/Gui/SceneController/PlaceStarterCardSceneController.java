@@ -243,7 +243,7 @@ public class PlaceStarterCardSceneController extends GenericController {
      */
     @FXML
     public void sendStarter(MouseEvent event) throws IOException {
-        playClickMusic("/music/click.mp3");
+        playMusic("/music/click.mp3");
         if (event.getSource().equals(frontStarterButton)) {
             Command comm = new AddStarterCommand(Gui.getInstance().getClient().getUsername(), true);
             Gui.getInstance().getClient().sendCommand(comm);

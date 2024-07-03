@@ -438,7 +438,7 @@ public class Gui implements View {
                         .changeWinnersLabel(client.getMiniModel().getBoard().getScoreBoard());
                 if (currentController instanceof ManuscriptSceneController) {
                     switchScene(ScenePaths.ENDING.getValue());
-
+                    GenericController.playMusic("/music/victory.mp3");
                 }
 
             } catch (Exception e) {

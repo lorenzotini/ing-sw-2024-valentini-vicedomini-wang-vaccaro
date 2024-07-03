@@ -163,7 +163,7 @@ public class LoginSceneController extends GenericController {
      */
     @FXML
     public void sendUsername() {
-        playClickMusic("/music/click.mp3");
+        playMusic("/music/click.mp3");
         if (tried && gameId != -1) {
             Gui.getInstance().stringFromSceneController(gameId.toString());
         }
@@ -178,7 +178,7 @@ public class LoginSceneController extends GenericController {
      */
     public void selectColour(MouseEvent event) {
 
-        playClickMusic("/music/click.mp3");
+        playMusic("/music/click.mp3");
         if (event.getSource().equals(blueButton)) {
             selectedColour = "blue";
             blueButton.getStyleClass().add("pressed");
@@ -321,7 +321,7 @@ public class LoginSceneController extends GenericController {
      * @throws IOException if the Choose Game scene FXML file is not found
      */
     public void goBack(MouseEvent mouseEvent) throws IOException {
-        playClickMusic("/music/click.mp3");
+        playMusic("/music/click.mp3");
         gameId = -1;
         Gui.getInstance().switchScene(ScenePaths.CHOOSEGAME.getValue());
     }

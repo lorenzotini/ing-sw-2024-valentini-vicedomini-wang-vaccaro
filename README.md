@@ -48,7 +48,7 @@ java -jar GC27.jar
 **Client**
 
 Do the same for the client application, but with some additional arguments if needed:
-the default configuration for the client sets RMI as client-server communication type, TUI as User Interface and _localhost_ as the IP address.
+the default configuration for the client sets RMI as client-server communication type, GUI as User Interface and _localhost_ as the IP address.
 For connecting to a server on the same network, write its private IP Address as first argument after the jar file name.
 ```shell
 java -jar GC27.jar 

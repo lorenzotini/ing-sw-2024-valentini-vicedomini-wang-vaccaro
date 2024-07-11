@@ -30,15 +30,19 @@ public class MainClient {
 
         // Default values
         String ipAddress = "localhost";
-        View view = new Tui();
+        View view = null;
+        boolean uiChosen = false;
 
         int connectionChoice = 0;
         VirtualView client = null;
 
         // If no arguments, then use default values
         if (args.length == 0) {
-
-            view = new Tui();
+            uiChosen = true;
+            view = Gui.getInstance();
+            new Thread(() -> {
+                Application.launch(MainApp.class);
+            }).start();
             System.out.println("No arguments provided. Using default values (localhost, rmi, tui).");
 
         } else {
@@ -54,7 +58,7 @@ public class MainClient {
                         + "--help, -h: show this help message\n"
                         + "If no options are provided, the default ipAddress is localhost.\n"
                         + "If no options are provided, the default connection type is RMI.\n"
-                        + "If no options are provided, the default interface is TUI.\n");
+                        + "If no options are provided, the default interface is GUI.\n");
                 return;
             }
 
@@ -85,6 +89,7 @@ public class MainClient {
                         break;
 
                     case ("--gui"):
+                        uiChosen = true;
                         view = Gui.getInstance();
                         new Thread(() -> {
                             Application.launch(MainApp.class);
@@ -92,6 +97,7 @@ public class MainClient {
                         break;
 
                     case ("--tui"):
+                        uiChosen = true;
                         view = new Tui();
                         break;
 
@@ -100,6 +106,13 @@ public class MainClient {
                         return;
                 }
             }
+        }
+        
+        if (!uiChosen) {
+            view = Gui.getInstance();
+            new Thread(() -> {
+                Application.launch(MainApp.class);
+            }).start();
         }
 
         // Run the client
